@@ -1,0 +1,471 @@
+{
+  "dictionary_version": "0.1.0",
+  "generated_from_plan_date": "2026-04-24",
+  "privacy_classes": [
+    {
+      "privacy_class": "public",
+      "plain_description": "Information that can be public without identifying a private learner record.",
+      "handling_notes": "Still review tenant policy before publishing."
+    },
+    {
+      "privacy_class": "directory",
+      "plain_description": "Basic school directory information such as a class name or school name.",
+      "handling_notes": "Usually visible only to authorized users in the tenant."
+    },
+    {
+      "privacy_class": "education_record",
+      "plain_description": "Student education record data such as enrollment, grade, result, or progress.",
+      "handling_notes": "Protect under student-data policy and tenant access rules."
+    },
+    {
+      "privacy_class": "sensitive",
+      "plain_description": "Data that could create extra risk if disclosed, such as accommodations or sensitive demographics.",
+      "handling_notes": "Restrict by least privilege and audit access."
+    },
+    {
+      "privacy_class": "credential",
+      "plain_description": "Achievement or learner-record data intended to be verified or shared under learner/institution control.",
+      "handling_notes": "Respect issuer, learner, verification, revocation, and sharing rules."
+    },
+    {
+      "privacy_class": "behavioral",
+      "plain_description": "Activity or usage data, such as clicks, sessions, time-on-task, and resource use.",
+      "handling_notes": "Prefer aggregation for analytics; restrict raw event access."
+    },
+    {
+      "privacy_class": "operational",
+      "plain_description": "System records about imports, exports, validation, lineage, and operations.",
+      "handling_notes": "Useful for debugging; may reveal partner or tenant behavior."
+    },
+    {
+      "privacy_class": "system",
+      "plain_description": "Internal platform configuration or infrastructure metadata.",
+      "handling_notes": "Do not expose through public APIs unless explicitly designed for it."
+    }
+  ],
+  "domains": [
+    {
+      "domain_key": "tenancy_governance",
+      "name": "Tenancy and Governance",
+      "plain_description": "The rules and boundaries that say which school, provider, or app owns and may access data."
+    },
+    {
+      "domain_key": "identity_organizations",
+      "name": "Identity and Organizations",
+      "plain_description": "People, schools, districts, departments, roles, and the IDs other systems use for them."
+    },
+    {
+      "domain_key": "academic_structure",
+      "name": "Academic Structure",
+      "plain_description": "The school calendar, courses, classes, sections, and enrollments that describe where learning happens."
+    },
+    {
+      "domain_key": "curriculum_standards",
+      "name": "Curriculum and Standards",
+      "plain_description": "Academic standards, competencies, skills, rubrics, and the links between them."
+    },
+    {
+      "domain_key": "assessment_content",
+      "name": "Assessment Content",
+      "plain_description": "Questions, tests, assessment packages, scoring metadata, and accessibility metadata."
+    },
+    {
+      "domain_key": "outcomes_gradebook",
+      "name": "Outcomes and Gradebook",
+      "plain_description": "Assignments, gradebook columns, score scales, attempts, and results."
+    },
+    {
+      "domain_key": "learning_activity",
+      "name": "Learning Activity",
+      "plain_description": "Events that describe what learners and educators did in tools and content."
+    },
+    {
+      "domain_key": "tool_integration",
+      "name": "Tool Integration",
+      "plain_description": "Registrations, launches, deep links, memberships, and grade passback for third-party tools."
+    },
+    {
+      "domain_key": "credentials",
+      "name": "Credentials",
+      "plain_description": "Badges, achievements, learner records, endorsements, and verification status."
+    },
+    {
+      "domain_key": "operational_metadata",
+      "name": "Operational Metadata",
+      "plain_description": "Imports, exports, validation results, source systems, and lineage records."
+    }
+  ],
+  "objects": [
+    {
+      "object_key": "organization",
+      "domain_key": "identity_organizations",
+      "object_type": "storage_table",
+      "name": "Organization",
+      "plain_description": "A school, district, department, program, or other education organization.",
+      "why_it_exists": "Apps need to know where people, courses, and classes belong.",
+      "source_standard": "oneroster",
+      "privacy_class": "directory",
+      "fields": [
+        {
+          "field_key": "id",
+          "technical_name": "id",
+          "data_type": "uuid",
+          "required": true,
+          "plain_description": "The platform's own stable ID for this organization.",
+          "school_example": "The platform ID for Lincoln Middle School.",
+          "privacy_class": "operational",
+          "access_notes": "Visible to authorized tenant users and apps with organization scopes.",
+          "common_mistakes": "Do not treat this as the SIS or state organization ID."
+        },
+        {
+          "field_key": "name",
+          "technical_name": "name",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The name people use for the organization.",
+          "school_example": "Lincoln Middle School",
+          "privacy_class": "directory",
+          "access_notes": "Visible to authorized users who can see the organization."
+        },
+        {
+          "field_key": "organization_type",
+          "technical_name": "organization_type",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The kind of organization this is.",
+          "school_example": "school",
+          "privacy_class": "directory",
+          "access_notes": "Visible with organization read access.",
+          "allowed_values": [
+            {
+              "value": "district",
+              "label": "District",
+              "plain_description": "A school district or local education agency."
+            },
+            {
+              "value": "school",
+              "label": "School",
+              "plain_description": "A school building or campus."
+            },
+            {
+              "value": "department",
+              "label": "Department",
+              "plain_description": "A department or division inside a school or institution."
+            },
+            {
+              "value": "program",
+              "label": "Program",
+              "plain_description": "A program, academy, pathway, or other organized learning group."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "object_key": "person",
+      "domain_key": "identity_organizations",
+      "object_type": "storage_table",
+      "name": "Person",
+      "plain_description": "A learner, teacher, staff member, guardian, or other person known to the platform.",
+      "why_it_exists": "Schools and tools need a consistent way to refer to people while respecting privacy.",
+      "source_standard": "oneroster",
+      "privacy_class": "education_record",
+      "fields": [
+        {
+          "field_key": "id",
+          "technical_name": "id",
+          "data_type": "uuid",
+          "required": true,
+          "plain_description": "The platform's own stable ID for this person.",
+          "school_example": "The platform ID for a specific student.",
+          "privacy_class": "education_record",
+          "access_notes": "Only visible to authorized tenant users and scoped applications."
+        },
+        {
+          "field_key": "display_name",
+          "technical_name": "display_name",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The name shown in user interfaces when the person is displayed.",
+          "school_example": "Avery Johnson",
+          "privacy_class": "directory",
+          "access_notes": "May be limited by district directory policy."
+        },
+        {
+          "field_key": "primary_role",
+          "technical_name": "primary_role",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "The person's broad role in the education environment.",
+          "school_example": "student",
+          "privacy_class": "education_record",
+          "access_notes": "Visible to apps with appropriate roster or launch context.",
+          "allowed_values": [
+            {
+              "value": "student",
+              "label": "Student",
+              "plain_description": "A learner enrolled in one or more classes."
+            },
+            {
+              "value": "teacher",
+              "label": "Teacher",
+              "plain_description": "An educator assigned to teach or manage learning activities."
+            },
+            {
+              "value": "administrator",
+              "label": "Administrator",
+              "plain_description": "A school or district user with administrative responsibilities."
+            },
+            {
+              "value": "guardian",
+              "label": "Guardian",
+              "plain_description": "A parent, guardian, or other adult connected to a learner."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "object_key": "enrollment",
+      "domain_key": "academic_structure",
+      "object_type": "storage_table",
+      "name": "Enrollment",
+      "plain_description": "A record that says a person participates in a class with a specific role.",
+      "why_it_exists": "Apps need to know which learners and teachers are in each class.",
+      "source_standard": "oneroster",
+      "privacy_class": "education_record",
+      "fields": [
+        {
+          "field_key": "person_id",
+          "technical_name": "person_id",
+          "data_type": "uuid",
+          "required": true,
+          "plain_description": "The person who is enrolled in the class.",
+          "school_example": "A student in Period 2 Algebra.",
+          "privacy_class": "education_record",
+          "access_notes": "Visible only when the requester may see that class roster."
+        },
+        {
+          "field_key": "class_id",
+          "technical_name": "class_id",
+          "data_type": "uuid",
+          "required": true,
+          "plain_description": "The class where the person is enrolled.",
+          "school_example": "Period 2 Algebra.",
+          "privacy_class": "education_record",
+          "access_notes": "Visible only when the requester may see the class."
+        },
+        {
+          "field_key": "role",
+          "technical_name": "role",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The person's job in the class.",
+          "school_example": "student or teacher",
+          "privacy_class": "education_record",
+          "access_notes": "Visible through roster APIs and LTI launch context when scoped.",
+          "common_mistakes": "A person's class role can differ from their primary account role."
+        }
+      ]
+    },
+    {
+      "object_key": "case_item",
+      "domain_key": "curriculum_standards",
+      "object_type": "storage_table",
+      "name": "CASE Item",
+      "plain_description": "One standard, competency, skill, learning objective, course code, or framework item.",
+      "why_it_exists": "Content, assessments, grades, and credentials need to point to the same official learning goal.",
+      "source_standard": "case",
+      "privacy_class": "public",
+      "fields": [
+        {
+          "field_key": "case_guid",
+          "technical_name": "case_guid",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The official CASE unique identifier for this standard or competency item.",
+          "school_example": "A state standard's CASE GUID.",
+          "privacy_class": "public",
+          "access_notes": "Generally public if the framework is public.",
+          "common_mistakes": "Do not replace the CASE GUID with the short printed standard code."
+        },
+        {
+          "field_key": "human_coding_scheme",
+          "technical_name": "human_coding_scheme",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The short code people see in curriculum documents.",
+          "school_example": "RL.6.1",
+          "privacy_class": "public",
+          "access_notes": "Generally public if the framework is public."
+        },
+        {
+          "field_key": "statement",
+          "technical_name": "statement",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The text that describes what the learner should know or be able to do.",
+          "school_example": "Cite textual evidence to support analysis of what the text says explicitly.",
+          "privacy_class": "public",
+          "access_notes": "Generally public if the framework is public."
+        }
+      ]
+    },
+    {
+      "object_key": "qti_package",
+      "domain_key": "assessment_content",
+      "object_type": "package",
+      "name": "QTI Package",
+      "plain_description": "A packaged assessment, test, question bank, or item set that follows QTI rules.",
+      "why_it_exists": "Assessment content must move between authoring tools, item banks, delivery systems, and reporting systems.",
+      "source_standard": "qti",
+      "privacy_class": "operational",
+      "fields": [
+        {
+          "field_key": "package_identifier",
+          "technical_name": "package_identifier",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The identifier supplied inside the QTI package.",
+          "school_example": "The publisher's package ID for a Grade 6 reading assessment.",
+          "privacy_class": "operational",
+          "access_notes": "Visible to assessment managers and authorized assessment tools."
+        },
+        {
+          "field_key": "qti_version",
+          "technical_name": "qti_version",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The QTI version the package claims to follow.",
+          "school_example": "3.0",
+          "privacy_class": "operational",
+          "access_notes": "Visible with assessment package read access."
+        },
+        {
+          "field_key": "validation_status",
+          "technical_name": "validation_status",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether the platform has checked the package and found it valid, invalid, or not yet checked.",
+          "school_example": "valid",
+          "privacy_class": "operational",
+          "access_notes": "Visible to assessment managers and integration operators."
+        }
+      ]
+    },
+    {
+      "object_key": "caliper_event",
+      "domain_key": "learning_activity",
+      "object_type": "event",
+      "name": "Caliper Event",
+      "plain_description": "A record that something happened in a learning tool, such as a launch, view, submission, or grade action.",
+      "why_it_exists": "Schools and providers need consistent learning activity data for analytics and product improvement.",
+      "source_standard": "caliper",
+      "privacy_class": "behavioral",
+      "fields": [
+        {
+          "field_key": "event_id",
+          "technical_name": "event_id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The unique event ID from the tool or from the platform ingestion process.",
+          "school_example": "The ID for one student opening a reading assignment.",
+          "privacy_class": "behavioral",
+          "access_notes": "Raw events are restricted; most apps should use aggregates."
+        },
+        {
+          "field_key": "profile",
+          "technical_name": "profile",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The Caliper profile that explains what kind of learning activity this event describes.",
+          "school_example": "AssessmentProfile or SessionProfile",
+          "privacy_class": "behavioral",
+          "access_notes": "Visible only with learning activity access."
+        },
+        {
+          "field_key": "action",
+          "technical_name": "action",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "What happened in the learning tool.",
+          "school_example": "started, completed, submitted, graded, viewed, or searched",
+          "privacy_class": "behavioral",
+          "access_notes": "Visible only with learning activity access."
+        }
+      ]
+    },
+    {
+      "object_key": "source_identifier",
+      "domain_key": "operational_metadata",
+      "object_type": "storage_table",
+      "name": "Source Identifier",
+      "plain_description": "An ID used by another system to refer to the same thing the platform tracks.",
+      "why_it_exists": "Schools and vendors need to match records across SIS, LMS, assessment, standards, and credential systems.",
+      "source_standard": null,
+      "privacy_class": "operational",
+      "fields": [
+        {
+          "field_key": "source_system",
+          "technical_name": "source_system",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The outside system that created or owns the identifier.",
+          "school_example": "PowerSchool SIS, Canvas LMS, a state standards publisher, or a test vendor.",
+          "privacy_class": "operational",
+          "access_notes": "Visible to integration operators and authorized support users."
+        },
+        {
+          "field_key": "external_id",
+          "technical_name": "external_id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The identifier value used by the outside system.",
+          "school_example": "A OneRoster sourcedId or CASE GUID.",
+          "privacy_class": "operational",
+          "access_notes": "Access depends on the object being identified.",
+          "common_mistakes": "External IDs are not globally unique unless paired with their source system and identifier type."
+        },
+        {
+          "field_key": "identifier_type",
+          "technical_name": "identifier_type",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The kind of outside ID this is.",
+          "school_example": "oneroster_sourced_id, case_guid, lti_deployment_id, qti_identifier, or open_badge_credential_id.",
+          "privacy_class": "operational",
+          "access_notes": "Visible to integration operators and authorized support users."
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "relationship_key": "enrollment_person",
+      "from_object": "enrollment",
+      "to_object": "person",
+      "relationship_type": "belongs_to",
+      "cardinality": "many enrollments to one person",
+      "required": true,
+      "plain_description": "Each enrollment names the person who participates in the class."
+    },
+    {
+      "relationship_key": "qti_package_aligns_to_case_item",
+      "from_object": "qti_package",
+      "to_object": "case_item",
+      "relationship_type": "aligns_to",
+      "cardinality": "many packages can align to many CASE items",
+      "required": false,
+      "plain_description": "Assessment content can be linked to the standards or competencies it measures."
+    },
+    {
+      "relationship_key": "caliper_event_references_person",
+      "from_object": "caliper_event",
+      "to_object": "person",
+      "relationship_type": "references",
+      "cardinality": "many events can reference one person",
+      "required": false,
+      "plain_description": "A learning activity event may identify the learner or educator who performed the action."
+    }
+  ]
+}

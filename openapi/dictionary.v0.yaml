@@ -1,0 +1,391 @@
+openapi: 3.1.0
+info:
+  title: Platform Dictionary API
+  version: 0.1.0
+  summary: API for standards registry and data dictionary metadata.
+  description: >
+    This API exposes the same governed metadata used to document SQL tables,
+    SQL views, JSON API fields, enums, relationships, privacy classes, and
+    source standards.
+servers:
+  - url: https://api.example.edu
+    description: Placeholder production URL.
+  - url: http://localhost:8080
+    description: Local development URL.
+tags:
+  - name: Standards
+  - name: Dictionary
+paths:
+  /dictionary/standards:
+    get:
+      tags:
+        - Standards
+      summary: List tracked standards
+      description: Returns the 1EdTech standards and related practices tracked by the platform.
+      operationId: listStandards
+      parameters:
+        - $ref: '#/components/parameters/Posture'
+      responses:
+        '200':
+          description: Tracked standards.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - standards
+                properties:
+                  standards:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Standard'
+  /dictionary/objects:
+    get:
+      tags:
+        - Dictionary
+      summary: List dictionary objects
+      description: Returns documented platform objects such as SQL tables, API resources, events, files, packages, or concepts.
+      operationId: listDictionaryObjects
+      parameters:
+        - $ref: '#/components/parameters/Domain'
+        - $ref: '#/components/parameters/PrivacyClass'
+      responses:
+        '200':
+          description: Dictionary objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - objects
+                properties:
+                  objects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DictionaryObject'
+  /dictionary/objects/{objectKey}:
+    get:
+      tags:
+        - Dictionary
+      summary: Get one dictionary object
+      description: Returns one object with its fields, enum values, relationships, SQL surfaces, and API mappings.
+      operationId: getDictionaryObject
+      parameters:
+        - name: objectKey
+          in: path
+          required: true
+          description: Stable object key, such as organization or caliper_event.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dictionary object detail.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DictionaryObjectDetail'
+        '404':
+          description: Object key was not found.
+  /dictionary/fields:
+    get:
+      tags:
+        - Dictionary
+      summary: Search dictionary fields
+      description: Finds fields by object, privacy class, source standard, or text query.
+      operationId: searchDictionaryFields
+      parameters:
+        - name: objectKey
+          in: query
+          required: false
+          schema:
+            type: string
+        - $ref: '#/components/parameters/PrivacyClass'
+        - name: standard
+          in: query
+          required: false
+          description: Standard family key, such as oneroster, case, qti, or caliper.
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          description: Text search across names, descriptions, examples, and common mistakes.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Matching fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - fields
+                properties:
+                  fields:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DictionaryField'
+  /dictionary/privacy-classes:
+    get:
+      tags:
+        - Dictionary
+      summary: List privacy classes
+      description: Returns privacy classes used by dictionary fields and objects.
+      operationId: listPrivacyClasses
+      responses:
+        '200':
+          description: Privacy classes.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - privacyClasses
+                properties:
+                  privacyClasses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PrivacyClass'
+components:
+  parameters:
+    Domain:
+      name: domain
+      in: query
+      required: false
+      description: Domain key, such as academic_structure or assessment_content.
+      schema:
+        type: string
+    Posture:
+      name: posture
+      in: query
+      required: false
+      description: Implementation posture.
+      schema:
+        type: string
+        enum:
+          - lead
+          - prepare
+          - support
+          - legacy
+          - governance
+    PrivacyClass:
+      name: privacyClass
+      in: query
+      required: false
+      description: Privacy class filter.
+      schema:
+        type: string
+        enum:
+          - public
+          - directory
+          - education_record
+          - sensitive
+          - credential
+          - behavioral
+          - operational
+          - system
+  schemas:
+    Standard:
+      type: object
+      required:
+        - familyKey
+        - name
+        - latestPublicStatusFound
+        - platformPosture
+        - plainDescription
+        - platformRole
+        - sources
+      properties:
+        familyKey:
+          type: string
+          examples:
+            - oneroster
+        name:
+          type: string
+          examples:
+            - OneRoster
+        latestPublicStatusFound:
+          type: string
+          examples:
+            - 1.2 Final
+        releaseDate:
+          type:
+            - string
+            - 'null'
+          format: date
+        platformPosture:
+          type: string
+          enum:
+            - lead
+            - prepare
+            - support
+            - legacy
+            - governance
+        plainDescription:
+          type: string
+        platformRole:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceLink'
+    SourceLink:
+      type: object
+      required:
+        - title
+        - url
+        - sourceType
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+          format: uri
+        sourceType:
+          type: string
+    DictionaryObject:
+      type: object
+      required:
+        - objectKey
+        - domainKey
+        - objectType
+        - name
+        - plainDescription
+        - whyItExists
+        - privacyClass
+      properties:
+        objectKey:
+          type: string
+          examples:
+            - enrollment
+        domainKey:
+          type: string
+          examples:
+            - academic_structure
+        objectType:
+          type: string
+          enum:
+            - storage_table
+            - sql_view
+            - api_resource
+            - event
+            - file_record
+            - package
+            - concept
+        name:
+          type: string
+        plainDescription:
+          type: string
+        whyItExists:
+          type: string
+        sourceStandard:
+          type:
+            - string
+            - 'null'
+        privacyClass:
+          type: string
+    DictionaryObjectDetail:
+      allOf:
+        - $ref: '#/components/schemas/DictionaryObject'
+        - type: object
+          required:
+            - fields
+            - relationships
+          properties:
+            fields:
+              type: array
+              items:
+                $ref: '#/components/schemas/DictionaryField'
+            relationships:
+              type: array
+              items:
+                $ref: '#/components/schemas/Relationship'
+    DictionaryField:
+      type: object
+      required:
+        - objectKey
+        - fieldKey
+        - technicalName
+        - dataType
+        - required
+        - plainDescription
+        - privacyClass
+        - accessNotes
+      properties:
+        objectKey:
+          type: string
+        fieldKey:
+          type: string
+        technicalName:
+          type: string
+        dataType:
+          type: string
+        required:
+          type: boolean
+        plainDescription:
+          type: string
+        schoolExample:
+          type:
+            - string
+            - 'null'
+        privacyClass:
+          type: string
+        accessNotes:
+          type: string
+        commonMistakes:
+          type:
+            - string
+            - 'null'
+        allowedValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnumValue'
+    EnumValue:
+      type: object
+      required:
+        - value
+        - label
+        - plainDescription
+      properties:
+        value:
+          type: string
+        label:
+          type: string
+        plainDescription:
+          type: string
+    Relationship:
+      type: object
+      required:
+        - relationshipKey
+        - fromObject
+        - toObject
+        - relationshipType
+        - cardinality
+        - plainDescription
+      properties:
+        relationshipKey:
+          type: string
+        fromObject:
+          type: string
+        toObject:
+          type: string
+        relationshipType:
+          type: string
+        cardinality:
+          type: string
+        plainDescription:
+          type: string
+    PrivacyClass:
+      type: object
+      required:
+        - privacyClass
+        - plainDescription
+        - handlingNotes
+      properties:
+        privacyClass:
+          type: string
+        plainDescription:
+          type: string
+        handlingNotes:
+          type: string

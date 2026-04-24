@@ -1,0 +1,315 @@
+{
+  "retrieved_on": "2026-04-24",
+  "standards": [
+    {
+      "family_key": "oneroster",
+      "name": "OneRoster",
+      "latest_public_status_found": "1.2 Final",
+      "release_date": "2022-09-19",
+      "platform_posture": "lead",
+      "plain_description": "A standard way to exchange school roster, class, course, resource, and gradebook data.",
+      "platform_role": "Core K-12 rostering, resources, gradebook, REST and CSV exchange.",
+      "sources": [
+        {
+          "title": "OneRoster overview",
+          "url": "https://www.1edtech.org/standards/oneroster",
+          "source_type": "overview"
+        },
+        {
+          "title": "OneRoster Version 1.2",
+          "url": "https://www.imsglobal.org/spec/oneroster/v1p2/",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "qti",
+      "name": "Question and Test Interoperability",
+      "latest_public_status_found": "3.0 Final",
+      "release_date": "2022-05-11",
+      "platform_posture": "lead",
+      "plain_description": "A standard way to package, move, and represent assessment questions, tests, and related assessment data.",
+      "platform_role": "Assessment package repository, metadata extraction, accessibility metadata, result interoperability.",
+      "sources": [
+        {
+          "title": "QTI overview",
+          "url": "https://www.1edtech.org/standards/qti",
+          "source_type": "overview"
+        },
+        {
+          "title": "QTI specification documents",
+          "url": "https://www.1edtech.org/standards/qti/index",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "case",
+      "name": "Competencies and Academic Standards Exchange",
+      "latest_public_status_found": "1.1 Final",
+      "release_date": "2025-01-24",
+      "platform_posture": "lead",
+      "plain_description": "A standard way to publish and exchange academic standards, competencies, skills, rubrics, and related frameworks.",
+      "platform_role": "Canonical standards, competency, course-code, rubric, and alignment graph.",
+      "sources": [
+        {
+          "title": "CASE overview",
+          "url": "https://www.1edtech.org/standards/case",
+          "source_type": "overview"
+        },
+        {
+          "title": "CASE 1.1 information model",
+          "url": "https://www.imsglobal.org/sites/default/files/spec/case/v1p1/information_model/caseservicev1p1_infomodelv1p0.html",
+          "source_type": "specification"
+        },
+        {
+          "title": "CASE 1.1 REST binding",
+          "url": "https://www.imsglobal.org/sites/default/files/spec/case/v1p1/rest_binding/caseservicev1p1_restbindv1p0.html",
+          "source_type": "binding"
+        }
+      ]
+    },
+    {
+      "family_key": "caliper",
+      "name": "Caliper Analytics",
+      "latest_public_status_found": "1.2 Final",
+      "release_date": "2020-03-27",
+      "platform_posture": "lead",
+      "plain_description": "A standard vocabulary for describing learning activity events across tools and content.",
+      "platform_role": "Immutable learning event ingestion, profile projections, and privacy-safe activity analytics.",
+      "sources": [
+        {
+          "title": "Caliper overview",
+          "url": "https://www.1edtech.org/standards/caliper",
+          "source_type": "overview"
+        },
+        {
+          "title": "Caliper Analytics 1.2 specification",
+          "url": "https://www.imsglobal.org/spec/caliper/v1p2",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "lti",
+      "name": "Learning Tools Interoperability",
+      "latest_public_status_found": "LTI 1.3 Final and LTI Advantage services (AGS 2.0, NRPS 2.0, Deep Linking 2.0) Final; issued 2019-04-16.",
+      "release_date": "2019-04-16",
+      "platform_posture": "lead",
+      "plain_description": "A secure way to launch and connect external learning tools from a learning platform.",
+      "platform_role": "Tool launch, roles/membership, deep linking, assignment and grade services.",
+      "sources": [
+        {
+          "title": "LTI overview",
+          "url": "https://www.1edtech.org/standards/lti",
+          "source_type": "overview"
+        },
+        {
+          "title": "LTI Core 1.3 specification",
+          "url": "https://www.imsglobal.org/spec/lti/v1p3/",
+          "source_type": "specification"
+        },
+        {
+          "title": "LTI Assignment and Grade Services 2.0 specification",
+          "url": "https://www.imsglobal.org/spec/lti-ags/v2p0/",
+          "source_type": "specification"
+        },
+        {
+          "title": "LTI Names and Role Provisioning Services 2.0 specification",
+          "url": "https://www.imsglobal.org/spec/lti-nrps/v2p0/",
+          "source_type": "specification"
+        },
+        {
+          "title": "LTI Deep Linking 2.0 specification",
+          "url": "https://www.imsglobal.org/spec/lti-dl/v2p0/",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "security_framework",
+      "name": "Security Framework",
+      "latest_public_status_found": "1.1 Final",
+      "release_date": "2021-07-19",
+      "platform_posture": "lead",
+      "plain_description": "A shared 1EdTech security pattern based on OAuth 2.0, JWT, and OpenID Connect.",
+      "platform_role": "OAuth scopes, token validation, service authorization, and secure API patterns.",
+      "sources": [
+        {
+          "title": "Security Framework",
+          "url": "https://www.1edtech.org/standards/security-framework",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "data_privacy",
+      "name": "Data Privacy",
+      "latest_public_status_found": "1.0 Final",
+      "release_date": "2020-08-20",
+      "platform_posture": "lead",
+      "plain_description": "A rubric and certification program for reviewing how edtech apps handle privacy.",
+      "platform_role": "Privacy classifications, audit posture, data-sharing controls, and procurement trust language.",
+      "sources": [
+        {
+          "title": "Data Privacy overview",
+          "url": "https://www.1edtech.org/standards/data-privacy",
+          "source_type": "overview"
+        }
+      ]
+    },
+    {
+      "family_key": "common_cartridge",
+      "name": "Common Cartridge and Thin Common Cartridge",
+      "latest_public_status_found": "Common Cartridge 1.3 Final; Common Cartridge/Thin Common Cartridge 1.4 Candidate Final",
+      "release_date": null,
+      "platform_posture": "prepare",
+      "plain_description": "A standard way to package, import, export, and link digital learning resources and assessments.",
+      "platform_role": "Content package import/export, metadata, QTI/LTI/CASE alignment.",
+      "sources": [
+        {
+          "title": "Common Cartridge overview",
+          "url": "https://www.1edtech.org/standards/cc",
+          "source_type": "overview"
+        },
+        {
+          "title": "Common Cartridge specification index",
+          "url": "https://www.imsglobal.org/cc/index.html",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "open_badges",
+      "name": "Open Badges",
+      "latest_public_status_found": "3.0 Final Release, Document Version 1.4.3; issued 2026-04-22. Badge Connect API 2.1 remains relevant for Open Badges 2.0 ecosystems.",
+      "release_date": "2026-04-22",
+      "platform_posture": "prepare",
+      "plain_description": "A standard way to issue, share, and verify a single achievement or credential.",
+      "platform_role": "Verifiable microcredentials, achievements, endorsements, and credential verification.",
+      "sources": [
+        {
+          "title": "Open Badges overview",
+          "url": "https://www.1edtech.org/standards/open-badges",
+          "source_type": "overview"
+        },
+        {
+          "title": "Open Badges 3.0 specification",
+          "url": "https://www.imsglobal.org/spec/ob/v3p0",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "clr",
+      "name": "Comprehensive Learner Record",
+      "latest_public_status_found": "2.0 Final Release, Document Version 1.1; issued 2025-10-14.",
+      "release_date": "2025-10-14",
+      "platform_posture": "prepare",
+      "plain_description": "A verifiable learner record that can bundle many achievements, skills, courses, and milestones.",
+      "platform_role": "Longitudinal learner record, transcript, and credential bundle support.",
+      "sources": [
+        {
+          "title": "CLR overview",
+          "url": "https://www.1edtech.org/standards/clr",
+          "source_type": "overview"
+        },
+        {
+          "title": "CLR 2.0 specification",
+          "url": "https://www.imsglobal.org/spec/clr/v2p0",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "edu_api",
+      "name": "Edu-API",
+      "latest_public_status_found": "Candidate Final Public",
+      "release_date": null,
+      "platform_posture": "prepare",
+      "plain_description": "A developing standard for exchange of higher education enterprise and teaching-and-learning data.",
+      "platform_role": "Future higher-ed expansion path beyond K-12 OneRoster.",
+      "sources": [
+        {
+          "title": "Edu-API overview",
+          "url": "https://www.1edtech.org/standards/edu-api",
+          "source_type": "overview"
+        }
+      ]
+    },
+    {
+      "family_key": "data_ssml",
+      "name": "Data-SSML",
+      "latest_public_status_found": "1.0 Final",
+      "release_date": "2024-07-01",
+      "platform_posture": "prepare",
+      "plain_description": "A standard way to add machine-readable text-to-speech pronunciation instructions to QTI 3 and HTML content.",
+      "platform_role": "Accessibility metadata for assessment and learning content.",
+      "sources": [
+        {
+          "title": "Data-SSML overview",
+          "url": "https://www.1edtech.org/standards/data-ssml",
+          "source_type": "overview"
+        }
+      ]
+    },
+    {
+      "family_key": "cat",
+      "name": "Computer Adaptive Testing",
+      "latest_public_status_found": "1.0 Public Candidate Final",
+      "release_date": null,
+      "platform_posture": "prepare",
+      "plain_description": "A standard API pattern for test delivery platforms to communicate with adaptive testing engines.",
+      "platform_role": "Future adaptive assessment interoperability after QTI foundations.",
+      "sources": [
+        {
+          "title": "CAT overview",
+          "url": "https://www.1edtech.org/standards/cat",
+          "source_type": "overview"
+        }
+      ]
+    },
+    {
+      "family_key": "uniform_id",
+      "name": "Uniform ID Framework",
+      "latest_public_status_found": "Final framework",
+      "release_date": null,
+      "platform_posture": "prepare",
+      "plain_description": "A did:web-based framework for consistent, verifiable identifiers in the 1EdTech ecosystem.",
+      "platform_role": "Future verifiable IDs for institutions, tools, credentials, courses, and content.",
+      "sources": [
+        {
+          "title": "Uniform ID Framework",
+          "url": "https://www.1edtech.org/standards/uniform-id-framework",
+          "source_type": "specification"
+        }
+      ]
+    },
+    {
+      "family_key": "trusted_apps_rubrics",
+      "name": "TrustEd Apps Rubrics",
+      "latest_public_status_found": "Active rubrics for data privacy, accessibility, security practices, and generative AI data",
+      "release_date": null,
+      "platform_posture": "governance",
+      "plain_description": "Self-assessment tools that help schools and suppliers discuss trust, privacy, accessibility, security, and AI data practices.",
+      "platform_role": "Governance vocabulary for our platform and third-party apps built on it.",
+      "sources": [
+        {
+          "title": "Accessibility Rubric",
+          "url": "https://www.1edtech.org/standards/accessibility-rubric",
+          "source_type": "rubric"
+        },
+        {
+          "title": "Security Practices Rubric",
+          "url": "https://www.1edtech.org/standards/security-practices-rubric",
+          "source_type": "rubric"
+        },
+        {
+          "title": "Generative AI Data Rubric",
+          "url": "https://www.1edtech.org/standards/ai-rubric",
+          "source_type": "rubric"
+        }
+      ]
+    }
+  ]
+}

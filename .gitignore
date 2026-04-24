@@ -1,0 +1,30 @@
+# macOS and editor noise
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+.cache/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Common dependency and build outputs
+node_modules/
+dist/
+build/
+coverage/
+__pycache__/
+*.pyc
+
+# Local database files
+*.sqlite
+*.sqlite3
+*.db
