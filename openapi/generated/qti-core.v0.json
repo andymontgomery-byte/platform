@@ -1,0 +1,2465 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform QTI 3 Repository API",
+    "version": "0.1.0",
+    "summary": "Generated QTI repository API schemas from the structured QTI dictionary source.",
+    "description": "This OpenAPI document is generated from dictionary/qti-core.v1.json. It documents the planned QTI repository projection API. It is not a delivery/runtime conformance claim and is not executable on GitHub Pages until a backend is added."
+  },
+  "servers": [
+    {
+      "url": "https://andymontgomery-byte.github.io/platform/site",
+      "description": "Portal host; QTI endpoints are planned documentation until backend runtime exists."
+    }
+  ],
+  "paths": {
+    "/assessments/qti/packages": {
+      "get": {
+        "tags": [
+          "QTI Package"
+        ],
+        "summary": "List QTI Package records",
+        "description": "An imported assessment bundle containing QTI XML, resources, media, metadata, and a manifest.",
+        "responses": {
+          "200": {
+            "description": "QTI Package records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiPackage"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/packages/{id}": {
+      "get": {
+        "tags": [
+          "QTI Package"
+        ],
+        "summary": "Get one QTI Package record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Package record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Package record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiPackage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/items": {
+      "get": {
+        "tags": [
+          "QTI Assessment Item"
+        ],
+        "summary": "List QTI Assessment Item records",
+        "description": "One question, task, or prompt plus its response variables, scoring rules, body content, feedback, and accessibility metadata.",
+        "responses": {
+          "200": {
+            "description": "QTI Assessment Item records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiAssessmentItem"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/items/{id}": {
+      "get": {
+        "tags": [
+          "QTI Assessment Item"
+        ],
+        "summary": "Get one QTI Assessment Item record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Assessment Item record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Assessment Item record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiAssessmentItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/stimuli": {
+      "get": {
+        "tags": [
+          "QTI Assessment Stimulus"
+        ],
+        "summary": "List QTI Assessment Stimulus records",
+        "description": "Shared content such as a reading passage, chart, scenario, or media asset used by one or more items.",
+        "responses": {
+          "200": {
+            "description": "QTI Assessment Stimulus records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiAssessmentStimulus"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/stimuli/{id}": {
+      "get": {
+        "tags": [
+          "QTI Assessment Stimulus"
+        ],
+        "summary": "Get one QTI Assessment Stimulus record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Assessment Stimulus record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Assessment Stimulus record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiAssessmentStimulus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/tests": {
+      "get": {
+        "tags": [
+          "QTI Assessment Test"
+        ],
+        "summary": "List QTI Assessment Test records",
+        "description": "A whole test definition, including parts, sections, item references, timing, outcomes, and feedback.",
+        "responses": {
+          "200": {
+            "description": "QTI Assessment Test records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiAssessmentTest"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/tests/{id}": {
+      "get": {
+        "tags": [
+          "QTI Assessment Test"
+        ],
+        "summary": "Get one QTI Assessment Test record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Assessment Test record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Assessment Test record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiAssessmentTest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/test-parts": {
+      "get": {
+        "tags": [
+          "QTI Test Part"
+        ],
+        "summary": "List QTI Test Part records",
+        "description": "A major part of a test that controls navigation, submission, timing, and item-session behavior.",
+        "responses": {
+          "200": {
+            "description": "QTI Test Part records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiTestPart"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/test-parts/{id}": {
+      "get": {
+        "tags": [
+          "QTI Test Part"
+        ],
+        "summary": "Get one QTI Test Part record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Test Part record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Test Part record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiTestPart"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/sections": {
+      "get": {
+        "tags": [
+          "QTI Assessment Section"
+        ],
+        "summary": "List QTI Assessment Section records",
+        "description": "A group inside a test that can organize item references, nested sections, randomization, and section-level rules.",
+        "responses": {
+          "200": {
+            "description": "QTI Assessment Section records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiAssessmentSection"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/sections/{id}": {
+      "get": {
+        "tags": [
+          "QTI Assessment Section"
+        ],
+        "summary": "Get one QTI Assessment Section record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Assessment Section record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Assessment Section record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiAssessmentSection"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/item-refs": {
+      "get": {
+        "tags": [
+          "QTI Item Reference"
+        ],
+        "summary": "List QTI Item Reference records",
+        "description": "A test's reference to an item file, including test-specific category, timing, weight, and selection behavior.",
+        "responses": {
+          "200": {
+            "description": "QTI Item Reference records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiItemRef"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/item-refs/{id}": {
+      "get": {
+        "tags": [
+          "QTI Item Reference"
+        ],
+        "summary": "Get one QTI Item Reference record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Item Reference record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Item Reference record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiItemRef"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/variable-declarations": {
+      "get": {
+        "tags": [
+          "QTI Variable Declaration"
+        ],
+        "summary": "List QTI Variable Declaration records",
+        "description": "A response, outcome, template, or context variable used by an item or test.",
+        "responses": {
+          "200": {
+            "description": "QTI Variable Declaration records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiVariableDeclaration"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/variable-declarations/{id}": {
+      "get": {
+        "tags": [
+          "QTI Variable Declaration"
+        ],
+        "summary": "Get one QTI Variable Declaration record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Variable Declaration record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Variable Declaration record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiVariableDeclaration"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/interactions": {
+      "get": {
+        "tags": [
+          "QTI Interaction"
+        ],
+        "summary": "List QTI Interaction records",
+        "description": "The part of an item where the learner answers, such as choosing, typing, matching, uploading, clicking, or using media.",
+        "responses": {
+          "200": {
+            "description": "QTI Interaction records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiInteraction"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/interactions/{id}": {
+      "get": {
+        "tags": [
+          "QTI Interaction"
+        ],
+        "summary": "Get one QTI Interaction record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Interaction record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Interaction record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiInteraction"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/processing-rules": {
+      "get": {
+        "tags": [
+          "QTI Processing Rule"
+        ],
+        "summary": "List QTI Processing Rule records",
+        "description": "A preserved summary of response, outcome, template, branch, or precondition logic from QTI XML.",
+        "responses": {
+          "200": {
+            "description": "QTI Processing Rule records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiProcessingRule"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/processing-rules/{id}": {
+      "get": {
+        "tags": [
+          "QTI Processing Rule"
+        ],
+        "summary": "Get one QTI Processing Rule record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Processing Rule record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Processing Rule record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiProcessingRule"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/feedback": {
+      "get": {
+        "tags": [
+          "QTI Feedback"
+        ],
+        "summary": "List QTI Feedback records",
+        "description": "Feedback, rubric, or instructional content controlled by outcomes, timing, or audience.",
+        "responses": {
+          "200": {
+            "description": "QTI Feedback records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiFeedback"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/feedback/{id}": {
+      "get": {
+        "tags": [
+          "QTI Feedback"
+        ],
+        "summary": "Get one QTI Feedback record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Feedback record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Feedback record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiFeedback"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/accessibility-support": {
+      "get": {
+        "tags": [
+          "QTI Accessibility Support"
+        ],
+        "summary": "List QTI Accessibility Support records",
+        "description": "Alternative content, catalog entries, and accessibility support metadata attached to QTI content.",
+        "responses": {
+          "200": {
+            "description": "QTI Accessibility Support records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiAccessibilitySupport"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/accessibility-support/{id}": {
+      "get": {
+        "tags": [
+          "QTI Accessibility Support"
+        ],
+        "summary": "Get one QTI Accessibility Support record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Accessibility Support record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Accessibility Support record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiAccessibilitySupport"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/companion-materials": {
+      "get": {
+        "tags": [
+          "QTI Companion Material"
+        ],
+        "summary": "List QTI Companion Material records",
+        "description": "A calculator, ruler, protractor, file, physical material, or vendor extension allowed or required during an item.",
+        "responses": {
+          "200": {
+            "description": "QTI Companion Material records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiCompanionMaterial"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/companion-materials/{id}": {
+      "get": {
+        "tags": [
+          "QTI Companion Material"
+        ],
+        "summary": "Get one QTI Companion Material record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Companion Material record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Companion Material record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiCompanionMaterial"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/alignments": {
+      "get": {
+        "tags": [
+          "QTI Alignment"
+        ],
+        "summary": "List QTI Alignment records",
+        "description": "A link from QTI content to an academic standard, competency, skill, or other alignment target.",
+        "responses": {
+          "200": {
+            "description": "QTI Alignment records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiAlignment"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/alignments/{id}": {
+      "get": {
+        "tags": [
+          "QTI Alignment"
+        ],
+        "summary": "Get one QTI Alignment record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Alignment record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Alignment record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiAlignment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/assessments/qti/artifacts": {
+      "get": {
+        "tags": [
+          "QTI Package Artifact"
+        ],
+        "summary": "List QTI Package Artifact records",
+        "description": "A file preserved from the QTI package, such as XML, media, stylesheet, manifest, or other referenced resource.",
+        "responses": {
+          "200": {
+            "description": "QTI Package Artifact records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiPackageArtifact"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/artifacts/{id}": {
+      "get": {
+        "tags": [
+          "QTI Package Artifact"
+        ],
+        "summary": "Get one QTI Package Artifact record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Package Artifact record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Package Artifact record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiPackageArtifact"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "QtiPackage": {
+        "type": "object",
+        "description": "An imported assessment bundle containing QTI XML, resources, media, metadata, and a manifest.",
+        "required": [
+          "id",
+          "packageIdentifier",
+          "qtiVersion",
+          "validationStatus",
+          "originalFileUri",
+          "importedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this QTI package."
+          },
+          "packageIdentifier": {
+            "type": "string",
+            "description": "The package ID supplied by the publisher, item bank, authoring tool, or import process."
+          },
+          "qtiVersion": {
+            "type": "string",
+            "description": "The QTI version the package claims to use.",
+            "enum": [
+              "3.0",
+              "2.2"
+            ],
+            "x-valueDescriptions": {
+              "3.0": "The current QTI 3 assessment, section, and item model targeted by the platform.",
+              "2.2": "A legacy QTI version the platform may preserve or migrate, but not the lead model."
+            }
+          },
+          "sourceSystem": {
+            "type": "string",
+            "description": "The publisher, item bank, LMS, or authoring tool that supplied the package."
+          },
+          "validationStatus": {
+            "type": "string",
+            "description": "Whether the platform has checked the package and found it valid, invalid, warning-only, or not yet checked.",
+            "enum": [
+              "pending",
+              "valid",
+              "invalid",
+              "warning"
+            ],
+            "x-valueDescriptions": {
+              "pending": "The platform has not checked the package yet.",
+              "valid": "The package passed platform validation.",
+              "invalid": "The package failed validation and should not be trusted for delivery.",
+              "warning": "The package is usable but has non-blocking issues that should be reviewed."
+            }
+          },
+          "validationErrorCount": {
+            "type": "integer",
+            "description": "How many validation problems were found during import."
+          },
+          "manifestPath": {
+            "type": "string",
+            "description": "The location of the package manifest file inside the package."
+          },
+          "originalFileUri": {
+            "type": "string",
+            "description": "Where the platform stores the original uploaded package file."
+          },
+          "importedAt": {
+            "type": "string",
+            "description": "When the platform received or imported the package.",
+            "format": "date-time"
+          }
+        }
+      },
+      "QtiAssessmentItem": {
+        "type": "object",
+        "description": "One question, task, or prompt plus its response variables, scoring rules, body content, feedback, and accessibility metadata.",
+        "required": [
+          "id",
+          "packageId",
+          "identifier",
+          "title",
+          "timeDependent",
+          "sourceHref"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this item."
+          },
+          "packageId": {
+            "type": "string",
+            "description": "The QTI package this item came from."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The local QTI identifier for the item inside its package."
+          },
+          "title": {
+            "type": "string",
+            "description": "The item title used to browse or select the item."
+          },
+          "label": {
+            "type": "string",
+            "description": "An authoring-system label for the item."
+          },
+          "language": {
+            "type": "string",
+            "description": "The main language of the item as a language tag."
+          },
+          "authoringToolName": {
+            "type": "string",
+            "description": "The tool that created the item."
+          },
+          "authoringToolVersion": {
+            "type": "string",
+            "description": "The version of the authoring tool that created the item."
+          },
+          "adaptive": {
+            "type": "string",
+            "description": "Whether the item can change based on learner responses or test logic.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "timeDependent": {
+            "type": "string",
+            "description": "Whether timing can affect response processing or scoring for this item.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "itemBodySummary": {
+            "type": "string",
+            "description": "A safe summary of the visible question body, not necessarily the full item HTML/XML."
+          },
+          "primaryInteractionType": {
+            "type": "string",
+            "description": "The main way the learner answers this item.",
+            "enum": [
+              "choiceInteraction",
+              "orderInteraction",
+              "associateInteraction",
+              "matchInteraction",
+              "gapMatchInteraction",
+              "textEntryInteraction",
+              "extendedTextInteraction",
+              "inlineChoiceInteraction",
+              "hottextInteraction",
+              "hotspotInteraction",
+              "selectPointInteraction",
+              "graphicOrderInteraction",
+              "graphicAssociateInteraction",
+              "graphicGapMatchInteraction",
+              "positionObjectInteraction",
+              "sliderInteraction",
+              "uploadInteraction",
+              "drawingInteraction",
+              "mediaInteraction",
+              "endAttemptInteraction",
+              "portableCustomInteraction",
+              "customInteraction"
+            ],
+            "x-valueDescriptions": {
+              "choiceInteraction": "Select one or more choices.",
+              "orderInteraction": "Put choices in order.",
+              "associateInteraction": "Create pairings between choices.",
+              "matchInteraction": "Match choices from one set to another.",
+              "gapMatchInteraction": "Put choices into gaps in surrounding content.",
+              "textEntryInteraction": "Type a short answer inline.",
+              "extendedTextInteraction": "Type an essay or longer response.",
+              "inlineChoiceInteraction": "Choose text inside a sentence or passage.",
+              "hottextInteraction": "Select highlighted text.",
+              "hotspotInteraction": "Click or tap one or more regions on an image.",
+              "selectPointInteraction": "Mark one or more points on an image.",
+              "graphicOrderInteraction": "Put image hotspots into order.",
+              "graphicAssociateInteraction": "Pair image regions with each other.",
+              "graphicGapMatchInteraction": "Match choices to image regions.",
+              "positionObjectInteraction": "Place an image object onto a stage.",
+              "sliderInteraction": "Choose a number on a range.",
+              "uploadInteraction": "Upload a response file.",
+              "drawingInteraction": "Draw or mark up an image or canvas.",
+              "mediaInteraction": "Play or interact with audio or video.",
+              "endAttemptInteraction": "Trigger response processing, often for a hint or action button.",
+              "portableCustomInteraction": "Use a packaged custom interaction module.",
+              "customInteraction": "Use proprietary custom behavior preserved for compatibility."
+            }
+          },
+          "maxScore": {
+            "type": "number",
+            "description": "The highest normal score this item can produce when known."
+          },
+          "hasCorrectResponse": {
+            "type": "string",
+            "description": "Whether the item includes a declared correct response.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "accessibilityCatalogId": {
+            "type": "string",
+            "description": "The accessibility catalog record attached to this item, if any."
+          },
+          "sourceHref": {
+            "type": "string",
+            "description": "The package-relative XML file or resource path for this item."
+          }
+        }
+      },
+      "QtiAssessmentStimulus": {
+        "type": "object",
+        "description": "Shared content such as a reading passage, chart, scenario, or media asset used by one or more items.",
+        "required": [
+          "id",
+          "packageId",
+          "identifier",
+          "title",
+          "sourceHref"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this stimulus."
+          },
+          "packageId": {
+            "type": "string",
+            "description": "The QTI package this stimulus came from."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The local QTI identifier for the stimulus."
+          },
+          "title": {
+            "type": "string",
+            "description": "The stimulus title used to browse or select it."
+          },
+          "language": {
+            "type": "string",
+            "description": "The main language of the stimulus as a language tag."
+          },
+          "stimulusBodySummary": {
+            "type": "string",
+            "description": "A safe summary of the passage, chart, media, or other shared content."
+          },
+          "accessibilityCatalogId": {
+            "type": "string",
+            "description": "The accessibility catalog record attached to this stimulus, if any."
+          },
+          "sourceHref": {
+            "type": "string",
+            "description": "The package-relative XML file or resource path for this stimulus."
+          }
+        }
+      },
+      "QtiAssessmentTest": {
+        "type": "object",
+        "description": "A whole test definition, including parts, sections, item references, timing, outcomes, and feedback.",
+        "required": [
+          "id",
+          "packageId",
+          "identifier",
+          "title",
+          "sourceHref"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this test."
+          },
+          "packageId": {
+            "type": "string",
+            "description": "The QTI package this test came from."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The local QTI identifier for the test."
+          },
+          "title": {
+            "type": "string",
+            "description": "The test title people see."
+          },
+          "classTokens": {
+            "type": "string",
+            "description": "Style or category tokens from the QTI test; this is not a school class."
+          },
+          "authoringToolName": {
+            "type": "string",
+            "description": "The tool that created the test."
+          },
+          "authoringToolVersion": {
+            "type": "string",
+            "description": "The version of the tool that created the test."
+          },
+          "timeLimitSeconds": {
+            "type": "integer",
+            "description": "The maximum time allowed for the test when known, in seconds."
+          },
+          "outcomeProcessingSummary": {
+            "type": "string",
+            "description": "A safe summary of how test-level outcomes are calculated."
+          },
+          "sourceHref": {
+            "type": "string",
+            "description": "The package-relative XML file or resource path for this test."
+          }
+        }
+      },
+      "QtiTestPart": {
+        "type": "object",
+        "description": "A major part of a test that controls navigation, submission, timing, and item-session behavior.",
+        "required": [
+          "id",
+          "testId",
+          "identifier",
+          "navigationMode",
+          "submissionMode"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this test part."
+          },
+          "testId": {
+            "type": "string",
+            "description": "The test that contains this part."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The local QTI identifier for this test part."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title for this part, if shown or managed separately."
+          },
+          "navigationMode": {
+            "type": "string",
+            "description": "Whether the learner must go in order or can move around.",
+            "enum": [
+              "linear",
+              "nonlinear"
+            ],
+            "x-valueDescriptions": {
+              "linear": "The learner proceeds in order and cannot freely return to earlier items.",
+              "nonlinear": "The learner may navigate items in a freer order."
+            }
+          },
+          "submissionMode": {
+            "type": "string",
+            "description": "Whether answers are submitted item-by-item or together.",
+            "enum": [
+              "individual",
+              "simultaneous"
+            ],
+            "x-valueDescriptions": {
+              "individual": "Each item is submitted and processed separately.",
+              "simultaneous": "Responses are submitted together at the end of the part."
+            }
+          },
+          "maxTimeSeconds": {
+            "type": "integer",
+            "description": "The maximum time allowed for this part, in seconds."
+          },
+          "itemSessionControlId": {
+            "type": "string",
+            "description": "The timing/review/attempt-control record for items in this part, if modeled separately."
+          }
+        }
+      },
+      "QtiAssessmentSection": {
+        "type": "object",
+        "description": "A group inside a test that can organize item references, nested sections, randomization, and section-level rules.",
+        "required": [
+          "id",
+          "testId",
+          "identifier",
+          "title",
+          "visibleToCandidate"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this section."
+          },
+          "testId": {
+            "type": "string",
+            "description": "The test that contains this section."
+          },
+          "parentSectionId": {
+            "type": "string",
+            "description": "The section that contains this section, if sections are nested."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The local QTI identifier for the section."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title used to browse or present the section."
+          },
+          "requiredInSelection": {
+            "type": "string",
+            "description": "Whether this section must be selected when test selection rules run.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "fixedInShuffle": {
+            "type": "string",
+            "description": "Whether this section keeps its position when nearby content is shuffled.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "visibleToCandidate": {
+            "type": "string",
+            "description": "Whether the learner can see this as a visible section.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "keepTogether": {
+            "type": "string",
+            "description": "Whether children of an invisible shuffled section should move together as a group.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "selectionCount": {
+            "type": "integer",
+            "description": "How many child parts should be selected from this section, if selection is used."
+          },
+          "orderingShuffle": {
+            "type": "string",
+            "description": "Whether child parts may be presented in shuffled order.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          }
+        }
+      },
+      "QtiItemRef": {
+        "type": "object",
+        "description": "A test's reference to an item file, including test-specific category, timing, weight, and selection behavior.",
+        "required": [
+          "id",
+          "sectionId",
+          "identifier",
+          "href"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this item reference."
+          },
+          "sectionId": {
+            "type": "string",
+            "description": "The section containing this item reference."
+          },
+          "itemId": {
+            "type": "string",
+            "description": "The resolved platform item record, if the href has been matched to an item."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The test-local identifier for this item reference."
+          },
+          "href": {
+            "type": "string",
+            "description": "The package-relative link to the item XML file."
+          },
+          "requiredInSelection": {
+            "type": "string",
+            "description": "Whether this item must be selected when selection rules run.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "fixedInShuffle": {
+            "type": "string",
+            "description": "Whether this item keeps its position during shuffling.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "category": {
+            "type": "string",
+            "description": "Category tags used for reporting, subscores, or selection rules."
+          },
+          "weight": {
+            "type": "number",
+            "description": "Test-specific score weight for this item."
+          },
+          "timeLimitSeconds": {
+            "type": "integer",
+            "description": "The maximum time allowed for this item reference, in seconds."
+          }
+        }
+      },
+      "QtiVariableDeclaration": {
+        "type": "object",
+        "description": "A response, outcome, template, or context variable used by an item or test.",
+        "required": [
+          "id",
+          "ownerObjectType",
+          "ownerId",
+          "declarationKind",
+          "identifier",
+          "cardinality"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this variable declaration."
+          },
+          "ownerObjectType": {
+            "type": "string",
+            "description": "The kind of QTI object that owns this variable.",
+            "enum": [
+              "package",
+              "item",
+              "stimulus",
+              "test",
+              "testPart",
+              "section",
+              "itemRef",
+              "interaction"
+            ],
+            "x-valueDescriptions": {
+              "package": "A QTI package.",
+              "item": "A QTI assessment item.",
+              "stimulus": "A QTI assessment stimulus.",
+              "test": "A QTI assessment test.",
+              "testPart": "A major part of a QTI test.",
+              "section": "A QTI assessment section.",
+              "itemRef": "A test or section reference to an item.",
+              "interaction": "The answer interaction inside an item."
+            }
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The platform ID of the item, test, or other owner object."
+          },
+          "declarationKind": {
+            "type": "string",
+            "description": "Whether this variable stores an answer, score/status outcome, template value, or context value.",
+            "enum": [
+              "response",
+              "outcome",
+              "template",
+              "context"
+            ],
+            "x-valueDescriptions": {
+              "response": "A variable that stores a learner answer.",
+              "outcome": "A variable that stores a score, status, or other result.",
+              "template": "A variable used to create item variants.",
+              "context": "A global value available to processing rules."
+            }
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The QTI variable name."
+          },
+          "cardinality": {
+            "type": "string",
+            "description": "Whether the variable holds one value, many values, ordered values, or a record.",
+            "enum": [
+              "single",
+              "multiple",
+              "ordered",
+              "record"
+            ],
+            "x-valueDescriptions": {
+              "single": "Exactly one value.",
+              "multiple": "A list of values where order does not matter.",
+              "ordered": "A list of values where order matters.",
+              "record": "A set of named values with their own types."
+            }
+          },
+          "baseType": {
+            "type": "string",
+            "description": "The type of each value held by the variable.",
+            "enum": [
+              "boolean",
+              "directedPair",
+              "duration",
+              "file",
+              "float",
+              "identifier",
+              "integer",
+              "pair",
+              "point",
+              "string",
+              "uri"
+            ],
+            "x-valueDescriptions": {
+              "boolean": "True or false.",
+              "directedPair": "Two IDs where direction matters.",
+              "duration": "A length of time.",
+              "file": "Uploaded file bytes with content type and optional filename.",
+              "float": "A decimal number.",
+              "identifier": "A QTI identifier value.",
+              "integer": "A whole number.",
+              "pair": "Two IDs where direction does not matter.",
+              "point": "A graphic coordinate point.",
+              "string": "Text.",
+              "uri": "A web identifier or URI."
+            }
+          },
+          "defaultValueSummary": {
+            "type": "string",
+            "description": "A safe summary of the default value, if any."
+          },
+          "correctResponseSummary": {
+            "type": "string",
+            "description": "A safe summary of the correct response, if the item declares one."
+          },
+          "mappingSummary": {
+            "type": "string",
+            "description": "A safe summary of how response values map to scores or outcomes."
+          },
+          "view": {
+            "type": "string",
+            "description": "The audience this outcome or feedback-related variable is intended for.",
+            "enum": [
+              "author",
+              "candidate",
+              "proctor",
+              "scorer",
+              "testConstructor",
+              "tutor"
+            ],
+            "x-valueDescriptions": {
+              "author": "Intended for someone authoring the assessment.",
+              "candidate": "Intended for the learner or test taker.",
+              "proctor": "Intended for the person supervising the assessment.",
+              "scorer": "Intended for someone scoring the assessment.",
+              "testConstructor": "Intended for someone assembling the test.",
+              "tutor": "Intended for an educator or tutor supporting the learner."
+            }
+          }
+        }
+      },
+      "QtiInteraction": {
+        "type": "object",
+        "description": "The part of an item where the learner answers, such as choosing, typing, matching, uploading, clicking, or using media.",
+        "required": [
+          "id",
+          "itemId",
+          "interactionType"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this interaction."
+          },
+          "itemId": {
+            "type": "string",
+            "description": "The item containing this interaction."
+          },
+          "responseIdentifier": {
+            "type": "string",
+            "description": "The response variable that stores the learner's answer for this interaction."
+          },
+          "interactionType": {
+            "type": "string",
+            "description": "The QTI interaction family.",
+            "enum": [
+              "choiceInteraction",
+              "orderInteraction",
+              "associateInteraction",
+              "matchInteraction",
+              "gapMatchInteraction",
+              "textEntryInteraction",
+              "extendedTextInteraction",
+              "inlineChoiceInteraction",
+              "hottextInteraction",
+              "hotspotInteraction",
+              "selectPointInteraction",
+              "graphicOrderInteraction",
+              "graphicAssociateInteraction",
+              "graphicGapMatchInteraction",
+              "positionObjectInteraction",
+              "sliderInteraction",
+              "uploadInteraction",
+              "drawingInteraction",
+              "mediaInteraction",
+              "endAttemptInteraction",
+              "portableCustomInteraction",
+              "customInteraction"
+            ],
+            "x-valueDescriptions": {
+              "choiceInteraction": "Select one or more choices.",
+              "orderInteraction": "Put choices in order.",
+              "associateInteraction": "Create pairings between choices.",
+              "matchInteraction": "Match choices from one set to another.",
+              "gapMatchInteraction": "Put choices into gaps in surrounding content.",
+              "textEntryInteraction": "Type a short answer inline.",
+              "extendedTextInteraction": "Type an essay or longer response.",
+              "inlineChoiceInteraction": "Choose text inside a sentence or passage.",
+              "hottextInteraction": "Select highlighted text.",
+              "hotspotInteraction": "Click or tap one or more regions on an image.",
+              "selectPointInteraction": "Mark one or more points on an image.",
+              "graphicOrderInteraction": "Put image hotspots into order.",
+              "graphicAssociateInteraction": "Pair image regions with each other.",
+              "graphicGapMatchInteraction": "Match choices to image regions.",
+              "positionObjectInteraction": "Place an image object onto a stage.",
+              "sliderInteraction": "Choose a number on a range.",
+              "uploadInteraction": "Upload a response file.",
+              "drawingInteraction": "Draw or mark up an image or canvas.",
+              "mediaInteraction": "Play or interact with audio or video.",
+              "endAttemptInteraction": "Trigger response processing, often for a hint or action button.",
+              "portableCustomInteraction": "Use a packaged custom interaction module.",
+              "customInteraction": "Use proprietary custom behavior preserved for compatibility."
+            }
+          },
+          "promptSummary": {
+            "type": "string",
+            "description": "A safe summary of the instructions or prompt shown with the interaction."
+          },
+          "shuffle": {
+            "type": "string",
+            "description": "Whether choices should appear in randomized order.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "minChoices": {
+            "type": "integer",
+            "description": "The smallest number of choices a learner must select."
+          },
+          "maxChoices": {
+            "type": "integer",
+            "description": "The largest number of choices a learner may select; zero often means no limit."
+          },
+          "minAssociations": {
+            "type": "integer",
+            "description": "The smallest number of pairings or matches required."
+          },
+          "maxAssociations": {
+            "type": "integer",
+            "description": "The largest number of pairings or matches allowed."
+          },
+          "orientation": {
+            "type": "string",
+            "description": "Whether layout naturally reads horizontally or vertically.",
+            "enum": [
+              "horizontal",
+              "vertical"
+            ],
+            "x-valueDescriptions": {
+              "horizontal": "Laid out left-to-right or along a horizontal axis.",
+              "vertical": "Laid out top-to-bottom or along a vertical axis."
+            }
+          },
+          "expectedLength": {
+            "type": "integer",
+            "description": "Expected response length for text interactions."
+          },
+          "textFormat": {
+            "type": "string",
+            "description": "Whether typed text is plain, preformatted, or XHTML.",
+            "enum": [
+              "plain",
+              "preformatted",
+              "xhtml"
+            ],
+            "x-valueDescriptions": {
+              "plain": "Plain typed text.",
+              "preformatted": "Text where spacing and line breaks should be preserved.",
+              "xhtml": "Structured rich text marked up as XHTML."
+            }
+          },
+          "shape": {
+            "type": "string",
+            "description": "The hotspot shape used by graphic interactions.",
+            "enum": [
+              "circle",
+              "default",
+              "ellipse",
+              "poly",
+              "rect"
+            ],
+            "x-valueDescriptions": {
+              "circle": "A circular hotspot.",
+              "default": "The entire image area.",
+              "ellipse": "An ellipse hotspot preserved for compatibility.",
+              "poly": "A polygon hotspot.",
+              "rect": "A rectangular hotspot."
+            }
+          }
+        }
+      },
+      "QtiProcessingRule": {
+        "type": "object",
+        "description": "A preserved summary of response, outcome, template, branch, or precondition logic from QTI XML.",
+        "required": [
+          "id",
+          "ownerObjectType",
+          "ownerId",
+          "processingKind"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this processing rule."
+          },
+          "ownerObjectType": {
+            "type": "string",
+            "description": "The kind of QTI object that owns this rule.",
+            "enum": [
+              "package",
+              "item",
+              "stimulus",
+              "test",
+              "testPart",
+              "section",
+              "itemRef",
+              "interaction"
+            ],
+            "x-valueDescriptions": {
+              "package": "A QTI package.",
+              "item": "A QTI assessment item.",
+              "stimulus": "A QTI assessment stimulus.",
+              "test": "A QTI assessment test.",
+              "testPart": "A major part of a QTI test.",
+              "section": "A QTI assessment section.",
+              "itemRef": "A test or section reference to an item.",
+              "interaction": "The answer interaction inside an item."
+            }
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The platform ID of the object that owns this rule."
+          },
+          "processingKind": {
+            "type": "string",
+            "description": "The kind of processing rule.",
+            "enum": [
+              "responseProcessing",
+              "outcomeProcessing",
+              "templateProcessing",
+              "branchRule",
+              "preCondition"
+            ],
+            "x-valueDescriptions": {
+              "responseProcessing": "Rules that calculate item outcomes from learner responses.",
+              "outcomeProcessing": "Rules that calculate test outcomes from item outcomes.",
+              "templateProcessing": "Rules that set template values before delivery.",
+              "branchRule": "Logic that jumps to a target when a condition is true.",
+              "preCondition": "Logic that decides whether to skip a part, section, or item."
+            }
+          },
+          "templateUri": {
+            "type": "string",
+            "description": "A reusable QTI processing template URI, if one is referenced."
+          },
+          "targetIdentifier": {
+            "type": "string",
+            "description": "The target item, section, outcome, or special destination used by this rule."
+          },
+          "logicSummary": {
+            "type": "string",
+            "description": "A safe plain-language summary of the rule logic."
+          }
+        }
+      },
+      "QtiFeedback": {
+        "type": "object",
+        "description": "Feedback, rubric, or instructional content controlled by outcomes, timing, or audience.",
+        "required": [
+          "id",
+          "ownerObjectType",
+          "ownerId",
+          "feedbackKind"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this feedback record."
+          },
+          "ownerObjectType": {
+            "type": "string",
+            "description": "The kind of QTI object that owns this feedback.",
+            "enum": [
+              "package",
+              "item",
+              "stimulus",
+              "test",
+              "testPart",
+              "section",
+              "itemRef",
+              "interaction"
+            ],
+            "x-valueDescriptions": {
+              "package": "A QTI package.",
+              "item": "A QTI assessment item.",
+              "stimulus": "A QTI assessment stimulus.",
+              "test": "A QTI assessment test.",
+              "testPart": "A major part of a QTI test.",
+              "section": "A QTI assessment section.",
+              "itemRef": "A test or section reference to an item.",
+              "interaction": "The answer interaction inside an item."
+            }
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The platform ID of the object that owns this feedback."
+          },
+          "feedbackKind": {
+            "type": "string",
+            "description": "Whether this is item feedback, test feedback, or a rubric block.",
+            "enum": [
+              "modalFeedback",
+              "testFeedback",
+              "rubricBlock"
+            ],
+            "x-valueDescriptions": {
+              "modalFeedback": "Item-level feedback shown based on an outcome value.",
+              "testFeedback": "Test-level feedback shown during or after the test.",
+              "rubricBlock": "Directions, scoring, navigation, or support information for a selected audience."
+            }
+          },
+          "outcomeIdentifier": {
+            "type": "string",
+            "description": "The outcome variable that controls whether this feedback appears."
+          },
+          "showHide": {
+            "type": "string",
+            "description": "Whether matching the identifier shows or hides the feedback.",
+            "enum": [
+              "show",
+              "hide"
+            ],
+            "x-valueDescriptions": {
+              "show": "Hidden by default; show when the condition matches.",
+              "hide": "Shown by default; hide when the condition matches."
+            }
+          },
+          "feedbackIdentifier": {
+            "type": "string",
+            "description": "The value tested against an outcome to decide whether the feedback applies."
+          },
+          "title": {
+            "type": "string",
+            "description": "An optional title for the feedback or rubric."
+          },
+          "access": {
+            "type": "string",
+            "description": "Whether test feedback appears during the test or at the end.",
+            "enum": [
+              "during",
+              "atEnd"
+            ],
+            "x-valueDescriptions": {
+              "during": "Feedback may appear during the test.",
+              "atEnd": "Feedback appears at the end of the test."
+            }
+          },
+          "rubricUse": {
+            "type": "string",
+            "description": "The purpose of a rubric block.",
+            "enum": [
+              "instructions",
+              "navigation",
+              "scoring"
+            ],
+            "x-valueDescriptions": {
+              "instructions": "Directions for the assessment.",
+              "navigation": "Information about moving around the assessment.",
+              "scoring": "Information about scoring."
+            }
+          },
+          "view": {
+            "type": "string",
+            "description": "The audience that should see this feedback or rubric.",
+            "enum": [
+              "author",
+              "candidate",
+              "proctor",
+              "scorer",
+              "testConstructor",
+              "tutor"
+            ],
+            "x-valueDescriptions": {
+              "author": "Intended for someone authoring the assessment.",
+              "candidate": "Intended for the learner or test taker.",
+              "proctor": "Intended for the person supervising the assessment.",
+              "scorer": "Intended for someone scoring the assessment.",
+              "testConstructor": "Intended for someone assembling the test.",
+              "tutor": "Intended for an educator or tutor supporting the learner."
+            }
+          },
+          "bodySummary": {
+            "type": "string",
+            "description": "A safe summary of the feedback or rubric content."
+          }
+        }
+      },
+      "QtiAccessibilitySupport": {
+        "type": "object",
+        "description": "Alternative content, catalog entries, and accessibility support metadata attached to QTI content.",
+        "required": [
+          "id",
+          "ownerObjectType",
+          "ownerId",
+          "supportType",
+          "sensitive"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this accessibility support record."
+          },
+          "ownerObjectType": {
+            "type": "string",
+            "description": "The kind of QTI object this support belongs to.",
+            "enum": [
+              "package",
+              "item",
+              "stimulus",
+              "test",
+              "testPart",
+              "section",
+              "itemRef",
+              "interaction"
+            ],
+            "x-valueDescriptions": {
+              "package": "A QTI package.",
+              "item": "A QTI assessment item.",
+              "stimulus": "A QTI assessment stimulus.",
+              "test": "A QTI assessment test.",
+              "testPart": "A major part of a QTI test.",
+              "section": "A QTI assessment section.",
+              "itemRef": "A test or section reference to an item.",
+              "interaction": "The answer interaction inside an item."
+            }
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The platform ID of the object this support belongs to."
+          },
+          "supportType": {
+            "type": "string",
+            "description": "The kind of accessibility support available.",
+            "enum": [
+              "additional-directions",
+              "audio-description",
+              "braille",
+              "glossary-on-screen",
+              "high-contrast",
+              "keyboard-directions",
+              "keyword-translation",
+              "linguistic-guidance",
+              "long-description",
+              "sign-language",
+              "simplified-graphics",
+              "simplified-language-portions",
+              "spoken",
+              "tactile",
+              "transcript"
+            ],
+            "x-valueDescriptions": {
+              "additional-directions": "Extra directions are available.",
+              "audio-description": "Narration describes important visual details.",
+              "braille": "Braille support is available.",
+              "glossary-on-screen": "On-screen glossary support is available.",
+              "high-contrast": "High-contrast visual alternative is available.",
+              "keyboard-directions": "Keyboard-use directions are available.",
+              "keyword-translation": "Keyword translation support is available.",
+              "linguistic-guidance": "Language guidance is available.",
+              "long-description": "Longer description is available.",
+              "sign-language": "Sign language support is available.",
+              "simplified-graphics": "Simplified graphic alternative is available.",
+              "simplified-language-portions": "Simplified language alternative is available.",
+              "spoken": "Spoken version or content is available.",
+              "tactile": "Tactile alternative is available.",
+              "transcript": "Transcript is available."
+            }
+          },
+          "catalogIdref": {
+            "type": "string",
+            "description": "The QTI catalog ID reference for this support."
+          },
+          "ttsSuppression": {
+            "type": "string",
+            "description": "Whether text-to-speech should be suppressed for this content.",
+            "enum": [
+              "all",
+              "computer-read-aloud",
+              "screen-reader"
+            ],
+            "x-valueDescriptions": {
+              "all": "Suppress read-aloud on all devices.",
+              "computer-read-aloud": "Suppress computer read-aloud tools.",
+              "screen-reader": "Suppress screen-reader read-aloud."
+            }
+          },
+          "contentSummary": {
+            "type": "string",
+            "description": "A safe summary of the alternative or support content."
+          },
+          "sensitive": {
+            "type": "string",
+            "description": "Whether this support metadata may reveal accessibility needs or accommodations.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          }
+        }
+      },
+      "QtiCompanionMaterial": {
+        "type": "object",
+        "description": "A calculator, ruler, protractor, file, physical material, or vendor extension allowed or required during an item.",
+        "required": [
+          "id",
+          "itemId",
+          "materialType"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this companion material."
+          },
+          "itemId": {
+            "type": "string",
+            "description": "The item this companion material applies to."
+          },
+          "materialType": {
+            "type": "string",
+            "description": "The kind of companion material.",
+            "enum": [
+              "calculator",
+              "ruler",
+              "protractor",
+              "digitalMaterial",
+              "physicalMaterial",
+              "vendorExtension"
+            ],
+            "x-valueDescriptions": {
+              "calculator": "A calculator is allowed or required.",
+              "ruler": "A ruler is allowed or required.",
+              "protractor": "A protractor is allowed or required.",
+              "digitalMaterial": "A digital file or material is available.",
+              "physicalMaterial": "A physical item or material is needed.",
+              "vendorExtension": "Vendor-specific material information is preserved."
+            }
+          },
+          "calculatorType": {
+            "type": "string",
+            "description": "The calculator capability allowed or required.",
+            "enum": [
+              "basic",
+              "standard",
+              "scientific",
+              "graphing"
+            ],
+            "x-valueDescriptions": {
+              "basic": "Basic calculator.",
+              "standard": "Standard calculator.",
+              "scientific": "Scientific calculator.",
+              "graphing": "Graphing calculator."
+            }
+          },
+          "title": {
+            "type": "string",
+            "description": "A human-facing name for the material."
+          },
+          "requiredForDelivery": {
+            "type": "string",
+            "description": "Whether the item requires this material to be available.",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "x-valueDescriptions": {
+              "true": "Yes, this condition applies.",
+              "false": "No, this condition does not apply."
+            }
+          },
+          "materialUri": {
+            "type": "string",
+            "description": "A package file path, external URI, or local reference for the material."
+          }
+        }
+      },
+      "QtiAlignment": {
+        "type": "object",
+        "description": "A link from QTI content to an academic standard, competency, skill, or other alignment target.",
+        "required": [
+          "id",
+          "ownerObjectType",
+          "ownerId",
+          "targetType",
+          "targetIdentifier"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this alignment."
+          },
+          "ownerObjectType": {
+            "type": "string",
+            "description": "The kind of QTI object being aligned.",
+            "enum": [
+              "package",
+              "item",
+              "stimulus",
+              "test",
+              "testPart",
+              "section",
+              "itemRef",
+              "interaction"
+            ],
+            "x-valueDescriptions": {
+              "package": "A QTI package.",
+              "item": "A QTI assessment item.",
+              "stimulus": "A QTI assessment stimulus.",
+              "test": "A QTI assessment test.",
+              "testPart": "A major part of a QTI test.",
+              "section": "A QTI assessment section.",
+              "itemRef": "A test or section reference to an item.",
+              "interaction": "The answer interaction inside an item."
+            }
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The platform ID of the aligned QTI object."
+          },
+          "targetType": {
+            "type": "string",
+            "description": "What kind of target the QTI content is aligned to.",
+            "enum": [
+              "caseItem",
+              "uri",
+              "local"
+            ],
+            "x-valueDescriptions": {
+              "caseItem": "A CASE competency, standard, or skill item.",
+              "uri": "A web URI or external standards target.",
+              "local": "A local district, publisher, or authoring-system alignment target."
+            }
+          },
+          "targetIdentifier": {
+            "type": "string",
+            "description": "The CASE item ID, URI, or local standard identifier."
+          },
+          "alignmentLabel": {
+            "type": "string",
+            "description": "The human-readable standard, competency, or skill label."
+          },
+          "sourceMetadataUri": {
+            "type": "string",
+            "description": "Where the original QTI or package metadata described this alignment."
+          }
+        }
+      },
+      "QtiPackageArtifact": {
+        "type": "object",
+        "description": "A file preserved from the QTI package, such as XML, media, stylesheet, manifest, or other referenced resource.",
+        "required": [
+          "id",
+          "packageId",
+          "href",
+          "artifactRole",
+          "storageUri"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this package artifact."
+          },
+          "packageId": {
+            "type": "string",
+            "description": "The package containing this artifact."
+          },
+          "href": {
+            "type": "string",
+            "description": "The package-relative path to the file."
+          },
+          "mediaType": {
+            "type": "string",
+            "description": "The file's MIME type when known."
+          },
+          "artifactRole": {
+            "type": "string",
+            "description": "The role this file plays in the QTI package.",
+            "enum": [
+              "manifest",
+              "itemXml",
+              "testXml",
+              "stimulusXml",
+              "media",
+              "stylesheet",
+              "other"
+            ],
+            "x-valueDescriptions": {
+              "manifest": "The package manifest file.",
+              "itemXml": "A QTI assessment item XML file.",
+              "testXml": "A QTI assessment test XML file.",
+              "stimulusXml": "A QTI stimulus XML file.",
+              "media": "An image, audio, video, or other media file.",
+              "stylesheet": "A CSS or style file used to render content.",
+              "other": "Another preserved package file."
+            }
+          },
+          "sha256": {
+            "type": "string",
+            "description": "A hash used to confirm the file did not change."
+          },
+          "storageUri": {
+            "type": "string",
+            "description": "Where the platform stores this artifact after import."
+          }
+        }
+      }
+    }
+  },
+  "x-unsupported-or-deferred": [
+    {
+      "area": "Assessment delivery/runtime",
+      "reason": "The platform is first modeling repository, import, search, alignment, and governance. Delivery requires a tested QTI runtime engine."
+    },
+    {
+      "area": "Every low-level XML child node as a SQL column",
+      "reason": "The original QTI XML is preserved as the source artifact. Only public platform fields are projected into SQL/API fields."
+    },
+    {
+      "area": "Full response-processing execution",
+      "reason": "Processing logic is preserved and summarized. Executing it safely belongs to a QTI runtime service."
+    },
+    {
+      "area": "Computer-adaptive testing runtime",
+      "reason": "CAT depends on mature item metadata, delivery services, and psychometric configuration beyond this repository dictionary."
+    },
+    {
+      "area": "Vendor extension semantics",
+      "reason": "Vendor extensions are preserved and governed, but not promoted to core platform fields until intentionally modeled."
+    }
+  ]
+}

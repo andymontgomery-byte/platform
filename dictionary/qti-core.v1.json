@@ -1,0 +1,510 @@
+{
+  "dictionary_version": "0.1.0-qti-core",
+  "research_date": "2026-04-24",
+  "name": "QTI 3 Repository Projection Dictionary",
+  "source_standard": "qti",
+  "source_version": "3.0",
+  "plain_description": "A structured dictionary for the platform's QTI repository model. It describes the QTI package, item, test, interaction, scoring, accessibility, alignment, and artifact fields the platform exposes as SQL and JSON. Full QTI XML remains preserved as the source artifact.",
+  "model_scope": "Repository, import, search, metadata, alignment, and governance. This is not an assessment delivery/runtime conformance claim.",
+  "objects": [
+    {
+      "object_key": "qti_package",
+      "table_name": "qti_packages",
+      "api_path": "/assessments/qti/packages",
+      "name": "QTI Package",
+      "plain_description": "An imported assessment bundle containing QTI XML, resources, media, metadata, and a manifest.",
+      "why_it_exists": "Apps and AI agents need one record that says where the package came from, whether it is valid, and where the original artifact is stored.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this QTI package.", "school_example": "qti_pkg_midyear_math_6", "privacy_class": "operational"},
+        {"field_key": "package_identifier", "column_name": "package_identifier", "json_name": "packageIdentifier", "data_type": "text", "required": true, "plain_description": "The package ID supplied by the publisher, item bank, authoring tool, or import process.", "school_example": "MATH6-MIDYEAR-2026", "privacy_class": "operational"},
+        {"field_key": "qti_version", "column_name": "qti_version", "json_name": "qtiVersion", "data_type": "enum", "required": true, "plain_description": "The QTI version the package claims to use.", "school_example": "3.0", "privacy_class": "operational", "allowed_values_ref": "qti_version"},
+        {"field_key": "source_system", "column_name": "source_system", "json_name": "sourceSystem", "data_type": "text", "required": false, "plain_description": "The publisher, item bank, LMS, or authoring tool that supplied the package.", "school_example": "Northview Item Bank", "privacy_class": "operational"},
+        {"field_key": "validation_status", "column_name": "validation_status", "json_name": "validationStatus", "data_type": "enum", "required": true, "plain_description": "Whether the platform has checked the package and found it valid, invalid, warning-only, or not yet checked.", "school_example": "valid", "privacy_class": "operational", "allowed_values_ref": "validation_status"},
+        {"field_key": "validation_error_count", "column_name": "validation_error_count", "json_name": "validationErrorCount", "data_type": "integer", "required": false, "plain_description": "How many validation problems were found during import.", "school_example": "0", "privacy_class": "operational"},
+        {"field_key": "manifest_path", "column_name": "manifest_path", "json_name": "manifestPath", "data_type": "text", "required": false, "plain_description": "The location of the package manifest file inside the package.", "school_example": "imsmanifest.xml", "privacy_class": "operational"},
+        {"field_key": "original_file_uri", "column_name": "original_file_uri", "json_name": "originalFileUri", "data_type": "text", "required": true, "plain_description": "Where the platform stores the original uploaded package file.", "school_example": "s3://platform-demo/qti/MATH6-MIDYEAR-2026.zip", "privacy_class": "operational"},
+        {"field_key": "imported_at", "column_name": "imported_at", "json_name": "importedAt", "data_type": "datetime", "required": true, "plain_description": "When the platform received or imported the package.", "school_example": "2026-04-24T14:30:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_assessment_item",
+      "table_name": "qti_assessment_items",
+      "api_path": "/assessments/qti/items",
+      "name": "QTI Assessment Item",
+      "plain_description": "One question, task, or prompt plus its response variables, scoring rules, body content, feedback, and accessibility metadata.",
+      "why_it_exists": "Item banks, search, reuse, alignment, accessibility review, and item-level analytics need item records.",
+      "privacy_class": "directory",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this item.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "package_id", "column_name": "package_id", "json_name": "packageId", "data_type": "text", "required": true, "plain_description": "The QTI package this item came from.", "school_example": "qti_pkg_midyear_math_6", "privacy_class": "operational"},
+        {"field_key": "identifier", "column_name": "identifier", "json_name": "identifier", "data_type": "text", "required": true, "plain_description": "The local QTI identifier for the item inside its package.", "school_example": "fraction_equivalence_001", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The item title used to browse or select the item.", "school_example": "Equivalent Fractions", "privacy_class": "directory"},
+        {"field_key": "label", "column_name": "label", "json_name": "label", "data_type": "text", "required": false, "plain_description": "An authoring-system label for the item.", "school_example": "NF-A-1 medium", "privacy_class": "operational"},
+        {"field_key": "language", "column_name": "language", "json_name": "language", "data_type": "text", "required": false, "plain_description": "The main language of the item as a language tag.", "school_example": "en-US", "privacy_class": "directory"},
+        {"field_key": "authoring_tool_name", "column_name": "authoring_tool_name", "json_name": "authoringToolName", "data_type": "text", "required": false, "plain_description": "The tool that created the item.", "school_example": "ItemAuthor Pro", "privacy_class": "operational"},
+        {"field_key": "authoring_tool_version", "column_name": "authoring_tool_version", "json_name": "authoringToolVersion", "data_type": "text", "required": false, "plain_description": "The version of the authoring tool that created the item.", "school_example": "12.4.1", "privacy_class": "operational"},
+        {"field_key": "adaptive", "column_name": "adaptive", "json_name": "adaptive", "data_type": "enum", "required": false, "plain_description": "Whether the item can change based on learner responses or test logic.", "school_example": "false", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "time_dependent", "column_name": "time_dependent", "json_name": "timeDependent", "data_type": "enum", "required": true, "plain_description": "Whether timing can affect response processing or scoring for this item.", "school_example": "false", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "item_body_summary", "column_name": "item_body_summary", "json_name": "itemBodySummary", "data_type": "text", "required": false, "plain_description": "A safe summary of the visible question body, not necessarily the full item HTML/XML.", "school_example": "Choose all models that show one half.", "privacy_class": "directory"},
+        {"field_key": "primary_interaction_type", "column_name": "primary_interaction_type", "json_name": "primaryInteractionType", "data_type": "enum", "required": false, "plain_description": "The main way the learner answers this item.", "school_example": "choiceInteraction", "privacy_class": "operational", "allowed_values_ref": "interaction_type"},
+        {"field_key": "max_score", "column_name": "max_score", "json_name": "maxScore", "data_type": "number", "required": false, "plain_description": "The highest normal score this item can produce when known.", "school_example": "1", "privacy_class": "operational"},
+        {"field_key": "has_correct_response", "column_name": "has_correct_response", "json_name": "hasCorrectResponse", "data_type": "enum", "required": false, "plain_description": "Whether the item includes a declared correct response.", "school_example": "true", "privacy_class": "sensitive", "allowed_values_ref": "true_false"},
+        {"field_key": "accessibility_catalog_id", "column_name": "accessibility_catalog_id", "json_name": "accessibilityCatalogId", "data_type": "text", "required": false, "plain_description": "The accessibility catalog record attached to this item, if any.", "school_example": "cat_fraction_001", "privacy_class": "sensitive"},
+        {"field_key": "source_href", "column_name": "source_href", "json_name": "sourceHref", "data_type": "text", "required": true, "plain_description": "The package-relative XML file or resource path for this item.", "school_example": "items/fraction_equivalence_001.xml", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_assessment_stimulus",
+      "table_name": "qti_assessment_stimuli",
+      "api_path": "/assessments/qti/stimuli",
+      "name": "QTI Assessment Stimulus",
+      "plain_description": "Shared content such as a reading passage, chart, scenario, or media asset used by one or more items.",
+      "why_it_exists": "Stimuli need search, reuse, accessibility review, and many-to-many links to items.",
+      "privacy_class": "directory",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this stimulus.", "school_example": "qti_stimulus_water_cycle", "privacy_class": "operational"},
+        {"field_key": "package_id", "column_name": "package_id", "json_name": "packageId", "data_type": "text", "required": true, "plain_description": "The QTI package this stimulus came from.", "school_example": "qti_pkg_science_6", "privacy_class": "operational"},
+        {"field_key": "identifier", "column_name": "identifier", "json_name": "identifier", "data_type": "text", "required": true, "plain_description": "The local QTI identifier for the stimulus.", "school_example": "water_cycle_passage", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The stimulus title used to browse or select it.", "school_example": "Water Cycle Passage", "privacy_class": "directory"},
+        {"field_key": "language", "column_name": "language", "json_name": "language", "data_type": "text", "required": false, "plain_description": "The main language of the stimulus as a language tag.", "school_example": "en-US", "privacy_class": "directory"},
+        {"field_key": "stimulus_body_summary", "column_name": "stimulus_body_summary", "json_name": "stimulusBodySummary", "data_type": "text", "required": false, "plain_description": "A safe summary of the passage, chart, media, or other shared content.", "school_example": "A short passage explaining evaporation and condensation.", "privacy_class": "directory"},
+        {"field_key": "accessibility_catalog_id", "column_name": "accessibility_catalog_id", "json_name": "accessibilityCatalogId", "data_type": "text", "required": false, "plain_description": "The accessibility catalog record attached to this stimulus, if any.", "school_example": "cat_water_cycle", "privacy_class": "sensitive"},
+        {"field_key": "source_href", "column_name": "source_href", "json_name": "sourceHref", "data_type": "text", "required": true, "plain_description": "The package-relative XML file or resource path for this stimulus.", "school_example": "stimuli/water_cycle.xml", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_assessment_test",
+      "table_name": "qti_assessment_tests",
+      "api_path": "/assessments/qti/tests",
+      "name": "QTI Assessment Test",
+      "plain_description": "A whole test definition, including parts, sections, item references, timing, outcomes, and feedback.",
+      "why_it_exists": "Schools and apps need to search, assign, inspect, and align whole assessments, not only individual items.",
+      "privacy_class": "directory",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this test.", "school_example": "qti_test_math6_midyear", "privacy_class": "operational"},
+        {"field_key": "package_id", "column_name": "package_id", "json_name": "packageId", "data_type": "text", "required": true, "plain_description": "The QTI package this test came from.", "school_example": "qti_pkg_midyear_math_6", "privacy_class": "operational"},
+        {"field_key": "identifier", "column_name": "identifier", "json_name": "identifier", "data_type": "text", "required": true, "plain_description": "The local QTI identifier for the test.", "school_example": "math6_midyear_form_a", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The test title people see.", "school_example": "Grade 6 Mathematics Midyear Form A", "privacy_class": "directory"},
+        {"field_key": "class_tokens", "column_name": "class_tokens", "json_name": "classTokens", "data_type": "text", "required": false, "plain_description": "Style or category tokens from the QTI test; this is not a school class.", "school_example": "benchmark midyear", "privacy_class": "operational"},
+        {"field_key": "authoring_tool_name", "column_name": "authoring_tool_name", "json_name": "authoringToolName", "data_type": "text", "required": false, "plain_description": "The tool that created the test.", "school_example": "Assessment Builder", "privacy_class": "operational"},
+        {"field_key": "authoring_tool_version", "column_name": "authoring_tool_version", "json_name": "authoringToolVersion", "data_type": "text", "required": false, "plain_description": "The version of the tool that created the test.", "school_example": "5.8", "privacy_class": "operational"},
+        {"field_key": "time_limit_seconds", "column_name": "time_limit_seconds", "json_name": "timeLimitSeconds", "data_type": "integer", "required": false, "plain_description": "The maximum time allowed for the test when known, in seconds.", "school_example": "3600", "privacy_class": "operational"},
+        {"field_key": "outcome_processing_summary", "column_name": "outcome_processing_summary", "json_name": "outcomeProcessingSummary", "data_type": "text", "required": false, "plain_description": "A safe summary of how test-level outcomes are calculated.", "school_example": "Sum item scores into SCORE and compare with mastery threshold.", "privacy_class": "operational"},
+        {"field_key": "source_href", "column_name": "source_href", "json_name": "sourceHref", "data_type": "text", "required": true, "plain_description": "The package-relative XML file or resource path for this test.", "school_example": "tests/math6_midyear_form_a.xml", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_test_part",
+      "table_name": "qti_test_parts",
+      "api_path": "/assessments/qti/test-parts",
+      "name": "QTI Test Part",
+      "plain_description": "A major part of a test that controls navigation, submission, timing, and item-session behavior.",
+      "why_it_exists": "Delivery and analytics need to know how learners are allowed to move through a test.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this test part.", "school_example": "qti_part_math6_a_1", "privacy_class": "operational"},
+        {"field_key": "test_id", "column_name": "test_id", "json_name": "testId", "data_type": "text", "required": true, "plain_description": "The test that contains this part.", "school_example": "qti_test_math6_midyear", "privacy_class": "operational"},
+        {"field_key": "identifier", "column_name": "identifier", "json_name": "identifier", "data_type": "text", "required": true, "plain_description": "The local QTI identifier for this test part.", "school_example": "part_1", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": false, "plain_description": "The title for this part, if shown or managed separately.", "school_example": "Calculator Not Allowed", "privacy_class": "directory"},
+        {"field_key": "navigation_mode", "column_name": "navigation_mode", "json_name": "navigationMode", "data_type": "enum", "required": true, "plain_description": "Whether the learner must go in order or can move around.", "school_example": "linear", "privacy_class": "operational", "allowed_values_ref": "navigation_mode"},
+        {"field_key": "submission_mode", "column_name": "submission_mode", "json_name": "submissionMode", "data_type": "enum", "required": true, "plain_description": "Whether answers are submitted item-by-item or together.", "school_example": "individual", "privacy_class": "operational", "allowed_values_ref": "submission_mode"},
+        {"field_key": "max_time_seconds", "column_name": "max_time_seconds", "json_name": "maxTimeSeconds", "data_type": "integer", "required": false, "plain_description": "The maximum time allowed for this part, in seconds.", "school_example": "1800", "privacy_class": "operational"},
+        {"field_key": "item_session_control_id", "column_name": "item_session_control_id", "json_name": "itemSessionControlId", "data_type": "text", "required": false, "plain_description": "The timing/review/attempt-control record for items in this part, if modeled separately.", "school_example": "isc_part_1", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_assessment_section",
+      "table_name": "qti_assessment_sections",
+      "api_path": "/assessments/qti/sections",
+      "name": "QTI Assessment Section",
+      "plain_description": "A group inside a test that can organize item references, nested sections, randomization, and section-level rules.",
+      "why_it_exists": "Sections are needed for test construction, search, item selection, and analytics by part of a test.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this section.", "school_example": "qti_section_number_sense", "privacy_class": "operational"},
+        {"field_key": "test_id", "column_name": "test_id", "json_name": "testId", "data_type": "text", "required": true, "plain_description": "The test that contains this section.", "school_example": "qti_test_math6_midyear", "privacy_class": "operational"},
+        {"field_key": "parent_section_id", "column_name": "parent_section_id", "json_name": "parentSectionId", "data_type": "text", "required": false, "plain_description": "The section that contains this section, if sections are nested.", "school_example": "qti_section_part_1", "privacy_class": "operational"},
+        {"field_key": "identifier", "column_name": "identifier", "json_name": "identifier", "data_type": "text", "required": true, "plain_description": "The local QTI identifier for the section.", "school_example": "number_sense", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The title used to browse or present the section.", "school_example": "Number Sense", "privacy_class": "directory"},
+        {"field_key": "required_in_selection", "column_name": "required_in_selection", "json_name": "requiredInSelection", "data_type": "enum", "required": false, "plain_description": "Whether this section must be selected when test selection rules run.", "school_example": "true", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "fixed_in_shuffle", "column_name": "fixed_in_shuffle", "json_name": "fixedInShuffle", "data_type": "enum", "required": false, "plain_description": "Whether this section keeps its position when nearby content is shuffled.", "school_example": "false", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "visible_to_candidate", "column_name": "visible_to_candidate", "json_name": "visibleToCandidate", "data_type": "enum", "required": true, "plain_description": "Whether the learner can see this as a visible section.", "school_example": "true", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "keep_together", "column_name": "keep_together", "json_name": "keepTogether", "data_type": "enum", "required": false, "plain_description": "Whether children of an invisible shuffled section should move together as a group.", "school_example": "false", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "selection_count", "column_name": "selection_count", "json_name": "selectionCount", "data_type": "integer", "required": false, "plain_description": "How many child parts should be selected from this section, if selection is used.", "school_example": "10", "privacy_class": "operational"},
+        {"field_key": "ordering_shuffle", "column_name": "ordering_shuffle", "json_name": "orderingShuffle", "data_type": "enum", "required": false, "plain_description": "Whether child parts may be presented in shuffled order.", "school_example": "true", "privacy_class": "operational", "allowed_values_ref": "true_false"}
+      ]
+    },
+    {
+      "object_key": "qti_item_ref",
+      "table_name": "qti_item_refs",
+      "api_path": "/assessments/qti/item-refs",
+      "name": "QTI Item Reference",
+      "plain_description": "A test's reference to an item file, including test-specific category, timing, weight, and selection behavior.",
+      "why_it_exists": "The same item can appear in more than one test or section with different rules.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this item reference.", "school_example": "qti_ref_number_sense_01", "privacy_class": "operational"},
+        {"field_key": "section_id", "column_name": "section_id", "json_name": "sectionId", "data_type": "text", "required": true, "plain_description": "The section containing this item reference.", "school_example": "qti_section_number_sense", "privacy_class": "operational"},
+        {"field_key": "item_id", "column_name": "item_id", "json_name": "itemId", "data_type": "text", "required": false, "plain_description": "The resolved platform item record, if the href has been matched to an item.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "identifier", "column_name": "identifier", "json_name": "identifier", "data_type": "text", "required": true, "plain_description": "The test-local identifier for this item reference.", "school_example": "item_ref_001", "privacy_class": "operational"},
+        {"field_key": "href", "column_name": "href", "json_name": "href", "data_type": "text", "required": true, "plain_description": "The package-relative link to the item XML file.", "school_example": "../items/fraction_equivalence_001.xml", "privacy_class": "operational"},
+        {"field_key": "required_in_selection", "column_name": "required_in_selection", "json_name": "requiredInSelection", "data_type": "enum", "required": false, "plain_description": "Whether this item must be selected when selection rules run.", "school_example": "false", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "fixed_in_shuffle", "column_name": "fixed_in_shuffle", "json_name": "fixedInShuffle", "data_type": "enum", "required": false, "plain_description": "Whether this item keeps its position during shuffling.", "school_example": "false", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "category", "column_name": "category", "json_name": "category", "data_type": "text", "required": false, "plain_description": "Category tags used for reporting, subscores, or selection rules.", "school_example": "fractions; number-sense", "privacy_class": "directory"},
+        {"field_key": "weight", "column_name": "weight", "json_name": "weight", "data_type": "number", "required": false, "plain_description": "Test-specific score weight for this item.", "school_example": "1.5", "privacy_class": "operational"},
+        {"field_key": "time_limit_seconds", "column_name": "time_limit_seconds", "json_name": "timeLimitSeconds", "data_type": "integer", "required": false, "plain_description": "The maximum time allowed for this item reference, in seconds.", "school_example": "120", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_variable_declaration",
+      "table_name": "qti_variable_declarations",
+      "api_path": "/assessments/qti/variable-declarations",
+      "name": "QTI Variable Declaration",
+      "plain_description": "A response, outcome, template, or context variable used by an item or test.",
+      "why_it_exists": "Variables explain how answers, scores, status values, templates, and context values are named and typed.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this variable declaration.", "school_example": "qti_var_item001_RESPONSE", "privacy_class": "operational"},
+        {"field_key": "owner_object_type", "column_name": "owner_object_type", "json_name": "ownerObjectType", "data_type": "enum", "required": true, "plain_description": "The kind of QTI object that owns this variable.", "school_example": "item", "privacy_class": "operational", "allowed_values_ref": "owner_object_type"},
+        {"field_key": "owner_id", "column_name": "owner_id", "json_name": "ownerId", "data_type": "text", "required": true, "plain_description": "The platform ID of the item, test, or other owner object.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "declaration_kind", "column_name": "declaration_kind", "json_name": "declarationKind", "data_type": "enum", "required": true, "plain_description": "Whether this variable stores an answer, score/status outcome, template value, or context value.", "school_example": "response", "privacy_class": "operational", "allowed_values_ref": "declaration_kind"},
+        {"field_key": "identifier", "column_name": "identifier", "json_name": "identifier", "data_type": "text", "required": true, "plain_description": "The QTI variable name.", "school_example": "RESPONSE", "privacy_class": "education_record"},
+        {"field_key": "cardinality", "column_name": "cardinality", "json_name": "cardinality", "data_type": "enum", "required": true, "plain_description": "Whether the variable holds one value, many values, ordered values, or a record.", "school_example": "single", "privacy_class": "operational", "allowed_values_ref": "cardinality"},
+        {"field_key": "base_type", "column_name": "base_type", "json_name": "baseType", "data_type": "enum", "required": false, "plain_description": "The type of each value held by the variable.", "school_example": "identifier", "privacy_class": "operational", "allowed_values_ref": "base_type"},
+        {"field_key": "default_value_summary", "column_name": "default_value_summary", "json_name": "defaultValueSummary", "data_type": "text", "required": false, "plain_description": "A safe summary of the default value, if any.", "school_example": "No default answer.", "privacy_class": "operational"},
+        {"field_key": "correct_response_summary", "column_name": "correct_response_summary", "json_name": "correctResponseSummary", "data_type": "text", "required": false, "plain_description": "A safe summary of the correct response, if the item declares one.", "school_example": "Choice B.", "privacy_class": "sensitive"},
+        {"field_key": "mapping_summary", "column_name": "mapping_summary", "json_name": "mappingSummary", "data_type": "text", "required": false, "plain_description": "A safe summary of how response values map to scores or outcomes.", "school_example": "Correct choice earns 1 point.", "privacy_class": "operational"},
+        {"field_key": "view", "column_name": "view", "json_name": "view", "data_type": "enum", "required": false, "plain_description": "The audience this outcome or feedback-related variable is intended for.", "school_example": "candidate", "privacy_class": "sensitive", "allowed_values_ref": "view"}
+      ]
+    },
+    {
+      "object_key": "qti_interaction",
+      "table_name": "qti_interactions",
+      "api_path": "/assessments/qti/interactions",
+      "name": "QTI Interaction",
+      "plain_description": "The part of an item where the learner answers, such as choosing, typing, matching, uploading, clicking, or using media.",
+      "why_it_exists": "Apps need interaction-level search, accessibility review, analytics, and delivery planning.",
+      "privacy_class": "directory",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this interaction.", "school_example": "qti_interaction_item001_choice", "privacy_class": "operational"},
+        {"field_key": "item_id", "column_name": "item_id", "json_name": "itemId", "data_type": "text", "required": true, "plain_description": "The item containing this interaction.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "response_identifier", "column_name": "response_identifier", "json_name": "responseIdentifier", "data_type": "text", "required": false, "plain_description": "The response variable that stores the learner's answer for this interaction.", "school_example": "RESPONSE", "privacy_class": "education_record"},
+        {"field_key": "interaction_type", "column_name": "interaction_type", "json_name": "interactionType", "data_type": "enum", "required": true, "plain_description": "The QTI interaction family.", "school_example": "choiceInteraction", "privacy_class": "operational", "allowed_values_ref": "interaction_type"},
+        {"field_key": "prompt_summary", "column_name": "prompt_summary", "json_name": "promptSummary", "data_type": "text", "required": false, "plain_description": "A safe summary of the instructions or prompt shown with the interaction.", "school_example": "Select all equivalent fractions.", "privacy_class": "directory"},
+        {"field_key": "shuffle", "column_name": "shuffle", "json_name": "shuffle", "data_type": "enum", "required": false, "plain_description": "Whether choices should appear in randomized order.", "school_example": "true", "privacy_class": "operational", "allowed_values_ref": "true_false"},
+        {"field_key": "min_choices", "column_name": "min_choices", "json_name": "minChoices", "data_type": "integer", "required": false, "plain_description": "The smallest number of choices a learner must select.", "school_example": "1", "privacy_class": "operational"},
+        {"field_key": "max_choices", "column_name": "max_choices", "json_name": "maxChoices", "data_type": "integer", "required": false, "plain_description": "The largest number of choices a learner may select; zero often means no limit.", "school_example": "3", "privacy_class": "operational"},
+        {"field_key": "min_associations", "column_name": "min_associations", "json_name": "minAssociations", "data_type": "integer", "required": false, "plain_description": "The smallest number of pairings or matches required.", "school_example": "2", "privacy_class": "operational"},
+        {"field_key": "max_associations", "column_name": "max_associations", "json_name": "maxAssociations", "data_type": "integer", "required": false, "plain_description": "The largest number of pairings or matches allowed.", "school_example": "4", "privacy_class": "operational"},
+        {"field_key": "orientation", "column_name": "orientation", "json_name": "orientation", "data_type": "enum", "required": false, "plain_description": "Whether layout naturally reads horizontally or vertically.", "school_example": "vertical", "privacy_class": "operational", "allowed_values_ref": "orientation"},
+        {"field_key": "expected_length", "column_name": "expected_length", "json_name": "expectedLength", "data_type": "integer", "required": false, "plain_description": "Expected response length for text interactions.", "school_example": "80", "privacy_class": "operational"},
+        {"field_key": "text_format", "column_name": "text_format", "json_name": "textFormat", "data_type": "enum", "required": false, "plain_description": "Whether typed text is plain, preformatted, or XHTML.", "school_example": "plain", "privacy_class": "operational", "allowed_values_ref": "text_format"},
+        {"field_key": "shape", "column_name": "shape", "json_name": "shape", "data_type": "enum", "required": false, "plain_description": "The hotspot shape used by graphic interactions.", "school_example": "rect", "privacy_class": "operational", "allowed_values_ref": "shape"}
+      ]
+    },
+    {
+      "object_key": "qti_processing_rule",
+      "table_name": "qti_processing_rules",
+      "api_path": "/assessments/qti/processing-rules",
+      "name": "QTI Processing Rule",
+      "plain_description": "A preserved summary of response, outcome, template, branch, or precondition logic from QTI XML.",
+      "why_it_exists": "The platform needs searchable processing metadata without pretending to reimplement the full QTI runtime.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this processing rule.", "school_example": "qti_rule_item001_score", "privacy_class": "operational"},
+        {"field_key": "owner_object_type", "column_name": "owner_object_type", "json_name": "ownerObjectType", "data_type": "enum", "required": true, "plain_description": "The kind of QTI object that owns this rule.", "school_example": "item", "privacy_class": "operational", "allowed_values_ref": "owner_object_type"},
+        {"field_key": "owner_id", "column_name": "owner_id", "json_name": "ownerId", "data_type": "text", "required": true, "plain_description": "The platform ID of the object that owns this rule.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "processing_kind", "column_name": "processing_kind", "json_name": "processingKind", "data_type": "enum", "required": true, "plain_description": "The kind of processing rule.", "school_example": "responseProcessing", "privacy_class": "operational", "allowed_values_ref": "processing_kind"},
+        {"field_key": "template_uri", "column_name": "template_uri", "json_name": "templateUri", "data_type": "text", "required": false, "plain_description": "A reusable QTI processing template URI, if one is referenced.", "school_example": "https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct", "privacy_class": "operational"},
+        {"field_key": "target_identifier", "column_name": "target_identifier", "json_name": "targetIdentifier", "data_type": "text", "required": false, "plain_description": "The target item, section, outcome, or special destination used by this rule.", "school_example": "section_review", "privacy_class": "operational"},
+        {"field_key": "logic_summary", "column_name": "logic_summary", "json_name": "logicSummary", "data_type": "text", "required": false, "plain_description": "A safe plain-language summary of the rule logic.", "school_example": "If SCORE is below 1, show remediation feedback.", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_feedback",
+      "table_name": "qti_feedback",
+      "api_path": "/assessments/qti/feedback",
+      "name": "QTI Feedback",
+      "plain_description": "Feedback, rubric, or instructional content controlled by outcomes, timing, or audience.",
+      "why_it_exists": "Feedback and rubrics are important for delivery, review, accessibility, and analytics.",
+      "privacy_class": "education_record",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this feedback record.", "school_example": "qti_feedback_item001_correct", "privacy_class": "operational"},
+        {"field_key": "owner_object_type", "column_name": "owner_object_type", "json_name": "ownerObjectType", "data_type": "enum", "required": true, "plain_description": "The kind of QTI object that owns this feedback.", "school_example": "item", "privacy_class": "operational", "allowed_values_ref": "owner_object_type"},
+        {"field_key": "owner_id", "column_name": "owner_id", "json_name": "ownerId", "data_type": "text", "required": true, "plain_description": "The platform ID of the object that owns this feedback.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "feedback_kind", "column_name": "feedback_kind", "json_name": "feedbackKind", "data_type": "enum", "required": true, "plain_description": "Whether this is item feedback, test feedback, or a rubric block.", "school_example": "modalFeedback", "privacy_class": "operational", "allowed_values_ref": "feedback_kind"},
+        {"field_key": "outcome_identifier", "column_name": "outcome_identifier", "json_name": "outcomeIdentifier", "data_type": "text", "required": false, "plain_description": "The outcome variable that controls whether this feedback appears.", "school_example": "FEEDBACK", "privacy_class": "education_record"},
+        {"field_key": "show_hide", "column_name": "show_hide", "json_name": "showHide", "data_type": "enum", "required": false, "plain_description": "Whether matching the identifier shows or hides the feedback.", "school_example": "show", "privacy_class": "operational", "allowed_values_ref": "show_hide"},
+        {"field_key": "feedback_identifier", "column_name": "feedback_identifier", "json_name": "feedbackIdentifier", "data_type": "text", "required": false, "plain_description": "The value tested against an outcome to decide whether the feedback applies.", "school_example": "correct", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": false, "plain_description": "An optional title for the feedback or rubric.", "school_example": "Try another representation", "privacy_class": "directory"},
+        {"field_key": "access", "column_name": "access", "json_name": "access", "data_type": "enum", "required": false, "plain_description": "Whether test feedback appears during the test or at the end.", "school_example": "atEnd", "privacy_class": "operational", "allowed_values_ref": "feedback_access"},
+        {"field_key": "rubric_use", "column_name": "rubric_use", "json_name": "rubricUse", "data_type": "enum", "required": false, "plain_description": "The purpose of a rubric block.", "school_example": "scoring", "privacy_class": "sensitive", "allowed_values_ref": "rubric_use"},
+        {"field_key": "view", "column_name": "view", "json_name": "view", "data_type": "enum", "required": false, "plain_description": "The audience that should see this feedback or rubric.", "school_example": "candidate", "privacy_class": "sensitive", "allowed_values_ref": "view"},
+        {"field_key": "body_summary", "column_name": "body_summary", "json_name": "bodySummary", "data_type": "text", "required": false, "plain_description": "A safe summary of the feedback or rubric content.", "school_example": "Explains why multiplying numerator and denominator by the same number keeps value equal.", "privacy_class": "education_record"}
+      ]
+    },
+    {
+      "object_key": "qti_accessibility_support",
+      "table_name": "qti_accessibility_support",
+      "api_path": "/assessments/qti/accessibility-support",
+      "name": "QTI Accessibility Support",
+      "plain_description": "Alternative content, catalog entries, and accessibility support metadata attached to QTI content.",
+      "why_it_exists": "Assessment content must expose accessibility supports without leaking learner accommodations unnecessarily.",
+      "privacy_class": "sensitive",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this accessibility support record.", "school_example": "qti_access_item001_audio", "privacy_class": "operational"},
+        {"field_key": "owner_object_type", "column_name": "owner_object_type", "json_name": "ownerObjectType", "data_type": "enum", "required": true, "plain_description": "The kind of QTI object this support belongs to.", "school_example": "item", "privacy_class": "operational", "allowed_values_ref": "owner_object_type"},
+        {"field_key": "owner_id", "column_name": "owner_id", "json_name": "ownerId", "data_type": "text", "required": true, "plain_description": "The platform ID of the object this support belongs to.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "support_type", "column_name": "support_type", "json_name": "supportType", "data_type": "enum", "required": true, "plain_description": "The kind of accessibility support available.", "school_example": "spoken", "privacy_class": "sensitive", "allowed_values_ref": "accessibility_support"},
+        {"field_key": "catalog_idref", "column_name": "catalog_idref", "json_name": "catalogIdref", "data_type": "text", "required": false, "plain_description": "The QTI catalog ID reference for this support.", "school_example": "cat_spoken_item001", "privacy_class": "sensitive"},
+        {"field_key": "tts_suppression", "column_name": "tts_suppression", "json_name": "ttsSuppression", "data_type": "enum", "required": false, "plain_description": "Whether text-to-speech should be suppressed for this content.", "school_example": "screen-reader", "privacy_class": "sensitive", "allowed_values_ref": "tts_suppression"},
+        {"field_key": "content_summary", "column_name": "content_summary", "json_name": "contentSummary", "data_type": "text", "required": false, "plain_description": "A safe summary of the alternative or support content.", "school_example": "Audio narration of the chart.", "privacy_class": "sensitive"},
+        {"field_key": "sensitive", "column_name": "sensitive", "json_name": "sensitive", "data_type": "enum", "required": true, "plain_description": "Whether this support metadata may reveal accessibility needs or accommodations.", "school_example": "true", "privacy_class": "sensitive", "allowed_values_ref": "true_false"}
+      ]
+    },
+    {
+      "object_key": "qti_companion_material",
+      "table_name": "qti_companion_materials",
+      "api_path": "/assessments/qti/companion-materials",
+      "name": "QTI Companion Material",
+      "plain_description": "A calculator, ruler, protractor, file, physical material, or vendor extension allowed or required during an item.",
+      "why_it_exists": "Assessment delivery, accommodations, and proctoring need to know which materials are permitted.",
+      "privacy_class": "sensitive",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this companion material.", "school_example": "qti_material_item001_calculator", "privacy_class": "operational"},
+        {"field_key": "item_id", "column_name": "item_id", "json_name": "itemId", "data_type": "text", "required": true, "plain_description": "The item this companion material applies to.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "material_type", "column_name": "material_type", "json_name": "materialType", "data_type": "enum", "required": true, "plain_description": "The kind of companion material.", "school_example": "calculator", "privacy_class": "sensitive", "allowed_values_ref": "material_type"},
+        {"field_key": "calculator_type", "column_name": "calculator_type", "json_name": "calculatorType", "data_type": "enum", "required": false, "plain_description": "The calculator capability allowed or required.", "school_example": "scientific", "privacy_class": "sensitive", "allowed_values_ref": "calculator_type"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": false, "plain_description": "A human-facing name for the material.", "school_example": "Scientific calculator", "privacy_class": "directory"},
+        {"field_key": "required_for_delivery", "column_name": "required_for_delivery", "json_name": "requiredForDelivery", "data_type": "enum", "required": false, "plain_description": "Whether the item requires this material to be available.", "school_example": "false", "privacy_class": "sensitive", "allowed_values_ref": "true_false"},
+        {"field_key": "material_uri", "column_name": "material_uri", "json_name": "materialUri", "data_type": "text", "required": false, "plain_description": "A package file path, external URI, or local reference for the material.", "school_example": "materials/ruler.pdf", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_alignment",
+      "table_name": "qti_alignments",
+      "api_path": "/assessments/qti/alignments",
+      "name": "QTI Alignment",
+      "plain_description": "A link from QTI content to an academic standard, competency, skill, or other alignment target.",
+      "why_it_exists": "The platform uses CASE as the canonical standards graph, but it preserves QTI source alignment metadata.",
+      "privacy_class": "directory",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this alignment.", "school_example": "qti_align_item001_case001", "privacy_class": "operational"},
+        {"field_key": "owner_object_type", "column_name": "owner_object_type", "json_name": "ownerObjectType", "data_type": "enum", "required": true, "plain_description": "The kind of QTI object being aligned.", "school_example": "item", "privacy_class": "operational", "allowed_values_ref": "owner_object_type"},
+        {"field_key": "owner_id", "column_name": "owner_id", "json_name": "ownerId", "data_type": "text", "required": true, "plain_description": "The platform ID of the aligned QTI object.", "school_example": "qti_item_fraction_001", "privacy_class": "operational"},
+        {"field_key": "target_type", "column_name": "target_type", "json_name": "targetType", "data_type": "enum", "required": true, "plain_description": "What kind of target the QTI content is aligned to.", "school_example": "caseItem", "privacy_class": "directory", "allowed_values_ref": "alignment_target_type"},
+        {"field_key": "target_identifier", "column_name": "target_identifier", "json_name": "targetIdentifier", "data_type": "text", "required": true, "plain_description": "The CASE item ID, URI, or local standard identifier.", "school_example": "case:math-6-ns-1", "privacy_class": "directory"},
+        {"field_key": "alignment_label", "column_name": "alignment_label", "json_name": "alignmentLabel", "data_type": "text", "required": false, "plain_description": "The human-readable standard, competency, or skill label.", "school_example": "Understand equivalent fractions.", "privacy_class": "directory"},
+        {"field_key": "source_metadata_uri", "column_name": "source_metadata_uri", "json_name": "sourceMetadataUri", "data_type": "text", "required": false, "plain_description": "Where the original QTI or package metadata described this alignment.", "school_example": "metadata/alignments.xml#item001", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "qti_package_artifact",
+      "table_name": "qti_package_artifacts",
+      "api_path": "/assessments/qti/artifacts",
+      "name": "QTI Package Artifact",
+      "plain_description": "A file preserved from the QTI package, such as XML, media, stylesheet, manifest, or other referenced resource.",
+      "why_it_exists": "The platform must preserve the original files while projecting only useful search and governance fields into tables.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this package artifact.", "school_example": "qti_artifact_item001_xml", "privacy_class": "operational"},
+        {"field_key": "package_id", "column_name": "package_id", "json_name": "packageId", "data_type": "text", "required": true, "plain_description": "The package containing this artifact.", "school_example": "qti_pkg_midyear_math_6", "privacy_class": "operational"},
+        {"field_key": "href", "column_name": "href", "json_name": "href", "data_type": "text", "required": true, "plain_description": "The package-relative path to the file.", "school_example": "items/fraction_equivalence_001.xml", "privacy_class": "operational"},
+        {"field_key": "media_type", "column_name": "media_type", "json_name": "mediaType", "data_type": "text", "required": false, "plain_description": "The file's MIME type when known.", "school_example": "application/xml", "privacy_class": "operational"},
+        {"field_key": "artifact_role", "column_name": "artifact_role", "json_name": "artifactRole", "data_type": "enum", "required": true, "plain_description": "The role this file plays in the QTI package.", "school_example": "itemXml", "privacy_class": "operational", "allowed_values_ref": "artifact_role"},
+        {"field_key": "sha256", "column_name": "sha256", "json_name": "sha256", "data_type": "text", "required": false, "plain_description": "A hash used to confirm the file did not change.", "school_example": "8b1a9953c4611296a827abf8c47804d7...", "privacy_class": "operational"},
+        {"field_key": "storage_uri", "column_name": "storage_uri", "json_name": "storageUri", "data_type": "text", "required": true, "plain_description": "Where the platform stores this artifact after import.", "school_example": "s3://platform-demo/qti/MATH6/items/fraction_equivalence_001.xml", "privacy_class": "operational"}
+      ]
+    }
+  ],
+  "shared_allowed_values": {
+    "qti_version": [
+      {"value": "3.0", "label": "QTI 3.0", "plain_description": "The current QTI 3 assessment, section, and item model targeted by the platform."},
+      {"value": "2.2", "label": "QTI 2.2", "plain_description": "A legacy QTI version the platform may preserve or migrate, but not the lead model."}
+    ],
+    "validation_status": [
+      {"value": "pending", "label": "Pending", "plain_description": "The platform has not checked the package yet."},
+      {"value": "valid", "label": "Valid", "plain_description": "The package passed platform validation."},
+      {"value": "invalid", "label": "Invalid", "plain_description": "The package failed validation and should not be trusted for delivery."},
+      {"value": "warning", "label": "Warning", "plain_description": "The package is usable but has non-blocking issues that should be reviewed."}
+    ],
+    "true_false": [
+      {"value": "true", "label": "True", "plain_description": "Yes, this condition applies."},
+      {"value": "false", "label": "False", "plain_description": "No, this condition does not apply."}
+    ],
+    "owner_object_type": [
+      {"value": "package", "label": "Package", "plain_description": "A QTI package."},
+      {"value": "item", "label": "Item", "plain_description": "A QTI assessment item."},
+      {"value": "stimulus", "label": "Stimulus", "plain_description": "A QTI assessment stimulus."},
+      {"value": "test", "label": "Test", "plain_description": "A QTI assessment test."},
+      {"value": "testPart", "label": "Test part", "plain_description": "A major part of a QTI test."},
+      {"value": "section", "label": "Section", "plain_description": "A QTI assessment section."},
+      {"value": "itemRef", "label": "Item reference", "plain_description": "A test or section reference to an item."},
+      {"value": "interaction", "label": "Interaction", "plain_description": "The answer interaction inside an item."}
+    ],
+    "declaration_kind": [
+      {"value": "response", "label": "Response", "plain_description": "A variable that stores a learner answer."},
+      {"value": "outcome", "label": "Outcome", "plain_description": "A variable that stores a score, status, or other result."},
+      {"value": "template", "label": "Template", "plain_description": "A variable used to create item variants."},
+      {"value": "context", "label": "Context", "plain_description": "A global value available to processing rules."}
+    ],
+    "cardinality": [
+      {"value": "single", "label": "Single", "plain_description": "Exactly one value."},
+      {"value": "multiple", "label": "Multiple", "plain_description": "A list of values where order does not matter."},
+      {"value": "ordered", "label": "Ordered", "plain_description": "A list of values where order matters."},
+      {"value": "record", "label": "Record", "plain_description": "A set of named values with their own types."}
+    ],
+    "base_type": [
+      {"value": "boolean", "label": "Boolean", "plain_description": "True or false."},
+      {"value": "directedPair", "label": "Directed pair", "plain_description": "Two IDs where direction matters."},
+      {"value": "duration", "label": "Duration", "plain_description": "A length of time."},
+      {"value": "file", "label": "File", "plain_description": "Uploaded file bytes with content type and optional filename."},
+      {"value": "float", "label": "Float", "plain_description": "A decimal number."},
+      {"value": "identifier", "label": "Identifier", "plain_description": "A QTI identifier value."},
+      {"value": "integer", "label": "Integer", "plain_description": "A whole number."},
+      {"value": "pair", "label": "Pair", "plain_description": "Two IDs where direction does not matter."},
+      {"value": "point", "label": "Point", "plain_description": "A graphic coordinate point."},
+      {"value": "string", "label": "String", "plain_description": "Text."},
+      {"value": "uri", "label": "URI", "plain_description": "A web identifier or URI."}
+    ],
+    "view": [
+      {"value": "author", "label": "Author", "plain_description": "Intended for someone authoring the assessment."},
+      {"value": "candidate", "label": "Candidate", "plain_description": "Intended for the learner or test taker."},
+      {"value": "proctor", "label": "Proctor", "plain_description": "Intended for the person supervising the assessment."},
+      {"value": "scorer", "label": "Scorer", "plain_description": "Intended for someone scoring the assessment."},
+      {"value": "testConstructor", "label": "Test constructor", "plain_description": "Intended for someone assembling the test."},
+      {"value": "tutor", "label": "Tutor", "plain_description": "Intended for an educator or tutor supporting the learner."}
+    ],
+    "interaction_type": [
+      {"value": "choiceInteraction", "label": "Choice", "plain_description": "Select one or more choices."},
+      {"value": "orderInteraction", "label": "Ordering", "plain_description": "Put choices in order."},
+      {"value": "associateInteraction", "label": "Associate", "plain_description": "Create pairings between choices."},
+      {"value": "matchInteraction", "label": "Match", "plain_description": "Match choices from one set to another."},
+      {"value": "gapMatchInteraction", "label": "Gap match", "plain_description": "Put choices into gaps in surrounding content."},
+      {"value": "textEntryInteraction", "label": "Text entry", "plain_description": "Type a short answer inline."},
+      {"value": "extendedTextInteraction", "label": "Extended text", "plain_description": "Type an essay or longer response."},
+      {"value": "inlineChoiceInteraction", "label": "Inline choice", "plain_description": "Choose text inside a sentence or passage."},
+      {"value": "hottextInteraction", "label": "Hot text", "plain_description": "Select highlighted text."},
+      {"value": "hotspotInteraction", "label": "Hotspot", "plain_description": "Click or tap one or more regions on an image."},
+      {"value": "selectPointInteraction", "label": "Select point", "plain_description": "Mark one or more points on an image."},
+      {"value": "graphicOrderInteraction", "label": "Graphic order", "plain_description": "Put image hotspots into order."},
+      {"value": "graphicAssociateInteraction", "label": "Graphic associate", "plain_description": "Pair image regions with each other."},
+      {"value": "graphicGapMatchInteraction", "label": "Graphic gap match", "plain_description": "Match choices to image regions."},
+      {"value": "positionObjectInteraction", "label": "Position object", "plain_description": "Place an image object onto a stage."},
+      {"value": "sliderInteraction", "label": "Slider", "plain_description": "Choose a number on a range."},
+      {"value": "uploadInteraction", "label": "Upload", "plain_description": "Upload a response file."},
+      {"value": "drawingInteraction", "label": "Drawing", "plain_description": "Draw or mark up an image or canvas."},
+      {"value": "mediaInteraction", "label": "Media", "plain_description": "Play or interact with audio or video."},
+      {"value": "endAttemptInteraction", "label": "End attempt", "plain_description": "Trigger response processing, often for a hint or action button."},
+      {"value": "portableCustomInteraction", "label": "Portable custom", "plain_description": "Use a packaged custom interaction module."},
+      {"value": "customInteraction", "label": "Custom", "plain_description": "Use proprietary custom behavior preserved for compatibility."}
+    ],
+    "navigation_mode": [
+      {"value": "linear", "label": "Linear", "plain_description": "The learner proceeds in order and cannot freely return to earlier items."},
+      {"value": "nonlinear", "label": "Nonlinear", "plain_description": "The learner may navigate items in a freer order."}
+    ],
+    "submission_mode": [
+      {"value": "individual", "label": "Individual", "plain_description": "Each item is submitted and processed separately."},
+      {"value": "simultaneous", "label": "Simultaneous", "plain_description": "Responses are submitted together at the end of the part."}
+    ],
+    "orientation": [
+      {"value": "horizontal", "label": "Horizontal", "plain_description": "Laid out left-to-right or along a horizontal axis."},
+      {"value": "vertical", "label": "Vertical", "plain_description": "Laid out top-to-bottom or along a vertical axis."}
+    ],
+    "text_format": [
+      {"value": "plain", "label": "Plain", "plain_description": "Plain typed text."},
+      {"value": "preformatted", "label": "Preformatted", "plain_description": "Text where spacing and line breaks should be preserved."},
+      {"value": "xhtml", "label": "XHTML", "plain_description": "Structured rich text marked up as XHTML."}
+    ],
+    "shape": [
+      {"value": "circle", "label": "Circle", "plain_description": "A circular hotspot."},
+      {"value": "default", "label": "Default", "plain_description": "The entire image area."},
+      {"value": "ellipse", "label": "Ellipse", "plain_description": "An ellipse hotspot preserved for compatibility."},
+      {"value": "poly", "label": "Polygon", "plain_description": "A polygon hotspot."},
+      {"value": "rect", "label": "Rectangle", "plain_description": "A rectangular hotspot."}
+    ],
+    "processing_kind": [
+      {"value": "responseProcessing", "label": "Response processing", "plain_description": "Rules that calculate item outcomes from learner responses."},
+      {"value": "outcomeProcessing", "label": "Outcome processing", "plain_description": "Rules that calculate test outcomes from item outcomes."},
+      {"value": "templateProcessing", "label": "Template processing", "plain_description": "Rules that set template values before delivery."},
+      {"value": "branchRule", "label": "Branch rule", "plain_description": "Logic that jumps to a target when a condition is true."},
+      {"value": "preCondition", "label": "Precondition", "plain_description": "Logic that decides whether to skip a part, section, or item."}
+    ],
+    "feedback_kind": [
+      {"value": "modalFeedback", "label": "Modal feedback", "plain_description": "Item-level feedback shown based on an outcome value."},
+      {"value": "testFeedback", "label": "Test feedback", "plain_description": "Test-level feedback shown during or after the test."},
+      {"value": "rubricBlock", "label": "Rubric block", "plain_description": "Directions, scoring, navigation, or support information for a selected audience."}
+    ],
+    "show_hide": [
+      {"value": "show", "label": "Show", "plain_description": "Hidden by default; show when the condition matches."},
+      {"value": "hide", "label": "Hide", "plain_description": "Shown by default; hide when the condition matches."}
+    ],
+    "feedback_access": [
+      {"value": "during", "label": "During", "plain_description": "Feedback may appear during the test."},
+      {"value": "atEnd", "label": "At end", "plain_description": "Feedback appears at the end of the test."}
+    ],
+    "rubric_use": [
+      {"value": "instructions", "label": "Instructions", "plain_description": "Directions for the assessment."},
+      {"value": "navigation", "label": "Navigation", "plain_description": "Information about moving around the assessment."},
+      {"value": "scoring", "label": "Scoring", "plain_description": "Information about scoring."}
+    ],
+    "accessibility_support": [
+      {"value": "additional-directions", "label": "Additional directions", "plain_description": "Extra directions are available."},
+      {"value": "audio-description", "label": "Audio description", "plain_description": "Narration describes important visual details."},
+      {"value": "braille", "label": "Braille", "plain_description": "Braille support is available."},
+      {"value": "glossary-on-screen", "label": "On-screen glossary", "plain_description": "On-screen glossary support is available."},
+      {"value": "high-contrast", "label": "High contrast", "plain_description": "High-contrast visual alternative is available."},
+      {"value": "keyboard-directions", "label": "Keyboard directions", "plain_description": "Keyboard-use directions are available."},
+      {"value": "keyword-translation", "label": "Keyword translation", "plain_description": "Keyword translation support is available."},
+      {"value": "linguistic-guidance", "label": "Linguistic guidance", "plain_description": "Language guidance is available."},
+      {"value": "long-description", "label": "Long description", "plain_description": "Longer description is available."},
+      {"value": "sign-language", "label": "Sign language", "plain_description": "Sign language support is available."},
+      {"value": "simplified-graphics", "label": "Simplified graphics", "plain_description": "Simplified graphic alternative is available."},
+      {"value": "simplified-language-portions", "label": "Simplified language portions", "plain_description": "Simplified language alternative is available."},
+      {"value": "spoken", "label": "Spoken", "plain_description": "Spoken version or content is available."},
+      {"value": "tactile", "label": "Tactile", "plain_description": "Tactile alternative is available."},
+      {"value": "transcript", "label": "Transcript", "plain_description": "Transcript is available."}
+    ],
+    "tts_suppression": [
+      {"value": "all", "label": "All", "plain_description": "Suppress read-aloud on all devices."},
+      {"value": "computer-read-aloud", "label": "Computer read-aloud", "plain_description": "Suppress computer read-aloud tools."},
+      {"value": "screen-reader", "label": "Screen reader", "plain_description": "Suppress screen-reader read-aloud."}
+    ],
+    "material_type": [
+      {"value": "calculator", "label": "Calculator", "plain_description": "A calculator is allowed or required."},
+      {"value": "ruler", "label": "Ruler", "plain_description": "A ruler is allowed or required."},
+      {"value": "protractor", "label": "Protractor", "plain_description": "A protractor is allowed or required."},
+      {"value": "digitalMaterial", "label": "Digital material", "plain_description": "A digital file or material is available."},
+      {"value": "physicalMaterial", "label": "Physical material", "plain_description": "A physical item or material is needed."},
+      {"value": "vendorExtension", "label": "Vendor extension", "plain_description": "Vendor-specific material information is preserved."}
+    ],
+    "calculator_type": [
+      {"value": "basic", "label": "Basic", "plain_description": "Basic calculator."},
+      {"value": "standard", "label": "Standard", "plain_description": "Standard calculator."},
+      {"value": "scientific", "label": "Scientific", "plain_description": "Scientific calculator."},
+      {"value": "graphing", "label": "Graphing", "plain_description": "Graphing calculator."}
+    ],
+    "alignment_target_type": [
+      {"value": "caseItem", "label": "CASE item", "plain_description": "A CASE competency, standard, or skill item."},
+      {"value": "uri", "label": "URI", "plain_description": "A web URI or external standards target."},
+      {"value": "local", "label": "Local", "plain_description": "A local district, publisher, or authoring-system alignment target."}
+    ],
+    "artifact_role": [
+      {"value": "manifest", "label": "Manifest", "plain_description": "The package manifest file."},
+      {"value": "itemXml", "label": "Item XML", "plain_description": "A QTI assessment item XML file."},
+      {"value": "testXml", "label": "Test XML", "plain_description": "A QTI assessment test XML file."},
+      {"value": "stimulusXml", "label": "Stimulus XML", "plain_description": "A QTI stimulus XML file."},
+      {"value": "media", "label": "Media", "plain_description": "An image, audio, video, or other media file."},
+      {"value": "stylesheet", "label": "Stylesheet", "plain_description": "A CSS or style file used to render content."},
+      {"value": "other", "label": "Other", "plain_description": "Another preserved package file."}
+    ]
+  },
+  "unsupported_or_deferred": [
+    {"area": "Assessment delivery/runtime", "reason": "The platform is first modeling repository, import, search, alignment, and governance. Delivery requires a tested QTI runtime engine."},
+    {"area": "Every low-level XML child node as a SQL column", "reason": "The original QTI XML is preserved as the source artifact. Only public platform fields are projected into SQL/API fields."},
+    {"area": "Full response-processing execution", "reason": "Processing logic is preserved and summarized. Executing it safely belongs to a QTI runtime service."},
+    {"area": "Computer-adaptive testing runtime", "reason": "CAT depends on mature item metadata, delivery services, and psychometric configuration beyond this repository dictionary."},
+    {"area": "Vendor extension semantics", "reason": "Vendor extensions are preserved and governed, but not promoted to core platform fields until intentionally modeled."}
+  ]
+}

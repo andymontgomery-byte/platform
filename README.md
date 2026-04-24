@@ -13,6 +13,9 @@ The platform exposes two developer-facing layers:
 - [Rendered Docs Index](site/docs/index.html)
 - [Hosted OneRoster JSON OpenAPI](site/openapi/hosted-json.html)
 - [Local OneRoster Express OpenAPI](site/openapi/oneroster-core.html)
+- [QTI Repository OpenAPI](site/openapi/qti-core.html)
+- [Spec Gap Backlog](docs/spec-gap-backlog.md)
+- [Dictionary Coverage Matrix](docs/dictionary-coverage-matrix.md)
 - [Working OneRoster Core Demo API](demo/README.md)
 - [1EdTech Platform Plan](docs/1edtech-platform-plan.md)
 - [Phase 0 Standards and Dictionary](docs/phase-0-standards-and-dictionary.md)
@@ -73,10 +76,16 @@ curl -X POST http://localhost:8787/sql/query \
   -d '{"sql":"select display_name, primary_role from people order by display_name"}'
 ```
 
-The generated SQL comments, OpenAPI JSON, and Markdown/HTML dictionary come from `dictionary/oneroster-core.v1.json` via:
+The generated OneRoster SQL comments, OpenAPI JSON, and Markdown/HTML dictionary come from `dictionary/oneroster-core.v1.json` via:
 
 ```sh
 python3 scripts/generate_oneroster_core.py
+```
+
+The generated QTI repository SQL comments, OpenAPI JSON, and Markdown/HTML dictionary come from `dictionary/qti-core.v1.json` via:
+
+```sh
+python3 scripts/generate_qti_core.py
 ```
 
 Build the GitHub Pages JSON endpoints and rendered HTML docs with:
@@ -84,4 +93,10 @@ Build the GitHub Pages JSON endpoints and rendered HTML docs with:
 ```sh
 python3 scripts/build_static_api.py
 python3 scripts/build_site_docs.py
+```
+
+Check that structured dictionary sources still match generated SQL, OpenAPI, Markdown, and HTML artifacts with:
+
+```sh
+python3 scripts/check_dictionary_artifacts.py
 ```

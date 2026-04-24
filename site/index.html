@@ -103,6 +103,11 @@
             <p>The OneRoster core dictionary source generates SQL comments, OpenAPI schema descriptions, and rendered HTML dictionary pages.</p>
             <code>dictionary/oneroster-core.v1.json</code>
           </article>
+          <article>
+            <h3>Known gaps</h3>
+            <p>The gap backlog and coverage matrix separate working surfaces, generated dictionary coverage, and deferred backend work.</p>
+            <code>docs/spec-gap-backlog.md</code>
+          </article>
         </div>
       </section>
 
@@ -210,6 +215,9 @@
         </div>
 
         <div id="dictionaryObjects" class="dictionary-grid" aria-live="polite"></div>
+        <p class="section-note">
+          Generated dictionaries now include <a href="docs/generated-oneroster-core-dictionary.html">OneRoster core</a> and <a href="docs/qti-core-dictionary.html">QTI repository projection</a>. The <a href="docs/dictionary-coverage-matrix.html">coverage matrix</a> explains what is still hand-documented or deferred.
+        </p>
       </section>
 
       <section id="api" class="section api-section" aria-labelledby="api-title">
@@ -223,6 +231,9 @@
         <div id="apiGrid" class="api-grid"></div>
         <p class="section-note api-note">
           Current hosted JSON API: GitHub Pages static JSON under `site/api/`, documented in the <a href="openapi/hosted-json.html">hosted OpenAPI page</a>. Current local server API: the OneRoster core demo at `http://localhost:8787`, documented in the <a href="openapi/oneroster-core.html">local Express OpenAPI page</a>. The broader API groups below are the planned platform surface.
+        </p>
+        <p class="section-note api-note">
+          QTI now has generated repository schemas in the <a href="openapi/qti-core.html">QTI OpenAPI page</a>. They are documentation for the planned backend, not a live runtime on GitHub Pages.
         </p>
         <div class="code-panel">
           <div class="code-panel-header">

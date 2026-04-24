@@ -10,7 +10,7 @@ This page explains how every standard currently marked `Lead` is accounted for. 
 | --- | --- | --- |
 | OneRoster 1.2 | Runnable core slice plus broader layperson dictionary. | `dictionary/oneroster-core.v1.json`, generated OneRoster docs, OneRoster layperson dictionary. |
 | CASE 1.1 | Researched and documented; not yet executable. | CASE layperson dictionary; overlap decisions for alignment. |
-| QTI 3 | Researched and documented; repository model decisions tightened; not yet executable. | QTI layperson dictionary; QTI projection decision; overlap decisions for results, alignment, resources, time. |
+| QTI 3 | Structured/generated repository projection exists; not yet executable. | `dictionary/qti-core.v1.json`, generated QTI docs/OpenAPI/SQL comments, QTI layperson dictionary, QTI projection decision, overlap decisions for results, alignment, resources, time. |
 | Caliper 1.2 | Researched and documented; event ingestion not yet executable. | Caliper layperson dictionary; overlap decisions for actor, membership, grade events, time. |
 | LTI 1.3/LTI Advantage | Researched and documented; launch/API-context decision recorded; not yet executable. | Integration dictionary; overlap decisions for launch context, roles, membership, IDs, resources. |
 | Security Framework 1.1 | Governance/accounting coverage; implementation deferred until auth layer exists. | Integration/governance dictionary; tenancy and privacy/security decisions. |
@@ -97,6 +97,7 @@ Committed platform projection:
 
 - First-class rows for package, test, section, item, stimulus, item reference, interaction, declarations, scoring/rubric metadata, accessibility/support metadata, CASE alignment, and package artifact.
 - Search/report fields for identifiers, title, language, interaction type, response cardinality, base type, scoring method, max score, time limits, adaptive/dependent flags, accessibility features, support tools, rubric/feedback presence, CASE target identifiers, and package lineage.
+- The generated repository dictionary now lives at `dictionary/qti-core.v1.json` and emits SQL comments, OpenAPI schemas, and portal documentation.
 
 Deferred or not supported yet:
 
