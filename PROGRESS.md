@@ -37,3 +37,29 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Spec score impact expected: +6 deterministic points, from 87.37 to 93.68, because `shared_dictionary_caliper` now passes.
 - New gaps found: none.
 - What remains next: item 9, convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured/generated or explicitly deferred artifacts; the public report now leaves only `shared_dictionary_lti_security_privacy` open.
+
+
+## 20260424T212302Z Harness Iteration 1
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 87.37
+- Spec score after: 93.68
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 90
+- Publish result: committed and pushed: Codex loop iteration 1: improve spec score to 93.68
+- Codex log: `.codex-loop/20260424T211108Z-iteration-001-codex.log`
+- Verify log: `.codex-loop/20260424T211108Z-iteration-001-verify.log`
+- Judge log: `.codex-loop/20260424T211108Z-iteration-001-judge.log`
+- Judge JSON: `.codex-loop/20260424T211108Z-iteration-001-judge.json`
+
+## 2026-04-24 17:47:31 EDT Integration/Governance Generated Dictionary Iteration
+
+- Chosen checklist item: `shared_dictionary_lti_security_privacy`, convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured/generated or explicitly deferred artifacts.
+- Files changed: added `dictionary/integration-governance-core.v1.json`, `scripts/generate_integration_governance_core.py`, generated integration/governance SQL/OpenAPI/Markdown/HTML artifacts, and updated VERIFY, artifact checking, backlog, coverage matrix, Lead spec accounting, README, portal link text, rendered docs, PLAN, and `site/api/spec-conformance.json`.
+- Checks run and result: integration/governance dictionary JSON validation passed; generator and artifact checker py_compile passed; all OneRoster/QTI/CASE/Caliper/integration generators passed; `build_static_api.py` and `build_site_docs.py` passed; `check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `check_spec_conformance.py --write-report site/api/spec-conformance.json --min-score 75` passed with score 100.0; full generator/build/check py_compile passed; generated OpenAPI/report/index JSON validation passed; `node --check site/app.js` and `node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; `git diff --check` passed.
+- Spec score impact expected: +6 deterministic points, from 93.68 to 100.0, because `shared_dictionary_lti_security_privacy` now passes and `openGaps` is empty.
+- New gaps found: none.
+- What remains next: deterministic spec conformance is complete; remaining public backlog items are beyond the current score gate, starting with full OneRoster 1.2 accounting and later runnable/backend work.

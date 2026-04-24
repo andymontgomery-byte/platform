@@ -24,7 +24,7 @@ Current public backlog: `docs/spec-gap-backlog.md`.
 - [x] Wire CASE into `scripts/check_dictionary_artifacts.py`.
 - [x] Update the coverage matrix and Lead spec accounting for generated CASE coverage.
 - [x] Convert Caliper to a structured source dictionary and generated artifacts.
-- [ ] Convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured source dictionaries.
+- [x] Convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured source dictionaries.
 - [ ] Expand OneRoster full 1.2 accounting beyond the current core generated slice.
 - [ ] Add generated cross-spec decision traces.
 - [ ] Add a machine-readable platform status manifest.

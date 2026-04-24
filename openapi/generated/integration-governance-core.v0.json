@@ -1,0 +1,2312 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Integration and Governance Core API",
+    "version": "0.1.0",
+    "summary": "Generated LTI, Security Framework, and Data Privacy API schemas from the structured integration/governance dictionary source.",
+    "description": "This OpenAPI document is generated from dictionary/integration-governance-core.v1.json. It documents planned LTI registration, launch, LTI Advantage service, OAuth client, scope policy, privacy sharing, consent, retention, and audit API schemas. It is not a formal LTI, Security Framework, or Data Privacy certification claim and is not executable on GitHub Pages until a backend is added."
+  },
+  "servers": [
+    {
+      "url": "https://andymontgomery-byte.github.io/platform/site",
+      "description": "Portal host; integration and governance endpoints are planned documentation until backend runtime exists."
+    }
+  ],
+  "paths": {
+    "/integrations/lti/registrations": {
+      "get": {
+        "tags": [
+          "LTI Registration"
+        ],
+        "summary": "List LTI Registration records",
+        "description": "The security agreement between this platform and one external LTI tool.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LTI Registration records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LtiRegistration"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/lti/registrations/{id}": {
+      "get": {
+        "tags": [
+          "LTI Registration"
+        ],
+        "summary": "Get one LTI Registration record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the LTI Registration record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One LTI Registration record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LtiRegistration"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/integrations/lti/deployments": {
+      "get": {
+        "tags": [
+          "LTI Deployment"
+        ],
+        "summary": "List LTI Deployment records",
+        "description": "One installation of an LTI tool for a tenant, school, course, section, or activity.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LTI Deployment records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LtiDeployment"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/lti/deployments/{id}": {
+      "get": {
+        "tags": [
+          "LTI Deployment"
+        ],
+        "summary": "Get one LTI Deployment record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the LTI Deployment record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One LTI Deployment record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LtiDeployment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/integrations/lti/launches": {
+      "get": {
+        "tags": [
+          "LTI Launch"
+        ],
+        "summary": "List LTI Launch records",
+        "description": "One launch attempt from the platform to an external LTI tool.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LTI Launch records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LtiLaunch"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/lti/launches/{id}": {
+      "get": {
+        "tags": [
+          "LTI Launch"
+        ],
+        "summary": "Get one LTI Launch record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the LTI Launch record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One LTI Launch record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LtiLaunch"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/integrations/lti/service-endpoints": {
+      "get": {
+        "tags": [
+          "LTI Service Endpoint"
+        ],
+        "summary": "List LTI Service Endpoint records",
+        "description": "An LTI Advantage service URL that a tool may call for roster, gradebook, or deep-linking workflows.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LTI Service Endpoint records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LtiServiceEndpoint"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/lti/service-endpoints/{id}": {
+      "get": {
+        "tags": [
+          "LTI Service Endpoint"
+        ],
+        "summary": "Get one LTI Service Endpoint record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the LTI Service Endpoint record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One LTI Service Endpoint record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LtiServiceEndpoint"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/integrations/lti/memberships": {
+      "get": {
+        "tags": [
+          "LTI Membership"
+        ],
+        "summary": "List LTI Membership records",
+        "description": "One person returned in an LTI Names and Role Provisioning Service roster response.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LTI Membership records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LtiMembership"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/lti/memberships/{id}": {
+      "get": {
+        "tags": [
+          "LTI Membership"
+        ],
+        "summary": "Get one LTI Membership record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the LTI Membership record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One LTI Membership record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LtiMembership"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/integrations/lti/grade-exchanges": {
+      "get": {
+        "tags": [
+          "LTI Grade Exchange"
+        ],
+        "summary": "List LTI Grade Exchange records",
+        "description": "A gradebook line item, score, or result exchanged through LTI Assignment and Grade Services.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LTI Grade Exchange records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LtiGradeExchange"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/lti/grade-exchanges/{id}": {
+      "get": {
+        "tags": [
+          "LTI Grade Exchange"
+        ],
+        "summary": "Get one LTI Grade Exchange record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the LTI Grade Exchange record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One LTI Grade Exchange record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LtiGradeExchange"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/integrations/lti/deep-link-items": {
+      "get": {
+        "tags": [
+          "LTI Deep Link Item"
+        ],
+        "summary": "List LTI Deep Link Item records",
+        "description": "One content item selected by an instructor from an LTI tool and returned to the platform.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LTI Deep Link Item records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LtiDeepLinkItem"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/lti/deep-link-items/{id}": {
+      "get": {
+        "tags": [
+          "LTI Deep Link Item"
+        ],
+        "summary": "Get one LTI Deep Link Item record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the LTI Deep Link Item record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One LTI Deep Link Item record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LtiDeepLinkItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/governance/security/oauth-clients": {
+      "get": {
+        "tags": [
+          "Security OAuth Client"
+        ],
+        "summary": "List Security OAuth Client records",
+        "description": "An OAuth client record used for LTI tools or other API integrations.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Security OAuth Client records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SecurityOauthClient"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance/security/oauth-clients/{id}": {
+      "get": {
+        "tags": [
+          "Security OAuth Client"
+        ],
+        "summary": "Get one Security OAuth Client record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Security OAuth Client record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Security OAuth Client record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecurityOauthClient"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/governance/security/scope-policies": {
+      "get": {
+        "tags": [
+          "Security Scope Policy"
+        ],
+        "summary": "List Security Scope Policy records",
+        "description": "A rule mapping an OAuth scope to the API resources, actions, roles, and privacy classes it may access.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Security Scope Policy records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SecurityScopePolicy"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance/security/scope-policies/{id}": {
+      "get": {
+        "tags": [
+          "Security Scope Policy"
+        ],
+        "summary": "Get one Security Scope Policy record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Security Scope Policy record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Security Scope Policy record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecurityScopePolicy"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/governance/privacy/data-sharing-rules": {
+      "get": {
+        "tags": [
+          "Privacy Data Sharing Rule"
+        ],
+        "summary": "List Privacy Data Sharing Rule records",
+        "description": "A tenant policy rule explaining what data may be shared, with whom, for what purpose, and under what legal basis.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Privacy Data Sharing Rule records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PrivacyDataSharingRule"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance/privacy/data-sharing-rules/{id}": {
+      "get": {
+        "tags": [
+          "Privacy Data Sharing Rule"
+        ],
+        "summary": "Get one Privacy Data Sharing Rule record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Privacy Data Sharing Rule record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Privacy Data Sharing Rule record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyDataSharingRule"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/governance/privacy/consent-records": {
+      "get": {
+        "tags": [
+          "Privacy Consent Record"
+        ],
+        "summary": "List Privacy Consent Record records",
+        "description": "A record of learner, guardian, or administrator consent connected to a privacy rule.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Privacy Consent Record records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PrivacyConsentRecord"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance/privacy/consent-records/{id}": {
+      "get": {
+        "tags": [
+          "Privacy Consent Record"
+        ],
+        "summary": "Get one Privacy Consent Record record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Privacy Consent Record record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Privacy Consent Record record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyConsentRecord"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/governance/privacy/retention-rules": {
+      "get": {
+        "tags": [
+          "Privacy Retention Rule"
+        ],
+        "summary": "List Privacy Retention Rule records",
+        "description": "A tenant rule for how long a category of data is retained and what happens when it expires.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Privacy Retention Rule records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PrivacyRetentionRule"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance/privacy/retention-rules/{id}": {
+      "get": {
+        "tags": [
+          "Privacy Retention Rule"
+        ],
+        "summary": "Get one Privacy Retention Rule record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Privacy Retention Rule record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Privacy Retention Rule record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyRetentionRule"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/governance/privacy/audit-events": {
+      "get": {
+        "tags": [
+          "Privacy Audit Event"
+        ],
+        "summary": "List Privacy Audit Event records",
+        "description": "An audit trail entry for access, sharing, export, deletion, policy changes, consent changes, or token issuance involving governed data.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Privacy Audit Event records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PrivacyAuditEvent"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance/privacy/audit-events/{id}": {
+      "get": {
+        "tags": [
+          "Privacy Audit Event"
+        ],
+        "summary": "Get one Privacy Audit Event record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Privacy Audit Event record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Privacy Audit Event record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyAuditEvent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LtiRegistration": {
+        "type": "object",
+        "description": "The security agreement between this platform and one external LTI tool.",
+        "required": [
+          "id",
+          "tenantId",
+          "issuer",
+          "clientId",
+          "toolName",
+          "initiateLoginUri",
+          "redirectUris",
+          "authorizationEndpoint",
+          "tokenEndpoint",
+          "allowedScopes",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this LTI registration."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The school, district, or customer boundary that owns this registration."
+          },
+          "issuer": {
+            "type": "string",
+            "description": "The platform issuer identifier used in LTI launch tokens."
+          },
+          "clientId": {
+            "type": "string",
+            "description": "The OAuth client ID assigned to the tool by the platform."
+          },
+          "toolName": {
+            "type": "string",
+            "description": "The name administrators and instructors see for the external tool."
+          },
+          "initiateLoginUri": {
+            "type": "string",
+            "description": "The tool URL where the platform starts the LTI login flow."
+          },
+          "redirectUris": {
+            "type": "string",
+            "description": "The tool URLs that are allowed to receive launch responses."
+          },
+          "jwksUri": {
+            "type": "string",
+            "description": "The URL where public signing keys for the tool or platform can be fetched."
+          },
+          "authorizationEndpoint": {
+            "type": "string",
+            "description": "The platform URL used during OpenID Connect authentication."
+          },
+          "tokenEndpoint": {
+            "type": "string",
+            "description": "The platform URL where the tool asks for service access tokens."
+          },
+          "allowedScopes": {
+            "type": "string",
+            "description": "The service permissions the tool may request after policy review."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether this registration can currently be used.",
+            "enum": [
+              "active",
+              "inactive",
+              "retired"
+            ],
+            "x-valueDescriptions": {
+              "active": "The record is currently allowed for use.",
+              "inactive": "The record exists but is not currently usable.",
+              "retired": "The record is kept for history but should not be used for new activity."
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "When this registration was created.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "When this registration was last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "LtiDeployment": {
+        "type": "object",
+        "description": "One installation of an LTI tool for a tenant, school, course, section, or activity.",
+        "required": [
+          "id",
+          "registrationId",
+          "deploymentId",
+          "deploymentScope",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this deployment."
+          },
+          "registrationId": {
+            "type": "string",
+            "description": "The LTI registration that governs this deployment."
+          },
+          "deploymentId": {
+            "type": "string",
+            "description": "The immutable deployment identifier sent in LTI launch claims."
+          },
+          "deploymentScope": {
+            "type": "string",
+            "description": "The level where this tool installation is available.",
+            "enum": [
+              "tenant",
+              "school",
+              "course",
+              "section",
+              "activity"
+            ],
+            "x-valueDescriptions": {
+              "tenant": "The deployment applies across the whole school, district, or customer boundary.",
+              "school": "The deployment applies to one school or building.",
+              "course": "The deployment applies to one course offering.",
+              "section": "The deployment applies to one class or section.",
+              "activity": "The deployment applies to one resource link or learning activity."
+            }
+          },
+          "contextId": {
+            "type": "string",
+            "description": "The course, section, school, or tenant context this deployment is attached to."
+          },
+          "resourceLinkId": {
+            "type": "string",
+            "description": "The specific course activity link this deployment is tied to when the tool is activity-scoped."
+          },
+          "serviceScopes": {
+            "type": "string",
+            "description": "The LTI Advantage scopes enabled for this deployment after tenant policy filtering."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether launches and services for this deployment are enabled.",
+            "enum": [
+              "active",
+              "inactive",
+              "retired"
+            ],
+            "x-valueDescriptions": {
+              "active": "The record is currently allowed for use.",
+              "inactive": "The record exists but is not currently usable.",
+              "retired": "The record is kept for history but should not be used for new activity."
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "When this deployment was created.",
+            "format": "date-time"
+          }
+        }
+      },
+      "LtiLaunch": {
+        "type": "object",
+        "description": "One launch attempt from the platform to an external LTI tool.",
+        "required": [
+          "id",
+          "tenantId",
+          "registrationId",
+          "deploymentId",
+          "messageType",
+          "ltiVersion",
+          "targetLinkUri",
+          "nonceHash",
+          "idTokenHash",
+          "rawClaims",
+          "launchedAt",
+          "validationStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this launch attempt."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The tenant boundary that owns the launch event."
+          },
+          "registrationId": {
+            "type": "string",
+            "description": "The registration used to validate and route the launch."
+          },
+          "deploymentId": {
+            "type": "string",
+            "description": "The LTI deployment identifier included in the launch."
+          },
+          "messageType": {
+            "type": "string",
+            "description": "The LTI workflow represented by this launch.",
+            "enum": [
+              "LtiResourceLinkRequest",
+              "LtiDeepLinkingRequest",
+              "LtiDeepLinkingResponse"
+            ],
+            "x-valueDescriptions": {
+              "LtiResourceLinkRequest": "A normal launch from a course activity link.",
+              "LtiDeepLinkingRequest": "An instructor launch used to select content from a tool.",
+              "LtiDeepLinkingResponse": "A tool response returning selected content to the platform."
+            }
+          },
+          "ltiVersion": {
+            "type": "string",
+            "description": "The LTI version claim supplied in the launch.",
+            "enum": [
+              "1.3.0"
+            ],
+            "x-valueDescriptions": {
+              "1.3.0": "The LTI 1.3 launch message version used by the current model."
+            }
+          },
+          "subjectId": {
+            "type": "string",
+            "description": "The user identifier from the launch token when the launch is not anonymous."
+          },
+          "contextId": {
+            "type": "string",
+            "description": "The course, section, or group where the launch happened."
+          },
+          "roles": {
+            "type": "string",
+            "description": "The LTI roles supplied for the launching user."
+          },
+          "targetLinkUri": {
+            "type": "string",
+            "description": "The final tool URL that should receive the launch."
+          },
+          "nonceHash": {
+            "type": "string",
+            "description": "A stored fingerprint of the one-time launch nonce used to prevent replay."
+          },
+          "idTokenHash": {
+            "type": "string",
+            "description": "A fingerprint of the signed launch token kept for audit without exposing the full token everywhere."
+          },
+          "rawClaims": {
+            "type": "string",
+            "description": "The original launch claims retained for troubleshooting and conformance review under tenant policy."
+          },
+          "launchedAt": {
+            "type": "string",
+            "description": "When the launch was initiated.",
+            "format": "date-time"
+          },
+          "validationStatus": {
+            "type": "string",
+            "description": "Whether signature, issuer, audience, deployment, nonce, and time checks passed.",
+            "enum": [
+              "pending",
+              "valid",
+              "invalid",
+              "rejected"
+            ],
+            "x-valueDescriptions": {
+              "pending": "The payload or workflow has not been fully checked yet.",
+              "valid": "The payload or workflow passed platform validation.",
+              "invalid": "The payload or workflow failed validation.",
+              "rejected": "The platform rejected the payload or workflow under policy."
+            }
+          }
+        }
+      },
+      "LtiServiceEndpoint": {
+        "type": "object",
+        "description": "An LTI Advantage service URL that a tool may call for roster, gradebook, or deep-linking workflows.",
+        "required": [
+          "id",
+          "deploymentId",
+          "serviceType",
+          "endpointUrl",
+          "serviceVersions",
+          "requiredScope",
+          "policyStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this LTI service endpoint."
+          },
+          "deploymentId": {
+            "type": "string",
+            "description": "The deployment that may expose this service endpoint."
+          },
+          "serviceType": {
+            "type": "string",
+            "description": "Which LTI Advantage service this endpoint supports.",
+            "enum": [
+              "nrps",
+              "ags_line_items",
+              "ags_scores",
+              "ags_results",
+              "deep_linking"
+            ],
+            "x-valueDescriptions": {
+              "nrps": "The service that returns course or context memberships.",
+              "ags_line_items": "The service surface for gradebook columns.",
+              "ags_scores": "The service surface for sending score updates.",
+              "ags_results": "The service surface for reading stored grade results.",
+              "deep_linking": "The launch workflow for selecting tool content into a course."
+            }
+          },
+          "endpointUrl": {
+            "type": "string",
+            "description": "The API URL a tool calls for this service."
+          },
+          "serviceVersions": {
+            "type": "string",
+            "description": "The supported service versions advertised to the tool."
+          },
+          "requiredScope": {
+            "type": "string",
+            "description": "The OAuth scope required before the tool may call this endpoint."
+          },
+          "contextId": {
+            "type": "string",
+            "description": "The class, course, section, or activity context the service is scoped to."
+          },
+          "policyStatus": {
+            "type": "string",
+            "description": "Whether tenant privacy and scope policy allows this service to be exposed.",
+            "enum": [
+              "active",
+              "inactive",
+              "retired"
+            ],
+            "x-valueDescriptions": {
+              "active": "The record is currently allowed for use.",
+              "inactive": "The record exists but is not currently usable.",
+              "retired": "The record is kept for history but should not be used for new activity."
+            }
+          }
+        }
+      },
+      "LtiMembership": {
+        "type": "object",
+        "description": "One person returned in an LTI Names and Role Provisioning Service roster response.",
+        "required": [
+          "id",
+          "serviceEndpointId",
+          "contextId",
+          "userId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this LTI membership projection."
+          },
+          "serviceEndpointId": {
+            "type": "string",
+            "description": "The NRPS endpoint that returned or would return this membership."
+          },
+          "contextId": {
+            "type": "string",
+            "description": "The course, section, group, or other context represented by the membership."
+          },
+          "userId": {
+            "type": "string",
+            "description": "The LTI user ID for the member."
+          },
+          "platformPersonId": {
+            "type": "string",
+            "description": "The resolved platform person ID when policy permits resolution."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "The member name shared with the tool."
+          },
+          "email": {
+            "type": "string",
+            "description": "The member email shared with the tool if policy allows it."
+          },
+          "roles": {
+            "type": "string",
+            "description": "The LTI roles this member has in the context."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the membership is currently active.",
+            "enum": [
+              "Active",
+              "Inactive"
+            ],
+            "x-valueDescriptions": {
+              "Active": "The person is currently active in the context.",
+              "Inactive": "The person has a membership but is not currently active."
+            }
+          },
+          "lisPersonSourcedid": {
+            "type": "string",
+            "description": "A legacy or SIS-linked person identifier shared through LTI when allowed."
+          }
+        }
+      },
+      "LtiGradeExchange": {
+        "type": "object",
+        "description": "A gradebook line item, score, or result exchanged through LTI Assignment and Grade Services.",
+        "required": [
+          "id",
+          "serviceEndpointId",
+          "timestamp",
+          "exchangeStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this AGS exchange record."
+          },
+          "serviceEndpointId": {
+            "type": "string",
+            "description": "The AGS endpoint used for this grade exchange."
+          },
+          "lineItemUrl": {
+            "type": "string",
+            "description": "The URL or identifier for the gradebook line item."
+          },
+          "lineItemLabel": {
+            "type": "string",
+            "description": "The human-readable gradebook column name."
+          },
+          "scoreMaximum": {
+            "type": "number",
+            "description": "The maximum possible score for the line item or score update."
+          },
+          "scoreGiven": {
+            "type": "number",
+            "description": "The points or score earned by the learner."
+          },
+          "userId": {
+            "type": "string",
+            "description": "The learner who receives the score or result."
+          },
+          "activityProgress": {
+            "type": "string",
+            "description": "Where the learner is in the activity lifecycle.",
+            "enum": [
+              "Initialized",
+              "Started",
+              "InProgress",
+              "Submitted",
+              "Completed"
+            ],
+            "x-valueDescriptions": {
+              "Initialized": "The activity record exists but work has not started.",
+              "Started": "The learner started the activity.",
+              "InProgress": "The learner is still working.",
+              "Submitted": "The learner submitted work.",
+              "Completed": "The activity is complete."
+            }
+          },
+          "gradingProgress": {
+            "type": "string",
+            "description": "Where the score is in the grading lifecycle.",
+            "enum": [
+              "FullyGraded",
+              "Pending",
+              "PendingManual",
+              "Failed",
+              "NotReady"
+            ],
+            "x-valueDescriptions": {
+              "FullyGraded": "The final grade is ready.",
+              "Pending": "The grade is not ready yet.",
+              "PendingManual": "A person still needs to grade the work.",
+              "Failed": "Grading failed.",
+              "NotReady": "There is not enough information to grade yet."
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "When the tool or platform created this grade exchange event.",
+            "format": "date-time"
+          },
+          "exchangeStatus": {
+            "type": "string",
+            "description": "Whether the AGS exchange was accepted, rejected, or held for review.",
+            "enum": [
+              "pending",
+              "valid",
+              "invalid",
+              "rejected"
+            ],
+            "x-valueDescriptions": {
+              "pending": "The payload or workflow has not been fully checked yet.",
+              "valid": "The payload or workflow passed platform validation.",
+              "invalid": "The payload or workflow failed validation.",
+              "rejected": "The platform rejected the payload or workflow under policy."
+            }
+          }
+        }
+      },
+      "LtiDeepLinkItem": {
+        "type": "object",
+        "description": "One content item selected by an instructor from an LTI tool and returned to the platform.",
+        "required": [
+          "id",
+          "launchId",
+          "itemType"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this deep-linked item."
+          },
+          "launchId": {
+            "type": "string",
+            "description": "The Deep Linking launch that produced this selected item."
+          },
+          "itemType": {
+            "type": "string",
+            "description": "The kind of content the tool returned.",
+            "enum": [
+              "link",
+              "file",
+              "html",
+              "ltiResourceLink",
+              "image"
+            ],
+            "x-valueDescriptions": {
+              "link": "A normal web link.",
+              "file": "A file selected from the tool.",
+              "html": "An HTML snippet selected from the tool.",
+              "ltiResourceLink": "A launchable LTI activity returned by the tool.",
+              "image": "An image resource selected from the tool."
+            }
+          },
+          "title": {
+            "type": "string",
+            "description": "The title shown for the selected content item."
+          },
+          "url": {
+            "type": "string",
+            "description": "The content or tool URL returned by the tool."
+          },
+          "html": {
+            "type": "string",
+            "description": "An HTML snippet returned by the tool when the item is embedded content."
+          },
+          "documentTarget": {
+            "type": "string",
+            "description": "How the platform should display the selected item.",
+            "enum": [
+              "iframe",
+              "window",
+              "embed"
+            ],
+            "x-valueDescriptions": {
+              "iframe": "Display the item in an embedded frame.",
+              "window": "Open the item in a new browser window or tab.",
+              "embed": "Place the item directly in page content."
+            }
+          },
+          "lineItemJson": {
+            "type": "string",
+            "description": "Gradebook line item details returned with the selected item."
+          },
+          "availabilityStartAt": {
+            "type": "string",
+            "description": "When the item becomes available to learners.",
+            "format": "date-time"
+          },
+          "submissionEndAt": {
+            "type": "string",
+            "description": "When learner submissions for the item are due or closed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "SecurityOauthClient": {
+        "type": "object",
+        "description": "An OAuth client record used for LTI tools or other API integrations.",
+        "required": [
+          "id",
+          "tenantId",
+          "clientId",
+          "clientName",
+          "authMethod",
+          "grantTypes",
+          "allowedScopes",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this OAuth client."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The tenant that owns or authorizes this client."
+          },
+          "clientId": {
+            "type": "string",
+            "description": "The public OAuth client identifier."
+          },
+          "clientName": {
+            "type": "string",
+            "description": "The name shown to administrators when reviewing the client."
+          },
+          "jwksUri": {
+            "type": "string",
+            "description": "The URL where the client's public keys can be fetched."
+          },
+          "publicJwk": {
+            "type": "string",
+            "description": "A stored public key used to verify client assertions when a JWKS URL is not used."
+          },
+          "authMethod": {
+            "type": "string",
+            "description": "How the client proves its identity to the token endpoint.",
+            "enum": [
+              "private_key_jwt",
+              "client_secret_basic",
+              "client_secret_post"
+            ],
+            "x-valueDescriptions": {
+              "private_key_jwt": "The client signs a JWT with its private key to authenticate.",
+              "client_secret_basic": "The client authenticates with a shared secret using basic authentication.",
+              "client_secret_post": "The client authenticates with a shared secret in the token request body."
+            }
+          },
+          "grantTypes": {
+            "type": "string",
+            "description": "The OAuth grant types this client is allowed to use."
+          },
+          "allowedScopes": {
+            "type": "string",
+            "description": "The scopes this client may request after tenant and privacy policy are applied."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether tokens may currently be issued for this client.",
+            "enum": [
+              "active",
+              "suspended",
+              "retired"
+            ],
+            "x-valueDescriptions": {
+              "active": "The client may request tokens.",
+              "suspended": "Token issuance is paused for this client.",
+              "retired": "The client is retained for history but should not receive new tokens."
+            }
+          }
+        }
+      },
+      "SecurityScopePolicy": {
+        "type": "object",
+        "description": "A rule mapping an OAuth scope to the API resources, actions, roles, and privacy classes it may access.",
+        "required": [
+          "id",
+          "scope",
+          "apiResource",
+          "allowedAction",
+          "privacyCeiling",
+          "requiresLaunchContext",
+          "policyStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this scope policy."
+          },
+          "scope": {
+            "type": "string",
+            "description": "The OAuth scope controlled by this rule."
+          },
+          "apiResource": {
+            "type": "string",
+            "description": "The endpoint group or dictionary object this scope may access."
+          },
+          "allowedAction": {
+            "type": "string",
+            "description": "The operation permitted by this scope.",
+            "enum": [
+              "read",
+              "write",
+              "launch",
+              "admin"
+            ],
+            "x-valueDescriptions": {
+              "read": "The scope allows data to be read.",
+              "write": "The scope allows data to be created or changed.",
+              "launch": "The scope or policy supports launch-bound access.",
+              "admin": "The scope allows administrative configuration."
+            }
+          },
+          "privacyCeiling": {
+            "type": "string",
+            "description": "The most sensitive privacy class this scope may expose without another policy rule.",
+            "enum": [
+              "public",
+              "directory",
+              "education_record",
+              "sensitive",
+              "behavioral",
+              "operational",
+              "system",
+              "privacy_governance"
+            ],
+            "x-valueDescriptions": {
+              "public": "Safe to publish without exposing a private learner record.",
+              "directory": "Name, email, picture, role, or organization information that schools often share but still control.",
+              "education_record": "Enrollment, grade, progress, submission, achievement, or transcript data about a learner.",
+              "sensitive": "Data needing extra care, including private identifiers, demographics, accommodations, or security proof material.",
+              "behavioral": "Activity or usage data created by using a tool or resource.",
+              "operational": "Import, export, launch, validation, or processing data.",
+              "system": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data.",
+              "privacy_governance": "Policy and review data used to decide how other data may be shared or retained."
+            }
+          },
+          "fieldPatterns": {
+            "type": "string",
+            "description": "Optional dictionary field names or patterns allowed by this scope."
+          },
+          "requiresLaunchContext": {
+            "type": "boolean",
+            "description": "Whether access must be tied to a current launch, deployment, class, or activity context."
+          },
+          "allowedRoles": {
+            "type": "string",
+            "description": "Roles that may use or benefit from the scope."
+          },
+          "policyStatus": {
+            "type": "string",
+            "description": "Whether this scope policy is active, inactive, or retired.",
+            "enum": [
+              "active",
+              "inactive",
+              "retired"
+            ],
+            "x-valueDescriptions": {
+              "active": "The record is currently allowed for use.",
+              "inactive": "The record exists but is not currently usable.",
+              "retired": "The record is kept for history but should not be used for new activity."
+            }
+          }
+        }
+      },
+      "PrivacyDataSharingRule": {
+        "type": "object",
+        "description": "A tenant policy rule explaining what data may be shared, with whom, for what purpose, and under what legal basis.",
+        "required": [
+          "id",
+          "tenantId",
+          "dataCategory",
+          "privacyClass",
+          "recipientType",
+          "purpose",
+          "legalBasis",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this data sharing rule."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The tenant whose policy this rule belongs to."
+          },
+          "dataCategory": {
+            "type": "string",
+            "description": "The broad kind of school data governed by the rule.",
+            "enum": [
+              "roster",
+              "gradebook",
+              "assessment",
+              "activity",
+              "credential",
+              "identifier",
+              "security",
+              "consent",
+              "raw_payload"
+            ],
+            "x-valueDescriptions": {
+              "roster": "People, roles, classes, sections, and memberships.",
+              "gradebook": "Line items, scores, results, and grading state.",
+              "assessment": "Assessment content, attempts, responses, and outcomes.",
+              "activity": "Launches, events, sessions, and tool usage.",
+              "credential": "Badges, transcripts, achievements, endorsements, and proofs.",
+              "identifier": "IDs and crosswalks that connect people or resources across systems.",
+              "security": "Tokens, keys, scopes, client records, and audit evidence.",
+              "consent": "Consent choices and related evidence.",
+              "raw_payload": "Original standards payloads retained for audit or reprocessing."
+            }
+          },
+          "privacyClass": {
+            "type": "string",
+            "description": "The platform privacy class for the data covered by this rule.",
+            "enum": [
+              "public",
+              "directory",
+              "education_record",
+              "sensitive",
+              "behavioral",
+              "operational",
+              "system",
+              "privacy_governance"
+            ],
+            "x-valueDescriptions": {
+              "public": "Safe to publish without exposing a private learner record.",
+              "directory": "Name, email, picture, role, or organization information that schools often share but still control.",
+              "education_record": "Enrollment, grade, progress, submission, achievement, or transcript data about a learner.",
+              "sensitive": "Data needing extra care, including private identifiers, demographics, accommodations, or security proof material.",
+              "behavioral": "Activity or usage data created by using a tool or resource.",
+              "operational": "Import, export, launch, validation, or processing data.",
+              "system": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data.",
+              "privacy_governance": "Policy and review data used to decide how other data may be shared or retained."
+            }
+          },
+          "recipientType": {
+            "type": "string",
+            "description": "Who may receive the data under this rule.",
+            "enum": [
+              "internal_app",
+              "external_tool",
+              "district_admin",
+              "school_staff",
+              "learner",
+              "guardian",
+              "service_provider"
+            ],
+            "x-valueDescriptions": {
+              "internal_app": "A platform-owned app or service.",
+              "external_tool": "A third-party tool or integration.",
+              "district_admin": "A district administrator or authorized central-office user.",
+              "school_staff": "A teacher, counselor, administrator, or staff member.",
+              "learner": "The learner whose data is involved.",
+              "guardian": "A parent or guardian authorized to view the learner's data.",
+              "service_provider": "A vendor or processor acting under agreement."
+            }
+          },
+          "purpose": {
+            "type": "string",
+            "description": "The educational or operational reason for sharing the data."
+          },
+          "legalBasis": {
+            "type": "string",
+            "description": "The legal or policy basis used to justify the data sharing.",
+            "enum": [
+              "consent",
+              "contract",
+              "school_official",
+              "legitimate_interest",
+              "legal_obligation"
+            ],
+            "x-valueDescriptions": {
+              "consent": "The person or guardian has consented to this sharing.",
+              "contract": "The sharing is covered by a contract or service agreement.",
+              "school_official": "The recipient acts under school official or equivalent educational interest rules.",
+              "legitimate_interest": "The sharing supports an approved operational or educational interest.",
+              "legal_obligation": "The sharing is required by law, regulation, or formal process."
+            }
+          },
+          "fieldPatterns": {
+            "type": "string",
+            "description": "The dictionary fields or field patterns this rule covers."
+          },
+          "minimizationNote": {
+            "type": "string",
+            "description": "How the platform limits shared data to what the purpose requires."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether this sharing rule is currently active.",
+            "enum": [
+              "active",
+              "inactive",
+              "retired"
+            ],
+            "x-valueDescriptions": {
+              "active": "The record is currently allowed for use.",
+              "inactive": "The record exists but is not currently usable.",
+              "retired": "The record is kept for history but should not be used for new activity."
+            }
+          },
+          "reviewedAt": {
+            "type": "string",
+            "description": "When the rule was last reviewed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "PrivacyConsentRecord": {
+        "type": "object",
+        "description": "A record of learner, guardian, or administrator consent connected to a privacy rule.",
+        "required": [
+          "id",
+          "tenantId",
+          "personId",
+          "ruleId",
+          "consentStatus",
+          "effectiveAt",
+          "sourceMethod"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this consent record."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The tenant boundary for this consent record."
+          },
+          "personId": {
+            "type": "string",
+            "description": "The learner or user whose data the consent concerns."
+          },
+          "guardianPersonId": {
+            "type": "string",
+            "description": "The guardian or authorized person who gave consent when applicable."
+          },
+          "ruleId": {
+            "type": "string",
+            "description": "The data sharing rule this consent applies to."
+          },
+          "consentStatus": {
+            "type": "string",
+            "description": "Whether consent is granted, denied, revoked, expired, or pending.",
+            "enum": [
+              "pending",
+              "granted",
+              "denied",
+              "revoked",
+              "expired"
+            ],
+            "x-valueDescriptions": {
+              "pending": "The platform has not received a final consent choice.",
+              "granted": "Consent is currently granted.",
+              "denied": "Consent was not granted.",
+              "revoked": "Previously granted consent was withdrawn.",
+              "expired": "Consent was time-limited and is no longer active."
+            }
+          },
+          "effectiveAt": {
+            "type": "string",
+            "description": "When the consent state became effective.",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "description": "When the consent state expires if it is time-limited.",
+            "format": "date-time"
+          },
+          "sourceMethod": {
+            "type": "string",
+            "description": "How the platform received this consent state.",
+            "enum": [
+              "admin",
+              "guardian_portal",
+              "learner_portal",
+              "imported_agreement"
+            ],
+            "x-valueDescriptions": {
+              "admin": "An administrator recorded the consent state.",
+              "guardian_portal": "A guardian submitted the consent state through a portal.",
+              "learner_portal": "A learner submitted the consent state through a portal.",
+              "imported_agreement": "The consent state came from an imported agreement or external system."
+            }
+          },
+          "evidenceUri": {
+            "type": "string",
+            "description": "A reference to the form, agreement, or audit evidence for the consent."
+          }
+        }
+      },
+      "PrivacyRetentionRule": {
+        "type": "object",
+        "description": "A tenant rule for how long a category of data is retained and what happens when it expires.",
+        "required": [
+          "id",
+          "tenantId",
+          "sourceStandard",
+          "dataCategory",
+          "retentionPeriodDays",
+          "actionOnExpiry",
+          "rawPayloadPolicy",
+          "legalHold",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this retention rule."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The tenant whose data retention policy this rule belongs to."
+          },
+          "sourceStandard": {
+            "type": "string",
+            "description": "The standard or platform area that produces the data.",
+            "enum": [
+              "lti",
+              "security_framework",
+              "data_privacy",
+              "oneroster",
+              "qti",
+              "case",
+              "caliper"
+            ],
+            "x-valueDescriptions": {
+              "lti": "Learning Tools Interoperability launch or service data.",
+              "security_framework": "OAuth, OIDC, key, token, scope, or service security data.",
+              "data_privacy": "Privacy policy, consent, retention, or audit data.",
+              "oneroster": "Rostering, gradebook, or related OneRoster data.",
+              "qti": "Assessment package or item data.",
+              "case": "Standards framework data.",
+              "caliper": "Learning event or analytics data."
+            }
+          },
+          "dataCategory": {
+            "type": "string",
+            "description": "The category of data controlled by this retention rule.",
+            "enum": [
+              "roster",
+              "gradebook",
+              "assessment",
+              "activity",
+              "credential",
+              "identifier",
+              "security",
+              "consent",
+              "raw_payload"
+            ],
+            "x-valueDescriptions": {
+              "roster": "People, roles, classes, sections, and memberships.",
+              "gradebook": "Line items, scores, results, and grading state.",
+              "assessment": "Assessment content, attempts, responses, and outcomes.",
+              "activity": "Launches, events, sessions, and tool usage.",
+              "credential": "Badges, transcripts, achievements, endorsements, and proofs.",
+              "identifier": "IDs and crosswalks that connect people or resources across systems.",
+              "security": "Tokens, keys, scopes, client records, and audit evidence.",
+              "consent": "Consent choices and related evidence.",
+              "raw_payload": "Original standards payloads retained for audit or reprocessing."
+            }
+          },
+          "retentionPeriodDays": {
+            "type": "integer",
+            "description": "How many days the data may be retained before the action is due."
+          },
+          "actionOnExpiry": {
+            "type": "string",
+            "description": "What the platform should do when data reaches the retention limit.",
+            "enum": [
+              "delete",
+              "anonymize",
+              "aggregate_only",
+              "legal_hold"
+            ],
+            "x-valueDescriptions": {
+              "delete": "Remove the data when the retention limit is reached.",
+              "anonymize": "Remove or transform identifiers so the data no longer identifies a learner.",
+              "aggregate_only": "Keep only aggregate counts or summaries.",
+              "legal_hold": "Retain the data because a legal hold prevents deletion."
+            }
+          },
+          "rawPayloadPolicy": {
+            "type": "string",
+            "description": "How the platform should retain raw standards payloads after projection.",
+            "enum": [
+              "retain",
+              "minimize",
+              "hash_only",
+              "discard_after_projection"
+            ],
+            "x-valueDescriptions": {
+              "retain": "Keep the original payload under access controls.",
+              "minimize": "Retain only the payload parts needed for audit or reprocessing.",
+              "hash_only": "Keep a fingerprint of the payload instead of the full original.",
+              "discard_after_projection": "Delete the raw payload after structured fields are projected."
+            }
+          },
+          "legalHold": {
+            "type": "boolean",
+            "description": "Whether deletion or anonymization is paused by a legal hold."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether this retention rule is active, inactive, or retired.",
+            "enum": [
+              "active",
+              "inactive",
+              "retired"
+            ],
+            "x-valueDescriptions": {
+              "active": "The record is currently allowed for use.",
+              "inactive": "The record exists but is not currently usable.",
+              "retired": "The record is kept for history but should not be used for new activity."
+            }
+          }
+        }
+      },
+      "PrivacyAuditEvent": {
+        "type": "object",
+        "description": "An audit trail entry for access, sharing, export, deletion, policy changes, consent changes, or token issuance involving governed data.",
+        "required": [
+          "id",
+          "tenantId",
+          "eventType",
+          "objectType",
+          "privacyClass",
+          "occurredAt",
+          "outcome"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this audit event."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The tenant boundary for the audited event."
+          },
+          "actorPersonId": {
+            "type": "string",
+            "description": "The person who performed the audited action, if a person was involved."
+          },
+          "clientId": {
+            "type": "string",
+            "description": "The OAuth client or tool that performed the audited action, if an integration was involved."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of privacy or security event being recorded.",
+            "enum": [
+              "access",
+              "export",
+              "share",
+              "delete",
+              "policy_change",
+              "consent_change",
+              "token_issue"
+            ],
+            "x-valueDescriptions": {
+              "access": "Data was read or queried.",
+              "export": "Data was exported outside the platform.",
+              "share": "Data was shared with a recipient or tool.",
+              "delete": "Data was deleted or scheduled for deletion.",
+              "policy_change": "A privacy, scope, or retention policy changed.",
+              "consent_change": "A consent state changed.",
+              "token_issue": "A security token was issued or denied."
+            }
+          },
+          "objectType": {
+            "type": "string",
+            "description": "The dictionary object, endpoint group, or policy area affected by the event."
+          },
+          "objectId": {
+            "type": "string",
+            "description": "The specific record affected by the event when one applies."
+          },
+          "privacyClass": {
+            "type": "string",
+            "description": "The most sensitive privacy class involved in the event.",
+            "enum": [
+              "public",
+              "directory",
+              "education_record",
+              "sensitive",
+              "behavioral",
+              "operational",
+              "system",
+              "privacy_governance"
+            ],
+            "x-valueDescriptions": {
+              "public": "Safe to publish without exposing a private learner record.",
+              "directory": "Name, email, picture, role, or organization information that schools often share but still control.",
+              "education_record": "Enrollment, grade, progress, submission, achievement, or transcript data about a learner.",
+              "sensitive": "Data needing extra care, including private identifiers, demographics, accommodations, or security proof material.",
+              "behavioral": "Activity or usage data created by using a tool or resource.",
+              "operational": "Import, export, launch, validation, or processing data.",
+              "system": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data.",
+              "privacy_governance": "Policy and review data used to decide how other data may be shared or retained."
+            }
+          },
+          "policyId": {
+            "type": "string",
+            "description": "The scope, sharing, consent, or retention policy that governed the event."
+          },
+          "occurredAt": {
+            "type": "string",
+            "description": "When the audited event occurred.",
+            "format": "date-time"
+          },
+          "outcome": {
+            "type": "string",
+            "description": "Whether the action was allowed, denied, failed, or completed.",
+            "enum": [
+              "allowed",
+              "denied",
+              "failed",
+              "completed"
+            ],
+            "x-valueDescriptions": {
+              "allowed": "The platform allowed the action.",
+              "denied": "The platform denied the action.",
+              "failed": "The action failed before completion.",
+              "completed": "The action completed successfully."
+            }
+          },
+          "reason": {
+            "type": "string",
+            "description": "A short explanation for the audit outcome."
+          }
+        }
+      }
+    }
+  },
+  "x-unsupported-or-deferred": [
+    {
+      "area": "Live LTI launch validation",
+      "reason": "Requires a hosted OAuth/OIDC backend, nonce and state storage, private key management, and tenant deployment records."
+    },
+    {
+      "area": "Public AGS, NRPS, and Deep Linking runtime",
+      "reason": "Requires token issuance, tenant row-level authorization, gradebook write policy, and live service endpoints."
+    },
+    {
+      "area": "Production OAuth/OIDC server",
+      "reason": "GitHub Pages cannot host token endpoints, client assertion validation, or secret/key storage."
+    },
+    {
+      "area": "Automated privacy enforcement workflows",
+      "reason": "Consent checks, retention jobs, deletion, export, and data-sharing agreements need persistent backend services."
+    },
+    {
+      "area": "Formal certification claims",
+      "reason": "LTI, Security Framework, and Data Privacy certification require conformance testing and organizational review beyond generated dictionary artifacts."
+    }
+  ]
+}

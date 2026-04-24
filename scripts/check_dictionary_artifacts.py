@@ -47,6 +47,15 @@ CONFIGS = [
         "markdown": ROOT / "docs" / "generated" / "caliper-core-dictionary.md",
         "html": ROOT / "site" / "docs" / "caliper-core-dictionary.html",
     },
+    {
+        "name": "Integration and governance core",
+        "source": ROOT / "dictionary" / "integration-governance-core.v1.json",
+        "sql_schema": "integration",
+        "sql": ROOT / "schema" / "generated" / "integration_governance_core_comments.sql",
+        "openapi": ROOT / "openapi" / "generated" / "integration-governance-core.v0.json",
+        "markdown": ROOT / "docs" / "generated" / "integration-governance-core-dictionary.md",
+        "html": ROOT / "site" / "docs" / "integration-governance-core-dictionary.html",
+    },
 ]
 
 REQUIRED_OBJECT_KEYS = {

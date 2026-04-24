@@ -88,11 +88,12 @@ The generated QTI repository SQL comments, OpenAPI JSON, and Markdown/HTML dicti
 python3 scripts/generate_qti_core.py
 ```
 
-The generated CASE and Caliper SQL comments, OpenAPI JSON, and Markdown/HTML dictionaries come from their structured sources via:
+The generated CASE, Caliper, and integration/governance SQL comments, OpenAPI JSON, and Markdown/HTML dictionaries come from their structured sources via:
 
 ```sh
 python3 scripts/generate_case_core.py
 python3 scripts/generate_caliper_core.py
+python3 scripts/generate_integration_governance_core.py
 ```
 
 Build the GitHub Pages JSON endpoints and rendered HTML docs with:

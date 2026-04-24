@@ -12,9 +12,9 @@ This page explains how every standard currently marked `Lead` is accounted for. 
 | CASE 1.1 | Structured/generated framework graph projection exists; not yet executable. | `dictionary/case-core.v1.json`, generated CASE docs/OpenAPI/SQL comments, CASE layperson dictionary, overlap decisions for alignment. |
 | QTI 3 | Structured/generated repository projection exists; not yet executable. | `dictionary/qti-core.v1.json`, generated QTI docs/OpenAPI/SQL comments, QTI layperson dictionary, QTI projection decision, overlap decisions for results, alignment, resources, time. |
 | Caliper 1.2 | Structured/generated event projection exists; event ingestion not yet executable. | `dictionary/caliper-core.v1.json`, generated Caliper docs/OpenAPI/SQL comments, Caliper layperson dictionary, overlap decisions for actor, membership, grade events, time. |
-| LTI 1.3/LTI Advantage | Researched and documented; launch/API-context decision recorded; not yet executable. | Integration dictionary; overlap decisions for launch context, roles, membership, IDs, resources. |
-| Security Framework 1.1 | Governance/accounting coverage; implementation deferred until auth layer exists. | Integration/governance dictionary; tenancy and privacy/security decisions. |
-| Data Privacy 1.0 | Governance/accounting coverage; implementation deferred until tenant/auth layer exists. | Privacy classes, integration/governance dictionary, tenancy and privacy/security decisions. |
+| LTI 1.3/LTI Advantage | Structured/generated integration projection exists; launch and services are not yet executable. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, integration layperson dictionary, overlap decisions for launch context, roles, membership, IDs, resources. |
+| Security Framework 1.1 | Structured/generated OAuth and scope-policy projection exists; token issuance and enforcement are deferred until auth layer exists. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions. |
+| Data Privacy 1.0 | Structured/generated policy projection exists; live privacy workflows are deferred until tenant/auth layer exists. | `dictionary/integration-governance-core.v1.json`, privacy classes, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions. |
 
 ## OneRoster 1.2
 
@@ -159,6 +159,13 @@ Accounted for in the integration dictionary:
 - Deep Linking request/response/content item/media descriptor fields
 - Message type, role, membership status, AGS progress, deep-link content/target, and scope values
 
+Committed platform projection:
+
+- The generated integration/governance dictionary now lives at `dictionary/integration-governance-core.v1.json`.
+- `scripts/generate_integration_governance_core.py` emits SQL comments, OpenAPI schemas, Markdown docs, and portal HTML from that single source.
+- The projection covers LTI registrations, deployments, launches, service endpoints, NRPS memberships, AGS grade exchanges, Deep Linking items, and required LTI values.
+- The current projection is documentation/API-schema coverage only; launch validation and live LTI Advantage services need a backend.
+
 Deferred or not supported yet:
 
 | Area | Reason |
@@ -178,6 +185,12 @@ Accounted for in the integration/governance dictionary:
 - Security scopes
 - Service description documents
 - Audit and access-policy concepts
+
+Committed platform projection:
+
+- The integration/governance source includes OAuth clients and scope policies for Security Framework accounting.
+- Generated SQL/OpenAPI/docs connect scopes to API resources, actions, launch context requirements, roles, and privacy ceilings.
+- The current projection is not a token server; production OAuth/OIDC behavior remains deferred until there is hosted backend infrastructure.
 
 Deferred or not supported yet:
 
@@ -199,6 +212,12 @@ Accounted for in platform metadata:
 - Data categories
 - Legal basis values
 - Tenant policy and data minimization decisions
+
+Committed platform projection:
+
+- The integration/governance source includes privacy sharing rules, consent records, retention rules, and privacy audit events.
+- Generated SQL/OpenAPI/docs connect privacy classes, data categories, legal basis, recipients, consent state, retention actions, and audit outcomes.
+- The current projection is policy/accounting coverage only; live enforcement, deletion, export, and consent workflows need tenant-aware backend services.
 
 Deferred or not supported yet:
 

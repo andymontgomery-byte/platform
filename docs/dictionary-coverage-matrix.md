@@ -9,7 +9,7 @@ This matrix separates four different claims:
 - Runnable slice: the repo exposes actual demo data through SQL and JSON.
 - Unsupported ledger: unsupported or deferred parts are explicitly listed with reasons.
 
-`scripts/check_dictionary_artifacts.py` currently verifies that the structured OneRoster, QTI, CASE, and Caliper dictionaries are represented in generated SQL comments, OpenAPI schemas, Markdown docs, and HTML docs.
+`scripts/check_dictionary_artifacts.py` currently verifies that the structured OneRoster, QTI, CASE, Caliper, and integration/governance dictionaries are represented in generated SQL comments, OpenAPI schemas, Markdown docs, and HTML docs.
 
 | Area | Posture | Structured source | Generated artifacts | Runnable slice | Unsupported ledger | Current judgment |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -18,9 +18,9 @@ This matrix separates four different claims:
 | QTI 3 repository model | Lead | Yes: `dictionary/qti-core.v1.json` | Yes | No | Yes for current repository projection | Generated dictionary coverage now exists for the platform's QTI repository model. Runtime import/projection is still pending. |
 | CASE 1.1 | Lead | Yes: `dictionary/case-core.v1.json` | Yes | No | Yes for current framework graph projection | Generated dictionary coverage now exists for the platform's CASE framework graph model. Runtime import/search is still pending. |
 | Caliper 1.2 | Lead | Yes: `dictionary/caliper-core.v1.json` | Yes | No | Yes for current event projection | Generated dictionary coverage now exists for the platform's Caliper event, entity, actor, context, profile-rule, and extension model. Runtime ingestion is still pending. |
-| LTI 1.3/LTI Advantage | Lead | No | No | No | Partial | Good Markdown coverage, but no launch/API sandbox yet. |
-| Security Framework 1.1 | Lead/Governance | No | No | No | Partial | Documented as a required backend layer; GitHub Pages cannot implement token issuance or secrets. |
-| Data Privacy 1.0 | Lead/Governance | No | No | No | Partial | Privacy classes exist, but consent, retention, and data-sharing workflows are not implemented. |
+| LTI 1.3/LTI Advantage | Lead | Yes: `dictionary/integration-governance-core.v1.json` | Yes | No | Yes for launch/service projection | Generated dictionary coverage now exists for registration, deployment, launch, NRPS, AGS, and Deep Linking projections. Runtime launch/API sandbox is still pending. |
+| Security Framework 1.1 | Lead/Governance | Yes: `dictionary/integration-governance-core.v1.json` | Yes | No | Yes for OAuth/scope projection | Generated dictionary coverage now exists for OAuth clients and scope policies. Token issuance, secrets, and enforcement require a backend. |
+| Data Privacy 1.0 | Lead/Governance | Yes: `dictionary/integration-governance-core.v1.json` | Yes | No | Yes for policy projection | Generated dictionary coverage now exists for sharing rules, consent records, retention rules, and privacy audit events. Live workflows are still pending. |
 | Common Cartridge/Thin Common Cartridge | Prepare | No | No | No | Partial | Covered in integration dictionary and decisions; not a Lead executable slice yet. |
 | Open Badges 3.0/CLR 2.0 | Prepare | No | No | No | Partial | Covered in integration dictionary and overlap decisions; not a Lead executable slice yet. |
 

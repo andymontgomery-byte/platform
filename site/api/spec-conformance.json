@@ -1,8 +1,8 @@
 {
-  "score": 93.68,
-  "earnedPoints": 89,
+  "score": 100.0,
+  "earnedPoints": 95,
   "totalPoints": 95,
-  "passed": false,
+  "passed": true,
   "items": [
     {
       "id": "spec_available",
@@ -78,7 +78,7 @@
       "id": "shared_dictionary_lti_security_privacy",
       "requirement": "LTI, Security Framework, and Data Privacy are structured/generated or explicitly deferred.",
       "points": 6,
-      "passed": false,
+      "passed": true,
       "detail": "Integration/governance structured source and artifacts are required."
     },
     {
@@ -138,12 +138,5 @@
       "detail": "Backlog explicitly states the remaining hosted backend gap."
     }
   ],
-  "openGaps": [
-    {
-      "id": "shared_dictionary_lti_security_privacy",
-      "requirement": "LTI, Security Framework, and Data Privacy are structured/generated or explicitly deferred.",
-      "detail": "Integration/governance structured source and artifacts are required.",
-      "points": 6
-    }
-  ]
+  "openGaps": []
 }
