@@ -9,6 +9,7 @@ The platform exposes two developer-facing layers:
 
 ## Current Artifacts
 
+- [Customer-Facing Developer Portal](site/index.html)
 - [1EdTech Platform Plan](docs/1edtech-platform-plan.md)
 - [Phase 0 Standards and Dictionary](docs/phase-0-standards-and-dictionary.md)
 - [Layperson Data Dictionary Index](docs/dictionaries/README.md)
@@ -31,3 +32,13 @@ Phase 0 turns standards research into governed platform metadata:
 3. A single metadata source that can generate SQL comments, API descriptions, Markdown documentation, and AI-readable context.
 
 No application framework is assumed yet.
+
+## Local Website
+
+Run the customer-facing portal from the repo root:
+
+```sh
+python3 -m http.server 8080
+```
+
+Then open `http://localhost:8080/site/`.
