@@ -1,0 +1,155 @@
+{
+  "score": 87.37,
+  "earnedPoints": 83,
+  "totalPoints": 95,
+  "passed": false,
+  "items": [
+    {
+      "id": "spec_available",
+      "requirement": "New platform spec is available to the loop.",
+      "points": 2,
+      "passed": true,
+      "detail": "/Users/andymontgomery/Downloads/WF - Platform - 260424-144348.md"
+    },
+    {
+      "id": "portal_rendered",
+      "requirement": "Customer-facing portal exists and renders docs as HTML.",
+      "points": 5,
+      "passed": true,
+      "detail": "site/index.html, site/docs/index.html, root index.html"
+    },
+    {
+      "id": "no_raw_doc_links",
+      "requirement": "Portal does not link users to raw Markdown or YAML docs.",
+      "points": 4,
+      "passed": true,
+      "detail": "No href to .md/.yaml/.yml under site/"
+    },
+    {
+      "id": "rendered_openapi",
+      "requirement": "API specs are rendered with Redoc or equivalent.",
+      "points": 5,
+      "passed": true,
+      "detail": "Hosted JSON, local OneRoster, and QTI OpenAPI pages exist."
+    },
+    {
+      "id": "one_roster_vertical_slice",
+      "requirement": "OneRoster core has runnable SQL and JSON demo surfaces.",
+      "points": 8,
+      "passed": true,
+      "detail": "SQLite schema/seed/server/test plus hosted static JSON and browser SQL console."
+    },
+    {
+      "id": "real_hosted_urls",
+      "requirement": "Hosted API URLs use real GitHub Pages URLs, not example.edu/example API hosts.",
+      "points": 4,
+      "passed": true,
+      "detail": "GitHub Pages URL present and example API hosts absent."
+    },
+    {
+      "id": "shared_dictionary_oneroster",
+      "requirement": "OneRoster core dictionary generates SQL comments, OpenAPI descriptions, and docs.",
+      "points": 7,
+      "passed": true,
+      "detail": "OneRoster structured source and generated artifacts exist."
+    },
+    {
+      "id": "shared_dictionary_qti",
+      "requirement": "QTI repository projection is structured and generated.",
+      "points": 6,
+      "passed": true,
+      "detail": "QTI structured source and generated artifacts exist."
+    },
+    {
+      "id": "shared_dictionary_case",
+      "requirement": "CASE is structured and generated.",
+      "points": 6,
+      "passed": true,
+      "detail": "CASE structured source and generated artifacts are required."
+    },
+    {
+      "id": "shared_dictionary_caliper",
+      "requirement": "Caliper is structured and generated.",
+      "points": 6,
+      "passed": false,
+      "detail": "Caliper structured source and generated artifacts are required."
+    },
+    {
+      "id": "shared_dictionary_lti_security_privacy",
+      "requirement": "LTI, Security Framework, and Data Privacy are structured/generated or explicitly deferred.",
+      "points": 6,
+      "passed": false,
+      "detail": "Integration/governance structured source and artifacts are required."
+    },
+    {
+      "id": "dictionary_artifact_check",
+      "requirement": "Generated dictionary artifacts are checked for object/field/value coverage.",
+      "points": 5,
+      "passed": true,
+      "detail": "Coverage checker is in VERIFY.md."
+    },
+    {
+      "id": "lead_spec_accounting",
+      "requirement": "Every Lead spec is accounted for in the Lead spec accounting page.",
+      "points": 6,
+      "passed": true,
+      "detail": "Lead spec accounting includes all current Lead specs."
+    },
+    {
+      "id": "overlap_decisions",
+      "requirement": "Required overlap decisions are documented.",
+      "points": 7,
+      "passed": true,
+      "detail": "Decision page covers the required overlap areas plus tenancy."
+    },
+    {
+      "id": "developer_guide",
+      "requirement": "Portal explains what the platform provides and what app developers own.",
+      "points": 4,
+      "passed": true,
+      "detail": "Developer guide section exists."
+    },
+    {
+      "id": "gap_backlog_tracks_missing",
+      "requirement": "Missing spec work is tracked as TODO backlog, not only in chat.",
+      "points": 5,
+      "passed": true,
+      "detail": "Backlog includes open spec gaps."
+    },
+    {
+      "id": "coverage_matrix",
+      "requirement": "Coverage matrix distinguishes generated, runnable, deferred, and unsupported areas.",
+      "points": 4,
+      "passed": true,
+      "detail": "Coverage matrix exists with required columns."
+    },
+    {
+      "id": "status_manifest",
+      "requirement": "Machine-readable status/spec report is published for AI agents.",
+      "points": 3,
+      "passed": true,
+      "detail": "Expected site/api/spec-conformance.json or site/api/platform-status.json."
+    },
+    {
+      "id": "real_backend_acknowledged",
+      "requirement": "Backend gap is explicit until a real database/API server exists.",
+      "points": 2,
+      "passed": true,
+      "detail": "Backlog explicitly states the remaining hosted backend gap."
+    }
+  ],
+  "openGaps": [
+    {
+      "id": "shared_dictionary_caliper",
+      "requirement": "Caliper is structured and generated.",
+      "detail": "Caliper structured source and generated artifacts are required.",
+      "points": 6
+    },
+    {
+      "id": "shared_dictionary_lti_security_privacy",
+      "requirement": "LTI, Security Framework, and Data Privacy are structured/generated or explicitly deferred.",
+      "detail": "Integration/governance structured source and artifacts are required.",
+      "points": 6
+    }
+  ]
+}

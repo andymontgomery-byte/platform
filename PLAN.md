@@ -12,15 +12,17 @@ Current public backlog: `docs/spec-gap-backlog.md`.
 - Prefer the easiest open backlog item first.
 - Touch only files needed for that improvement.
 - Do not revert user work or unrelated dirty files.
-- Do not push unless the user explicitly asks for pushing in that session.
+- Do not push manually. The harness commits and pushes only after verification passes and the spec score improves.
 - Keep generated artifacts in sync with structured dictionary sources.
 - Update `PROGRESS.md` after every iteration.
+- If you discover a missing spec requirement that is not tracked, add it to `docs/spec-gap-backlog.md`, update `docs/dictionary-coverage-matrix.md` if coverage changes, and mention it in `PROGRESS.md`.
+- Treat `scripts/check_spec_conformance.py` and `site/api/spec-conformance.json` as the deterministic spec scoreboard.
 
 ## Current Priority Order
 
-- [ ] Finish item 7 from `docs/spec-gap-backlog.md`: convert CASE to a structured source dictionary and generated artifacts.
+- [x] Finish item 7 from `docs/spec-gap-backlog.md`: convert CASE to a structured source dictionary and generated artifacts.
 - [ ] Wire CASE into `scripts/check_dictionary_artifacts.py`.
-- [ ] Update the coverage matrix and Lead spec accounting for generated CASE coverage.
+- [x] Update the coverage matrix and Lead spec accounting for generated CASE coverage.
 - [ ] Convert Caliper to a structured source dictionary and generated artifacts.
 - [ ] Convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured source dictionaries.
 - [ ] Expand OneRoster full 1.2 accounting beyond the current core generated slice.

@@ -1,0 +1,2028 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform CASE 1.1 Framework Graph API",
+    "version": "0.1.0",
+    "summary": "Generated CASE framework graph API schemas from the structured CASE dictionary source.",
+    "description": "This OpenAPI document is generated from dictionary/case-core.v1.json. It documents the planned CASE framework graph projection API for standards, competencies, associations, definitions, rubrics, and operational statuses. It is not a formal CASE certification claim and is not executable on GitHub Pages until a backend is added."
+  },
+  "servers": [
+    {
+      "url": "https://andymontgomery-byte.github.io/platform/site",
+      "description": "Portal host; CASE endpoints are planned documentation until backend runtime exists."
+    }
+  ],
+  "paths": {
+    "/standards/case/packages": {
+      "get": {
+        "tags": [
+          "CASE Package"
+        ],
+        "summary": "List CASE Package records",
+        "description": "The full bundle for one framework: root document, items, relationship edges, definitions, and rubrics.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Package records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CasePackage"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/packages/{id}": {
+      "get": {
+        "tags": [
+          "CASE Package"
+        ],
+        "summary": "Get one CASE Package record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Package record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Package record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CasePackage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/documents": {
+      "get": {
+        "tags": [
+          "CASE Framework Document"
+        ],
+        "summary": "List CASE Framework Document records",
+        "description": "The root document for a standards, competency, course-code, or skill framework.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Framework Document records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseDocument"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/documents/{id}": {
+      "get": {
+        "tags": [
+          "CASE Framework Document"
+        ],
+        "summary": "Get one CASE Framework Document record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Framework Document record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Framework Document record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseDocument"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/items": {
+      "get": {
+        "tags": [
+          "CASE Framework Item"
+        ],
+        "summary": "List CASE Framework Item records",
+        "description": "One node in the framework, such as a standard, competency, skill, objective, course code, strand, domain, or cluster.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Framework Item records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseItem"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/items/{id}": {
+      "get": {
+        "tags": [
+          "CASE Framework Item"
+        ],
+        "summary": "Get one CASE Framework Item record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Framework Item record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Framework Item record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/associations": {
+      "get": {
+        "tags": [
+          "CASE Association"
+        ],
+        "summary": "List CASE Association records",
+        "description": "A relationship edge between framework documents or items.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Association records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseAssociation"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/associations/{id}": {
+      "get": {
+        "tags": [
+          "CASE Association"
+        ],
+        "summary": "Get one CASE Association record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Association record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Association record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseAssociation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/definitions": {
+      "get": {
+        "tags": [
+          "CASE Definition Set"
+        ],
+        "summary": "List CASE Definition Set records",
+        "description": "A set of reusable lookup definitions used by a framework.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Definition Set records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseDefinition"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/definitions/{id}": {
+      "get": {
+        "tags": [
+          "CASE Definition Set"
+        ],
+        "summary": "Get one CASE Definition Set record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Definition Set record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Definition Set record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseDefinition"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/concepts": {
+      "get": {
+        "tags": [
+          "CASE Concept"
+        ],
+        "summary": "List CASE Concept records",
+        "description": "A topic or idea addressed by the framework.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Concept records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseConcept"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/concepts/{id}": {
+      "get": {
+        "tags": [
+          "CASE Concept"
+        ],
+        "summary": "Get one CASE Concept record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Concept record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Concept record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseConcept"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/subjects": {
+      "get": {
+        "tags": [
+          "CASE Subject"
+        ],
+        "summary": "List CASE Subject records",
+        "description": "An academic or topical subject used by the framework.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Subject records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseSubject"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/subjects/{id}": {
+      "get": {
+        "tags": [
+          "CASE Subject"
+        ],
+        "summary": "Get one CASE Subject record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Subject record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Subject record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseSubject"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/item-types": {
+      "get": {
+        "tags": [
+          "CASE Item Type"
+        ],
+        "summary": "List CASE Item Type records",
+        "description": "A definition explaining what kind of framework item something is.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Item Type records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseItemType"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/item-types/{id}": {
+      "get": {
+        "tags": [
+          "CASE Item Type"
+        ],
+        "summary": "Get one CASE Item Type record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Item Type record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Item Type record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseItemType"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/licenses": {
+      "get": {
+        "tags": [
+          "CASE License"
+        ],
+        "summary": "List CASE License records",
+        "description": "A definition of permissions for using a framework, item, rubric, or related content.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE License records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseLicense"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/licenses/{id}": {
+      "get": {
+        "tags": [
+          "CASE License"
+        ],
+        "summary": "Get one CASE License record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE License record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE License record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseLicense"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/association-groupings": {
+      "get": {
+        "tags": [
+          "CASE Association Grouping"
+        ],
+        "summary": "List CASE Association Grouping records",
+        "description": "A label for a set of associations so people can understand why those relationships belong together.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Association Grouping records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseAssociationGrouping"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/association-groupings/{id}": {
+      "get": {
+        "tags": [
+          "CASE Association Grouping"
+        ],
+        "summary": "Get one CASE Association Grouping record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Association Grouping record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Association Grouping record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseAssociationGrouping"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/rubrics": {
+      "get": {
+        "tags": [
+          "CASE Rubric"
+        ],
+        "summary": "List CASE Rubric records",
+        "description": "A rubric describing criteria and performance levels for judging work or mastery.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Rubric records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseRubric"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/rubrics/{id}": {
+      "get": {
+        "tags": [
+          "CASE Rubric"
+        ],
+        "summary": "Get one CASE Rubric record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Rubric record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Rubric record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseRubric"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/rubric-criteria": {
+      "get": {
+        "tags": [
+          "CASE Rubric Criterion"
+        ],
+        "summary": "List CASE Rubric Criterion records",
+        "description": "One thing being judged in a rubric, such as reasoning, fluency, accuracy, evidence, or collaboration.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Rubric Criterion records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseRubricCriterion"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/rubric-criteria/{id}": {
+      "get": {
+        "tags": [
+          "CASE Rubric Criterion"
+        ],
+        "summary": "Get one CASE Rubric Criterion record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Rubric Criterion record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Rubric Criterion record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseRubricCriterion"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/rubric-criterion-levels": {
+      "get": {
+        "tags": [
+          "CASE Rubric Criterion Level"
+        ],
+        "summary": "List CASE Rubric Criterion Level records",
+        "description": "One performance level for a rubric criterion, such as beginning, developing, proficient, or advanced.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE Rubric Criterion Level records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseRubricCriterionLevel"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/rubric-criterion-levels/{id}": {
+      "get": {
+        "tags": [
+          "CASE Rubric Criterion Level"
+        ],
+        "summary": "Get one CASE Rubric Criterion Level record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE Rubric Criterion Level record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE Rubric Criterion Level record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseRubricCriterionLevel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/standards/case/statuses": {
+      "get": {
+        "tags": [
+          "CASE API Status"
+        ],
+        "summary": "List CASE API Status records",
+        "description": "Operational status information for failed or partial CASE service operations.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over CASE identifiers, labels, and statements.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CASE API Status records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaseApiStatus"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standards/case/statuses/{id}": {
+      "get": {
+        "tags": [
+          "CASE API Status"
+        ],
+        "summary": "Get one CASE API Status record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the CASE API Status record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One CASE API Status record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseApiStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CasePackage": {
+        "type": "object",
+        "description": "The full bundle for one framework: root document, items, relationship edges, definitions, and rubrics.",
+        "required": [
+          "id",
+          "documentId",
+          "importedAt",
+          "validationStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this CASE package."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The root framework document in this package."
+          },
+          "sourceSystem": {
+            "type": "string",
+            "description": "The standards publisher, state agency, institution, or importer that supplied the package."
+          },
+          "packageUri": {
+            "type": "string",
+            "description": "A URI for the package or import source when one is available."
+          },
+          "importedAt": {
+            "type": "string",
+            "description": "When the platform imported this CASE package.",
+            "format": "date-time"
+          },
+          "validationStatus": {
+            "type": "string",
+            "description": "Whether the CASE package passed platform validation.",
+            "enum": [
+              "pending",
+              "valid",
+              "invalid",
+              "warning"
+            ],
+            "x-valueDescriptions": {
+              "pending": "The platform has not checked the package yet.",
+              "valid": "The package passed platform validation.",
+              "invalid": "The package failed validation and should not be trusted for alignment.",
+              "warning": "The package is usable but has non-blocking issues that should be reviewed."
+            }
+          }
+        }
+      },
+      "CaseDocument": {
+        "type": "object",
+        "description": "The root document for a standards, competency, course-code, or skill framework.",
+        "required": [
+          "id",
+          "identifier",
+          "uri",
+          "creator",
+          "title",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this framework document."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for this framework document."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for this framework document."
+          },
+          "frameworkType": {
+            "type": "string",
+            "description": "What kind of framework this is.",
+            "enum": [
+              "academicStandards",
+              "competencyFramework",
+              "courseCodes",
+              "workforceSkills",
+              "localFramework"
+            ],
+            "x-valueDescriptions": {
+              "academicStandards": "A framework of academic standards.",
+              "competencyFramework": "A framework of competencies or skills.",
+              "courseCodes": "A framework used to publish course codes.",
+              "workforceSkills": "A framework of workforce skills or occupational competencies.",
+              "localFramework": "A district, school, or institution-specific framework."
+            }
+          },
+          "caseVersion": {
+            "type": "string",
+            "description": "The CASE version used by the document.",
+            "enum": [
+              "1.1"
+            ],
+            "x-valueDescriptions": {
+              "1.1": "The CASE 1.1 framework and competency exchange model."
+            }
+          },
+          "creator": {
+            "type": "string",
+            "description": "The organization with authority over the framework."
+          },
+          "title": {
+            "type": "string",
+            "description": "The name of the framework document."
+          },
+          "description": {
+            "type": "string",
+            "description": "A summary of what the framework covers."
+          },
+          "subject": {
+            "type": "string",
+            "description": "Subject labels such as Mathematics, Reading, or Biology."
+          },
+          "language": {
+            "type": "string",
+            "description": "Default language used in the framework text."
+          },
+          "publisherVersion": {
+            "type": "string",
+            "description": "The publisher's revision or version label."
+          },
+          "adoptionStatus": {
+            "type": "string",
+            "description": "The publication or adoption status of the framework.",
+            "enum": [
+              "draft",
+              "adopted",
+              "retired",
+              "superseded"
+            ],
+            "x-valueDescriptions": {
+              "draft": "The framework is being developed and may change.",
+              "adopted": "The framework is officially adopted or active.",
+              "retired": "The framework is no longer active for new use.",
+              "superseded": "The framework has been replaced by another version."
+            }
+          },
+          "officialSourceUrl": {
+            "type": "string",
+            "description": "A link to the human-readable official source document."
+          },
+          "licenseUri": {
+            "type": "string",
+            "description": "A link to legal permissions for using the framework."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the publisher last changed this framework document.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseItem": {
+        "type": "object",
+        "description": "One node in the framework, such as a standard, competency, skill, objective, course code, strand, domain, or cluster.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "fullStatement",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this framework item."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this item belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for this framework item."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for this framework item."
+          },
+          "humanCodingScheme": {
+            "type": "string",
+            "description": "The short code people see in standards documents."
+          },
+          "fullStatement": {
+            "type": "string",
+            "description": "The complete text of the standard, competency, skill, objective, or grouping statement."
+          },
+          "abbreviatedStatement": {
+            "type": "string",
+            "description": "A shortened version of the full statement."
+          },
+          "alternativeLabel": {
+            "type": "string",
+            "description": "Another label the publisher uses for this kind of item."
+          },
+          "itemType": {
+            "type": "string",
+            "description": "Publisher label for what kind of item this is.",
+            "enum": [
+              "domain",
+              "strand",
+              "cluster",
+              "standard",
+              "competency",
+              "skill",
+              "learningObjective",
+              "courseCode"
+            ],
+            "x-valueDescriptions": {
+              "domain": "A broad grouping inside a framework.",
+              "strand": "A major learning strand or category.",
+              "cluster": "A group of related standards or skills.",
+              "standard": "A statement of what learners should know or do.",
+              "competency": "A demonstrated capability or skill area.",
+              "skill": "A specific skill or capability.",
+              "learningObjective": "A learning goal or objective.",
+              "courseCode": "A course-code item in a CASE framework."
+            }
+          },
+          "itemTypeUri": {
+            "type": "string",
+            "description": "Linked-data identifier for the item type."
+          },
+          "conceptKeywords": {
+            "type": "string",
+            "description": "Topic keywords connected to the item."
+          },
+          "subject": {
+            "type": "string",
+            "description": "Subject labels for this item."
+          },
+          "educationLevel": {
+            "type": "string",
+            "description": "Intended grade, education level, or instructional level."
+          },
+          "listEnumeration": {
+            "type": "string",
+            "description": "The item's visible position in a list or outline."
+          },
+          "licenseUri": {
+            "type": "string",
+            "description": "License that applies to this item."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When this item last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseAssociation": {
+        "type": "object",
+        "description": "A relationship edge between framework documents or items.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "associationType",
+          "originNodeUri",
+          "destinationNodeUri",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this association."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this association belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for this relationship."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for this relationship."
+          },
+          "associationType": {
+            "type": "string",
+            "description": "What kind of relationship this is.",
+            "enum": [
+              "isChildOf",
+              "isPeerOf",
+              "isPartOf",
+              "exactMatchOf",
+              "precedes",
+              "isRelatedTo",
+              "replacedBy",
+              "exemplar",
+              "hasSkillLevel",
+              "isTranslationOf"
+            ],
+            "x-valueDescriptions": {
+              "isChildOf": "The origin item is a child of the destination item.",
+              "isPeerOf": "The origin item is a peer of the destination item.",
+              "isPartOf": "The origin item is included in the destination item.",
+              "exactMatchOf": "The origin item is equivalent to the destination item.",
+              "precedes": "The origin item comes before the destination item.",
+              "isRelatedTo": "The origin item is related to the destination item in a general way.",
+              "replacedBy": "The origin item has been replaced by the destination item.",
+              "exemplar": "The destination is an example of the origin.",
+              "hasSkillLevel": "The destination defines a skill or difficulty level for the origin.",
+              "isTranslationOf": "The destination is a translation of the origin."
+            }
+          },
+          "originNodeUri": {
+            "type": "string",
+            "description": "The item or document where the relationship starts."
+          },
+          "destinationNodeUri": {
+            "type": "string",
+            "description": "The item or document where the relationship points."
+          },
+          "sequenceNumber": {
+            "type": "number",
+            "description": "The display or processing order for this relationship."
+          },
+          "associationGroupingUri": {
+            "type": "string",
+            "description": "A group label or URI for related associations."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Publisher notes about the relationship."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When this association last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseDefinition": {
+        "type": "object",
+        "description": "A set of reusable lookup definitions used by a framework.",
+        "required": [
+          "id",
+          "documentId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this definition set."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this definition set belongs to."
+          },
+          "conceptCount": {
+            "type": "integer",
+            "description": "How many concept definitions are present."
+          },
+          "subjectCount": {
+            "type": "integer",
+            "description": "How many subject definitions are present."
+          },
+          "itemTypeCount": {
+            "type": "integer",
+            "description": "How many item type definitions are present."
+          },
+          "licenseCount": {
+            "type": "integer",
+            "description": "How many license definitions are present."
+          }
+        }
+      },
+      "CaseConcept": {
+        "type": "object",
+        "description": "A topic or idea addressed by the framework.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "title",
+          "hierarchyCode",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this concept."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this concept belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the concept."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the concept."
+          },
+          "title": {
+            "type": "string",
+            "description": "The concept name."
+          },
+          "keywords": {
+            "type": "string",
+            "description": "Keywords connected to the concept."
+          },
+          "hierarchyCode": {
+            "type": "string",
+            "description": "The publisher's code showing where the concept fits in a concept hierarchy."
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of the concept."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the concept last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseSubject": {
+        "type": "object",
+        "description": "An academic or topical subject used by the framework.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "title",
+          "hierarchyCode",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this subject."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this subject belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the subject."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the subject."
+          },
+          "title": {
+            "type": "string",
+            "description": "The subject name."
+          },
+          "hierarchyCode": {
+            "type": "string",
+            "description": "The publisher's code for where the subject fits in a subject hierarchy."
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of the subject."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the subject last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseItemType": {
+        "type": "object",
+        "description": "A definition explaining what kind of framework item something is.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "title",
+          "description",
+          "hierarchyCode",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this item type."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this item type belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the item type."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the item type."
+          },
+          "title": {
+            "type": "string",
+            "description": "The item type name."
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of the item type."
+          },
+          "hierarchyCode": {
+            "type": "string",
+            "description": "The publisher's code for where the item type fits in a hierarchy."
+          },
+          "typeCode": {
+            "type": "string",
+            "description": "A normalized item type code used by the platform.",
+            "enum": [
+              "domain",
+              "strand",
+              "cluster",
+              "standard",
+              "competency",
+              "skill",
+              "learningObjective",
+              "courseCode"
+            ],
+            "x-valueDescriptions": {
+              "domain": "A broad grouping inside a framework.",
+              "strand": "A major learning strand or category.",
+              "cluster": "A group of related standards or skills.",
+              "standard": "A statement of what learners should know or do.",
+              "competency": "A demonstrated capability or skill area.",
+              "skill": "A specific skill or capability.",
+              "learningObjective": "A learning goal or objective.",
+              "courseCode": "A course-code item in a CASE framework."
+            }
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the item type last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseLicense": {
+        "type": "object",
+        "description": "A definition of permissions for using a framework, item, rubric, or related content.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "title",
+          "licenseText",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this license."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this license belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the license record."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the license record."
+          },
+          "title": {
+            "type": "string",
+            "description": "The license name."
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of the license."
+          },
+          "licenseText": {
+            "type": "string",
+            "description": "The legal text or a reference to legal text for the license."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the license record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseAssociationGrouping": {
+        "type": "object",
+        "description": "A label for a set of associations so people can understand why those relationships belong together.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "title",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this association grouping."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this grouping belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the association group."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the association group."
+          },
+          "title": {
+            "type": "string",
+            "description": "The group name."
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of the group."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the group last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseRubric": {
+        "type": "object",
+        "description": "A rubric describing criteria and performance levels for judging work or mastery.",
+        "required": [
+          "id",
+          "documentId",
+          "identifier",
+          "uri",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this rubric."
+          },
+          "documentId": {
+            "type": "string",
+            "description": "The framework document this rubric belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the rubric."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the rubric."
+          },
+          "title": {
+            "type": "string",
+            "description": "The rubric name."
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of the rubric."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the rubric last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseRubricCriterion": {
+        "type": "object",
+        "description": "One thing being judged in a rubric, such as reasoning, fluency, accuracy, evidence, or collaboration.",
+        "required": [
+          "id",
+          "identifier",
+          "uri",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this rubric criterion."
+          },
+          "rubricId": {
+            "type": "string",
+            "description": "The rubric this criterion belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the criterion."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the criterion."
+          },
+          "category": {
+            "type": "string",
+            "description": "A label used to group criteria."
+          },
+          "description": {
+            "type": "string",
+            "description": "What this criterion measures."
+          },
+          "caseItemUri": {
+            "type": "string",
+            "description": "The standard, competency, or skill this criterion connects to."
+          },
+          "weight": {
+            "type": "number",
+            "description": "How much this criterion counts in scoring."
+          },
+          "position": {
+            "type": "integer",
+            "description": "Display order of this criterion in the rubric."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the criterion last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseRubricCriterionLevel": {
+        "type": "object",
+        "description": "One performance level for a rubric criterion, such as beginning, developing, proficient, or advanced.",
+        "required": [
+          "id",
+          "identifier",
+          "uri",
+          "lastChangeDateTime"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this criterion level."
+          },
+          "criterionId": {
+            "type": "string",
+            "description": "The criterion this level belongs to."
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The official CASE UUID for the level."
+          },
+          "uri": {
+            "type": "string",
+            "description": "A web identifier for the level."
+          },
+          "quality": {
+            "type": "string",
+            "description": "The label for the performance level.",
+            "enum": [
+              "beginning",
+              "developing",
+              "proficient",
+              "advanced"
+            ],
+            "x-valueDescriptions": {
+              "beginning": "Early or limited evidence of the criterion.",
+              "developing": "Partial or emerging evidence of the criterion.",
+              "proficient": "Expected evidence of the criterion.",
+              "advanced": "Strong or extended evidence of the criterion."
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of the performance level."
+          },
+          "score": {
+            "type": "number",
+            "description": "Points awarded for this level."
+          },
+          "feedback": {
+            "type": "string",
+            "description": "Pre-written feedback or guidance for this level."
+          },
+          "position": {
+            "type": "integer",
+            "description": "Display order of this level."
+          },
+          "lastChangeDateTime": {
+            "type": "string",
+            "description": "When the level last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaseApiStatus": {
+        "type": "object",
+        "description": "Operational status information for failed or partial CASE service operations.",
+        "required": [
+          "id",
+          "imsxCodeMajor",
+          "imsxSeverity"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this status record."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "The import, sync, or API operation this status belongs to."
+          },
+          "imsxCodeMajor": {
+            "type": "string",
+            "description": "Broad result of the CASE API request.",
+            "enum": [
+              "success",
+              "processing",
+              "failure",
+              "unsupported"
+            ],
+            "x-valueDescriptions": {
+              "success": "The operation succeeded.",
+              "processing": "The operation is still being processed.",
+              "failure": "The operation failed.",
+              "unsupported": "The requested operation or feature is not supported."
+            }
+          },
+          "imsxSeverity": {
+            "type": "string",
+            "description": "Whether the status is informational, warning, or error.",
+            "enum": [
+              "status",
+              "warning",
+              "error"
+            ],
+            "x-valueDescriptions": {
+              "status": "Informational status.",
+              "warning": "A non-blocking issue occurred.",
+              "error": "A blocking error occurred."
+            }
+          },
+          "imsxDescription": {
+            "type": "string",
+            "description": "Human-readable details about the status."
+          },
+          "imsxCodeMinor": {
+            "type": "string",
+            "description": "More specific status details from the service."
+          }
+        }
+      }
+    }
+  },
+  "x-unsupported-or-deferred": [
+    {
+      "area": "Formal CASE certification claim",
+      "reason": "Requires official conformance testing and certification process beyond generated dictionary artifacts."
+    },
+    {
+      "area": "Live CASE import API",
+      "reason": "Needs a hosted database, validation service, auth, and tenant/shared-reference policy."
+    },
+    {
+      "area": "Publisher extension semantics",
+      "reason": "Extensions are preserved as governed metadata, but not promoted to core fields until intentionally modeled."
+    },
+    {
+      "area": "Full graph diff/merge workflow",
+      "reason": "Version comparison and merge tooling should be implemented after persistent backend storage exists."
+    }
+  ]
+}

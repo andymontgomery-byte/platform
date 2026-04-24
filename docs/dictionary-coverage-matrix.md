@@ -16,7 +16,7 @@ This matrix separates four different claims:
 | OneRoster core | Lead | Yes: `dictionary/oneroster-core.v1.json` | Yes | Yes: SQLite, local Express, hosted static JSON, browser SQL | Partial | Strongest current slice. Needs expansion to full OneRoster 1.2. |
 | OneRoster full 1.2 | Lead | Partial | Partial | Partial | Partial | Core works, but demographics, resources, score scales, agents, and full REST conformance are not complete. |
 | QTI 3 repository model | Lead | Yes: `dictionary/qti-core.v1.json` | Yes | No | Yes for current repository projection | Generated dictionary coverage now exists for the platform's QTI repository model. Runtime import/projection is still pending. |
-| CASE 1.1 | Lead | No | No | No | Partial | Good Markdown coverage, but not generator-backed or executable. |
+| CASE 1.1 | Lead | Yes: `dictionary/case-core.v1.json` | Yes | No | Yes for current framework graph projection | Generated dictionary coverage now exists for the platform's CASE framework graph model. Runtime import/search is still pending. |
 | Caliper 1.2 | Lead | No | No | No | Partial | Good Markdown coverage, but not generator-backed or executable. |
 | LTI 1.3/LTI Advantage | Lead | No | No | No | Partial | Good Markdown coverage, but no launch/API sandbox yet. |
 | Security Framework 1.1 | Lead/Governance | No | No | No | Partial | Documented as a required backend layer; GitHub Pages cannot implement token issuance or secrets. |

@@ -9,7 +9,7 @@ This page explains how every standard currently marked `Lead` is accounted for. 
 | Lead area | Current status | Dictionary/accounting location |
 | --- | --- | --- |
 | OneRoster 1.2 | Runnable core slice plus broader layperson dictionary. | `dictionary/oneroster-core.v1.json`, generated OneRoster docs, OneRoster layperson dictionary. |
-| CASE 1.1 | Researched and documented; not yet executable. | CASE layperson dictionary; overlap decisions for alignment. |
+| CASE 1.1 | Structured/generated framework graph projection exists; not yet executable. | `dictionary/case-core.v1.json`, generated CASE docs/OpenAPI/SQL comments, CASE layperson dictionary, overlap decisions for alignment. |
 | QTI 3 | Structured/generated repository projection exists; not yet executable. | `dictionary/qti-core.v1.json`, generated QTI docs/OpenAPI/SQL comments, QTI layperson dictionary, QTI projection decision, overlap decisions for results, alignment, resources, time. |
 | Caliper 1.2 | Researched and documented; event ingestion not yet executable. | Caliper layperson dictionary; overlap decisions for actor, membership, grade events, time. |
 | LTI 1.3/LTI Advantage | Researched and documented; launch/API-context decision recorded; not yet executable. | Integration dictionary; overlap decisions for launch context, roles, membership, IDs, resources. |
@@ -67,6 +67,13 @@ Accounted for in the CASE dictionary:
 - CFRubricCriterion
 - CFRubricCriterionLevel
 - CASE association values and target/version values
+
+Committed platform projection:
+
+- The generated framework graph dictionary now lives at `dictionary/case-core.v1.json`.
+- `scripts/generate_case_core.py` emits SQL comments, OpenAPI schemas, Markdown docs, and portal HTML from that single source.
+- The projection covers CASE packages, framework documents, framework items, associations, definition sets, concepts, subjects, item types, licenses, association groups, rubrics, rubric criteria, rubric criterion levels, and CASE API status records.
+- The current projection is documentation/API-schema coverage only; live import, validation, tenant adoption, and search need a backend.
 
 Deferred or not supported yet:
 
