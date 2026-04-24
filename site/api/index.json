@@ -1,0 +1,66 @@
+{
+  "description": "Static JSON endpoints for the GitHub Pages OneRoster core demo.",
+  "note": "GitHub Pages has no server runtime. These are live hosted JSON resources; use the in-browser SQL console for ad hoc SQL.",
+  "endpoints": [
+    {
+      "name": "health",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/health.json",
+      "relativeUrl": "api/health.json"
+    },
+    {
+      "name": "/organizations",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/organizations.json",
+      "relativeUrl": "api/organizations.json"
+    },
+    {
+      "name": "/people",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/people.json",
+      "relativeUrl": "api/people.json"
+    },
+    {
+      "name": "/academic-sessions",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/academic-sessions.json",
+      "relativeUrl": "api/academic-sessions.json"
+    },
+    {
+      "name": "/courses",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/courses.json",
+      "relativeUrl": "api/courses.json"
+    },
+    {
+      "name": "/classes",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/classes.json",
+      "relativeUrl": "api/classes.json"
+    },
+    {
+      "name": "/enrollments",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/enrollments.json",
+      "relativeUrl": "api/enrollments.json"
+    },
+    {
+      "name": "/gradebook/line-items",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/gradebook-line-items.json",
+      "relativeUrl": "api/gradebook-line-items.json"
+    },
+    {
+      "name": "/gradebook/results",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/gradebook-results.json",
+      "relativeUrl": "api/gradebook-results.json"
+    },
+    {
+      "name": "/source-identifiers",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/source-identifiers.json",
+      "relativeUrl": "api/source-identifiers.json"
+    },
+    {
+      "name": "/views/class-roster",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/views/class-roster.json",
+      "relativeUrl": "api/views/class-roster.json"
+    },
+    {
+      "name": "/views/gradebook-results",
+      "url": "https://andymontgomery-byte.github.io/platform/site/api/views/gradebook-results.json",
+      "relativeUrl": "api/views/gradebook-results.json"
+    }
+  ]
+}

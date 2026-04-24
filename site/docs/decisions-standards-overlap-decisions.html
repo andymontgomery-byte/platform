@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Standards Overlap Decisions</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc-page">
+  <main class="doc-shell">
+    <p class="eyebrow">Rendered portal documentation</p>
+    <p><a class="text-link" href="index.html">Docs index</a></p>
+    <h1>Standards Overlap Decisions</h1>
+<p>Research date: 2026-04-24</p>
+<p>This record captures places where 1EdTech standards describe the same real-world idea differently. Each decision names the involved specs, the ambiguity, the platform choice, how that choice maps back to each spec, and the tradeoff.</p>
+<h2>1. Person, User, Actor, Profile, and Subject</h2>
+<p>Specs involved: OneRoster User, Caliper Person/Actor, LTI launch user claims, Open Badges Profile, CLR Subject.</p>
+<p>Conflict: each standard identifies a person in a different context. OneRoster centers school roster users. LTI uses launch-time OIDC claims and roles. Caliper uses an actor that may be a person, software agent, or group. Open Badges and CLR use profile/subject objects for credentials, where the subject may be privacy-preserving or externally controlled.</p>
+<p>Choice: the platform has a canonical <code>person</code> for known school people and a broader <code>agent</code> concept for non-person actors. Credential subjects and Caliper actors resolve to <code>person</code> only when policy and identifiers allow it; otherwise they remain linked external agents.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster User</td><td>Maps to <code>person</code> plus source identifiers and role/enrollment records.</td></tr><tr><td>LTI launch info</td><td>Maps launch <code>sub</code>, names, email, roles, and deployment context to a <code>person</code> when trusted crosswalks exist.</td></tr><tr><td>Caliper Person/Actor</td><td>Maps to <code>person</code> when the actor is a known school user; otherwise remains an event actor.</td></tr><tr><td>Open Badges Profile</td><td>Maps to issuer, creator, or recipient profile; recipient profiles do not automatically become platform people.</td></tr><tr><td>CLR Subject</td><td>Maps to credential subject first, and to <code>person</code> only when learner-controlled or institution-authorized linking exists.</td></tr></tbody></table>
+<p>Tradeoff: this avoids merging credential or analytics identities into school records too aggressively, but every API must expose identity confidence and source lineage.</p>
+<h2>2. Class, Course, Context, Group, Course Section, and Organization</h2>
+<p>Specs involved: OneRoster Course and Class, LTI Context, Caliper Group/CourseSection, Common Cartridge organization.</p>
+<p>Conflict: a &quot;class&quot; can mean a course template, a scheduled section, a launch context, a group in an event, or a content-outline organization.</p>
+<p>Choice: the platform separates <code>course</code> from <code>class</code>. <code>course</code> is the catalog/template. <code>class</code> is the scheduled teaching section. LTI contexts and Caliper groups can map to a class, course, or other learning context. Common Cartridge organizations are content outlines, not school organizations or scheduled classes.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster Course</td><td>Maps to <code>course</code>.</td></tr><tr><td>OneRoster Class</td><td>Maps to <code>class</code>.</td></tr><tr><td>LTI Context</td><td>Maps to <code>learning_context</code>, normally crosswalked to <code>class</code> for K-12 course launches.</td></tr><tr><td>Caliper CourseSection</td><td>Maps to <code>class</code> when it describes a scheduled section.</td></tr><tr><td>Caliper Group</td><td>Maps to <code>learning_context</code> or group membership, not always a class.</td></tr><tr><td>Common Cartridge organization</td><td>Maps to cartridge outline/navigation, not to school organization.</td></tr></tbody></table>
+<p>Tradeoff: app developers get clearer joins, but importers must preserve source-specific context IDs and cannot assume every context is a class.</p>
+<h2>3. Roles</h2>
+<p>Specs involved: OneRoster roles, LTI roles, Caliper actor roles, Open Badges/CLR profile roles.</p>
+<p>Conflict: roles are named differently and have different scopes. OneRoster roles often describe school or class roles. LTI roles are URI-based and context-specific. Caliper may include LIS roles. Credential profiles can describe issuer/creator/subject relationships rather than classroom roles.</p>
+<p>Choice: store source roles exactly, then map them to a small platform role family for authorization and UI: learner, educator, administrator, guardian, mentor, staff, tool, issuer, unknown.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster <code>student</code></td><td>Platform <code>learner</code>.</td></tr><tr><td>OneRoster <code>teacher</code></td><td>Platform <code>educator</code>.</td></tr><tr><td>LTI <code>Learner</code></td><td>Platform <code>learner</code> in the launch context.</td></tr><tr><td>LTI <code>Instructor</code> or <code>TeachingAssistant</code></td><td>Platform <code>educator</code> in the launch context.</td></tr><tr><td>Caliper LIS role values</td><td>Stored as event role evidence and mapped when known.</td></tr><tr><td>Open Badges/CLR issuer/creator</td><td>Platform <code>issuer</code> or organization profile, not classroom teacher by default.</td></tr></tbody></table>
+<p>Tradeoff: preserving source roles supports conformance and debugging; platform role families keep policy manageable.</p>
+<h2>4. Enrollment and Membership</h2>
+<p>Specs involved: OneRoster Enrollment, LTI NRPS Membership, Caliper Membership.</p>
+<p>Conflict: OneRoster enrollments are roster records. LTI NRPS memberships are launch/service views of who belongs to a context. Caliper Membership describes relationship state in an event model.</p>
+<p>Choice: <code>enrollment</code> is the canonical roster participation record. <code>membership</code> is a contextual service/event view that may be derived from enrollment or captured from an external system.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster Enrollment</td><td>Canonical <code>enrollment</code>.</td></tr><tr><td>LTI NRPS membership</td><td>Read model over class/context membership; crosswalked to enrollment when possible.</td></tr><tr><td>Caliper Membership</td><td>Event/entity evidence about a person or agent belonging to a group/context.</td></tr></tbody></table>
+<p>Tradeoff: this keeps roster truth separate from launch-time and event-time snapshots, but membership APIs must explain whether they return canonical roster state or observed service state.</p>
+<h2>5. Results, Scores, Outcomes, and Grade Events</h2>
+<p>Specs involved: OneRoster gradebook Result, LTI AGS Score and Result, QTI outcome variables/results, Caliper GradeEvent.</p>
+<p>Conflict: &quot;result&quot; can mean a gradebook record, a tool-submitted score update, an assessment outcome variable, or an event showing grading activity.</p>
+<p>Choice: the platform uses <code>line_item</code> as the gradebook target and <code>result</code> as the learner&#x27;s current gradebook state. LTI AGS Score is an incoming write/update message. LTI AGS Result and OneRoster Result map to current result state. QTI outcomes are assessment-runtime variables projected into results only when a delivery or scoring workflow declares that mapping. Caliper GradeEvent is event history, not the gradebook source of truth.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster LineItem</td><td><code>line_item</code>.</td></tr><tr><td>OneRoster Result</td><td><code>result</code>.</td></tr><tr><td>LTI AGS Score</td><td>Score update command/event that may create or update <code>result</code>.</td></tr><tr><td>LTI AGS Result</td><td>API view of <code>result</code>.</td></tr><tr><td>QTI outcome declaration/result</td><td>Assessment outcome variable, mapped to result only through scoring metadata.</td></tr><tr><td>Caliper GradeEvent</td><td>Immutable grading activity event linked to line item/result when possible.</td></tr></tbody></table>
+<p>Tradeoff: gradebook state is easy to query, while event and assessment provenance remains available for audit and analytics.</p>
+<h2>6. Standards Alignment</h2>
+<p>Specs involved: CASE items and associations, QTI item metadata, Common Cartridge resource metadata, Open Badges achievement alignment, CLR achievement/result alignment.</p>
+<p>Conflict: content, assessments, credentials, and results all describe standards alignment differently.</p>
+<p>Choice: CASE is the canonical standards graph. Other standards store alignment as source metadata and resolve known targets to CASE item identifiers or URIs.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>CASE CFItem/association</td><td>Canonical standards and competency graph.</td></tr><tr><td>QTI metadata alignment</td><td>Assessment/item alignment to CASE where target is known.</td></tr><tr><td>Common Cartridge metadata</td><td>Resource alignment to CASE URI/GUID where present.</td></tr><tr><td>Open Badges alignment</td><td>Achievement alignment target, resolved to CASE when possible.</td></tr><tr><td>CLR alignment</td><td>Achievement/result alignment, resolved to CASE when possible.</td></tr></tbody></table>
+<p>Tradeoff: CASE-first alignment enables cross-product reporting and AI reasoning, but importers must keep original alignment labels/URLs when they cannot be resolved.</p>
+<h2>7. Identifiers</h2>
+<p>Specs involved: OneRoster sourcedId, CASE GUID, LTI <code>sub</code> and <code>deployment_id</code>, Caliper IRIs, Open Badges IRIs, CLR credential IDs, internal UUIDs.</p>
+<p>Conflict: each standard has its own identity and persistence rules.</p>
+<p>Choice: internal records have platform IDs. Standard-shaped endpoints expose the standard-native ID as the primary contract when required. Every external ID is stored in a source identifier crosswalk with source system, identifier type, and object relationship.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster <code>sourcedId</code></td><td>Primary ID on OneRoster-shaped endpoints; crosswalked internally.</td></tr><tr><td>CASE GUID/URI</td><td>Canonical ID for CASE items and associations.</td></tr><tr><td>LTI <code>sub</code></td><td>Launch-scoped user ID, crosswalked to person only within issuer/deployment trust boundaries.</td></tr><tr><td>LTI <code>deployment_id</code></td><td>Tool deployment identifier and security boundary.</td></tr><tr><td>Caliper IRI</td><td>Event/entity ID retained as event lineage.</td></tr><tr><td>Open Badges/CLR IDs</td><td>Credential/profile/achievement IDs retained as credential source IDs.</td></tr></tbody></table>
+<p>Tradeoff: this is more complex than one ID per object, but it avoids breaking conformance and supports troubleshooting across systems.</p>
+<h2>8. Time, School Sessions, and Event Timestamps</h2>
+<p>Specs involved: OneRoster AcademicSession, LTI context/term hints, Caliper timestamps/timezones, QTI assessment timing, credential validFrom/validUntil dates.</p>
+<p>Conflict: time can mean school calendar, launch context, event time, assessment time limit, submission time, or credential validity.</p>
+<p>Choice: separate calendar periods, event timestamps, availability windows, and validity periods. Store timestamps in UTC with source timezone/offset when provided. Store OneRoster AcademicSession as the school calendar backbone.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster AcademicSession</td><td>Calendar period and school-year backbone.</td></tr><tr><td>LTI context/line item dates</td><td>Availability, due, or launch-context dates.</td></tr><tr><td>Caliper event time</td><td>Immutable event timestamp.</td></tr><tr><td>QTI time limits/session timing</td><td>Assessment runtime timing metadata.</td></tr><tr><td>Open Badges/CLR validFrom/validUntil</td><td>Credential validity period.</td></tr></tbody></table>
+<p>Tradeoff: date queries are more explicit, but developers do not confuse school terms with event timestamps or credential expiration.</p>
+<h2>9. Content, Resources, Packages, and Launch Links</h2>
+<p>Specs involved: OneRoster Resource, Common Cartridge resources/items, QTI packages/items/tests, LTI ResourceLink, Caliper DigitalResource.</p>
+<p>Conflict: &quot;resource&quot; can mean a roster-linked resource, a content package file, an assessment package, a launchable tool link, or an event target.</p>
+<p>Choice: the platform uses a broad <code>resource</code> concept for discoverable learning objects, with subtype-specific records for cartridge resources, QTI packages/items/tests, LTI resource links, and Caliper event entities.</p>
+<p>Mappings:</p>
+<table><thead><tr><th>Spec</th><th>Mapping</th></tr></thead><tbody><tr><td>OneRoster Resource</td><td>Roster-associated learning resource metadata.</td></tr><tr><td>Common Cartridge resource/item</td><td>Package manifest resource and outline item.</td></tr><tr><td>QTI package/item/test</td><td>Assessment content subtype and package artifact.</td></tr><tr><td>LTI ResourceLink</td><td>Launchable external tool/activity resource.</td></tr><tr><td>Caliper DigitalResource</td><td>Event target/entity describing content used.</td></tr></tbody></table>
+<p>Tradeoff: search and catalog workflows get one resource layer, while standards-specific package/launch/assessment details remain intact.</p>
+<h2>10. Tenant-Owned Data and Shared Reference Data</h2>
+<p>Specs involved: all tenant data specs, especially OneRoster, LTI, CASE, QTI, Common Cartridge.</p>
+<p>Conflict: schools own roster, grades, launches, and private content; many standards frameworks and public content references should be shared.</p>
+<p>Choice: tenant-owned operational records carry tenant boundaries and row-level policy. Public CASE frameworks, public standards metadata, public certification fixtures, and optionally public item banks live in shared reference namespaces. Tenants adopt, pin, override, or privately extend shared reference data through explicit records.</p>
+<p>Tradeoff: one integration can serve many schools, while privacy and local control remain enforceable.</p>
+    <p class="source-note">Source file: <code>docs/decisions/standards-overlap-decisions.md</code></p>
+  </main>
+</body>
+</html>

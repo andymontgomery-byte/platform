@@ -11,7 +11,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "dictionary" / "oneroster-core.v1.json"
 SQL_OUT = ROOT / "schema" / "generated" / "oneroster_core_comments.sql"
 OPENAPI_OUT = ROOT / "openapi" / "generated" / "oneroster-core.v0.json"
+STATIC_OPENAPI_OUT = ROOT / "openapi" / "generated" / "oneroster-core-static.v0.json"
 MARKDOWN_OUT = ROOT / "docs" / "generated" / "oneroster-core-dictionary.md"
+HTML_OUT = ROOT / "site" / "docs" / "oneroster-core-dictionary.html"
 
 
 TYPE_MAP = {
@@ -29,14 +31,20 @@ def main() -> None:
     SQL_OUT.parent.mkdir(parents=True, exist_ok=True)
     OPENAPI_OUT.parent.mkdir(parents=True, exist_ok=True)
     MARKDOWN_OUT.parent.mkdir(parents=True, exist_ok=True)
+    HTML_OUT.parent.mkdir(parents=True, exist_ok=True)
 
+    markdown = render_markdown(data)
     SQL_OUT.write_text(render_sql_comments(data))
     OPENAPI_OUT.write_text(json.dumps(render_openapi(data), indent=2) + "\n")
-    MARKDOWN_OUT.write_text(render_markdown(data))
+    STATIC_OPENAPI_OUT.write_text(json.dumps(render_static_openapi(data), indent=2) + "\n")
+    MARKDOWN_OUT.write_text(markdown)
+    HTML_OUT.write_text(render_html(data, markdown))
 
     print(f"generated {SQL_OUT.relative_to(ROOT)}")
     print(f"generated {OPENAPI_OUT.relative_to(ROOT)}")
+    print(f"generated {STATIC_OPENAPI_OUT.relative_to(ROOT)}")
     print(f"generated {MARKDOWN_OUT.relative_to(ROOT)}")
+    print(f"generated {HTML_OUT.relative_to(ROOT)}")
 
 
 def render_sql_comments(data: dict) -> str:
@@ -180,11 +188,142 @@ def render_openapi(data: dict) -> dict:
         "info": {
             "title": "Platform OneRoster Core Demo API",
             "version": "0.1.0",
-            "summary": "Working local API generated from the OneRoster core dictionary source.",
-            "description": "This OpenAPI document is generated from dictionary/oneroster-core.v1.json.",
+            "summary": "Working OneRoster core API generated from the OneRoster core dictionary source.",
+            "description": "This OpenAPI document is generated from dictionary/oneroster-core.v1.json. It describes the local Express/SQLite REST API. The GitHub Pages portal also exposes static JSON demo endpoints under https://andymontgomery-byte.github.io/platform/site/api/.",
         },
         "servers": [
             {"url": "http://localhost:8787", "description": "Local demo API"}
+        ],
+        "paths": paths,
+        "components": {"schemas": schemas},
+    }
+
+
+def render_static_openapi(data: dict) -> dict:
+    schemas = {}
+    paths = {
+        "/health.json": {
+            "get": {
+                "tags": ["Demo"],
+                "summary": "Check hosted static API health",
+                "responses": {
+                    "200": {
+                        "description": "Hosted static API metadata.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ok": {"type": "boolean"},
+                                        "name": {"type": "string"},
+                                        "hosting": {"type": "string"},
+                                        "dictionaryVersion": {"type": "string"},
+                                    },
+                                }
+                            }
+                        },
+                    }
+                },
+            }
+        },
+        "/index.json": {
+            "get": {
+                "tags": ["Demo"],
+                "summary": "List hosted static JSON endpoints",
+                "responses": {
+                    "200": {
+                        "description": "Endpoint index for the GitHub Pages JSON API.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "description": {"type": "string"},
+                                        "note": {"type": "string"},
+                                        "endpoints": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {"type": "string"},
+                                                    "url": {"type": "string", "format": "uri"},
+                                                    "relativeUrl": {"type": "string"},
+                                                },
+                                            },
+                                        },
+                                    },
+                                }
+                            }
+                        },
+                    }
+                },
+            }
+        },
+    }
+
+    for obj in data["objects"]:
+        schema_name = pascal(obj["object_key"])
+        schemas[schema_name] = object_schema(obj, data)
+        collection_response = collection_schema(schema_name)
+        paths[f"/{api_file_name(obj['api_path'])}"] = {
+            "get": {
+                "tags": [obj["name"]],
+                "summary": f"Get hosted {obj['name']} records",
+                "description": obj["plain_description"],
+                "responses": {
+                    "200": {
+                        "description": f"{obj['name']} records hosted as static JSON.",
+                        "content": {"application/json": {"schema": collection_response}},
+                    }
+                },
+            }
+        }
+
+    for path, summary in [
+        ("/views/class-roster.json", "Get hosted class roster view rows"),
+        ("/views/gradebook-results.json", "Get hosted gradebook result view rows"),
+    ]:
+        paths[path] = {
+            "get": {
+                "tags": ["Views"],
+                "summary": summary,
+                "description": "A read-only view over the same seeded OneRoster demo data.",
+                "responses": {
+                    "200": {
+                        "description": "View rows hosted as static JSON.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": ["items", "count"],
+                                    "properties": {
+                                        "items": {
+                                            "type": "array",
+                                            "items": {"type": "object", "additionalProperties": True},
+                                        },
+                                        "count": {"type": "integer"},
+                                    },
+                                }
+                            }
+                        },
+                    }
+                },
+            }
+        }
+
+    return {
+        "openapi": "3.1.0",
+        "info": {
+            "title": "Platform OneRoster Core Hosted JSON API",
+            "version": "0.1.0",
+            "summary": "Live GitHub Pages JSON endpoints generated from the OneRoster core dictionary source.",
+            "description": "This OpenAPI document is generated from dictionary/oneroster-core.v1.json. It documents the hosted GitHub Pages JSON API, whose field descriptions come from the same dictionary source as the SQL comments and HTML dictionary.",
+        },
+        "servers": [
+            {
+                "url": "https://andymontgomery-byte.github.io/platform/site/api",
+                "description": "Hosted GitHub Pages static JSON API",
+            }
         ],
         "paths": paths,
         "components": {"schemas": schemas},
@@ -215,6 +354,25 @@ def object_schema(obj: dict, data: dict) -> dict:
         "description": obj["plain_description"],
         "required": required,
         "properties": properties,
+    }
+
+
+def collection_schema(schema_name: str) -> dict:
+    return {
+        "type": "object",
+        "required": ["items", "count"],
+        "properties": {
+            "items": {"type": "array", "items": {"$ref": f"#/components/schemas/{schema_name}"}},
+            "count": {"type": "integer"},
+            "source": {
+                "type": "object",
+                "properties": {
+                    "objectKey": {"type": "string"},
+                    "tableName": {"type": "string"},
+                    "dictionary": {"type": "string"},
+                },
+            },
+        },
     }
 
 
@@ -274,6 +432,77 @@ def render_markdown(data: dict) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def render_html(data: dict, markdown: str) -> str:
+    rows = []
+    for obj in data["objects"]:
+        field_rows = []
+        value_sections = []
+        for field in obj["fields"]:
+            field_rows.append(
+                "<tr>"
+                f"<td><code>{html_escape(field['column_name'])}</code></td>"
+                f"<td><code>{html_escape(field['json_name'])}</code></td>"
+                f"<td>{html_escape(field['data_type'])}</td>"
+                f"<td>{'Yes' if field.get('required') else 'No'}</td>"
+                f"<td>{html_escape(field['privacy_class'])}</td>"
+                f"<td>{html_escape(field['plain_description'])}</td>"
+                "</tr>"
+            )
+            values = allowed_values(field, data)
+            if values:
+                value_rows = "".join(
+                    "<tr>"
+                    f"<td><code>{html_escape(value['value'])}</code></td>"
+                    f"<td>{html_escape(value['label'])}</td>"
+                    f"<td>{html_escape(value['plain_description'])}</td>"
+                    "</tr>"
+                    for value in values
+                )
+                value_sections.append(
+                    f"<h4>Values for <code>{html_escape(field['column_name'])}</code></h4>"
+                    "<table><thead><tr><th>Value</th><th>Label</th><th>Layperson meaning</th></tr></thead>"
+                    f"<tbody>{value_rows}</tbody></table>"
+                )
+        rows.append(
+            "<section class=\"doc-card\">"
+            f"<h2>{html_escape(obj['name'])}</h2>"
+            f"<p>{html_escape(obj['plain_description'])}</p>"
+            "<dl>"
+            f"<dt>Object key</dt><dd><code>{html_escape(obj['object_key'])}</code></dd>"
+            f"<dt>SQL table</dt><dd><code>demo.{html_escape(obj['table_name'])}</code></dd>"
+            f"<dt>API path</dt><dd><code>{html_escape(obj['api_path'])}</code></dd>"
+            f"<dt>Privacy</dt><dd><code>{html_escape(obj['privacy_class'])}</code></dd>"
+            f"<dt>Why it exists</dt><dd>{html_escape(obj['why_it_exists'])}</dd>"
+            "</dl>"
+            "<table><thead><tr><th>Field</th><th>JSON field</th><th>Type</th><th>Required</th><th>Privacy</th><th>Layperson meaning</th></tr></thead>"
+            f"<tbody>{''.join(field_rows)}</tbody></table>"
+            f"{''.join(value_sections)}"
+            "</section>"
+        )
+
+    return (
+        "<!doctype html>\n"
+        "<html lang=\"en\">\n"
+        "<head>\n"
+        "  <meta charset=\"utf-8\">\n"
+        "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+        f"  <title>{html_escape(data['name'])}</title>\n"
+        "  <link rel=\"stylesheet\" href=\"../styles.css\">\n"
+        "</head>\n"
+        "<body class=\"doc-page\">\n"
+        "  <main class=\"doc-shell\">\n"
+        "    <p class=\"eyebrow\">Generated dictionary page</p>\n"
+        f"    <h1>{html_escape(data['name'])}</h1>\n"
+        f"    <p class=\"doc-lede\">{html_escape(data['plain_description'])}</p>\n"
+        "    <p class=\"doc-lede\">Generated from <code>dictionary/oneroster-core.v1.json</code>. "
+        "The same source also emits SQL comments and OpenAPI field descriptions.</p>\n"
+        f"    {''.join(rows)}\n"
+        "  </main>\n"
+        "</body>\n"
+        "</html>\n"
+    )
+
+
 def allowed_values(field: dict, data: dict) -> list[dict]:
     if "allowed_values" in field:
         return field["allowed_values"]
@@ -289,6 +518,22 @@ def sql_quote(value: str) -> str:
 
 def pascal(value: str) -> str:
     return "".join(part.capitalize() for part in value.split("_"))
+
+
+def api_file_name(api_path: str) -> str:
+    clean = api_path.strip("/").replace("/", "-")
+    return f"{clean}.json"
+
+
+def html_escape(value: object) -> str:
+    return (
+        str(value)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&#39;")
+    )
 
 
 if __name__ == "__main__":

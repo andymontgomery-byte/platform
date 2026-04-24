@@ -10,6 +10,9 @@ The platform exposes two developer-facing layers:
 ## Current Artifacts
 
 - [Customer-Facing Developer Portal](site/index.html)
+- [Rendered Docs Index](site/docs/index.html)
+- [Hosted OneRoster JSON OpenAPI](site/openapi/hosted-json.html)
+- [Local OneRoster Express OpenAPI](site/openapi/oneroster-core.html)
 - [Working OneRoster Core Demo API](demo/README.md)
 - [1EdTech Platform Plan](docs/1edtech-platform-plan.md)
 - [Phase 0 Standards and Dictionary](docs/phase-0-standards-and-dictionary.md)
@@ -22,7 +25,7 @@ The platform exposes two developer-facing layers:
 - [Registry and Dictionary SQL](schema/0001_registry_and_dictionary.sql)
 - [Standards Registry Seed](data/standards-registry.seed.json)
 - [Data Dictionary Seed](data/data-dictionary.seed.json)
-- [Dictionary API OpenAPI Stub](openapi/dictionary.v0.yaml)
+- [Dictionary API OpenAPI Draft](openapi/dictionary.v0.yaml)
 
 ## Phase 0 Goal
 
@@ -44,6 +47,12 @@ python3 -m http.server 8080
 
 Then open `http://localhost:8080/site/`.
 
+The public GitHub Pages portal is:
+
+`https://andymontgomery-byte.github.io/platform/`
+
+GitHub Pages has no server runtime, so the hosted demo exposes read-only static JSON endpoints and runs SQLite in the browser for SQL queries. The hosted JSON API is documented in `site/openapi/hosted-json.html`; the local API below provides the matching Express/SQLite server version and is documented in `site/openapi/oneroster-core.html`.
+
 ## Working Demo Slice
 
 The first executable slice is OneRoster core:
@@ -64,8 +73,15 @@ curl -X POST http://localhost:8787/sql/query \
   -d '{"sql":"select display_name, primary_role from people order by display_name"}'
 ```
 
-The generated SQL comments, OpenAPI JSON, and Markdown dictionary come from `dictionary/oneroster-core.v1.json` via:
+The generated SQL comments, OpenAPI JSON, and Markdown/HTML dictionary come from `dictionary/oneroster-core.v1.json` via:
 
 ```sh
 python3 scripts/generate_oneroster_core.py
+```
+
+Build the GitHub Pages JSON endpoints and rendered HTML docs with:
+
+```sh
+python3 scripts/build_static_api.py
+python3 scripts/build_site_docs.py
 ```

@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "result_id": "res_sam_essay_1",
+      "line_item_title": "Personal Narrative Draft",
+      "class_title": "ELA 6 - Period 2",
+      "learner_name": "Sam Patel",
+      "score_status": "submitted",
+      "score": null,
+      "result_value_max": 4.0,
+      "comment": "Submitted; awaiting rubric scoring.",
+      "score_date": "2026-09-17T09:15:00Z"
+    },
+    {
+      "result_id": "res_ada_homework_1",
+      "line_item_title": "Expressions Practice",
+      "class_title": "Math 6 - Period 1",
+      "learner_name": "Ada Johnson",
+      "score_status": "fullyGraded",
+      "score": 9.0,
+      "result_value_max": 10.0,
+      "comment": "Complete.",
+      "score_date": "2026-09-06T10:00:00Z"
+    },
+    {
+      "result_id": "res_ada_quiz_1",
+      "line_item_title": "Unit 1 Quiz",
+      "class_title": "Math 6 - Period 1",
+      "learner_name": "Ada Johnson",
+      "score_status": "fullyGraded",
+      "score": 87.0,
+      "result_value_max": 100.0,
+      "comment": "Strong strategy; check question 4.",
+      "score_date": "2026-09-16T14:30:00Z"
+    },
+    {
+      "result_id": "res_miguel_quiz_1",
+      "line_item_title": "Unit 1 Quiz",
+      "class_title": "Math 6 - Period 1",
+      "learner_name": "Miguel Santos",
+      "score_status": "fullyGraded",
+      "score": 93.0,
+      "result_value_max": 100.0,
+      "comment": "Clear explanations.",
+      "score_date": "2026-09-16T14:35:00Z"
+    }
+  ],
+  "count": 4
+}

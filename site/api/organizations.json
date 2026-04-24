@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "id": "org_district_north",
+      "sourcedId": "DISTRICT-NORTH",
+      "name": "North Valley School District",
+      "type": "district",
+      "parentOrganizationId": null,
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:00:00Z"
+    },
+    {
+      "id": "org_school_lincoln",
+      "sourcedId": "SCHOOL-LINCOLN",
+      "name": "Lincoln Middle School",
+      "type": "school",
+      "parentOrganizationId": "org_district_north",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:01:00Z"
+    },
+    {
+      "id": "org_school_roosevelt",
+      "sourcedId": "SCHOOL-ROOSEVELT",
+      "name": "Roosevelt Elementary School",
+      "type": "school",
+      "parentOrganizationId": "org_district_north",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:02:00Z"
+    }
+  ],
+  "count": 3,
+  "source": {
+    "objectKey": "organization",
+    "tableName": "organizations",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

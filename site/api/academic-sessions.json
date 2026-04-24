@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "id": "session_2026",
+      "sourcedId": "SY-2026",
+      "title": "2026 School Year",
+      "type": "schoolYear",
+      "startDate": "2026-08-24",
+      "endDate": "2027-06-04",
+      "schoolYear": 2026,
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:20:00Z"
+    },
+    {
+      "id": "session_2026_fall",
+      "sourcedId": "TERM-FALL-2026",
+      "title": "Fall 2026",
+      "type": "term",
+      "startDate": "2026-08-24",
+      "endDate": "2026-12-18",
+      "schoolYear": 2026,
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:21:00Z"
+    },
+    {
+      "id": "session_2026_q1",
+      "sourcedId": "GP-Q1-2026",
+      "title": "Quarter 1 2026",
+      "type": "gradingPeriod",
+      "startDate": "2026-08-24",
+      "endDate": "2026-10-16",
+      "schoolYear": 2026,
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:22:00Z"
+    }
+  ],
+  "count": 3,
+  "source": {
+    "objectKey": "academic_session",
+    "tableName": "academic_sessions",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

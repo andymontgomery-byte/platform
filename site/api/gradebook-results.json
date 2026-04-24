@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "res_ada_homework_1",
+      "sourcedId": "RESULT-9003",
+      "lineItemId": "li_math_homework_1",
+      "personId": "person_ada",
+      "scoreStatus": "fullyGraded",
+      "score": 9.0,
+      "scoreDate": "2026-09-06T10:00:00Z",
+      "comment": "Complete.",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:47:00Z"
+    },
+    {
+      "id": "res_ada_quiz_1",
+      "sourcedId": "RESULT-9001",
+      "lineItemId": "li_math_quiz_1",
+      "personId": "person_ada",
+      "scoreStatus": "fullyGraded",
+      "score": 87.0,
+      "scoreDate": "2026-09-16T14:30:00Z",
+      "comment": "Strong strategy; check question 4.",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:45:00Z"
+    },
+    {
+      "id": "res_miguel_quiz_1",
+      "sourcedId": "RESULT-9002",
+      "lineItemId": "li_math_quiz_1",
+      "personId": "person_miguel",
+      "scoreStatus": "fullyGraded",
+      "score": 93.0,
+      "scoreDate": "2026-09-16T14:35:00Z",
+      "comment": "Clear explanations.",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:46:00Z"
+    },
+    {
+      "id": "res_sam_essay_1",
+      "sourcedId": "RESULT-9004",
+      "lineItemId": "li_ela_essay_1",
+      "personId": "person_sam",
+      "scoreStatus": "submitted",
+      "score": null,
+      "scoreDate": "2026-09-17T09:15:00Z",
+      "comment": "Submitted; awaiting rubric scoring.",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:48:00Z"
+    }
+  ],
+  "count": 4,
+  "source": {
+    "objectKey": "result",
+    "tableName": "results",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lead Spec Accounting</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc-page">
+  <main class="doc-shell">
+    <p class="eyebrow">Rendered portal documentation</p>
+    <p><a class="text-link" href="index.html">Docs index</a></p>
+    <h1>Lead Spec Accounting</h1>
+<p>Research date: 2026-04-24</p>
+<p>This page explains how every standard currently marked <code>Lead</code> is accounted for. &quot;Accounted for&quot; means the standard is either covered by a layperson dictionary entry, represented in the current runnable model, or explicitly deferred with a reason.</p>
+<h2>Summary</h2>
+<table><thead><tr><th>Lead area</th><th>Current status</th><th>Dictionary/accounting location</th></tr></thead><tbody><tr><td>OneRoster 1.2</td><td>Runnable core slice plus broader layperson dictionary.</td><td><code>dictionary/oneroster-core.v1.json</code>, generated OneRoster docs, OneRoster layperson dictionary.</td></tr><tr><td>CASE 1.1</td><td>Researched and documented; not yet executable.</td><td>CASE layperson dictionary; overlap decisions for alignment.</td></tr><tr><td>QTI 3</td><td>Researched and documented; repository model decisions tightened; not yet executable.</td><td>QTI layperson dictionary; QTI projection decision; overlap decisions for results, alignment, resources, time.</td></tr><tr><td>Caliper 1.2</td><td>Researched and documented; event ingestion not yet executable.</td><td>Caliper layperson dictionary; overlap decisions for actor, membership, grade events, time.</td></tr><tr><td>LTI 1.3/LTI Advantage</td><td>Researched and documented; launch/API-context decision recorded; not yet executable.</td><td>Integration dictionary; overlap decisions for launch context, roles, membership, IDs, resources.</td></tr><tr><td>Security Framework 1.1</td><td>Governance/accounting coverage; implementation deferred until auth layer exists.</td><td>Integration/governance dictionary; tenancy and privacy/security decisions.</td></tr><tr><td>Data Privacy 1.0</td><td>Governance/accounting coverage; implementation deferred until tenant/auth layer exists.</td><td>Privacy classes, integration/governance dictionary, tenancy and privacy/security decisions.</td></tr></tbody></table>
+<h2>OneRoster 1.2</h2>
+<p>Covered in the current runnable model:</p>
+<ul><li>Organizations</li><li>People/users</li><li>Academic sessions</li><li>Courses</li><li>Classes</li><li>Enrollments</li><li>Gradebook line items</li><li>Gradebook results</li><li>Source identifiers/crosswalks</li><li>Controlled values for organization type, status, role, class type, session type, enabled user, categories, score status, identifier type, and true/false fields</li></ul>
+<p>Covered in the broader dictionary but not yet executable:</p>
+<ul><li>Demographics</li><li>Agents/relationships</li><li>Resources</li><li>Categories beyond the demo set</li><li>Score scales</li><li>Assessment Results Profile fields</li><li>CSV bulk-exchange operational details beyond the schema/dictionary seed</li></ul>
+<p>Deferred or not supported in the runnable slice:</p>
+<table><thead><tr><th>Area</th><th>Reason</th></tr></thead><tbody><tr><td>Write APIs</td><td>The public demo is read-only to make GitHub Pages hosting safe.</td></tr><tr><td>Full OneRoster REST provider/consumer conformance</td><td>Requires hosted auth, certification testing, pagination, filtering, and full binding behavior.</td></tr><tr><td>Demographics execution</td><td>Sensitive data should wait for tenant policy, auth, and row-level controls.</td></tr></tbody></table>
+<h2>CASE 1.1</h2>
+<p>Accounted for in the CASE dictionary:</p>
+<ul><li>CFPackage</li><li>CFPckgDocument</li><li>CFPckgItem</li><li>CFPckgAssociation</li><li>CFDefinition</li><li>CFConcept</li><li>CFSubject</li><li>CFItemType</li><li>CFLicense</li><li>CFAssociationGrouping</li><li>CFRubric</li><li>CFRubricCriterion</li><li>CFRubricCriterionLevel</li><li>CASE association values and target/version values</li></ul>
+<p>Deferred or not supported yet:</p>
+<table><thead><tr><th>Area</th><th>Reason</th></tr></thead><tbody><tr><td>CASE import API</td><td>Needs a persistent database and validation service.</td></tr><tr><td>Full framework graph execution</td><td>Planned after the OneRoster core slice.</td></tr><tr><td>CASE certification claim</td><td>Requires conformance testing and membership/certification process.</td></tr></tbody></table>
+<h2>QTI 3</h2>
+<p>Accounted for in the QTI dictionary:</p>
+<ul><li>QTI package</li><li>Assessment item</li><li>Assessment stimulus</li><li>Assessment test</li><li>Test part</li><li>Assessment section</li><li>Item reference</li><li>Response/outcome/template/context declarations</li><li>Response processing and outcome processing concepts</li><li>Time limits and item session control</li><li>Interaction families and interaction-specific values</li><li>Feedback, rubrics, accessibility, companion materials, support tools, TTS, calculator, and cross-standard links</li></ul>
+<p>Committed platform projection:</p>
+<ul><li>First-class rows for package, test, section, item, stimulus, item reference, interaction, declarations, scoring/rubric metadata, accessibility/support metadata, CASE alignment, and package artifact.</li><li>Search/report fields for identifiers, title, language, interaction type, response cardinality, base type, scoring method, max score, time limits, adaptive/dependent flags, accessibility features, support tools, rubric/feedback presence, CASE target identifiers, and package lineage.</li></ul>
+<p>Deferred or not supported yet:</p>
+<table><thead><tr><th>Area</th><th>Reason</th></tr></thead><tbody><tr><td>QTI delivery/runtime</td><td>Repository/search/import/export is separate from assessment delivery conformance.</td></tr><tr><td>Full XML decomposition</td><td>Too broad for the first platform slice; preserve original artifacts and project developer-useful fields first.</td></tr><tr><td>CAT runtime</td><td>Depends on mature QTI repository and assessment delivery services.</td></tr></tbody></table>
+<h2>Caliper 1.2</h2>
+<p>Accounted for in the Caliper dictionary:</p>
+<ul><li>Event envelope fields</li><li>Base event fields</li><li>Base entity fields</li><li>21 event types</li><li>69 entity types</li><li>Profile matrix</li><li>Action vocabulary</li><li>Role/status values</li><li>LTI message/session identifier values</li><li>System identifier values</li><li>Cross-standard joins</li></ul>
+<p>Deferred or not supported yet:</p>
+<table><thead><tr><th>Area</th><th>Reason</th></tr></thead><tbody><tr><td>Live event ingestion endpoint</td><td>Needs auth, tenant isolation, event validation, retention, and raw-event policy.</td></tr><tr><td>Profile-specific relational projections</td><td>Planned after core roster and auth boundaries.</td></tr><tr><td>Event warehouse/analytics dashboards</td><td>Requires retention and aggregation decisions.</td></tr></tbody></table>
+<h2>LTI 1.3 and LTI Advantage</h2>
+<p>Accounted for in the integration dictionary:</p>
+<ul><li>Platform, tool, registration, deployment</li><li>Launch claims</li><li>Resource link</li><li>Launch presentation</li><li>Custom parameters</li><li>NRPS service, membership container, member fields</li><li>AGS service, line item, score, result fields</li><li>Deep Linking request/response/content item/media descriptor fields</li><li>Message type, role, membership status, AGS progress, deep-link content/target, and scope values</li></ul>
+<p>Deferred or not supported yet:</p>
+<table><thead><tr><th>Area</th><th>Reason</th></tr></thead><tbody><tr><td>LTI launch validation</td><td>Requires hosted auth/OIDC, key management, nonce/state storage, and tenant deployment records.</td></tr><tr><td>AGS/NRPS/Deep Linking live services</td><td>Need auth and tenant data boundaries before public exposure.</td></tr><tr><td>Certification claim</td><td>Requires formal conformance tests.</td></tr></tbody></table>
+<h2>Security Framework 1.1</h2>
+<p>Accounted for in the integration/governance dictionary:</p>
+<ul><li>OAuth client registration</li><li>OIDC login</li><li>Token request/grant metadata</li><li>JWK/JWKS fields</li><li>Security scopes</li><li>Service description documents</li><li>Audit and access-policy concepts</li></ul>
+<p>Deferred or not supported yet:</p>
+<table><thead><tr><th>Area</th><th>Reason</th></tr></thead><tbody><tr><td>Production OAuth/OIDC server</td><td>GitHub Pages cannot host server-side auth state or token issuance.</td></tr><tr><td>Secret/key storage</td><td>Requires managed backend or cloud secret manager.</td></tr><tr><td>Row-level authorization enforcement</td><td>Requires hosted Postgres or equivalent server-side database.</td></tr></tbody></table>
+<h2>Data Privacy 1.0</h2>
+<p>Accounted for in platform metadata:</p>
+<ul><li>Privacy classes</li><li>Data sharing rules</li><li>Consent records</li><li>Retention rules</li><li>Audit events</li><li>Data categories</li><li>Legal basis values</li><li>Tenant policy and data minimization decisions</li></ul>
+<p>Deferred or not supported yet:</p>
+<table><thead><tr><th>Area</th><th>Reason</th></tr></thead><tbody><tr><td>Live consent enforcement</td><td>Needs auth, tenant policy, and data-sharing agreement workflows.</td></tr><tr><td>Automated deletion/export workflows</td><td>Requires persistent backend and job execution.</td></tr><tr><td>Formal TrustEd Apps posture</td><td>Requires organizational review beyond code artifacts.</td></tr></tbody></table>
+<h2>Rule Going Forward</h2>
+<p>No new public model object, field, enum value, API response field, SQL column, or relationship should be added unless it has a dictionary entry or an explicit unsupported/deferred entry with a reason.</p>
+    <p class="source-note">Source file: <code>docs/lead-spec-accounting.md</code></p>
+  </main>
+</body>
+</html>

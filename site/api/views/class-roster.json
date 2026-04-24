@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "enrollment_id": "enr_sam_ela_6_a",
+      "class_id": "class_ela_6_a",
+      "class_title": "ELA 6 - Period 2",
+      "person_id": "person_sam",
+      "display_name": "Sam Patel",
+      "primary_role": "student",
+      "class_role": "student",
+      "school_name": "Lincoln Middle School",
+      "status": "active"
+    },
+    {
+      "enrollment_id": "enr_chen_ela_6_a",
+      "class_id": "class_ela_6_a",
+      "class_title": "ELA 6 - Period 2",
+      "person_id": "person_mr_chen",
+      "display_name": "David Chen",
+      "primary_role": "teacher",
+      "class_role": "teacher",
+      "school_name": "Lincoln Middle School",
+      "status": "active"
+    },
+    {
+      "enrollment_id": "enr_ada_math_6_a",
+      "class_id": "class_math_6_a",
+      "class_title": "Math 6 - Period 1",
+      "person_id": "person_ada",
+      "display_name": "Ada Johnson",
+      "primary_role": "student",
+      "class_role": "student",
+      "school_name": "Lincoln Middle School",
+      "status": "active"
+    },
+    {
+      "enrollment_id": "enr_miguel_math_6_a",
+      "class_id": "class_math_6_a",
+      "class_title": "Math 6 - Period 1",
+      "person_id": "person_miguel",
+      "display_name": "Miguel Santos",
+      "primary_role": "student",
+      "class_role": "student",
+      "school_name": "Lincoln Middle School",
+      "status": "active"
+    },
+    {
+      "enrollment_id": "enr_rivera_math_6_a",
+      "class_id": "class_math_6_a",
+      "class_title": "Math 6 - Period 1",
+      "person_id": "person_ms_rivera",
+      "display_name": "Elena Rivera",
+      "primary_role": "teacher",
+      "class_role": "teacher",
+      "school_name": "Lincoln Middle School",
+      "status": "active"
+    }
+  ],
+  "count": 5
+}

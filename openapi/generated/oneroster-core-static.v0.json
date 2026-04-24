@@ -1,103 +1,115 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Platform OneRoster Core Demo API",
+    "title": "Platform OneRoster Core Hosted JSON API",
     "version": "0.1.0",
-    "summary": "Working OneRoster core API generated from the OneRoster core dictionary source.",
-    "description": "This OpenAPI document is generated from dictionary/oneroster-core.v1.json. It describes the local Express/SQLite REST API. The GitHub Pages portal also exposes static JSON demo endpoints under https://andymontgomery-byte.github.io/platform/site/api/."
+    "summary": "Live GitHub Pages JSON endpoints generated from the OneRoster core dictionary source.",
+    "description": "This OpenAPI document is generated from dictionary/oneroster-core.v1.json. It documents the hosted GitHub Pages JSON API, whose field descriptions come from the same dictionary source as the SQL comments and HTML dictionary."
   },
   "servers": [
     {
-      "url": "http://localhost:8787",
-      "description": "Local demo API"
+      "url": "https://andymontgomery-byte.github.io/platform/site/api",
+      "description": "Hosted GitHub Pages static JSON API"
     }
   ],
   "paths": {
-    "/health": {
+    "/health.json": {
       "get": {
         "tags": [
           "Demo"
         ],
-        "summary": "Check demo API health",
+        "summary": "Check hosted static API health",
         "responses": {
           "200": {
-            "description": "Demo API is running."
-          }
-        }
-      }
-    },
-    "/sql/query": {
-      "post": {
-        "tags": [
-          "SQL"
-        ],
-        "summary": "Run a read-only SQL query against the demo database",
-        "description": "Accepts SELECT or WITH queries only. This is the JSON wrapper for the relational demo layer.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "sql"
-                ],
-                "properties": {
-                  "sql": {
-                    "type": "string",
-                    "examples": [
-                      "select display_name, primary_role from people order by display_name"
-                    ]
+            "description": "Hosted static API metadata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "hosting": {
+                      "type": "string"
+                    },
+                    "dictionaryVersion": {
+                      "type": "string"
+                    }
                   }
                 }
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/index.json": {
+      "get": {
+        "tags": [
+          "Demo"
+        ],
+        "summary": "List hosted static JSON endpoints",
         "responses": {
           "200": {
-            "description": "Rows returned by the query.",
+            "description": "Endpoint index for the GitHub Pages JSON API.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SqlQueryResult"
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    },
+                    "endpoints": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          },
+                          "relativeUrl": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
-          },
-          "400": {
-            "description": "The query was not accepted."
           }
         }
       }
     },
-    "/organizations": {
+    "/organizations.json": {
       "get": {
         "tags": [
           "Organization"
         ],
-        "summary": "List Organization records",
+        "summary": "Get hosted Organization records",
         "description": "A district, school, department, program, or other education organization.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Organization records.",
+            "description": "Organization records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -108,6 +120,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -117,67 +143,23 @@
         }
       }
     },
-    "/organizations/{id}": {
-      "get": {
-        "tags": [
-          "Organization"
-        ],
-        "summary": "Get one Organization record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Organization record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Organization record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Organization"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/people": {
+    "/people.json": {
       "get": {
         "tags": [
           "Person"
         ],
-        "summary": "List Person records",
+        "summary": "Get hosted Person records",
         "description": "A learner, teacher, staff member, guardian, or administrator known to the platform.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Person records.",
+            "description": "Person records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -188,6 +170,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -197,67 +193,23 @@
         }
       }
     },
-    "/people/{id}": {
-      "get": {
-        "tags": [
-          "Person"
-        ],
-        "summary": "Get one Person record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Person record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Person record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Person"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/academic-sessions": {
+    "/academic-sessions.json": {
       "get": {
         "tags": [
           "Academic Session"
         ],
-        "summary": "List Academic Session records",
+        "summary": "Get hosted Academic Session records",
         "description": "A school year, term, semester, quarter, grading period, or other calendar window.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Academic Session records.",
+            "description": "Academic Session records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -268,6 +220,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -277,67 +243,23 @@
         }
       }
     },
-    "/academic-sessions/{id}": {
-      "get": {
-        "tags": [
-          "Academic Session"
-        ],
-        "summary": "Get one Academic Session record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Academic Session record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Academic Session record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AcademicSession"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/courses": {
+    "/courses.json": {
       "get": {
         "tags": [
           "Course"
         ],
-        "summary": "List Course records",
+        "summary": "Get hosted Course records",
         "description": "A course template or catalog entry, such as Grade 6 Mathematics.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Course records.",
+            "description": "Course records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -348,6 +270,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -357,67 +293,23 @@
         }
       }
     },
-    "/courses/{id}": {
-      "get": {
-        "tags": [
-          "Course"
-        ],
-        "summary": "Get one Course record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Course record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Course record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Course"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/classes": {
+    "/classes.json": {
       "get": {
         "tags": [
           "Class"
         ],
-        "summary": "List Class records",
+        "summary": "Get hosted Class records",
         "description": "A scheduled class or section where learners and teachers meet around a course.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Class records.",
+            "description": "Class records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -428,6 +320,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -437,67 +343,23 @@
         }
       }
     },
-    "/classes/{id}": {
-      "get": {
-        "tags": [
-          "Class"
-        ],
-        "summary": "Get one Class record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Class record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Class record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Class"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/enrollments": {
+    "/enrollments.json": {
       "get": {
         "tags": [
           "Enrollment"
         ],
-        "summary": "List Enrollment records",
+        "summary": "Get hosted Enrollment records",
         "description": "A record that says a person participates in a class with a specific role.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Enrollment records.",
+            "description": "Enrollment records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -508,6 +370,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -517,67 +393,23 @@
         }
       }
     },
-    "/enrollments/{id}": {
-      "get": {
-        "tags": [
-          "Enrollment"
-        ],
-        "summary": "Get one Enrollment record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Enrollment record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Enrollment record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Enrollment"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/gradebook/line-items": {
+    "/gradebook-line-items.json": {
       "get": {
         "tags": [
           "Line Item"
         ],
-        "summary": "List Line Item records",
+        "summary": "Get hosted Line Item records",
         "description": "A gradebook column, assignment, assessment, or activity that can receive results.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Line Item records.",
+            "description": "Line Item records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -588,6 +420,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -597,67 +443,23 @@
         }
       }
     },
-    "/gradebook/line-items/{id}": {
-      "get": {
-        "tags": [
-          "Line Item"
-        ],
-        "summary": "Get one Line Item record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Line Item record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Line Item record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LineItem"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/gradebook/results": {
+    "/gradebook-results.json": {
       "get": {
         "tags": [
           "Result"
         ],
-        "summary": "List Result records",
+        "summary": "Get hosted Result records",
         "description": "A learner's score, status, or feedback for a gradebook line item.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Result records.",
+            "description": "Result records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
@@ -668,6 +470,20 @@
                     },
                     "count": {
                       "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -677,73 +493,80 @@
         }
       }
     },
-    "/gradebook/results/{id}": {
-      "get": {
-        "tags": [
-          "Result"
-        ],
-        "summary": "Get one Result record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Result record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "One Result record.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Result"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Record not found."
-          }
-        }
-      }
-    },
-    "/source-identifiers": {
+    "/source-identifiers.json": {
       "get": {
         "tags": [
           "Source Identifier"
         ],
-        "summary": "List Source Identifier records",
+        "summary": "Get hosted Source Identifier records",
         "description": "An ID used by another system to refer to the same object the platform tracks.",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "description": "Plain text search over common display fields.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Source Identifier records.",
+            "description": "Source Identifier records hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "items"
+                    "items",
+                    "count"
                   ],
                   "properties": {
                     "items": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/SourceIdentifier"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    },
+                    "source": {
+                      "type": "object",
+                      "properties": {
+                        "objectKey": {
+                          "type": "string"
+                        },
+                        "tableName": {
+                          "type": "string"
+                        },
+                        "dictionary": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/views/class-roster.json": {
+      "get": {
+        "tags": [
+          "Views"
+        ],
+        "summary": "Get hosted class roster view rows",
+        "description": "A read-only view over the same seeded OneRoster demo data.",
+        "responses": {
+          "200": {
+            "description": "View rows hosted as static JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
                       }
                     },
                     "count": {
@@ -757,36 +580,39 @@
         }
       }
     },
-    "/source-identifiers/{id}": {
+    "/views/gradebook-results.json": {
       "get": {
         "tags": [
-          "Source Identifier"
+          "Views"
         ],
-        "summary": "Get one Source Identifier record",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Platform ID for the Source Identifier record.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "summary": "Get hosted gradebook result view rows",
+        "description": "A read-only view over the same seeded OneRoster demo data.",
         "responses": {
           "200": {
-            "description": "One Source Identifier record.",
+            "description": "View rows hosted as static JSON.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SourceIdentifier"
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
                 }
               }
             }
-          },
-          "404": {
-            "description": "Record not found."
           }
         }
       }
@@ -1374,32 +1200,6 @@
               "inactive",
               "tobedeleted"
             ]
-          }
-        }
-      },
-      "SqlQueryResult": {
-        "type": "object",
-        "required": [
-          "columns",
-          "rows",
-          "count"
-        ],
-        "properties": {
-          "columns": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "rows": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": true
-            }
-          },
-          "count": {
-            "type": "integer"
           }
         }
       }

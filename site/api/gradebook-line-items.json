@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "id": "li_ela_essay_1",
+      "sourcedId": "LINEITEM-ELA-E1",
+      "title": "Personal Narrative Draft",
+      "classId": "class_ela_6_a",
+      "category": "assignment",
+      "assignDate": "2026-09-03",
+      "dueDate": "2026-09-17",
+      "resultValueMin": 0.0,
+      "resultValueMax": 4.0,
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:42:00Z"
+    },
+    {
+      "id": "li_math_homework_1",
+      "sourcedId": "LINEITEM-MATH-HW1",
+      "title": "Expressions Practice",
+      "classId": "class_math_6_a",
+      "category": "assignment",
+      "assignDate": "2026-09-01",
+      "dueDate": "2026-09-05",
+      "resultValueMin": 0.0,
+      "resultValueMax": 10.0,
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:41:00Z"
+    },
+    {
+      "id": "li_math_quiz_1",
+      "sourcedId": "LINEITEM-MATH-Q1",
+      "title": "Unit 1 Quiz",
+      "classId": "class_math_6_a",
+      "category": "quiz",
+      "assignDate": "2026-09-08",
+      "dueDate": "2026-09-15",
+      "resultValueMin": 0.0,
+      "resultValueMax": 100.0,
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:40:00Z"
+    }
+  ],
+  "count": 3,
+  "source": {
+    "objectKey": "line_item",
+    "tableName": "line_items",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

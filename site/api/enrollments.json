@@ -1,0 +1,75 @@
+{
+  "items": [
+    {
+      "id": "enr_ada_math_6_a",
+      "sourcedId": "ENR-10001",
+      "classId": "class_math_6_a",
+      "personId": "person_ada",
+      "schoolId": "org_school_lincoln",
+      "role": "student",
+      "beginDate": "2026-08-24",
+      "endDate": "2026-12-18",
+      "primary": "false",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:36:00Z"
+    },
+    {
+      "id": "enr_chen_ela_6_a",
+      "sourcedId": "ENR-10003",
+      "classId": "class_ela_6_a",
+      "personId": "person_mr_chen",
+      "schoolId": "org_school_lincoln",
+      "role": "teacher",
+      "beginDate": "2026-08-24",
+      "endDate": "2026-12-18",
+      "primary": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:38:00Z"
+    },
+    {
+      "id": "enr_miguel_math_6_a",
+      "sourcedId": "ENR-10002",
+      "classId": "class_math_6_a",
+      "personId": "person_miguel",
+      "schoolId": "org_school_lincoln",
+      "role": "student",
+      "beginDate": "2026-08-24",
+      "endDate": "2026-12-18",
+      "primary": "false",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:37:00Z"
+    },
+    {
+      "id": "enr_rivera_math_6_a",
+      "sourcedId": "ENR-10000",
+      "classId": "class_math_6_a",
+      "personId": "person_ms_rivera",
+      "schoolId": "org_school_lincoln",
+      "role": "teacher",
+      "beginDate": "2026-08-24",
+      "endDate": "2026-12-18",
+      "primary": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:35:00Z"
+    },
+    {
+      "id": "enr_sam_ela_6_a",
+      "sourcedId": "ENR-10004",
+      "classId": "class_ela_6_a",
+      "personId": "person_sam",
+      "schoolId": "org_school_lincoln",
+      "role": "student",
+      "beginDate": "2026-08-24",
+      "endDate": "2026-12-18",
+      "primary": "false",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:39:00Z"
+    }
+  ],
+  "count": 5,
+  "source": {
+    "objectKey": "enrollment",
+    "tableName": "enrollments",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

@@ -8,8 +8,8 @@ info:
     SQL views, JSON API fields, enums, relationships, privacy classes, and
     source standards.
 servers:
-  - url: https://api.example.edu
-    description: Placeholder production URL.
+  - url: https://andymontgomery-byte.github.io/platform/site/api
+    description: GitHub Pages static demo JSON base.
   - url: http://localhost:8080
     description: Local development URL.
 tags:

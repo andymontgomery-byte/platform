@@ -4,12 +4,12 @@ INSERT INTO organizations VALUES
   ('org_school_roosevelt', 'SCHOOL-ROOSEVELT', 'Roosevelt Elementary School', 'school', 'org_district_north', 'active', '2026-04-24T09:02:00Z');
 
 INSERT INTO people VALUES
-  ('person_ada', 'USER-ADA', 'Ada Johnson', 'Ada', 'Johnson', 'ada.johnson@example.edu', 'student', 'true', 'active', '2026-04-24T09:10:00Z'),
-  ('person_miguel', 'USER-MIGUEL', 'Miguel Santos', 'Miguel', 'Santos', 'miguel.santos@example.edu', 'student', 'true', 'active', '2026-04-24T09:11:00Z'),
-  ('person_sam', 'USER-SAM', 'Sam Patel', 'Sam', 'Patel', 'sam.patel@example.edu', 'student', 'true', 'active', '2026-04-24T09:12:00Z'),
-  ('person_ms_rivera', 'USER-RIVERA', 'Elena Rivera', 'Elena', 'Rivera', 'elena.rivera@example.edu', 'teacher', 'true', 'active', '2026-04-24T09:13:00Z'),
-  ('person_mr_chen', 'USER-CHEN', 'David Chen', 'David', 'Chen', 'david.chen@example.edu', 'teacher', 'true', 'active', '2026-04-24T09:14:00Z'),
-  ('person_admin_lee', 'USER-LEE', 'Principal Lee', 'Jordan', 'Lee', 'principal.lee@example.edu', 'administrator', 'true', 'active', '2026-04-24T09:15:00Z');
+  ('person_ada', 'USER-ADA', 'Ada Johnson', 'Ada', 'Johnson', 'ada.johnson@northview.k12.test', 'student', 'true', 'active', '2026-04-24T09:10:00Z'),
+  ('person_miguel', 'USER-MIGUEL', 'Miguel Santos', 'Miguel', 'Santos', 'miguel.santos@northview.k12.test', 'student', 'true', 'active', '2026-04-24T09:11:00Z'),
+  ('person_sam', 'USER-SAM', 'Sam Patel', 'Sam', 'Patel', 'sam.patel@northview.k12.test', 'student', 'true', 'active', '2026-04-24T09:12:00Z'),
+  ('person_ms_rivera', 'USER-RIVERA', 'Elena Rivera', 'Elena', 'Rivera', 'elena.rivera@northview.k12.test', 'teacher', 'true', 'active', '2026-04-24T09:13:00Z'),
+  ('person_mr_chen', 'USER-CHEN', 'David Chen', 'David', 'Chen', 'david.chen@northview.k12.test', 'teacher', 'true', 'active', '2026-04-24T09:14:00Z'),
+  ('person_admin_lee', 'USER-LEE', 'Principal Lee', 'Jordan', 'Lee', 'principal.lee@northview.k12.test', 'administrator', 'true', 'active', '2026-04-24T09:15:00Z');
 
 INSERT INTO academic_sessions VALUES
   ('session_2026', 'SY-2026', '2026 School Year', 'schoolYear', '2026-08-24', '2027-06-04', 2026, 'active', '2026-04-24T09:20:00Z'),

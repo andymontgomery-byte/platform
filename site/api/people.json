@@ -1,0 +1,82 @@
+{
+  "items": [
+    {
+      "id": "person_ada",
+      "sourcedId": "USER-ADA",
+      "displayName": "Ada Johnson",
+      "givenName": "Ada",
+      "familyName": "Johnson",
+      "email": "ada.johnson@northview.k12.test",
+      "primaryRole": "student",
+      "enabledUser": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:10:00Z"
+    },
+    {
+      "id": "person_admin_lee",
+      "sourcedId": "USER-LEE",
+      "displayName": "Principal Lee",
+      "givenName": "Jordan",
+      "familyName": "Lee",
+      "email": "principal.lee@northview.k12.test",
+      "primaryRole": "administrator",
+      "enabledUser": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:15:00Z"
+    },
+    {
+      "id": "person_miguel",
+      "sourcedId": "USER-MIGUEL",
+      "displayName": "Miguel Santos",
+      "givenName": "Miguel",
+      "familyName": "Santos",
+      "email": "miguel.santos@northview.k12.test",
+      "primaryRole": "student",
+      "enabledUser": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:11:00Z"
+    },
+    {
+      "id": "person_mr_chen",
+      "sourcedId": "USER-CHEN",
+      "displayName": "David Chen",
+      "givenName": "David",
+      "familyName": "Chen",
+      "email": "david.chen@northview.k12.test",
+      "primaryRole": "teacher",
+      "enabledUser": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:14:00Z"
+    },
+    {
+      "id": "person_ms_rivera",
+      "sourcedId": "USER-RIVERA",
+      "displayName": "Elena Rivera",
+      "givenName": "Elena",
+      "familyName": "Rivera",
+      "email": "elena.rivera@northview.k12.test",
+      "primaryRole": "teacher",
+      "enabledUser": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:13:00Z"
+    },
+    {
+      "id": "person_sam",
+      "sourcedId": "USER-SAM",
+      "displayName": "Sam Patel",
+      "givenName": "Sam",
+      "familyName": "Patel",
+      "email": "sam.patel@northview.k12.test",
+      "primaryRole": "student",
+      "enabledUser": "true",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:12:00Z"
+    }
+  ],
+  "count": 6,
+  "source": {
+    "objectKey": "person",
+    "tableName": "people",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

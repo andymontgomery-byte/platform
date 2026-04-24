@@ -114,6 +114,17 @@
     ["Phase 6", "Content and Credentials", "Common Cartridge, Thin Common Cartridge, Open Badges 3.0, CLR 2.0, Edu-API preparation, and Uniform ID support."]
   ];
 
+  const liveEndpoints = [
+    ["Organizations", "api/organizations.json"],
+    ["People", "api/people.json"],
+    ["Classes", "api/classes.json"],
+    ["Enrollments", "api/enrollments.json"],
+    ["Gradebook results", "api/views/gradebook-results.json"],
+    ["API index", "api/index.json"]
+  ];
+
+  let sqlDb = null;
+
   document.addEventListener("DOMContentLoaded", init);
 
   async function init() {
@@ -122,6 +133,8 @@
     await loadData();
     bindFilters();
     renderAll();
+    setupLiveApiPreview();
+    setupSqlConsole();
   }
 
   async function loadData() {
@@ -377,6 +390,121 @@
         "</article>"
       ].join("");
     }).join("");
+  }
+
+  function setupLiveApiPreview() {
+    const host = document.getElementById("liveApiLinks");
+    const preview = document.getElementById("liveApiPreview");
+    if (!host || !preview) {
+      return;
+    }
+    host.innerHTML = liveEndpoints.map(function (endpoint, index) {
+      return '<button type="button" data-endpoint="' + index + '">' + escapeHtml(endpoint[0]) + "</button>";
+    }).join("");
+    host.addEventListener("click", async function (event) {
+      const button = event.target.closest("button[data-endpoint]");
+      if (!button) {
+        return;
+      }
+      const endpoint = liveEndpoints[Number(button.dataset.endpoint)];
+      preview.textContent = "Loading " + endpoint[1] + "...";
+      try {
+        const response = await fetch(endpoint[1]);
+        const payload = await response.json();
+        preview.textContent = JSON.stringify(payload, null, 2);
+      } catch (error) {
+        preview.textContent = "Could not load endpoint: " + error.message;
+      }
+    });
+  }
+
+  async function setupSqlConsole() {
+    const input = document.getElementById("sqlInput");
+    const runButton = document.getElementById("runSqlButton");
+    const sampleButton = document.getElementById("sampleSqlButton");
+    const status = document.getElementById("sqlStatus");
+    if (!input || !runButton || !status || typeof initSqlJs === "undefined") {
+      return;
+    }
+    runButton.disabled = true;
+    try {
+      const SQL = await initSqlJs({
+        locateFile: function (file) {
+          return "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/" + file;
+        }
+      });
+      const [schemaResponse, seedResponse] = await Promise.all([
+        fetch("../demo/schema.sql"),
+        fetch("../demo/seed.sql")
+      ]);
+      const schema = await schemaResponse.text();
+      const seed = await seedResponse.text();
+      sqlDb = new SQL.Database();
+      sqlDb.run(schema);
+      sqlDb.run(seed);
+      status.textContent = "SQLite ready. Demo tables loaded from schema.sql and seed.sql.";
+      runButton.disabled = false;
+      runSqlQuery();
+    } catch (error) {
+      status.textContent = "SQLite failed to load: " + error.message;
+    }
+
+    runButton.addEventListener("click", runSqlQuery);
+    sampleButton.addEventListener("click", function () {
+      input.value = "select learner_name, line_item_title, score, result_value_max, score_status from gradebook_results order by learner_name";
+      runSqlQuery();
+    });
+  }
+
+  function runSqlQuery() {
+    const input = document.getElementById("sqlInput");
+    const result = document.getElementById("sqlResult");
+    const status = document.getElementById("sqlStatus");
+    if (!sqlDb || !input || !result) {
+      return;
+    }
+    const sql = input.value.trim();
+    if (!isReadOnlySql(sql)) {
+      result.innerHTML = '<div class="sql-error">Only one read-only SELECT or WITH query is allowed.</div>';
+      return;
+    }
+    try {
+      const queryResults = sqlDb.exec(sql);
+      if (!queryResults.length) {
+        result.innerHTML = '<div class="sql-empty">Query returned no rows.</div>';
+        return;
+      }
+      result.innerHTML = queryResults.map(renderSqlTable).join("");
+      status.textContent = "Query ran locally in the browser against the OneRoster demo database.";
+    } catch (error) {
+      result.innerHTML = '<div class="sql-error">' + escapeHtml(error.message) + "</div>";
+    }
+  }
+
+  function renderSqlTable(queryResult) {
+    const head = queryResult.columns.map(function (column) {
+      return "<th>" + escapeHtml(column) + "</th>";
+    }).join("");
+    const body = queryResult.values.map(function (row) {
+      return "<tr>" + row.map(function (value) {
+        return "<td>" + escapeHtml(value == null ? "" : value) + "</td>";
+      }).join("") + "</tr>";
+    }).join("");
+    return "<table><thead><tr>" + head + "</tr></thead><tbody>" + body + "</tbody></table>";
+  }
+
+  function isReadOnlySql(sql) {
+    const withoutComments = sql
+      .replace(/--.*$/gm, "")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .trim();
+    if (!/^(select|with)\b/i.test(withoutComments)) {
+      return false;
+    }
+    if (withoutComments.split(";").filter(function (part) { return part.trim(); }).length > 1) {
+      return false;
+    }
+    return !/\b(insert|update|delete|drop|alter|create|replace|truncate|attach|detach|pragma|vacuum|reindex)\b/i.test(withoutComments);
   }
 
   function renderList(id, items) {

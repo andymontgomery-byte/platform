@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "sid_1",
+      "objectType": "person",
+      "objectId": "person_ada",
+      "sourceSystem": "North SIS",
+      "externalId": "USER-ADA",
+      "identifierType": "oneRosterSourcedId",
+      "status": "active"
+    },
+    {
+      "id": "sid_2",
+      "objectType": "person",
+      "objectId": "person_ada",
+      "sourceSystem": "North SIS",
+      "externalId": "SIS-41001",
+      "identifierType": "sisSourcedId",
+      "status": "active"
+    },
+    {
+      "id": "sid_3",
+      "objectType": "class",
+      "objectId": "class_math_6_a",
+      "sourceSystem": "North LMS",
+      "externalId": "LTI-CONTEXT-MATH-6A",
+      "identifierType": "ltiContextId",
+      "status": "active"
+    },
+    {
+      "id": "sid_4",
+      "objectType": "organization",
+      "objectId": "org_school_lincoln",
+      "sourceSystem": "North SIS",
+      "externalId": "SCHOOL-LINCOLN",
+      "identifierType": "oneRosterSourcedId",
+      "status": "active"
+    }
+  ],
+  "count": 4,
+  "source": {
+    "objectKey": "source_identifier",
+    "tableName": "source_identifiers",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

@@ -22,6 +22,7 @@
       <nav class="nav" aria-label="Primary navigation">
         <a href="#standards">Standards</a>
         <a href="#decisions">Decisions</a>
+        <a href="#try">Try It</a>
         <a href="#dictionary">Dictionary</a>
         <a href="#api">API</a>
         <a href="#guide">Guide</a>
@@ -84,7 +85,7 @@
             <p class="eyebrow">Working vertical slice</p>
             <h2 id="demo-title">OneRoster core now has a runnable SQL and JSON demo.</h2>
           </div>
-          <a class="text-link" href="../demo/README.md">Open demo instructions</a>
+          <a class="text-link" href="docs/generated-oneroster-core-dictionary.html">Open rendered dictionary</a>
         </div>
         <div class="demo-grid">
           <article>
@@ -94,13 +95,42 @@
           </article>
           <article>
             <h3>JSON API layer</h3>
-            <p>Read-only local endpoints over the same seeded data, including roster and gradebook views an app or AI agent can call directly.</p>
-            <code>http://localhost:8787</code>
+            <p>Read-only GitHub Pages JSON endpoints over the same seeded data, plus a local Express API for true REST paths.</p>
+            <code>site/api/people.json</code>
           </article>
           <article>
             <h3>Generated docs</h3>
-            <p>The OneRoster core dictionary source generates SQL comments, OpenAPI schema descriptions, and a Markdown dictionary page.</p>
+            <p>The OneRoster core dictionary source generates SQL comments, OpenAPI schema descriptions, and rendered HTML dictionary pages.</p>
             <code>dictionary/oneroster-core.v1.json</code>
+          </article>
+        </div>
+      </section>
+
+      <section id="try" class="section try-section" aria-labelledby="try-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Try it on GitHub Pages</p>
+            <h2 id="try-title">Run a real JSON call and a real SQL query from this site.</h2>
+          </div>
+          <a class="text-link" href="api/index.json">Open static API index</a>
+        </div>
+        <div class="try-grid">
+          <article class="live-api-panel">
+            <h3>Live JSON endpoints</h3>
+            <p>These are hosted JSON resources on GitHub Pages. They use the same seed data as the local API and SQL console.</p>
+            <div id="liveApiLinks" class="endpoint-list"></div>
+            <pre id="liveApiPreview" class="result-box"><code>Select an endpoint to preview JSON.</code></pre>
+          </article>
+          <article class="sql-panel">
+            <h3>Browser SQL console</h3>
+            <p>SQLite runs in the browser from the demo schema and seed data. Only read-only <code>SELECT</code> or <code>WITH</code> queries are accepted.</p>
+            <textarea id="sqlInput" spellcheck="false">select display_name, primary_role from people order by display_name</textarea>
+            <div class="hero-actions">
+              <button class="button primary" id="runSqlButton" type="button">Run SQL</button>
+              <button class="button secondary light" id="sampleSqlButton" type="button">Use gradebook sample</button>
+            </div>
+            <div id="sqlStatus" class="sql-status">Loading SQLite...</div>
+            <div id="sqlResult" class="sql-result"></div>
           </article>
         </div>
       </section>
@@ -163,7 +193,7 @@
             <p class="eyebrow">Layperson dictionary</p>
             <h2 id="dictionary-title">Every object, field, and value should be understandable by someone who has been to school.</h2>
           </div>
-          <a class="text-link" href="../docs/dictionaries/README.md">Open full dictionary index</a>
+          <a class="text-link" href="docs/index.html">Open rendered docs index</a>
         </div>
 
         <div class="search-row">
@@ -188,11 +218,11 @@
             <p class="eyebrow">API surface</p>
             <h2 id="api-title">The first API groups app developers build against.</h2>
           </div>
-          <a class="text-link" href="../openapi/dictionary.v0.yaml">Open dictionary OpenAPI stub</a>
+          <a class="text-link" href="openapi/hosted-json.html">Open hosted OpenAPI</a>
         </div>
         <div id="apiGrid" class="api-grid"></div>
         <p class="section-note api-note">
-          Current executable API: OneRoster core demo at `http://localhost:8787`, with generated OpenAPI at `openapi/generated/oneroster-core.v0.json`. The broader API groups below are the planned platform surface.
+          Current hosted JSON API: GitHub Pages static JSON under `site/api/`, documented in the <a href="openapi/hosted-json.html">hosted OpenAPI page</a>. Current local server API: the OneRoster core demo at `http://localhost:8787`, documented in the <a href="openapi/oneroster-core.html">local Express OpenAPI page</a>. The broader API groups below are the planned platform surface.
         </p>
         <div class="code-panel">
           <div class="code-panel-header">
@@ -252,13 +282,15 @@
         <span>Generated from the standards registry, data dictionary seed, OpenAPI stub, SQL schema, and layperson dictionaries.</span>
       </div>
       <div class="footer-links">
-        <a href="../docs/1edtech-platform-plan.md">Plan</a>
-        <a href="../schema/0001_registry_and_dictionary.sql">SQL schema</a>
-        <a href="../data/standards-registry.seed.json">Registry JSON</a>
-        <a href="../data/data-dictionary.seed.json">Dictionary JSON</a>
+        <a href="docs/1edtech-platform-plan.html">Plan</a>
+        <a href="docs/decisions-standards-overlap-decisions.html">Overlap decisions</a>
+        <a href="docs/lead-spec-accounting.html">Lead accounting</a>
+        <a href="openapi/oneroster-core.html">Rendered API</a>
+        <a href="https://github.com/andymontgomery-byte/platform">Source</a>
       </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

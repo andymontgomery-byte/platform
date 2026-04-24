@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "class_ela_6_a",
+      "sourcedId": "CLASS-ELA-6A",
+      "title": "ELA 6 - Period 2",
+      "classType": "scheduled",
+      "classCode": "P2-ELA6",
+      "courseId": "course_ela_6",
+      "schoolId": "org_school_lincoln",
+      "termId": "session_2026_fall",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:32:00Z"
+    },
+    {
+      "id": "class_math_6_a",
+      "sourcedId": "CLASS-MATH-6A",
+      "title": "Math 6 - Period 1",
+      "classType": "scheduled",
+      "classCode": "P1-MATH6",
+      "courseId": "course_math_6",
+      "schoolId": "org_school_lincoln",
+      "termId": "session_2026_fall",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:30:00Z"
+    },
+    {
+      "id": "class_math_6_b",
+      "sourcedId": "CLASS-MATH-6B",
+      "title": "Math 6 - Period 3",
+      "classType": "scheduled",
+      "classCode": "P3-MATH6",
+      "courseId": "course_math_6",
+      "schoolId": "org_school_lincoln",
+      "termId": "session_2026_fall",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:31:00Z"
+    }
+  ],
+  "count": 3,
+  "source": {
+    "objectKey": "class",
+    "tableName": "classes",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}

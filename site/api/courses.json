@@ -1,0 +1,30 @@
+{
+  "items": [
+    {
+      "id": "course_ela_6",
+      "sourcedId": "COURSE-ELA-6",
+      "title": "Grade 6 English Language Arts",
+      "courseCode": "ELA-06",
+      "orgId": "org_district_north",
+      "schoolYearId": "session_2026",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:26:00Z"
+    },
+    {
+      "id": "course_math_6",
+      "sourcedId": "COURSE-MATH-6",
+      "title": "Grade 6 Mathematics",
+      "courseCode": "MATH-06",
+      "orgId": "org_district_north",
+      "schoolYearId": "session_2026",
+      "status": "active",
+      "dateLastModified": "2026-04-24T09:25:00Z"
+    }
+  ],
+  "count": 2,
+  "source": {
+    "objectKey": "course",
+    "tableName": "courses",
+    "dictionary": "dictionary/oneroster-core.v1.json"
+  }
+}
