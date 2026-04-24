@@ -1,0 +1,1928 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Caliper 1.2 Event Projection API",
+    "version": "0.1.0",
+    "summary": "Generated Caliper event projection API schemas from the structured Caliper dictionary source.",
+    "description": "This OpenAPI document is generated from dictionary/caliper-core.v1.json. It documents the planned Caliper event ingestion and projection API for envelopes, immutable events, entities, actors, context, profile rules, and governed extensions. It is not a formal Caliper certification claim and is not executable on GitHub Pages until a backend is added."
+  },
+  "servers": [
+    {
+      "url": "https://andymontgomery-byte.github.io/platform/site",
+      "description": "Portal host; Caliper endpoints are planned documentation until backend runtime exists."
+    }
+  ],
+  "paths": {
+    "/events/caliper/envelopes": {
+      "get": {
+        "tags": [
+          "Caliper Envelope"
+        ],
+        "summary": "List Caliper Envelope records",
+        "description": "One Sensor API payload received from a tool, platform, or app.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over Caliper IDs, entity names, profile terms, and source identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caliper Envelope records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaliperEnvelope"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/caliper/envelopes/{id}": {
+      "get": {
+        "tags": [
+          "Caliper Envelope"
+        ],
+        "summary": "Get one Caliper Envelope record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Caliper Envelope record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Caliper Envelope record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaliperEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/events/caliper/events": {
+      "get": {
+        "tags": [
+          "Caliper Event"
+        ],
+        "summary": "List Caliper Event records",
+        "description": "One immutable learning activity event projected from a Caliper envelope.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over Caliper IDs, entity names, profile terms, and source identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caliper Event records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaliperEvent"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/caliper/events/{id}": {
+      "get": {
+        "tags": [
+          "Caliper Event"
+        ],
+        "summary": "Get one Caliper Event record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Caliper Event record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Caliper Event record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaliperEvent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/events/caliper/entities": {
+      "get": {
+        "tags": [
+          "Caliper Entity"
+        ],
+        "summary": "List Caliper Entity records",
+        "description": "A normalized index entry for a Caliper person, app, resource, attempt, score, session, or other event object.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over Caliper IDs, entity names, profile terms, and source identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caliper Entity records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaliperEntity"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/caliper/entities/{id}": {
+      "get": {
+        "tags": [
+          "Caliper Entity"
+        ],
+        "summary": "Get one Caliper Entity record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Caliper Entity record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Caliper Entity record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaliperEntity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/events/caliper/actors": {
+      "get": {
+        "tags": [
+          "Caliper Actor"
+        ],
+        "summary": "List Caliper Actor records",
+        "description": "The person, application, group, or agent that performs a Caliper event action.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over Caliper IDs, entity names, profile terms, and source identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caliper Actor records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaliperActor"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/caliper/actors/{id}": {
+      "get": {
+        "tags": [
+          "Caliper Actor"
+        ],
+        "summary": "Get one Caliper Actor record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Caliper Actor record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Caliper Actor record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaliperActor"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/events/caliper/contexts": {
+      "get": {
+        "tags": [
+          "Caliper Context"
+        ],
+        "summary": "List Caliper Context records",
+        "description": "The group, membership, session, and LTI context surrounding a Caliper event.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over Caliper IDs, entity names, profile terms, and source identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caliper Context records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaliperContext"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/caliper/contexts/{id}": {
+      "get": {
+        "tags": [
+          "Caliper Context"
+        ],
+        "summary": "Get one Caliper Context record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Caliper Context record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Caliper Context record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaliperContext"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/events/caliper/profile-rules": {
+      "get": {
+        "tags": [
+          "Caliper Profile Rule"
+        ],
+        "summary": "List Caliper Profile Rule records",
+        "description": "A governed row describing an expected Caliper profile, event, action, actor, object, and generated or target combination.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over Caliper IDs, entity names, profile terms, and source identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caliper Profile Rule records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaliperProfileRule"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/caliper/profile-rules/{id}": {
+      "get": {
+        "tags": [
+          "Caliper Profile Rule"
+        ],
+        "summary": "Get one Caliper Profile Rule record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Caliper Profile Rule record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Caliper Profile Rule record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaliperProfileRule"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/events/caliper/extensions": {
+      "get": {
+        "tags": [
+          "Caliper Extension"
+        ],
+        "summary": "List Caliper Extension records",
+        "description": "A governed custom field found under a Caliper extensions object.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over Caliper IDs, entity names, profile terms, and source identifiers.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Caliper Extension records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CaliperExtension"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/caliper/extensions/{id}": {
+      "get": {
+        "tags": [
+          "Caliper Extension"
+        ],
+        "summary": "Get one Caliper Extension record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Caliper Extension record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Caliper Extension record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaliperExtension"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CaliperEnvelope": {
+        "type": "object",
+        "description": "One Sensor API payload received from a tool, platform, or app.",
+        "required": [
+          "id",
+          "tenantId",
+          "sensorId",
+          "sendTime",
+          "dataVersion",
+          "receivedAt",
+          "validationStatus",
+          "rawPayload"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this received Caliper envelope."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "The school, district, or customer boundary that owns this event payload."
+          },
+          "sensorId": {
+            "type": "string",
+            "description": "The tool, platform, app, or sensor that sent the payload."
+          },
+          "sendTime": {
+            "type": "string",
+            "description": "When the sensor says it sent the payload.",
+            "format": "date-time"
+          },
+          "dataVersion": {
+            "type": "string",
+            "description": "The Caliper context or version used to interpret the payload.",
+            "enum": [
+              "http://purl.imsglobal.org/ctx/caliper/v1p2"
+            ],
+            "x-valueDescriptions": {
+              "http://purl.imsglobal.org/ctx/caliper/v1p2": "The JSON-LD context IRI used for Caliper 1.2 payloads."
+            }
+          },
+          "eventCount": {
+            "type": "integer",
+            "description": "How many event objects were found in the payload."
+          },
+          "receivedAt": {
+            "type": "string",
+            "description": "When the platform received the payload.",
+            "format": "date-time"
+          },
+          "validationStatus": {
+            "type": "string",
+            "description": "Whether the payload was accepted, rejected, or held for review.",
+            "enum": [
+              "received",
+              "valid",
+              "rejected",
+              "quarantined"
+            ],
+            "x-valueDescriptions": {
+              "received": "The payload was received but has not completed validation.",
+              "valid": "The payload passed validation for the platform's current projection.",
+              "rejected": "The payload failed validation and should not be projected.",
+              "quarantined": "The payload is held for review because policy, privacy, or schema checks need attention."
+            }
+          },
+          "rawPayload": {
+            "type": "string",
+            "description": "The original JSON-LD payload retained for audit, replay, and conformance review."
+          }
+        }
+      },
+      "CaliperEvent": {
+        "type": "object",
+        "description": "One immutable learning activity event projected from a Caliper envelope.",
+        "required": [
+          "id",
+          "envelopeId",
+          "eventIri",
+          "eventType",
+          "action",
+          "actorId",
+          "objectId",
+          "eventTime",
+          "rawEvent"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this projected event row."
+          },
+          "envelopeId": {
+            "type": "string",
+            "description": "The received Caliper envelope that contained this event."
+          },
+          "eventIri": {
+            "type": "string",
+            "description": "The globally unique event identifier supplied by the sender."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent.",
+            "enum": [
+              "AnnotationEvent",
+              "AssessmentEvent",
+              "AssessmentItemEvent",
+              "AssignableEvent",
+              "FeedbackEvent",
+              "ForumEvent",
+              "GradeEvent",
+              "MediaEvent",
+              "MessageEvent",
+              "NavigationEvent",
+              "QuestionnaireEvent",
+              "QuestionnaireItemEvent",
+              "ResourceManagementEvent",
+              "SearchEvent",
+              "SessionEvent",
+              "SurveyEvent",
+              "SurveyInvitationEvent",
+              "ThreadEvent",
+              "ToolLaunchEvent",
+              "ToolUseEvent",
+              "ViewEvent"
+            ],
+            "x-valueDescriptions": {
+              "AnnotationEvent": "A person creates or shares an annotation on a digital resource.",
+              "AssessmentEvent": "A person works with a whole assessment.",
+              "AssessmentItemEvent": "A person works with one assessment item or question.",
+              "AssignableEvent": "A person works with assigned digital content.",
+              "FeedbackEvent": "A person comments on or rates something.",
+              "ForumEvent": "A person subscribes or unsubscribes from a forum.",
+              "GradeEvent": "A person or app grades an attempt.",
+              "MediaEvent": "A person interacts with audio, video, or media.",
+              "MessageEvent": "A person posts or marks a message.",
+              "NavigationEvent": "A person navigates to a resource, app, or location.",
+              "QuestionnaireEvent": "A person starts or submits a questionnaire.",
+              "QuestionnaireItemEvent": "A person works with one questionnaire item.",
+              "ResourceManagementEvent": "A person manages a digital resource.",
+              "SearchEvent": "A person searches a resource or app.",
+              "SessionEvent": "A person or app starts, ends, or times out a session.",
+              "SurveyEvent": "A person opts into or out of a survey.",
+              "SurveyInvitationEvent": "A person sends or responds to a survey invitation.",
+              "ThreadEvent": "A person marks a forum thread read or unread.",
+              "ToolLaunchEvent": "A person launches or returns from a tool.",
+              "ToolUseEvent": "A person uses a software application.",
+              "ViewEvent": "A person views something."
+            }
+          },
+          "profile": {
+            "type": "string",
+            "description": "The Caliper profile that explains which event, action, actor, object, and generated values are expected.",
+            "enum": [
+              "GeneralProfile",
+              "AnnotationProfile",
+              "AssessmentProfile",
+              "AssignableProfile",
+              "FeedbackProfile",
+              "ForumProfile",
+              "GradingProfile",
+              "MediaProfile",
+              "ReadingProfile",
+              "ResourceManagementProfile",
+              "SearchProfile",
+              "SessionProfile",
+              "SurveyProfile",
+              "ToolLaunchProfile",
+              "ToolUseProfile"
+            ],
+            "x-valueDescriptions": {
+              "GeneralProfile": "Generic profile for events not covered by a narrower profile.",
+              "AnnotationProfile": "Annotation, bookmark, highlight, share, and tag activity.",
+              "AssessmentProfile": "Assessment and assessment-item activity.",
+              "AssignableProfile": "Assignment and digital-resource work activity.",
+              "FeedbackProfile": "Commenting and rating activity.",
+              "ForumProfile": "Forum, thread, and message activity.",
+              "GradingProfile": "Grading and score creation activity.",
+              "MediaProfile": "Audio, video, and media activity.",
+              "ReadingProfile": "Reading, navigation, and viewing resource activity.",
+              "ResourceManagementProfile": "Resource creation, upload, publish, print, download, and similar management activity.",
+              "SearchProfile": "Search activity.",
+              "SessionProfile": "Login, logout, and timeout session activity.",
+              "SurveyProfile": "Survey and questionnaire activity.",
+              "ToolLaunchProfile": "LTI or tool launch and return activity.",
+              "ToolUseProfile": "Software application use metrics."
+            }
+          },
+          "action": {
+            "type": "string",
+            "description": "What happened in the event.",
+            "enum": [
+              "Abandoned",
+              "Accepted",
+              "Activated",
+              "Added",
+              "Archived",
+              "Attached",
+              "Bookmarked",
+              "ChangedResolution",
+              "ChangedSize",
+              "ChangedSpeed",
+              "ChangedVolume",
+              "Classified",
+              "ClosedPopout",
+              "Commented",
+              "Completed",
+              "Copied",
+              "Created",
+              "Deactivated",
+              "Declined",
+              "Deleted",
+              "Described",
+              "DisabledClosedCaptioning",
+              "Disliked",
+              "Downloaded",
+              "EnabledClosedCaptioning",
+              "Ended",
+              "EnteredFullScreen",
+              "ExitedFullScreen",
+              "ForwardedTo",
+              "Graded",
+              "Hid",
+              "Highlighted",
+              "Identified",
+              "JumpedTo",
+              "Launched",
+              "Liked",
+              "Linked",
+              "LoggedIn",
+              "LoggedOut",
+              "MarkedAsRead",
+              "MarkedAsUnread",
+              "Modified",
+              "Muted",
+              "NavigatedTo",
+              "OpenedPopout",
+              "OptedIn",
+              "OptedOut",
+              "Paused",
+              "Posted",
+              "Printed",
+              "Published",
+              "Questioned",
+              "Ranked",
+              "Recommended",
+              "Removed",
+              "Reset",
+              "Restarted",
+              "Restored",
+              "Resumed",
+              "Retrieved",
+              "Returned",
+              "Reviewed",
+              "Rewound",
+              "Saved",
+              "Searched",
+              "Sent",
+              "Shared",
+              "Showed",
+              "Skipped",
+              "Started",
+              "Submitted",
+              "Subscribed",
+              "Tagged",
+              "TimedOut",
+              "Unmuted",
+              "Unpublished",
+              "Unsubscribed",
+              "Uploaded",
+              "Used",
+              "Viewed"
+            ],
+            "x-valueDescriptions": {
+              "Abandoned": "A user abandoned something before completion.",
+              "Accepted": "A user accepted an invitation or request.",
+              "Activated": "Something was made active.",
+              "Added": "Something was added.",
+              "Archived": "A resource was archived.",
+              "Attached": "Something was attached to another thing.",
+              "Bookmarked": "A user created a bookmark.",
+              "ChangedResolution": "Media resolution changed.",
+              "ChangedSize": "Media display size changed.",
+              "ChangedSpeed": "Media playback speed changed.",
+              "ChangedVolume": "Media volume changed.",
+              "Classified": "Something was classified or categorized.",
+              "ClosedPopout": "A media popout or window was closed.",
+              "Commented": "A user left a comment.",
+              "Completed": "A user completed an item or task.",
+              "Copied": "A resource was copied.",
+              "Created": "A resource or entity was created.",
+              "Deactivated": "Something was made inactive.",
+              "Declined": "A user declined an invitation or request.",
+              "Deleted": "A resource or entity was deleted.",
+              "Described": "Metadata or description was added or changed.",
+              "DisabledClosedCaptioning": "Closed captions were turned off.",
+              "Disliked": "A user disliked something.",
+              "Downloaded": "A resource was downloaded.",
+              "EnabledClosedCaptioning": "Closed captions were turned on.",
+              "Ended": "Activity or media ended.",
+              "EnteredFullScreen": "Media entered full screen.",
+              "ExitedFullScreen": "Media exited full screen.",
+              "ForwardedTo": "Media playback moved forward.",
+              "Graded": "An attempt was graded.",
+              "Hid": "Something was hidden.",
+              "Highlighted": "Text or resource content was highlighted.",
+              "Identified": "Something was identified.",
+              "JumpedTo": "Media or navigation jumped to a location.",
+              "Launched": "A tool or app was launched.",
+              "Liked": "A user liked something.",
+              "Linked": "Something was linked.",
+              "LoggedIn": "A user logged in.",
+              "LoggedOut": "A user logged out.",
+              "MarkedAsRead": "A message or thread was marked read.",
+              "MarkedAsUnread": "A message or thread was marked unread.",
+              "Modified": "A resource or entity was changed.",
+              "Muted": "Media audio was muted.",
+              "NavigatedTo": "A user navigated to a resource or location.",
+              "OpenedPopout": "A media popout or window was opened.",
+              "OptedIn": "A user opted in.",
+              "OptedOut": "A user opted out.",
+              "Paused": "Activity or media was paused.",
+              "Posted": "A message was posted.",
+              "Printed": "A resource was printed.",
+              "Published": "A resource was published.",
+              "Questioned": "A question was asked.",
+              "Ranked": "A user rated or ranked something.",
+              "Recommended": "Something was recommended.",
+              "Removed": "Something was removed.",
+              "Reset": "Activity or an attempt was reset.",
+              "Restarted": "Activity or media restarted.",
+              "Restored": "A resource was restored.",
+              "Resumed": "Activity or media resumed.",
+              "Retrieved": "A resource was retrieved.",
+              "Returned": "A user returned from a launched tool or workflow.",
+              "Reviewed": "A user reviewed something.",
+              "Rewound": "Media playback moved backward.",
+              "Saved": "A resource or work item was saved.",
+              "Searched": "A user performed a search.",
+              "Sent": "A message or invitation was sent.",
+              "Shared": "Something was shared.",
+              "Showed": "Something was shown.",
+              "Skipped": "A learner skipped an item or task.",
+              "Started": "A learner or user started something.",
+              "Submitted": "Work or an attempt was submitted.",
+              "Subscribed": "A user subscribed.",
+              "Tagged": "A user added tags.",
+              "TimedOut": "A session timed out.",
+              "Unmuted": "Media audio was unmuted.",
+              "Unpublished": "A resource was unpublished.",
+              "Unsubscribed": "A user unsubscribed.",
+              "Uploaded": "A resource or file was uploaded.",
+              "Used": "A user used a tool or application.",
+              "Viewed": "A user viewed something."
+            }
+          },
+          "actorId": {
+            "type": "string",
+            "description": "The indexed person, app, or agent that performed the action."
+          },
+          "objectId": {
+            "type": "string",
+            "description": "The indexed entity that the actor acted on."
+          },
+          "eventTime": {
+            "type": "string",
+            "description": "When the learning activity happened.",
+            "format": "date-time"
+          },
+          "edAppId": {
+            "type": "string",
+            "description": "The indexed application where the event happened."
+          },
+          "generatedId": {
+            "type": "string",
+            "description": "The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response."
+          },
+          "targetId": {
+            "type": "string",
+            "description": "A specific location or target inside the object, such as a media location, page, link, or question target."
+          },
+          "referrerId": {
+            "type": "string",
+            "description": "The prior app, page, resource, or context that led to this event."
+          },
+          "groupId": {
+            "type": "string",
+            "description": "The class, course, group, or organization context for the event."
+          },
+          "membershipId": {
+            "type": "string",
+            "description": "The actor's role and status relationship in the group context."
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "The app or user session that groups related events."
+          },
+          "federatedSessionId": {
+            "type": "string",
+            "description": "The LTI or federated session context connected to a tool launch."
+          },
+          "rawEvent": {
+            "type": "string",
+            "description": "The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection."
+          }
+        }
+      },
+      "CaliperEntity": {
+        "type": "object",
+        "description": "A normalized index entry for a Caliper person, app, resource, attempt, score, session, or other event object.",
+        "required": [
+          "id",
+          "entityIri",
+          "entityType"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this indexed entity."
+          },
+          "entityIri": {
+            "type": "string",
+            "description": "The Caliper IRI or source identifier for the entity."
+          },
+          "entityType": {
+            "type": "string",
+            "description": "The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource.",
+            "enum": [
+              "Agent",
+              "AggregateMeasure",
+              "AggregateMeasureCollection",
+              "Annotation",
+              "Assessment",
+              "AssessmentItem",
+              "AssignableDigitalResource",
+              "Attempt",
+              "AudioObject",
+              "BookmarkAnnotation",
+              "Chapter",
+              "Collection",
+              "Comment",
+              "CourseOffering",
+              "CourseSection",
+              "DateTimeQuestion",
+              "DateTimeResponse",
+              "DigitalResource",
+              "DigitalResourceCollection",
+              "Document",
+              "FillinBlankResponse",
+              "Forum",
+              "Frame",
+              "Group",
+              "HighlightAnnotation",
+              "ImageObject",
+              "LearningObjective",
+              "LikertScale",
+              "Link",
+              "LtiLink",
+              "LtiSession",
+              "MediaLocation",
+              "MediaObject",
+              "Membership",
+              "Message",
+              "MultipleChoiceResponse",
+              "MultipleResponseResponse",
+              "MultiselectQuestion",
+              "MultiselectResponse",
+              "MultiselectScale",
+              "NumericScale",
+              "OpenEndedQuestion",
+              "OpenEndedResponse",
+              "Organization",
+              "Page",
+              "Person",
+              "Query",
+              "Question",
+              "Questionnaire",
+              "QuestionnaireItem",
+              "Rating",
+              "RatingScaleQuestion",
+              "RatingScaleResponse",
+              "Response",
+              "Result",
+              "Scale",
+              "Score",
+              "SearchResponse",
+              "SelectTextResponse",
+              "Session",
+              "SharedAnnotation",
+              "SoftwareApplication",
+              "Survey",
+              "SurveyInvitation",
+              "TagAnnotation",
+              "Thread",
+              "TrueFalseResponse",
+              "VideoObject",
+              "WebPage",
+              "TextPositionSelector",
+              "SystemIdentifier"
+            ],
+            "x-valueDescriptions": {
+              "Agent": "A person or software agent.",
+              "AggregateMeasure": "A computed usage or learning metric.",
+              "AggregateMeasureCollection": "A set of aggregate measures.",
+              "Annotation": "A note or mark connected to a digital resource.",
+              "Assessment": "A whole assessment.",
+              "AssessmentItem": "One assessment item or question.",
+              "AssignableDigitalResource": "Digital content assigned to a learner.",
+              "Attempt": "One try at an assignment, assessment, or questionnaire.",
+              "AudioObject": "Audio media.",
+              "BookmarkAnnotation": "Bookmark note.",
+              "Chapter": "Chapter in content or media.",
+              "Collection": "Ordered group of entities.",
+              "Comment": "Written feedback or comment.",
+              "CourseOffering": "Course offering.",
+              "CourseSection": "Course or class section.",
+              "DateTimeQuestion": "Question asking for a date or time.",
+              "DateTimeResponse": "Date or time answer.",
+              "DigitalResource": "Digital content or resource.",
+              "DigitalResourceCollection": "Collection of digital resources.",
+              "Document": "Document resource.",
+              "FillinBlankResponse": "Fill-in-the-blank answer.",
+              "Forum": "Forum.",
+              "Frame": "Segment or location in a resource.",
+              "Group": "Group context.",
+              "HighlightAnnotation": "Highlighted text annotation.",
+              "ImageObject": "Image media.",
+              "LearningObjective": "Learning goal or objective, preferably linked to CASE when available.",
+              "LikertScale": "Likert rating scale.",
+              "Link": "Web link.",
+              "LtiLink": "LTI launch or resource link.",
+              "LtiSession": "LTI platform/tool session.",
+              "MediaLocation": "Point in media playback.",
+              "MediaObject": "Audio, video, or media resource.",
+              "Membership": "A person's relationship to a group or organization.",
+              "Message": "Forum or message post.",
+              "MultipleChoiceResponse": "Single-choice answer.",
+              "MultipleResponseResponse": "Multi-select answer.",
+              "MultiselectQuestion": "Multiple-select question definition.",
+              "MultiselectResponse": "Multiple-select response.",
+              "MultiselectScale": "Multiple-select rating scale.",
+              "NumericScale": "Numeric rating scale.",
+              "OpenEndedQuestion": "Open-ended question.",
+              "OpenEndedResponse": "Open-ended text response.",
+              "Organization": "School, district, provider, or other organization.",
+              "Page": "Page in a resource.",
+              "Person": "Human actor.",
+              "Query": "Search query.",
+              "Question": "Question prompt.",
+              "Questionnaire": "Questionnaire or survey instrument.",
+              "QuestionnaireItem": "One questionnaire item.",
+              "Rating": "Rating feedback.",
+              "RatingScaleQuestion": "Rating scale question.",
+              "RatingScaleResponse": "Rating scale response.",
+              "Response": "Learner response.",
+              "Result": "Result score or feedback.",
+              "Scale": "Generic scale.",
+              "Score": "Score generated by grading.",
+              "SearchResponse": "Search result summary.",
+              "SelectTextResponse": "Selected text response.",
+              "Session": "User or app session.",
+              "SharedAnnotation": "Annotation shared with people.",
+              "SoftwareApplication": "App or tool.",
+              "Survey": "Survey.",
+              "SurveyInvitation": "Invitation to take a survey.",
+              "TagAnnotation": "Tag annotation.",
+              "Thread": "Forum thread.",
+              "TrueFalseResponse": "True/false response.",
+              "VideoObject": "Video media.",
+              "WebPage": "Web page.",
+              "TextPositionSelector": "Text-range selector without an entity ID.",
+              "SystemIdentifier": "Other system identifier without an entity ID."
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "A human-readable name for the entity when one is supplied."
+          },
+          "description": {
+            "type": "string",
+            "description": "A short explanation or label for the entity."
+          },
+          "dateCreated": {
+            "type": "string",
+            "description": "When the source says this entity was created.",
+            "format": "date-time"
+          },
+          "dateModified": {
+            "type": "string",
+            "description": "When the source says this entity last changed.",
+            "format": "date-time"
+          },
+          "otherIdentifiers": {
+            "type": "string",
+            "description": "Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs."
+          },
+          "extensions": {
+            "type": "string",
+            "description": "Governed source-specific fields carried on the entity."
+          },
+          "canonicalPersonId": {
+            "type": "string",
+            "description": "The platform person ID when policy and identifiers allow this entity to resolve to a known person."
+          },
+          "canonicalResourceId": {
+            "type": "string",
+            "description": "The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content."
+          }
+        }
+      },
+      "CaliperActor": {
+        "type": "object",
+        "description": "The person, application, group, or agent that performs a Caliper event action.",
+        "required": [
+          "id",
+          "entityId",
+          "actorType",
+          "resolutionStatus"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this actor projection."
+          },
+          "entityId": {
+            "type": "string",
+            "description": "The indexed Caliper entity that represents the actor."
+          },
+          "actorType": {
+            "type": "string",
+            "description": "Whether the actor is a person, software app, group, or generic agent.",
+            "enum": [
+              "Agent",
+              "Person",
+              "SoftwareApplication",
+              "Group"
+            ],
+            "x-valueDescriptions": {
+              "Agent": "A generic person or software agent.",
+              "Person": "A human actor.",
+              "SoftwareApplication": "An app or tool acting as the event actor.",
+              "Group": "A group acting as or standing in for the actor."
+            }
+          },
+          "platformPersonId": {
+            "type": "string",
+            "description": "The resolved platform person ID when the actor is a known school user."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "A display name supplied for the actor or resolved from a trusted source."
+          },
+          "identifierType": {
+            "type": "string",
+            "description": "The kind of source identifier used to resolve the actor.",
+            "enum": [
+              "AccountUserName",
+              "EmailAddress",
+              "LisSourcedId",
+              "LtiContextId",
+              "LtiDeploymentId",
+              "LtiPlatformId",
+              "LtiToolId",
+              "LtiUserId",
+              "OneRosterSourcedId",
+              "Other",
+              "SisSourcedId",
+              "SystemId"
+            ],
+            "x-valueDescriptions": {
+              "AccountUserName": "Account username.",
+              "EmailAddress": "Email address.",
+              "LisSourcedId": "LIS source identifier.",
+              "LtiContextId": "LTI context or course ID.",
+              "LtiDeploymentId": "LTI deployment ID.",
+              "LtiPlatformId": "LTI platform ID.",
+              "LtiToolId": "LTI tool ID.",
+              "LtiUserId": "LTI user ID.",
+              "OneRosterSourcedId": "OneRoster sourcedId.",
+              "Other": "Other identifier type.",
+              "SisSourcedId": "Student information system sourced ID.",
+              "SystemId": "Internal system ID."
+            }
+          },
+          "identifierValue": {
+            "type": "string",
+            "description": "The source identifier value used for matching or lineage."
+          },
+          "resolutionStatus": {
+            "type": "string",
+            "description": "Whether the actor was matched to a canonical platform record.",
+            "enum": [
+              "resolved",
+              "unresolved",
+              "conflict",
+              "blocked_by_policy"
+            ],
+            "x-valueDescriptions": {
+              "resolved": "The actor or entity was matched to a canonical platform record.",
+              "unresolved": "The actor or entity remains source-only until a safe match is available.",
+              "conflict": "The source identifiers matched multiple possible platform records.",
+              "blocked_by_policy": "Privacy or tenant policy prevents canonical matching."
+            }
+          }
+        }
+      },
+      "CaliperContext": {
+        "type": "object",
+        "description": "The group, membership, session, and LTI context surrounding a Caliper event.",
+        "required": [
+          "id",
+          "eventId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this event context projection."
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The Caliper event this context belongs to."
+          },
+          "groupEntityId": {
+            "type": "string",
+            "description": "The Caliper group, course section, organization, or class context entity."
+          },
+          "membershipEntityId": {
+            "type": "string",
+            "description": "The Caliper membership entity that describes the actor's relationship to the group."
+          },
+          "membershipRole": {
+            "type": "string",
+            "description": "The LIS role supplied in the Caliper membership context.",
+            "enum": [
+              "Administrator",
+              "ContentDeveloper",
+              "Instructor",
+              "Learner",
+              "Manager",
+              "Member",
+              "Mentor",
+              "Officer"
+            ],
+            "x-valueDescriptions": {
+              "Administrator": "Administrative role.",
+              "ContentDeveloper": "Content author or developer role.",
+              "Instructor": "Teacher or instructor role.",
+              "Learner": "Student or learner role.",
+              "Manager": "Manager role.",
+              "Member": "General member role.",
+              "Mentor": "Mentor, advisor, or support role.",
+              "Officer": "Officer or official role."
+            }
+          },
+          "membershipStatus": {
+            "type": "string",
+            "description": "Whether the membership is active or inactive in the source context.",
+            "enum": [
+              "Active",
+              "Inactive"
+            ],
+            "x-valueDescriptions": {
+              "Active": "The membership or status is active.",
+              "Inactive": "The membership or status is inactive."
+            }
+          },
+          "sessionEntityId": {
+            "type": "string",
+            "description": "The Caliper session entity that groups related activity."
+          },
+          "federatedSessionEntityId": {
+            "type": "string",
+            "description": "The LTI or federated session entity connected to the event."
+          },
+          "ltiMessageType": {
+            "type": "string",
+            "description": "The LTI launch message type when the event came from an LTI workflow.",
+            "enum": [
+              "LtiDeepLinkingRequest",
+              "LtiResourceLinkRequest"
+            ],
+            "x-valueDescriptions": {
+              "LtiDeepLinkingRequest": "LTI deep-linking content selection launch.",
+              "LtiResourceLinkRequest": "Normal LTI resource link launch."
+            }
+          },
+          "ltiPlatformId": {
+            "type": "string",
+            "description": "The LTI platform issuer or platform identifier tied to the federated session."
+          },
+          "ltiDeploymentId": {
+            "type": "string",
+            "description": "The LTI deployment identifier that scopes the tool relationship."
+          },
+          "ltiContextId": {
+            "type": "string",
+            "description": "The LTI course or context identifier supplied by the platform."
+          }
+        }
+      },
+      "CaliperProfileRule": {
+        "type": "object",
+        "description": "A governed row describing an expected Caliper profile, event, action, actor, object, and generated or target combination.",
+        "required": [
+          "id",
+          "profile",
+          "eventType",
+          "actorType",
+          "allowedAction",
+          "objectType"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this profile rule."
+          },
+          "profile": {
+            "type": "string",
+            "description": "The Caliper profile the rule belongs to.",
+            "enum": [
+              "GeneralProfile",
+              "AnnotationProfile",
+              "AssessmentProfile",
+              "AssignableProfile",
+              "FeedbackProfile",
+              "ForumProfile",
+              "GradingProfile",
+              "MediaProfile",
+              "ReadingProfile",
+              "ResourceManagementProfile",
+              "SearchProfile",
+              "SessionProfile",
+              "SurveyProfile",
+              "ToolLaunchProfile",
+              "ToolUseProfile"
+            ],
+            "x-valueDescriptions": {
+              "GeneralProfile": "Generic profile for events not covered by a narrower profile.",
+              "AnnotationProfile": "Annotation, bookmark, highlight, share, and tag activity.",
+              "AssessmentProfile": "Assessment and assessment-item activity.",
+              "AssignableProfile": "Assignment and digital-resource work activity.",
+              "FeedbackProfile": "Commenting and rating activity.",
+              "ForumProfile": "Forum, thread, and message activity.",
+              "GradingProfile": "Grading and score creation activity.",
+              "MediaProfile": "Audio, video, and media activity.",
+              "ReadingProfile": "Reading, navigation, and viewing resource activity.",
+              "ResourceManagementProfile": "Resource creation, upload, publish, print, download, and similar management activity.",
+              "SearchProfile": "Search activity.",
+              "SessionProfile": "Login, logout, and timeout session activity.",
+              "SurveyProfile": "Survey and questionnaire activity.",
+              "ToolLaunchProfile": "LTI or tool launch and return activity.",
+              "ToolUseProfile": "Software application use metrics."
+            }
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The Caliper event class allowed by the profile rule.",
+            "enum": [
+              "AnnotationEvent",
+              "AssessmentEvent",
+              "AssessmentItemEvent",
+              "AssignableEvent",
+              "FeedbackEvent",
+              "ForumEvent",
+              "GradeEvent",
+              "MediaEvent",
+              "MessageEvent",
+              "NavigationEvent",
+              "QuestionnaireEvent",
+              "QuestionnaireItemEvent",
+              "ResourceManagementEvent",
+              "SearchEvent",
+              "SessionEvent",
+              "SurveyEvent",
+              "SurveyInvitationEvent",
+              "ThreadEvent",
+              "ToolLaunchEvent",
+              "ToolUseEvent",
+              "ViewEvent"
+            ],
+            "x-valueDescriptions": {
+              "AnnotationEvent": "A person creates or shares an annotation on a digital resource.",
+              "AssessmentEvent": "A person works with a whole assessment.",
+              "AssessmentItemEvent": "A person works with one assessment item or question.",
+              "AssignableEvent": "A person works with assigned digital content.",
+              "FeedbackEvent": "A person comments on or rates something.",
+              "ForumEvent": "A person subscribes or unsubscribes from a forum.",
+              "GradeEvent": "A person or app grades an attempt.",
+              "MediaEvent": "A person interacts with audio, video, or media.",
+              "MessageEvent": "A person posts or marks a message.",
+              "NavigationEvent": "A person navigates to a resource, app, or location.",
+              "QuestionnaireEvent": "A person starts or submits a questionnaire.",
+              "QuestionnaireItemEvent": "A person works with one questionnaire item.",
+              "ResourceManagementEvent": "A person manages a digital resource.",
+              "SearchEvent": "A person searches a resource or app.",
+              "SessionEvent": "A person or app starts, ends, or times out a session.",
+              "SurveyEvent": "A person opts into or out of a survey.",
+              "SurveyInvitationEvent": "A person sends or responds to a survey invitation.",
+              "ThreadEvent": "A person marks a forum thread read or unread.",
+              "ToolLaunchEvent": "A person launches or returns from a tool.",
+              "ToolUseEvent": "A person uses a software application.",
+              "ViewEvent": "A person views something."
+            }
+          },
+          "actorType": {
+            "type": "string",
+            "description": "The expected actor class for the profile rule.",
+            "enum": [
+              "Agent",
+              "Person",
+              "SoftwareApplication",
+              "Group"
+            ],
+            "x-valueDescriptions": {
+              "Agent": "A generic person or software agent.",
+              "Person": "A human actor.",
+              "SoftwareApplication": "An app or tool acting as the event actor.",
+              "Group": "A group acting as or standing in for the actor."
+            }
+          },
+          "allowedAction": {
+            "type": "string",
+            "description": "One action allowed for this event/profile combination.",
+            "enum": [
+              "Abandoned",
+              "Accepted",
+              "Activated",
+              "Added",
+              "Archived",
+              "Attached",
+              "Bookmarked",
+              "ChangedResolution",
+              "ChangedSize",
+              "ChangedSpeed",
+              "ChangedVolume",
+              "Classified",
+              "ClosedPopout",
+              "Commented",
+              "Completed",
+              "Copied",
+              "Created",
+              "Deactivated",
+              "Declined",
+              "Deleted",
+              "Described",
+              "DisabledClosedCaptioning",
+              "Disliked",
+              "Downloaded",
+              "EnabledClosedCaptioning",
+              "Ended",
+              "EnteredFullScreen",
+              "ExitedFullScreen",
+              "ForwardedTo",
+              "Graded",
+              "Hid",
+              "Highlighted",
+              "Identified",
+              "JumpedTo",
+              "Launched",
+              "Liked",
+              "Linked",
+              "LoggedIn",
+              "LoggedOut",
+              "MarkedAsRead",
+              "MarkedAsUnread",
+              "Modified",
+              "Muted",
+              "NavigatedTo",
+              "OpenedPopout",
+              "OptedIn",
+              "OptedOut",
+              "Paused",
+              "Posted",
+              "Printed",
+              "Published",
+              "Questioned",
+              "Ranked",
+              "Recommended",
+              "Removed",
+              "Reset",
+              "Restarted",
+              "Restored",
+              "Resumed",
+              "Retrieved",
+              "Returned",
+              "Reviewed",
+              "Rewound",
+              "Saved",
+              "Searched",
+              "Sent",
+              "Shared",
+              "Showed",
+              "Skipped",
+              "Started",
+              "Submitted",
+              "Subscribed",
+              "Tagged",
+              "TimedOut",
+              "Unmuted",
+              "Unpublished",
+              "Unsubscribed",
+              "Uploaded",
+              "Used",
+              "Viewed"
+            ],
+            "x-valueDescriptions": {
+              "Abandoned": "A user abandoned something before completion.",
+              "Accepted": "A user accepted an invitation or request.",
+              "Activated": "Something was made active.",
+              "Added": "Something was added.",
+              "Archived": "A resource was archived.",
+              "Attached": "Something was attached to another thing.",
+              "Bookmarked": "A user created a bookmark.",
+              "ChangedResolution": "Media resolution changed.",
+              "ChangedSize": "Media display size changed.",
+              "ChangedSpeed": "Media playback speed changed.",
+              "ChangedVolume": "Media volume changed.",
+              "Classified": "Something was classified or categorized.",
+              "ClosedPopout": "A media popout or window was closed.",
+              "Commented": "A user left a comment.",
+              "Completed": "A user completed an item or task.",
+              "Copied": "A resource was copied.",
+              "Created": "A resource or entity was created.",
+              "Deactivated": "Something was made inactive.",
+              "Declined": "A user declined an invitation or request.",
+              "Deleted": "A resource or entity was deleted.",
+              "Described": "Metadata or description was added or changed.",
+              "DisabledClosedCaptioning": "Closed captions were turned off.",
+              "Disliked": "A user disliked something.",
+              "Downloaded": "A resource was downloaded.",
+              "EnabledClosedCaptioning": "Closed captions were turned on.",
+              "Ended": "Activity or media ended.",
+              "EnteredFullScreen": "Media entered full screen.",
+              "ExitedFullScreen": "Media exited full screen.",
+              "ForwardedTo": "Media playback moved forward.",
+              "Graded": "An attempt was graded.",
+              "Hid": "Something was hidden.",
+              "Highlighted": "Text or resource content was highlighted.",
+              "Identified": "Something was identified.",
+              "JumpedTo": "Media or navigation jumped to a location.",
+              "Launched": "A tool or app was launched.",
+              "Liked": "A user liked something.",
+              "Linked": "Something was linked.",
+              "LoggedIn": "A user logged in.",
+              "LoggedOut": "A user logged out.",
+              "MarkedAsRead": "A message or thread was marked read.",
+              "MarkedAsUnread": "A message or thread was marked unread.",
+              "Modified": "A resource or entity was changed.",
+              "Muted": "Media audio was muted.",
+              "NavigatedTo": "A user navigated to a resource or location.",
+              "OpenedPopout": "A media popout or window was opened.",
+              "OptedIn": "A user opted in.",
+              "OptedOut": "A user opted out.",
+              "Paused": "Activity or media was paused.",
+              "Posted": "A message was posted.",
+              "Printed": "A resource was printed.",
+              "Published": "A resource was published.",
+              "Questioned": "A question was asked.",
+              "Ranked": "A user rated or ranked something.",
+              "Recommended": "Something was recommended.",
+              "Removed": "Something was removed.",
+              "Reset": "Activity or an attempt was reset.",
+              "Restarted": "Activity or media restarted.",
+              "Restored": "A resource was restored.",
+              "Resumed": "Activity or media resumed.",
+              "Retrieved": "A resource was retrieved.",
+              "Returned": "A user returned from a launched tool or workflow.",
+              "Reviewed": "A user reviewed something.",
+              "Rewound": "Media playback moved backward.",
+              "Saved": "A resource or work item was saved.",
+              "Searched": "A user performed a search.",
+              "Sent": "A message or invitation was sent.",
+              "Shared": "Something was shared.",
+              "Showed": "Something was shown.",
+              "Skipped": "A learner skipped an item or task.",
+              "Started": "A learner or user started something.",
+              "Submitted": "Work or an attempt was submitted.",
+              "Subscribed": "A user subscribed.",
+              "Tagged": "A user added tags.",
+              "TimedOut": "A session timed out.",
+              "Unmuted": "Media audio was unmuted.",
+              "Unpublished": "A resource was unpublished.",
+              "Unsubscribed": "A user unsubscribed.",
+              "Uploaded": "A resource or file was uploaded.",
+              "Used": "A user used a tool or application.",
+              "Viewed": "A user viewed something."
+            }
+          },
+          "objectType": {
+            "type": "string",
+            "description": "The expected object entity type for the rule.",
+            "enum": [
+              "Agent",
+              "AggregateMeasure",
+              "AggregateMeasureCollection",
+              "Annotation",
+              "Assessment",
+              "AssessmentItem",
+              "AssignableDigitalResource",
+              "Attempt",
+              "AudioObject",
+              "BookmarkAnnotation",
+              "Chapter",
+              "Collection",
+              "Comment",
+              "CourseOffering",
+              "CourseSection",
+              "DateTimeQuestion",
+              "DateTimeResponse",
+              "DigitalResource",
+              "DigitalResourceCollection",
+              "Document",
+              "FillinBlankResponse",
+              "Forum",
+              "Frame",
+              "Group",
+              "HighlightAnnotation",
+              "ImageObject",
+              "LearningObjective",
+              "LikertScale",
+              "Link",
+              "LtiLink",
+              "LtiSession",
+              "MediaLocation",
+              "MediaObject",
+              "Membership",
+              "Message",
+              "MultipleChoiceResponse",
+              "MultipleResponseResponse",
+              "MultiselectQuestion",
+              "MultiselectResponse",
+              "MultiselectScale",
+              "NumericScale",
+              "OpenEndedQuestion",
+              "OpenEndedResponse",
+              "Organization",
+              "Page",
+              "Person",
+              "Query",
+              "Question",
+              "Questionnaire",
+              "QuestionnaireItem",
+              "Rating",
+              "RatingScaleQuestion",
+              "RatingScaleResponse",
+              "Response",
+              "Result",
+              "Scale",
+              "Score",
+              "SearchResponse",
+              "SelectTextResponse",
+              "Session",
+              "SharedAnnotation",
+              "SoftwareApplication",
+              "Survey",
+              "SurveyInvitation",
+              "TagAnnotation",
+              "Thread",
+              "TrueFalseResponse",
+              "VideoObject",
+              "WebPage",
+              "TextPositionSelector",
+              "SystemIdentifier"
+            ],
+            "x-valueDescriptions": {
+              "Agent": "A person or software agent.",
+              "AggregateMeasure": "A computed usage or learning metric.",
+              "AggregateMeasureCollection": "A set of aggregate measures.",
+              "Annotation": "A note or mark connected to a digital resource.",
+              "Assessment": "A whole assessment.",
+              "AssessmentItem": "One assessment item or question.",
+              "AssignableDigitalResource": "Digital content assigned to a learner.",
+              "Attempt": "One try at an assignment, assessment, or questionnaire.",
+              "AudioObject": "Audio media.",
+              "BookmarkAnnotation": "Bookmark note.",
+              "Chapter": "Chapter in content or media.",
+              "Collection": "Ordered group of entities.",
+              "Comment": "Written feedback or comment.",
+              "CourseOffering": "Course offering.",
+              "CourseSection": "Course or class section.",
+              "DateTimeQuestion": "Question asking for a date or time.",
+              "DateTimeResponse": "Date or time answer.",
+              "DigitalResource": "Digital content or resource.",
+              "DigitalResourceCollection": "Collection of digital resources.",
+              "Document": "Document resource.",
+              "FillinBlankResponse": "Fill-in-the-blank answer.",
+              "Forum": "Forum.",
+              "Frame": "Segment or location in a resource.",
+              "Group": "Group context.",
+              "HighlightAnnotation": "Highlighted text annotation.",
+              "ImageObject": "Image media.",
+              "LearningObjective": "Learning goal or objective, preferably linked to CASE when available.",
+              "LikertScale": "Likert rating scale.",
+              "Link": "Web link.",
+              "LtiLink": "LTI launch or resource link.",
+              "LtiSession": "LTI platform/tool session.",
+              "MediaLocation": "Point in media playback.",
+              "MediaObject": "Audio, video, or media resource.",
+              "Membership": "A person's relationship to a group or organization.",
+              "Message": "Forum or message post.",
+              "MultipleChoiceResponse": "Single-choice answer.",
+              "MultipleResponseResponse": "Multi-select answer.",
+              "MultiselectQuestion": "Multiple-select question definition.",
+              "MultiselectResponse": "Multiple-select response.",
+              "MultiselectScale": "Multiple-select rating scale.",
+              "NumericScale": "Numeric rating scale.",
+              "OpenEndedQuestion": "Open-ended question.",
+              "OpenEndedResponse": "Open-ended text response.",
+              "Organization": "School, district, provider, or other organization.",
+              "Page": "Page in a resource.",
+              "Person": "Human actor.",
+              "Query": "Search query.",
+              "Question": "Question prompt.",
+              "Questionnaire": "Questionnaire or survey instrument.",
+              "QuestionnaireItem": "One questionnaire item.",
+              "Rating": "Rating feedback.",
+              "RatingScaleQuestion": "Rating scale question.",
+              "RatingScaleResponse": "Rating scale response.",
+              "Response": "Learner response.",
+              "Result": "Result score or feedback.",
+              "Scale": "Generic scale.",
+              "Score": "Score generated by grading.",
+              "SearchResponse": "Search result summary.",
+              "SelectTextResponse": "Selected text response.",
+              "Session": "User or app session.",
+              "SharedAnnotation": "Annotation shared with people.",
+              "SoftwareApplication": "App or tool.",
+              "Survey": "Survey.",
+              "SurveyInvitation": "Invitation to take a survey.",
+              "TagAnnotation": "Tag annotation.",
+              "Thread": "Forum thread.",
+              "TrueFalseResponse": "True/false response.",
+              "VideoObject": "Video media.",
+              "WebPage": "Web page.",
+              "TextPositionSelector": "Text-range selector without an entity ID.",
+              "SystemIdentifier": "Other system identifier without an entity ID."
+            }
+          },
+          "generatedOrTargetType": {
+            "type": "string",
+            "description": "The generated entity, target entity, or narrative condition expected by the rule."
+          },
+          "platformGuidance": {
+            "type": "string",
+            "description": "How the platform should validate, project, or join events matching this rule."
+          }
+        }
+      },
+      "CaliperExtension": {
+        "type": "object",
+        "description": "A governed custom field found under a Caliper extensions object.",
+        "required": [
+          "id",
+          "ownerType",
+          "ownerId",
+          "namespace",
+          "extensionKey",
+          "privacyClassification",
+          "allowedByPolicy"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this extension projection."
+          },
+          "ownerType": {
+            "type": "string",
+            "description": "Whether this extension belongs to an envelope, event, entity, actor, or context row.",
+            "enum": [
+              "envelope",
+              "event",
+              "entity",
+              "actor",
+              "context"
+            ],
+            "x-valueDescriptions": {
+              "envelope": "The extension belongs to a Caliper envelope.",
+              "event": "The extension belongs to a Caliper event.",
+              "entity": "The extension belongs to a Caliper entity.",
+              "actor": "The extension belongs to a Caliper actor projection.",
+              "context": "The extension belongs to a Caliper context projection."
+            }
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The platform row ID that owns this extension value."
+          },
+          "namespace": {
+            "type": "string",
+            "description": "The governed namespace or vendor domain for the extension key."
+          },
+          "extensionKey": {
+            "type": "string",
+            "description": "The extension field name within the namespace."
+          },
+          "extensionValue": {
+            "type": "string",
+            "description": "The normalized scalar value when the extension can be safely indexed."
+          },
+          "privacyClassification": {
+            "type": "string",
+            "description": "The platform privacy classification assigned to this extension value.",
+            "enum": [
+              "public",
+              "operational",
+              "education_record",
+              "behavioral",
+              "restricted"
+            ],
+            "x-valueDescriptions": {
+              "public": "The extension can be treated as public metadata.",
+              "operational": "The extension is operational metadata.",
+              "education_record": "The extension may identify or describe a student's education record.",
+              "behavioral": "The extension describes learning behavior or activity.",
+              "restricted": "The extension is sensitive and requires explicit policy before use."
+            }
+          },
+          "allowedByPolicy": {
+            "type": "boolean",
+            "description": "Whether tenant policy allows this extension to be retained and queried."
+          }
+        }
+      }
+    }
+  },
+  "x-unsupported-or-deferred": [
+    {
+      "area": "Live Sensor API ingestion endpoint",
+      "reason": "Requires hosted auth, tenant isolation, event validation, rate limits, retention policy, and server-side storage."
+    },
+    {
+      "area": "Full profile-specific relational decomposition",
+      "reason": "The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally."
+    },
+    {
+      "area": "Analytics warehouse and dashboards",
+      "reason": "Requires retention, aggregation, access control, and de-identification decisions beyond GitHub Pages."
+    },
+    {
+      "area": "Formal Caliper certification claim",
+      "reason": "Requires conformance testing and organizational certification work beyond these generated dictionary artifacts."
+    }
+  ]
+}

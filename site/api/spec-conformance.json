@@ -1,6 +1,6 @@
 {
-  "score": 87.37,
-  "earnedPoints": 83,
+  "score": 93.68,
+  "earnedPoints": 89,
   "totalPoints": 95,
   "passed": false,
   "items": [
@@ -71,7 +71,7 @@
       "id": "shared_dictionary_caliper",
       "requirement": "Caliper is structured and generated.",
       "points": 6,
-      "passed": false,
+      "passed": true,
       "detail": "Caliper structured source and generated artifacts are required."
     },
     {
@@ -139,12 +139,6 @@
     }
   ],
   "openGaps": [
-    {
-      "id": "shared_dictionary_caliper",
-      "requirement": "Caliper is structured and generated.",
-      "detail": "Caliper structured source and generated artifacts are required.",
-      "points": 6
-    },
     {
       "id": "shared_dictionary_lti_security_privacy",
       "requirement": "LTI, Security Framework, and Data Privacy are structured/generated or explicitly deferred.",

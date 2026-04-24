@@ -28,3 +28,12 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - LLM judge: Opus 4.7/xhigh judged the final diff as improved, not regressed, and recommended `push`.
 - New gaps found by the judge: tracked backlog items 25 and 26 for duplicate/orphaned generated dictionary pages and `scripts/codex_loop.py` runbook/smoke tests.
 - What remains next: wire CASE into `scripts/check_dictionary_artifacts.py`, then convert Caliper to a structured/generated dictionary.
+
+## 2026-04-24 17:21:06 EDT Caliper Generated Dictionary Iteration
+
+- Chosen checklist item: `shared_dictionary_caliper`, convert Caliper to a structured source dictionary and generated artifacts.
+- Files changed: added `dictionary/caliper-core.v1.json`, `scripts/generate_caliper_core.py`, generated Caliper SQL/OpenAPI/Markdown/HTML artifacts, and updated VERIFY, artifact checking, backlog, coverage matrix, Lead spec accounting, README, portal link text, rendered docs, and `site/api/spec-conformance.json`.
+- Checks run and result: Caliper dictionary JSON validation passed; Caliper generator py_compile passed; OneRoster/QTI/CASE/Caliper generators passed; `build_static_api.py` and `build_site_docs.py` passed; `check_dictionary_artifacts.py` passed with 4 configs, 45 objects, 430 fields, and 753 values; `check_spec_conformance.py --write-report site/api/spec-conformance.json --min-score 75` passed with score 93.68; full generator/build/check py_compile passed; generated OpenAPI/report/index JSON validation passed; `node --check site/app.js` and `node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; `git diff --check` passed.
+- Spec score impact expected: +6 deterministic points, from 87.37 to 93.68, because `shared_dictionary_caliper` now passes.
+- New gaps found: none.
+- What remains next: item 9, convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured/generated or explicitly deferred artifacts; the public report now leaves only `shared_dictionary_lti_security_privacy` open.

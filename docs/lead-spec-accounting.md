@@ -11,7 +11,7 @@ This page explains how every standard currently marked `Lead` is accounted for. 
 | OneRoster 1.2 | Runnable core slice plus broader layperson dictionary. | `dictionary/oneroster-core.v1.json`, generated OneRoster docs, OneRoster layperson dictionary. |
 | CASE 1.1 | Structured/generated framework graph projection exists; not yet executable. | `dictionary/case-core.v1.json`, generated CASE docs/OpenAPI/SQL comments, CASE layperson dictionary, overlap decisions for alignment. |
 | QTI 3 | Structured/generated repository projection exists; not yet executable. | `dictionary/qti-core.v1.json`, generated QTI docs/OpenAPI/SQL comments, QTI layperson dictionary, QTI projection decision, overlap decisions for results, alignment, resources, time. |
-| Caliper 1.2 | Researched and documented; event ingestion not yet executable. | Caliper layperson dictionary; overlap decisions for actor, membership, grade events, time. |
+| Caliper 1.2 | Structured/generated event projection exists; event ingestion not yet executable. | `dictionary/caliper-core.v1.json`, generated Caliper docs/OpenAPI/SQL comments, Caliper layperson dictionary, overlap decisions for actor, membership, grade events, time. |
 | LTI 1.3/LTI Advantage | Researched and documented; launch/API-context decision recorded; not yet executable. | Integration dictionary; overlap decisions for launch context, roles, membership, IDs, resources. |
 | Security Framework 1.1 | Governance/accounting coverage; implementation deferred until auth layer exists. | Integration/governance dictionary; tenancy and privacy/security decisions. |
 | Data Privacy 1.0 | Governance/accounting coverage; implementation deferred until tenant/auth layer exists. | Privacy classes, integration/governance dictionary, tenancy and privacy/security decisions. |
@@ -122,13 +122,20 @@ Accounted for in the Caliper dictionary:
 - Base event fields
 - Base entity fields
 - 21 event types
-- 69 entity types
+- 71 entity types
 - Profile matrix
 - Action vocabulary
 - Role/status values
 - LTI message/session identifier values
 - System identifier values
 - Cross-standard joins
+
+Committed platform projection:
+
+- The generated event projection dictionary now lives at `dictionary/caliper-core.v1.json`.
+- `scripts/generate_caliper_core.py` emits SQL comments, OpenAPI schemas, Markdown docs, and portal HTML from that single source.
+- The projection covers Sensor API envelopes, immutable events, indexed entities, actors, group/session/LTI context, profile rules, governed extensions, event types, profiles, actions, entity types, roles, statuses, and identifier values.
+- The current projection is documentation/API-schema coverage only; live ingestion, validation, retention, and analytics queries need a backend.
 
 Deferred or not supported yet:
 

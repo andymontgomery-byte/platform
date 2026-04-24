@@ -29,6 +29,24 @@ CONFIGS = [
         "markdown": ROOT / "docs" / "generated" / "qti-core-dictionary.md",
         "html": ROOT / "site" / "docs" / "qti-core-dictionary.html",
     },
+    {
+        "name": "CASE core",
+        "source": ROOT / "dictionary" / "case-core.v1.json",
+        "sql_schema": "standards",
+        "sql": ROOT / "schema" / "generated" / "case_core_comments.sql",
+        "openapi": ROOT / "openapi" / "generated" / "case-core.v0.json",
+        "markdown": ROOT / "docs" / "generated" / "case-core-dictionary.md",
+        "html": ROOT / "site" / "docs" / "case-core-dictionary.html",
+    },
+    {
+        "name": "Caliper core",
+        "source": ROOT / "dictionary" / "caliper-core.v1.json",
+        "sql_schema": "analytics",
+        "sql": ROOT / "schema" / "generated" / "caliper_core_comments.sql",
+        "openapi": ROOT / "openapi" / "generated" / "caliper-core.v0.json",
+        "markdown": ROOT / "docs" / "generated" / "caliper-core-dictionary.md",
+        "html": ROOT / "site" / "docs" / "caliper-core-dictionary.html",
+    },
 ]
 
 REQUIRED_OBJECT_KEYS = {
