@@ -1,0 +1,250 @@
+{
+  "dictionary_version": "1.0.0-demo",
+  "research_date": "2026-04-24",
+  "name": "OneRoster Core Demo Dictionary",
+  "source_standard": "oneroster",
+  "source_version": "1.2",
+  "plain_description": "A working vertical slice of the platform data dictionary for OneRoster-style roster, class, enrollment, gradebook, and identifier data.",
+  "objects": [
+    {
+      "object_key": "organization",
+      "table_name": "organizations",
+      "api_path": "/organizations",
+      "name": "Organization",
+      "plain_description": "A district, school, department, program, or other education organization.",
+      "why_it_exists": "Apps need to know where people, courses, classes, and enrollments belong.",
+      "privacy_class": "directory",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this organization.", "school_example": "org_school_lincoln", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID used by the sending system.", "school_example": "SCHOOL-100", "privacy_class": "operational"},
+        {"field_key": "name", "column_name": "name", "json_name": "name", "data_type": "text", "required": true, "plain_description": "The organization name people recognize.", "school_example": "Lincoln Middle School", "privacy_class": "directory"},
+        {"field_key": "organization_type", "column_name": "organization_type", "json_name": "type", "data_type": "enum", "required": true, "plain_description": "The kind of organization this record represents.", "school_example": "school", "privacy_class": "directory", "allowed_values": [
+          {"value": "district", "label": "District", "plain_description": "A local education agency or district office."},
+          {"value": "school", "label": "School", "plain_description": "A school building or campus."},
+          {"value": "department", "label": "Department", "plain_description": "A department inside a school or district."},
+          {"value": "program", "label": "Program", "plain_description": "A program, academy, pathway, or organized learning group."}
+        ]},
+        {"field_key": "parent_organization_id", "column_name": "parent_organization_id", "json_name": "parentOrganizationId", "data_type": "text", "required": false, "plain_description": "The organization that contains this one.", "school_example": "A school belongs to a district.", "privacy_class": "directory"},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values": [
+          {"value": "active", "label": "Active", "plain_description": "The record is current and should normally be used."},
+          {"value": "inactive", "label": "Inactive", "plain_description": "The record exists but should not normally be used for new activity."},
+          {"value": "tobedeleted", "label": "To be deleted", "plain_description": "The source system says this record should be removed or ignored."}
+        ]},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this organization record last changed.", "school_example": "2026-04-24T09:10:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "person",
+      "table_name": "people",
+      "api_path": "/people",
+      "name": "Person",
+      "plain_description": "A learner, teacher, staff member, guardian, or administrator known to the platform.",
+      "why_it_exists": "Apps need a stable way to refer to the people who learn, teach, administer, or support learning.",
+      "privacy_class": "education_record",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this person.", "school_example": "person_ada", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID used by the sending system.", "school_example": "USER-2001", "privacy_class": "education_record"},
+        {"field_key": "display_name", "column_name": "display_name", "json_name": "displayName", "data_type": "text", "required": true, "plain_description": "The name shown in user interfaces.", "school_example": "Ada Johnson", "privacy_class": "directory"},
+        {"field_key": "given_name", "column_name": "given_name", "json_name": "givenName", "data_type": "text", "required": false, "plain_description": "The person's first or given name.", "school_example": "Ada", "privacy_class": "directory"},
+        {"field_key": "family_name", "column_name": "family_name", "json_name": "familyName", "data_type": "text", "required": false, "plain_description": "The person's last or family name.", "school_example": "Johnson", "privacy_class": "directory"},
+        {"field_key": "email", "column_name": "email", "json_name": "email", "data_type": "text", "required": false, "plain_description": "The person's school email address.", "school_example": "ada.johnson@example.edu", "privacy_class": "directory"},
+        {"field_key": "primary_role", "column_name": "primary_role", "json_name": "primaryRole", "data_type": "enum", "required": true, "plain_description": "The person's broad role in the education environment.", "school_example": "student", "privacy_class": "education_record", "allowed_values": [
+          {"value": "student", "label": "Student", "plain_description": "A learner enrolled in one or more classes."},
+          {"value": "teacher", "label": "Teacher", "plain_description": "An educator assigned to teach or manage classes."},
+          {"value": "administrator", "label": "Administrator", "plain_description": "A user with school or district administrative responsibilities."},
+          {"value": "guardian", "label": "Guardian", "plain_description": "A parent, guardian, or adult connected to a learner."}
+        ]},
+        {"field_key": "enabled_user", "column_name": "enabled_user", "json_name": "enabledUser", "data_type": "enum", "required": true, "plain_description": "Whether the person can currently sign in or be used as an active user.", "school_example": "true", "privacy_class": "operational", "allowed_values": [
+          {"value": "true", "label": "True", "plain_description": "The user account is enabled."},
+          {"value": "false", "label": "False", "plain_description": "The user account is disabled."}
+        ]},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the person record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this person record last changed.", "school_example": "2026-04-24T09:15:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "academic_session",
+      "table_name": "academic_sessions",
+      "api_path": "/academic-sessions",
+      "name": "Academic Session",
+      "plain_description": "A school year, term, semester, quarter, grading period, or other calendar window.",
+      "why_it_exists": "Courses, classes, enrollments, and gradebook work need dates and school-year context.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this academic session.", "school_example": "session_2026_fall", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID for this calendar record.", "school_example": "TERM-FALL-2026", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The calendar name people see.", "school_example": "Fall 2026", "privacy_class": "operational"},
+        {"field_key": "session_type", "column_name": "session_type", "json_name": "type", "data_type": "enum", "required": true, "plain_description": "The kind of calendar window.", "school_example": "term", "privacy_class": "operational", "allowed_values": [
+          {"value": "schoolYear", "label": "School year", "plain_description": "The full school year."},
+          {"value": "term", "label": "Term", "plain_description": "A major teaching period such as fall or spring."},
+          {"value": "semester", "label": "Semester", "plain_description": "A half-year academic period."},
+          {"value": "quarter", "label": "Quarter", "plain_description": "A quarter-year academic period."},
+          {"value": "gradingPeriod", "label": "Grading period", "plain_description": "A reporting or grading window."}
+        ]},
+        {"field_key": "start_date", "column_name": "start_date", "json_name": "startDate", "data_type": "date", "required": true, "plain_description": "The first date in the session.", "school_example": "2026-08-24", "privacy_class": "operational"},
+        {"field_key": "end_date", "column_name": "end_date", "json_name": "endDate", "data_type": "date", "required": true, "plain_description": "The last date in the session.", "school_example": "2026-12-18", "privacy_class": "operational"},
+        {"field_key": "school_year", "column_name": "school_year", "json_name": "schoolYear", "data_type": "integer", "required": false, "plain_description": "The calendar year associated with the school year.", "school_example": "2026", "privacy_class": "operational"},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the session record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this session record last changed.", "school_example": "2026-04-24T09:20:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "course",
+      "table_name": "courses",
+      "api_path": "/courses",
+      "name": "Course",
+      "plain_description": "A course template or catalog entry, such as Grade 6 Mathematics.",
+      "why_it_exists": "Classes are scheduled instances of courses, and course IDs help organize curriculum and reporting.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this course.", "school_example": "course_math_6", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID for this course.", "school_example": "COURSE-MATH-6", "privacy_class": "operational"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The course name people see.", "school_example": "Grade 6 Mathematics", "privacy_class": "operational"},
+        {"field_key": "course_code", "column_name": "course_code", "json_name": "courseCode", "data_type": "text", "required": false, "plain_description": "A local course code used by the school or district.", "school_example": "MATH-06", "privacy_class": "operational"},
+        {"field_key": "org_id", "column_name": "org_id", "json_name": "orgId", "data_type": "text", "required": true, "plain_description": "The organization that owns or offers the course.", "school_example": "org_district_north", "privacy_class": "operational"},
+        {"field_key": "school_year_id", "column_name": "school_year_id", "json_name": "schoolYearId", "data_type": "text", "required": false, "plain_description": "The school year this course belongs to, if the source provides one.", "school_example": "session_2026", "privacy_class": "operational"},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the course record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this course record last changed.", "school_example": "2026-04-24T09:25:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "class",
+      "table_name": "classes",
+      "api_path": "/classes",
+      "name": "Class",
+      "plain_description": "A scheduled class or section where learners and teachers meet around a course.",
+      "why_it_exists": "Most tool launches, enrollments, assignments, and grades happen in a class context.",
+      "privacy_class": "education_record",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this class.", "school_example": "class_math_6_a", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID for this class.", "school_example": "CLASS-MATH-6A", "privacy_class": "education_record"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The class name people see.", "school_example": "Math 6 - Period 1", "privacy_class": "education_record"},
+        {"field_key": "class_type", "column_name": "class_type", "json_name": "classType", "data_type": "enum", "required": true, "plain_description": "Whether this is a normal scheduled class or another kind of class grouping.", "school_example": "scheduled", "privacy_class": "education_record", "allowed_values": [
+          {"value": "scheduled", "label": "Scheduled", "plain_description": "A normal scheduled class or section."},
+          {"value": "homeroom", "label": "Homeroom", "plain_description": "A homeroom or advisory group."}
+        ]},
+        {"field_key": "class_code", "column_name": "class_code", "json_name": "classCode", "data_type": "text", "required": false, "plain_description": "A local code for the class section.", "school_example": "P1-MATH6", "privacy_class": "education_record"},
+        {"field_key": "course_id", "column_name": "course_id", "json_name": "courseId", "data_type": "text", "required": true, "plain_description": "The course this class teaches.", "school_example": "course_math_6", "privacy_class": "operational"},
+        {"field_key": "school_id", "column_name": "school_id", "json_name": "schoolId", "data_type": "text", "required": true, "plain_description": "The school where the class is offered.", "school_example": "org_school_lincoln", "privacy_class": "education_record"},
+        {"field_key": "term_id", "column_name": "term_id", "json_name": "termId", "data_type": "text", "required": false, "plain_description": "The academic session when the class runs.", "school_example": "session_2026_fall", "privacy_class": "education_record"},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the class record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this class record last changed.", "school_example": "2026-04-24T09:30:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "enrollment",
+      "table_name": "enrollments",
+      "api_path": "/enrollments",
+      "name": "Enrollment",
+      "plain_description": "A record that says a person participates in a class with a specific role.",
+      "why_it_exists": "Apps use enrollments to know which learners and educators belong in a class.",
+      "privacy_class": "education_record",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this enrollment.", "school_example": "enr_ada_math_6_a", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID for this enrollment.", "school_example": "ENR-10001", "privacy_class": "education_record"},
+        {"field_key": "class_id", "column_name": "class_id", "json_name": "classId", "data_type": "text", "required": true, "plain_description": "The class where the person is enrolled.", "school_example": "class_math_6_a", "privacy_class": "education_record"},
+        {"field_key": "person_id", "column_name": "person_id", "json_name": "personId", "data_type": "text", "required": true, "plain_description": "The learner, teacher, or other person in the class.", "school_example": "person_ada", "privacy_class": "education_record"},
+        {"field_key": "school_id", "column_name": "school_id", "json_name": "schoolId", "data_type": "text", "required": true, "plain_description": "The school associated with this enrollment.", "school_example": "org_school_lincoln", "privacy_class": "education_record"},
+        {"field_key": "role", "column_name": "role", "json_name": "role", "data_type": "enum", "required": true, "plain_description": "The person's job in the class.", "school_example": "student", "privacy_class": "education_record", "allowed_values": [
+          {"value": "student", "label": "Student", "plain_description": "A learner in the class."},
+          {"value": "teacher", "label": "Teacher", "plain_description": "An educator assigned to the class."},
+          {"value": "administrator", "label": "Administrator", "plain_description": "A school or district administrator associated with the class."},
+          {"value": "aide", "label": "Aide", "plain_description": "A support staff member assisting the class."}
+        ]},
+        {"field_key": "begin_date", "column_name": "begin_date", "json_name": "beginDate", "data_type": "date", "required": false, "plain_description": "The first date this enrollment applies.", "school_example": "2026-08-24", "privacy_class": "education_record"},
+        {"field_key": "end_date", "column_name": "end_date", "json_name": "endDate", "data_type": "date", "required": false, "plain_description": "The last date this enrollment applies.", "school_example": "2026-12-18", "privacy_class": "education_record"},
+        {"field_key": "primary_flag", "column_name": "primary_flag", "json_name": "primary", "data_type": "enum", "required": false, "plain_description": "Whether this is the primary teacher or primary enrollment when the source makes that distinction.", "school_example": "true", "privacy_class": "education_record", "allowed_values_ref": "true_false"},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the enrollment record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this enrollment record last changed.", "school_example": "2026-04-24T09:35:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "line_item",
+      "table_name": "line_items",
+      "api_path": "/gradebook/line-items",
+      "name": "Line Item",
+      "plain_description": "A gradebook column, assignment, assessment, or activity that can receive results.",
+      "why_it_exists": "Tools and reports need a clear gradebook target before they can exchange scores.",
+      "privacy_class": "education_record",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this gradebook item.", "school_example": "li_quiz_1", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID for this line item.", "school_example": "LINEITEM-QUIZ-1", "privacy_class": "education_record"},
+        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": true, "plain_description": "The gradebook item name.", "school_example": "Unit 1 Quiz", "privacy_class": "education_record"},
+        {"field_key": "class_id", "column_name": "class_id", "json_name": "classId", "data_type": "text", "required": true, "plain_description": "The class whose gradebook contains this item.", "school_example": "class_math_6_a", "privacy_class": "education_record"},
+        {"field_key": "category", "column_name": "category", "json_name": "category", "data_type": "enum", "required": false, "plain_description": "The local gradebook category for the item.", "school_example": "quiz", "privacy_class": "education_record", "allowed_values": [
+          {"value": "assignment", "label": "Assignment", "plain_description": "A task learners complete."},
+          {"value": "quiz", "label": "Quiz", "plain_description": "A short assessment."},
+          {"value": "test", "label": "Test", "plain_description": "A larger assessment."},
+          {"value": "participation", "label": "Participation", "plain_description": "Participation or engagement score."}
+        ]},
+        {"field_key": "assign_date", "column_name": "assign_date", "json_name": "assignDate", "data_type": "date", "required": false, "plain_description": "The date the item was assigned.", "school_example": "2026-09-08", "privacy_class": "education_record"},
+        {"field_key": "due_date", "column_name": "due_date", "json_name": "dueDate", "data_type": "date", "required": false, "plain_description": "The date the item is due.", "school_example": "2026-09-15", "privacy_class": "education_record"},
+        {"field_key": "result_value_min", "column_name": "result_value_min", "json_name": "resultValueMin", "data_type": "number", "required": false, "plain_description": "The minimum possible numeric result.", "school_example": "0", "privacy_class": "education_record"},
+        {"field_key": "result_value_max", "column_name": "result_value_max", "json_name": "resultValueMax", "data_type": "number", "required": false, "plain_description": "The maximum possible numeric result.", "school_example": "100", "privacy_class": "education_record"},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the line item record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this line item record last changed.", "school_example": "2026-04-24T09:40:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "result",
+      "table_name": "results",
+      "api_path": "/gradebook/results",
+      "name": "Result",
+      "plain_description": "A learner's score, status, or feedback for a gradebook line item.",
+      "why_it_exists": "Results are the bridge between assignments, assessment tools, gradebooks, and reporting.",
+      "privacy_class": "education_record",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this result.", "school_example": "res_ada_quiz_1", "privacy_class": "operational"},
+        {"field_key": "sourced_id", "column_name": "sourced_id", "json_name": "sourcedId", "data_type": "text", "required": true, "plain_description": "The OneRoster source ID for this result.", "school_example": "RESULT-9001", "privacy_class": "education_record"},
+        {"field_key": "line_item_id", "column_name": "line_item_id", "json_name": "lineItemId", "data_type": "text", "required": true, "plain_description": "The gradebook item this result belongs to.", "school_example": "li_quiz_1", "privacy_class": "education_record"},
+        {"field_key": "person_id", "column_name": "person_id", "json_name": "personId", "data_type": "text", "required": true, "plain_description": "The learner who received the result.", "school_example": "person_ada", "privacy_class": "education_record"},
+        {"field_key": "score_status", "column_name": "score_status", "json_name": "scoreStatus", "data_type": "enum", "required": true, "plain_description": "The scoring state for this result.", "school_example": "fullyGraded", "privacy_class": "education_record", "allowed_values": [
+          {"value": "notSubmitted", "label": "Not submitted", "plain_description": "The learner has not submitted work."},
+          {"value": "submitted", "label": "Submitted", "plain_description": "The learner submitted work but grading may not be final."},
+          {"value": "partiallyGraded", "label": "Partially graded", "plain_description": "Some grading is complete but not final."},
+          {"value": "fullyGraded", "label": "Fully graded", "plain_description": "The result is final enough to show or report."}
+        ]},
+        {"field_key": "score", "column_name": "score", "json_name": "score", "data_type": "number", "required": false, "plain_description": "The numeric score earned.", "school_example": "87", "privacy_class": "education_record"},
+        {"field_key": "score_date", "column_name": "score_date", "json_name": "scoreDate", "data_type": "datetime", "required": false, "plain_description": "When the score was assigned or last updated.", "school_example": "2026-09-16T14:30:00Z", "privacy_class": "education_record"},
+        {"field_key": "comment", "column_name": "comment", "json_name": "comment", "data_type": "text", "required": false, "plain_description": "Feedback or notes attached to the result.", "school_example": "Strong strategy; check question 4.", "privacy_class": "education_record"},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the result record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"},
+        {"field_key": "date_last_modified", "column_name": "date_last_modified", "json_name": "dateLastModified", "data_type": "datetime", "required": true, "plain_description": "When the source system says this result record last changed.", "school_example": "2026-04-24T09:45:00Z", "privacy_class": "operational"}
+      ]
+    },
+    {
+      "object_key": "source_identifier",
+      "table_name": "source_identifiers",
+      "api_path": "/source-identifiers",
+      "name": "Source Identifier",
+      "plain_description": "An ID used by another system to refer to the same object the platform tracks.",
+      "why_it_exists": "Different systems use different IDs, and developers need to know which ID came from which source.",
+      "privacy_class": "operational",
+      "fields": [
+        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this source identifier record.", "school_example": "sid_1", "privacy_class": "operational"},
+        {"field_key": "object_type", "column_name": "object_type", "json_name": "objectType", "data_type": "text", "required": true, "plain_description": "The kind of platform object this identifier describes.", "school_example": "person", "privacy_class": "operational"},
+        {"field_key": "object_id", "column_name": "object_id", "json_name": "objectId", "data_type": "text", "required": true, "plain_description": "The platform object that has this external identifier.", "school_example": "person_ada", "privacy_class": "operational"},
+        {"field_key": "source_system", "column_name": "source_system", "json_name": "sourceSystem", "data_type": "text", "required": true, "plain_description": "The outside system that created or owns the identifier.", "school_example": "North SIS", "privacy_class": "operational"},
+        {"field_key": "external_id", "column_name": "external_id", "json_name": "externalId", "data_type": "text", "required": true, "plain_description": "The actual identifier value used by the outside system.", "school_example": "USER-2001", "privacy_class": "education_record"},
+        {"field_key": "identifier_type", "column_name": "identifier_type", "json_name": "identifierType", "data_type": "enum", "required": true, "plain_description": "What kind of outside ID this is.", "school_example": "oneRosterSourcedId", "privacy_class": "operational", "allowed_values": [
+          {"value": "oneRosterSourcedId", "label": "OneRoster sourced ID", "plain_description": "The object's OneRoster sourcedId."},
+          {"value": "sisSourcedId", "label": "SIS sourced ID", "plain_description": "An identifier from the student information system."},
+          {"value": "ltiContextId", "label": "LTI context ID", "plain_description": "A course or class context identifier from an LTI platform."},
+          {"value": "ltiUserId", "label": "LTI user ID", "plain_description": "A user identifier from an LTI platform or tool."},
+          {"value": "emailAddress", "label": "Email address", "plain_description": "An email address used as an identifier."}
+        ]},
+        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether the identifier record is active, inactive, or marked for deletion.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "base_status"}
+      ]
+    }
+  ],
+  "shared_allowed_values": {
+    "base_status": [
+      {"value": "active", "label": "Active", "plain_description": "The record is current and should normally be used."},
+      {"value": "inactive", "label": "Inactive", "plain_description": "The record exists but should not normally be used for new activity."},
+      {"value": "tobedeleted", "label": "To be deleted", "plain_description": "The source system says this record should be removed or ignored."}
+    ],
+    "true_false": [
+      {"value": "true", "label": "True", "plain_description": "Yes or enabled."},
+      {"value": "false", "label": "False", "plain_description": "No or disabled."}
+    ]
+  }
+}

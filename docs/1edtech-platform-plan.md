@@ -131,13 +131,14 @@ Options:
 - Use each source system's IDs as primary keys.
 - Use internal UUIDs plus a first-class identifier crosswalk.
 
-Choice: internal UUID primary keys plus a first-class crosswalk for OneRoster `sourcedId`, CASE GUIDs, LTI deployment IDs, QTI package identifiers, Caliper IRIs, Open Badge/CLR credential IDs, and future did:web identifiers.
+Choice: internal UUID primary keys plus a first-class crosswalk for OneRoster `sourcedId`, CASE GUIDs, LTI deployment IDs, QTI package identifiers, Caliper IRIs, Open Badge/CLR credential IDs, and future did:web identifiers. Public identifier shape depends on the API surface: OneRoster-shaped endpoints expose `sourcedId` as the primary standards contract and include platform UUIDs as metadata; native platform endpoints use platform UUIDs as primary IDs and include source IDs in documented crosswalk fields.
 
 Tradeoffs:
 
 - Internal IDs keep the platform stable when SIS/LMS/vendor IDs change.
 - Crosswalks preserve standard conformance and make troubleshooting possible.
-- Every API must expose both platform IDs and relevant external IDs with clear meaning.
+- OneRoster provider/consumer surfaces should not force developers to remap away from `sourcedId`; native platform APIs can use platform IDs for long-lived joins.
+- Caliper, LTI, credential, and import pipelines must resolve incoming source identifiers at ingestion time, and unresolved identifiers should be stored as explicit lineage exceptions rather than silently creating duplicate people, classes, or results.
 
 ### 4. What is the initial market/data boundary?
 
@@ -179,13 +180,15 @@ Options:
 - Store QTI packages as opaque files.
 - Store canonical package artifacts plus relational projections for searchable and reportable fields.
 
-Choice: package artifacts plus relational projections.
+Choice: package artifacts plus first-class rows for item/test inventory and relational projections for the fields developers actually query.
 
 Tradeoffs:
 
-- QTI is rich and XML-heavy; fully decomposing it creates a fragile assessment engine by accident.
-- Opaque storage alone prevents useful search, alignment, reporting, and AI-assisted authoring.
-- Projections should include item/test identity, title, language, interaction type, accessibility metadata, CASE alignments, scoring metadata, and package/version lineage.
+- QTI is rich and XML-heavy; fully decomposing every element creates a fragile assessment engine by accident.
+- Opaque storage alone prevents item banking, item-level reuse, item-level analytics, standards search, accessibility review, and AI-assisted authoring.
+- Minimum first-class rows: QTI package, assessment test, assessment section, assessment item, stimulus, item reference, interaction, response declaration, outcome declaration, scoring/rubric metadata, accessibility/support metadata, CASE alignment, and package artifact.
+- Minimum projected fields: package/version lineage, item/test identifiers, title, language, interaction type, response cardinality, base type, scoring method, max score, time limits, adaptive/dependent flags, accessibility features, support tools, rubric/feedback presence, and CASE target identifiers.
+- The platform should not claim QTI runtime conformance until delivery/session behavior is implemented; repository/search/import/export support is a separate and narrower claim.
 
 ### 7. How should learning activity be stored?
 
@@ -219,23 +222,41 @@ Tradeoffs:
 - Full graph support is more work than flat tags, but it unlocks resource search, mastery reporting, crosswalks, and AI reasoning.
 - CASE 1.1 adds broader framework/course-code capability, so design for more than academic standards.
 
-### 9. How should third-party tools connect?
+### 9. Do platform API calls require an LTI launch context?
 
 Options:
 
-- API keys and custom SSO.
-- LTI 1.3/LTI Advantage only.
-- LTI 1.3/LTI Advantage plus platform APIs for deeper data access.
+- Require every platform API call to be tied to an active LTI launch context.
+- Make platform APIs independently addressable through OAuth client credentials or authorization code grants.
+- Support both, with scopes and policy deciding which data requires launch context.
 
-Choice: LTI 1.3/LTI Advantage for launch/context/grade workflows, with OAuth-scoped platform APIs for richer product integrations.
+Choice: support both. LTI 1.3/LTI Advantage is required for launch-time classroom context, deep linking, NRPS, and AGS workflows. Platform APIs are independently addressable through OAuth for server-to-server, administrative, analytics, dictionary, content, and credential use cases. Some calls can require a launch-bound context token when the data should only be available from inside a specific class/activity placement.
 
 Tradeoffs:
 
 - LTI gets vendors into courses securely with familiar platform behavior.
-- Platform APIs provide value beyond launch: standards, analytics, QTI packages, resource catalogs, credentials, and normalized SQL-backed data.
-- Scope design must be strict enough that LTI launch context does not become broad data access by accident.
+- Independently addressable APIs provide value beyond launch: standards, analytics, QTI packages, resource catalogs, credentials, operational data, and normalized SQL-backed data.
+- Launch-bound authorization protects contextual learner/class data when a tool should only act inside a placement.
+- Scope design and tenant policy must prevent either model from becoming broad data access by accident.
 
-### 10. How should privacy and security be handled?
+### 10. How should tenancy and shared standards data work?
+
+Options:
+
+- Single-tenant deployments per institution.
+- One shared multi-tenant database with row-level tenant isolation.
+- Schema-per-tenant or database-per-tenant, with shared reference datasets copied or synced.
+
+Choice: multi-tenant core with tenant IDs on tenant-owned records and row-level security as the default SQL enforcement model; shared reference data such as public CASE frameworks, public QTI item banks, public standards metadata, and certification fixtures live in governed shared namespaces with explicit adoption/link records per tenant.
+
+Tradeoffs:
+
+- A multi-tenant core is the right default for a platform third parties build against, because vendors need one integration path across many schools.
+- Row-level security keeps SQL access viable without forcing every tenant into a separate database, but policy testing becomes a release-critical requirement.
+- Shared CASE/QTI/reference data avoids duplication and supports marketplace/search workflows, but tenant adoption, local overrides, and private item banks must be modeled explicitly.
+- High-risk or contractually isolated tenants may still need database-per-tenant deployment as an enterprise option, but that should not be the default product architecture.
+
+### 11. How should privacy and security be handled?
 
 Options:
 
@@ -251,7 +272,7 @@ Tradeoffs:
 - The platform should support tenant isolation, row-level access policies, audit logs, scoped OAuth, consent/sharing records, PII classification, de-identification, retention policies, and vendor data-sharing agreements.
 - TrustEd Apps rubrics are not a substitute for law or institutional policy, but they provide a practical supplier-facing trust vocabulary.
 
-### 11. How should documentation be generated?
+### 12. How should documentation be generated?
 
 Options:
 
@@ -267,7 +288,7 @@ Tradeoffs:
 - It enables AI agents to understand the data without private tribal knowledge.
 - It requires every schema/API change to include plain-language descriptions, enum meanings, examples, privacy classification, source standard references, and common mistakes.
 
-### 12. What does conformance mean for us?
+### 13. What does conformance mean for us?
 
 Options:
 
@@ -287,7 +308,7 @@ Tradeoffs:
 
 | Domain | Representative relational objects | Main standards |
 | --- | --- | --- |
-| Tenancy and governance | tenants, institutions, data-sharing agreements, vendor applications, scopes, consents, audits | Security Framework, Data Privacy, TrustEd Apps |
+| Tenancy and governance | tenants, institutions, shared_reference_namespaces, tenant_adoptions, data-sharing agreements, vendor applications, scopes, consents, audits | Security Framework, Data Privacy, TrustEd Apps |
 | Identity and organizations | people, users, agents, organizations, schools, districts, departments, roles, identifiers | OneRoster, LTI, Edu-API, Uniform ID |
 | Academic structure | academic sessions, courses, course offerings, classes, sections, enrollments | OneRoster, Edu-API, LIS legacy |
 | Curriculum and standards | case_frameworks, case_items, case_associations, case_rubrics, alignments | CASE |

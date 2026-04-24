@@ -51,15 +51,15 @@
         </div>
         <div>
           <strong id="metricObjects">0</strong>
-          <span>seed dictionary objects</span>
+          <span>runnable OneRoster objects</span>
         </div>
         <div>
           <strong id="metricFields">0</strong>
-          <span>seed fields with plain-language descriptions</span>
+          <span>generated OneRoster fields</span>
         </div>
         <div>
-          <strong>5</strong>
-          <span>layperson dictionary volumes</span>
+          <strong id="metricValues">0</strong>
+          <span>controlled values explained</span>
         </div>
       </section>
 
@@ -75,6 +75,33 @@
           <p>
             Every SQL object and API field is backed by a shared dictionary entry, so a human developer or AI agent can understand the same platform contract without reading every 1EdTech specification.
           </p>
+        </div>
+      </section>
+
+      <section class="section demo-section" aria-labelledby="demo-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Working vertical slice</p>
+            <h2 id="demo-title">OneRoster core now has a runnable SQL and JSON demo.</h2>
+          </div>
+          <a class="text-link" href="../demo/README.md">Open demo instructions</a>
+        </div>
+        <div class="demo-grid">
+          <article>
+            <h3>Relational layer</h3>
+            <p>SQLite tables and views for organizations, people, academic sessions, courses, classes, enrollments, line items, results, and source identifiers.</p>
+            <code>POST /sql/query</code>
+          </article>
+          <article>
+            <h3>JSON API layer</h3>
+            <p>Read-only local endpoints over the same seeded data, including roster and gradebook views an app or AI agent can call directly.</p>
+            <code>http://localhost:8787</code>
+          </article>
+          <article>
+            <h3>Generated docs</h3>
+            <p>The OneRoster core dictionary source generates SQL comments, OpenAPI schema descriptions, and a Markdown dictionary page.</p>
+            <code>dictionary/oneroster-core.v1.json</code>
+          </article>
         </div>
       </section>
 
@@ -112,9 +139,9 @@
             <h3>Relational SQL Layer</h3>
             <p>Raw tables plus stable documented views for organizations, people, classes, standards, assessments, gradebook, events, LTI, credentials, lineage, and governance.</p>
             <ul>
-              <li>Internal UUIDs plus standard-specific identifier crosswalks.</li>
+              <li>Internal IDs plus standard-specific identifier crosswalks; OneRoster-shaped endpoints preserve `sourcedId` as the standards-facing ID.</li>
               <li>SQL comments generated from the same dictionary as API docs.</li>
-              <li>Privacy class, lineage, and source-standard metadata attached to fields.</li>
+              <li>Tenant-owned records carry tenant boundaries; shared CASE/QTI/reference data is explicitly adopted by tenants.</li>
             </ul>
           </article>
           <article>
@@ -122,6 +149,7 @@
             <p>OpenAPI-first endpoints with examples and dictionary links on every field, designed for app developers and AI coding agents.</p>
             <ul>
               <li>REST resources for roster, standards, content, assessment, gradebook, events, tools, credentials, and dictionary metadata.</li>
+              <li>The OneRoster demo API is runnable locally today; broader endpoint groups remain planned surfaces.</li>
               <li>OAuth scopes mapped to dictionary fields and privacy classes.</li>
               <li>Standard-compatible import/export and conformance surfaces.</li>
             </ul>
@@ -163,6 +191,9 @@
           <a class="text-link" href="../openapi/dictionary.v0.yaml">Open dictionary OpenAPI stub</a>
         </div>
         <div id="apiGrid" class="api-grid"></div>
+        <p class="section-note api-note">
+          Current executable API: OneRoster core demo at `http://localhost:8787`, with generated OpenAPI at `openapi/generated/oneroster-core.v0.json`. The broader API groups below are the planned platform surface.
+        </p>
         <div class="code-panel">
           <div class="code-panel-header">
             <span>Example dictionary query</span>

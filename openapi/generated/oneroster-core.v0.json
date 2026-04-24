@@ -1,0 +1,1408 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform OneRoster Core Demo API",
+    "version": "0.1.0",
+    "summary": "Working local API generated from the OneRoster core dictionary source.",
+    "description": "This OpenAPI document is generated from dictionary/oneroster-core.v1.json."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8787",
+      "description": "Local demo API"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Demo"
+        ],
+        "summary": "Check demo API health",
+        "responses": {
+          "200": {
+            "description": "Demo API is running."
+          }
+        }
+      }
+    },
+    "/sql/query": {
+      "post": {
+        "tags": [
+          "SQL"
+        ],
+        "summary": "Run a read-only SQL query against the demo database",
+        "description": "Accepts SELECT or WITH queries only. This is the JSON wrapper for the relational demo layer.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "sql"
+                ],
+                "properties": {
+                  "sql": {
+                    "type": "string",
+                    "examples": [
+                      "select display_name, primary_role from people order by display_name"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rows returned by the query.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SqlQueryResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The query was not accepted."
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "List Organization records",
+        "description": "A district, school, department, program, or other education organization.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organization records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Organization"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{id}": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Get one Organization record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Organization record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Organization record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organization"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/people": {
+      "get": {
+        "tags": [
+          "Person"
+        ],
+        "summary": "List Person records",
+        "description": "A learner, teacher, staff member, guardian, or administrator known to the platform.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Person records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Person"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{id}": {
+      "get": {
+        "tags": [
+          "Person"
+        ],
+        "summary": "Get one Person record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Person record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Person record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/academic-sessions": {
+      "get": {
+        "tags": [
+          "Academic Session"
+        ],
+        "summary": "List Academic Session records",
+        "description": "A school year, term, semester, quarter, grading period, or other calendar window.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Academic Session records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AcademicSession"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/academic-sessions/{id}": {
+      "get": {
+        "tags": [
+          "Academic Session"
+        ],
+        "summary": "Get one Academic Session record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Academic Session record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Academic Session record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcademicSession"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/courses": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "List Course records",
+        "description": "A course template or catalog entry, such as Grade 6 Mathematics.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Course"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{id}": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "summary": "Get one Course record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Course record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Course record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/classes": {
+      "get": {
+        "tags": [
+          "Class"
+        ],
+        "summary": "List Class records",
+        "description": "A scheduled class or section where learners and teachers meet around a course.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Class records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Class"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/classes/{id}": {
+      "get": {
+        "tags": [
+          "Class"
+        ],
+        "summary": "Get one Class record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Class record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Class record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Class"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/enrollments": {
+      "get": {
+        "tags": [
+          "Enrollment"
+        ],
+        "summary": "List Enrollment records",
+        "description": "A record that says a person participates in a class with a specific role.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enrollment records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Enrollment"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enrollments/{id}": {
+      "get": {
+        "tags": [
+          "Enrollment"
+        ],
+        "summary": "Get one Enrollment record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Enrollment record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Enrollment record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Enrollment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/gradebook/line-items": {
+      "get": {
+        "tags": [
+          "Line Item"
+        ],
+        "summary": "List Line Item records",
+        "description": "A gradebook column, assignment, assessment, or activity that can receive results.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Line Item records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LineItem"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gradebook/line-items/{id}": {
+      "get": {
+        "tags": [
+          "Line Item"
+        ],
+        "summary": "Get one Line Item record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Line Item record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Line Item record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LineItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/gradebook/results": {
+      "get": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "List Result records",
+        "description": "A learner's score, status, or feedback for a gradebook line item.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Result"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gradebook/results/{id}": {
+      "get": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "Get one Result record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Result record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Result record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    },
+    "/source-identifiers": {
+      "get": {
+        "tags": [
+          "Source Identifier"
+        ],
+        "summary": "List Source Identifier records",
+        "description": "An ID used by another system to refer to the same object the platform tracks.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Plain text search over common display fields.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Source Identifier records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SourceIdentifier"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/source-identifiers/{id}": {
+      "get": {
+        "tags": [
+          "Source Identifier"
+        ],
+        "summary": "Get one Source Identifier record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the Source Identifier record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One Source Identifier record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceIdentifier"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Organization": {
+        "type": "object",
+        "description": "A district, school, department, program, or other education organization.",
+        "required": [
+          "id",
+          "sourcedId",
+          "name",
+          "type",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this organization."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID used by the sending system."
+          },
+          "name": {
+            "type": "string",
+            "description": "The organization name people recognize."
+          },
+          "type": {
+            "type": "string",
+            "description": "The kind of organization this record represents.",
+            "enum": [
+              "district",
+              "school",
+              "department",
+              "program"
+            ]
+          },
+          "parentOrganizationId": {
+            "type": "string",
+            "description": "The organization that contains this one."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this organization record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "description": "A learner, teacher, staff member, guardian, or administrator known to the platform.",
+        "required": [
+          "id",
+          "sourcedId",
+          "displayName",
+          "primaryRole",
+          "enabledUser",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this person."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID used by the sending system."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "The name shown in user interfaces."
+          },
+          "givenName": {
+            "type": "string",
+            "description": "The person's first or given name."
+          },
+          "familyName": {
+            "type": "string",
+            "description": "The person's last or family name."
+          },
+          "email": {
+            "type": "string",
+            "description": "The person's school email address."
+          },
+          "primaryRole": {
+            "type": "string",
+            "description": "The person's broad role in the education environment.",
+            "enum": [
+              "student",
+              "teacher",
+              "administrator",
+              "guardian"
+            ]
+          },
+          "enabledUser": {
+            "type": "string",
+            "description": "Whether the person can currently sign in or be used as an active user.",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the person record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this person record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "AcademicSession": {
+        "type": "object",
+        "description": "A school year, term, semester, quarter, grading period, or other calendar window.",
+        "required": [
+          "id",
+          "sourcedId",
+          "title",
+          "type",
+          "startDate",
+          "endDate",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this academic session."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID for this calendar record."
+          },
+          "title": {
+            "type": "string",
+            "description": "The calendar name people see."
+          },
+          "type": {
+            "type": "string",
+            "description": "The kind of calendar window.",
+            "enum": [
+              "schoolYear",
+              "term",
+              "semester",
+              "quarter",
+              "gradingPeriod"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The first date in the session.",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The last date in the session.",
+            "format": "date"
+          },
+          "schoolYear": {
+            "type": "integer",
+            "description": "The calendar year associated with the school year."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the session record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this session record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "Course": {
+        "type": "object",
+        "description": "A course template or catalog entry, such as Grade 6 Mathematics.",
+        "required": [
+          "id",
+          "sourcedId",
+          "title",
+          "orgId",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this course."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID for this course."
+          },
+          "title": {
+            "type": "string",
+            "description": "The course name people see."
+          },
+          "courseCode": {
+            "type": "string",
+            "description": "A local course code used by the school or district."
+          },
+          "orgId": {
+            "type": "string",
+            "description": "The organization that owns or offers the course."
+          },
+          "schoolYearId": {
+            "type": "string",
+            "description": "The school year this course belongs to, if the source provides one."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the course record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this course record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "Class": {
+        "type": "object",
+        "description": "A scheduled class or section where learners and teachers meet around a course.",
+        "required": [
+          "id",
+          "sourcedId",
+          "title",
+          "classType",
+          "courseId",
+          "schoolId",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this class."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID for this class."
+          },
+          "title": {
+            "type": "string",
+            "description": "The class name people see."
+          },
+          "classType": {
+            "type": "string",
+            "description": "Whether this is a normal scheduled class or another kind of class grouping.",
+            "enum": [
+              "scheduled",
+              "homeroom"
+            ]
+          },
+          "classCode": {
+            "type": "string",
+            "description": "A local code for the class section."
+          },
+          "courseId": {
+            "type": "string",
+            "description": "The course this class teaches."
+          },
+          "schoolId": {
+            "type": "string",
+            "description": "The school where the class is offered."
+          },
+          "termId": {
+            "type": "string",
+            "description": "The academic session when the class runs."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the class record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this class record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "Enrollment": {
+        "type": "object",
+        "description": "A record that says a person participates in a class with a specific role.",
+        "required": [
+          "id",
+          "sourcedId",
+          "classId",
+          "personId",
+          "schoolId",
+          "role",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this enrollment."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID for this enrollment."
+          },
+          "classId": {
+            "type": "string",
+            "description": "The class where the person is enrolled."
+          },
+          "personId": {
+            "type": "string",
+            "description": "The learner, teacher, or other person in the class."
+          },
+          "schoolId": {
+            "type": "string",
+            "description": "The school associated with this enrollment."
+          },
+          "role": {
+            "type": "string",
+            "description": "The person's job in the class.",
+            "enum": [
+              "student",
+              "teacher",
+              "administrator",
+              "aide"
+            ]
+          },
+          "beginDate": {
+            "type": "string",
+            "description": "The first date this enrollment applies.",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The last date this enrollment applies.",
+            "format": "date"
+          },
+          "primary": {
+            "type": "string",
+            "description": "Whether this is the primary teacher or primary enrollment when the source makes that distinction.",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the enrollment record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this enrollment record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "LineItem": {
+        "type": "object",
+        "description": "A gradebook column, assignment, assessment, or activity that can receive results.",
+        "required": [
+          "id",
+          "sourcedId",
+          "title",
+          "classId",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this gradebook item."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID for this line item."
+          },
+          "title": {
+            "type": "string",
+            "description": "The gradebook item name."
+          },
+          "classId": {
+            "type": "string",
+            "description": "The class whose gradebook contains this item."
+          },
+          "category": {
+            "type": "string",
+            "description": "The local gradebook category for the item.",
+            "enum": [
+              "assignment",
+              "quiz",
+              "test",
+              "participation"
+            ]
+          },
+          "assignDate": {
+            "type": "string",
+            "description": "The date the item was assigned.",
+            "format": "date"
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "The date the item is due.",
+            "format": "date"
+          },
+          "resultValueMin": {
+            "type": "number",
+            "description": "The minimum possible numeric result."
+          },
+          "resultValueMax": {
+            "type": "number",
+            "description": "The maximum possible numeric result."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the line item record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this line item record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "description": "A learner's score, status, or feedback for a gradebook line item.",
+        "required": [
+          "id",
+          "sourcedId",
+          "lineItemId",
+          "personId",
+          "scoreStatus",
+          "status",
+          "dateLastModified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this result."
+          },
+          "sourcedId": {
+            "type": "string",
+            "description": "The OneRoster source ID for this result."
+          },
+          "lineItemId": {
+            "type": "string",
+            "description": "The gradebook item this result belongs to."
+          },
+          "personId": {
+            "type": "string",
+            "description": "The learner who received the result."
+          },
+          "scoreStatus": {
+            "type": "string",
+            "description": "The scoring state for this result.",
+            "enum": [
+              "notSubmitted",
+              "submitted",
+              "partiallyGraded",
+              "fullyGraded"
+            ]
+          },
+          "score": {
+            "type": "number",
+            "description": "The numeric score earned."
+          },
+          "scoreDate": {
+            "type": "string",
+            "description": "When the score was assigned or last updated.",
+            "format": "date-time"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Feedback or notes attached to the result."
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the result record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          },
+          "dateLastModified": {
+            "type": "string",
+            "description": "When the source system says this result record last changed.",
+            "format": "date-time"
+          }
+        }
+      },
+      "SourceIdentifier": {
+        "type": "object",
+        "description": "An ID used by another system to refer to the same object the platform tracks.",
+        "required": [
+          "id",
+          "objectType",
+          "objectId",
+          "sourceSystem",
+          "externalId",
+          "identifierType",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this source identifier record."
+          },
+          "objectType": {
+            "type": "string",
+            "description": "The kind of platform object this identifier describes."
+          },
+          "objectId": {
+            "type": "string",
+            "description": "The platform object that has this external identifier."
+          },
+          "sourceSystem": {
+            "type": "string",
+            "description": "The outside system that created or owns the identifier."
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The actual identifier value used by the outside system."
+          },
+          "identifierType": {
+            "type": "string",
+            "description": "What kind of outside ID this is.",
+            "enum": [
+              "oneRosterSourcedId",
+              "sisSourcedId",
+              "ltiContextId",
+              "ltiUserId",
+              "emailAddress"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "description": "Whether the identifier record is active, inactive, or marked for deletion.",
+            "enum": [
+              "active",
+              "inactive",
+              "tobedeleted"
+            ]
+          }
+        }
+      },
+      "SqlQueryResult": {
+        "type": "object",
+        "required": [
+          "columns",
+          "rows",
+          "count"
+        ],
+        "properties": {
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "count": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

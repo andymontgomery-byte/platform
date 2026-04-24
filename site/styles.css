@@ -458,7 +458,8 @@ h3 {
 }
 
 .layer-grid article,
-.guide-grid article {
+.guide-grid article,
+.demo-grid article {
   padding: 24px;
 }
 
@@ -546,8 +547,47 @@ select:focus {
   background: var(--white);
 }
 
+.demo-section {
+  background: #edf6f3;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.demo-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.demo-grid p {
+  margin: 12px 0 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.demo-grid code {
+  display: inline-flex;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 7px 8px;
+  border-radius: 6px;
+  background: #eef5f5;
+  color: var(--green-dark);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
 .api-card {
   padding: 18px;
+}
+
+.api-note {
+  max-width: 780px;
+  margin: 0 0 18px;
 }
 
 .api-path {
@@ -676,6 +716,7 @@ code {
   .standards-grid,
   .dictionary-grid,
   .api-grid,
+  .demo-grid,
   .guide-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -723,6 +764,7 @@ code {
   .standards-grid,
   .dictionary-grid,
   .api-grid,
+  .demo-grid,
   .guide-grid,
   .search-row {
     grid-template-columns: 1fr;

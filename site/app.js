@@ -2,6 +2,7 @@
   const state = {
     standards: [],
     dictionary: null,
+    coreDictionary: null,
     posture: "all",
     search: "",
     privacy: "all"
@@ -22,15 +23,15 @@
     },
     {
       title: "Identifiers",
-      question: "Should source-system IDs become primary keys?",
-      choice: "Use internal UUIDs plus a first-class identifier crosswalk.",
-      tradeoff: "The platform stays stable when SIS, LMS, assessment, or credential IDs change, but every public surface must explain which ID belongs to which system."
+      question: "Should public APIs use platform IDs or standards-native IDs?",
+      choice: "Use internal UUIDs for storage, expose OneRoster sourcedId as the primary ID on OneRoster-shaped endpoints, and expose UUIDs as primary IDs on native platform endpoints.",
+      tradeoff: "This preserves OneRoster conformance while keeping long-lived internal joins stable, but ingestion pipelines must resolve source IDs and every API must show which identifier belongs to which system."
     },
     {
       title: "Assessment Content",
       question: "Should QTI be fully decomposed into relational tables?",
-      choice: "Store package artifacts and project searchable fields.",
-      tradeoff: "The platform avoids accidentally becoming a brittle assessment engine, while still supporting search, alignment, validation, accessibility metadata, and reporting."
+      choice: "Store package artifacts, create first-class rows for item/test inventory, and project a defined minimum set of queryable fields.",
+      tradeoff: "The platform avoids pretending to be a full assessment runtime, while still enabling item banking, reuse, item-level analytics, accessibility review, CASE alignment, scoring metadata, and package lineage."
     },
     {
       title: "Learning Activity",
@@ -40,9 +41,15 @@
     },
     {
       title: "Tool Integration",
-      question: "Is LTI enough for app developers?",
-      choice: "Use LTI 1.3/LTI Advantage for launch, membership, deep linking, and grades, plus OAuth-scoped platform APIs for deeper data access.",
-      tradeoff: "Vendors get familiar launch workflows and richer normalized data, but scopes must prevent launch context from becoming broad data access."
+      question: "Do platform API calls require an LTI launch context?",
+      choice: "Support both launch-bound calls and independently addressable OAuth APIs; policy decides which data requires class/activity context.",
+      tradeoff: "Vendors get familiar LTI workflows and richer platform APIs, but scopes and tenant policy must prevent either path from becoming broad data access."
+    },
+    {
+      title: "Tenancy",
+      question: "How is tenant isolation enforced while sharing public standards data?",
+      choice: "Use a multi-tenant core with tenant IDs and row-level security for tenant-owned records, plus governed shared namespaces for public CASE, QTI, standards, and certification fixtures.",
+      tradeoff: "Vendors get one integration path across schools, but row-level policy tests become release-critical and tenant adoption/override records must be explicit."
     },
     {
       title: "Privacy and Security",
@@ -99,7 +106,7 @@
 
   const roadmap = [
     ["Phase 0", "Standards Corpus and Dictionary Seed", "Versioned standards registry, first dictionary schema, source links, Markdown docs, SQL schema, and OpenAPI stub."],
-    ["Phase 1", "OneRoster Core", "Tenants, organizations, users, sessions, courses, classes, enrollments, identifiers, CSV import/export, and basic gradebook."],
+    ["Phase 1", "OneRoster Core", "Runnable demo slice now covers organizations, people, sessions, courses, classes, enrollments, identifiers, gradebook line items, results, generated docs, and a read-only SQL query endpoint."],
     ["Phase 2", "CASE Backbone", "Frameworks, items, associations, rubrics, definitions, versions, crosswalks, and alignment APIs."],
     ["Phase 3", "QTI Assessment Repository", "QTI 3 package storage, searchable projections, validation, Data-SSML support, and QTI 2.2 migration path."],
     ["Phase 4", "Caliper Event Platform", "Caliper 1.2 ingestion, immutable envelopes, profile-specific projections, and privacy-safe aggregates."],
@@ -119,18 +126,22 @@
 
   async function loadData() {
     try {
-      const [standardsResponse, dictionaryResponse] = await Promise.all([
+      const [standardsResponse, dictionaryResponse, coreDictionaryResponse] = await Promise.all([
         fetch("../data/standards-registry.seed.json"),
-        fetch("../data/data-dictionary.seed.json")
+        fetch("../data/data-dictionary.seed.json"),
+        fetch("../dictionary/oneroster-core.v1.json")
       ]);
       const standardsData = await standardsResponse.json();
       const dictionaryData = await dictionaryResponse.json();
+      const coreDictionaryData = await coreDictionaryResponse.json();
       state.standards = standardsData.standards || [];
       state.dictionary = dictionaryData;
+      state.coreDictionary = coreDictionaryData;
     } catch (error) {
       console.warn("Could not load seed data. Rendering fallback content.", error);
       state.standards = [];
       state.dictionary = { privacy_classes: [], objects: [] };
+      state.coreDictionary = { objects: [], shared_allowed_values: {} };
     }
   }
 
@@ -158,13 +169,19 @@
   }
 
   function renderMetrics() {
-    const objects = state.dictionary.objects || [];
+    const objects = state.coreDictionary.objects || state.dictionary.objects || [];
     const fields = objects.reduce(function (total, object) {
       return total + ((object.fields && object.fields.length) || 0);
+    }, 0);
+    const values = objects.reduce(function (total, object) {
+      return total + ((object.fields || []).reduce(function (fieldTotal, field) {
+        return fieldTotal + allowedValues(field).length;
+      }, 0));
     }, 0);
     setText("metricStandards", String(state.standards.length));
     setText("metricObjects", String(objects.length));
     setText("metricFields", String(fields));
+    setText("metricValues", String(values));
   }
 
   function renderPostureFilters() {
@@ -224,7 +241,7 @@
 
   function renderDictionary() {
     const host = document.getElementById("dictionaryObjects");
-    const objects = (state.dictionary.objects || []).filter(matchesDictionaryFilter).slice(0, 9);
+    const objects = dictionaryObjects().filter(matchesDictionaryFilter).slice(0, 9);
     host.innerHTML = "";
 
     if (!objects.length) {
@@ -238,7 +255,7 @@
       const fields = (object.fields || []).slice(0, 3).map(function (field) {
         return [
           '<div class="field-row">',
-          "<code>" + escapeHtml(field.technical_name || field.field_key) + "</code>",
+          "<code>" + escapeHtml(field.technical_name || field.column_name || field.field_key) + "</code>",
           "<span>" + escapeHtml(field.plain_description || "") + "</span>",
           "</div>"
         ].join("");
@@ -279,15 +296,34 @@
       object.source_standard
     ].concat((object.fields || []).flatMap(function (field) {
       return [
-        field.field_key,
-        field.technical_name,
-        field.plain_description,
+      field.field_key,
+      field.technical_name,
+      field.column_name,
+      field.json_name,
+      field.plain_description,
         field.school_example,
         field.common_mistakes
       ];
     })).join(" ").toLowerCase();
 
     return haystack.includes(state.search);
+  }
+
+  function dictionaryObjects() {
+    if (state.coreDictionary && state.coreDictionary.objects && state.coreDictionary.objects.length) {
+      return state.coreDictionary.objects;
+    }
+    return state.dictionary.objects || [];
+  }
+
+  function allowedValues(field) {
+    if (field.allowed_values) {
+      return field.allowed_values;
+    }
+    if (field.allowed_values_ref && state.coreDictionary && state.coreDictionary.shared_allowed_values) {
+      return state.coreDictionary.shared_allowed_values[field.allowed_values_ref] || [];
+    }
+    return [];
   }
 
   function renderStaticSections() {

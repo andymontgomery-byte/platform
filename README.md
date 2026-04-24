@@ -10,6 +10,7 @@ The platform exposes two developer-facing layers:
 ## Current Artifacts
 
 - [Customer-Facing Developer Portal](site/index.html)
+- [Working OneRoster Core Demo API](demo/README.md)
 - [1EdTech Platform Plan](docs/1edtech-platform-plan.md)
 - [Phase 0 Standards and Dictionary](docs/phase-0-standards-and-dictionary.md)
 - [Layperson Data Dictionary Index](docs/dictionaries/README.md)
@@ -42,3 +43,29 @@ python3 -m http.server 8080
 ```
 
 Then open `http://localhost:8080/site/`.
+
+## Working Demo Slice
+
+The first executable slice is OneRoster core:
+
+```sh
+cd demo
+npm install
+npm run reset-db
+npm start
+```
+
+Then call the API at `http://localhost:8787`, for example:
+
+```sh
+curl http://localhost:8787/people
+curl -X POST http://localhost:8787/sql/query \
+  -H 'content-type: application/json' \
+  -d '{"sql":"select display_name, primary_role from people order by display_name"}'
+```
+
+The generated SQL comments, OpenAPI JSON, and Markdown dictionary come from `dictionary/oneroster-core.v1.json` via:
+
+```sh
+python3 scripts/generate_oneroster_core.py
+```
