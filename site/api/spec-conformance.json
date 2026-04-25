@@ -1,4 +1,7 @@
 {
+  "metric": "score_gate",
+  "scoreScope": "Deterministic guardrail for the current docs, dictionary generation, GitHub Pages demo, public accounting, and backlog-tracking gate. This is not a platform completion metric.",
+  "notACompletionClaim": true,
   "score": 100.0,
   "earnedPoints": 95,
   "totalPoints": 95,
@@ -138,5 +141,19 @@
       "detail": "Backlog explicitly states the remaining hosted backend gap."
     }
   ],
-  "openGaps": []
+  "openScoredGaps": [],
+  "openGaps": [],
+  "knownNonScoredGaps": [
+    "Full OneRoster 1.2 accounting beyond the current core demo slice.",
+    "Generated cross-spec decision traces that connect dictionary fields to architectural decisions.",
+    "A platform-status manifest distinct from the score-gate report.",
+    "A real hosted relational database and hosted JSON API runtime.",
+    "A real hosted SQL query endpoint against shared demo data.",
+    "Tenant model, row-level isolation, OAuth scopes, and auth-boundary enforcement.",
+    "Runnable CASE import/search, QTI package import/projection, Caliper event ingestion, and LTI launch/Advantage sandbox slices.",
+    "Conformance-style fixtures, support notes, and formal certification evidence.",
+    "Production deployment documentation.",
+    "Generated dictionary portal canonical URL cleanup.",
+    "Codex loop harness runbook and smoke tests."
+  ]
 }

@@ -17,6 +17,24 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = Path("/Users/andymontgomery/Downloads/WF - Platform - 260424-144348.md")
+SCORE_SCOPE = (
+    "Deterministic guardrail for the current docs, dictionary generation, "
+    "GitHub Pages demo, public accounting, and backlog-tracking gate. "
+    "This is not a platform completion metric."
+)
+KNOWN_NON_SCORED_GAPS = [
+    "Full OneRoster 1.2 accounting beyond the current core demo slice.",
+    "Generated cross-spec decision traces that connect dictionary fields to architectural decisions.",
+    "A platform-status manifest distinct from the score-gate report.",
+    "A real hosted relational database and hosted JSON API runtime.",
+    "A real hosted SQL query endpoint against shared demo data.",
+    "Tenant model, row-level isolation, OAuth scopes, and auth-boundary enforcement.",
+    "Runnable CASE import/search, QTI package import/projection, Caliper event ingestion, and LTI launch/Advantage sandbox slices.",
+    "Conformance-style fixtures, support notes, and formal certification evidence.",
+    "Production deployment documentation.",
+    "Generated dictionary portal canonical URL cleanup.",
+    "Codex loop harness runbook and smoke tests.",
+]
 
 
 def main() -> int:
@@ -26,11 +44,24 @@ def main() -> int:
     earned = sum(item["points"] for item in results if item["passed"])
     score = round((earned / total) * 100, 2) if total else 0.0
     report = {
+        "metric": "score_gate",
+        "scoreScope": SCORE_SCOPE,
+        "notACompletionClaim": True,
         "score": score,
         "earnedPoints": earned,
         "totalPoints": total,
         "passed": all(item["passed"] for item in results),
         "items": results,
+        "openScoredGaps": [
+            {
+                "id": item["id"],
+                "requirement": item["requirement"],
+                "detail": item["detail"],
+                "points": item["points"],
+            }
+            for item in results
+            if not item["passed"]
+        ],
         "openGaps": [
             {
                 "id": item["id"],
@@ -41,6 +72,7 @@ def main() -> int:
             for item in results
             if not item["passed"]
         ],
+        "knownNonScoredGaps": KNOWN_NON_SCORED_GAPS,
     }
 
     if args.write_report:

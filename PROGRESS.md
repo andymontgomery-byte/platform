@@ -62,4 +62,21 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: integration/governance dictionary JSON validation passed; generator and artifact checker py_compile passed; all OneRoster/QTI/CASE/Caliper/integration generators passed; `build_static_api.py` and `build_site_docs.py` passed; `check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `check_spec_conformance.py --write-report site/api/spec-conformance.json --min-score 75` passed with score 100.0; full generator/build/check py_compile passed; generated OpenAPI/report/index JSON validation passed; `node --check site/app.js` and `node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; `git diff --check` passed.
 - Spec score impact expected: +6 deterministic points, from 93.68 to 100.0, because `shared_dictionary_lti_security_privacy` now passes and `openGaps` is empty.
 - New gaps found: none.
-- What remains next: deterministic spec conformance is complete; remaining public backlog items are beyond the current score gate, starting with full OneRoster 1.2 accounting and later runnable/backend work.
+- What remains next: deterministic score-gate coverage is fully passing for the current docs/dictionary/demo criteria; this is not platform completion. Remaining public backlog items start with full OneRoster 1.2 accounting and later runnable/backend work.
+
+
+## 20260424T214917Z Harness Iteration 2
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 93.68
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 92
+- Publish result: committed and pushed: Codex loop iteration 2: improve spec score to 100.00
+- Codex log: `.codex-loop/20260424T213303Z-iteration-002-codex.log`
+- Verify log: `.codex-loop/20260424T213303Z-iteration-002-verify.log`
+- Judge log: `.codex-loop/20260424T213303Z-iteration-002-judge.log`
+- Judge JSON: `.codex-loop/20260424T213303Z-iteration-002-judge.json`
