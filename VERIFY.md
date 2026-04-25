@@ -13,7 +13,7 @@ python3 scripts/generate_integration_governance_core.py
 python3 scripts/build_static_api.py
 python3 scripts/build_site_docs.py
 python3 scripts/check_dictionary_artifacts.py
-python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json --min-score 75
+python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json
 python3 -m py_compile scripts/generate_oneroster_core.py scripts/generate_qti_core.py scripts/generate_case_core.py scripts/generate_caliper_core.py scripts/generate_integration_governance_core.py scripts/build_static_api.py scripts/build_site_docs.py scripts/check_dictionary_artifacts.py scripts/check_spec_conformance.py scripts/check_supabase_rest.py scripts/codex_loop.py
 python3 -m json.tool openapi/generated/oneroster-core.v0.json >/tmp/platform-oneroster-openapi.json
 python3 -m json.tool openapi/generated/oneroster-core-static.v0.json >/tmp/platform-oneroster-static-openapi.json
@@ -27,4 +27,5 @@ node --check site/app.js
 node --check demo/server.js
 cd demo && npm run reset-db && npm test
 git diff --check
+python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json
 ```

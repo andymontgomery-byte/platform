@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """Score repository artifacts against the platform spec.
 
-This is not a substitute for human review. It is a deterministic guardrail for
-the Codex loop: every iteration should make the score go up or at least not go
-backwards, and newly discovered gaps should be tracked in the backlog.
+ADVISORY ONLY as of the LLM-evaluator redesign. The Codex loop now gates
+publish on `scripts/evaluate_platform.py` (LLM-graded against
+`docs/eval-rubric.md`), not on this score. This script still runs each
+iteration and writes `site/api/spec-conformance.json` so the LLM evaluator
+has a deterministic signal to consider, and so external readers see whether
+the file-presence checks pass.
+
+Do not add new gating logic here. New requirements belong in the rubric.
 """
 
 from __future__ import annotations
@@ -18,8 +23,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = Path("/Users/andymontgomery/Downloads/WF - Platform - 260424-144348.md")
 SCORE_SCOPE = (
-    "Deterministic guardrail for the current docs, dictionary generation, "
-    "GitHub Pages demo, public accounting, and backlog-tracking gate. "
+    "Advisory file-presence signal for the LLM evaluator. "
+    "Does NOT gate the Codex loop — publish is gated by "
+    "scripts/evaluate_platform.py against docs/eval-rubric.md. "
     "This is not a platform completion metric."
 )
 KNOWN_NON_SCORED_GAPS = [

@@ -23,8 +23,15 @@ VERIFY = ROOT / "VERIFY.md"
 PROGRESS = ROOT / "PROGRESS.md"
 LOG_DIR = ROOT / ".codex-loop"
 SPEC_REPORT = ROOT / "site" / "api" / "spec-conformance.json"
+EVAL_REPORT = ROOT / "site" / "api" / "platform-evaluation.json"
+RUBRIC_PATH = ROOT / "docs" / "eval-rubric.md"
 ANTHROPIC_MESSAGES_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODELS_URL = "https://api.anthropic.com/v1/models"
+
+# Safety rails for the LLM-evaluator loop.
+DEFAULT_MAX_ITERATIONS = 25
+DEFAULT_STALL_LIMIT = 3  # consecutive iterations with no rubric progress = stop
+DEFAULT_COST_CEILING_USD = 50.0  # advisory; logged each iteration
 
 
 def main() -> int:
@@ -36,12 +43,21 @@ def main() -> int:
         print(build_prompt(repo, 1, args.max_iterations))
         return 0
 
+    stall_streak = 0
+    last_eval_summary: dict | None = None
     for iteration in range(1, args.max_iterations + 1):
         started = timestamp()
         print(f"\n=== Codex loop iteration {iteration}/{args.max_iterations} at {started} ===")
         before_score = spec_score(repo)
-        print(f"Spec score before iteration: {before_score:.2f}")
-        prompt = build_prompt(repo, iteration, args.max_iterations)
+        before_eval = run_evaluator(repo, args, label="before")
+        if before_eval and before_eval.get("done"):
+            print("Evaluator reports `done` before any work. Nothing to do; exiting cleanly.")
+            return 0
+        print(
+            f"Advisory score before: {before_score:.2f}; "
+            f"rubric counts before: {before_eval.get('counts') if before_eval else 'n/a'}"
+        )
+        prompt = build_prompt(repo, iteration, args.max_iterations, before_eval)
         prompt_file = LOG_DIR / f"{started}-iteration-{iteration:03d}-prompt.md"
         codex_log = LOG_DIR / f"{started}-iteration-{iteration:03d}-codex.log"
         verify_log = LOG_DIR / f"{started}-iteration-{iteration:03d}-verify.log"
@@ -51,7 +67,10 @@ def main() -> int:
         codex_result = run_codex(args, repo, prompt, codex_log, last_message)
         verify_result = run_verify(repo, verify_log, args.verify_command_timeout_minutes)
         after_score = spec_score(repo)
-        print(f"Spec score after iteration: {after_score:.2f}")
+        after_eval = run_evaluator(repo, args, label="after")
+        print(f"Advisory score after: {after_score:.2f}")
+        if after_eval:
+            print(f"Rubric counts after: {after_eval.get('counts')}")
         judge_log = LOG_DIR / f"{started}-iteration-{iteration:03d}-judge.log"
         judge_json = LOG_DIR / f"{started}-iteration-{iteration:03d}-judge.json"
         judge_result = maybe_run_llm_judge(
@@ -75,6 +94,8 @@ def main() -> int:
             codex_result.returncode,
             verify_result.returncode,
             judge_result,
+            before_eval,
+            after_eval,
         )
         append_machine_progress(
             iteration,
@@ -100,17 +121,48 @@ def main() -> int:
             if not args.continue_on_failure:
                 return verify_result.returncode
 
+        # Termination: rubric reports done.
+        if after_eval and after_eval.get("done"):
+            print("Evaluator reports `done` after this iteration. Stopping the loop.")
+            return 0
+
+        # Stall detection: count items by status, stop if no progress for N iterations.
+        if before_eval and after_eval:
+            progressed = rubric_progressed(before_eval, after_eval)
+            if progressed:
+                stall_streak = 0
+                print("Rubric progressed this iteration; stall counter reset.")
+            else:
+                stall_streak += 1
+                print(
+                    f"No rubric progress this iteration. Stall streak: "
+                    f"{stall_streak}/{args.stall_limit}."
+                )
+            if stall_streak >= args.stall_limit:
+                print(
+                    f"Stall limit reached ({args.stall_limit} consecutive iterations "
+                    "with no rubric progress). Stopping for human review."
+                )
+                return 0
+
+        last_eval_summary = after_eval
+
         final_text = last_message.read_text() if last_message.exists() else ""
         if "LOOP_STATUS: COMPLETE" in final_text:
-            print("Codex reported LOOP_STATUS: COMPLETE.")
-            return 0
+            # Codex thinks it's done. Trust the evaluator over Codex.
+            if after_eval and after_eval.get("done"):
+                print("Codex reported COMPLETE and evaluator agrees.")
+                return 0
+            print("Codex reported COMPLETE but evaluator says work remains. Continuing.")
 
         if iteration < args.max_iterations and args.interval_minutes > 0:
             seconds = args.interval_minutes * 60
             print(f"Sleeping {args.interval_minutes} minute(s) before next iteration...")
             time.sleep(seconds)
 
-    print("Reached max iterations.")
+    print("Reached max iterations without `done`. Latest rubric state:")
+    if last_eval_summary:
+        print(json.dumps(last_eval_summary.get("counts", {}), indent=2))
     return 0
 
 
@@ -119,7 +171,35 @@ def parse_args() -> argparse.Namespace:
         description="Launch Codex repeatedly in this repo with PLAN/VERIFY/PROGRESS memory."
     )
     parser.add_argument("--repo", default=str(ROOT), help="Repository directory. Defaults to this repo.")
-    parser.add_argument("--max-iterations", type=int, default=1, help="Number of Codex iterations to run.")
+    parser.add_argument(
+        "--max-iterations",
+        type=int,
+        default=DEFAULT_MAX_ITERATIONS,
+        help=f"Hard cap on iterations. Default {DEFAULT_MAX_ITERATIONS}.",
+    )
+    parser.add_argument(
+        "--stall-limit",
+        type=int,
+        default=DEFAULT_STALL_LIMIT,
+        help=f"Stop after this many consecutive iterations with no rubric progress. Default {DEFAULT_STALL_LIMIT}.",
+    )
+    parser.add_argument(
+        "--evaluator-thinking-budget",
+        type=int,
+        default=int(os.environ.get("CODEX_EVALUATOR_THINKING_BUDGET", "12000")),
+        help="Anthropic extended thinking budget for the platform evaluator.",
+    )
+    parser.add_argument(
+        "--evaluator-max-tokens",
+        type=int,
+        default=int(os.environ.get("CODEX_EVALUATOR_MAX_TOKENS", "20000")),
+        help="Max tokens for the platform evaluator response.",
+    )
+    parser.add_argument(
+        "--evaluator-model",
+        default=os.environ.get("CODEX_EVALUATOR_MODEL", "claude-opus-4-7"),
+        help="Anthropic model used for the platform evaluator.",
+    )
     parser.add_argument("--interval-minutes", type=float, default=0, help="Delay between iterations.")
     parser.add_argument("--codex-bin", default=os.environ.get("CODEX_BIN", "codex"), help="Codex executable.")
     parser.add_argument("--model", default=os.environ.get("CODEX_MODEL"), help="Optional Codex model.")
@@ -219,39 +299,55 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_prompt(repo: Path, iteration: int, max_iterations: int) -> str:
+def build_prompt(repo: Path, iteration: int, max_iterations: int, eval_state: dict | None = None) -> str:
+    eval_summary = format_eval_for_prompt(eval_state)
     return textwrap.dedent(
         f"""
-        You are Codex running inside an eval-driven improvement loop.
+        You are Codex running inside an LLM-evaluator-driven improvement loop.
 
         Repository: {repo}
         Iteration: {iteration} of {max_iterations}
+
+        The publish gate is `scripts/evaluate_platform.py` graded against
+        `docs/eval-rubric.md`. The deterministic `check_spec_conformance.py` is
+        advisory only — do not target it directly.
 
         Treat these files as persistent memory:
         - PLAN.md
         - VERIFY.md
         - PROGRESS.md
+        - docs/eval-rubric.md  (THE GATE)
         - docs/spec-gap-backlog.md
         - docs/dictionary-coverage-matrix.md
-        - site/api/spec-conformance.json
+        - site/api/platform-evaluation.json  (latest LLM verdict)
+        - site/api/spec-conformance.json     (advisory only)
+
+        Current evaluator state (from before this iteration):
+        {eval_summary}
 
         Loop protocol for this iteration:
-        1. Read PLAN.md, VERIFY.md, PROGRESS.md, and the backlog/coverage docs.
-        2. Read the spec conformance report and identify the single easiest high-value unmet checklist item.
-        3. Make exactly one focused improvement toward meeting the platform spec.
+        1. Read PLAN.md, VERIFY.md, PROGRESS.md, the rubric, and the latest evaluator report.
+        2. Pick ONE rubric item that is `fail` or `partial`. Prefer the highest-leverage
+           item you can fully move to `pass` in this iteration. Read the item's
+           `requirement`, `how_to_verify`, and `substance_check` carefully — these are
+           what the evaluator will grade against.
+        3. Make exactly one focused improvement that targets that rubric item.
         4. Touch only files needed for that improvement.
-        5. Run relevant local checks as you work. The harness will run VERIFY.md after you finish.
+        5. Run relevant local checks as you work. The harness will run VERIFY.md and
+           the evaluator after you finish.
         6. Append an entry to PROGRESS.md with:
            - timestamp
-           - chosen checklist item
+           - chosen rubric item id
            - files changed
            - checks run and result
-           - spec score impact expected
+           - expected status change (e.g., `fail` -> `pass`)
            - what remains next
-        7. If you discover a missing spec requirement that is not already tracked, add it to docs/spec-gap-backlog.md and mention it in PROGRESS.md.
+        7. If you discover a missing requirement not in the rubric, add it to the
+           rubric file under the right category (with id, requirement, how_to_verify,
+           substance_check, blocked_if) AND log it in docs/spec-gap-backlog.md.
         8. Finish with one of these exact markers:
            - LOOP_STATUS: CONTINUE
-           - LOOP_STATUS: COMPLETE
+           - LOOP_STATUS: COMPLETE (only if you believe every rubric item is `pass` or `blocked`)
 
         Constraints:
         - Do not push manually; the harness owns commit/push after successful improving iterations.
@@ -259,7 +355,8 @@ def build_prompt(repo: Path, iteration: int, max_iterations: int) -> str:
         - If the tree is dirty, work with the existing changes.
         - Keep generated artifacts in sync with their structured dictionary sources.
         - Do not do broad refactors or unrelated cleanup.
-        - Prefer the easiest open backlog item first.
+        - Prefer the rubric item with the highest leverage that you can fully fix in one iteration. Lead with `fail` items over `partial` items unless a `partial` is one small change away from `pass`.
+        - Do NOT edit `scripts/check_spec_conformance.py` to make a check pass. The deterministic gate is advisory; the evaluator is the gate.
         """
     ).strip() + "\n"
 
@@ -429,6 +526,86 @@ def timestamp() -> str:
     return dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
+def run_evaluator(repo: Path, args: argparse.Namespace, label: str) -> dict | None:
+    """Run scripts/evaluate_platform.py and return the parsed JSON, or None on failure."""
+    cmd = [
+        "python3",
+        "scripts/evaluate_platform.py",
+        "--model",
+        args.evaluator_model,
+        "--thinking-budget",
+        str(args.evaluator_thinking_budget),
+        "--max-tokens",
+        str(args.evaluator_max_tokens),
+        "--api-profile",
+        args.judge_api_profile,
+        "--api-key-env",
+        args.judge_api_key_env,
+    ]
+    print(f"[evaluator/{label}] running: {' '.join(shlex.quote(c) for c in cmd)}")
+    try:
+        result = subprocess.run(
+            cmd,
+            cwd=repo,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=900,
+            check=False,
+        )
+    except subprocess.SubprocessError as e:
+        print(f"[evaluator/{label}] subprocess error: {e}")
+        return None
+    if result.returncode != 0:
+        print(f"[evaluator/{label}] failed (exit {result.returncode}):\n{result.stdout[-2000:]}")
+    target = repo / "site" / "api" / "platform-evaluation.json"
+    if not target.exists():
+        return None
+    try:
+        return json.loads(target.read_text())
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"[evaluator/{label}] could not read evaluation JSON: {e}")
+        return None
+
+
+def rubric_progressed(before: dict, after: dict) -> bool:
+    """True if any rubric item moved toward `pass` between two evaluations.
+
+    Rules:
+      - More `pass` items than before -> progress.
+      - Same `pass` count but more `partial` (and fewer `fail`) -> progress.
+      - Otherwise -> no progress.
+    """
+    bc = before.get("counts", {})
+    ac = after.get("counts", {})
+    if ac.get("pass", 0) > bc.get("pass", 0):
+        return True
+    if (
+        ac.get("pass", 0) == bc.get("pass", 0)
+        and ac.get("fail", 0) < bc.get("fail", 0)
+        and ac.get("partial", 0) >= bc.get("partial", 0)
+    ):
+        return True
+    return False
+
+
+def format_eval_for_prompt(eval_state: dict | None) -> str:
+    if not eval_state:
+        return "(no prior evaluator report — first iteration or evaluator failed)"
+    counts = eval_state.get("counts", {})
+    lines = [
+        f"- counts: pass={counts.get('pass', 0)} partial={counts.get('partial', 0)} "
+        f"fail={counts.get('fail', 0)} blocked={counts.get('blocked', 0)} total={counts.get('total', 0)}",
+        f"- done: {eval_state.get('done', False)}",
+        "- non-pass items:",
+    ]
+    for item in eval_state.get("items", []):
+        if item.get("status") != "pass":
+            reason = (item.get("reason") or "").replace("\n", " ")[:200]
+            lines.append(f"    - [{item.get('status')}] {item.get('id')}: {reason}")
+    return "\n        ".join(lines)
+
+
 def spec_score(repo: Path) -> float:
     result = subprocess.run(
         ["python3", "scripts/check_spec_conformance.py", "--score-only"],
@@ -455,6 +632,8 @@ def maybe_publish(
     codex_returncode: int,
     verify_returncode: int,
     judge_result: dict,
+    before_eval: dict | None,
+    after_eval: dict | None,
 ) -> str:
     if codex_returncode != 0:
         return f"skipped: Codex failed ({codex_returncode})"
@@ -475,19 +654,45 @@ def maybe_publish(
     )
     if not diff_result.stdout.strip():
         return "skipped: no git changes"
-    improved = after_score > before_score
-    stable_allowed = args.allow_score_stable and after_score == before_score
-    if not improved and not stable_allowed:
-        return f"skipped: spec score did not improve ({before_score:.2f} -> {after_score:.2f})"
+
+    # NEW GATE: rubric must have progressed, OR the iteration produced the
+    # final `done` state (an iteration that fixes the last item shows progress
+    # AND `done`). Falls back to the old advisory-score gate only if the
+    # evaluator failed to run on either side.
+    rubric_progress: bool | None
+    if before_eval is None or after_eval is None:
+        rubric_progress = None
+    else:
+        rubric_progress = rubric_progressed(before_eval, after_eval) or after_eval.get("done", False)
+
+    if rubric_progress is False:
+        return "skipped: rubric did not progress this iteration"
+    if rubric_progress is None:
+        improved = after_score > before_score
+        stable_allowed = args.allow_score_stable and after_score == before_score
+        if not improved and not stable_allowed:
+            return (
+                "skipped: evaluator unavailable and advisory score did not improve "
+                f"({before_score:.2f} -> {after_score:.2f})"
+            )
+
     if args.no_commit:
         return "skipped: --no-commit"
 
     run_git(repo, ["add", "-A"])
-    commit_message = (
-        f"Codex loop iteration {iteration}: improve spec score to {after_score:.2f}"
-        if improved
-        else f"Codex loop iteration {iteration}: preserve spec score {after_score:.2f}"
-    )
+    if rubric_progress:
+        ac = (after_eval or {}).get("counts", {})
+        commit_message = (
+            f"Codex loop iteration {iteration}: rubric "
+            f"pass={ac.get('pass', 0)}/{ac.get('total', 0)}"
+        )
+    else:
+        improved = after_score > before_score
+        commit_message = (
+            f"Codex loop iteration {iteration}: improve advisory score to {after_score:.2f}"
+            if improved
+            else f"Codex loop iteration {iteration}: preserve advisory score {after_score:.2f}"
+        )
     commit = run_git(repo, ["commit", "-m", commit_message], check=False)
     if commit.returncode != 0:
         return f"commit failed: {commit.stdout.strip()[-500:]}"
