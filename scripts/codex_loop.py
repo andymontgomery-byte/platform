@@ -25,6 +25,8 @@ LOG_DIR = ROOT / ".codex-loop"
 SPEC_REPORT = ROOT / "site" / "api" / "spec-conformance.json"
 EVAL_REPORT = ROOT / "site" / "api" / "platform-evaluation.json"
 RUBRIC_PATH = ROOT / "docs" / "eval-rubric.md"
+OVERRIDES_PATH = ROOT / "docs" / "loop-overrides.md"
+PAUSE_TOKEN = "PAUSE"
 ANTHROPIC_MESSAGES_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODELS_URL = "https://api.anthropic.com/v1/models"
 
@@ -48,6 +50,13 @@ def main() -> int:
     for iteration in range(1, args.max_iterations + 1):
         started = timestamp()
         print(f"\n=== Codex loop iteration {iteration}/{args.max_iterations} at {started} ===")
+        overrides = read_overrides(repo)
+        if overrides_paused(overrides):
+            print(
+                "Pause flag set in docs/loop-overrides.md. "
+                "Halting before iteration. Clear the PAUSE token to resume."
+            )
+            return 0
         before_score = spec_score(repo)
         before_eval = run_evaluator(repo, args, label="before")
         if before_eval and before_eval.get("done"):
@@ -57,7 +66,7 @@ def main() -> int:
             f"Advisory score before: {before_score:.2f}; "
             f"rubric counts before: {before_eval.get('counts') if before_eval else 'n/a'}"
         )
-        prompt = build_prompt(repo, iteration, args.max_iterations, before_eval)
+        prompt = build_prompt(repo, iteration, args.max_iterations, before_eval, overrides)
         prompt_file = LOG_DIR / f"{started}-iteration-{iteration:03d}-prompt.md"
         codex_log = LOG_DIR / f"{started}-iteration-{iteration:03d}-codex.log"
         verify_log = LOG_DIR / f"{started}-iteration-{iteration:03d}-verify.log"
@@ -299,8 +308,50 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_prompt(repo: Path, iteration: int, max_iterations: int, eval_state: dict | None = None) -> str:
+def read_overrides(repo: Path) -> str:
+    """Read docs/loop-overrides.md if present. Returns the file's text or ''."""
+    path = repo / OVERRIDES_PATH.relative_to(ROOT)
+    if not path.exists():
+        return ""
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError as exc:
+        print(f"Warning: could not read {path}: {exc}")
+        return ""
+
+
+def overrides_paused(overrides_text: str) -> bool:
+    """True if a PAUSE token sits on its own line under the Pause section.
+
+    We look for a line whose stripped, uncommented content equals PAUSE.
+    Lines inside HTML comments are ignored so the template's example doesn't trigger.
+    """
+    if not overrides_text:
+        return False
+    in_comment = False
+    for raw in overrides_text.splitlines():
+        line = raw.strip()
+        if "<!--" in line and "-->" not in line:
+            in_comment = True
+            continue
+        if in_comment:
+            if "-->" in line:
+                in_comment = False
+            continue
+        if line == PAUSE_TOKEN:
+            return True
+    return False
+
+
+def build_prompt(
+    repo: Path,
+    iteration: int,
+    max_iterations: int,
+    eval_state: dict | None = None,
+    overrides_text: str = "",
+) -> str:
     eval_summary = format_eval_for_prompt(eval_state)
+    overrides_block = format_overrides_for_prompt(overrides_text)
     return textwrap.dedent(
         f"""
         You are Codex running inside an LLM-evaluator-driven improvement loop.
@@ -324,6 +375,10 @@ def build_prompt(repo: Path, iteration: int, max_iterations: int, eval_state: di
 
         Current evaluator state (from before this iteration):
         {eval_summary}
+
+        Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE — these supersede
+        rubric defaults and any earlier decision when in conflict):
+        {overrides_block}
 
         Loop protocol for this iteration:
         1. Read PLAN.md, VERIFY.md, PROGRESS.md, the rubric, and the latest evaluator report.
@@ -357,6 +412,7 @@ def build_prompt(repo: Path, iteration: int, max_iterations: int, eval_state: di
         - Do not do broad refactors or unrelated cleanup.
         - Prefer the rubric item with the highest leverage that you can fully fix in one iteration. Lead with `fail` items over `partial` items unless a `partial` is one small change away from `pass`.
         - Do NOT edit `scripts/check_spec_conformance.py` to make a check pass. The deterministic gate is advisory; the evaluator is the gate.
+        - Always honor `docs/loop-overrides.md` over your own judgment when they conflict. Do not edit that file yourself — it is the human-to-loop channel.
         """
     ).strip() + "\n"
 
@@ -604,6 +660,41 @@ def format_eval_for_prompt(eval_state: dict | None) -> str:
             reason = (item.get("reason") or "").replace("\n", " ")[:200]
             lines.append(f"    - [{item.get('status')}] {item.get('id')}: {reason}")
     return "\n        ".join(lines)
+
+
+def format_overrides_for_prompt(overrides_text: str) -> str:
+    """Render the overrides file into the iteration prompt.
+
+    Strips HTML comments so the inline instructions in the template don't pollute
+    the prompt. If nothing meaningful is left, returns a short placeholder.
+    """
+    if not overrides_text:
+        return "(no overrides file present)"
+    cleaned_lines: list[str] = []
+    in_comment = False
+    for raw in overrides_text.splitlines():
+        line = raw
+        if in_comment:
+            if "-->" in line:
+                in_comment = False
+                line = line.split("-->", 1)[1]
+            else:
+                continue
+        while "<!--" in line:
+            before, _, rest = line.partition("<!--")
+            if "-->" in rest:
+                _, _, after = rest.partition("-->")
+                line = before + after
+            else:
+                line = before
+                in_comment = True
+                break
+        cleaned_lines.append(line.rstrip())
+    cleaned = "\n".join(cleaned_lines).strip()
+    if not cleaned:
+        return "(overrides file present but empty)"
+    # Indent so it nests cleanly inside the dedented prompt block.
+    return "\n        ".join(cleaned.splitlines())
 
 
 def spec_score(repo: Path) -> float:
