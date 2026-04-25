@@ -16,15 +16,107 @@
       "why_it_exists": "The envelope preserves source, send time, version, validation status, and raw payload lineage before individual events are projected.",
       "privacy_class": "behavioral",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this received Caliper envelope.", "school_example": "caliper_env_20260424_001", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The school, district, or customer boundary that owns this event payload.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "sensor_id", "column_name": "sensor_id", "json_name": "sensorId", "data_type": "text", "required": true, "plain_description": "The tool, platform, app, or sensor that sent the payload.", "school_example": "https://math-tool.example.test/sensors/main", "privacy_class": "operational"},
-        {"field_key": "send_time", "column_name": "send_time", "json_name": "sendTime", "data_type": "datetime", "required": true, "plain_description": "When the sensor says it sent the payload.", "school_example": "2026-04-24T15:23:12Z", "privacy_class": "operational"},
-        {"field_key": "data_version", "column_name": "data_version", "json_name": "dataVersion", "data_type": "enum", "required": true, "plain_description": "The Caliper context or version used to interpret the payload.", "school_example": "http://purl.imsglobal.org/ctx/caliper/v1p2", "privacy_class": "operational", "allowed_values_ref": "data_version"},
-        {"field_key": "event_count", "column_name": "event_count", "json_name": "eventCount", "data_type": "integer", "required": false, "plain_description": "How many event objects were found in the payload.", "school_example": "4", "privacy_class": "operational"},
-        {"field_key": "received_at", "column_name": "received_at", "json_name": "receivedAt", "data_type": "datetime", "required": true, "plain_description": "When the platform received the payload.", "school_example": "2026-04-24T15:23:14Z", "privacy_class": "operational"},
-        {"field_key": "validation_status", "column_name": "validation_status", "json_name": "validationStatus", "data_type": "enum", "required": true, "plain_description": "Whether the payload was accepted, rejected, or held for review.", "school_example": "valid", "privacy_class": "operational", "allowed_values_ref": "ingestion_status"},
-        {"field_key": "raw_payload", "column_name": "raw_payload", "json_name": "rawPayload", "data_type": "text", "required": true, "plain_description": "The original JSON-LD payload retained for audit, replay, and conformance review.", "school_example": "{\"sensor\":\"https://math-tool.example.test/sensors/main\",\"data\":[]}", "privacy_class": "behavioral"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this received Caliper envelope.",
+          "school_example": "caliper_env_20260424_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The school, district, or customer boundary that owns this event payload.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "sensor_id",
+          "column_name": "sensor_id",
+          "json_name": "sensorId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tool, platform, app, or sensor that sent the payload.",
+          "school_example": "https://math-tool.example.test/sensors/main",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "send_time",
+          "column_name": "send_time",
+          "json_name": "sendTime",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When the sensor says it sent the payload.",
+          "school_example": "2026-04-24T15:23:12Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "data_version",
+          "column_name": "data_version",
+          "json_name": "dataVersion",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The Caliper context or version used to interpret the payload.",
+          "school_example": "http://purl.imsglobal.org/ctx/caliper/v1p2",
+          "privacy_class": "operational",
+          "allowed_values_ref": "data_version",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "event_count",
+          "column_name": "event_count",
+          "json_name": "eventCount",
+          "data_type": "integer",
+          "required": false,
+          "plain_description": "How many event objects were found in the payload.",
+          "school_example": "4",
+          "privacy_class": "operational",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "received_at",
+          "column_name": "received_at",
+          "json_name": "receivedAt",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When the platform received the payload.",
+          "school_example": "2026-04-24T15:23:14Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "validation_status",
+          "column_name": "validation_status",
+          "json_name": "validationStatus",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether the payload was accepted, rejected, or held for review.",
+          "school_example": "valid",
+          "privacy_class": "operational",
+          "allowed_values_ref": "ingestion_status",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "raw_payload",
+          "column_name": "raw_payload",
+          "json_name": "rawPayload",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The original JSON-LD payload retained for audit, replay, and conformance review.",
+          "school_example": "{\"sensor\":\"https://math-tool.example.test/sensors/main\",\"data\":[]}",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-009-content-resource"
+        }
       ]
     },
     {
@@ -36,24 +128,207 @@
       "why_it_exists": "Events are the core behavioral history for learning analytics, audit, and cross-standard joins without making analytics the gradebook source of truth.",
       "privacy_class": "behavioral",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this projected event row.", "school_example": "caliper_event_001", "privacy_class": "operational"},
-        {"field_key": "envelope_id", "column_name": "envelope_id", "json_name": "envelopeId", "data_type": "text", "required": true, "plain_description": "The received Caliper envelope that contained this event.", "school_example": "caliper_env_20260424_001", "privacy_class": "operational"},
-        {"field_key": "event_iri", "column_name": "event_iri", "json_name": "eventIri", "data_type": "text", "required": true, "plain_description": "The globally unique event identifier supplied by the sender.", "school_example": "urn:uuid:0e2d06fa-8840-4c64-b700-c58a5b3d0e47", "privacy_class": "behavioral"},
-        {"field_key": "event_type", "column_name": "event_type", "json_name": "eventType", "data_type": "enum", "required": true, "plain_description": "The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent.", "school_example": "AssessmentEvent", "privacy_class": "behavioral", "allowed_values_ref": "event_type"},
-        {"field_key": "profile", "column_name": "profile", "json_name": "profile", "data_type": "enum", "required": false, "plain_description": "The Caliper profile that explains which event, action, actor, object, and generated values are expected.", "school_example": "AssessmentProfile", "privacy_class": "behavioral", "allowed_values_ref": "profile"},
-        {"field_key": "action", "column_name": "action", "json_name": "action", "data_type": "enum", "required": true, "plain_description": "What happened in the event.", "school_example": "Started", "privacy_class": "behavioral", "allowed_values_ref": "action"},
-        {"field_key": "actor_id", "column_name": "actor_id", "json_name": "actorId", "data_type": "text", "required": true, "plain_description": "The indexed person, app, or agent that performed the action.", "school_example": "caliper_entity_person_123", "privacy_class": "education_record"},
-        {"field_key": "object_id", "column_name": "object_id", "json_name": "objectId", "data_type": "text", "required": true, "plain_description": "The indexed entity that the actor acted on.", "school_example": "caliper_entity_assessment_456", "privacy_class": "behavioral"},
-        {"field_key": "event_time", "column_name": "event_time", "json_name": "eventTime", "data_type": "datetime", "required": true, "plain_description": "When the learning activity happened.", "school_example": "2026-04-24T15:22:59Z", "privacy_class": "behavioral"},
-        {"field_key": "ed_app_id", "column_name": "ed_app_id", "json_name": "edAppId", "data_type": "text", "required": false, "plain_description": "The indexed application where the event happened.", "school_example": "caliper_entity_math_tool", "privacy_class": "operational"},
-        {"field_key": "generated_id", "column_name": "generated_id", "json_name": "generatedId", "data_type": "text", "required": false, "plain_description": "The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response.", "school_example": "caliper_entity_attempt_789", "privacy_class": "behavioral"},
-        {"field_key": "target_id", "column_name": "target_id", "json_name": "targetId", "data_type": "text", "required": false, "plain_description": "A specific location or target inside the object, such as a media location, page, link, or question target.", "school_example": "caliper_entity_media_location_001", "privacy_class": "behavioral"},
-        {"field_key": "referrer_id", "column_name": "referrer_id", "json_name": "referrerId", "data_type": "text", "required": false, "plain_description": "The prior app, page, resource, or context that led to this event.", "school_example": "caliper_entity_page_intro", "privacy_class": "behavioral"},
-        {"field_key": "group_id", "column_name": "group_id", "json_name": "groupId", "data_type": "text", "required": false, "plain_description": "The class, course, group, or organization context for the event.", "school_example": "caliper_entity_course_section_alg1", "privacy_class": "education_record"},
-        {"field_key": "membership_id", "column_name": "membership_id", "json_name": "membershipId", "data_type": "text", "required": false, "plain_description": "The actor's role and status relationship in the group context.", "school_example": "caliper_entity_membership_123_alg1", "privacy_class": "education_record"},
-        {"field_key": "session_id", "column_name": "session_id", "json_name": "sessionId", "data_type": "text", "required": false, "plain_description": "The app or user session that groups related events.", "school_example": "caliper_entity_session_abc", "privacy_class": "behavioral"},
-        {"field_key": "federated_session_id", "column_name": "federated_session_id", "json_name": "federatedSessionId", "data_type": "text", "required": false, "plain_description": "The LTI or federated session context connected to a tool launch.", "school_example": "caliper_entity_lti_session_xyz", "privacy_class": "operational"},
-        {"field_key": "raw_event", "column_name": "raw_event", "json_name": "rawEvent", "data_type": "text", "required": true, "plain_description": "The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection.", "school_example": "{\"type\":\"AssessmentEvent\",\"action\":\"Started\"}", "privacy_class": "behavioral"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this projected event row.",
+          "school_example": "caliper_event_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "envelope_id",
+          "column_name": "envelope_id",
+          "json_name": "envelopeId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The received Caliper envelope that contained this event.",
+          "school_example": "caliper_env_20260424_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "event_iri",
+          "column_name": "event_iri",
+          "json_name": "eventIri",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The globally unique event identifier supplied by the sender.",
+          "school_example": "urn:uuid:0e2d06fa-8840-4c64-b700-c58a5b3d0e47",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "event_type",
+          "column_name": "event_type",
+          "json_name": "eventType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent.",
+          "school_example": "AssessmentEvent",
+          "privacy_class": "behavioral",
+          "allowed_values_ref": "event_type",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "profile",
+          "column_name": "profile",
+          "json_name": "profile",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "The Caliper profile that explains which event, action, actor, object, and generated values are expected.",
+          "school_example": "AssessmentProfile",
+          "privacy_class": "behavioral",
+          "allowed_values_ref": "profile",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "action",
+          "column_name": "action",
+          "json_name": "action",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "What happened in the event.",
+          "school_example": "Started",
+          "privacy_class": "behavioral",
+          "allowed_values_ref": "action",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "actor_id",
+          "column_name": "actor_id",
+          "json_name": "actorId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The indexed person, app, or agent that performed the action.",
+          "school_example": "caliper_entity_person_123",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "object_id",
+          "column_name": "object_id",
+          "json_name": "objectId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The indexed entity that the actor acted on.",
+          "school_example": "caliper_entity_assessment_456",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "event_time",
+          "column_name": "event_time",
+          "json_name": "eventTime",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When the learning activity happened.",
+          "school_example": "2026-04-24T15:22:59Z",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "ed_app_id",
+          "column_name": "ed_app_id",
+          "json_name": "edAppId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The indexed application where the event happened.",
+          "school_example": "caliper_entity_math_tool",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "generated_id",
+          "column_name": "generated_id",
+          "json_name": "generatedId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response.",
+          "school_example": "caliper_entity_attempt_789",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "target_id",
+          "column_name": "target_id",
+          "json_name": "targetId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A specific location or target inside the object, such as a media location, page, link, or question target.",
+          "school_example": "caliper_entity_media_location_001",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "referrer_id",
+          "column_name": "referrer_id",
+          "json_name": "referrerId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The prior app, page, resource, or context that led to this event.",
+          "school_example": "caliper_entity_page_intro",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "group_id",
+          "column_name": "group_id",
+          "json_name": "groupId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The class, course, group, or organization context for the event.",
+          "school_example": "caliper_entity_course_section_alg1",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "membership_id",
+          "column_name": "membership_id",
+          "json_name": "membershipId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The actor's role and status relationship in the group context.",
+          "school_example": "caliper_entity_membership_123_alg1",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "session_id",
+          "column_name": "session_id",
+          "json_name": "sessionId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The app or user session that groups related events.",
+          "school_example": "caliper_entity_session_abc",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "federated_session_id",
+          "column_name": "federated_session_id",
+          "json_name": "federatedSessionId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI or federated session context connected to a tool launch.",
+          "school_example": "caliper_entity_lti_session_xyz",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "raw_event",
+          "column_name": "raw_event",
+          "json_name": "rawEvent",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection.",
+          "school_example": "{\"type\":\"AssessmentEvent\",\"action\":\"Started\"}",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-009-content-resource"
+        }
       ]
     },
     {
@@ -65,17 +340,128 @@
       "why_it_exists": "Entity indexing lets the platform search event objects, join to roster/content systems, and avoid flattening every Caliper type into a separate table at first.",
       "privacy_class": "behavioral",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this indexed entity.", "school_example": "caliper_entity_assessment_456", "privacy_class": "operational"},
-        {"field_key": "entity_iri", "column_name": "entity_iri", "json_name": "entityIri", "data_type": "text", "required": true, "plain_description": "The Caliper IRI or source identifier for the entity.", "school_example": "https://math-tool.example.test/assessments/unit-2", "privacy_class": "behavioral"},
-        {"field_key": "entity_type", "column_name": "entity_type", "json_name": "entityType", "data_type": "enum", "required": true, "plain_description": "The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource.", "school_example": "Assessment", "privacy_class": "behavioral", "allowed_values_ref": "entity_type"},
-        {"field_key": "name", "column_name": "name", "json_name": "name", "data_type": "text", "required": false, "plain_description": "A human-readable name for the entity when one is supplied.", "school_example": "Unit 2 Fractions Check", "privacy_class": "depends_on_entity"},
-        {"field_key": "description", "column_name": "description", "json_name": "description", "data_type": "text", "required": false, "plain_description": "A short explanation or label for the entity.", "school_example": "Assessment covering fraction division.", "privacy_class": "depends_on_entity"},
-        {"field_key": "date_created", "column_name": "date_created", "json_name": "dateCreated", "data_type": "datetime", "required": false, "plain_description": "When the source says this entity was created.", "school_example": "2026-04-01T12:00:00Z", "privacy_class": "operational"},
-        {"field_key": "date_modified", "column_name": "date_modified", "json_name": "dateModified", "data_type": "datetime", "required": false, "plain_description": "When the source says this entity last changed.", "school_example": "2026-04-20T09:30:00Z", "privacy_class": "operational"},
-        {"field_key": "other_identifiers", "column_name": "other_identifiers", "json_name": "otherIdentifiers", "data_type": "text", "required": false, "plain_description": "Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs.", "school_example": "OneRosterSourcedId=student-1001", "privacy_class": "education_record"},
-        {"field_key": "extensions", "column_name": "extensions", "json_name": "extensions", "data_type": "text", "required": false, "plain_description": "Governed source-specific fields carried on the entity.", "school_example": "vendor.example.test.difficulty=medium", "privacy_class": "depends_on_contents"},
-        {"field_key": "canonical_person_id", "column_name": "canonical_person_id", "json_name": "canonicalPersonId", "data_type": "text", "required": false, "plain_description": "The platform person ID when policy and identifiers allow this entity to resolve to a known person.", "school_example": "person_1001", "privacy_class": "education_record"},
-        {"field_key": "canonical_resource_id", "column_name": "canonical_resource_id", "json_name": "canonicalResourceId", "data_type": "text", "required": false, "plain_description": "The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content.", "school_example": "qti_item_fraction_division", "privacy_class": "operational"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this indexed entity.",
+          "school_example": "caliper_entity_assessment_456",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "entity_iri",
+          "column_name": "entity_iri",
+          "json_name": "entityIri",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The Caliper IRI or source identifier for the entity.",
+          "school_example": "https://math-tool.example.test/assessments/unit-2",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "entity_type",
+          "column_name": "entity_type",
+          "json_name": "entityType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource.",
+          "school_example": "Assessment",
+          "privacy_class": "behavioral",
+          "allowed_values_ref": "entity_type",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "name",
+          "column_name": "name",
+          "json_name": "name",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A human-readable name for the entity when one is supplied.",
+          "school_example": "Unit 2 Fractions Check",
+          "privacy_class": "depends_on_entity",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "description",
+          "column_name": "description",
+          "json_name": "description",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A short explanation or label for the entity.",
+          "school_example": "Assessment covering fraction division.",
+          "privacy_class": "depends_on_entity",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "date_created",
+          "column_name": "date_created",
+          "json_name": "dateCreated",
+          "data_type": "datetime",
+          "required": false,
+          "plain_description": "When the source says this entity was created.",
+          "school_example": "2026-04-01T12:00:00Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "date_modified",
+          "column_name": "date_modified",
+          "json_name": "dateModified",
+          "data_type": "datetime",
+          "required": false,
+          "plain_description": "When the source says this entity last changed.",
+          "school_example": "2026-04-20T09:30:00Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "other_identifiers",
+          "column_name": "other_identifiers",
+          "json_name": "otherIdentifiers",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs.",
+          "school_example": "OneRosterSourcedId=student-1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "extensions",
+          "column_name": "extensions",
+          "json_name": "extensions",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "Governed source-specific fields carried on the entity.",
+          "school_example": "vendor.example.test.difficulty=medium",
+          "privacy_class": "depends_on_contents",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "canonical_person_id",
+          "column_name": "canonical_person_id",
+          "json_name": "canonicalPersonId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The platform person ID when policy and identifiers allow this entity to resolve to a known person.",
+          "school_example": "person_1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "canonical_resource_id",
+          "column_name": "canonical_resource_id",
+          "json_name": "canonicalResourceId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content.",
+          "school_example": "qti_item_fraction_division",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        }
       ]
     },
     {
@@ -87,14 +473,97 @@
       "why_it_exists": "Actors need explicit resolution rules because raw Caliper actors may be known roster users, apps, groups, or unresolved source agents.",
       "privacy_class": "education_record",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this actor projection.", "school_example": "caliper_actor_student_1001", "privacy_class": "operational"},
-        {"field_key": "entity_id", "column_name": "entity_id", "json_name": "entityId", "data_type": "text", "required": true, "plain_description": "The indexed Caliper entity that represents the actor.", "school_example": "caliper_entity_person_123", "privacy_class": "education_record"},
-        {"field_key": "actor_type", "column_name": "actor_type", "json_name": "actorType", "data_type": "enum", "required": true, "plain_description": "Whether the actor is a person, software app, group, or generic agent.", "school_example": "Person", "privacy_class": "education_record", "allowed_values_ref": "actor_type"},
-        {"field_key": "platform_person_id", "column_name": "platform_person_id", "json_name": "platformPersonId", "data_type": "text", "required": false, "plain_description": "The resolved platform person ID when the actor is a known school user.", "school_example": "person_1001", "privacy_class": "education_record"},
-        {"field_key": "display_name", "column_name": "display_name", "json_name": "displayName", "data_type": "text", "required": false, "plain_description": "A display name supplied for the actor or resolved from a trusted source.", "school_example": "Jordan Lee", "privacy_class": "education_record"},
-        {"field_key": "identifier_type", "column_name": "identifier_type", "json_name": "identifierType", "data_type": "enum", "required": false, "plain_description": "The kind of source identifier used to resolve the actor.", "school_example": "OneRosterSourcedId", "privacy_class": "education_record", "allowed_values_ref": "system_identifier_type"},
-        {"field_key": "identifier_value", "column_name": "identifier_value", "json_name": "identifierValue", "data_type": "text", "required": false, "plain_description": "The source identifier value used for matching or lineage.", "school_example": "student-1001", "privacy_class": "education_record"},
-        {"field_key": "resolution_status", "column_name": "resolution_status", "json_name": "resolutionStatus", "data_type": "enum", "required": true, "plain_description": "Whether the actor was matched to a canonical platform record.", "school_example": "resolved", "privacy_class": "operational", "allowed_values_ref": "resolution_status"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this actor projection.",
+          "school_example": "caliper_actor_student_1001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "entity_id",
+          "column_name": "entity_id",
+          "json_name": "entityId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The indexed Caliper entity that represents the actor.",
+          "school_example": "caliper_entity_person_123",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "actor_type",
+          "column_name": "actor_type",
+          "json_name": "actorType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether the actor is a person, software app, group, or generic agent.",
+          "school_example": "Person",
+          "privacy_class": "education_record",
+          "allowed_values_ref": "actor_type",
+          "decision_id": "DEC-001-person-agent-subject"
+        },
+        {
+          "field_key": "platform_person_id",
+          "column_name": "platform_person_id",
+          "json_name": "platformPersonId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The resolved platform person ID when the actor is a known school user.",
+          "school_example": "person_1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "display_name",
+          "column_name": "display_name",
+          "json_name": "displayName",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A display name supplied for the actor or resolved from a trusted source.",
+          "school_example": "Jordan Lee",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-001-person-agent-subject"
+        },
+        {
+          "field_key": "identifier_type",
+          "column_name": "identifier_type",
+          "json_name": "identifierType",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "The kind of source identifier used to resolve the actor.",
+          "school_example": "OneRosterSourcedId",
+          "privacy_class": "education_record",
+          "allowed_values_ref": "system_identifier_type",
+          "decision_id": "DEC-001-person-agent-subject"
+        },
+        {
+          "field_key": "identifier_value",
+          "column_name": "identifier_value",
+          "json_name": "identifierValue",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The source identifier value used for matching or lineage.",
+          "school_example": "student-1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-001-person-agent-subject"
+        },
+        {
+          "field_key": "resolution_status",
+          "column_name": "resolution_status",
+          "json_name": "resolutionStatus",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether the actor was matched to a canonical platform record.",
+          "school_example": "resolved",
+          "privacy_class": "operational",
+          "allowed_values_ref": "resolution_status",
+          "decision_id": "DEC-001-person-agent-subject"
+        }
       ]
     },
     {
@@ -106,18 +575,141 @@
       "why_it_exists": "Context connects activity to classes, roles, sessions, and tool launches without losing the original event envelope.",
       "privacy_class": "education_record",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this event context projection.", "school_example": "caliper_context_001", "privacy_class": "operational"},
-        {"field_key": "event_id", "column_name": "event_id", "json_name": "eventId", "data_type": "text", "required": true, "plain_description": "The Caliper event this context belongs to.", "school_example": "caliper_event_001", "privacy_class": "behavioral"},
-        {"field_key": "group_entity_id", "column_name": "group_entity_id", "json_name": "groupEntityId", "data_type": "text", "required": false, "plain_description": "The Caliper group, course section, organization, or class context entity.", "school_example": "caliper_entity_course_section_alg1", "privacy_class": "education_record"},
-        {"field_key": "membership_entity_id", "column_name": "membership_entity_id", "json_name": "membershipEntityId", "data_type": "text", "required": false, "plain_description": "The Caliper membership entity that describes the actor's relationship to the group.", "school_example": "caliper_entity_membership_123_alg1", "privacy_class": "education_record"},
-        {"field_key": "membership_role", "column_name": "membership_role", "json_name": "membershipRole", "data_type": "enum", "required": false, "plain_description": "The LIS role supplied in the Caliper membership context.", "school_example": "Learner", "privacy_class": "education_record", "allowed_values_ref": "lis_role"},
-        {"field_key": "membership_status", "column_name": "membership_status", "json_name": "membershipStatus", "data_type": "enum", "required": false, "plain_description": "Whether the membership is active or inactive in the source context.", "school_example": "Active", "privacy_class": "education_record", "allowed_values_ref": "lis_status"},
-        {"field_key": "session_entity_id", "column_name": "session_entity_id", "json_name": "sessionEntityId", "data_type": "text", "required": false, "plain_description": "The Caliper session entity that groups related activity.", "school_example": "caliper_entity_session_abc", "privacy_class": "behavioral"},
-        {"field_key": "federated_session_entity_id", "column_name": "federated_session_entity_id", "json_name": "federatedSessionEntityId", "data_type": "text", "required": false, "plain_description": "The LTI or federated session entity connected to the event.", "school_example": "caliper_entity_lti_session_xyz", "privacy_class": "operational"},
-        {"field_key": "lti_message_type", "column_name": "lti_message_type", "json_name": "ltiMessageType", "data_type": "enum", "required": false, "plain_description": "The LTI launch message type when the event came from an LTI workflow.", "school_example": "LtiResourceLinkRequest", "privacy_class": "operational", "allowed_values_ref": "lti_message_type"},
-        {"field_key": "lti_platform_id", "column_name": "lti_platform_id", "json_name": "ltiPlatformId", "data_type": "text", "required": false, "plain_description": "The LTI platform issuer or platform identifier tied to the federated session.", "school_example": "https://lms.example.test", "privacy_class": "operational"},
-        {"field_key": "lti_deployment_id", "column_name": "lti_deployment_id", "json_name": "ltiDeploymentId", "data_type": "text", "required": false, "plain_description": "The LTI deployment identifier that scopes the tool relationship.", "school_example": "deployment-42", "privacy_class": "operational"},
-        {"field_key": "lti_context_id", "column_name": "lti_context_id", "json_name": "ltiContextId", "data_type": "text", "required": false, "plain_description": "The LTI course or context identifier supplied by the platform.", "school_example": "course-alg1-section-a", "privacy_class": "education_record"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this event context projection.",
+          "school_example": "caliper_context_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "event_id",
+          "column_name": "event_id",
+          "json_name": "eventId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The Caliper event this context belongs to.",
+          "school_example": "caliper_event_001",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "group_entity_id",
+          "column_name": "group_entity_id",
+          "json_name": "groupEntityId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The Caliper group, course section, organization, or class context entity.",
+          "school_example": "caliper_entity_course_section_alg1",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "membership_entity_id",
+          "column_name": "membership_entity_id",
+          "json_name": "membershipEntityId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The Caliper membership entity that describes the actor's relationship to the group.",
+          "school_example": "caliper_entity_membership_123_alg1",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "membership_role",
+          "column_name": "membership_role",
+          "json_name": "membershipRole",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "The LIS role supplied in the Caliper membership context.",
+          "school_example": "Learner",
+          "privacy_class": "education_record",
+          "allowed_values_ref": "lis_role",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "field_key": "membership_status",
+          "column_name": "membership_status",
+          "json_name": "membershipStatus",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "Whether the membership is active or inactive in the source context.",
+          "school_example": "Active",
+          "privacy_class": "education_record",
+          "allowed_values_ref": "lis_status",
+          "decision_id": "DEC-004-enrollment-membership"
+        },
+        {
+          "field_key": "session_entity_id",
+          "column_name": "session_entity_id",
+          "json_name": "sessionEntityId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The Caliper session entity that groups related activity.",
+          "school_example": "caliper_entity_session_abc",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "federated_session_entity_id",
+          "column_name": "federated_session_entity_id",
+          "json_name": "federatedSessionEntityId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI or federated session entity connected to the event.",
+          "school_example": "caliper_entity_lti_session_xyz",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "lti_message_type",
+          "column_name": "lti_message_type",
+          "json_name": "ltiMessageType",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "The LTI launch message type when the event came from an LTI workflow.",
+          "school_example": "LtiResourceLinkRequest",
+          "privacy_class": "operational",
+          "allowed_values_ref": "lti_message_type",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "lti_platform_id",
+          "column_name": "lti_platform_id",
+          "json_name": "ltiPlatformId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI platform issuer or platform identifier tied to the federated session.",
+          "school_example": "https://lms.example.test",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "lti_deployment_id",
+          "column_name": "lti_deployment_id",
+          "json_name": "ltiDeploymentId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI deployment identifier that scopes the tool relationship.",
+          "school_example": "deployment-42",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "lti_context_id",
+          "column_name": "lti_context_id",
+          "json_name": "ltiContextId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI course or context identifier supplied by the platform.",
+          "school_example": "course-alg1-section-a",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        }
       ]
     },
     {
@@ -129,14 +721,99 @@
       "why_it_exists": "Profile rules give developers and validators a machine-readable crosswalk from Caliper profiles to the event/action/entity combinations the platform expects.",
       "privacy_class": "operational",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this profile rule.", "school_example": "caliper_rule_assessment_started", "privacy_class": "operational"},
-        {"field_key": "profile", "column_name": "profile", "json_name": "profile", "data_type": "enum", "required": true, "plain_description": "The Caliper profile the rule belongs to.", "school_example": "AssessmentProfile", "privacy_class": "operational", "allowed_values_ref": "profile"},
-        {"field_key": "event_type", "column_name": "event_type", "json_name": "eventType", "data_type": "enum", "required": true, "plain_description": "The Caliper event class allowed by the profile rule.", "school_example": "AssessmentEvent", "privacy_class": "operational", "allowed_values_ref": "event_type"},
-        {"field_key": "actor_type", "column_name": "actor_type", "json_name": "actorType", "data_type": "enum", "required": true, "plain_description": "The expected actor class for the profile rule.", "school_example": "Person", "privacy_class": "operational", "allowed_values_ref": "actor_type"},
-        {"field_key": "allowed_action", "column_name": "allowed_action", "json_name": "allowedAction", "data_type": "enum", "required": true, "plain_description": "One action allowed for this event/profile combination.", "school_example": "Started", "privacy_class": "operational", "allowed_values_ref": "action"},
-        {"field_key": "object_type", "column_name": "object_type", "json_name": "objectType", "data_type": "enum", "required": true, "plain_description": "The expected object entity type for the rule.", "school_example": "Assessment", "privacy_class": "operational", "allowed_values_ref": "entity_type"},
-        {"field_key": "generated_or_target_type", "column_name": "generated_or_target_type", "json_name": "generatedOrTargetType", "data_type": "text", "required": false, "plain_description": "The generated entity, target entity, or narrative condition expected by the rule.", "school_example": "Attempt", "privacy_class": "operational"},
-        {"field_key": "platform_guidance", "column_name": "platform_guidance", "json_name": "platformGuidance", "data_type": "text", "required": false, "plain_description": "How the platform should validate, project, or join events matching this rule.", "school_example": "Link Assessment objects to QTI tests when identifiers match.", "privacy_class": "operational"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this profile rule.",
+          "school_example": "caliper_rule_assessment_started",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "profile",
+          "column_name": "profile",
+          "json_name": "profile",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The Caliper profile the rule belongs to.",
+          "school_example": "AssessmentProfile",
+          "privacy_class": "operational",
+          "allowed_values_ref": "profile",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "event_type",
+          "column_name": "event_type",
+          "json_name": "eventType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The Caliper event class allowed by the profile rule.",
+          "school_example": "AssessmentEvent",
+          "privacy_class": "operational",
+          "allowed_values_ref": "event_type",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "actor_type",
+          "column_name": "actor_type",
+          "json_name": "actorType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The expected actor class for the profile rule.",
+          "school_example": "Person",
+          "privacy_class": "operational",
+          "allowed_values_ref": "actor_type",
+          "decision_id": "DEC-001-person-agent-subject"
+        },
+        {
+          "field_key": "allowed_action",
+          "column_name": "allowed_action",
+          "json_name": "allowedAction",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "One action allowed for this event/profile combination.",
+          "school_example": "Started",
+          "privacy_class": "operational",
+          "allowed_values_ref": "action",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "object_type",
+          "column_name": "object_type",
+          "json_name": "objectType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The expected object entity type for the rule.",
+          "school_example": "Assessment",
+          "privacy_class": "operational",
+          "allowed_values_ref": "entity_type",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "generated_or_target_type",
+          "column_name": "generated_or_target_type",
+          "json_name": "generatedOrTargetType",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The generated entity, target entity, or narrative condition expected by the rule.",
+          "school_example": "Attempt",
+          "privacy_class": "operational",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "platform_guidance",
+          "column_name": "platform_guidance",
+          "json_name": "platformGuidance",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "How the platform should validate, project, or join events matching this rule.",
+          "school_example": "Link Assessment objects to QTI tests when identifiers match.",
+          "privacy_class": "operational",
+          "decision_id": "DEC-009-content-resource"
+        }
       ]
     },
     {
@@ -148,285 +825,1315 @@
       "why_it_exists": "Extensions can carry useful vendor data, but they need namespace, privacy, and policy controls before becoming queryable platform fields.",
       "privacy_class": "depends_on_contents",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this extension projection.", "school_example": "caliper_extension_001", "privacy_class": "operational"},
-        {"field_key": "owner_type", "column_name": "owner_type", "json_name": "ownerType", "data_type": "enum", "required": true, "plain_description": "Whether this extension belongs to an envelope, event, entity, actor, or context row.", "school_example": "event", "privacy_class": "operational", "allowed_values_ref": "extension_owner_type"},
-        {"field_key": "owner_id", "column_name": "owner_id", "json_name": "ownerId", "data_type": "text", "required": true, "plain_description": "The platform row ID that owns this extension value.", "school_example": "caliper_event_001", "privacy_class": "operational"},
-        {"field_key": "namespace", "column_name": "namespace", "json_name": "namespace", "data_type": "text", "required": true, "plain_description": "The governed namespace or vendor domain for the extension key.", "school_example": "vendor.example.test", "privacy_class": "operational"},
-        {"field_key": "extension_key", "column_name": "extension_key", "json_name": "extensionKey", "data_type": "text", "required": true, "plain_description": "The extension field name within the namespace.", "school_example": "difficulty", "privacy_class": "depends_on_contents"},
-        {"field_key": "extension_value", "column_name": "extension_value", "json_name": "extensionValue", "data_type": "text", "required": false, "plain_description": "The normalized scalar value when the extension can be safely indexed.", "school_example": "medium", "privacy_class": "depends_on_contents"},
-        {"field_key": "privacy_classification", "column_name": "privacy_classification", "json_name": "privacyClassification", "data_type": "enum", "required": true, "plain_description": "The platform privacy classification assigned to this extension value.", "school_example": "behavioral", "privacy_class": "operational", "allowed_values_ref": "extension_privacy"},
-        {"field_key": "allowed_by_policy", "column_name": "allowed_by_policy", "json_name": "allowedByPolicy", "data_type": "boolean", "required": true, "plain_description": "Whether tenant policy allows this extension to be retained and queried.", "school_example": "true", "privacy_class": "operational"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this extension projection.",
+          "school_example": "caliper_extension_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "owner_type",
+          "column_name": "owner_type",
+          "json_name": "ownerType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether this extension belongs to an envelope, event, entity, actor, or context row.",
+          "school_example": "event",
+          "privacy_class": "operational",
+          "allowed_values_ref": "extension_owner_type",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "owner_id",
+          "column_name": "owner_id",
+          "json_name": "ownerId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform row ID that owns this extension value.",
+          "school_example": "caliper_event_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "namespace",
+          "column_name": "namespace",
+          "json_name": "namespace",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The governed namespace or vendor domain for the extension key.",
+          "school_example": "vendor.example.test",
+          "privacy_class": "operational",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "extension_key",
+          "column_name": "extension_key",
+          "json_name": "extensionKey",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The extension field name within the namespace.",
+          "school_example": "difficulty",
+          "privacy_class": "depends_on_contents",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "extension_value",
+          "column_name": "extension_value",
+          "json_name": "extensionValue",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The normalized scalar value when the extension can be safely indexed.",
+          "school_example": "medium",
+          "privacy_class": "depends_on_contents",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "privacy_classification",
+          "column_name": "privacy_classification",
+          "json_name": "privacyClassification",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The platform privacy classification assigned to this extension value.",
+          "school_example": "behavioral",
+          "privacy_class": "operational",
+          "allowed_values_ref": "extension_privacy",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "allowed_by_policy",
+          "column_name": "allowed_by_policy",
+          "json_name": "allowedByPolicy",
+          "data_type": "boolean",
+          "required": true,
+          "plain_description": "Whether tenant policy allows this extension to be retained and queried.",
+          "school_example": "true",
+          "privacy_class": "operational",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        }
       ]
     }
   ],
   "shared_allowed_values": {
     "data_version": [
-      {"value": "http://purl.imsglobal.org/ctx/caliper/v1p2", "label": "Caliper 1.2 context", "plain_description": "The JSON-LD context IRI used for Caliper 1.2 payloads."}
+      {
+        "value": "http://purl.imsglobal.org/ctx/caliper/v1p2",
+        "label": "Caliper 1.2 context",
+        "plain_description": "The JSON-LD context IRI used for Caliper 1.2 payloads."
+      }
     ],
     "ingestion_status": [
-      {"value": "received", "label": "Received", "plain_description": "The payload was received but has not completed validation."},
-      {"value": "valid", "label": "Valid", "plain_description": "The payload passed validation for the platform's current projection."},
-      {"value": "rejected", "label": "Rejected", "plain_description": "The payload failed validation and should not be projected."},
-      {"value": "quarantined", "label": "Quarantined", "plain_description": "The payload is held for review because policy, privacy, or schema checks need attention."}
+      {
+        "value": "received",
+        "label": "Received",
+        "plain_description": "The payload was received but has not completed validation."
+      },
+      {
+        "value": "valid",
+        "label": "Valid",
+        "plain_description": "The payload passed validation for the platform's current projection."
+      },
+      {
+        "value": "rejected",
+        "label": "Rejected",
+        "plain_description": "The payload failed validation and should not be projected."
+      },
+      {
+        "value": "quarantined",
+        "label": "Quarantined",
+        "plain_description": "The payload is held for review because policy, privacy, or schema checks need attention."
+      }
     ],
     "event_type": [
-      {"value": "AnnotationEvent", "label": "Annotation event", "plain_description": "A person creates or shares an annotation on a digital resource."},
-      {"value": "AssessmentEvent", "label": "Assessment event", "plain_description": "A person works with a whole assessment."},
-      {"value": "AssessmentItemEvent", "label": "Assessment item event", "plain_description": "A person works with one assessment item or question."},
-      {"value": "AssignableEvent", "label": "Assignable event", "plain_description": "A person works with assigned digital content."},
-      {"value": "FeedbackEvent", "label": "Feedback event", "plain_description": "A person comments on or rates something."},
-      {"value": "ForumEvent", "label": "Forum event", "plain_description": "A person subscribes or unsubscribes from a forum."},
-      {"value": "GradeEvent", "label": "Grade event", "plain_description": "A person or app grades an attempt."},
-      {"value": "MediaEvent", "label": "Media event", "plain_description": "A person interacts with audio, video, or media."},
-      {"value": "MessageEvent", "label": "Message event", "plain_description": "A person posts or marks a message."},
-      {"value": "NavigationEvent", "label": "Navigation event", "plain_description": "A person navigates to a resource, app, or location."},
-      {"value": "QuestionnaireEvent", "label": "Questionnaire event", "plain_description": "A person starts or submits a questionnaire."},
-      {"value": "QuestionnaireItemEvent", "label": "Questionnaire item event", "plain_description": "A person works with one questionnaire item."},
-      {"value": "ResourceManagementEvent", "label": "Resource management event", "plain_description": "A person manages a digital resource."},
-      {"value": "SearchEvent", "label": "Search event", "plain_description": "A person searches a resource or app."},
-      {"value": "SessionEvent", "label": "Session event", "plain_description": "A person or app starts, ends, or times out a session."},
-      {"value": "SurveyEvent", "label": "Survey event", "plain_description": "A person opts into or out of a survey."},
-      {"value": "SurveyInvitationEvent", "label": "Survey invitation event", "plain_description": "A person sends or responds to a survey invitation."},
-      {"value": "ThreadEvent", "label": "Thread event", "plain_description": "A person marks a forum thread read or unread."},
-      {"value": "ToolLaunchEvent", "label": "Tool launch event", "plain_description": "A person launches or returns from a tool."},
-      {"value": "ToolUseEvent", "label": "Tool use event", "plain_description": "A person uses a software application."},
-      {"value": "ViewEvent", "label": "View event", "plain_description": "A person views something."}
+      {
+        "value": "AnnotationEvent",
+        "label": "Annotation event",
+        "plain_description": "A person creates or shares an annotation on a digital resource."
+      },
+      {
+        "value": "AssessmentEvent",
+        "label": "Assessment event",
+        "plain_description": "A person works with a whole assessment."
+      },
+      {
+        "value": "AssessmentItemEvent",
+        "label": "Assessment item event",
+        "plain_description": "A person works with one assessment item or question."
+      },
+      {
+        "value": "AssignableEvent",
+        "label": "Assignable event",
+        "plain_description": "A person works with assigned digital content."
+      },
+      {
+        "value": "FeedbackEvent",
+        "label": "Feedback event",
+        "plain_description": "A person comments on or rates something."
+      },
+      {
+        "value": "ForumEvent",
+        "label": "Forum event",
+        "plain_description": "A person subscribes or unsubscribes from a forum."
+      },
+      {
+        "value": "GradeEvent",
+        "label": "Grade event",
+        "plain_description": "A person or app grades an attempt."
+      },
+      {
+        "value": "MediaEvent",
+        "label": "Media event",
+        "plain_description": "A person interacts with audio, video, or media."
+      },
+      {
+        "value": "MessageEvent",
+        "label": "Message event",
+        "plain_description": "A person posts or marks a message."
+      },
+      {
+        "value": "NavigationEvent",
+        "label": "Navigation event",
+        "plain_description": "A person navigates to a resource, app, or location."
+      },
+      {
+        "value": "QuestionnaireEvent",
+        "label": "Questionnaire event",
+        "plain_description": "A person starts or submits a questionnaire."
+      },
+      {
+        "value": "QuestionnaireItemEvent",
+        "label": "Questionnaire item event",
+        "plain_description": "A person works with one questionnaire item."
+      },
+      {
+        "value": "ResourceManagementEvent",
+        "label": "Resource management event",
+        "plain_description": "A person manages a digital resource."
+      },
+      {
+        "value": "SearchEvent",
+        "label": "Search event",
+        "plain_description": "A person searches a resource or app."
+      },
+      {
+        "value": "SessionEvent",
+        "label": "Session event",
+        "plain_description": "A person or app starts, ends, or times out a session."
+      },
+      {
+        "value": "SurveyEvent",
+        "label": "Survey event",
+        "plain_description": "A person opts into or out of a survey."
+      },
+      {
+        "value": "SurveyInvitationEvent",
+        "label": "Survey invitation event",
+        "plain_description": "A person sends or responds to a survey invitation."
+      },
+      {
+        "value": "ThreadEvent",
+        "label": "Thread event",
+        "plain_description": "A person marks a forum thread read or unread."
+      },
+      {
+        "value": "ToolLaunchEvent",
+        "label": "Tool launch event",
+        "plain_description": "A person launches or returns from a tool."
+      },
+      {
+        "value": "ToolUseEvent",
+        "label": "Tool use event",
+        "plain_description": "A person uses a software application."
+      },
+      {
+        "value": "ViewEvent",
+        "label": "View event",
+        "plain_description": "A person views something."
+      }
     ],
     "profile": [
-      {"value": "GeneralProfile", "label": "General profile", "plain_description": "Generic profile for events not covered by a narrower profile."},
-      {"value": "AnnotationProfile", "label": "Annotation profile", "plain_description": "Annotation, bookmark, highlight, share, and tag activity."},
-      {"value": "AssessmentProfile", "label": "Assessment profile", "plain_description": "Assessment and assessment-item activity."},
-      {"value": "AssignableProfile", "label": "Assignable profile", "plain_description": "Assignment and digital-resource work activity."},
-      {"value": "FeedbackProfile", "label": "Feedback profile", "plain_description": "Commenting and rating activity."},
-      {"value": "ForumProfile", "label": "Forum profile", "plain_description": "Forum, thread, and message activity."},
-      {"value": "GradingProfile", "label": "Grading profile", "plain_description": "Grading and score creation activity."},
-      {"value": "MediaProfile", "label": "Media profile", "plain_description": "Audio, video, and media activity."},
-      {"value": "ReadingProfile", "label": "Reading profile", "plain_description": "Reading, navigation, and viewing resource activity."},
-      {"value": "ResourceManagementProfile", "label": "Resource management profile", "plain_description": "Resource creation, upload, publish, print, download, and similar management activity."},
-      {"value": "SearchProfile", "label": "Search profile", "plain_description": "Search activity."},
-      {"value": "SessionProfile", "label": "Session profile", "plain_description": "Login, logout, and timeout session activity."},
-      {"value": "SurveyProfile", "label": "Survey profile", "plain_description": "Survey and questionnaire activity."},
-      {"value": "ToolLaunchProfile", "label": "Tool launch profile", "plain_description": "LTI or tool launch and return activity."},
-      {"value": "ToolUseProfile", "label": "Tool use profile", "plain_description": "Software application use metrics."}
+      {
+        "value": "GeneralProfile",
+        "label": "General profile",
+        "plain_description": "Generic profile for events not covered by a narrower profile."
+      },
+      {
+        "value": "AnnotationProfile",
+        "label": "Annotation profile",
+        "plain_description": "Annotation, bookmark, highlight, share, and tag activity."
+      },
+      {
+        "value": "AssessmentProfile",
+        "label": "Assessment profile",
+        "plain_description": "Assessment and assessment-item activity."
+      },
+      {
+        "value": "AssignableProfile",
+        "label": "Assignable profile",
+        "plain_description": "Assignment and digital-resource work activity."
+      },
+      {
+        "value": "FeedbackProfile",
+        "label": "Feedback profile",
+        "plain_description": "Commenting and rating activity."
+      },
+      {
+        "value": "ForumProfile",
+        "label": "Forum profile",
+        "plain_description": "Forum, thread, and message activity."
+      },
+      {
+        "value": "GradingProfile",
+        "label": "Grading profile",
+        "plain_description": "Grading and score creation activity."
+      },
+      {
+        "value": "MediaProfile",
+        "label": "Media profile",
+        "plain_description": "Audio, video, and media activity."
+      },
+      {
+        "value": "ReadingProfile",
+        "label": "Reading profile",
+        "plain_description": "Reading, navigation, and viewing resource activity."
+      },
+      {
+        "value": "ResourceManagementProfile",
+        "label": "Resource management profile",
+        "plain_description": "Resource creation, upload, publish, print, download, and similar management activity."
+      },
+      {
+        "value": "SearchProfile",
+        "label": "Search profile",
+        "plain_description": "Search activity."
+      },
+      {
+        "value": "SessionProfile",
+        "label": "Session profile",
+        "plain_description": "Login, logout, and timeout session activity."
+      },
+      {
+        "value": "SurveyProfile",
+        "label": "Survey profile",
+        "plain_description": "Survey and questionnaire activity."
+      },
+      {
+        "value": "ToolLaunchProfile",
+        "label": "Tool launch profile",
+        "plain_description": "LTI or tool launch and return activity."
+      },
+      {
+        "value": "ToolUseProfile",
+        "label": "Tool use profile",
+        "plain_description": "Software application use metrics."
+      }
     ],
     "action": [
-      {"value": "Abandoned", "label": "Abandoned", "plain_description": "A user abandoned something before completion."},
-      {"value": "Accepted", "label": "Accepted", "plain_description": "A user accepted an invitation or request."},
-      {"value": "Activated", "label": "Activated", "plain_description": "Something was made active."},
-      {"value": "Added", "label": "Added", "plain_description": "Something was added."},
-      {"value": "Archived", "label": "Archived", "plain_description": "A resource was archived."},
-      {"value": "Attached", "label": "Attached", "plain_description": "Something was attached to another thing."},
-      {"value": "Bookmarked", "label": "Bookmarked", "plain_description": "A user created a bookmark."},
-      {"value": "ChangedResolution", "label": "Changed resolution", "plain_description": "Media resolution changed."},
-      {"value": "ChangedSize", "label": "Changed size", "plain_description": "Media display size changed."},
-      {"value": "ChangedSpeed", "label": "Changed speed", "plain_description": "Media playback speed changed."},
-      {"value": "ChangedVolume", "label": "Changed volume", "plain_description": "Media volume changed."},
-      {"value": "Classified", "label": "Classified", "plain_description": "Something was classified or categorized."},
-      {"value": "ClosedPopout", "label": "Closed popout", "plain_description": "A media popout or window was closed."},
-      {"value": "Commented", "label": "Commented", "plain_description": "A user left a comment."},
-      {"value": "Completed", "label": "Completed", "plain_description": "A user completed an item or task."},
-      {"value": "Copied", "label": "Copied", "plain_description": "A resource was copied."},
-      {"value": "Created", "label": "Created", "plain_description": "A resource or entity was created."},
-      {"value": "Deactivated", "label": "Deactivated", "plain_description": "Something was made inactive."},
-      {"value": "Declined", "label": "Declined", "plain_description": "A user declined an invitation or request."},
-      {"value": "Deleted", "label": "Deleted", "plain_description": "A resource or entity was deleted."},
-      {"value": "Described", "label": "Described", "plain_description": "Metadata or description was added or changed."},
-      {"value": "DisabledClosedCaptioning", "label": "Disabled closed captioning", "plain_description": "Closed captions were turned off."},
-      {"value": "Disliked", "label": "Disliked", "plain_description": "A user disliked something."},
-      {"value": "Downloaded", "label": "Downloaded", "plain_description": "A resource was downloaded."},
-      {"value": "EnabledClosedCaptioning", "label": "Enabled closed captioning", "plain_description": "Closed captions were turned on."},
-      {"value": "Ended", "label": "Ended", "plain_description": "Activity or media ended."},
-      {"value": "EnteredFullScreen", "label": "Entered full screen", "plain_description": "Media entered full screen."},
-      {"value": "ExitedFullScreen", "label": "Exited full screen", "plain_description": "Media exited full screen."},
-      {"value": "ForwardedTo", "label": "Forwarded to", "plain_description": "Media playback moved forward."},
-      {"value": "Graded", "label": "Graded", "plain_description": "An attempt was graded."},
-      {"value": "Hid", "label": "Hid", "plain_description": "Something was hidden."},
-      {"value": "Highlighted", "label": "Highlighted", "plain_description": "Text or resource content was highlighted."},
-      {"value": "Identified", "label": "Identified", "plain_description": "Something was identified."},
-      {"value": "JumpedTo", "label": "Jumped to", "plain_description": "Media or navigation jumped to a location."},
-      {"value": "Launched", "label": "Launched", "plain_description": "A tool or app was launched."},
-      {"value": "Liked", "label": "Liked", "plain_description": "A user liked something."},
-      {"value": "Linked", "label": "Linked", "plain_description": "Something was linked."},
-      {"value": "LoggedIn", "label": "Logged in", "plain_description": "A user logged in."},
-      {"value": "LoggedOut", "label": "Logged out", "plain_description": "A user logged out."},
-      {"value": "MarkedAsRead", "label": "Marked as read", "plain_description": "A message or thread was marked read."},
-      {"value": "MarkedAsUnread", "label": "Marked as unread", "plain_description": "A message or thread was marked unread."},
-      {"value": "Modified", "label": "Modified", "plain_description": "A resource or entity was changed."},
-      {"value": "Muted", "label": "Muted", "plain_description": "Media audio was muted."},
-      {"value": "NavigatedTo", "label": "Navigated to", "plain_description": "A user navigated to a resource or location."},
-      {"value": "OpenedPopout", "label": "Opened popout", "plain_description": "A media popout or window was opened."},
-      {"value": "OptedIn", "label": "Opted in", "plain_description": "A user opted in."},
-      {"value": "OptedOut", "label": "Opted out", "plain_description": "A user opted out."},
-      {"value": "Paused", "label": "Paused", "plain_description": "Activity or media was paused."},
-      {"value": "Posted", "label": "Posted", "plain_description": "A message was posted."},
-      {"value": "Printed", "label": "Printed", "plain_description": "A resource was printed."},
-      {"value": "Published", "label": "Published", "plain_description": "A resource was published."},
-      {"value": "Questioned", "label": "Questioned", "plain_description": "A question was asked."},
-      {"value": "Ranked", "label": "Ranked", "plain_description": "A user rated or ranked something."},
-      {"value": "Recommended", "label": "Recommended", "plain_description": "Something was recommended."},
-      {"value": "Removed", "label": "Removed", "plain_description": "Something was removed."},
-      {"value": "Reset", "label": "Reset", "plain_description": "Activity or an attempt was reset."},
-      {"value": "Restarted", "label": "Restarted", "plain_description": "Activity or media restarted."},
-      {"value": "Restored", "label": "Restored", "plain_description": "A resource was restored."},
-      {"value": "Resumed", "label": "Resumed", "plain_description": "Activity or media resumed."},
-      {"value": "Retrieved", "label": "Retrieved", "plain_description": "A resource was retrieved."},
-      {"value": "Returned", "label": "Returned", "plain_description": "A user returned from a launched tool or workflow."},
-      {"value": "Reviewed", "label": "Reviewed", "plain_description": "A user reviewed something."},
-      {"value": "Rewound", "label": "Rewound", "plain_description": "Media playback moved backward."},
-      {"value": "Saved", "label": "Saved", "plain_description": "A resource or work item was saved."},
-      {"value": "Searched", "label": "Searched", "plain_description": "A user performed a search."},
-      {"value": "Sent", "label": "Sent", "plain_description": "A message or invitation was sent."},
-      {"value": "Shared", "label": "Shared", "plain_description": "Something was shared."},
-      {"value": "Showed", "label": "Showed", "plain_description": "Something was shown."},
-      {"value": "Skipped", "label": "Skipped", "plain_description": "A learner skipped an item or task."},
-      {"value": "Started", "label": "Started", "plain_description": "A learner or user started something."},
-      {"value": "Submitted", "label": "Submitted", "plain_description": "Work or an attempt was submitted."},
-      {"value": "Subscribed", "label": "Subscribed", "plain_description": "A user subscribed."},
-      {"value": "Tagged", "label": "Tagged", "plain_description": "A user added tags."},
-      {"value": "TimedOut", "label": "Timed out", "plain_description": "A session timed out."},
-      {"value": "Unmuted", "label": "Unmuted", "plain_description": "Media audio was unmuted."},
-      {"value": "Unpublished", "label": "Unpublished", "plain_description": "A resource was unpublished."},
-      {"value": "Unsubscribed", "label": "Unsubscribed", "plain_description": "A user unsubscribed."},
-      {"value": "Uploaded", "label": "Uploaded", "plain_description": "A resource or file was uploaded."},
-      {"value": "Used", "label": "Used", "plain_description": "A user used a tool or application."},
-      {"value": "Viewed", "label": "Viewed", "plain_description": "A user viewed something."}
+      {
+        "value": "Abandoned",
+        "label": "Abandoned",
+        "plain_description": "A user abandoned something before completion."
+      },
+      {
+        "value": "Accepted",
+        "label": "Accepted",
+        "plain_description": "A user accepted an invitation or request."
+      },
+      {
+        "value": "Activated",
+        "label": "Activated",
+        "plain_description": "Something was made active."
+      },
+      {
+        "value": "Added",
+        "label": "Added",
+        "plain_description": "Something was added."
+      },
+      {
+        "value": "Archived",
+        "label": "Archived",
+        "plain_description": "A resource was archived."
+      },
+      {
+        "value": "Attached",
+        "label": "Attached",
+        "plain_description": "Something was attached to another thing."
+      },
+      {
+        "value": "Bookmarked",
+        "label": "Bookmarked",
+        "plain_description": "A user created a bookmark."
+      },
+      {
+        "value": "ChangedResolution",
+        "label": "Changed resolution",
+        "plain_description": "Media resolution changed."
+      },
+      {
+        "value": "ChangedSize",
+        "label": "Changed size",
+        "plain_description": "Media display size changed."
+      },
+      {
+        "value": "ChangedSpeed",
+        "label": "Changed speed",
+        "plain_description": "Media playback speed changed."
+      },
+      {
+        "value": "ChangedVolume",
+        "label": "Changed volume",
+        "plain_description": "Media volume changed."
+      },
+      {
+        "value": "Classified",
+        "label": "Classified",
+        "plain_description": "Something was classified or categorized."
+      },
+      {
+        "value": "ClosedPopout",
+        "label": "Closed popout",
+        "plain_description": "A media popout or window was closed."
+      },
+      {
+        "value": "Commented",
+        "label": "Commented",
+        "plain_description": "A user left a comment."
+      },
+      {
+        "value": "Completed",
+        "label": "Completed",
+        "plain_description": "A user completed an item or task."
+      },
+      {
+        "value": "Copied",
+        "label": "Copied",
+        "plain_description": "A resource was copied."
+      },
+      {
+        "value": "Created",
+        "label": "Created",
+        "plain_description": "A resource or entity was created."
+      },
+      {
+        "value": "Deactivated",
+        "label": "Deactivated",
+        "plain_description": "Something was made inactive."
+      },
+      {
+        "value": "Declined",
+        "label": "Declined",
+        "plain_description": "A user declined an invitation or request."
+      },
+      {
+        "value": "Deleted",
+        "label": "Deleted",
+        "plain_description": "A resource or entity was deleted."
+      },
+      {
+        "value": "Described",
+        "label": "Described",
+        "plain_description": "Metadata or description was added or changed."
+      },
+      {
+        "value": "DisabledClosedCaptioning",
+        "label": "Disabled closed captioning",
+        "plain_description": "Closed captions were turned off."
+      },
+      {
+        "value": "Disliked",
+        "label": "Disliked",
+        "plain_description": "A user disliked something."
+      },
+      {
+        "value": "Downloaded",
+        "label": "Downloaded",
+        "plain_description": "A resource was downloaded."
+      },
+      {
+        "value": "EnabledClosedCaptioning",
+        "label": "Enabled closed captioning",
+        "plain_description": "Closed captions were turned on."
+      },
+      {
+        "value": "Ended",
+        "label": "Ended",
+        "plain_description": "Activity or media ended."
+      },
+      {
+        "value": "EnteredFullScreen",
+        "label": "Entered full screen",
+        "plain_description": "Media entered full screen."
+      },
+      {
+        "value": "ExitedFullScreen",
+        "label": "Exited full screen",
+        "plain_description": "Media exited full screen."
+      },
+      {
+        "value": "ForwardedTo",
+        "label": "Forwarded to",
+        "plain_description": "Media playback moved forward."
+      },
+      {
+        "value": "Graded",
+        "label": "Graded",
+        "plain_description": "An attempt was graded."
+      },
+      {
+        "value": "Hid",
+        "label": "Hid",
+        "plain_description": "Something was hidden."
+      },
+      {
+        "value": "Highlighted",
+        "label": "Highlighted",
+        "plain_description": "Text or resource content was highlighted."
+      },
+      {
+        "value": "Identified",
+        "label": "Identified",
+        "plain_description": "Something was identified."
+      },
+      {
+        "value": "JumpedTo",
+        "label": "Jumped to",
+        "plain_description": "Media or navigation jumped to a location."
+      },
+      {
+        "value": "Launched",
+        "label": "Launched",
+        "plain_description": "A tool or app was launched."
+      },
+      {
+        "value": "Liked",
+        "label": "Liked",
+        "plain_description": "A user liked something."
+      },
+      {
+        "value": "Linked",
+        "label": "Linked",
+        "plain_description": "Something was linked."
+      },
+      {
+        "value": "LoggedIn",
+        "label": "Logged in",
+        "plain_description": "A user logged in."
+      },
+      {
+        "value": "LoggedOut",
+        "label": "Logged out",
+        "plain_description": "A user logged out."
+      },
+      {
+        "value": "MarkedAsRead",
+        "label": "Marked as read",
+        "plain_description": "A message or thread was marked read."
+      },
+      {
+        "value": "MarkedAsUnread",
+        "label": "Marked as unread",
+        "plain_description": "A message or thread was marked unread."
+      },
+      {
+        "value": "Modified",
+        "label": "Modified",
+        "plain_description": "A resource or entity was changed."
+      },
+      {
+        "value": "Muted",
+        "label": "Muted",
+        "plain_description": "Media audio was muted."
+      },
+      {
+        "value": "NavigatedTo",
+        "label": "Navigated to",
+        "plain_description": "A user navigated to a resource or location."
+      },
+      {
+        "value": "OpenedPopout",
+        "label": "Opened popout",
+        "plain_description": "A media popout or window was opened."
+      },
+      {
+        "value": "OptedIn",
+        "label": "Opted in",
+        "plain_description": "A user opted in."
+      },
+      {
+        "value": "OptedOut",
+        "label": "Opted out",
+        "plain_description": "A user opted out."
+      },
+      {
+        "value": "Paused",
+        "label": "Paused",
+        "plain_description": "Activity or media was paused."
+      },
+      {
+        "value": "Posted",
+        "label": "Posted",
+        "plain_description": "A message was posted."
+      },
+      {
+        "value": "Printed",
+        "label": "Printed",
+        "plain_description": "A resource was printed."
+      },
+      {
+        "value": "Published",
+        "label": "Published",
+        "plain_description": "A resource was published."
+      },
+      {
+        "value": "Questioned",
+        "label": "Questioned",
+        "plain_description": "A question was asked."
+      },
+      {
+        "value": "Ranked",
+        "label": "Ranked",
+        "plain_description": "A user rated or ranked something."
+      },
+      {
+        "value": "Recommended",
+        "label": "Recommended",
+        "plain_description": "Something was recommended."
+      },
+      {
+        "value": "Removed",
+        "label": "Removed",
+        "plain_description": "Something was removed."
+      },
+      {
+        "value": "Reset",
+        "label": "Reset",
+        "plain_description": "Activity or an attempt was reset."
+      },
+      {
+        "value": "Restarted",
+        "label": "Restarted",
+        "plain_description": "Activity or media restarted."
+      },
+      {
+        "value": "Restored",
+        "label": "Restored",
+        "plain_description": "A resource was restored."
+      },
+      {
+        "value": "Resumed",
+        "label": "Resumed",
+        "plain_description": "Activity or media resumed."
+      },
+      {
+        "value": "Retrieved",
+        "label": "Retrieved",
+        "plain_description": "A resource was retrieved."
+      },
+      {
+        "value": "Returned",
+        "label": "Returned",
+        "plain_description": "A user returned from a launched tool or workflow."
+      },
+      {
+        "value": "Reviewed",
+        "label": "Reviewed",
+        "plain_description": "A user reviewed something."
+      },
+      {
+        "value": "Rewound",
+        "label": "Rewound",
+        "plain_description": "Media playback moved backward."
+      },
+      {
+        "value": "Saved",
+        "label": "Saved",
+        "plain_description": "A resource or work item was saved."
+      },
+      {
+        "value": "Searched",
+        "label": "Searched",
+        "plain_description": "A user performed a search."
+      },
+      {
+        "value": "Sent",
+        "label": "Sent",
+        "plain_description": "A message or invitation was sent."
+      },
+      {
+        "value": "Shared",
+        "label": "Shared",
+        "plain_description": "Something was shared."
+      },
+      {
+        "value": "Showed",
+        "label": "Showed",
+        "plain_description": "Something was shown."
+      },
+      {
+        "value": "Skipped",
+        "label": "Skipped",
+        "plain_description": "A learner skipped an item or task."
+      },
+      {
+        "value": "Started",
+        "label": "Started",
+        "plain_description": "A learner or user started something."
+      },
+      {
+        "value": "Submitted",
+        "label": "Submitted",
+        "plain_description": "Work or an attempt was submitted."
+      },
+      {
+        "value": "Subscribed",
+        "label": "Subscribed",
+        "plain_description": "A user subscribed."
+      },
+      {
+        "value": "Tagged",
+        "label": "Tagged",
+        "plain_description": "A user added tags."
+      },
+      {
+        "value": "TimedOut",
+        "label": "Timed out",
+        "plain_description": "A session timed out."
+      },
+      {
+        "value": "Unmuted",
+        "label": "Unmuted",
+        "plain_description": "Media audio was unmuted."
+      },
+      {
+        "value": "Unpublished",
+        "label": "Unpublished",
+        "plain_description": "A resource was unpublished."
+      },
+      {
+        "value": "Unsubscribed",
+        "label": "Unsubscribed",
+        "plain_description": "A user unsubscribed."
+      },
+      {
+        "value": "Uploaded",
+        "label": "Uploaded",
+        "plain_description": "A resource or file was uploaded."
+      },
+      {
+        "value": "Used",
+        "label": "Used",
+        "plain_description": "A user used a tool or application."
+      },
+      {
+        "value": "Viewed",
+        "label": "Viewed",
+        "plain_description": "A user viewed something."
+      }
     ],
     "entity_type": [
-      {"value": "Agent", "label": "Agent", "plain_description": "A person or software agent."},
-      {"value": "AggregateMeasure", "label": "Aggregate measure", "plain_description": "A computed usage or learning metric."},
-      {"value": "AggregateMeasureCollection", "label": "Aggregate measure collection", "plain_description": "A set of aggregate measures."},
-      {"value": "Annotation", "label": "Annotation", "plain_description": "A note or mark connected to a digital resource."},
-      {"value": "Assessment", "label": "Assessment", "plain_description": "A whole assessment."},
-      {"value": "AssessmentItem", "label": "Assessment item", "plain_description": "One assessment item or question."},
-      {"value": "AssignableDigitalResource", "label": "Assignable digital resource", "plain_description": "Digital content assigned to a learner."},
-      {"value": "Attempt", "label": "Attempt", "plain_description": "One try at an assignment, assessment, or questionnaire."},
-      {"value": "AudioObject", "label": "Audio object", "plain_description": "Audio media."},
-      {"value": "BookmarkAnnotation", "label": "Bookmark annotation", "plain_description": "Bookmark note."},
-      {"value": "Chapter", "label": "Chapter", "plain_description": "Chapter in content or media."},
-      {"value": "Collection", "label": "Collection", "plain_description": "Ordered group of entities."},
-      {"value": "Comment", "label": "Comment", "plain_description": "Written feedback or comment."},
-      {"value": "CourseOffering", "label": "Course offering", "plain_description": "Course offering."},
-      {"value": "CourseSection", "label": "Course section", "plain_description": "Course or class section."},
-      {"value": "DateTimeQuestion", "label": "Date/time question", "plain_description": "Question asking for a date or time."},
-      {"value": "DateTimeResponse", "label": "Date/time response", "plain_description": "Date or time answer."},
-      {"value": "DigitalResource", "label": "Digital resource", "plain_description": "Digital content or resource."},
-      {"value": "DigitalResourceCollection", "label": "Digital resource collection", "plain_description": "Collection of digital resources."},
-      {"value": "Document", "label": "Document", "plain_description": "Document resource."},
-      {"value": "FillinBlankResponse", "label": "Fill-in-blank response", "plain_description": "Fill-in-the-blank answer."},
-      {"value": "Forum", "label": "Forum", "plain_description": "Forum."},
-      {"value": "Frame", "label": "Frame", "plain_description": "Segment or location in a resource."},
-      {"value": "Group", "label": "Group", "plain_description": "Group context."},
-      {"value": "HighlightAnnotation", "label": "Highlight annotation", "plain_description": "Highlighted text annotation."},
-      {"value": "ImageObject", "label": "Image object", "plain_description": "Image media."},
-      {"value": "LearningObjective", "label": "Learning objective", "plain_description": "Learning goal or objective, preferably linked to CASE when available."},
-      {"value": "LikertScale", "label": "Likert scale", "plain_description": "Likert rating scale."},
-      {"value": "Link", "label": "Link", "plain_description": "Web link."},
-      {"value": "LtiLink", "label": "LTI link", "plain_description": "LTI launch or resource link."},
-      {"value": "LtiSession", "label": "LTI session", "plain_description": "LTI platform/tool session."},
-      {"value": "MediaLocation", "label": "Media location", "plain_description": "Point in media playback."},
-      {"value": "MediaObject", "label": "Media object", "plain_description": "Audio, video, or media resource."},
-      {"value": "Membership", "label": "Membership", "plain_description": "A person's relationship to a group or organization."},
-      {"value": "Message", "label": "Message", "plain_description": "Forum or message post."},
-      {"value": "MultipleChoiceResponse", "label": "Multiple choice response", "plain_description": "Single-choice answer."},
-      {"value": "MultipleResponseResponse", "label": "Multiple response response", "plain_description": "Multi-select answer."},
-      {"value": "MultiselectQuestion", "label": "Multiselect question", "plain_description": "Multiple-select question definition."},
-      {"value": "MultiselectResponse", "label": "Multiselect response", "plain_description": "Multiple-select response."},
-      {"value": "MultiselectScale", "label": "Multiselect scale", "plain_description": "Multiple-select rating scale."},
-      {"value": "NumericScale", "label": "Numeric scale", "plain_description": "Numeric rating scale."},
-      {"value": "OpenEndedQuestion", "label": "Open-ended question", "plain_description": "Open-ended question."},
-      {"value": "OpenEndedResponse", "label": "Open-ended response", "plain_description": "Open-ended text response."},
-      {"value": "Organization", "label": "Organization", "plain_description": "School, district, provider, or other organization."},
-      {"value": "Page", "label": "Page", "plain_description": "Page in a resource."},
-      {"value": "Person", "label": "Person", "plain_description": "Human actor."},
-      {"value": "Query", "label": "Query", "plain_description": "Search query."},
-      {"value": "Question", "label": "Question", "plain_description": "Question prompt."},
-      {"value": "Questionnaire", "label": "Questionnaire", "plain_description": "Questionnaire or survey instrument."},
-      {"value": "QuestionnaireItem", "label": "Questionnaire item", "plain_description": "One questionnaire item."},
-      {"value": "Rating", "label": "Rating", "plain_description": "Rating feedback."},
-      {"value": "RatingScaleQuestion", "label": "Rating scale question", "plain_description": "Rating scale question."},
-      {"value": "RatingScaleResponse", "label": "Rating scale response", "plain_description": "Rating scale response."},
-      {"value": "Response", "label": "Response", "plain_description": "Learner response."},
-      {"value": "Result", "label": "Result", "plain_description": "Result score or feedback."},
-      {"value": "Scale", "label": "Scale", "plain_description": "Generic scale."},
-      {"value": "Score", "label": "Score", "plain_description": "Score generated by grading."},
-      {"value": "SearchResponse", "label": "Search response", "plain_description": "Search result summary."},
-      {"value": "SelectTextResponse", "label": "Select text response", "plain_description": "Selected text response."},
-      {"value": "Session", "label": "Session", "plain_description": "User or app session."},
-      {"value": "SharedAnnotation", "label": "Shared annotation", "plain_description": "Annotation shared with people."},
-      {"value": "SoftwareApplication", "label": "Software application", "plain_description": "App or tool."},
-      {"value": "Survey", "label": "Survey", "plain_description": "Survey."},
-      {"value": "SurveyInvitation", "label": "Survey invitation", "plain_description": "Invitation to take a survey."},
-      {"value": "TagAnnotation", "label": "Tag annotation", "plain_description": "Tag annotation."},
-      {"value": "Thread", "label": "Thread", "plain_description": "Forum thread."},
-      {"value": "TrueFalseResponse", "label": "True/false response", "plain_description": "True/false response."},
-      {"value": "VideoObject", "label": "Video object", "plain_description": "Video media."},
-      {"value": "WebPage", "label": "Web page", "plain_description": "Web page."},
-      {"value": "TextPositionSelector", "label": "Text position selector", "plain_description": "Text-range selector without an entity ID."},
-      {"value": "SystemIdentifier", "label": "System identifier", "plain_description": "Other system identifier without an entity ID."}
+      {
+        "value": "Agent",
+        "label": "Agent",
+        "plain_description": "A person or software agent."
+      },
+      {
+        "value": "AggregateMeasure",
+        "label": "Aggregate measure",
+        "plain_description": "A computed usage or learning metric."
+      },
+      {
+        "value": "AggregateMeasureCollection",
+        "label": "Aggregate measure collection",
+        "plain_description": "A set of aggregate measures."
+      },
+      {
+        "value": "Annotation",
+        "label": "Annotation",
+        "plain_description": "A note or mark connected to a digital resource."
+      },
+      {
+        "value": "Assessment",
+        "label": "Assessment",
+        "plain_description": "A whole assessment."
+      },
+      {
+        "value": "AssessmentItem",
+        "label": "Assessment item",
+        "plain_description": "One assessment item or question."
+      },
+      {
+        "value": "AssignableDigitalResource",
+        "label": "Assignable digital resource",
+        "plain_description": "Digital content assigned to a learner."
+      },
+      {
+        "value": "Attempt",
+        "label": "Attempt",
+        "plain_description": "One try at an assignment, assessment, or questionnaire."
+      },
+      {
+        "value": "AudioObject",
+        "label": "Audio object",
+        "plain_description": "Audio media."
+      },
+      {
+        "value": "BookmarkAnnotation",
+        "label": "Bookmark annotation",
+        "plain_description": "Bookmark note."
+      },
+      {
+        "value": "Chapter",
+        "label": "Chapter",
+        "plain_description": "Chapter in content or media."
+      },
+      {
+        "value": "Collection",
+        "label": "Collection",
+        "plain_description": "Ordered group of entities."
+      },
+      {
+        "value": "Comment",
+        "label": "Comment",
+        "plain_description": "Written feedback or comment."
+      },
+      {
+        "value": "CourseOffering",
+        "label": "Course offering",
+        "plain_description": "Course offering."
+      },
+      {
+        "value": "CourseSection",
+        "label": "Course section",
+        "plain_description": "Course or class section."
+      },
+      {
+        "value": "DateTimeQuestion",
+        "label": "Date/time question",
+        "plain_description": "Question asking for a date or time."
+      },
+      {
+        "value": "DateTimeResponse",
+        "label": "Date/time response",
+        "plain_description": "Date or time answer."
+      },
+      {
+        "value": "DigitalResource",
+        "label": "Digital resource",
+        "plain_description": "Digital content or resource."
+      },
+      {
+        "value": "DigitalResourceCollection",
+        "label": "Digital resource collection",
+        "plain_description": "Collection of digital resources."
+      },
+      {
+        "value": "Document",
+        "label": "Document",
+        "plain_description": "Document resource."
+      },
+      {
+        "value": "FillinBlankResponse",
+        "label": "Fill-in-blank response",
+        "plain_description": "Fill-in-the-blank answer."
+      },
+      {
+        "value": "Forum",
+        "label": "Forum",
+        "plain_description": "Forum."
+      },
+      {
+        "value": "Frame",
+        "label": "Frame",
+        "plain_description": "Segment or location in a resource."
+      },
+      {
+        "value": "Group",
+        "label": "Group",
+        "plain_description": "Group context."
+      },
+      {
+        "value": "HighlightAnnotation",
+        "label": "Highlight annotation",
+        "plain_description": "Highlighted text annotation."
+      },
+      {
+        "value": "ImageObject",
+        "label": "Image object",
+        "plain_description": "Image media."
+      },
+      {
+        "value": "LearningObjective",
+        "label": "Learning objective",
+        "plain_description": "Learning goal or objective, preferably linked to CASE when available."
+      },
+      {
+        "value": "LikertScale",
+        "label": "Likert scale",
+        "plain_description": "Likert rating scale."
+      },
+      {
+        "value": "Link",
+        "label": "Link",
+        "plain_description": "Web link."
+      },
+      {
+        "value": "LtiLink",
+        "label": "LTI link",
+        "plain_description": "LTI launch or resource link."
+      },
+      {
+        "value": "LtiSession",
+        "label": "LTI session",
+        "plain_description": "LTI platform/tool session."
+      },
+      {
+        "value": "MediaLocation",
+        "label": "Media location",
+        "plain_description": "Point in media playback."
+      },
+      {
+        "value": "MediaObject",
+        "label": "Media object",
+        "plain_description": "Audio, video, or media resource."
+      },
+      {
+        "value": "Membership",
+        "label": "Membership",
+        "plain_description": "A person's relationship to a group or organization."
+      },
+      {
+        "value": "Message",
+        "label": "Message",
+        "plain_description": "Forum or message post."
+      },
+      {
+        "value": "MultipleChoiceResponse",
+        "label": "Multiple choice response",
+        "plain_description": "Single-choice answer."
+      },
+      {
+        "value": "MultipleResponseResponse",
+        "label": "Multiple response response",
+        "plain_description": "Multi-select answer."
+      },
+      {
+        "value": "MultiselectQuestion",
+        "label": "Multiselect question",
+        "plain_description": "Multiple-select question definition."
+      },
+      {
+        "value": "MultiselectResponse",
+        "label": "Multiselect response",
+        "plain_description": "Multiple-select response."
+      },
+      {
+        "value": "MultiselectScale",
+        "label": "Multiselect scale",
+        "plain_description": "Multiple-select rating scale."
+      },
+      {
+        "value": "NumericScale",
+        "label": "Numeric scale",
+        "plain_description": "Numeric rating scale."
+      },
+      {
+        "value": "OpenEndedQuestion",
+        "label": "Open-ended question",
+        "plain_description": "Open-ended question."
+      },
+      {
+        "value": "OpenEndedResponse",
+        "label": "Open-ended response",
+        "plain_description": "Open-ended text response."
+      },
+      {
+        "value": "Organization",
+        "label": "Organization",
+        "plain_description": "School, district, provider, or other organization."
+      },
+      {
+        "value": "Page",
+        "label": "Page",
+        "plain_description": "Page in a resource."
+      },
+      {
+        "value": "Person",
+        "label": "Person",
+        "plain_description": "Human actor."
+      },
+      {
+        "value": "Query",
+        "label": "Query",
+        "plain_description": "Search query."
+      },
+      {
+        "value": "Question",
+        "label": "Question",
+        "plain_description": "Question prompt."
+      },
+      {
+        "value": "Questionnaire",
+        "label": "Questionnaire",
+        "plain_description": "Questionnaire or survey instrument."
+      },
+      {
+        "value": "QuestionnaireItem",
+        "label": "Questionnaire item",
+        "plain_description": "One questionnaire item."
+      },
+      {
+        "value": "Rating",
+        "label": "Rating",
+        "plain_description": "Rating feedback."
+      },
+      {
+        "value": "RatingScaleQuestion",
+        "label": "Rating scale question",
+        "plain_description": "Rating scale question."
+      },
+      {
+        "value": "RatingScaleResponse",
+        "label": "Rating scale response",
+        "plain_description": "Rating scale response."
+      },
+      {
+        "value": "Response",
+        "label": "Response",
+        "plain_description": "Learner response."
+      },
+      {
+        "value": "Result",
+        "label": "Result",
+        "plain_description": "Result score or feedback."
+      },
+      {
+        "value": "Scale",
+        "label": "Scale",
+        "plain_description": "Generic scale."
+      },
+      {
+        "value": "Score",
+        "label": "Score",
+        "plain_description": "Score generated by grading."
+      },
+      {
+        "value": "SearchResponse",
+        "label": "Search response",
+        "plain_description": "Search result summary."
+      },
+      {
+        "value": "SelectTextResponse",
+        "label": "Select text response",
+        "plain_description": "Selected text response."
+      },
+      {
+        "value": "Session",
+        "label": "Session",
+        "plain_description": "User or app session."
+      },
+      {
+        "value": "SharedAnnotation",
+        "label": "Shared annotation",
+        "plain_description": "Annotation shared with people."
+      },
+      {
+        "value": "SoftwareApplication",
+        "label": "Software application",
+        "plain_description": "App or tool."
+      },
+      {
+        "value": "Survey",
+        "label": "Survey",
+        "plain_description": "Survey."
+      },
+      {
+        "value": "SurveyInvitation",
+        "label": "Survey invitation",
+        "plain_description": "Invitation to take a survey."
+      },
+      {
+        "value": "TagAnnotation",
+        "label": "Tag annotation",
+        "plain_description": "Tag annotation."
+      },
+      {
+        "value": "Thread",
+        "label": "Thread",
+        "plain_description": "Forum thread."
+      },
+      {
+        "value": "TrueFalseResponse",
+        "label": "True/false response",
+        "plain_description": "True/false response."
+      },
+      {
+        "value": "VideoObject",
+        "label": "Video object",
+        "plain_description": "Video media."
+      },
+      {
+        "value": "WebPage",
+        "label": "Web page",
+        "plain_description": "Web page."
+      },
+      {
+        "value": "TextPositionSelector",
+        "label": "Text position selector",
+        "plain_description": "Text-range selector without an entity ID."
+      },
+      {
+        "value": "SystemIdentifier",
+        "label": "System identifier",
+        "plain_description": "Other system identifier without an entity ID."
+      }
     ],
     "actor_type": [
-      {"value": "Agent", "label": "Agent", "plain_description": "A generic person or software agent."},
-      {"value": "Person", "label": "Person", "plain_description": "A human actor."},
-      {"value": "SoftwareApplication", "label": "Software application", "plain_description": "An app or tool acting as the event actor."},
-      {"value": "Group", "label": "Group", "plain_description": "A group acting as or standing in for the actor."}
+      {
+        "value": "Agent",
+        "label": "Agent",
+        "plain_description": "A generic person or software agent."
+      },
+      {
+        "value": "Person",
+        "label": "Person",
+        "plain_description": "A human actor."
+      },
+      {
+        "value": "SoftwareApplication",
+        "label": "Software application",
+        "plain_description": "An app or tool acting as the event actor."
+      },
+      {
+        "value": "Group",
+        "label": "Group",
+        "plain_description": "A group acting as or standing in for the actor."
+      }
     ],
     "resolution_status": [
-      {"value": "resolved", "label": "Resolved", "plain_description": "The actor or entity was matched to a canonical platform record."},
-      {"value": "unresolved", "label": "Unresolved", "plain_description": "The actor or entity remains source-only until a safe match is available."},
-      {"value": "conflict", "label": "Conflict", "plain_description": "The source identifiers matched multiple possible platform records."},
-      {"value": "blocked_by_policy", "label": "Blocked by policy", "plain_description": "Privacy or tenant policy prevents canonical matching."}
+      {
+        "value": "resolved",
+        "label": "Resolved",
+        "plain_description": "The actor or entity was matched to a canonical platform record."
+      },
+      {
+        "value": "unresolved",
+        "label": "Unresolved",
+        "plain_description": "The actor or entity remains source-only until a safe match is available."
+      },
+      {
+        "value": "conflict",
+        "label": "Conflict",
+        "plain_description": "The source identifiers matched multiple possible platform records."
+      },
+      {
+        "value": "blocked_by_policy",
+        "label": "Blocked by policy",
+        "plain_description": "Privacy or tenant policy prevents canonical matching."
+      }
     ],
     "lis_role": [
-      {"value": "Administrator", "label": "Administrator", "plain_description": "Administrative role."},
-      {"value": "ContentDeveloper", "label": "Content developer", "plain_description": "Content author or developer role."},
-      {"value": "Instructor", "label": "Instructor", "plain_description": "Teacher or instructor role."},
-      {"value": "Learner", "label": "Learner", "plain_description": "Student or learner role."},
-      {"value": "Manager", "label": "Manager", "plain_description": "Manager role."},
-      {"value": "Member", "label": "Member", "plain_description": "General member role."},
-      {"value": "Mentor", "label": "Mentor", "plain_description": "Mentor, advisor, or support role."},
-      {"value": "Officer", "label": "Officer", "plain_description": "Officer or official role."}
+      {
+        "value": "Administrator",
+        "label": "Administrator",
+        "plain_description": "Administrative role."
+      },
+      {
+        "value": "ContentDeveloper",
+        "label": "Content developer",
+        "plain_description": "Content author or developer role."
+      },
+      {
+        "value": "Instructor",
+        "label": "Instructor",
+        "plain_description": "Teacher or instructor role."
+      },
+      {
+        "value": "Learner",
+        "label": "Learner",
+        "plain_description": "Student or learner role."
+      },
+      {
+        "value": "Manager",
+        "label": "Manager",
+        "plain_description": "Manager role."
+      },
+      {
+        "value": "Member",
+        "label": "Member",
+        "plain_description": "General member role."
+      },
+      {
+        "value": "Mentor",
+        "label": "Mentor",
+        "plain_description": "Mentor, advisor, or support role."
+      },
+      {
+        "value": "Officer",
+        "label": "Officer",
+        "plain_description": "Officer or official role."
+      }
     ],
     "lis_status": [
-      {"value": "Active", "label": "Active", "plain_description": "The membership or status is active."},
-      {"value": "Inactive", "label": "Inactive", "plain_description": "The membership or status is inactive."}
+      {
+        "value": "Active",
+        "label": "Active",
+        "plain_description": "The membership or status is active."
+      },
+      {
+        "value": "Inactive",
+        "label": "Inactive",
+        "plain_description": "The membership or status is inactive."
+      }
     ],
     "lti_message_type": [
-      {"value": "LtiDeepLinkingRequest", "label": "LTI deep-linking request", "plain_description": "LTI deep-linking content selection launch."},
-      {"value": "LtiResourceLinkRequest", "label": "LTI resource link request", "plain_description": "Normal LTI resource link launch."}
+      {
+        "value": "LtiDeepLinkingRequest",
+        "label": "LTI deep-linking request",
+        "plain_description": "LTI deep-linking content selection launch."
+      },
+      {
+        "value": "LtiResourceLinkRequest",
+        "label": "LTI resource link request",
+        "plain_description": "Normal LTI resource link launch."
+      }
     ],
     "system_identifier_type": [
-      {"value": "AccountUserName", "label": "Account username", "plain_description": "Account username."},
-      {"value": "EmailAddress", "label": "Email address", "plain_description": "Email address."},
-      {"value": "LisSourcedId", "label": "LIS sourced ID", "plain_description": "LIS source identifier."},
-      {"value": "LtiContextId", "label": "LTI context ID", "plain_description": "LTI context or course ID."},
-      {"value": "LtiDeploymentId", "label": "LTI deployment ID", "plain_description": "LTI deployment ID."},
-      {"value": "LtiPlatformId", "label": "LTI platform ID", "plain_description": "LTI platform ID."},
-      {"value": "LtiToolId", "label": "LTI tool ID", "plain_description": "LTI tool ID."},
-      {"value": "LtiUserId", "label": "LTI user ID", "plain_description": "LTI user ID."},
-      {"value": "OneRosterSourcedId", "label": "OneRoster sourcedId", "plain_description": "OneRoster sourcedId."},
-      {"value": "Other", "label": "Other", "plain_description": "Other identifier type."},
-      {"value": "SisSourcedId", "label": "SIS sourced ID", "plain_description": "Student information system sourced ID."},
-      {"value": "SystemId", "label": "System ID", "plain_description": "Internal system ID."}
+      {
+        "value": "AccountUserName",
+        "label": "Account username",
+        "plain_description": "Account username."
+      },
+      {
+        "value": "EmailAddress",
+        "label": "Email address",
+        "plain_description": "Email address."
+      },
+      {
+        "value": "LisSourcedId",
+        "label": "LIS sourced ID",
+        "plain_description": "LIS source identifier."
+      },
+      {
+        "value": "LtiContextId",
+        "label": "LTI context ID",
+        "plain_description": "LTI context or course ID."
+      },
+      {
+        "value": "LtiDeploymentId",
+        "label": "LTI deployment ID",
+        "plain_description": "LTI deployment ID."
+      },
+      {
+        "value": "LtiPlatformId",
+        "label": "LTI platform ID",
+        "plain_description": "LTI platform ID."
+      },
+      {
+        "value": "LtiToolId",
+        "label": "LTI tool ID",
+        "plain_description": "LTI tool ID."
+      },
+      {
+        "value": "LtiUserId",
+        "label": "LTI user ID",
+        "plain_description": "LTI user ID."
+      },
+      {
+        "value": "OneRosterSourcedId",
+        "label": "OneRoster sourcedId",
+        "plain_description": "OneRoster sourcedId."
+      },
+      {
+        "value": "Other",
+        "label": "Other",
+        "plain_description": "Other identifier type."
+      },
+      {
+        "value": "SisSourcedId",
+        "label": "SIS sourced ID",
+        "plain_description": "Student information system sourced ID."
+      },
+      {
+        "value": "SystemId",
+        "label": "System ID",
+        "plain_description": "Internal system ID."
+      }
     ],
     "extension_owner_type": [
-      {"value": "envelope", "label": "Envelope", "plain_description": "The extension belongs to a Caliper envelope."},
-      {"value": "event", "label": "Event", "plain_description": "The extension belongs to a Caliper event."},
-      {"value": "entity", "label": "Entity", "plain_description": "The extension belongs to a Caliper entity."},
-      {"value": "actor", "label": "Actor", "plain_description": "The extension belongs to a Caliper actor projection."},
-      {"value": "context", "label": "Context", "plain_description": "The extension belongs to a Caliper context projection."}
+      {
+        "value": "envelope",
+        "label": "Envelope",
+        "plain_description": "The extension belongs to a Caliper envelope."
+      },
+      {
+        "value": "event",
+        "label": "Event",
+        "plain_description": "The extension belongs to a Caliper event."
+      },
+      {
+        "value": "entity",
+        "label": "Entity",
+        "plain_description": "The extension belongs to a Caliper entity."
+      },
+      {
+        "value": "actor",
+        "label": "Actor",
+        "plain_description": "The extension belongs to a Caliper actor projection."
+      },
+      {
+        "value": "context",
+        "label": "Context",
+        "plain_description": "The extension belongs to a Caliper context projection."
+      }
     ],
     "extension_privacy": [
-      {"value": "public", "label": "Public", "plain_description": "The extension can be treated as public metadata."},
-      {"value": "operational", "label": "Operational", "plain_description": "The extension is operational metadata."},
-      {"value": "education_record", "label": "Education record", "plain_description": "The extension may identify or describe a student's education record."},
-      {"value": "behavioral", "label": "Behavioral", "plain_description": "The extension describes learning behavior or activity."},
-      {"value": "restricted", "label": "Restricted", "plain_description": "The extension is sensitive and requires explicit policy before use."}
+      {
+        "value": "public",
+        "label": "Public",
+        "plain_description": "The extension can be treated as public metadata."
+      },
+      {
+        "value": "operational",
+        "label": "Operational",
+        "plain_description": "The extension is operational metadata."
+      },
+      {
+        "value": "education_record",
+        "label": "Education record",
+        "plain_description": "The extension may identify or describe a student's education record."
+      },
+      {
+        "value": "behavioral",
+        "label": "Behavioral",
+        "plain_description": "The extension describes learning behavior or activity."
+      },
+      {
+        "value": "restricted",
+        "label": "Restricted",
+        "plain_description": "The extension is sensitive and requires explicit policy before use."
+      }
     ]
   },
   "unsupported_or_deferred": [
-    {"area": "Live Sensor API ingestion endpoint", "reason": "Requires hosted auth, tenant isolation, event validation, rate limits, retention policy, and server-side storage."},
-    {"area": "Full profile-specific relational decomposition", "reason": "The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally."},
-    {"area": "Analytics warehouse and dashboards", "reason": "Requires retention, aggregation, access control, and de-identification decisions beyond GitHub Pages."},
-    {"area": "Formal Caliper certification claim", "reason": "Requires conformance testing and organizational certification work beyond these generated dictionary artifacts."}
+    {
+      "area": "Live Sensor API ingestion endpoint",
+      "reason": "Requires hosted auth, tenant isolation, event validation, rate limits, retention policy, and server-side storage."
+    },
+    {
+      "area": "Full profile-specific relational decomposition",
+      "reason": "The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally."
+    },
+    {
+      "area": "Analytics warehouse and dashboards",
+      "reason": "Requires retention, aggregation, access control, and de-identification decisions beyond GitHub Pages."
+    },
+    {
+      "area": "Formal Caliper certification claim",
+      "reason": "Requires conformance testing and organizational certification work beyond these generated dictionary artifacts."
+    }
   ]
 }

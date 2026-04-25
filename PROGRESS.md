@@ -80,3 +80,11 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Verify log: `.codex-loop/20260424T213303Z-iteration-002-verify.log`
 - Judge log: `.codex-loop/20260424T213303Z-iteration-002-judge.log`
 - Judge JSON: `.codex-loop/20260424T213303Z-iteration-002-judge.json`
+
+## 2026-04-25 16:26:17 EDT Decision Trace Iteration
+
+- Chosen rubric item: `decision_traces_to_dictionary`.
+- Files changed: added `decision_id` metadata to every field in `dictionary/*.v1.json`; added machine-readable `produces_fields` JSON to `docs/decisions/standards-overlap-decisions.md`; updated all dictionary generators to emit OpenAPI `x-decisionId` and generated Markdown/HTML decision columns; updated `scripts/check_dictionary_artifacts.py` to enforce bidirectional trace consistency; regenerated generated dictionary/OpenAPI/site artifacts; marked the trace work done in `PLAN.md` and `docs/spec-gap-backlog.md`; removed the stale decision-trace advisory gap from `scripts/check_spec_conformance.py` and regenerated reports.
+- Checks run and result: all five dictionary generators passed; `python3 scripts/build_static_api.py` passed; `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; generator/build/check py_compile passed; generated OpenAPI JSON validation passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `node --check site/app.js` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed and now reports `decision_traces_to_dictionary` as `pass`.
+- Expected status change: `decision_traces_to_dictionary` `fail` -> `pass`.
+- What remains next: address the remaining rubric non-pass items in the latest evaluator report: `tenant_isolation_enforced`, `audit_log_for_sensitive_reads`, and `edge_functions_for_non_crud_endpoints` are fail; `developer_guide_present`, `lead_spec_full_accounting`, `vertical_slice_runnable_locally`, `try_it_surface_present`, `oauth_scopes_mapped_to_fields`, and `rls_enabled_on_referenced_tables` are partial; `edge_functions_propagate_user_jwt` remains blocked until Edge Functions exist.

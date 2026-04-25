@@ -14,15 +14,15 @@ A working vertical slice of the platform data dictionary for OneRoster-style ros
 - Privacy class: `directory`
 - Why it exists: Apps need to know where people, courses, classes, and enrollments belong.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this organization. |
-| `sourced_id` | `sourcedId` | text | Yes | operational | The OneRoster source ID used by the sending system. |
-| `name` | `name` | text | Yes | directory | The organization name people recognize. |
-| `organization_type` | `type` | enum | Yes | directory | The kind of organization this record represents. |
-| `parent_organization_id` | `parentOrganizationId` | text | No | directory | The organization that contains this one. |
-| `status` | `status` | enum | Yes | operational | Whether the record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this organization record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this organization. |
+| `sourced_id` | `sourcedId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The OneRoster source ID used by the sending system. |
+| `name` | `name` | text | Yes | directory | `DEC-002-learning-context` | The organization name people recognize. |
+| `organization_type` | `type` | enum | Yes | directory | `DEC-002-learning-context` | The kind of organization this record represents. |
+| `parent_organization_id` | `parentOrganizationId` | text | No | directory | `DEC-007-identifier-crosswalk` | The organization that contains this one. |
+| `status` | `status` | enum | Yes | operational | `DEC-002-learning-context` | Whether the record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this organization record last changed. |
 
 #### Controlled Values
 
@@ -52,18 +52,18 @@ Values for `status`:
 - Privacy class: `education_record`
 - Why it exists: Apps need a stable way to refer to the people who learn, teach, administer, or support learning.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this person. |
-| `sourced_id` | `sourcedId` | text | Yes | education_record | The OneRoster source ID used by the sending system. |
-| `display_name` | `displayName` | text | Yes | directory | The name shown in user interfaces. |
-| `given_name` | `givenName` | text | No | directory | The person's first or given name. |
-| `family_name` | `familyName` | text | No | directory | The person's last or family name. |
-| `email` | `email` | text | No | directory | The person's school email address. |
-| `primary_role` | `primaryRole` | enum | Yes | education_record | The person's broad role in the education environment. |
-| `enabled_user` | `enabledUser` | enum | Yes | operational | Whether the person can currently sign in or be used as an active user. |
-| `status` | `status` | enum | Yes | operational | Whether the person record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this person record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this person. |
+| `sourced_id` | `sourcedId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The OneRoster source ID used by the sending system. |
+| `display_name` | `displayName` | text | Yes | directory | `DEC-001-person-agent-subject` | The name shown in user interfaces. |
+| `given_name` | `givenName` | text | No | directory | `DEC-001-person-agent-subject` | The person's first or given name. |
+| `family_name` | `familyName` | text | No | directory | `DEC-001-person-agent-subject` | The person's last or family name. |
+| `email` | `email` | text | No | directory | `DEC-001-person-agent-subject` | The person's school email address. |
+| `primary_role` | `primaryRole` | enum | Yes | education_record | `DEC-003-role-vocabulary` | The person's broad role in the education environment. |
+| `enabled_user` | `enabledUser` | enum | Yes | operational | `DEC-001-person-agent-subject` | Whether the person can currently sign in or be used as an active user. |
+| `status` | `status` | enum | Yes | operational | `DEC-001-person-agent-subject` | Whether the person record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this person record last changed. |
 
 #### Controlled Values
 
@@ -100,17 +100,17 @@ Values for `status`:
 - Privacy class: `operational`
 - Why it exists: Courses, classes, enrollments, and gradebook work need dates and school-year context.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this academic session. |
-| `sourced_id` | `sourcedId` | text | Yes | operational | The OneRoster source ID for this calendar record. |
-| `title` | `title` | text | Yes | operational | The calendar name people see. |
-| `session_type` | `type` | enum | Yes | operational | The kind of calendar window. |
-| `start_date` | `startDate` | date | Yes | operational | The first date in the session. |
-| `end_date` | `endDate` | date | Yes | operational | The last date in the session. |
-| `school_year` | `schoolYear` | integer | No | operational | The calendar year associated with the school year. |
-| `status` | `status` | enum | Yes | operational | Whether the session record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this session record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this academic session. |
+| `sourced_id` | `sourcedId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this calendar record. |
+| `title` | `title` | text | Yes | operational | `DEC-002-learning-context` | The calendar name people see. |
+| `session_type` | `type` | enum | Yes | operational | `DEC-002-learning-context` | The kind of calendar window. |
+| `start_date` | `startDate` | date | Yes | operational | `DEC-008-time-session` | The first date in the session. |
+| `end_date` | `endDate` | date | Yes | operational | `DEC-008-time-session` | The last date in the session. |
+| `school_year` | `schoolYear` | integer | No | operational | `DEC-008-time-session` | The calendar year associated with the school year. |
+| `status` | `status` | enum | Yes | operational | `DEC-002-learning-context` | Whether the session record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this session record last changed. |
 
 #### Controlled Values
 
@@ -141,16 +141,16 @@ Values for `status`:
 - Privacy class: `operational`
 - Why it exists: Classes are scheduled instances of courses, and course IDs help organize curriculum and reporting.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this course. |
-| `sourced_id` | `sourcedId` | text | Yes | operational | The OneRoster source ID for this course. |
-| `title` | `title` | text | Yes | operational | The course name people see. |
-| `course_code` | `courseCode` | text | No | operational | A local course code used by the school or district. |
-| `org_id` | `orgId` | text | Yes | operational | The organization that owns or offers the course. |
-| `school_year_id` | `schoolYearId` | text | No | operational | The school year this course belongs to, if the source provides one. |
-| `status` | `status` | enum | Yes | operational | Whether the course record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this course record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this course. |
+| `sourced_id` | `sourcedId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this course. |
+| `title` | `title` | text | Yes | operational | `DEC-002-learning-context` | The course name people see. |
+| `course_code` | `courseCode` | text | No | operational | `DEC-002-learning-context` | A local course code used by the school or district. |
+| `org_id` | `orgId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The organization that owns or offers the course. |
+| `school_year_id` | `schoolYearId` | text | No | operational | `DEC-007-identifier-crosswalk` | The school year this course belongs to, if the source provides one. |
+| `status` | `status` | enum | Yes | operational | `DEC-002-learning-context` | Whether the course record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this course record last changed. |
 
 #### Controlled Values
 
@@ -171,18 +171,18 @@ Values for `status`:
 - Privacy class: `education_record`
 - Why it exists: Most tool launches, enrollments, assignments, and grades happen in a class context.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this class. |
-| `sourced_id` | `sourcedId` | text | Yes | education_record | The OneRoster source ID for this class. |
-| `title` | `title` | text | Yes | education_record | The class name people see. |
-| `class_type` | `classType` | enum | Yes | education_record | Whether this is a normal scheduled class or another kind of class grouping. |
-| `class_code` | `classCode` | text | No | education_record | A local code for the class section. |
-| `course_id` | `courseId` | text | Yes | operational | The course this class teaches. |
-| `school_id` | `schoolId` | text | Yes | education_record | The school where the class is offered. |
-| `term_id` | `termId` | text | No | education_record | The academic session when the class runs. |
-| `status` | `status` | enum | Yes | operational | Whether the class record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this class record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this class. |
+| `sourced_id` | `sourcedId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this class. |
+| `title` | `title` | text | Yes | education_record | `DEC-002-learning-context` | The class name people see. |
+| `class_type` | `classType` | enum | Yes | education_record | `DEC-002-learning-context` | Whether this is a normal scheduled class or another kind of class grouping. |
+| `class_code` | `classCode` | text | No | education_record | `DEC-002-learning-context` | A local code for the class section. |
+| `course_id` | `courseId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The course this class teaches. |
+| `school_id` | `schoolId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The school where the class is offered. |
+| `term_id` | `termId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The academic session when the class runs. |
+| `status` | `status` | enum | Yes | operational | `DEC-002-learning-context` | Whether the class record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this class record last changed. |
 
 #### Controlled Values
 
@@ -210,19 +210,19 @@ Values for `status`:
 - Privacy class: `education_record`
 - Why it exists: Apps use enrollments to know which learners and educators belong in a class.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this enrollment. |
-| `sourced_id` | `sourcedId` | text | Yes | education_record | The OneRoster source ID for this enrollment. |
-| `class_id` | `classId` | text | Yes | education_record | The class where the person is enrolled. |
-| `person_id` | `personId` | text | Yes | education_record | The learner, teacher, or other person in the class. |
-| `school_id` | `schoolId` | text | Yes | education_record | The school associated with this enrollment. |
-| `role` | `role` | enum | Yes | education_record | The person's job in the class. |
-| `begin_date` | `beginDate` | date | No | education_record | The first date this enrollment applies. |
-| `end_date` | `endDate` | date | No | education_record | The last date this enrollment applies. |
-| `primary_flag` | `primary` | enum | No | education_record | Whether this is the primary teacher or primary enrollment when the source makes that distinction. |
-| `status` | `status` | enum | Yes | operational | Whether the enrollment record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this enrollment record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this enrollment. |
+| `sourced_id` | `sourcedId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this enrollment. |
+| `class_id` | `classId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The class where the person is enrolled. |
+| `person_id` | `personId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The learner, teacher, or other person in the class. |
+| `school_id` | `schoolId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The school associated with this enrollment. |
+| `role` | `role` | enum | Yes | education_record | `DEC-003-role-vocabulary` | The person's job in the class. |
+| `begin_date` | `beginDate` | date | No | education_record | `DEC-008-time-session` | The first date this enrollment applies. |
+| `end_date` | `endDate` | date | No | education_record | `DEC-008-time-session` | The last date this enrollment applies. |
+| `primary_flag` | `primary` | enum | No | education_record | `DEC-004-enrollment-membership` | Whether this is the primary teacher or primary enrollment when the source makes that distinction. |
+| `status` | `status` | enum | Yes | operational | `DEC-004-enrollment-membership` | Whether the enrollment record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this enrollment record last changed. |
 
 #### Controlled Values
 
@@ -259,19 +259,19 @@ Values for `status`:
 - Privacy class: `education_record`
 - Why it exists: Tools and reports need a clear gradebook target before they can exchange scores.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this gradebook item. |
-| `sourced_id` | `sourcedId` | text | Yes | education_record | The OneRoster source ID for this line item. |
-| `title` | `title` | text | Yes | education_record | The gradebook item name. |
-| `class_id` | `classId` | text | Yes | education_record | The class whose gradebook contains this item. |
-| `category` | `category` | enum | No | education_record | The local gradebook category for the item. |
-| `assign_date` | `assignDate` | date | No | education_record | The date the item was assigned. |
-| `due_date` | `dueDate` | date | No | education_record | The date the item is due. |
-| `result_value_min` | `resultValueMin` | number | No | education_record | The minimum possible numeric result. |
-| `result_value_max` | `resultValueMax` | number | No | education_record | The maximum possible numeric result. |
-| `status` | `status` | enum | Yes | operational | Whether the line item record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this line item record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this gradebook item. |
+| `sourced_id` | `sourcedId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this line item. |
+| `title` | `title` | text | Yes | education_record | `DEC-005-results-scores` | The gradebook item name. |
+| `class_id` | `classId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The class whose gradebook contains this item. |
+| `category` | `category` | enum | No | education_record | `DEC-005-results-scores` | The local gradebook category for the item. |
+| `assign_date` | `assignDate` | date | No | education_record | `DEC-008-time-session` | The date the item was assigned. |
+| `due_date` | `dueDate` | date | No | education_record | `DEC-008-time-session` | The date the item is due. |
+| `result_value_min` | `resultValueMin` | number | No | education_record | `DEC-005-results-scores` | The minimum possible numeric result. |
+| `result_value_max` | `resultValueMax` | number | No | education_record | `DEC-005-results-scores` | The maximum possible numeric result. |
+| `status` | `status` | enum | Yes | operational | `DEC-005-results-scores` | Whether the line item record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this line item record last changed. |
 
 #### Controlled Values
 
@@ -301,18 +301,18 @@ Values for `status`:
 - Privacy class: `education_record`
 - Why it exists: Results are the bridge between assignments, assessment tools, gradebooks, and reporting.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this result. |
-| `sourced_id` | `sourcedId` | text | Yes | education_record | The OneRoster source ID for this result. |
-| `line_item_id` | `lineItemId` | text | Yes | education_record | The gradebook item this result belongs to. |
-| `person_id` | `personId` | text | Yes | education_record | The learner who received the result. |
-| `score_status` | `scoreStatus` | enum | Yes | education_record | The scoring state for this result. |
-| `score` | `score` | number | No | education_record | The numeric score earned. |
-| `score_date` | `scoreDate` | datetime | No | education_record | When the score was assigned or last updated. |
-| `comment` | `comment` | text | No | education_record | Feedback or notes attached to the result. |
-| `status` | `status` | enum | Yes | operational | Whether the result record is active, inactive, or marked for deletion. |
-| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | When the source system says this result record last changed. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this result. |
+| `sourced_id` | `sourcedId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this result. |
+| `line_item_id` | `lineItemId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The gradebook item this result belongs to. |
+| `person_id` | `personId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The learner who received the result. |
+| `score_status` | `scoreStatus` | enum | Yes | education_record | `DEC-005-results-scores` | The scoring state for this result. |
+| `score` | `score` | number | No | education_record | `DEC-005-results-scores` | The numeric score earned. |
+| `score_date` | `scoreDate` | datetime | No | education_record | `DEC-008-time-session` | When the score was assigned or last updated. |
+| `comment` | `comment` | text | No | education_record | `DEC-005-results-scores` | Feedback or notes attached to the result. |
+| `status` | `status` | enum | Yes | operational | `DEC-005-results-scores` | Whether the result record is active, inactive, or marked for deletion. |
+| `date_last_modified` | `dateLastModified` | datetime | Yes | operational | `DEC-008-time-session` | When the source system says this result record last changed. |
 
 #### Controlled Values
 
@@ -342,15 +342,15 @@ Values for `status`:
 - Privacy class: `operational`
 - Why it exists: Different systems use different IDs, and developers need to know which ID came from which source.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this source identifier record. |
-| `object_type` | `objectType` | text | Yes | operational | The kind of platform object this identifier describes. |
-| `object_id` | `objectId` | text | Yes | operational | The platform object that has this external identifier. |
-| `source_system` | `sourceSystem` | text | Yes | operational | The outside system that created or owns the identifier. |
-| `external_id` | `externalId` | text | Yes | education_record | The actual identifier value used by the outside system. |
-| `identifier_type` | `identifierType` | enum | Yes | operational | What kind of outside ID this is. |
-| `status` | `status` | enum | Yes | operational | Whether the identifier record is active, inactive, or marked for deletion. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this source identifier record. |
+| `object_type` | `objectType` | text | Yes | operational | `DEC-009-content-resource` | The kind of platform object this identifier describes. |
+| `object_id` | `objectId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform object that has this external identifier. |
+| `source_system` | `sourceSystem` | text | Yes | operational | `DEC-010-tenancy-reference-data` | The outside system that created or owns the identifier. |
+| `external_id` | `externalId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The actual identifier value used by the outside system. |
+| `identifier_type` | `identifierType` | enum | Yes | operational | `DEC-009-content-resource` | What kind of outside ID this is. |
+| `status` | `status` | enum | Yes | operational | `DEC-010-tenancy-reference-data` | Whether the identifier record is active, inactive, or marked for deletion. |
 
 #### Controlled Values
 

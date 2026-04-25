@@ -1080,15 +1080,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this QTI package."
+            "description": "The platform's stable ID for this QTI package.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "packageIdentifier": {
             "type": "string",
-            "description": "The package ID supplied by the publisher, item bank, authoring tool, or import process."
+            "description": "The package ID supplied by the publisher, item bank, authoring tool, or import process.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "qtiVersion": {
             "type": "string",
             "description": "The QTI version the package claims to use.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "3.0",
               "2.2"
@@ -1100,11 +1103,13 @@
           },
           "sourceSystem": {
             "type": "string",
-            "description": "The publisher, item bank, LMS, or authoring tool that supplied the package."
+            "description": "The publisher, item bank, LMS, or authoring tool that supplied the package.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "validationStatus": {
             "type": "string",
             "description": "Whether the platform has checked the package and found it valid, invalid, warning-only, or not yet checked.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "pending",
               "valid",
@@ -1120,19 +1125,23 @@
           },
           "validationErrorCount": {
             "type": "integer",
-            "description": "How many validation problems were found during import."
+            "description": "How many validation problems were found during import.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "manifestPath": {
             "type": "string",
-            "description": "The location of the package manifest file inside the package."
+            "description": "The location of the package manifest file inside the package.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "originalFileUri": {
             "type": "string",
-            "description": "Where the platform stores the original uploaded package file."
+            "description": "Where the platform stores the original uploaded package file.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "importedAt": {
             "type": "string",
             "description": "When the platform received or imported the package.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1151,39 +1160,48 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this item."
+            "description": "The platform's stable ID for this item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "packageId": {
             "type": "string",
-            "description": "The QTI package this item came from."
+            "description": "The QTI package this item came from.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "identifier": {
             "type": "string",
-            "description": "The local QTI identifier for the item inside its package."
+            "description": "The local QTI identifier for the item inside its package.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The item title used to browse or select the item."
+            "description": "The item title used to browse or select the item.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "label": {
             "type": "string",
-            "description": "An authoring-system label for the item."
+            "description": "An authoring-system label for the item.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "language": {
             "type": "string",
-            "description": "The main language of the item as a language tag."
+            "description": "The main language of the item as a language tag.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "authoringToolName": {
             "type": "string",
-            "description": "The tool that created the item."
+            "description": "The tool that created the item.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "authoringToolVersion": {
             "type": "string",
-            "description": "The version of the authoring tool that created the item."
+            "description": "The version of the authoring tool that created the item.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "adaptive": {
             "type": "string",
             "description": "Whether the item can change based on learner responses or test logic.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1196,6 +1214,7 @@
           "timeDependent": {
             "type": "string",
             "description": "Whether timing can affect response processing or scoring for this item.",
+            "x-decisionId": "DEC-008-time-session",
             "enum": [
               "true",
               "false"
@@ -1207,11 +1226,13 @@
           },
           "itemBodySummary": {
             "type": "string",
-            "description": "A safe summary of the visible question body, not necessarily the full item HTML/XML."
+            "description": "A safe summary of the visible question body, not necessarily the full item HTML/XML.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "primaryInteractionType": {
             "type": "string",
             "description": "The main way the learner answers this item.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "choiceInteraction",
               "orderInteraction",
@@ -1263,11 +1284,13 @@
           },
           "maxScore": {
             "type": "number",
-            "description": "The highest normal score this item can produce when known."
+            "description": "The highest normal score this item can produce when known.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "hasCorrectResponse": {
             "type": "string",
             "description": "Whether the item includes a declared correct response.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "true",
               "false"
@@ -1279,11 +1302,13 @@
           },
           "accessibilityCatalogId": {
             "type": "string",
-            "description": "The accessibility catalog record attached to this item, if any."
+            "description": "The accessibility catalog record attached to this item, if any.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourceHref": {
             "type": "string",
-            "description": "The package-relative XML file or resource path for this item."
+            "description": "The package-relative XML file or resource path for this item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -1300,35 +1325,43 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this stimulus."
+            "description": "The platform's stable ID for this stimulus.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "packageId": {
             "type": "string",
-            "description": "The QTI package this stimulus came from."
+            "description": "The QTI package this stimulus came from.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "identifier": {
             "type": "string",
-            "description": "The local QTI identifier for the stimulus."
+            "description": "The local QTI identifier for the stimulus.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The stimulus title used to browse or select it."
+            "description": "The stimulus title used to browse or select it.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "language": {
             "type": "string",
-            "description": "The main language of the stimulus as a language tag."
+            "description": "The main language of the stimulus as a language tag.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "stimulusBodySummary": {
             "type": "string",
-            "description": "A safe summary of the passage, chart, media, or other shared content."
+            "description": "A safe summary of the passage, chart, media, or other shared content.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "accessibilityCatalogId": {
             "type": "string",
-            "description": "The accessibility catalog record attached to this stimulus, if any."
+            "description": "The accessibility catalog record attached to this stimulus, if any.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourceHref": {
             "type": "string",
-            "description": "The package-relative XML file or resource path for this stimulus."
+            "description": "The package-relative XML file or resource path for this stimulus.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -1345,43 +1378,53 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this test."
+            "description": "The platform's stable ID for this test.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "packageId": {
             "type": "string",
-            "description": "The QTI package this test came from."
+            "description": "The QTI package this test came from.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "identifier": {
             "type": "string",
-            "description": "The local QTI identifier for the test."
+            "description": "The local QTI identifier for the test.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The test title people see."
+            "description": "The test title people see.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "classTokens": {
             "type": "string",
-            "description": "Style or category tokens from the QTI test; this is not a school class."
+            "description": "Style or category tokens from the QTI test; this is not a school class.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "authoringToolName": {
             "type": "string",
-            "description": "The tool that created the test."
+            "description": "The tool that created the test.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "authoringToolVersion": {
             "type": "string",
-            "description": "The version of the tool that created the test."
+            "description": "The version of the tool that created the test.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "timeLimitSeconds": {
             "type": "integer",
-            "description": "The maximum time allowed for the test when known, in seconds."
+            "description": "The maximum time allowed for the test when known, in seconds.",
+            "x-decisionId": "DEC-008-time-session"
           },
           "outcomeProcessingSummary": {
             "type": "string",
-            "description": "A safe summary of how test-level outcomes are calculated."
+            "description": "A safe summary of how test-level outcomes are calculated.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "sourceHref": {
             "type": "string",
-            "description": "The package-relative XML file or resource path for this test."
+            "description": "The package-relative XML file or resource path for this test.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -1398,23 +1441,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this test part."
+            "description": "The platform's stable ID for this test part.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "testId": {
             "type": "string",
-            "description": "The test that contains this part."
+            "description": "The test that contains this part.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "identifier": {
             "type": "string",
-            "description": "The local QTI identifier for this test part."
+            "description": "The local QTI identifier for this test part.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The title for this part, if shown or managed separately."
+            "description": "The title for this part, if shown or managed separately.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "navigationMode": {
             "type": "string",
             "description": "Whether the learner must go in order or can move around.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "linear",
               "nonlinear"
@@ -1427,6 +1475,7 @@
           "submissionMode": {
             "type": "string",
             "description": "Whether answers are submitted item-by-item or together.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "individual",
               "simultaneous"
@@ -1438,11 +1487,13 @@
           },
           "maxTimeSeconds": {
             "type": "integer",
-            "description": "The maximum time allowed for this part, in seconds."
+            "description": "The maximum time allowed for this part, in seconds.",
+            "x-decisionId": "DEC-008-time-session"
           },
           "itemSessionControlId": {
             "type": "string",
-            "description": "The timing/review/attempt-control record for items in this part, if modeled separately."
+            "description": "The timing/review/attempt-control record for items in this part, if modeled separately.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -1459,27 +1510,33 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this section."
+            "description": "The platform's stable ID for this section.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "testId": {
             "type": "string",
-            "description": "The test that contains this section."
+            "description": "The test that contains this section.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "parentSectionId": {
             "type": "string",
-            "description": "The section that contains this section, if sections are nested."
+            "description": "The section that contains this section, if sections are nested.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "identifier": {
             "type": "string",
-            "description": "The local QTI identifier for the section."
+            "description": "The local QTI identifier for the section.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The title used to browse or present the section."
+            "description": "The title used to browse or present the section.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "requiredInSelection": {
             "type": "string",
             "description": "Whether this section must be selected when test selection rules run.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1492,6 +1549,7 @@
           "fixedInShuffle": {
             "type": "string",
             "description": "Whether this section keeps its position when nearby content is shuffled.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1504,6 +1562,7 @@
           "visibleToCandidate": {
             "type": "string",
             "description": "Whether the learner can see this as a visible section.",
+            "x-decisionId": "DEC-008-time-session",
             "enum": [
               "true",
               "false"
@@ -1516,6 +1575,7 @@
           "keepTogether": {
             "type": "string",
             "description": "Whether children of an invisible shuffled section should move together as a group.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1527,11 +1587,13 @@
           },
           "selectionCount": {
             "type": "integer",
-            "description": "How many child parts should be selected from this section, if selection is used."
+            "description": "How many child parts should be selected from this section, if selection is used.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "orderingShuffle": {
             "type": "string",
             "description": "Whether child parts may be presented in shuffled order.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1555,27 +1617,33 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this item reference."
+            "description": "The platform's stable ID for this item reference.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sectionId": {
             "type": "string",
-            "description": "The section containing this item reference."
+            "description": "The section containing this item reference.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "itemId": {
             "type": "string",
-            "description": "The resolved platform item record, if the href has been matched to an item."
+            "description": "The resolved platform item record, if the href has been matched to an item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "identifier": {
             "type": "string",
-            "description": "The test-local identifier for this item reference."
+            "description": "The test-local identifier for this item reference.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "href": {
             "type": "string",
-            "description": "The package-relative link to the item XML file."
+            "description": "The package-relative link to the item XML file.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "requiredInSelection": {
             "type": "string",
             "description": "Whether this item must be selected when selection rules run.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1588,6 +1656,7 @@
           "fixedInShuffle": {
             "type": "string",
             "description": "Whether this item keeps its position during shuffling.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1599,15 +1668,18 @@
           },
           "category": {
             "type": "string",
-            "description": "Category tags used for reporting, subscores, or selection rules."
+            "description": "Category tags used for reporting, subscores, or selection rules.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "weight": {
             "type": "number",
-            "description": "Test-specific score weight for this item."
+            "description": "Test-specific score weight for this item.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "timeLimitSeconds": {
             "type": "integer",
-            "description": "The maximum time allowed for this item reference, in seconds."
+            "description": "The maximum time allowed for this item reference, in seconds.",
+            "x-decisionId": "DEC-008-time-session"
           }
         }
       },
@@ -1625,11 +1697,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this variable declaration."
+            "description": "The platform's stable ID for this variable declaration.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ownerObjectType": {
             "type": "string",
             "description": "The kind of QTI object that owns this variable.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "package",
               "item",
@@ -1653,11 +1727,13 @@
           },
           "ownerId": {
             "type": "string",
-            "description": "The platform ID of the item, test, or other owner object."
+            "description": "The platform ID of the item, test, or other owner object.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "declarationKind": {
             "type": "string",
             "description": "Whether this variable stores an answer, score/status outcome, template value, or context value.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "response",
               "outcome",
@@ -1673,11 +1749,13 @@
           },
           "identifier": {
             "type": "string",
-            "description": "The QTI variable name."
+            "description": "The QTI variable name.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "cardinality": {
             "type": "string",
             "description": "Whether the variable holds one value, many values, ordered values, or a record.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "single",
               "multiple",
@@ -1694,6 +1772,7 @@
           "baseType": {
             "type": "string",
             "description": "The type of each value held by the variable.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "boolean",
               "directedPair",
@@ -1723,19 +1802,23 @@
           },
           "defaultValueSummary": {
             "type": "string",
-            "description": "A safe summary of the default value, if any."
+            "description": "A safe summary of the default value, if any.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "correctResponseSummary": {
             "type": "string",
-            "description": "A safe summary of the correct response, if the item declares one."
+            "description": "A safe summary of the correct response, if the item declares one.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "mappingSummary": {
             "type": "string",
-            "description": "A safe summary of how response values map to scores or outcomes."
+            "description": "A safe summary of how response values map to scores or outcomes.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "view": {
             "type": "string",
             "description": "The audience this outcome or feedback-related variable is intended for.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "author",
               "candidate",
@@ -1766,19 +1849,23 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this interaction."
+            "description": "The platform's stable ID for this interaction.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "itemId": {
             "type": "string",
-            "description": "The item containing this interaction."
+            "description": "The item containing this interaction.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "responseIdentifier": {
             "type": "string",
-            "description": "The response variable that stores the learner's answer for this interaction."
+            "description": "The response variable that stores the learner's answer for this interaction.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "interactionType": {
             "type": "string",
             "description": "The QTI interaction family.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "choiceInteraction",
               "orderInteraction",
@@ -1830,11 +1917,13 @@
           },
           "promptSummary": {
             "type": "string",
-            "description": "A safe summary of the instructions or prompt shown with the interaction."
+            "description": "A safe summary of the instructions or prompt shown with the interaction.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "shuffle": {
             "type": "string",
             "description": "Whether choices should appear in randomized order.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -1846,23 +1935,28 @@
           },
           "minChoices": {
             "type": "integer",
-            "description": "The smallest number of choices a learner must select."
+            "description": "The smallest number of choices a learner must select.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "maxChoices": {
             "type": "integer",
-            "description": "The largest number of choices a learner may select; zero often means no limit."
+            "description": "The largest number of choices a learner may select; zero often means no limit.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "minAssociations": {
             "type": "integer",
-            "description": "The smallest number of pairings or matches required."
+            "description": "The smallest number of pairings or matches required.",
+            "x-decisionId": "DEC-006-standards-alignment"
           },
           "maxAssociations": {
             "type": "integer",
-            "description": "The largest number of pairings or matches allowed."
+            "description": "The largest number of pairings or matches allowed.",
+            "x-decisionId": "DEC-006-standards-alignment"
           },
           "orientation": {
             "type": "string",
             "description": "Whether layout naturally reads horizontally or vertically.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "horizontal",
               "vertical"
@@ -1874,11 +1968,13 @@
           },
           "expectedLength": {
             "type": "integer",
-            "description": "Expected response length for text interactions."
+            "description": "Expected response length for text interactions.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "textFormat": {
             "type": "string",
             "description": "Whether typed text is plain, preformatted, or XHTML.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "plain",
               "preformatted",
@@ -1893,6 +1989,7 @@
           "shape": {
             "type": "string",
             "description": "The hotspot shape used by graphic interactions.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "circle",
               "default",
@@ -1922,11 +2019,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this processing rule."
+            "description": "The platform's stable ID for this processing rule.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ownerObjectType": {
             "type": "string",
             "description": "The kind of QTI object that owns this rule.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "package",
               "item",
@@ -1950,11 +2049,13 @@
           },
           "ownerId": {
             "type": "string",
-            "description": "The platform ID of the object that owns this rule."
+            "description": "The platform ID of the object that owns this rule.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "processingKind": {
             "type": "string",
             "description": "The kind of processing rule.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "responseProcessing",
               "outcomeProcessing",
@@ -1972,15 +2073,18 @@
           },
           "templateUri": {
             "type": "string",
-            "description": "A reusable QTI processing template URI, if one is referenced."
+            "description": "A reusable QTI processing template URI, if one is referenced.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "targetIdentifier": {
             "type": "string",
-            "description": "The target item, section, outcome, or special destination used by this rule."
+            "description": "The target item, section, outcome, or special destination used by this rule.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "logicSummary": {
             "type": "string",
-            "description": "A safe plain-language summary of the rule logic."
+            "description": "A safe plain-language summary of the rule logic.",
+            "x-decisionId": "DEC-005-results-scores"
           }
         }
       },
@@ -1996,11 +2100,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this feedback record."
+            "description": "The platform's stable ID for this feedback record.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ownerObjectType": {
             "type": "string",
             "description": "The kind of QTI object that owns this feedback.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "package",
               "item",
@@ -2024,11 +2130,13 @@
           },
           "ownerId": {
             "type": "string",
-            "description": "The platform ID of the object that owns this feedback."
+            "description": "The platform ID of the object that owns this feedback.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "feedbackKind": {
             "type": "string",
             "description": "Whether this is item feedback, test feedback, or a rubric block.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "modalFeedback",
               "testFeedback",
@@ -2042,11 +2150,13 @@
           },
           "outcomeIdentifier": {
             "type": "string",
-            "description": "The outcome variable that controls whether this feedback appears."
+            "description": "The outcome variable that controls whether this feedback appears.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "showHide": {
             "type": "string",
             "description": "Whether matching the identifier shows or hides the feedback.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "show",
               "hide"
@@ -2058,15 +2168,18 @@
           },
           "feedbackIdentifier": {
             "type": "string",
-            "description": "The value tested against an outcome to decide whether the feedback applies."
+            "description": "The value tested against an outcome to decide whether the feedback applies.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "title": {
             "type": "string",
-            "description": "An optional title for the feedback or rubric."
+            "description": "An optional title for the feedback or rubric.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "access": {
             "type": "string",
             "description": "Whether test feedback appears during the test or at the end.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "during",
               "atEnd"
@@ -2079,6 +2192,7 @@
           "rubricUse": {
             "type": "string",
             "description": "The purpose of a rubric block.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "instructions",
               "navigation",
@@ -2093,6 +2207,7 @@
           "view": {
             "type": "string",
             "description": "The audience that should see this feedback or rubric.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "author",
               "candidate",
@@ -2112,7 +2227,8 @@
           },
           "bodySummary": {
             "type": "string",
-            "description": "A safe summary of the feedback or rubric content."
+            "description": "A safe summary of the feedback or rubric content.",
+            "x-decisionId": "DEC-005-results-scores"
           }
         }
       },
@@ -2129,11 +2245,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this accessibility support record."
+            "description": "The platform's stable ID for this accessibility support record.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ownerObjectType": {
             "type": "string",
             "description": "The kind of QTI object this support belongs to.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "package",
               "item",
@@ -2157,11 +2275,13 @@
           },
           "ownerId": {
             "type": "string",
-            "description": "The platform ID of the object this support belongs to."
+            "description": "The platform ID of the object this support belongs to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "supportType": {
             "type": "string",
             "description": "The kind of accessibility support available.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "additional-directions",
               "audio-description",
@@ -2199,11 +2319,13 @@
           },
           "catalogIdref": {
             "type": "string",
-            "description": "The QTI catalog ID reference for this support."
+            "description": "The QTI catalog ID reference for this support.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "ttsSuppression": {
             "type": "string",
             "description": "Whether text-to-speech should be suppressed for this content.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "all",
               "computer-read-aloud",
@@ -2217,11 +2339,13 @@
           },
           "contentSummary": {
             "type": "string",
-            "description": "A safe summary of the alternative or support content."
+            "description": "A safe summary of the alternative or support content.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "sensitive": {
             "type": "string",
             "description": "Whether this support metadata may reveal accessibility needs or accommodations.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -2244,15 +2368,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this companion material."
+            "description": "The platform's stable ID for this companion material.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "itemId": {
             "type": "string",
-            "description": "The item this companion material applies to."
+            "description": "The item this companion material applies to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "materialType": {
             "type": "string",
             "description": "The kind of companion material.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "calculator",
               "ruler",
@@ -2273,6 +2400,7 @@
           "calculatorType": {
             "type": "string",
             "description": "The calculator capability allowed or required.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "basic",
               "standard",
@@ -2288,11 +2416,13 @@
           },
           "title": {
             "type": "string",
-            "description": "A human-facing name for the material."
+            "description": "A human-facing name for the material.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "requiredForDelivery": {
             "type": "string",
             "description": "Whether the item requires this material to be available.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "true",
               "false"
@@ -2304,7 +2434,8 @@
           },
           "materialUri": {
             "type": "string",
-            "description": "A package file path, external URI, or local reference for the material."
+            "description": "A package file path, external URI, or local reference for the material.",
+            "x-decisionId": "DEC-009-content-resource"
           }
         }
       },
@@ -2321,11 +2452,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this alignment."
+            "description": "The platform's stable ID for this alignment.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ownerObjectType": {
             "type": "string",
             "description": "The kind of QTI object being aligned.",
+            "x-decisionId": "DEC-006-standards-alignment",
             "enum": [
               "package",
               "item",
@@ -2349,11 +2482,13 @@
           },
           "ownerId": {
             "type": "string",
-            "description": "The platform ID of the aligned QTI object."
+            "description": "The platform ID of the aligned QTI object.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "targetType": {
             "type": "string",
             "description": "What kind of target the QTI content is aligned to.",
+            "x-decisionId": "DEC-006-standards-alignment",
             "enum": [
               "caseItem",
               "uri",
@@ -2367,15 +2502,18 @@
           },
           "targetIdentifier": {
             "type": "string",
-            "description": "The CASE item ID, URI, or local standard identifier."
+            "description": "The CASE item ID, URI, or local standard identifier.",
+            "x-decisionId": "DEC-006-standards-alignment"
           },
           "alignmentLabel": {
             "type": "string",
-            "description": "The human-readable standard, competency, or skill label."
+            "description": "The human-readable standard, competency, or skill label.",
+            "x-decisionId": "DEC-006-standards-alignment"
           },
           "sourceMetadataUri": {
             "type": "string",
-            "description": "Where the original QTI or package metadata described this alignment."
+            "description": "Where the original QTI or package metadata described this alignment.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -2392,23 +2530,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this package artifact."
+            "description": "The platform's stable ID for this package artifact.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "packageId": {
             "type": "string",
-            "description": "The package containing this artifact."
+            "description": "The package containing this artifact.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "href": {
             "type": "string",
-            "description": "The package-relative path to the file."
+            "description": "The package-relative path to the file.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "mediaType": {
             "type": "string",
-            "description": "The file's MIME type when known."
+            "description": "The file's MIME type when known.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "artifactRole": {
             "type": "string",
             "description": "The role this file plays in the QTI package.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "manifest",
               "itemXml",
@@ -2430,11 +2573,13 @@
           },
           "sha256": {
             "type": "string",
-            "description": "A hash used to confirm the file did not change."
+            "description": "A hash used to confirm the file did not change.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "storageUri": {
             "type": "string",
-            "description": "Where the platform stores this artifact after import."
+            "description": "Where the platform stores this artifact after import.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       }

@@ -16,17 +16,17 @@ Model scope: Repository, import, search, metadata, alignment, and governance. Th
 - Privacy class: `operational`
 - Why it exists: Apps and AI agents need one record that says where the package came from, whether it is valid, and where the original artifact is stored.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this QTI package. |
-| `package_identifier` | `packageIdentifier` | text | Yes | operational | The package ID supplied by the publisher, item bank, authoring tool, or import process. |
-| `qti_version` | `qtiVersion` | enum | Yes | operational | The QTI version the package claims to use. |
-| `source_system` | `sourceSystem` | text | No | operational | The publisher, item bank, LMS, or authoring tool that supplied the package. |
-| `validation_status` | `validationStatus` | enum | Yes | operational | Whether the platform has checked the package and found it valid, invalid, warning-only, or not yet checked. |
-| `validation_error_count` | `validationErrorCount` | integer | No | operational | How many validation problems were found during import. |
-| `manifest_path` | `manifestPath` | text | No | operational | The location of the package manifest file inside the package. |
-| `original_file_uri` | `originalFileUri` | text | Yes | operational | Where the platform stores the original uploaded package file. |
-| `imported_at` | `importedAt` | datetime | Yes | operational | When the platform received or imported the package. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this QTI package. |
+| `package_identifier` | `packageIdentifier` | text | Yes | operational | `DEC-009-content-resource` | The package ID supplied by the publisher, item bank, authoring tool, or import process. |
+| `qti_version` | `qtiVersion` | enum | Yes | operational | `DEC-009-content-resource` | The QTI version the package claims to use. |
+| `source_system` | `sourceSystem` | text | No | operational | `DEC-009-content-resource` | The publisher, item bank, LMS, or authoring tool that supplied the package. |
+| `validation_status` | `validationStatus` | enum | Yes | operational | `DEC-010-tenancy-reference-data` | Whether the platform has checked the package and found it valid, invalid, warning-only, or not yet checked. |
+| `validation_error_count` | `validationErrorCount` | integer | No | operational | `DEC-009-content-resource` | How many validation problems were found during import. |
+| `manifest_path` | `manifestPath` | text | No | operational | `DEC-007-identifier-crosswalk` | The location of the package manifest file inside the package. |
+| `original_file_uri` | `originalFileUri` | text | Yes | operational | `DEC-007-identifier-crosswalk` | Where the platform stores the original uploaded package file. |
+| `imported_at` | `importedAt` | datetime | Yes | operational | `DEC-008-time-session` | When the platform received or imported the package. |
 
 #### Controlled Values
 
@@ -55,24 +55,24 @@ Values for `validation_status`:
 - Privacy class: `directory`
 - Why it exists: Item banks, search, reuse, alignment, accessibility review, and item-level analytics need item records.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this item. |
-| `package_id` | `packageId` | text | Yes | operational | The QTI package this item came from. |
-| `identifier` | `identifier` | text | Yes | operational | The local QTI identifier for the item inside its package. |
-| `title` | `title` | text | Yes | directory | The item title used to browse or select the item. |
-| `label` | `label` | text | No | operational | An authoring-system label for the item. |
-| `language` | `language` | text | No | directory | The main language of the item as a language tag. |
-| `authoring_tool_name` | `authoringToolName` | text | No | operational | The tool that created the item. |
-| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | The version of the authoring tool that created the item. |
-| `adaptive` | `adaptive` | enum | No | operational | Whether the item can change based on learner responses or test logic. |
-| `time_dependent` | `timeDependent` | enum | Yes | operational | Whether timing can affect response processing or scoring for this item. |
-| `item_body_summary` | `itemBodySummary` | text | No | directory | A safe summary of the visible question body, not necessarily the full item HTML/XML. |
-| `primary_interaction_type` | `primaryInteractionType` | enum | No | operational | The main way the learner answers this item. |
-| `max_score` | `maxScore` | number | No | operational | The highest normal score this item can produce when known. |
-| `has_correct_response` | `hasCorrectResponse` | enum | No | sensitive | Whether the item includes a declared correct response. |
-| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | The accessibility catalog record attached to this item, if any. |
-| `source_href` | `sourceHref` | text | Yes | operational | The package-relative XML file or resource path for this item. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item. |
+| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The QTI package this item came from. |
+| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the item inside its package. |
+| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The item title used to browse or select the item. |
+| `label` | `label` | text | No | operational | `DEC-009-content-resource` | An authoring-system label for the item. |
+| `language` | `language` | text | No | directory | `DEC-009-content-resource` | The main language of the item as a language tag. |
+| `authoring_tool_name` | `authoringToolName` | text | No | operational | `DEC-009-content-resource` | The tool that created the item. |
+| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | `DEC-009-content-resource` | The version of the authoring tool that created the item. |
+| `adaptive` | `adaptive` | enum | No | operational | `DEC-009-content-resource` | Whether the item can change based on learner responses or test logic. |
+| `time_dependent` | `timeDependent` | enum | Yes | operational | `DEC-008-time-session` | Whether timing can affect response processing or scoring for this item. |
+| `item_body_summary` | `itemBodySummary` | text | No | directory | `DEC-009-content-resource` | A safe summary of the visible question body, not necessarily the full item HTML/XML. |
+| `primary_interaction_type` | `primaryInteractionType` | enum | No | operational | `DEC-009-content-resource` | The main way the learner answers this item. |
+| `max_score` | `maxScore` | number | No | operational | `DEC-005-results-scores` | The highest normal score this item can produce when known. |
+| `has_correct_response` | `hasCorrectResponse` | enum | No | sensitive | `DEC-005-results-scores` | Whether the item includes a declared correct response. |
+| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | `DEC-007-identifier-crosswalk` | The accessibility catalog record attached to this item, if any. |
+| `source_href` | `sourceHref` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this item. |
 
 #### Controlled Values
 
@@ -133,16 +133,16 @@ Values for `has_correct_response`:
 - Privacy class: `directory`
 - Why it exists: Stimuli need search, reuse, accessibility review, and many-to-many links to items.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this stimulus. |
-| `package_id` | `packageId` | text | Yes | operational | The QTI package this stimulus came from. |
-| `identifier` | `identifier` | text | Yes | operational | The local QTI identifier for the stimulus. |
-| `title` | `title` | text | Yes | directory | The stimulus title used to browse or select it. |
-| `language` | `language` | text | No | directory | The main language of the stimulus as a language tag. |
-| `stimulus_body_summary` | `stimulusBodySummary` | text | No | directory | A safe summary of the passage, chart, media, or other shared content. |
-| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | The accessibility catalog record attached to this stimulus, if any. |
-| `source_href` | `sourceHref` | text | Yes | operational | The package-relative XML file or resource path for this stimulus. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this stimulus. |
+| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The QTI package this stimulus came from. |
+| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the stimulus. |
+| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The stimulus title used to browse or select it. |
+| `language` | `language` | text | No | directory | `DEC-009-content-resource` | The main language of the stimulus as a language tag. |
+| `stimulus_body_summary` | `stimulusBodySummary` | text | No | directory | `DEC-009-content-resource` | A safe summary of the passage, chart, media, or other shared content. |
+| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | `DEC-007-identifier-crosswalk` | The accessibility catalog record attached to this stimulus, if any. |
+| `source_href` | `sourceHref` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this stimulus. |
 
 ### QTI Assessment Test
 
@@ -152,18 +152,18 @@ Values for `has_correct_response`:
 - Privacy class: `directory`
 - Why it exists: Schools and apps need to search, assign, inspect, and align whole assessments, not only individual items.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this test. |
-| `package_id` | `packageId` | text | Yes | operational | The QTI package this test came from. |
-| `identifier` | `identifier` | text | Yes | operational | The local QTI identifier for the test. |
-| `title` | `title` | text | Yes | directory | The test title people see. |
-| `class_tokens` | `classTokens` | text | No | operational | Style or category tokens from the QTI test; this is not a school class. |
-| `authoring_tool_name` | `authoringToolName` | text | No | operational | The tool that created the test. |
-| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | The version of the tool that created the test. |
-| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | The maximum time allowed for the test when known, in seconds. |
-| `outcome_processing_summary` | `outcomeProcessingSummary` | text | No | operational | A safe summary of how test-level outcomes are calculated. |
-| `source_href` | `sourceHref` | text | Yes | operational | The package-relative XML file or resource path for this test. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this test. |
+| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The QTI package this test came from. |
+| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the test. |
+| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The test title people see. |
+| `class_tokens` | `classTokens` | text | No | operational | `DEC-002-learning-context` | Style or category tokens from the QTI test; this is not a school class. |
+| `authoring_tool_name` | `authoringToolName` | text | No | operational | `DEC-009-content-resource` | The tool that created the test. |
+| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | `DEC-009-content-resource` | The version of the tool that created the test. |
+| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | `DEC-008-time-session` | The maximum time allowed for the test when known, in seconds. |
+| `outcome_processing_summary` | `outcomeProcessingSummary` | text | No | operational | `DEC-005-results-scores` | A safe summary of how test-level outcomes are calculated. |
+| `source_href` | `sourceHref` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this test. |
 
 ### QTI Test Part
 
@@ -173,16 +173,16 @@ Values for `has_correct_response`:
 - Privacy class: `operational`
 - Why it exists: Delivery and analytics need to know how learners are allowed to move through a test.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this test part. |
-| `test_id` | `testId` | text | Yes | operational | The test that contains this part. |
-| `identifier` | `identifier` | text | Yes | operational | The local QTI identifier for this test part. |
-| `title` | `title` | text | No | directory | The title for this part, if shown or managed separately. |
-| `navigation_mode` | `navigationMode` | enum | Yes | operational | Whether the learner must go in order or can move around. |
-| `submission_mode` | `submissionMode` | enum | Yes | operational | Whether answers are submitted item-by-item or together. |
-| `max_time_seconds` | `maxTimeSeconds` | integer | No | operational | The maximum time allowed for this part, in seconds. |
-| `item_session_control_id` | `itemSessionControlId` | text | No | operational | The timing/review/attempt-control record for items in this part, if modeled separately. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this test part. |
+| `test_id` | `testId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The test that contains this part. |
+| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for this test part. |
+| `title` | `title` | text | No | directory | `DEC-009-content-resource` | The title for this part, if shown or managed separately. |
+| `navigation_mode` | `navigationMode` | enum | Yes | operational | `DEC-009-content-resource` | Whether the learner must go in order or can move around. |
+| `submission_mode` | `submissionMode` | enum | Yes | operational | `DEC-009-content-resource` | Whether answers are submitted item-by-item or together. |
+| `max_time_seconds` | `maxTimeSeconds` | integer | No | operational | `DEC-008-time-session` | The maximum time allowed for this part, in seconds. |
+| `item_session_control_id` | `itemSessionControlId` | text | No | operational | `DEC-007-identifier-crosswalk` | The timing/review/attempt-control record for items in this part, if modeled separately. |
 
 #### Controlled Values
 
@@ -209,19 +209,19 @@ Values for `submission_mode`:
 - Privacy class: `operational`
 - Why it exists: Sections are needed for test construction, search, item selection, and analytics by part of a test.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this section. |
-| `test_id` | `testId` | text | Yes | operational | The test that contains this section. |
-| `parent_section_id` | `parentSectionId` | text | No | operational | The section that contains this section, if sections are nested. |
-| `identifier` | `identifier` | text | Yes | operational | The local QTI identifier for the section. |
-| `title` | `title` | text | Yes | directory | The title used to browse or present the section. |
-| `required_in_selection` | `requiredInSelection` | enum | No | operational | Whether this section must be selected when test selection rules run. |
-| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | Whether this section keeps its position when nearby content is shuffled. |
-| `visible_to_candidate` | `visibleToCandidate` | enum | Yes | operational | Whether the learner can see this as a visible section. |
-| `keep_together` | `keepTogether` | enum | No | operational | Whether children of an invisible shuffled section should move together as a group. |
-| `selection_count` | `selectionCount` | integer | No | operational | How many child parts should be selected from this section, if selection is used. |
-| `ordering_shuffle` | `orderingShuffle` | enum | No | operational | Whether child parts may be presented in shuffled order. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this section. |
+| `test_id` | `testId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The test that contains this section. |
+| `parent_section_id` | `parentSectionId` | text | No | operational | `DEC-007-identifier-crosswalk` | The section that contains this section, if sections are nested. |
+| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the section. |
+| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The title used to browse or present the section. |
+| `required_in_selection` | `requiredInSelection` | enum | No | operational | `DEC-009-content-resource` | Whether this section must be selected when test selection rules run. |
+| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | `DEC-009-content-resource` | Whether this section keeps its position when nearby content is shuffled. |
+| `visible_to_candidate` | `visibleToCandidate` | enum | Yes | operational | `DEC-008-time-session` | Whether the learner can see this as a visible section. |
+| `keep_together` | `keepTogether` | enum | No | operational | `DEC-009-content-resource` | Whether children of an invisible shuffled section should move together as a group. |
+| `selection_count` | `selectionCount` | integer | No | operational | `DEC-009-content-resource` | How many child parts should be selected from this section, if selection is used. |
+| `ordering_shuffle` | `orderingShuffle` | enum | No | operational | `DEC-009-content-resource` | Whether child parts may be presented in shuffled order. |
 
 #### Controlled Values
 
@@ -269,18 +269,18 @@ Values for `ordering_shuffle`:
 - Privacy class: `operational`
 - Why it exists: The same item can appear in more than one test or section with different rules.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this item reference. |
-| `section_id` | `sectionId` | text | Yes | operational | The section containing this item reference. |
-| `item_id` | `itemId` | text | No | operational | The resolved platform item record, if the href has been matched to an item. |
-| `identifier` | `identifier` | text | Yes | operational | The test-local identifier for this item reference. |
-| `href` | `href` | text | Yes | operational | The package-relative link to the item XML file. |
-| `required_in_selection` | `requiredInSelection` | enum | No | operational | Whether this item must be selected when selection rules run. |
-| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | Whether this item keeps its position during shuffling. |
-| `category` | `category` | text | No | directory | Category tags used for reporting, subscores, or selection rules. |
-| `weight` | `weight` | number | No | operational | Test-specific score weight for this item. |
-| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | The maximum time allowed for this item reference, in seconds. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item reference. |
+| `section_id` | `sectionId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The section containing this item reference. |
+| `item_id` | `itemId` | text | No | operational | `DEC-007-identifier-crosswalk` | The resolved platform item record, if the href has been matched to an item. |
+| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The test-local identifier for this item reference. |
+| `href` | `href` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative link to the item XML file. |
+| `required_in_selection` | `requiredInSelection` | enum | No | operational | `DEC-009-content-resource` | Whether this item must be selected when selection rules run. |
+| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | `DEC-009-content-resource` | Whether this item keeps its position during shuffling. |
+| `category` | `category` | text | No | directory | `DEC-009-content-resource` | Category tags used for reporting, subscores, or selection rules. |
+| `weight` | `weight` | number | No | operational | `DEC-005-results-scores` | Test-specific score weight for this item. |
+| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | `DEC-008-time-session` | The maximum time allowed for this item reference, in seconds. |
 
 #### Controlled Values
 
@@ -307,19 +307,19 @@ Values for `fixed_in_shuffle`:
 - Privacy class: `operational`
 - Why it exists: Variables explain how answers, scores, status values, templates, and context values are named and typed.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this variable declaration. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | The kind of QTI object that owns this variable. |
-| `owner_id` | `ownerId` | text | Yes | operational | The platform ID of the item, test, or other owner object. |
-| `declaration_kind` | `declarationKind` | enum | Yes | operational | Whether this variable stores an answer, score/status outcome, template value, or context value. |
-| `identifier` | `identifier` | text | Yes | education_record | The QTI variable name. |
-| `cardinality` | `cardinality` | enum | Yes | operational | Whether the variable holds one value, many values, ordered values, or a record. |
-| `base_type` | `baseType` | enum | No | operational | The type of each value held by the variable. |
-| `default_value_summary` | `defaultValueSummary` | text | No | operational | A safe summary of the default value, if any. |
-| `correct_response_summary` | `correctResponseSummary` | text | No | sensitive | A safe summary of the correct response, if the item declares one. |
-| `mapping_summary` | `mappingSummary` | text | No | operational | A safe summary of how response values map to scores or outcomes. |
-| `view` | `view` | enum | No | sensitive | The audience this outcome or feedback-related variable is intended for. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this variable declaration. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-009-content-resource` | The kind of QTI object that owns this variable. |
+| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the item, test, or other owner object. |
+| `declaration_kind` | `declarationKind` | enum | Yes | operational | `DEC-009-content-resource` | Whether this variable stores an answer, score/status outcome, template value, or context value. |
+| `identifier` | `identifier` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The QTI variable name. |
+| `cardinality` | `cardinality` | enum | Yes | operational | `DEC-009-content-resource` | Whether the variable holds one value, many values, ordered values, or a record. |
+| `base_type` | `baseType` | enum | No | operational | `DEC-009-content-resource` | The type of each value held by the variable. |
+| `default_value_summary` | `defaultValueSummary` | text | No | operational | `DEC-009-content-resource` | A safe summary of the default value, if any. |
+| `correct_response_summary` | `correctResponseSummary` | text | No | sensitive | `DEC-005-results-scores` | A safe summary of the correct response, if the item declares one. |
+| `mapping_summary` | `mappingSummary` | text | No | operational | `DEC-005-results-scores` | A safe summary of how response values map to scores or outcomes. |
+| `view` | `view` | enum | No | sensitive | `DEC-009-content-resource` | The audience this outcome or feedback-related variable is intended for. |
 
 #### Controlled Values
 
@@ -390,22 +390,22 @@ Values for `view`:
 - Privacy class: `directory`
 - Why it exists: Apps need interaction-level search, accessibility review, analytics, and delivery planning.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this interaction. |
-| `item_id` | `itemId` | text | Yes | operational | The item containing this interaction. |
-| `response_identifier` | `responseIdentifier` | text | No | education_record | The response variable that stores the learner's answer for this interaction. |
-| `interaction_type` | `interactionType` | enum | Yes | operational | The QTI interaction family. |
-| `prompt_summary` | `promptSummary` | text | No | directory | A safe summary of the instructions or prompt shown with the interaction. |
-| `shuffle` | `shuffle` | enum | No | operational | Whether choices should appear in randomized order. |
-| `min_choices` | `minChoices` | integer | No | operational | The smallest number of choices a learner must select. |
-| `max_choices` | `maxChoices` | integer | No | operational | The largest number of choices a learner may select; zero often means no limit. |
-| `min_associations` | `minAssociations` | integer | No | operational | The smallest number of pairings or matches required. |
-| `max_associations` | `maxAssociations` | integer | No | operational | The largest number of pairings or matches allowed. |
-| `orientation` | `orientation` | enum | No | operational | Whether layout naturally reads horizontally or vertically. |
-| `expected_length` | `expectedLength` | integer | No | operational | Expected response length for text interactions. |
-| `text_format` | `textFormat` | enum | No | operational | Whether typed text is plain, preformatted, or XHTML. |
-| `shape` | `shape` | enum | No | operational | The hotspot shape used by graphic interactions. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this interaction. |
+| `item_id` | `itemId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The item containing this interaction. |
+| `response_identifier` | `responseIdentifier` | text | No | education_record | `DEC-009-content-resource` | The response variable that stores the learner's answer for this interaction. |
+| `interaction_type` | `interactionType` | enum | Yes | operational | `DEC-009-content-resource` | The QTI interaction family. |
+| `prompt_summary` | `promptSummary` | text | No | directory | `DEC-009-content-resource` | A safe summary of the instructions or prompt shown with the interaction. |
+| `shuffle` | `shuffle` | enum | No | operational | `DEC-009-content-resource` | Whether choices should appear in randomized order. |
+| `min_choices` | `minChoices` | integer | No | operational | `DEC-009-content-resource` | The smallest number of choices a learner must select. |
+| `max_choices` | `maxChoices` | integer | No | operational | `DEC-009-content-resource` | The largest number of choices a learner may select; zero often means no limit. |
+| `min_associations` | `minAssociations` | integer | No | operational | `DEC-006-standards-alignment` | The smallest number of pairings or matches required. |
+| `max_associations` | `maxAssociations` | integer | No | operational | `DEC-006-standards-alignment` | The largest number of pairings or matches allowed. |
+| `orientation` | `orientation` | enum | No | operational | `DEC-009-content-resource` | Whether layout naturally reads horizontally or vertically. |
+| `expected_length` | `expectedLength` | integer | No | operational | `DEC-009-content-resource` | Expected response length for text interactions. |
+| `text_format` | `textFormat` | enum | No | operational | `DEC-009-content-resource` | Whether typed text is plain, preformatted, or XHTML. |
+| `shape` | `shape` | enum | No | operational | `DEC-009-content-resource` | The hotspot shape used by graphic interactions. |
 
 #### Controlled Values
 
@@ -477,15 +477,15 @@ Values for `shape`:
 - Privacy class: `operational`
 - Why it exists: The platform needs searchable processing metadata without pretending to reimplement the full QTI runtime.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this processing rule. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | The kind of QTI object that owns this rule. |
-| `owner_id` | `ownerId` | text | Yes | operational | The platform ID of the object that owns this rule. |
-| `processing_kind` | `processingKind` | enum | Yes | operational | The kind of processing rule. |
-| `template_uri` | `templateUri` | text | No | operational | A reusable QTI processing template URI, if one is referenced. |
-| `target_identifier` | `targetIdentifier` | text | No | operational | The target item, section, outcome, or special destination used by this rule. |
-| `logic_summary` | `logicSummary` | text | No | operational | A safe plain-language summary of the rule logic. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this processing rule. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-005-results-scores` | The kind of QTI object that owns this rule. |
+| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the object that owns this rule. |
+| `processing_kind` | `processingKind` | enum | Yes | operational | `DEC-005-results-scores` | The kind of processing rule. |
+| `template_uri` | `templateUri` | text | No | operational | `DEC-005-results-scores` | A reusable QTI processing template URI, if one is referenced. |
+| `target_identifier` | `targetIdentifier` | text | No | operational | `DEC-005-results-scores` | The target item, section, outcome, or special destination used by this rule. |
+| `logic_summary` | `logicSummary` | text | No | operational | `DEC-005-results-scores` | A safe plain-language summary of the rule logic. |
 
 #### Controlled Values
 
@@ -521,20 +521,20 @@ Values for `processing_kind`:
 - Privacy class: `education_record`
 - Why it exists: Feedback and rubrics are important for delivery, review, accessibility, and analytics.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this feedback record. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | The kind of QTI object that owns this feedback. |
-| `owner_id` | `ownerId` | text | Yes | operational | The platform ID of the object that owns this feedback. |
-| `feedback_kind` | `feedbackKind` | enum | Yes | operational | Whether this is item feedback, test feedback, or a rubric block. |
-| `outcome_identifier` | `outcomeIdentifier` | text | No | education_record | The outcome variable that controls whether this feedback appears. |
-| `show_hide` | `showHide` | enum | No | operational | Whether matching the identifier shows or hides the feedback. |
-| `feedback_identifier` | `feedbackIdentifier` | text | No | operational | The value tested against an outcome to decide whether the feedback applies. |
-| `title` | `title` | text | No | directory | An optional title for the feedback or rubric. |
-| `access` | `access` | enum | No | operational | Whether test feedback appears during the test or at the end. |
-| `rubric_use` | `rubricUse` | enum | No | sensitive | The purpose of a rubric block. |
-| `view` | `view` | enum | No | sensitive | The audience that should see this feedback or rubric. |
-| `body_summary` | `bodySummary` | text | No | education_record | A safe summary of the feedback or rubric content. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this feedback record. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-005-results-scores` | The kind of QTI object that owns this feedback. |
+| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the object that owns this feedback. |
+| `feedback_kind` | `feedbackKind` | enum | Yes | operational | `DEC-005-results-scores` | Whether this is item feedback, test feedback, or a rubric block. |
+| `outcome_identifier` | `outcomeIdentifier` | text | No | education_record | `DEC-005-results-scores` | The outcome variable that controls whether this feedback appears. |
+| `show_hide` | `showHide` | enum | No | operational | `DEC-005-results-scores` | Whether matching the identifier shows or hides the feedback. |
+| `feedback_identifier` | `feedbackIdentifier` | text | No | operational | `DEC-005-results-scores` | The value tested against an outcome to decide whether the feedback applies. |
+| `title` | `title` | text | No | directory | `DEC-005-results-scores` | An optional title for the feedback or rubric. |
+| `access` | `access` | enum | No | operational | `DEC-005-results-scores` | Whether test feedback appears during the test or at the end. |
+| `rubric_use` | `rubricUse` | enum | No | sensitive | `DEC-005-results-scores` | The purpose of a rubric block. |
+| `view` | `view` | enum | No | sensitive | `DEC-005-results-scores` | The audience that should see this feedback or rubric. |
+| `body_summary` | `bodySummary` | text | No | education_record | `DEC-005-results-scores` | A safe summary of the feedback or rubric content. |
 
 #### Controlled Values
 
@@ -601,16 +601,16 @@ Values for `view`:
 - Privacy class: `sensitive`
 - Why it exists: Assessment content must expose accessibility supports without leaking learner accommodations unnecessarily.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this accessibility support record. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | The kind of QTI object this support belongs to. |
-| `owner_id` | `ownerId` | text | Yes | operational | The platform ID of the object this support belongs to. |
-| `support_type` | `supportType` | enum | Yes | sensitive | The kind of accessibility support available. |
-| `catalog_idref` | `catalogIdref` | text | No | sensitive | The QTI catalog ID reference for this support. |
-| `tts_suppression` | `ttsSuppression` | enum | No | sensitive | Whether text-to-speech should be suppressed for this content. |
-| `content_summary` | `contentSummary` | text | No | sensitive | A safe summary of the alternative or support content. |
-| `sensitive` | `sensitive` | enum | Yes | sensitive | Whether this support metadata may reveal accessibility needs or accommodations. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this accessibility support record. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-009-content-resource` | The kind of QTI object this support belongs to. |
+| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the object this support belongs to. |
+| `support_type` | `supportType` | enum | Yes | sensitive | `DEC-009-content-resource` | The kind of accessibility support available. |
+| `catalog_idref` | `catalogIdref` | text | No | sensitive | `DEC-009-content-resource` | The QTI catalog ID reference for this support. |
+| `tts_suppression` | `ttsSuppression` | enum | No | sensitive | `DEC-009-content-resource` | Whether text-to-speech should be suppressed for this content. |
+| `content_summary` | `contentSummary` | text | No | sensitive | `DEC-009-content-resource` | A safe summary of the alternative or support content. |
+| `sensitive` | `sensitive` | enum | Yes | sensitive | `DEC-009-content-resource` | Whether this support metadata may reveal accessibility needs or accommodations. |
 
 #### Controlled Values
 
@@ -671,15 +671,15 @@ Values for `sensitive`:
 - Privacy class: `sensitive`
 - Why it exists: Assessment delivery, accommodations, and proctoring need to know which materials are permitted.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this companion material. |
-| `item_id` | `itemId` | text | Yes | operational | The item this companion material applies to. |
-| `material_type` | `materialType` | enum | Yes | sensitive | The kind of companion material. |
-| `calculator_type` | `calculatorType` | enum | No | sensitive | The calculator capability allowed or required. |
-| `title` | `title` | text | No | directory | A human-facing name for the material. |
-| `required_for_delivery` | `requiredForDelivery` | enum | No | sensitive | Whether the item requires this material to be available. |
-| `material_uri` | `materialUri` | text | No | operational | A package file path, external URI, or local reference for the material. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this companion material. |
+| `item_id` | `itemId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The item this companion material applies to. |
+| `material_type` | `materialType` | enum | Yes | sensitive | `DEC-009-content-resource` | The kind of companion material. |
+| `calculator_type` | `calculatorType` | enum | No | sensitive | `DEC-009-content-resource` | The calculator capability allowed or required. |
+| `title` | `title` | text | No | directory | `DEC-009-content-resource` | A human-facing name for the material. |
+| `required_for_delivery` | `requiredForDelivery` | enum | No | sensitive | `DEC-009-content-resource` | Whether the item requires this material to be available. |
+| `material_uri` | `materialUri` | text | No | operational | `DEC-009-content-resource` | A package file path, external URI, or local reference for the material. |
 
 #### Controlled Values
 
@@ -719,15 +719,15 @@ Values for `required_for_delivery`:
 - Privacy class: `directory`
 - Why it exists: The platform uses CASE as the canonical standards graph, but it preserves QTI source alignment metadata.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this alignment. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | The kind of QTI object being aligned. |
-| `owner_id` | `ownerId` | text | Yes | operational | The platform ID of the aligned QTI object. |
-| `target_type` | `targetType` | enum | Yes | directory | What kind of target the QTI content is aligned to. |
-| `target_identifier` | `targetIdentifier` | text | Yes | directory | The CASE item ID, URI, or local standard identifier. |
-| `alignment_label` | `alignmentLabel` | text | No | directory | The human-readable standard, competency, or skill label. |
-| `source_metadata_uri` | `sourceMetadataUri` | text | No | operational | Where the original QTI or package metadata described this alignment. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this alignment. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-006-standards-alignment` | The kind of QTI object being aligned. |
+| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the aligned QTI object. |
+| `target_type` | `targetType` | enum | Yes | directory | `DEC-006-standards-alignment` | What kind of target the QTI content is aligned to. |
+| `target_identifier` | `targetIdentifier` | text | Yes | directory | `DEC-006-standards-alignment` | The CASE item ID, URI, or local standard identifier. |
+| `alignment_label` | `alignmentLabel` | text | No | directory | `DEC-006-standards-alignment` | The human-readable standard, competency, or skill label. |
+| `source_metadata_uri` | `sourceMetadataUri` | text | No | operational | `DEC-007-identifier-crosswalk` | Where the original QTI or package metadata described this alignment. |
 
 #### Controlled Values
 
@@ -761,15 +761,15 @@ Values for `target_type`:
 - Privacy class: `operational`
 - Why it exists: The platform must preserve the original files while projecting only useful search and governance fields into tables.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this package artifact. |
-| `package_id` | `packageId` | text | Yes | operational | The package containing this artifact. |
-| `href` | `href` | text | Yes | operational | The package-relative path to the file. |
-| `media_type` | `mediaType` | text | No | operational | The file's MIME type when known. |
-| `artifact_role` | `artifactRole` | enum | Yes | operational | The role this file plays in the QTI package. |
-| `sha256` | `sha256` | text | No | operational | A hash used to confirm the file did not change. |
-| `storage_uri` | `storageUri` | text | Yes | operational | Where the platform stores this artifact after import. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this package artifact. |
+| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package containing this artifact. |
+| `href` | `href` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative path to the file. |
+| `media_type` | `mediaType` | text | No | operational | `DEC-009-content-resource` | The file's MIME type when known. |
+| `artifact_role` | `artifactRole` | enum | Yes | operational | `DEC-009-content-resource` | The role this file plays in the QTI package. |
+| `sha256` | `sha256` | text | No | operational | `DEC-007-identifier-crosswalk` | A hash used to confirm the file did not change. |
+| `storage_uri` | `storageUri` | text | Yes | operational | `DEC-007-identifier-crosswalk` | Where the platform stores this artifact after import. |
 
 #### Controlled Values
 

@@ -1090,51 +1090,63 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this LTI registration."
+            "description": "The platform's stable ID for this LTI registration.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The school, district, or customer boundary that owns this registration."
+            "description": "The school, district, or customer boundary that owns this registration.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "issuer": {
             "type": "string",
-            "description": "The platform issuer identifier used in LTI launch tokens."
+            "description": "The platform issuer identifier used in LTI launch tokens.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "clientId": {
             "type": "string",
-            "description": "The OAuth client ID assigned to the tool by the platform."
+            "description": "The OAuth client ID assigned to the tool by the platform.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "toolName": {
             "type": "string",
-            "description": "The name administrators and instructors see for the external tool."
+            "description": "The name administrators and instructors see for the external tool.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "initiateLoginUri": {
             "type": "string",
-            "description": "The tool URL where the platform starts the LTI login flow."
+            "description": "The tool URL where the platform starts the LTI login flow.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "redirectUris": {
             "type": "string",
-            "description": "The tool URLs that are allowed to receive launch responses."
+            "description": "The tool URLs that are allowed to receive launch responses.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "jwksUri": {
             "type": "string",
-            "description": "The URL where public signing keys for the tool or platform can be fetched."
+            "description": "The URL where public signing keys for the tool or platform can be fetched.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "authorizationEndpoint": {
             "type": "string",
-            "description": "The platform URL used during OpenID Connect authentication."
+            "description": "The platform URL used during OpenID Connect authentication.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tokenEndpoint": {
             "type": "string",
-            "description": "The platform URL where the tool asks for service access tokens."
+            "description": "The platform URL where the tool asks for service access tokens.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "allowedScopes": {
             "type": "string",
-            "description": "The service permissions the tool may request after policy review."
+            "description": "The service permissions the tool may request after policy review.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "status": {
             "type": "string",
             "description": "Whether this registration can currently be used.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "active",
               "inactive",
@@ -1149,11 +1161,13 @@
           "createdAt": {
             "type": "string",
             "description": "When this registration was created.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "updatedAt": {
             "type": "string",
             "description": "When this registration was last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1172,19 +1186,23 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this deployment."
+            "description": "The platform's stable ID for this deployment.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "registrationId": {
             "type": "string",
-            "description": "The LTI registration that governs this deployment."
+            "description": "The LTI registration that governs this deployment.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "deploymentId": {
             "type": "string",
-            "description": "The immutable deployment identifier sent in LTI launch claims."
+            "description": "The immutable deployment identifier sent in LTI launch claims.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "deploymentScope": {
             "type": "string",
             "description": "The level where this tool installation is available.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "tenant",
               "school",
@@ -1202,19 +1220,23 @@
           },
           "contextId": {
             "type": "string",
-            "description": "The course, section, school, or tenant context this deployment is attached to."
+            "description": "The course, section, school, or tenant context this deployment is attached to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "resourceLinkId": {
             "type": "string",
-            "description": "The specific course activity link this deployment is tied to when the tool is activity-scoped."
+            "description": "The specific course activity link this deployment is tied to when the tool is activity-scoped.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "serviceScopes": {
             "type": "string",
-            "description": "The LTI Advantage scopes enabled for this deployment after tenant policy filtering."
+            "description": "The LTI Advantage scopes enabled for this deployment after tenant policy filtering.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "status": {
             "type": "string",
             "description": "Whether launches and services for this deployment are enabled.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "active",
               "inactive",
@@ -1229,6 +1251,7 @@
           "createdAt": {
             "type": "string",
             "description": "When this deployment was created.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1253,23 +1276,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this launch attempt."
+            "description": "The platform's stable ID for this launch attempt.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The tenant boundary that owns the launch event."
+            "description": "The tenant boundary that owns the launch event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "registrationId": {
             "type": "string",
-            "description": "The registration used to validate and route the launch."
+            "description": "The registration used to validate and route the launch.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "deploymentId": {
             "type": "string",
-            "description": "The LTI deployment identifier included in the launch."
+            "description": "The LTI deployment identifier included in the launch.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "messageType": {
             "type": "string",
             "description": "The LTI workflow represented by this launch.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "LtiResourceLinkRequest",
               "LtiDeepLinkingRequest",
@@ -1284,6 +1312,7 @@
           "ltiVersion": {
             "type": "string",
             "description": "The LTI version claim supplied in the launch.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "1.3.0"
             ],
@@ -1293,40 +1322,49 @@
           },
           "subjectId": {
             "type": "string",
-            "description": "The user identifier from the launch token when the launch is not anonymous."
+            "description": "The user identifier from the launch token when the launch is not anonymous.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "contextId": {
             "type": "string",
-            "description": "The course, section, or group where the launch happened."
+            "description": "The course, section, or group where the launch happened.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "roles": {
             "type": "string",
-            "description": "The LTI roles supplied for the launching user."
+            "description": "The LTI roles supplied for the launching user.",
+            "x-decisionId": "DEC-003-role-vocabulary"
           },
           "targetLinkUri": {
             "type": "string",
-            "description": "The final tool URL that should receive the launch."
+            "description": "The final tool URL that should receive the launch.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "nonceHash": {
             "type": "string",
-            "description": "A stored fingerprint of the one-time launch nonce used to prevent replay."
+            "description": "A stored fingerprint of the one-time launch nonce used to prevent replay.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "idTokenHash": {
             "type": "string",
-            "description": "A fingerprint of the signed launch token kept for audit without exposing the full token everywhere."
+            "description": "A fingerprint of the signed launch token kept for audit without exposing the full token everywhere.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "rawClaims": {
             "type": "string",
-            "description": "The original launch claims retained for troubleshooting and conformance review under tenant policy."
+            "description": "The original launch claims retained for troubleshooting and conformance review under tenant policy.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "launchedAt": {
             "type": "string",
             "description": "When the launch was initiated.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "validationStatus": {
             "type": "string",
             "description": "Whether signature, issuer, audience, deployment, nonce, and time checks passed.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "pending",
               "valid",
@@ -1357,15 +1395,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this LTI service endpoint."
+            "description": "The platform's stable ID for this LTI service endpoint.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "deploymentId": {
             "type": "string",
-            "description": "The deployment that may expose this service endpoint."
+            "description": "The deployment that may expose this service endpoint.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "serviceType": {
             "type": "string",
             "description": "Which LTI Advantage service this endpoint supports.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "nrps",
               "ags_line_items",
@@ -1383,23 +1424,28 @@
           },
           "endpointUrl": {
             "type": "string",
-            "description": "The API URL a tool calls for this service."
+            "description": "The API URL a tool calls for this service.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "serviceVersions": {
             "type": "string",
-            "description": "The supported service versions advertised to the tool."
+            "description": "The supported service versions advertised to the tool.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "requiredScope": {
             "type": "string",
-            "description": "The OAuth scope required before the tool may call this endpoint."
+            "description": "The OAuth scope required before the tool may call this endpoint.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "contextId": {
             "type": "string",
-            "description": "The class, course, section, or activity context the service is scoped to."
+            "description": "The class, course, section, or activity context the service is scoped to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "policyStatus": {
             "type": "string",
             "description": "Whether tenant privacy and scope policy allows this service to be exposed.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "active",
               "inactive",
@@ -1425,39 +1471,48 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this LTI membership projection."
+            "description": "The platform's stable ID for this LTI membership projection.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "serviceEndpointId": {
             "type": "string",
-            "description": "The NRPS endpoint that returned or would return this membership."
+            "description": "The NRPS endpoint that returned or would return this membership.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "contextId": {
             "type": "string",
-            "description": "The course, section, group, or other context represented by the membership."
+            "description": "The course, section, group, or other context represented by the membership.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "userId": {
             "type": "string",
-            "description": "The LTI user ID for the member."
+            "description": "The LTI user ID for the member.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "platformPersonId": {
             "type": "string",
-            "description": "The resolved platform person ID when policy permits resolution."
+            "description": "The resolved platform person ID when policy permits resolution.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "displayName": {
             "type": "string",
-            "description": "The member name shared with the tool."
+            "description": "The member name shared with the tool.",
+            "x-decisionId": "DEC-004-enrollment-membership"
           },
           "email": {
             "type": "string",
-            "description": "The member email shared with the tool if policy allows it."
+            "description": "The member email shared with the tool if policy allows it.",
+            "x-decisionId": "DEC-004-enrollment-membership"
           },
           "roles": {
             "type": "string",
-            "description": "The LTI roles this member has in the context."
+            "description": "The LTI roles this member has in the context.",
+            "x-decisionId": "DEC-003-role-vocabulary"
           },
           "status": {
             "type": "string",
             "description": "Whether the membership is currently active.",
+            "x-decisionId": "DEC-004-enrollment-membership",
             "enum": [
               "Active",
               "Inactive"
@@ -1469,7 +1524,8 @@
           },
           "lisPersonSourcedid": {
             "type": "string",
-            "description": "A legacy or SIS-linked person identifier shared through LTI when allowed."
+            "description": "A legacy or SIS-linked person identifier shared through LTI when allowed.",
+            "x-decisionId": "DEC-004-enrollment-membership"
           }
         }
       },
@@ -1485,35 +1541,43 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this AGS exchange record."
+            "description": "The platform's stable ID for this AGS exchange record.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "serviceEndpointId": {
             "type": "string",
-            "description": "The AGS endpoint used for this grade exchange."
+            "description": "The AGS endpoint used for this grade exchange.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "lineItemUrl": {
             "type": "string",
-            "description": "The URL or identifier for the gradebook line item."
+            "description": "The URL or identifier for the gradebook line item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "lineItemLabel": {
             "type": "string",
-            "description": "The human-readable gradebook column name."
+            "description": "The human-readable gradebook column name.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "scoreMaximum": {
             "type": "number",
-            "description": "The maximum possible score for the line item or score update."
+            "description": "The maximum possible score for the line item or score update.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "scoreGiven": {
             "type": "number",
-            "description": "The points or score earned by the learner."
+            "description": "The points or score earned by the learner.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "userId": {
             "type": "string",
-            "description": "The learner who receives the score or result."
+            "description": "The learner who receives the score or result.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "activityProgress": {
             "type": "string",
             "description": "Where the learner is in the activity lifecycle.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "Initialized",
               "Started",
@@ -1532,6 +1596,7 @@
           "gradingProgress": {
             "type": "string",
             "description": "Where the score is in the grading lifecycle.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "FullyGraded",
               "Pending",
@@ -1550,11 +1615,13 @@
           "timestamp": {
             "type": "string",
             "description": "When the tool or platform created this grade exchange event.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "exchangeStatus": {
             "type": "string",
             "description": "Whether the AGS exchange was accepted, rejected, or held for review.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "pending",
               "valid",
@@ -1581,15 +1648,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this deep-linked item."
+            "description": "The platform's stable ID for this deep-linked item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "launchId": {
             "type": "string",
-            "description": "The Deep Linking launch that produced this selected item."
+            "description": "The Deep Linking launch that produced this selected item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "itemType": {
             "type": "string",
             "description": "The kind of content the tool returned.",
+            "x-decisionId": "DEC-006-standards-alignment",
             "enum": [
               "link",
               "file",
@@ -1607,19 +1677,23 @@
           },
           "title": {
             "type": "string",
-            "description": "The title shown for the selected content item."
+            "description": "The title shown for the selected content item.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "url": {
             "type": "string",
-            "description": "The content or tool URL returned by the tool."
+            "description": "The content or tool URL returned by the tool.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "html": {
             "type": "string",
-            "description": "An HTML snippet returned by the tool when the item is embedded content."
+            "description": "An HTML snippet returned by the tool when the item is embedded content.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "documentTarget": {
             "type": "string",
             "description": "How the platform should display the selected item.",
+            "x-decisionId": "DEC-006-standards-alignment",
             "enum": [
               "iframe",
               "window",
@@ -1633,16 +1707,19 @@
           },
           "lineItemJson": {
             "type": "string",
-            "description": "Gradebook line item details returned with the selected item."
+            "description": "Gradebook line item details returned with the selected item.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "availabilityStartAt": {
             "type": "string",
             "description": "When the item becomes available to learners.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "submissionEndAt": {
             "type": "string",
             "description": "When learner submissions for the item are due or closed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1663,31 +1740,38 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this OAuth client."
+            "description": "The platform's stable ID for this OAuth client.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The tenant that owns or authorizes this client."
+            "description": "The tenant that owns or authorizes this client.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "clientId": {
             "type": "string",
-            "description": "The public OAuth client identifier."
+            "description": "The public OAuth client identifier.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "clientName": {
             "type": "string",
-            "description": "The name shown to administrators when reviewing the client."
+            "description": "The name shown to administrators when reviewing the client.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "jwksUri": {
             "type": "string",
-            "description": "The URL where the client's public keys can be fetched."
+            "description": "The URL where the client's public keys can be fetched.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "publicJwk": {
             "type": "string",
-            "description": "A stored public key used to verify client assertions when a JWKS URL is not used."
+            "description": "A stored public key used to verify client assertions when a JWKS URL is not used.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "authMethod": {
             "type": "string",
             "description": "How the client proves its identity to the token endpoint.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "private_key_jwt",
               "client_secret_basic",
@@ -1701,15 +1785,18 @@
           },
           "grantTypes": {
             "type": "string",
-            "description": "The OAuth grant types this client is allowed to use."
+            "description": "The OAuth grant types this client is allowed to use.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "allowedScopes": {
             "type": "string",
-            "description": "The scopes this client may request after tenant and privacy policy are applied."
+            "description": "The scopes this client may request after tenant and privacy policy are applied.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "status": {
             "type": "string",
             "description": "Whether tokens may currently be issued for this client.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "active",
               "suspended",
@@ -1738,19 +1825,23 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this scope policy."
+            "description": "The platform's stable ID for this scope policy.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "scope": {
             "type": "string",
-            "description": "The OAuth scope controlled by this rule."
+            "description": "The OAuth scope controlled by this rule.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "apiResource": {
             "type": "string",
-            "description": "The endpoint group or dictionary object this scope may access."
+            "description": "The endpoint group or dictionary object this scope may access.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "allowedAction": {
             "type": "string",
             "description": "The operation permitted by this scope.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "read",
               "write",
@@ -1767,6 +1858,7 @@
           "privacyCeiling": {
             "type": "string",
             "description": "The most sensitive privacy class this scope may expose without another policy rule.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "public",
               "directory",
@@ -1790,19 +1882,23 @@
           },
           "fieldPatterns": {
             "type": "string",
-            "description": "Optional dictionary field names or patterns allowed by this scope."
+            "description": "Optional dictionary field names or patterns allowed by this scope.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "requiresLaunchContext": {
             "type": "boolean",
-            "description": "Whether access must be tied to a current launch, deployment, class, or activity context."
+            "description": "Whether access must be tied to a current launch, deployment, class, or activity context.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "allowedRoles": {
             "type": "string",
-            "description": "Roles that may use or benefit from the scope."
+            "description": "Roles that may use or benefit from the scope.",
+            "x-decisionId": "DEC-003-role-vocabulary"
           },
           "policyStatus": {
             "type": "string",
             "description": "Whether this scope policy is active, inactive, or retired.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "active",
               "inactive",
@@ -1832,15 +1928,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this data sharing rule."
+            "description": "The platform's stable ID for this data sharing rule.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The tenant whose policy this rule belongs to."
+            "description": "The tenant whose policy this rule belongs to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "dataCategory": {
             "type": "string",
             "description": "The broad kind of school data governed by the rule.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "roster",
               "gradebook",
@@ -1867,6 +1966,7 @@
           "privacyClass": {
             "type": "string",
             "description": "The platform privacy class for the data covered by this rule.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "public",
               "directory",
@@ -1891,6 +1991,7 @@
           "recipientType": {
             "type": "string",
             "description": "Who may receive the data under this rule.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "internal_app",
               "external_tool",
@@ -1912,11 +2013,13 @@
           },
           "purpose": {
             "type": "string",
-            "description": "The educational or operational reason for sharing the data."
+            "description": "The educational or operational reason for sharing the data.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "legalBasis": {
             "type": "string",
             "description": "The legal or policy basis used to justify the data sharing.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "consent",
               "contract",
@@ -1934,15 +2037,18 @@
           },
           "fieldPatterns": {
             "type": "string",
-            "description": "The dictionary fields or field patterns this rule covers."
+            "description": "The dictionary fields or field patterns this rule covers.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "minimizationNote": {
             "type": "string",
-            "description": "How the platform limits shared data to what the purpose requires."
+            "description": "How the platform limits shared data to what the purpose requires.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "status": {
             "type": "string",
             "description": "Whether this sharing rule is currently active.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "active",
               "inactive",
@@ -1957,6 +2063,7 @@
           "reviewedAt": {
             "type": "string",
             "description": "When the rule was last reviewed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1976,27 +2083,33 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this consent record."
+            "description": "The platform's stable ID for this consent record.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The tenant boundary for this consent record."
+            "description": "The tenant boundary for this consent record.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "personId": {
             "type": "string",
-            "description": "The learner or user whose data the consent concerns."
+            "description": "The learner or user whose data the consent concerns.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "guardianPersonId": {
             "type": "string",
-            "description": "The guardian or authorized person who gave consent when applicable."
+            "description": "The guardian or authorized person who gave consent when applicable.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ruleId": {
             "type": "string",
-            "description": "The data sharing rule this consent applies to."
+            "description": "The data sharing rule this consent applies to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "consentStatus": {
             "type": "string",
             "description": "Whether consent is granted, denied, revoked, expired, or pending.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "pending",
               "granted",
@@ -2015,16 +2128,19 @@
           "effectiveAt": {
             "type": "string",
             "description": "When the consent state became effective.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "expiresAt": {
             "type": "string",
             "description": "When the consent state expires if it is time-limited.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "sourceMethod": {
             "type": "string",
             "description": "How the platform received this consent state.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "admin",
               "guardian_portal",
@@ -2040,7 +2156,8 @@
           },
           "evidenceUri": {
             "type": "string",
-            "description": "A reference to the form, agreement, or audit evidence for the consent."
+            "description": "A reference to the form, agreement, or audit evidence for the consent.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -2061,15 +2178,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this retention rule."
+            "description": "The platform's stable ID for this retention rule.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The tenant whose data retention policy this rule belongs to."
+            "description": "The tenant whose data retention policy this rule belongs to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourceStandard": {
             "type": "string",
             "description": "The standard or platform area that produces the data.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "lti",
               "security_framework",
@@ -2092,6 +2212,7 @@
           "dataCategory": {
             "type": "string",
             "description": "The category of data controlled by this retention rule.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "roster",
               "gradebook",
@@ -2117,11 +2238,13 @@
           },
           "retentionPeriodDays": {
             "type": "integer",
-            "description": "How many days the data may be retained before the action is due."
+            "description": "How many days the data may be retained before the action is due.",
+            "x-decisionId": "DEC-008-time-session"
           },
           "actionOnExpiry": {
             "type": "string",
             "description": "What the platform should do when data reaches the retention limit.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "delete",
               "anonymize",
@@ -2138,6 +2261,7 @@
           "rawPayloadPolicy": {
             "type": "string",
             "description": "How the platform should retain raw standards payloads after projection.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "retain",
               "minimize",
@@ -2153,11 +2277,13 @@
           },
           "legalHold": {
             "type": "boolean",
-            "description": "Whether deletion or anonymization is paused by a legal hold."
+            "description": "Whether deletion or anonymization is paused by a legal hold.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "status": {
             "type": "string",
             "description": "Whether this retention rule is active, inactive, or retired.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "active",
               "inactive",
@@ -2186,23 +2312,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this audit event."
+            "description": "The platform's stable ID for this audit event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The tenant boundary for the audited event."
+            "description": "The tenant boundary for the audited event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "actorPersonId": {
             "type": "string",
-            "description": "The person who performed the audited action, if a person was involved."
+            "description": "The person who performed the audited action, if a person was involved.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "clientId": {
             "type": "string",
-            "description": "The OAuth client or tool that performed the audited action, if an integration was involved."
+            "description": "The OAuth client or tool that performed the audited action, if an integration was involved.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "eventType": {
             "type": "string",
             "description": "The type of privacy or security event being recorded.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "access",
               "export",
@@ -2224,15 +2355,18 @@
           },
           "objectType": {
             "type": "string",
-            "description": "The dictionary object, endpoint group, or policy area affected by the event."
+            "description": "The dictionary object, endpoint group, or policy area affected by the event.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "objectId": {
             "type": "string",
-            "description": "The specific record affected by the event when one applies."
+            "description": "The specific record affected by the event when one applies.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "privacyClass": {
             "type": "string",
             "description": "The most sensitive privacy class involved in the event.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "public",
               "directory",
@@ -2256,16 +2390,19 @@
           },
           "policyId": {
             "type": "string",
-            "description": "The scope, sharing, consent, or retention policy that governed the event."
+            "description": "The scope, sharing, consent, or retention policy that governed the event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "occurredAt": {
             "type": "string",
             "description": "When the audited event occurred.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "outcome": {
             "type": "string",
             "description": "Whether the action was allowed, denied, failed, or completed.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "allowed",
               "denied",
@@ -2281,7 +2418,8 @@
           },
           "reason": {
             "type": "string",
-            "description": "A short explanation for the audit outcome."
+            "description": "A short explanation for the audit outcome.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           }
         }
       }

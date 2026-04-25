@@ -16,17 +16,17 @@ Model scope: Event ingestion metadata, immutable raw event retention, search pro
 - Privacy class: `behavioral`
 - Why it exists: The envelope preserves source, send time, version, validation status, and raw payload lineage before individual events are projected.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this received Caliper envelope. |
-| `tenant_id` | `tenantId` | text | Yes | operational | The school, district, or customer boundary that owns this event payload. |
-| `sensor_id` | `sensorId` | text | Yes | operational | The tool, platform, app, or sensor that sent the payload. |
-| `send_time` | `sendTime` | datetime | Yes | operational | When the sensor says it sent the payload. |
-| `data_version` | `dataVersion` | enum | Yes | operational | The Caliper context or version used to interpret the payload. |
-| `event_count` | `eventCount` | integer | No | operational | How many event objects were found in the payload. |
-| `received_at` | `receivedAt` | datetime | Yes | operational | When the platform received the payload. |
-| `validation_status` | `validationStatus` | enum | Yes | operational | Whether the payload was accepted, rejected, or held for review. |
-| `raw_payload` | `rawPayload` | text | Yes | behavioral | The original JSON-LD payload retained for audit, replay, and conformance review. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this received Caliper envelope. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The school, district, or customer boundary that owns this event payload. |
+| `sensor_id` | `sensorId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The tool, platform, app, or sensor that sent the payload. |
+| `send_time` | `sendTime` | datetime | Yes | operational | `DEC-008-time-session` | When the sensor says it sent the payload. |
+| `data_version` | `dataVersion` | enum | Yes | operational | `DEC-009-content-resource` | The Caliper context or version used to interpret the payload. |
+| `event_count` | `eventCount` | integer | No | operational | `DEC-009-content-resource` | How many event objects were found in the payload. |
+| `received_at` | `receivedAt` | datetime | Yes | operational | `DEC-008-time-session` | When the platform received the payload. |
+| `validation_status` | `validationStatus` | enum | Yes | operational | `DEC-010-tenancy-reference-data` | Whether the payload was accepted, rejected, or held for review. |
+| `raw_payload` | `rawPayload` | text | Yes | behavioral | `DEC-009-content-resource` | The original JSON-LD payload retained for audit, replay, and conformance review. |
 
 #### Controlled Values
 
@@ -54,26 +54,26 @@ Values for `validation_status`:
 - Privacy class: `behavioral`
 - Why it exists: Events are the core behavioral history for learning analytics, audit, and cross-standard joins without making analytics the gradebook source of truth.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this projected event row. |
-| `envelope_id` | `envelopeId` | text | Yes | operational | The received Caliper envelope that contained this event. |
-| `event_iri` | `eventIri` | text | Yes | behavioral | The globally unique event identifier supplied by the sender. |
-| `event_type` | `eventType` | enum | Yes | behavioral | The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent. |
-| `profile` | `profile` | enum | No | behavioral | The Caliper profile that explains which event, action, actor, object, and generated values are expected. |
-| `action` | `action` | enum | Yes | behavioral | What happened in the event. |
-| `actor_id` | `actorId` | text | Yes | education_record | The indexed person, app, or agent that performed the action. |
-| `object_id` | `objectId` | text | Yes | behavioral | The indexed entity that the actor acted on. |
-| `event_time` | `eventTime` | datetime | Yes | behavioral | When the learning activity happened. |
-| `ed_app_id` | `edAppId` | text | No | operational | The indexed application where the event happened. |
-| `generated_id` | `generatedId` | text | No | behavioral | The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response. |
-| `target_id` | `targetId` | text | No | behavioral | A specific location or target inside the object, such as a media location, page, link, or question target. |
-| `referrer_id` | `referrerId` | text | No | behavioral | The prior app, page, resource, or context that led to this event. |
-| `group_id` | `groupId` | text | No | education_record | The class, course, group, or organization context for the event. |
-| `membership_id` | `membershipId` | text | No | education_record | The actor's role and status relationship in the group context. |
-| `session_id` | `sessionId` | text | No | behavioral | The app or user session that groups related events. |
-| `federated_session_id` | `federatedSessionId` | text | No | operational | The LTI or federated session context connected to a tool launch. |
-| `raw_event` | `rawEvent` | text | Yes | behavioral | The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this projected event row. |
+| `envelope_id` | `envelopeId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The received Caliper envelope that contained this event. |
+| `event_iri` | `eventIri` | text | Yes | behavioral | `DEC-009-content-resource` | The globally unique event identifier supplied by the sender. |
+| `event_type` | `eventType` | enum | Yes | behavioral | `DEC-009-content-resource` | The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent. |
+| `profile` | `profile` | enum | No | behavioral | `DEC-009-content-resource` | The Caliper profile that explains which event, action, actor, object, and generated values are expected. |
+| `action` | `action` | enum | Yes | behavioral | `DEC-009-content-resource` | What happened in the event. |
+| `actor_id` | `actorId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The indexed person, app, or agent that performed the action. |
+| `object_id` | `objectId` | text | Yes | behavioral | `DEC-007-identifier-crosswalk` | The indexed entity that the actor acted on. |
+| `event_time` | `eventTime` | datetime | Yes | behavioral | `DEC-008-time-session` | When the learning activity happened. |
+| `ed_app_id` | `edAppId` | text | No | operational | `DEC-007-identifier-crosswalk` | The indexed application where the event happened. |
+| `generated_id` | `generatedId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response. |
+| `target_id` | `targetId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | A specific location or target inside the object, such as a media location, page, link, or question target. |
+| `referrer_id` | `referrerId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The prior app, page, resource, or context that led to this event. |
+| `group_id` | `groupId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The class, course, group, or organization context for the event. |
+| `membership_id` | `membershipId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The actor's role and status relationship in the group context. |
+| `session_id` | `sessionId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The app or user session that groups related events. |
+| `federated_session_id` | `federatedSessionId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI or federated session context connected to a tool launch. |
+| `raw_event` | `rawEvent` | text | Yes | behavioral | `DEC-009-content-resource` | The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection. |
 
 #### Controlled Values
 
@@ -217,19 +217,19 @@ Values for `action`:
 - Privacy class: `behavioral`
 - Why it exists: Entity indexing lets the platform search event objects, join to roster/content systems, and avoid flattening every Caliper type into a separate table at first.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this indexed entity. |
-| `entity_iri` | `entityIri` | text | Yes | behavioral | The Caliper IRI or source identifier for the entity. |
-| `entity_type` | `entityType` | enum | Yes | behavioral | The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource. |
-| `name` | `name` | text | No | depends_on_entity | A human-readable name for the entity when one is supplied. |
-| `description` | `description` | text | No | depends_on_entity | A short explanation or label for the entity. |
-| `date_created` | `dateCreated` | datetime | No | operational | When the source says this entity was created. |
-| `date_modified` | `dateModified` | datetime | No | operational | When the source says this entity last changed. |
-| `other_identifiers` | `otherIdentifiers` | text | No | education_record | Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs. |
-| `extensions` | `extensions` | text | No | depends_on_contents | Governed source-specific fields carried on the entity. |
-| `canonical_person_id` | `canonicalPersonId` | text | No | education_record | The platform person ID when policy and identifiers allow this entity to resolve to a known person. |
-| `canonical_resource_id` | `canonicalResourceId` | text | No | operational | The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this indexed entity. |
+| `entity_iri` | `entityIri` | text | Yes | behavioral | `DEC-009-content-resource` | The Caliper IRI or source identifier for the entity. |
+| `entity_type` | `entityType` | enum | Yes | behavioral | `DEC-009-content-resource` | The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource. |
+| `name` | `name` | text | No | depends_on_entity | `DEC-009-content-resource` | A human-readable name for the entity when one is supplied. |
+| `description` | `description` | text | No | depends_on_entity | `DEC-009-content-resource` | A short explanation or label for the entity. |
+| `date_created` | `dateCreated` | datetime | No | operational | `DEC-008-time-session` | When the source says this entity was created. |
+| `date_modified` | `dateModified` | datetime | No | operational | `DEC-008-time-session` | When the source says this entity last changed. |
+| `other_identifiers` | `otherIdentifiers` | text | No | education_record | `DEC-009-content-resource` | Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs. |
+| `extensions` | `extensions` | text | No | depends_on_contents | `DEC-009-content-resource` | Governed source-specific fields carried on the entity. |
+| `canonical_person_id` | `canonicalPersonId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The platform person ID when policy and identifiers allow this entity to resolve to a known person. |
+| `canonical_resource_id` | `canonicalResourceId` | text | No | operational | `DEC-007-identifier-crosswalk` | The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content. |
 
 #### Controlled Values
 
@@ -318,16 +318,16 @@ Values for `entity_type`:
 - Privacy class: `education_record`
 - Why it exists: Actors need explicit resolution rules because raw Caliper actors may be known roster users, apps, groups, or unresolved source agents.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this actor projection. |
-| `entity_id` | `entityId` | text | Yes | education_record | The indexed Caliper entity that represents the actor. |
-| `actor_type` | `actorType` | enum | Yes | education_record | Whether the actor is a person, software app, group, or generic agent. |
-| `platform_person_id` | `platformPersonId` | text | No | education_record | The resolved platform person ID when the actor is a known school user. |
-| `display_name` | `displayName` | text | No | education_record | A display name supplied for the actor or resolved from a trusted source. |
-| `identifier_type` | `identifierType` | enum | No | education_record | The kind of source identifier used to resolve the actor. |
-| `identifier_value` | `identifierValue` | text | No | education_record | The source identifier value used for matching or lineage. |
-| `resolution_status` | `resolutionStatus` | enum | Yes | operational | Whether the actor was matched to a canonical platform record. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this actor projection. |
+| `entity_id` | `entityId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The indexed Caliper entity that represents the actor. |
+| `actor_type` | `actorType` | enum | Yes | education_record | `DEC-001-person-agent-subject` | Whether the actor is a person, software app, group, or generic agent. |
+| `platform_person_id` | `platformPersonId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The resolved platform person ID when the actor is a known school user. |
+| `display_name` | `displayName` | text | No | education_record | `DEC-001-person-agent-subject` | A display name supplied for the actor or resolved from a trusted source. |
+| `identifier_type` | `identifierType` | enum | No | education_record | `DEC-001-person-agent-subject` | The kind of source identifier used to resolve the actor. |
+| `identifier_value` | `identifierValue` | text | No | education_record | `DEC-001-person-agent-subject` | The source identifier value used for matching or lineage. |
+| `resolution_status` | `resolutionStatus` | enum | Yes | operational | `DEC-001-person-agent-subject` | Whether the actor was matched to a canonical platform record. |
 
 #### Controlled Values
 
@@ -375,20 +375,20 @@ Values for `resolution_status`:
 - Privacy class: `education_record`
 - Why it exists: Context connects activity to classes, roles, sessions, and tool launches without losing the original event envelope.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this event context projection. |
-| `event_id` | `eventId` | text | Yes | behavioral | The Caliper event this context belongs to. |
-| `group_entity_id` | `groupEntityId` | text | No | education_record | The Caliper group, course section, organization, or class context entity. |
-| `membership_entity_id` | `membershipEntityId` | text | No | education_record | The Caliper membership entity that describes the actor's relationship to the group. |
-| `membership_role` | `membershipRole` | enum | No | education_record | The LIS role supplied in the Caliper membership context. |
-| `membership_status` | `membershipStatus` | enum | No | education_record | Whether the membership is active or inactive in the source context. |
-| `session_entity_id` | `sessionEntityId` | text | No | behavioral | The Caliper session entity that groups related activity. |
-| `federated_session_entity_id` | `federatedSessionEntityId` | text | No | operational | The LTI or federated session entity connected to the event. |
-| `lti_message_type` | `ltiMessageType` | enum | No | operational | The LTI launch message type when the event came from an LTI workflow. |
-| `lti_platform_id` | `ltiPlatformId` | text | No | operational | The LTI platform issuer or platform identifier tied to the federated session. |
-| `lti_deployment_id` | `ltiDeploymentId` | text | No | operational | The LTI deployment identifier that scopes the tool relationship. |
-| `lti_context_id` | `ltiContextId` | text | No | education_record | The LTI course or context identifier supplied by the platform. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this event context projection. |
+| `event_id` | `eventId` | text | Yes | behavioral | `DEC-007-identifier-crosswalk` | The Caliper event this context belongs to. |
+| `group_entity_id` | `groupEntityId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The Caliper group, course section, organization, or class context entity. |
+| `membership_entity_id` | `membershipEntityId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The Caliper membership entity that describes the actor's relationship to the group. |
+| `membership_role` | `membershipRole` | enum | No | education_record | `DEC-003-role-vocabulary` | The LIS role supplied in the Caliper membership context. |
+| `membership_status` | `membershipStatus` | enum | No | education_record | `DEC-004-enrollment-membership` | Whether the membership is active or inactive in the source context. |
+| `session_entity_id` | `sessionEntityId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The Caliper session entity that groups related activity. |
+| `federated_session_entity_id` | `federatedSessionEntityId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI or federated session entity connected to the event. |
+| `lti_message_type` | `ltiMessageType` | enum | No | operational | `DEC-002-learning-context` | The LTI launch message type when the event came from an LTI workflow. |
+| `lti_platform_id` | `ltiPlatformId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI platform issuer or platform identifier tied to the federated session. |
+| `lti_deployment_id` | `ltiDeploymentId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI deployment identifier that scopes the tool relationship. |
+| `lti_context_id` | `ltiContextId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The LTI course or context identifier supplied by the platform. |
 
 #### Controlled Values
 
@@ -428,16 +428,16 @@ Values for `lti_message_type`:
 - Privacy class: `operational`
 - Why it exists: Profile rules give developers and validators a machine-readable crosswalk from Caliper profiles to the event/action/entity combinations the platform expects.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this profile rule. |
-| `profile` | `profile` | enum | Yes | operational | The Caliper profile the rule belongs to. |
-| `event_type` | `eventType` | enum | Yes | operational | The Caliper event class allowed by the profile rule. |
-| `actor_type` | `actorType` | enum | Yes | operational | The expected actor class for the profile rule. |
-| `allowed_action` | `allowedAction` | enum | Yes | operational | One action allowed for this event/profile combination. |
-| `object_type` | `objectType` | enum | Yes | operational | The expected object entity type for the rule. |
-| `generated_or_target_type` | `generatedOrTargetType` | text | No | operational | The generated entity, target entity, or narrative condition expected by the rule. |
-| `platform_guidance` | `platformGuidance` | text | No | operational | How the platform should validate, project, or join events matching this rule. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this profile rule. |
+| `profile` | `profile` | enum | Yes | operational | `DEC-009-content-resource` | The Caliper profile the rule belongs to. |
+| `event_type` | `eventType` | enum | Yes | operational | `DEC-009-content-resource` | The Caliper event class allowed by the profile rule. |
+| `actor_type` | `actorType` | enum | Yes | operational | `DEC-001-person-agent-subject` | The expected actor class for the profile rule. |
+| `allowed_action` | `allowedAction` | enum | Yes | operational | `DEC-009-content-resource` | One action allowed for this event/profile combination. |
+| `object_type` | `objectType` | enum | Yes | operational | `DEC-009-content-resource` | The expected object entity type for the rule. |
+| `generated_or_target_type` | `generatedOrTargetType` | text | No | operational | `DEC-009-content-resource` | The generated entity, target entity, or narrative condition expected by the rule. |
+| `platform_guidance` | `platformGuidance` | text | No | operational | `DEC-009-content-resource` | How the platform should validate, project, or join events matching this rule. |
 
 #### Controlled Values
 
@@ -666,16 +666,16 @@ Values for `object_type`:
 - Privacy class: `depends_on_contents`
 - Why it exists: Extensions can carry useful vendor data, but they need namespace, privacy, and policy controls before becoming queryable platform fields.
 
-| Field | JSON field | Type | Required | Privacy | Layperson meaning |
-| --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | The platform's stable ID for this extension projection. |
-| `owner_type` | `ownerType` | enum | Yes | operational | Whether this extension belongs to an envelope, event, entity, actor, or context row. |
-| `owner_id` | `ownerId` | text | Yes | operational | The platform row ID that owns this extension value. |
-| `namespace` | `namespace` | text | Yes | operational | The governed namespace or vendor domain for the extension key. |
-| `extension_key` | `extensionKey` | text | Yes | depends_on_contents | The extension field name within the namespace. |
-| `extension_value` | `extensionValue` | text | No | depends_on_contents | The normalized scalar value when the extension can be safely indexed. |
-| `privacy_classification` | `privacyClassification` | enum | Yes | operational | The platform privacy classification assigned to this extension value. |
-| `allowed_by_policy` | `allowedByPolicy` | boolean | Yes | operational | Whether tenant policy allows this extension to be retained and queried. |
+| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this extension projection. |
+| `owner_type` | `ownerType` | enum | Yes | operational | `DEC-009-content-resource` | Whether this extension belongs to an envelope, event, entity, actor, or context row. |
+| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform row ID that owns this extension value. |
+| `namespace` | `namespace` | text | Yes | operational | `DEC-009-content-resource` | The governed namespace or vendor domain for the extension key. |
+| `extension_key` | `extensionKey` | text | Yes | depends_on_contents | `DEC-009-content-resource` | The extension field name within the namespace. |
+| `extension_value` | `extensionValue` | text | No | depends_on_contents | `DEC-009-content-resource` | The normalized scalar value when the extension can be safely indexed. |
+| `privacy_classification` | `privacyClassification` | enum | Yes | operational | `DEC-002-learning-context` | The platform privacy classification assigned to this extension value. |
+| `allowed_by_policy` | `allowedByPolicy` | boolean | Yes | operational | `DEC-010-tenancy-reference-data` | Whether tenant policy allows this extension to be retained and queried. |
 
 #### Controlled Values
 

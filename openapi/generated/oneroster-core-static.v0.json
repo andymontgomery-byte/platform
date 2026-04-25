@@ -634,19 +634,23 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this organization."
+            "description": "The platform's stable ID for this organization.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID used by the sending system."
+            "description": "The OneRoster source ID used by the sending system.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "name": {
             "type": "string",
-            "description": "The organization name people recognize."
+            "description": "The organization name people recognize.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "type": {
             "type": "string",
             "description": "The kind of organization this record represents.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "district",
               "school",
@@ -656,11 +660,13 @@
           },
           "parentOrganizationId": {
             "type": "string",
-            "description": "The organization that contains this one."
+            "description": "The organization that contains this one.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "status": {
             "type": "string",
             "description": "Whether the record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "active",
               "inactive",
@@ -670,6 +676,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this organization record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -689,31 +696,38 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this person."
+            "description": "The platform's stable ID for this person.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID used by the sending system."
+            "description": "The OneRoster source ID used by the sending system.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "displayName": {
             "type": "string",
-            "description": "The name shown in user interfaces."
+            "description": "The name shown in user interfaces.",
+            "x-decisionId": "DEC-001-person-agent-subject"
           },
           "givenName": {
             "type": "string",
-            "description": "The person's first or given name."
+            "description": "The person's first or given name.",
+            "x-decisionId": "DEC-001-person-agent-subject"
           },
           "familyName": {
             "type": "string",
-            "description": "The person's last or family name."
+            "description": "The person's last or family name.",
+            "x-decisionId": "DEC-001-person-agent-subject"
           },
           "email": {
             "type": "string",
-            "description": "The person's school email address."
+            "description": "The person's school email address.",
+            "x-decisionId": "DEC-001-person-agent-subject"
           },
           "primaryRole": {
             "type": "string",
             "description": "The person's broad role in the education environment.",
+            "x-decisionId": "DEC-003-role-vocabulary",
             "enum": [
               "student",
               "teacher",
@@ -724,6 +738,7 @@
           "enabledUser": {
             "type": "string",
             "description": "Whether the person can currently sign in or be used as an active user.",
+            "x-decisionId": "DEC-001-person-agent-subject",
             "enum": [
               "true",
               "false"
@@ -732,6 +747,7 @@
           "status": {
             "type": "string",
             "description": "Whether the person record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-001-person-agent-subject",
             "enum": [
               "active",
               "inactive",
@@ -741,6 +757,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this person record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -761,19 +778,23 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this academic session."
+            "description": "The platform's stable ID for this academic session.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID for this calendar record."
+            "description": "The OneRoster source ID for this calendar record.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The calendar name people see."
+            "description": "The calendar name people see.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "type": {
             "type": "string",
             "description": "The kind of calendar window.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "schoolYear",
               "term",
@@ -785,20 +806,24 @@
           "startDate": {
             "type": "string",
             "description": "The first date in the session.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date"
           },
           "endDate": {
             "type": "string",
             "description": "The last date in the session.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date"
           },
           "schoolYear": {
             "type": "integer",
-            "description": "The calendar year associated with the school year."
+            "description": "The calendar year associated with the school year.",
+            "x-decisionId": "DEC-008-time-session"
           },
           "status": {
             "type": "string",
             "description": "Whether the session record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "active",
               "inactive",
@@ -808,6 +833,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this session record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -826,31 +852,38 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this course."
+            "description": "The platform's stable ID for this course.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID for this course."
+            "description": "The OneRoster source ID for this course.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The course name people see."
+            "description": "The course name people see.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "courseCode": {
             "type": "string",
-            "description": "A local course code used by the school or district."
+            "description": "A local course code used by the school or district.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "orgId": {
             "type": "string",
-            "description": "The organization that owns or offers the course."
+            "description": "The organization that owns or offers the course.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "schoolYearId": {
             "type": "string",
-            "description": "The school year this course belongs to, if the source provides one."
+            "description": "The school year this course belongs to, if the source provides one.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "status": {
             "type": "string",
             "description": "Whether the course record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "active",
               "inactive",
@@ -860,6 +893,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this course record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -880,19 +914,23 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this class."
+            "description": "The platform's stable ID for this class.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID for this class."
+            "description": "The OneRoster source ID for this class.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The class name people see."
+            "description": "The class name people see.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "classType": {
             "type": "string",
             "description": "Whether this is a normal scheduled class or another kind of class grouping.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "scheduled",
               "homeroom"
@@ -900,23 +938,28 @@
           },
           "classCode": {
             "type": "string",
-            "description": "A local code for the class section."
+            "description": "A local code for the class section.",
+            "x-decisionId": "DEC-002-learning-context"
           },
           "courseId": {
             "type": "string",
-            "description": "The course this class teaches."
+            "description": "The course this class teaches.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "schoolId": {
             "type": "string",
-            "description": "The school where the class is offered."
+            "description": "The school where the class is offered.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "termId": {
             "type": "string",
-            "description": "The academic session when the class runs."
+            "description": "The academic session when the class runs.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "status": {
             "type": "string",
             "description": "Whether the class record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "active",
               "inactive",
@@ -926,6 +969,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this class record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -946,27 +990,33 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this enrollment."
+            "description": "The platform's stable ID for this enrollment.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID for this enrollment."
+            "description": "The OneRoster source ID for this enrollment.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "classId": {
             "type": "string",
-            "description": "The class where the person is enrolled."
+            "description": "The class where the person is enrolled.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "personId": {
             "type": "string",
-            "description": "The learner, teacher, or other person in the class."
+            "description": "The learner, teacher, or other person in the class.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "schoolId": {
             "type": "string",
-            "description": "The school associated with this enrollment."
+            "description": "The school associated with this enrollment.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "role": {
             "type": "string",
             "description": "The person's job in the class.",
+            "x-decisionId": "DEC-003-role-vocabulary",
             "enum": [
               "student",
               "teacher",
@@ -977,16 +1027,19 @@
           "beginDate": {
             "type": "string",
             "description": "The first date this enrollment applies.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date"
           },
           "endDate": {
             "type": "string",
             "description": "The last date this enrollment applies.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date"
           },
           "primary": {
             "type": "string",
             "description": "Whether this is the primary teacher or primary enrollment when the source makes that distinction.",
+            "x-decisionId": "DEC-004-enrollment-membership",
             "enum": [
               "true",
               "false"
@@ -995,6 +1048,7 @@
           "status": {
             "type": "string",
             "description": "Whether the enrollment record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-004-enrollment-membership",
             "enum": [
               "active",
               "inactive",
@@ -1004,6 +1058,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this enrollment record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1022,23 +1077,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this gradebook item."
+            "description": "The platform's stable ID for this gradebook item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID for this line item."
+            "description": "The OneRoster source ID for this line item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "title": {
             "type": "string",
-            "description": "The gradebook item name."
+            "description": "The gradebook item name.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "classId": {
             "type": "string",
-            "description": "The class whose gradebook contains this item."
+            "description": "The class whose gradebook contains this item.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "category": {
             "type": "string",
             "description": "The local gradebook category for the item.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "assignment",
               "quiz",
@@ -1049,24 +1109,29 @@
           "assignDate": {
             "type": "string",
             "description": "The date the item was assigned.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date"
           },
           "dueDate": {
             "type": "string",
             "description": "The date the item is due.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date"
           },
           "resultValueMin": {
             "type": "number",
-            "description": "The minimum possible numeric result."
+            "description": "The minimum possible numeric result.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "resultValueMax": {
             "type": "number",
-            "description": "The maximum possible numeric result."
+            "description": "The maximum possible numeric result.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "status": {
             "type": "string",
             "description": "Whether the line item record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "active",
               "inactive",
@@ -1076,6 +1141,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this line item record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1095,23 +1161,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this result."
+            "description": "The platform's stable ID for this result.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourcedId": {
             "type": "string",
-            "description": "The OneRoster source ID for this result."
+            "description": "The OneRoster source ID for this result.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "lineItemId": {
             "type": "string",
-            "description": "The gradebook item this result belongs to."
+            "description": "The gradebook item this result belongs to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "personId": {
             "type": "string",
-            "description": "The learner who received the result."
+            "description": "The learner who received the result.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "scoreStatus": {
             "type": "string",
             "description": "The scoring state for this result.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "notSubmitted",
               "submitted",
@@ -1121,20 +1192,24 @@
           },
           "score": {
             "type": "number",
-            "description": "The numeric score earned."
+            "description": "The numeric score earned.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "scoreDate": {
             "type": "string",
             "description": "When the score was assigned or last updated.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "comment": {
             "type": "string",
-            "description": "Feedback or notes attached to the result."
+            "description": "Feedback or notes attached to the result.",
+            "x-decisionId": "DEC-005-results-scores"
           },
           "status": {
             "type": "string",
             "description": "Whether the result record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-005-results-scores",
             "enum": [
               "active",
               "inactive",
@@ -1144,6 +1219,7 @@
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this result record last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           }
         }
@@ -1163,27 +1239,33 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this source identifier record."
+            "description": "The platform's stable ID for this source identifier record.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "objectType": {
             "type": "string",
-            "description": "The kind of platform object this identifier describes."
+            "description": "The kind of platform object this identifier describes.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "objectId": {
             "type": "string",
-            "description": "The platform object that has this external identifier."
+            "description": "The platform object that has this external identifier.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sourceSystem": {
             "type": "string",
-            "description": "The outside system that created or owns the identifier."
+            "description": "The outside system that created or owns the identifier.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           },
           "externalId": {
             "type": "string",
-            "description": "The actual identifier value used by the outside system."
+            "description": "The actual identifier value used by the outside system.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "identifierType": {
             "type": "string",
             "description": "What kind of outside ID this is.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "oneRosterSourcedId",
               "sisSourcedId",
@@ -1195,6 +1277,7 @@
           "status": {
             "type": "string",
             "description": "Whether the identifier record is active, inactive, or marked for deletion.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "active",
               "inactive",

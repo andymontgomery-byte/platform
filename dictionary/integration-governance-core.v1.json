@@ -16,20 +16,161 @@
       "why_it_exists": "A registration stores the issuer, client ID, launch URLs, key material references, and service scopes a tool may use before any course deployment can launch it.",
       "privacy_class": "system",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this LTI registration.", "school_example": "lti_reg_math_tool", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The school, district, or customer boundary that owns this registration.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "issuer", "column_name": "issuer", "json_name": "issuer", "data_type": "text", "required": true, "plain_description": "The platform issuer identifier used in LTI launch tokens.", "school_example": "https://platform.example.test", "privacy_class": "system"},
-        {"field_key": "client_id", "column_name": "client_id", "json_name": "clientId", "data_type": "text", "required": true, "plain_description": "The OAuth client ID assigned to the tool by the platform.", "school_example": "client-math-tool", "privacy_class": "system"},
-        {"field_key": "tool_name", "column_name": "tool_name", "json_name": "toolName", "data_type": "text", "required": true, "plain_description": "The name administrators and instructors see for the external tool.", "school_example": "Math Practice Tool", "privacy_class": "operational"},
-        {"field_key": "initiate_login_uri", "column_name": "initiate_login_uri", "json_name": "initiateLoginUri", "data_type": "text", "required": true, "plain_description": "The tool URL where the platform starts the LTI login flow.", "school_example": "https://math-tool.example.test/lti/login", "privacy_class": "system"},
-        {"field_key": "redirect_uris", "column_name": "redirect_uris", "json_name": "redirectUris", "data_type": "text", "required": true, "plain_description": "The tool URLs that are allowed to receive launch responses.", "school_example": "https://math-tool.example.test/lti/launch", "privacy_class": "system"},
-        {"field_key": "jwks_uri", "column_name": "jwks_uri", "json_name": "jwksUri", "data_type": "text", "required": false, "plain_description": "The URL where public signing keys for the tool or platform can be fetched.", "school_example": "https://math-tool.example.test/.well-known/jwks.json", "privacy_class": "system"},
-        {"field_key": "authorization_endpoint", "column_name": "authorization_endpoint", "json_name": "authorizationEndpoint", "data_type": "text", "required": true, "plain_description": "The platform URL used during OpenID Connect authentication.", "school_example": "https://platform.example.test/oauth/authorize", "privacy_class": "system"},
-        {"field_key": "token_endpoint", "column_name": "token_endpoint", "json_name": "tokenEndpoint", "data_type": "text", "required": true, "plain_description": "The platform URL where the tool asks for service access tokens.", "school_example": "https://platform.example.test/oauth/token", "privacy_class": "system"},
-        {"field_key": "allowed_scopes", "column_name": "allowed_scopes", "json_name": "allowedScopes", "data_type": "text", "required": true, "plain_description": "The service permissions the tool may request after policy review.", "school_example": "ags.lineitem.readonly nrps.contextmembership.readonly", "privacy_class": "system"},
-        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether this registration can currently be used.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "record_status"},
-        {"field_key": "created_at", "column_name": "created_at", "json_name": "createdAt", "data_type": "datetime", "required": true, "plain_description": "When this registration was created.", "school_example": "2026-04-24T14:00:00Z", "privacy_class": "operational"},
-        {"field_key": "updated_at", "column_name": "updated_at", "json_name": "updatedAt", "data_type": "datetime", "required": true, "plain_description": "When this registration was last changed.", "school_example": "2026-04-24T15:00:00Z", "privacy_class": "operational"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this LTI registration.",
+          "school_example": "lti_reg_math_tool",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The school, district, or customer boundary that owns this registration.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "issuer",
+          "column_name": "issuer",
+          "json_name": "issuer",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform issuer identifier used in LTI launch tokens.",
+          "school_example": "https://platform.example.test",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "client_id",
+          "column_name": "client_id",
+          "json_name": "clientId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The OAuth client ID assigned to the tool by the platform.",
+          "school_example": "client-math-tool",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tool_name",
+          "column_name": "tool_name",
+          "json_name": "toolName",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The name administrators and instructors see for the external tool.",
+          "school_example": "Math Practice Tool",
+          "privacy_class": "operational",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "initiate_login_uri",
+          "column_name": "initiate_login_uri",
+          "json_name": "initiateLoginUri",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tool URL where the platform starts the LTI login flow.",
+          "school_example": "https://math-tool.example.test/lti/login",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "redirect_uris",
+          "column_name": "redirect_uris",
+          "json_name": "redirectUris",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tool URLs that are allowed to receive launch responses.",
+          "school_example": "https://math-tool.example.test/lti/launch",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "jwks_uri",
+          "column_name": "jwks_uri",
+          "json_name": "jwksUri",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The URL where public signing keys for the tool or platform can be fetched.",
+          "school_example": "https://math-tool.example.test/.well-known/jwks.json",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "authorization_endpoint",
+          "column_name": "authorization_endpoint",
+          "json_name": "authorizationEndpoint",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform URL used during OpenID Connect authentication.",
+          "school_example": "https://platform.example.test/oauth/authorize",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "token_endpoint",
+          "column_name": "token_endpoint",
+          "json_name": "tokenEndpoint",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform URL where the tool asks for service access tokens.",
+          "school_example": "https://platform.example.test/oauth/token",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "allowed_scopes",
+          "column_name": "allowed_scopes",
+          "json_name": "allowedScopes",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The service permissions the tool may request after policy review.",
+          "school_example": "ags.lineitem.readonly nrps.contextmembership.readonly",
+          "privacy_class": "system",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "status",
+          "column_name": "status",
+          "json_name": "status",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether this registration can currently be used.",
+          "school_example": "active",
+          "privacy_class": "operational",
+          "allowed_values_ref": "record_status",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "created_at",
+          "column_name": "created_at",
+          "json_name": "createdAt",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When this registration was created.",
+          "school_example": "2026-04-24T14:00:00Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "updated_at",
+          "column_name": "updated_at",
+          "json_name": "updatedAt",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When this registration was last changed.",
+          "school_example": "2026-04-24T15:00:00Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        }
       ]
     },
     {
@@ -41,15 +182,107 @@
       "why_it_exists": "Deployments scope which registration can launch in which learning context and which services are available there.",
       "privacy_class": "system",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this deployment.", "school_example": "lti_dep_alg1_math_tool", "privacy_class": "operational"},
-        {"field_key": "registration_id", "column_name": "registration_id", "json_name": "registrationId", "data_type": "text", "required": true, "plain_description": "The LTI registration that governs this deployment.", "school_example": "lti_reg_math_tool", "privacy_class": "system"},
-        {"field_key": "deployment_id", "column_name": "deployment_id", "json_name": "deploymentId", "data_type": "text", "required": true, "plain_description": "The immutable deployment identifier sent in LTI launch claims.", "school_example": "deployment-alg1-2026", "privacy_class": "system"},
-        {"field_key": "deployment_scope", "column_name": "deployment_scope", "json_name": "deploymentScope", "data_type": "enum", "required": true, "plain_description": "The level where this tool installation is available.", "school_example": "course", "privacy_class": "operational", "allowed_values_ref": "deployment_scope"},
-        {"field_key": "context_id", "column_name": "context_id", "json_name": "contextId", "data_type": "text", "required": false, "plain_description": "The course, section, school, or tenant context this deployment is attached to.", "school_example": "class_alg1_a", "privacy_class": "education_record"},
-        {"field_key": "resource_link_id", "column_name": "resource_link_id", "json_name": "resourceLinkId", "data_type": "text", "required": false, "plain_description": "The specific course activity link this deployment is tied to when the tool is activity-scoped.", "school_example": "resource_link_unit2_practice", "privacy_class": "operational"},
-        {"field_key": "service_scopes", "column_name": "service_scopes", "json_name": "serviceScopes", "data_type": "text", "required": false, "plain_description": "The LTI Advantage scopes enabled for this deployment after tenant policy filtering.", "school_example": "nrps.contextmembership.readonly ags.score", "privacy_class": "system"},
-        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether launches and services for this deployment are enabled.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "record_status"},
-        {"field_key": "created_at", "column_name": "created_at", "json_name": "createdAt", "data_type": "datetime", "required": true, "plain_description": "When this deployment was created.", "school_example": "2026-04-24T14:15:00Z", "privacy_class": "operational"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this deployment.",
+          "school_example": "lti_dep_alg1_math_tool",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "registration_id",
+          "column_name": "registration_id",
+          "json_name": "registrationId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The LTI registration that governs this deployment.",
+          "school_example": "lti_reg_math_tool",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "deployment_id",
+          "column_name": "deployment_id",
+          "json_name": "deploymentId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The immutable deployment identifier sent in LTI launch claims.",
+          "school_example": "deployment-alg1-2026",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "deployment_scope",
+          "column_name": "deployment_scope",
+          "json_name": "deploymentScope",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The level where this tool installation is available.",
+          "school_example": "course",
+          "privacy_class": "operational",
+          "allowed_values_ref": "deployment_scope",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "context_id",
+          "column_name": "context_id",
+          "json_name": "contextId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The course, section, school, or tenant context this deployment is attached to.",
+          "school_example": "class_alg1_a",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "resource_link_id",
+          "column_name": "resource_link_id",
+          "json_name": "resourceLinkId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The specific course activity link this deployment is tied to when the tool is activity-scoped.",
+          "school_example": "resource_link_unit2_practice",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "service_scopes",
+          "column_name": "service_scopes",
+          "json_name": "serviceScopes",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI Advantage scopes enabled for this deployment after tenant policy filtering.",
+          "school_example": "nrps.contextmembership.readonly ags.score",
+          "privacy_class": "system",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "status",
+          "column_name": "status",
+          "json_name": "status",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether launches and services for this deployment are enabled.",
+          "school_example": "active",
+          "privacy_class": "operational",
+          "allowed_values_ref": "record_status",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "created_at",
+          "column_name": "created_at",
+          "json_name": "createdAt",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When this deployment was created.",
+          "school_example": "2026-04-24T14:15:00Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        }
       ]
     },
     {
@@ -61,21 +294,174 @@
       "why_it_exists": "Launch records preserve who launched, from which class or activity, which tool received the launch, and how the signed claims were validated.",
       "privacy_class": "behavioral",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this launch attempt.", "school_example": "lti_launch_20260424_001", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The tenant boundary that owns the launch event.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "registration_id", "column_name": "registration_id", "json_name": "registrationId", "data_type": "text", "required": true, "plain_description": "The registration used to validate and route the launch.", "school_example": "lti_reg_math_tool", "privacy_class": "system"},
-        {"field_key": "deployment_id", "column_name": "deployment_id", "json_name": "deploymentId", "data_type": "text", "required": true, "plain_description": "The LTI deployment identifier included in the launch.", "school_example": "deployment-alg1-2026", "privacy_class": "system"},
-        {"field_key": "message_type", "column_name": "message_type", "json_name": "messageType", "data_type": "enum", "required": true, "plain_description": "The LTI workflow represented by this launch.", "school_example": "LtiResourceLinkRequest", "privacy_class": "operational", "allowed_values_ref": "lti_message_type"},
-        {"field_key": "lti_version", "column_name": "lti_version", "json_name": "ltiVersion", "data_type": "enum", "required": true, "plain_description": "The LTI version claim supplied in the launch.", "school_example": "1.3.0", "privacy_class": "operational", "allowed_values_ref": "lti_version"},
-        {"field_key": "subject_id", "column_name": "subject_id", "json_name": "subjectId", "data_type": "text", "required": false, "plain_description": "The user identifier from the launch token when the launch is not anonymous.", "school_example": "student-1001", "privacy_class": "education_record"},
-        {"field_key": "context_id", "column_name": "context_id", "json_name": "contextId", "data_type": "text", "required": false, "plain_description": "The course, section, or group where the launch happened.", "school_example": "class_alg1_a", "privacy_class": "education_record"},
-        {"field_key": "roles", "column_name": "roles", "json_name": "roles", "data_type": "text", "required": false, "plain_description": "The LTI roles supplied for the launching user.", "school_example": "Learner", "privacy_class": "education_record"},
-        {"field_key": "target_link_uri", "column_name": "target_link_uri", "json_name": "targetLinkUri", "data_type": "text", "required": true, "plain_description": "The final tool URL that should receive the launch.", "school_example": "https://math-tool.example.test/lti/launch", "privacy_class": "system"},
-        {"field_key": "nonce_hash", "column_name": "nonce_hash", "json_name": "nonceHash", "data_type": "text", "required": true, "plain_description": "A stored fingerprint of the one-time launch nonce used to prevent replay.", "school_example": "sha256:nonce-fingerprint", "privacy_class": "sensitive"},
-        {"field_key": "id_token_hash", "column_name": "id_token_hash", "json_name": "idTokenHash", "data_type": "text", "required": true, "plain_description": "A fingerprint of the signed launch token kept for audit without exposing the full token everywhere.", "school_example": "sha256:token-fingerprint", "privacy_class": "sensitive"},
-        {"field_key": "raw_claims", "column_name": "raw_claims", "json_name": "rawClaims", "data_type": "text", "required": true, "plain_description": "The original launch claims retained for troubleshooting and conformance review under tenant policy.", "school_example": "{\"https://purl.imsglobal.org/spec/lti/claim/message_type\":\"LtiResourceLinkRequest\"}", "privacy_class": "sensitive"},
-        {"field_key": "launched_at", "column_name": "launched_at", "json_name": "launchedAt", "data_type": "datetime", "required": true, "plain_description": "When the launch was initiated.", "school_example": "2026-04-24T15:10:00Z", "privacy_class": "behavioral"},
-        {"field_key": "validation_status", "column_name": "validation_status", "json_name": "validationStatus", "data_type": "enum", "required": true, "plain_description": "Whether signature, issuer, audience, deployment, nonce, and time checks passed.", "school_example": "valid", "privacy_class": "operational", "allowed_values_ref": "validation_status"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this launch attempt.",
+          "school_example": "lti_launch_20260424_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tenant boundary that owns the launch event.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "registration_id",
+          "column_name": "registration_id",
+          "json_name": "registrationId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The registration used to validate and route the launch.",
+          "school_example": "lti_reg_math_tool",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "deployment_id",
+          "column_name": "deployment_id",
+          "json_name": "deploymentId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The LTI deployment identifier included in the launch.",
+          "school_example": "deployment-alg1-2026",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "message_type",
+          "column_name": "message_type",
+          "json_name": "messageType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The LTI workflow represented by this launch.",
+          "school_example": "LtiResourceLinkRequest",
+          "privacy_class": "operational",
+          "allowed_values_ref": "lti_message_type",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "lti_version",
+          "column_name": "lti_version",
+          "json_name": "ltiVersion",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The LTI version claim supplied in the launch.",
+          "school_example": "1.3.0",
+          "privacy_class": "operational",
+          "allowed_values_ref": "lti_version",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "subject_id",
+          "column_name": "subject_id",
+          "json_name": "subjectId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The user identifier from the launch token when the launch is not anonymous.",
+          "school_example": "student-1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "context_id",
+          "column_name": "context_id",
+          "json_name": "contextId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The course, section, or group where the launch happened.",
+          "school_example": "class_alg1_a",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "roles",
+          "column_name": "roles",
+          "json_name": "roles",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI roles supplied for the launching user.",
+          "school_example": "Learner",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "field_key": "target_link_uri",
+          "column_name": "target_link_uri",
+          "json_name": "targetLinkUri",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The final tool URL that should receive the launch.",
+          "school_example": "https://math-tool.example.test/lti/launch",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "nonce_hash",
+          "column_name": "nonce_hash",
+          "json_name": "nonceHash",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "A stored fingerprint of the one-time launch nonce used to prevent replay.",
+          "school_example": "sha256:nonce-fingerprint",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "id_token_hash",
+          "column_name": "id_token_hash",
+          "json_name": "idTokenHash",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "A fingerprint of the signed launch token kept for audit without exposing the full token everywhere.",
+          "school_example": "sha256:token-fingerprint",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "raw_claims",
+          "column_name": "raw_claims",
+          "json_name": "rawClaims",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The original launch claims retained for troubleshooting and conformance review under tenant policy.",
+          "school_example": "{\"https://purl.imsglobal.org/spec/lti/claim/message_type\":\"LtiResourceLinkRequest\"}",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "launched_at",
+          "column_name": "launched_at",
+          "json_name": "launchedAt",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When the launch was initiated.",
+          "school_example": "2026-04-24T15:10:00Z",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "validation_status",
+          "column_name": "validation_status",
+          "json_name": "validationStatus",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether signature, issuer, audience, deployment, nonce, and time checks passed.",
+          "school_example": "valid",
+          "privacy_class": "operational",
+          "allowed_values_ref": "validation_status",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        }
       ]
     },
     {
@@ -87,14 +473,96 @@
       "why_it_exists": "Services such as NRPS, AGS, and Deep Linking need explicit URLs, versions, scopes, and policy gates before a tool can call them.",
       "privacy_class": "system",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this LTI service endpoint.", "school_example": "lti_svc_alg1_nrps", "privacy_class": "operational"},
-        {"field_key": "deployment_id", "column_name": "deployment_id", "json_name": "deploymentId", "data_type": "text", "required": true, "plain_description": "The deployment that may expose this service endpoint.", "school_example": "lti_dep_alg1_math_tool", "privacy_class": "system"},
-        {"field_key": "service_type", "column_name": "service_type", "json_name": "serviceType", "data_type": "enum", "required": true, "plain_description": "Which LTI Advantage service this endpoint supports.", "school_example": "nrps", "privacy_class": "system", "allowed_values_ref": "service_type"},
-        {"field_key": "endpoint_url", "column_name": "endpoint_url", "json_name": "endpointUrl", "data_type": "text", "required": true, "plain_description": "The API URL a tool calls for this service.", "school_example": "https://platform.example.test/lti/nrps/classes/class_alg1_a/memberships", "privacy_class": "system"},
-        {"field_key": "service_versions", "column_name": "service_versions", "json_name": "serviceVersions", "data_type": "text", "required": true, "plain_description": "The supported service versions advertised to the tool.", "school_example": "2.0", "privacy_class": "operational"},
-        {"field_key": "required_scope", "column_name": "required_scope", "json_name": "requiredScope", "data_type": "text", "required": true, "plain_description": "The OAuth scope required before the tool may call this endpoint.", "school_example": "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly", "privacy_class": "system"},
-        {"field_key": "context_id", "column_name": "context_id", "json_name": "contextId", "data_type": "text", "required": false, "plain_description": "The class, course, section, or activity context the service is scoped to.", "school_example": "class_alg1_a", "privacy_class": "education_record"},
-        {"field_key": "policy_status", "column_name": "policy_status", "json_name": "policyStatus", "data_type": "enum", "required": true, "plain_description": "Whether tenant privacy and scope policy allows this service to be exposed.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "record_status"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this LTI service endpoint.",
+          "school_example": "lti_svc_alg1_nrps",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "deployment_id",
+          "column_name": "deployment_id",
+          "json_name": "deploymentId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The deployment that may expose this service endpoint.",
+          "school_example": "lti_dep_alg1_math_tool",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "service_type",
+          "column_name": "service_type",
+          "json_name": "serviceType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Which LTI Advantage service this endpoint supports.",
+          "school_example": "nrps",
+          "privacy_class": "system",
+          "allowed_values_ref": "service_type",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "endpoint_url",
+          "column_name": "endpoint_url",
+          "json_name": "endpointUrl",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The API URL a tool calls for this service.",
+          "school_example": "https://platform.example.test/lti/nrps/classes/class_alg1_a/memberships",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "service_versions",
+          "column_name": "service_versions",
+          "json_name": "serviceVersions",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The supported service versions advertised to the tool.",
+          "school_example": "2.0",
+          "privacy_class": "operational",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "required_scope",
+          "column_name": "required_scope",
+          "json_name": "requiredScope",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The OAuth scope required before the tool may call this endpoint.",
+          "school_example": "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly",
+          "privacy_class": "system",
+          "decision_id": "DEC-002-learning-context"
+        },
+        {
+          "field_key": "context_id",
+          "column_name": "context_id",
+          "json_name": "contextId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The class, course, section, or activity context the service is scoped to.",
+          "school_example": "class_alg1_a",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "policy_status",
+          "column_name": "policy_status",
+          "json_name": "policyStatus",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether tenant privacy and scope policy allows this service to be exposed.",
+          "school_example": "active",
+          "privacy_class": "operational",
+          "allowed_values_ref": "record_status",
+          "decision_id": "DEC-002-learning-context"
+        }
       ]
     },
     {
@@ -106,16 +574,117 @@
       "why_it_exists": "NRPS memberships let a tool understand who belongs to a launch context without copying the whole roster contract into every launch.",
       "privacy_class": "education_record",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this LTI membership projection.", "school_example": "lti_member_alg1_jordan", "privacy_class": "operational"},
-        {"field_key": "service_endpoint_id", "column_name": "service_endpoint_id", "json_name": "serviceEndpointId", "data_type": "text", "required": true, "plain_description": "The NRPS endpoint that returned or would return this membership.", "school_example": "lti_svc_alg1_nrps", "privacy_class": "system"},
-        {"field_key": "context_id", "column_name": "context_id", "json_name": "contextId", "data_type": "text", "required": true, "plain_description": "The course, section, group, or other context represented by the membership.", "school_example": "class_alg1_a", "privacy_class": "education_record"},
-        {"field_key": "user_id", "column_name": "user_id", "json_name": "userId", "data_type": "text", "required": true, "plain_description": "The LTI user ID for the member.", "school_example": "student-1001", "privacy_class": "education_record"},
-        {"field_key": "platform_person_id", "column_name": "platform_person_id", "json_name": "platformPersonId", "data_type": "text", "required": false, "plain_description": "The resolved platform person ID when policy permits resolution.", "school_example": "person_1001", "privacy_class": "education_record"},
-        {"field_key": "display_name", "column_name": "display_name", "json_name": "displayName", "data_type": "text", "required": false, "plain_description": "The member name shared with the tool.", "school_example": "Jordan Lee", "privacy_class": "directory"},
-        {"field_key": "email", "column_name": "email", "json_name": "email", "data_type": "text", "required": false, "plain_description": "The member email shared with the tool if policy allows it.", "school_example": "jordan.lee@example.test", "privacy_class": "directory"},
-        {"field_key": "roles", "column_name": "roles", "json_name": "roles", "data_type": "text", "required": false, "plain_description": "The LTI roles this member has in the context.", "school_example": "Learner", "privacy_class": "education_record"},
-        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": false, "plain_description": "Whether the membership is currently active.", "school_example": "Active", "privacy_class": "education_record", "allowed_values_ref": "membership_status"},
-        {"field_key": "lis_person_sourcedid", "column_name": "lis_person_sourcedid", "json_name": "lisPersonSourcedid", "data_type": "text", "required": false, "plain_description": "A legacy or SIS-linked person identifier shared through LTI when allowed.", "school_example": "SIS-1001", "privacy_class": "education_record"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this LTI membership projection.",
+          "school_example": "lti_member_alg1_jordan",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "service_endpoint_id",
+          "column_name": "service_endpoint_id",
+          "json_name": "serviceEndpointId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The NRPS endpoint that returned or would return this membership.",
+          "school_example": "lti_svc_alg1_nrps",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "context_id",
+          "column_name": "context_id",
+          "json_name": "contextId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The course, section, group, or other context represented by the membership.",
+          "school_example": "class_alg1_a",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "user_id",
+          "column_name": "user_id",
+          "json_name": "userId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The LTI user ID for the member.",
+          "school_example": "student-1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "platform_person_id",
+          "column_name": "platform_person_id",
+          "json_name": "platformPersonId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The resolved platform person ID when policy permits resolution.",
+          "school_example": "person_1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "display_name",
+          "column_name": "display_name",
+          "json_name": "displayName",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The member name shared with the tool.",
+          "school_example": "Jordan Lee",
+          "privacy_class": "directory",
+          "decision_id": "DEC-004-enrollment-membership"
+        },
+        {
+          "field_key": "email",
+          "column_name": "email",
+          "json_name": "email",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The member email shared with the tool if policy allows it.",
+          "school_example": "jordan.lee@example.test",
+          "privacy_class": "directory",
+          "decision_id": "DEC-004-enrollment-membership"
+        },
+        {
+          "field_key": "roles",
+          "column_name": "roles",
+          "json_name": "roles",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The LTI roles this member has in the context.",
+          "school_example": "Learner",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "field_key": "status",
+          "column_name": "status",
+          "json_name": "status",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "Whether the membership is currently active.",
+          "school_example": "Active",
+          "privacy_class": "education_record",
+          "allowed_values_ref": "membership_status",
+          "decision_id": "DEC-004-enrollment-membership"
+        },
+        {
+          "field_key": "lis_person_sourcedid",
+          "column_name": "lis_person_sourcedid",
+          "json_name": "lisPersonSourcedid",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A legacy or SIS-linked person identifier shared through LTI when allowed.",
+          "school_example": "SIS-1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-004-enrollment-membership"
+        }
       ]
     },
     {
@@ -127,17 +696,130 @@
       "why_it_exists": "AGS activity needs a governed projection so tools can create gradebook columns, send scores, and read results without bypassing privacy and gradebook policy.",
       "privacy_class": "education_record",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this AGS exchange record.", "school_example": "lti_ags_score_001", "privacy_class": "operational"},
-        {"field_key": "service_endpoint_id", "column_name": "service_endpoint_id", "json_name": "serviceEndpointId", "data_type": "text", "required": true, "plain_description": "The AGS endpoint used for this grade exchange.", "school_example": "lti_svc_alg1_ags_scores", "privacy_class": "system"},
-        {"field_key": "line_item_url", "column_name": "line_item_url", "json_name": "lineItemUrl", "data_type": "text", "required": false, "plain_description": "The URL or identifier for the gradebook line item.", "school_example": "https://platform.example.test/lti/ags/lineitems/lineitem_1", "privacy_class": "education_record"},
-        {"field_key": "line_item_label", "column_name": "line_item_label", "json_name": "lineItemLabel", "data_type": "text", "required": false, "plain_description": "The human-readable gradebook column name.", "school_example": "Unit 2 Practice", "privacy_class": "education_record"},
-        {"field_key": "score_maximum", "column_name": "score_maximum", "json_name": "scoreMaximum", "data_type": "number", "required": false, "plain_description": "The maximum possible score for the line item or score update.", "school_example": "10", "privacy_class": "education_record"},
-        {"field_key": "score_given", "column_name": "score_given", "json_name": "scoreGiven", "data_type": "number", "required": false, "plain_description": "The points or score earned by the learner.", "school_example": "8.5", "privacy_class": "education_record"},
-        {"field_key": "user_id", "column_name": "user_id", "json_name": "userId", "data_type": "text", "required": false, "plain_description": "The learner who receives the score or result.", "school_example": "student-1001", "privacy_class": "education_record"},
-        {"field_key": "activity_progress", "column_name": "activity_progress", "json_name": "activityProgress", "data_type": "enum", "required": false, "plain_description": "Where the learner is in the activity lifecycle.", "school_example": "Submitted", "privacy_class": "education_record", "allowed_values_ref": "activity_progress"},
-        {"field_key": "grading_progress", "column_name": "grading_progress", "json_name": "gradingProgress", "data_type": "enum", "required": false, "plain_description": "Where the score is in the grading lifecycle.", "school_example": "FullyGraded", "privacy_class": "education_record", "allowed_values_ref": "grading_progress"},
-        {"field_key": "timestamp", "column_name": "timestamp", "json_name": "timestamp", "data_type": "datetime", "required": true, "plain_description": "When the tool or platform created this grade exchange event.", "school_example": "2026-04-24T16:00:00Z", "privacy_class": "education_record"},
-        {"field_key": "exchange_status", "column_name": "exchange_status", "json_name": "exchangeStatus", "data_type": "enum", "required": true, "plain_description": "Whether the AGS exchange was accepted, rejected, or held for review.", "school_example": "valid", "privacy_class": "operational", "allowed_values_ref": "validation_status"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this AGS exchange record.",
+          "school_example": "lti_ags_score_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "service_endpoint_id",
+          "column_name": "service_endpoint_id",
+          "json_name": "serviceEndpointId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The AGS endpoint used for this grade exchange.",
+          "school_example": "lti_svc_alg1_ags_scores",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "line_item_url",
+          "column_name": "line_item_url",
+          "json_name": "lineItemUrl",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The URL or identifier for the gradebook line item.",
+          "school_example": "https://platform.example.test/lti/ags/lineitems/lineitem_1",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "line_item_label",
+          "column_name": "line_item_label",
+          "json_name": "lineItemLabel",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The human-readable gradebook column name.",
+          "school_example": "Unit 2 Practice",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-005-results-scores"
+        },
+        {
+          "field_key": "score_maximum",
+          "column_name": "score_maximum",
+          "json_name": "scoreMaximum",
+          "data_type": "number",
+          "required": false,
+          "plain_description": "The maximum possible score for the line item or score update.",
+          "school_example": "10",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-005-results-scores"
+        },
+        {
+          "field_key": "score_given",
+          "column_name": "score_given",
+          "json_name": "scoreGiven",
+          "data_type": "number",
+          "required": false,
+          "plain_description": "The points or score earned by the learner.",
+          "school_example": "8.5",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-005-results-scores"
+        },
+        {
+          "field_key": "user_id",
+          "column_name": "user_id",
+          "json_name": "userId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The learner who receives the score or result.",
+          "school_example": "student-1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "activity_progress",
+          "column_name": "activity_progress",
+          "json_name": "activityProgress",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "Where the learner is in the activity lifecycle.",
+          "school_example": "Submitted",
+          "privacy_class": "education_record",
+          "allowed_values_ref": "activity_progress",
+          "decision_id": "DEC-005-results-scores"
+        },
+        {
+          "field_key": "grading_progress",
+          "column_name": "grading_progress",
+          "json_name": "gradingProgress",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "Where the score is in the grading lifecycle.",
+          "school_example": "FullyGraded",
+          "privacy_class": "education_record",
+          "allowed_values_ref": "grading_progress",
+          "decision_id": "DEC-005-results-scores"
+        },
+        {
+          "field_key": "timestamp",
+          "column_name": "timestamp",
+          "json_name": "timestamp",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When the tool or platform created this grade exchange event.",
+          "school_example": "2026-04-24T16:00:00Z",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "exchange_status",
+          "column_name": "exchange_status",
+          "json_name": "exchangeStatus",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether the AGS exchange was accepted, rejected, or held for review.",
+          "school_example": "valid",
+          "privacy_class": "operational",
+          "allowed_values_ref": "validation_status",
+          "decision_id": "DEC-005-results-scores"
+        }
       ]
     },
     {
@@ -149,16 +831,118 @@
       "why_it_exists": "Deep Linking lets tools add links, files, HTML snippets, or tool activities into course content while preserving placement and gradebook metadata.",
       "privacy_class": "operational",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this deep-linked item.", "school_example": "deep_link_unit2_practice", "privacy_class": "operational"},
-        {"field_key": "launch_id", "column_name": "launch_id", "json_name": "launchId", "data_type": "text", "required": true, "plain_description": "The Deep Linking launch that produced this selected item.", "school_example": "lti_launch_20260424_002", "privacy_class": "behavioral"},
-        {"field_key": "item_type", "column_name": "item_type", "json_name": "itemType", "data_type": "enum", "required": true, "plain_description": "The kind of content the tool returned.", "school_example": "ltiResourceLink", "privacy_class": "operational", "allowed_values_ref": "deep_link_item_type"},
-        {"field_key": "title", "column_name": "title", "json_name": "title", "data_type": "text", "required": false, "plain_description": "The title shown for the selected content item.", "school_example": "Unit 2 Practice", "privacy_class": "operational"},
-        {"field_key": "url", "column_name": "url", "json_name": "url", "data_type": "text", "required": false, "plain_description": "The content or tool URL returned by the tool.", "school_example": "https://math-tool.example.test/activity/unit-2", "privacy_class": "system"},
-        {"field_key": "html", "column_name": "html", "json_name": "html", "data_type": "text", "required": false, "plain_description": "An HTML snippet returned by the tool when the item is embedded content.", "school_example": "<iframe src=\"https://math-tool.example.test/embed/unit-2\"></iframe>", "privacy_class": "sensitive"},
-        {"field_key": "document_target", "column_name": "document_target", "json_name": "documentTarget", "data_type": "enum", "required": false, "plain_description": "How the platform should display the selected item.", "school_example": "iframe", "privacy_class": "operational", "allowed_values_ref": "document_target"},
-        {"field_key": "line_item_json", "column_name": "line_item_json", "json_name": "lineItemJson", "data_type": "text", "required": false, "plain_description": "Gradebook line item details returned with the selected item.", "school_example": "{\"label\":\"Unit 2 Practice\",\"scoreMaximum\":10}", "privacy_class": "education_record"},
-        {"field_key": "availability_start_at", "column_name": "availability_start_at", "json_name": "availabilityStartAt", "data_type": "datetime", "required": false, "plain_description": "When the item becomes available to learners.", "school_example": "2026-05-01T13:00:00Z", "privacy_class": "education_record"},
-        {"field_key": "submission_end_at", "column_name": "submission_end_at", "json_name": "submissionEndAt", "data_type": "datetime", "required": false, "plain_description": "When learner submissions for the item are due or closed.", "school_example": "2026-05-08T23:59:00Z", "privacy_class": "education_record"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this deep-linked item.",
+          "school_example": "deep_link_unit2_practice",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "launch_id",
+          "column_name": "launch_id",
+          "json_name": "launchId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The Deep Linking launch that produced this selected item.",
+          "school_example": "lti_launch_20260424_002",
+          "privacy_class": "behavioral",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "item_type",
+          "column_name": "item_type",
+          "json_name": "itemType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The kind of content the tool returned.",
+          "school_example": "ltiResourceLink",
+          "privacy_class": "operational",
+          "allowed_values_ref": "deep_link_item_type",
+          "decision_id": "DEC-006-standards-alignment"
+        },
+        {
+          "field_key": "title",
+          "column_name": "title",
+          "json_name": "title",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The title shown for the selected content item.",
+          "school_example": "Unit 2 Practice",
+          "privacy_class": "operational",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "url",
+          "column_name": "url",
+          "json_name": "url",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The content or tool URL returned by the tool.",
+          "school_example": "https://math-tool.example.test/activity/unit-2",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "html",
+          "column_name": "html",
+          "json_name": "html",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "An HTML snippet returned by the tool when the item is embedded content.",
+          "school_example": "<iframe src=\"https://math-tool.example.test/embed/unit-2\"></iframe>",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-009-content-resource"
+        },
+        {
+          "field_key": "document_target",
+          "column_name": "document_target",
+          "json_name": "documentTarget",
+          "data_type": "enum",
+          "required": false,
+          "plain_description": "How the platform should display the selected item.",
+          "school_example": "iframe",
+          "privacy_class": "operational",
+          "allowed_values_ref": "document_target",
+          "decision_id": "DEC-006-standards-alignment"
+        },
+        {
+          "field_key": "line_item_json",
+          "column_name": "line_item_json",
+          "json_name": "lineItemJson",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "Gradebook line item details returned with the selected item.",
+          "school_example": "{\"label\":\"Unit 2 Practice\",\"scoreMaximum\":10}",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-005-results-scores"
+        },
+        {
+          "field_key": "availability_start_at",
+          "column_name": "availability_start_at",
+          "json_name": "availabilityStartAt",
+          "data_type": "datetime",
+          "required": false,
+          "plain_description": "When the item becomes available to learners.",
+          "school_example": "2026-05-01T13:00:00Z",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "submission_end_at",
+          "column_name": "submission_end_at",
+          "json_name": "submissionEndAt",
+          "data_type": "datetime",
+          "required": false,
+          "plain_description": "When learner submissions for the item are due or closed.",
+          "school_example": "2026-05-08T23:59:00Z",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-008-time-session"
+        }
       ]
     },
     {
@@ -170,16 +954,118 @@
       "why_it_exists": "Security Framework behavior needs a governed client registry for token issuance, key validation, scopes, and lifecycle status.",
       "privacy_class": "system",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this OAuth client.", "school_example": "oauth_client_math_tool", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The tenant that owns or authorizes this client.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "client_id", "column_name": "client_id", "json_name": "clientId", "data_type": "text", "required": true, "plain_description": "The public OAuth client identifier.", "school_example": "client-math-tool", "privacy_class": "system"},
-        {"field_key": "client_name", "column_name": "client_name", "json_name": "clientName", "data_type": "text", "required": true, "plain_description": "The name shown to administrators when reviewing the client.", "school_example": "Math Practice Tool", "privacy_class": "operational"},
-        {"field_key": "jwks_uri", "column_name": "jwks_uri", "json_name": "jwksUri", "data_type": "text", "required": false, "plain_description": "The URL where the client's public keys can be fetched.", "school_example": "https://math-tool.example.test/.well-known/jwks.json", "privacy_class": "system"},
-        {"field_key": "public_jwk", "column_name": "public_jwk", "json_name": "publicJwk", "data_type": "text", "required": false, "plain_description": "A stored public key used to verify client assertions when a JWKS URL is not used.", "school_example": "{\"kty\":\"RSA\",\"kid\":\"tool-key-1\"}", "privacy_class": "system"},
-        {"field_key": "auth_method", "column_name": "auth_method", "json_name": "authMethod", "data_type": "enum", "required": true, "plain_description": "How the client proves its identity to the token endpoint.", "school_example": "private_key_jwt", "privacy_class": "system", "allowed_values_ref": "auth_method"},
-        {"field_key": "grant_types", "column_name": "grant_types", "json_name": "grantTypes", "data_type": "text", "required": true, "plain_description": "The OAuth grant types this client is allowed to use.", "school_example": "client_credentials", "privacy_class": "system"},
-        {"field_key": "allowed_scopes", "column_name": "allowed_scopes", "json_name": "allowedScopes", "data_type": "text", "required": true, "plain_description": "The scopes this client may request after tenant and privacy policy are applied.", "school_example": "nrps.contextmembership.readonly ags.score", "privacy_class": "system"},
-        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether tokens may currently be issued for this client.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "client_status"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this OAuth client.",
+          "school_example": "oauth_client_math_tool",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tenant that owns or authorizes this client.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "client_id",
+          "column_name": "client_id",
+          "json_name": "clientId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The public OAuth client identifier.",
+          "school_example": "client-math-tool",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "client_name",
+          "column_name": "client_name",
+          "json_name": "clientName",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The name shown to administrators when reviewing the client.",
+          "school_example": "Math Practice Tool",
+          "privacy_class": "operational",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "jwks_uri",
+          "column_name": "jwks_uri",
+          "json_name": "jwksUri",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The URL where the client's public keys can be fetched.",
+          "school_example": "https://math-tool.example.test/.well-known/jwks.json",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "public_jwk",
+          "column_name": "public_jwk",
+          "json_name": "publicJwk",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A stored public key used to verify client assertions when a JWKS URL is not used.",
+          "school_example": "{\"kty\":\"RSA\",\"kid\":\"tool-key-1\"}",
+          "privacy_class": "system",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "auth_method",
+          "column_name": "auth_method",
+          "json_name": "authMethod",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "How the client proves its identity to the token endpoint.",
+          "school_example": "private_key_jwt",
+          "privacy_class": "system",
+          "allowed_values_ref": "auth_method",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "grant_types",
+          "column_name": "grant_types",
+          "json_name": "grantTypes",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The OAuth grant types this client is allowed to use.",
+          "school_example": "client_credentials",
+          "privacy_class": "system",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "allowed_scopes",
+          "column_name": "allowed_scopes",
+          "json_name": "allowedScopes",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The scopes this client may request after tenant and privacy policy are applied.",
+          "school_example": "nrps.contextmembership.readonly ags.score",
+          "privacy_class": "system",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "status",
+          "column_name": "status",
+          "json_name": "status",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether tokens may currently be issued for this client.",
+          "school_example": "active",
+          "privacy_class": "operational",
+          "allowed_values_ref": "client_status",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        }
       ]
     },
     {
@@ -191,15 +1077,108 @@
       "why_it_exists": "Scopes should mean more than endpoint names; they need a machine-readable connection to dictionary fields and privacy limits.",
       "privacy_class": "system",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this scope policy.", "school_example": "scope_policy_nrps_read", "privacy_class": "operational"},
-        {"field_key": "scope", "column_name": "scope", "json_name": "scope", "data_type": "text", "required": true, "plain_description": "The OAuth scope controlled by this rule.", "school_example": "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly", "privacy_class": "system"},
-        {"field_key": "api_resource", "column_name": "api_resource", "json_name": "apiResource", "data_type": "text", "required": true, "plain_description": "The endpoint group or dictionary object this scope may access.", "school_example": "/integrations/lti/memberships", "privacy_class": "system"},
-        {"field_key": "allowed_action", "column_name": "allowed_action", "json_name": "allowedAction", "data_type": "enum", "required": true, "plain_description": "The operation permitted by this scope.", "school_example": "read", "privacy_class": "system", "allowed_values_ref": "scope_action"},
-        {"field_key": "privacy_ceiling", "column_name": "privacy_ceiling", "json_name": "privacyCeiling", "data_type": "enum", "required": true, "plain_description": "The most sensitive privacy class this scope may expose without another policy rule.", "school_example": "education_record", "privacy_class": "system", "allowed_values_ref": "privacy_class_value"},
-        {"field_key": "field_patterns", "column_name": "field_patterns", "json_name": "fieldPatterns", "data_type": "text", "required": false, "plain_description": "Optional dictionary field names or patterns allowed by this scope.", "school_example": "displayName,email,roles,status", "privacy_class": "system"},
-        {"field_key": "requires_launch_context", "column_name": "requires_launch_context", "json_name": "requiresLaunchContext", "data_type": "boolean", "required": true, "plain_description": "Whether access must be tied to a current launch, deployment, class, or activity context.", "school_example": "true", "privacy_class": "system"},
-        {"field_key": "allowed_roles", "column_name": "allowed_roles", "json_name": "allowedRoles", "data_type": "text", "required": false, "plain_description": "Roles that may use or benefit from the scope.", "school_example": "Instructor,TeachingAssistant", "privacy_class": "system"},
-        {"field_key": "policy_status", "column_name": "policy_status", "json_name": "policyStatus", "data_type": "enum", "required": true, "plain_description": "Whether this scope policy is active, inactive, or retired.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "record_status"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this scope policy.",
+          "school_example": "scope_policy_nrps_read",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "scope",
+          "column_name": "scope",
+          "json_name": "scope",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The OAuth scope controlled by this rule.",
+          "school_example": "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly",
+          "privacy_class": "system",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "api_resource",
+          "column_name": "api_resource",
+          "json_name": "apiResource",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The endpoint group or dictionary object this scope may access.",
+          "school_example": "/integrations/lti/memberships",
+          "privacy_class": "system",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "allowed_action",
+          "column_name": "allowed_action",
+          "json_name": "allowedAction",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The operation permitted by this scope.",
+          "school_example": "read",
+          "privacy_class": "system",
+          "allowed_values_ref": "scope_action",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "privacy_ceiling",
+          "column_name": "privacy_ceiling",
+          "json_name": "privacyCeiling",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The most sensitive privacy class this scope may expose without another policy rule.",
+          "school_example": "education_record",
+          "privacy_class": "system",
+          "allowed_values_ref": "privacy_class_value",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "field_patterns",
+          "column_name": "field_patterns",
+          "json_name": "fieldPatterns",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "Optional dictionary field names or patterns allowed by this scope.",
+          "school_example": "displayName,email,roles,status",
+          "privacy_class": "system",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "requires_launch_context",
+          "column_name": "requires_launch_context",
+          "json_name": "requiresLaunchContext",
+          "data_type": "boolean",
+          "required": true,
+          "plain_description": "Whether access must be tied to a current launch, deployment, class, or activity context.",
+          "school_example": "true",
+          "privacy_class": "system",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "allowed_roles",
+          "column_name": "allowed_roles",
+          "json_name": "allowedRoles",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "Roles that may use or benefit from the scope.",
+          "school_example": "Instructor,TeachingAssistant",
+          "privacy_class": "system",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "field_key": "policy_status",
+          "column_name": "policy_status",
+          "json_name": "policyStatus",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether this scope policy is active, inactive, or retired.",
+          "school_example": "active",
+          "privacy_class": "operational",
+          "allowed_values_ref": "record_status",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        }
       ]
     },
     {
@@ -211,17 +1190,132 @@
       "why_it_exists": "Data Privacy requirements need field-level sharing decisions that can be audited and connected to scopes, tools, and API responses.",
       "privacy_class": "privacy_governance",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this data sharing rule.", "school_example": "privacy_rule_lti_roster_read", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The tenant whose policy this rule belongs to.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "data_category", "column_name": "data_category", "json_name": "dataCategory", "data_type": "enum", "required": true, "plain_description": "The broad kind of school data governed by the rule.", "school_example": "roster", "privacy_class": "privacy_governance", "allowed_values_ref": "data_category"},
-        {"field_key": "privacy_class", "column_name": "privacy_class", "json_name": "privacyClass", "data_type": "enum", "required": true, "plain_description": "The platform privacy class for the data covered by this rule.", "school_example": "education_record", "privacy_class": "privacy_governance", "allowed_values_ref": "privacy_class_value"},
-        {"field_key": "recipient_type", "column_name": "recipient_type", "json_name": "recipientType", "data_type": "enum", "required": true, "plain_description": "Who may receive the data under this rule.", "school_example": "external_tool", "privacy_class": "privacy_governance", "allowed_values_ref": "recipient_type"},
-        {"field_key": "purpose", "column_name": "purpose", "json_name": "purpose", "data_type": "text", "required": true, "plain_description": "The educational or operational reason for sharing the data.", "school_example": "Provide roster context for classroom practice activity.", "privacy_class": "privacy_governance"},
-        {"field_key": "legal_basis", "column_name": "legal_basis", "json_name": "legalBasis", "data_type": "enum", "required": true, "plain_description": "The legal or policy basis used to justify the data sharing.", "school_example": "school_official", "privacy_class": "privacy_governance", "allowed_values_ref": "legal_basis"},
-        {"field_key": "field_patterns", "column_name": "field_patterns", "json_name": "fieldPatterns", "data_type": "text", "required": false, "plain_description": "The dictionary fields or field patterns this rule covers.", "school_example": "lti_memberships.display_name,lti_memberships.roles", "privacy_class": "privacy_governance"},
-        {"field_key": "minimization_note", "column_name": "minimization_note", "json_name": "minimizationNote", "data_type": "text", "required": false, "plain_description": "How the platform limits shared data to what the purpose requires.", "school_example": "Share names and roles only; withhold email unless separately approved.", "privacy_class": "privacy_governance"},
-        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether this sharing rule is currently active.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "record_status"},
-        {"field_key": "reviewed_at", "column_name": "reviewed_at", "json_name": "reviewedAt", "data_type": "datetime", "required": false, "plain_description": "When the rule was last reviewed.", "school_example": "2026-04-24T17:00:00Z", "privacy_class": "operational"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this data sharing rule.",
+          "school_example": "privacy_rule_lti_roster_read",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tenant whose policy this rule belongs to.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "data_category",
+          "column_name": "data_category",
+          "json_name": "dataCategory",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The broad kind of school data governed by the rule.",
+          "school_example": "roster",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "data_category",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "privacy_class",
+          "column_name": "privacy_class",
+          "json_name": "privacyClass",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The platform privacy class for the data covered by this rule.",
+          "school_example": "education_record",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "privacy_class_value",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "recipient_type",
+          "column_name": "recipient_type",
+          "json_name": "recipientType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Who may receive the data under this rule.",
+          "school_example": "external_tool",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "recipient_type",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "purpose",
+          "column_name": "purpose",
+          "json_name": "purpose",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The educational or operational reason for sharing the data.",
+          "school_example": "Provide roster context for classroom practice activity.",
+          "privacy_class": "privacy_governance",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "legal_basis",
+          "column_name": "legal_basis",
+          "json_name": "legalBasis",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The legal or policy basis used to justify the data sharing.",
+          "school_example": "school_official",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "legal_basis",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "field_patterns",
+          "column_name": "field_patterns",
+          "json_name": "fieldPatterns",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The dictionary fields or field patterns this rule covers.",
+          "school_example": "lti_memberships.display_name,lti_memberships.roles",
+          "privacy_class": "privacy_governance",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "minimization_note",
+          "column_name": "minimization_note",
+          "json_name": "minimizationNote",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "How the platform limits shared data to what the purpose requires.",
+          "school_example": "Share names and roles only; withhold email unless separately approved.",
+          "privacy_class": "privacy_governance",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "status",
+          "column_name": "status",
+          "json_name": "status",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether this sharing rule is currently active.",
+          "school_example": "active",
+          "privacy_class": "operational",
+          "allowed_values_ref": "record_status",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "reviewed_at",
+          "column_name": "reviewed_at",
+          "json_name": "reviewedAt",
+          "data_type": "datetime",
+          "required": false,
+          "plain_description": "When the rule was last reviewed.",
+          "school_example": "2026-04-24T17:00:00Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        }
       ]
     },
     {
@@ -233,16 +1327,118 @@
       "why_it_exists": "Some sharing workflows require explicit consent state that can be checked before exposing data to tools or exports.",
       "privacy_class": "sensitive",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this consent record.", "school_example": "consent_1001_math_tool", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The tenant boundary for this consent record.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "person_id", "column_name": "person_id", "json_name": "personId", "data_type": "text", "required": true, "plain_description": "The learner or user whose data the consent concerns.", "school_example": "person_1001", "privacy_class": "education_record"},
-        {"field_key": "guardian_person_id", "column_name": "guardian_person_id", "json_name": "guardianPersonId", "data_type": "text", "required": false, "plain_description": "The guardian or authorized person who gave consent when applicable.", "school_example": "person_guardian_2001", "privacy_class": "sensitive"},
-        {"field_key": "rule_id", "column_name": "rule_id", "json_name": "ruleId", "data_type": "text", "required": true, "plain_description": "The data sharing rule this consent applies to.", "school_example": "privacy_rule_lti_roster_read", "privacy_class": "privacy_governance"},
-        {"field_key": "consent_status", "column_name": "consent_status", "json_name": "consentStatus", "data_type": "enum", "required": true, "plain_description": "Whether consent is granted, denied, revoked, expired, or pending.", "school_example": "granted", "privacy_class": "sensitive", "allowed_values_ref": "consent_status"},
-        {"field_key": "effective_at", "column_name": "effective_at", "json_name": "effectiveAt", "data_type": "datetime", "required": true, "plain_description": "When the consent state became effective.", "school_example": "2026-04-24T17:30:00Z", "privacy_class": "sensitive"},
-        {"field_key": "expires_at", "column_name": "expires_at", "json_name": "expiresAt", "data_type": "datetime", "required": false, "plain_description": "When the consent state expires if it is time-limited.", "school_example": "2027-04-24T17:30:00Z", "privacy_class": "sensitive"},
-        {"field_key": "source_method", "column_name": "source_method", "json_name": "sourceMethod", "data_type": "enum", "required": true, "plain_description": "How the platform received this consent state.", "school_example": "guardian_portal", "privacy_class": "sensitive", "allowed_values_ref": "consent_source_method"},
-        {"field_key": "evidence_uri", "column_name": "evidence_uri", "json_name": "evidenceUri", "data_type": "text", "required": false, "plain_description": "A reference to the form, agreement, or audit evidence for the consent.", "school_example": "s3://tenant-evidence/consent-1001.pdf", "privacy_class": "sensitive"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this consent record.",
+          "school_example": "consent_1001_math_tool",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tenant boundary for this consent record.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "person_id",
+          "column_name": "person_id",
+          "json_name": "personId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The learner or user whose data the consent concerns.",
+          "school_example": "person_1001",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "guardian_person_id",
+          "column_name": "guardian_person_id",
+          "json_name": "guardianPersonId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The guardian or authorized person who gave consent when applicable.",
+          "school_example": "person_guardian_2001",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "rule_id",
+          "column_name": "rule_id",
+          "json_name": "ruleId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The data sharing rule this consent applies to.",
+          "school_example": "privacy_rule_lti_roster_read",
+          "privacy_class": "privacy_governance",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "consent_status",
+          "column_name": "consent_status",
+          "json_name": "consentStatus",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether consent is granted, denied, revoked, expired, or pending.",
+          "school_example": "granted",
+          "privacy_class": "sensitive",
+          "allowed_values_ref": "consent_status",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "effective_at",
+          "column_name": "effective_at",
+          "json_name": "effectiveAt",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When the consent state became effective.",
+          "school_example": "2026-04-24T17:30:00Z",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "expires_at",
+          "column_name": "expires_at",
+          "json_name": "expiresAt",
+          "data_type": "datetime",
+          "required": false,
+          "plain_description": "When the consent state expires if it is time-limited.",
+          "school_example": "2027-04-24T17:30:00Z",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "source_method",
+          "column_name": "source_method",
+          "json_name": "sourceMethod",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "How the platform received this consent state.",
+          "school_example": "guardian_portal",
+          "privacy_class": "sensitive",
+          "allowed_values_ref": "consent_source_method",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "evidence_uri",
+          "column_name": "evidence_uri",
+          "json_name": "evidenceUri",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A reference to the form, agreement, or audit evidence for the consent.",
+          "school_example": "s3://tenant-evidence/consent-1001.pdf",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        }
       ]
     },
     {
@@ -254,15 +1450,110 @@
       "why_it_exists": "Retention rules make it clear how raw launches, tokens, events, scores, consent records, and audit data should be minimized or deleted.",
       "privacy_class": "privacy_governance",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this retention rule.", "school_example": "retention_lti_raw_claims", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The tenant whose data retention policy this rule belongs to.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "source_standard", "column_name": "source_standard", "json_name": "sourceStandard", "data_type": "enum", "required": true, "plain_description": "The standard or platform area that produces the data.", "school_example": "lti", "privacy_class": "privacy_governance", "allowed_values_ref": "source_standard"},
-        {"field_key": "data_category", "column_name": "data_category", "json_name": "dataCategory", "data_type": "enum", "required": true, "plain_description": "The category of data controlled by this retention rule.", "school_example": "raw_payload", "privacy_class": "privacy_governance", "allowed_values_ref": "data_category"},
-        {"field_key": "retention_period_days", "column_name": "retention_period_days", "json_name": "retentionPeriodDays", "data_type": "integer", "required": true, "plain_description": "How many days the data may be retained before the action is due.", "school_example": "365", "privacy_class": "privacy_governance"},
-        {"field_key": "action_on_expiry", "column_name": "action_on_expiry", "json_name": "actionOnExpiry", "data_type": "enum", "required": true, "plain_description": "What the platform should do when data reaches the retention limit.", "school_example": "anonymize", "privacy_class": "privacy_governance", "allowed_values_ref": "retention_action"},
-        {"field_key": "raw_payload_policy", "column_name": "raw_payload_policy", "json_name": "rawPayloadPolicy", "data_type": "enum", "required": true, "plain_description": "How the platform should retain raw standards payloads after projection.", "school_example": "hash_only", "privacy_class": "privacy_governance", "allowed_values_ref": "raw_payload_policy"},
-        {"field_key": "legal_hold", "column_name": "legal_hold", "json_name": "legalHold", "data_type": "boolean", "required": true, "plain_description": "Whether deletion or anonymization is paused by a legal hold.", "school_example": "false", "privacy_class": "privacy_governance"},
-        {"field_key": "status", "column_name": "status", "json_name": "status", "data_type": "enum", "required": true, "plain_description": "Whether this retention rule is active, inactive, or retired.", "school_example": "active", "privacy_class": "operational", "allowed_values_ref": "record_status"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this retention rule.",
+          "school_example": "retention_lti_raw_claims",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tenant whose data retention policy this rule belongs to.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "source_standard",
+          "column_name": "source_standard",
+          "json_name": "sourceStandard",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The standard or platform area that produces the data.",
+          "school_example": "lti",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "source_standard",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "data_category",
+          "column_name": "data_category",
+          "json_name": "dataCategory",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The category of data controlled by this retention rule.",
+          "school_example": "raw_payload",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "data_category",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "retention_period_days",
+          "column_name": "retention_period_days",
+          "json_name": "retentionPeriodDays",
+          "data_type": "integer",
+          "required": true,
+          "plain_description": "How many days the data may be retained before the action is due.",
+          "school_example": "365",
+          "privacy_class": "privacy_governance",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "action_on_expiry",
+          "column_name": "action_on_expiry",
+          "json_name": "actionOnExpiry",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "What the platform should do when data reaches the retention limit.",
+          "school_example": "anonymize",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "retention_action",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "raw_payload_policy",
+          "column_name": "raw_payload_policy",
+          "json_name": "rawPayloadPolicy",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "How the platform should retain raw standards payloads after projection.",
+          "school_example": "hash_only",
+          "privacy_class": "privacy_governance",
+          "allowed_values_ref": "raw_payload_policy",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "legal_hold",
+          "column_name": "legal_hold",
+          "json_name": "legalHold",
+          "data_type": "boolean",
+          "required": true,
+          "plain_description": "Whether deletion or anonymization is paused by a legal hold.",
+          "school_example": "false",
+          "privacy_class": "privacy_governance",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "status",
+          "column_name": "status",
+          "json_name": "status",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether this retention rule is active, inactive, or retired.",
+          "school_example": "active",
+          "privacy_class": "operational",
+          "allowed_values_ref": "record_status",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        }
       ]
     },
     {
@@ -274,193 +1565,791 @@
       "why_it_exists": "Privacy and security controls must leave evidence of who accessed data, why it was allowed or denied, and what policy was applied.",
       "privacy_class": "sensitive",
       "fields": [
-        {"field_key": "id", "column_name": "id", "json_name": "id", "data_type": "text", "required": true, "plain_description": "The platform's stable ID for this audit event.", "school_example": "audit_evt_20260424_001", "privacy_class": "operational"},
-        {"field_key": "tenant_id", "column_name": "tenant_id", "json_name": "tenantId", "data_type": "text", "required": true, "plain_description": "The tenant boundary for the audited event.", "school_example": "district_100", "privacy_class": "operational"},
-        {"field_key": "actor_person_id", "column_name": "actor_person_id", "json_name": "actorPersonId", "data_type": "text", "required": false, "plain_description": "The person who performed the audited action, if a person was involved.", "school_example": "person_admin_1", "privacy_class": "education_record"},
-        {"field_key": "client_id", "column_name": "client_id", "json_name": "clientId", "data_type": "text", "required": false, "plain_description": "The OAuth client or tool that performed the audited action, if an integration was involved.", "school_example": "client-math-tool", "privacy_class": "system"},
-        {"field_key": "event_type", "column_name": "event_type", "json_name": "eventType", "data_type": "enum", "required": true, "plain_description": "The type of privacy or security event being recorded.", "school_example": "access", "privacy_class": "sensitive", "allowed_values_ref": "privacy_event_type"},
-        {"field_key": "object_type", "column_name": "object_type", "json_name": "objectType", "data_type": "text", "required": true, "plain_description": "The dictionary object, endpoint group, or policy area affected by the event.", "school_example": "lti_membership", "privacy_class": "sensitive"},
-        {"field_key": "object_id", "column_name": "object_id", "json_name": "objectId", "data_type": "text", "required": false, "plain_description": "The specific record affected by the event when one applies.", "school_example": "lti_member_alg1_jordan", "privacy_class": "sensitive"},
-        {"field_key": "privacy_class", "column_name": "privacy_class", "json_name": "privacyClass", "data_type": "enum", "required": true, "plain_description": "The most sensitive privacy class involved in the event.", "school_example": "education_record", "privacy_class": "sensitive", "allowed_values_ref": "privacy_class_value"},
-        {"field_key": "policy_id", "column_name": "policy_id", "json_name": "policyId", "data_type": "text", "required": false, "plain_description": "The scope, sharing, consent, or retention policy that governed the event.", "school_example": "scope_policy_nrps_read", "privacy_class": "privacy_governance"},
-        {"field_key": "occurred_at", "column_name": "occurred_at", "json_name": "occurredAt", "data_type": "datetime", "required": true, "plain_description": "When the audited event occurred.", "school_example": "2026-04-24T18:00:00Z", "privacy_class": "operational"},
-        {"field_key": "outcome", "column_name": "outcome", "json_name": "outcome", "data_type": "enum", "required": true, "plain_description": "Whether the action was allowed, denied, failed, or completed.", "school_example": "allowed", "privacy_class": "sensitive", "allowed_values_ref": "audit_outcome"},
-        {"field_key": "reason", "column_name": "reason", "json_name": "reason", "data_type": "text", "required": false, "plain_description": "A short explanation for the audit outcome.", "school_example": "Scope and data sharing rule allowed roster names for this deployment.", "privacy_class": "sensitive"}
+        {
+          "field_key": "id",
+          "column_name": "id",
+          "json_name": "id",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The platform's stable ID for this audit event.",
+          "school_example": "audit_evt_20260424_001",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "tenant_id",
+          "column_name": "tenant_id",
+          "json_name": "tenantId",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The tenant boundary for the audited event.",
+          "school_example": "district_100",
+          "privacy_class": "operational",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "actor_person_id",
+          "column_name": "actor_person_id",
+          "json_name": "actorPersonId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The person who performed the audited action, if a person was involved.",
+          "school_example": "person_admin_1",
+          "privacy_class": "education_record",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "client_id",
+          "column_name": "client_id",
+          "json_name": "clientId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The OAuth client or tool that performed the audited action, if an integration was involved.",
+          "school_example": "client-math-tool",
+          "privacy_class": "system",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "event_type",
+          "column_name": "event_type",
+          "json_name": "eventType",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The type of privacy or security event being recorded.",
+          "school_example": "access",
+          "privacy_class": "sensitive",
+          "allowed_values_ref": "privacy_event_type",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "object_type",
+          "column_name": "object_type",
+          "json_name": "objectType",
+          "data_type": "text",
+          "required": true,
+          "plain_description": "The dictionary object, endpoint group, or policy area affected by the event.",
+          "school_example": "lti_membership",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "object_id",
+          "column_name": "object_id",
+          "json_name": "objectId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The specific record affected by the event when one applies.",
+          "school_example": "lti_member_alg1_jordan",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "privacy_class",
+          "column_name": "privacy_class",
+          "json_name": "privacyClass",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "The most sensitive privacy class involved in the event.",
+          "school_example": "education_record",
+          "privacy_class": "sensitive",
+          "allowed_values_ref": "privacy_class_value",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "policy_id",
+          "column_name": "policy_id",
+          "json_name": "policyId",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The scope, sharing, consent, or retention policy that governed the event.",
+          "school_example": "scope_policy_nrps_read",
+          "privacy_class": "privacy_governance",
+          "decision_id": "DEC-007-identifier-crosswalk"
+        },
+        {
+          "field_key": "occurred_at",
+          "column_name": "occurred_at",
+          "json_name": "occurredAt",
+          "data_type": "datetime",
+          "required": true,
+          "plain_description": "When the audited event occurred.",
+          "school_example": "2026-04-24T18:00:00Z",
+          "privacy_class": "operational",
+          "decision_id": "DEC-008-time-session"
+        },
+        {
+          "field_key": "outcome",
+          "column_name": "outcome",
+          "json_name": "outcome",
+          "data_type": "enum",
+          "required": true,
+          "plain_description": "Whether the action was allowed, denied, failed, or completed.",
+          "school_example": "allowed",
+          "privacy_class": "sensitive",
+          "allowed_values_ref": "audit_outcome",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        },
+        {
+          "field_key": "reason",
+          "column_name": "reason",
+          "json_name": "reason",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "A short explanation for the audit outcome.",
+          "school_example": "Scope and data sharing rule allowed roster names for this deployment.",
+          "privacy_class": "sensitive",
+          "decision_id": "DEC-010-tenancy-reference-data"
+        }
       ]
     }
   ],
   "shared_allowed_values": {
     "record_status": [
-      {"value": "active", "label": "Active", "plain_description": "The record is currently allowed for use."},
-      {"value": "inactive", "label": "Inactive", "plain_description": "The record exists but is not currently usable."},
-      {"value": "retired", "label": "Retired", "plain_description": "The record is kept for history but should not be used for new activity."}
+      {
+        "value": "active",
+        "label": "Active",
+        "plain_description": "The record is currently allowed for use."
+      },
+      {
+        "value": "inactive",
+        "label": "Inactive",
+        "plain_description": "The record exists but is not currently usable."
+      },
+      {
+        "value": "retired",
+        "label": "Retired",
+        "plain_description": "The record is kept for history but should not be used for new activity."
+      }
     ],
     "deployment_scope": [
-      {"value": "tenant", "label": "Tenant", "plain_description": "The deployment applies across the whole school, district, or customer boundary."},
-      {"value": "school", "label": "School", "plain_description": "The deployment applies to one school or building."},
-      {"value": "course", "label": "Course", "plain_description": "The deployment applies to one course offering."},
-      {"value": "section", "label": "Section", "plain_description": "The deployment applies to one class or section."},
-      {"value": "activity", "label": "Activity", "plain_description": "The deployment applies to one resource link or learning activity."}
+      {
+        "value": "tenant",
+        "label": "Tenant",
+        "plain_description": "The deployment applies across the whole school, district, or customer boundary."
+      },
+      {
+        "value": "school",
+        "label": "School",
+        "plain_description": "The deployment applies to one school or building."
+      },
+      {
+        "value": "course",
+        "label": "Course",
+        "plain_description": "The deployment applies to one course offering."
+      },
+      {
+        "value": "section",
+        "label": "Section",
+        "plain_description": "The deployment applies to one class or section."
+      },
+      {
+        "value": "activity",
+        "label": "Activity",
+        "plain_description": "The deployment applies to one resource link or learning activity."
+      }
     ],
     "lti_message_type": [
-      {"value": "LtiResourceLinkRequest", "label": "Resource link launch", "plain_description": "A normal launch from a course activity link."},
-      {"value": "LtiDeepLinkingRequest", "label": "Deep Linking request", "plain_description": "An instructor launch used to select content from a tool."},
-      {"value": "LtiDeepLinkingResponse", "label": "Deep Linking response", "plain_description": "A tool response returning selected content to the platform."}
+      {
+        "value": "LtiResourceLinkRequest",
+        "label": "Resource link launch",
+        "plain_description": "A normal launch from a course activity link."
+      },
+      {
+        "value": "LtiDeepLinkingRequest",
+        "label": "Deep Linking request",
+        "plain_description": "An instructor launch used to select content from a tool."
+      },
+      {
+        "value": "LtiDeepLinkingResponse",
+        "label": "Deep Linking response",
+        "plain_description": "A tool response returning selected content to the platform."
+      }
     ],
     "lti_version": [
-      {"value": "1.3.0", "label": "LTI 1.3", "plain_description": "The LTI 1.3 launch message version used by the current model."}
+      {
+        "value": "1.3.0",
+        "label": "LTI 1.3",
+        "plain_description": "The LTI 1.3 launch message version used by the current model."
+      }
     ],
     "validation_status": [
-      {"value": "pending", "label": "Pending", "plain_description": "The payload or workflow has not been fully checked yet."},
-      {"value": "valid", "label": "Valid", "plain_description": "The payload or workflow passed platform validation."},
-      {"value": "invalid", "label": "Invalid", "plain_description": "The payload or workflow failed validation."},
-      {"value": "rejected", "label": "Rejected", "plain_description": "The platform rejected the payload or workflow under policy."}
+      {
+        "value": "pending",
+        "label": "Pending",
+        "plain_description": "The payload or workflow has not been fully checked yet."
+      },
+      {
+        "value": "valid",
+        "label": "Valid",
+        "plain_description": "The payload or workflow passed platform validation."
+      },
+      {
+        "value": "invalid",
+        "label": "Invalid",
+        "plain_description": "The payload or workflow failed validation."
+      },
+      {
+        "value": "rejected",
+        "label": "Rejected",
+        "plain_description": "The platform rejected the payload or workflow under policy."
+      }
     ],
     "service_type": [
-      {"value": "nrps", "label": "Names and Role Provisioning", "plain_description": "The service that returns course or context memberships."},
-      {"value": "ags_line_items", "label": "AGS line items", "plain_description": "The service surface for gradebook columns."},
-      {"value": "ags_scores", "label": "AGS scores", "plain_description": "The service surface for sending score updates."},
-      {"value": "ags_results", "label": "AGS results", "plain_description": "The service surface for reading stored grade results."},
-      {"value": "deep_linking", "label": "Deep Linking", "plain_description": "The launch workflow for selecting tool content into a course."}
+      {
+        "value": "nrps",
+        "label": "Names and Role Provisioning",
+        "plain_description": "The service that returns course or context memberships."
+      },
+      {
+        "value": "ags_line_items",
+        "label": "AGS line items",
+        "plain_description": "The service surface for gradebook columns."
+      },
+      {
+        "value": "ags_scores",
+        "label": "AGS scores",
+        "plain_description": "The service surface for sending score updates."
+      },
+      {
+        "value": "ags_results",
+        "label": "AGS results",
+        "plain_description": "The service surface for reading stored grade results."
+      },
+      {
+        "value": "deep_linking",
+        "label": "Deep Linking",
+        "plain_description": "The launch workflow for selecting tool content into a course."
+      }
     ],
     "membership_status": [
-      {"value": "Active", "label": "Active", "plain_description": "The person is currently active in the context."},
-      {"value": "Inactive", "label": "Inactive", "plain_description": "The person has a membership but is not currently active."}
+      {
+        "value": "Active",
+        "label": "Active",
+        "plain_description": "The person is currently active in the context."
+      },
+      {
+        "value": "Inactive",
+        "label": "Inactive",
+        "plain_description": "The person has a membership but is not currently active."
+      }
     ],
     "activity_progress": [
-      {"value": "Initialized", "label": "Initialized", "plain_description": "The activity record exists but work has not started."},
-      {"value": "Started", "label": "Started", "plain_description": "The learner started the activity."},
-      {"value": "InProgress", "label": "In progress", "plain_description": "The learner is still working."},
-      {"value": "Submitted", "label": "Submitted", "plain_description": "The learner submitted work."},
-      {"value": "Completed", "label": "Completed", "plain_description": "The activity is complete."}
+      {
+        "value": "Initialized",
+        "label": "Initialized",
+        "plain_description": "The activity record exists but work has not started."
+      },
+      {
+        "value": "Started",
+        "label": "Started",
+        "plain_description": "The learner started the activity."
+      },
+      {
+        "value": "InProgress",
+        "label": "In progress",
+        "plain_description": "The learner is still working."
+      },
+      {
+        "value": "Submitted",
+        "label": "Submitted",
+        "plain_description": "The learner submitted work."
+      },
+      {
+        "value": "Completed",
+        "label": "Completed",
+        "plain_description": "The activity is complete."
+      }
     ],
     "grading_progress": [
-      {"value": "FullyGraded", "label": "Fully graded", "plain_description": "The final grade is ready."},
-      {"value": "Pending", "label": "Pending", "plain_description": "The grade is not ready yet."},
-      {"value": "PendingManual", "label": "Pending manual", "plain_description": "A person still needs to grade the work."},
-      {"value": "Failed", "label": "Failed", "plain_description": "Grading failed."},
-      {"value": "NotReady", "label": "Not ready", "plain_description": "There is not enough information to grade yet."}
+      {
+        "value": "FullyGraded",
+        "label": "Fully graded",
+        "plain_description": "The final grade is ready."
+      },
+      {
+        "value": "Pending",
+        "label": "Pending",
+        "plain_description": "The grade is not ready yet."
+      },
+      {
+        "value": "PendingManual",
+        "label": "Pending manual",
+        "plain_description": "A person still needs to grade the work."
+      },
+      {
+        "value": "Failed",
+        "label": "Failed",
+        "plain_description": "Grading failed."
+      },
+      {
+        "value": "NotReady",
+        "label": "Not ready",
+        "plain_description": "There is not enough information to grade yet."
+      }
     ],
     "deep_link_item_type": [
-      {"value": "link", "label": "Link", "plain_description": "A normal web link."},
-      {"value": "file", "label": "File", "plain_description": "A file selected from the tool."},
-      {"value": "html", "label": "HTML", "plain_description": "An HTML snippet selected from the tool."},
-      {"value": "ltiResourceLink", "label": "LTI resource link", "plain_description": "A launchable LTI activity returned by the tool."},
-      {"value": "image", "label": "Image", "plain_description": "An image resource selected from the tool."}
+      {
+        "value": "link",
+        "label": "Link",
+        "plain_description": "A normal web link."
+      },
+      {
+        "value": "file",
+        "label": "File",
+        "plain_description": "A file selected from the tool."
+      },
+      {
+        "value": "html",
+        "label": "HTML",
+        "plain_description": "An HTML snippet selected from the tool."
+      },
+      {
+        "value": "ltiResourceLink",
+        "label": "LTI resource link",
+        "plain_description": "A launchable LTI activity returned by the tool."
+      },
+      {
+        "value": "image",
+        "label": "Image",
+        "plain_description": "An image resource selected from the tool."
+      }
     ],
     "document_target": [
-      {"value": "iframe", "label": "Iframe", "plain_description": "Display the item in an embedded frame."},
-      {"value": "window", "label": "Window", "plain_description": "Open the item in a new browser window or tab."},
-      {"value": "embed", "label": "Embed", "plain_description": "Place the item directly in page content."}
+      {
+        "value": "iframe",
+        "label": "Iframe",
+        "plain_description": "Display the item in an embedded frame."
+      },
+      {
+        "value": "window",
+        "label": "Window",
+        "plain_description": "Open the item in a new browser window or tab."
+      },
+      {
+        "value": "embed",
+        "label": "Embed",
+        "plain_description": "Place the item directly in page content."
+      }
     ],
     "auth_method": [
-      {"value": "private_key_jwt", "label": "Private key JWT", "plain_description": "The client signs a JWT with its private key to authenticate."},
-      {"value": "client_secret_basic", "label": "Client secret basic", "plain_description": "The client authenticates with a shared secret using basic authentication."},
-      {"value": "client_secret_post", "label": "Client secret post", "plain_description": "The client authenticates with a shared secret in the token request body."}
+      {
+        "value": "private_key_jwt",
+        "label": "Private key JWT",
+        "plain_description": "The client signs a JWT with its private key to authenticate."
+      },
+      {
+        "value": "client_secret_basic",
+        "label": "Client secret basic",
+        "plain_description": "The client authenticates with a shared secret using basic authentication."
+      },
+      {
+        "value": "client_secret_post",
+        "label": "Client secret post",
+        "plain_description": "The client authenticates with a shared secret in the token request body."
+      }
     ],
     "client_status": [
-      {"value": "active", "label": "Active", "plain_description": "The client may request tokens."},
-      {"value": "suspended", "label": "Suspended", "plain_description": "Token issuance is paused for this client."},
-      {"value": "retired", "label": "Retired", "plain_description": "The client is retained for history but should not receive new tokens."}
+      {
+        "value": "active",
+        "label": "Active",
+        "plain_description": "The client may request tokens."
+      },
+      {
+        "value": "suspended",
+        "label": "Suspended",
+        "plain_description": "Token issuance is paused for this client."
+      },
+      {
+        "value": "retired",
+        "label": "Retired",
+        "plain_description": "The client is retained for history but should not receive new tokens."
+      }
     ],
     "scope_action": [
-      {"value": "read", "label": "Read", "plain_description": "The scope allows data to be read."},
-      {"value": "write", "label": "Write", "plain_description": "The scope allows data to be created or changed."},
-      {"value": "launch", "label": "Launch", "plain_description": "The scope or policy supports launch-bound access."},
-      {"value": "admin", "label": "Admin", "plain_description": "The scope allows administrative configuration."}
+      {
+        "value": "read",
+        "label": "Read",
+        "plain_description": "The scope allows data to be read."
+      },
+      {
+        "value": "write",
+        "label": "Write",
+        "plain_description": "The scope allows data to be created or changed."
+      },
+      {
+        "value": "launch",
+        "label": "Launch",
+        "plain_description": "The scope or policy supports launch-bound access."
+      },
+      {
+        "value": "admin",
+        "label": "Admin",
+        "plain_description": "The scope allows administrative configuration."
+      }
     ],
     "privacy_class_value": [
-      {"value": "public", "label": "Public", "plain_description": "Safe to publish without exposing a private learner record."},
-      {"value": "directory", "label": "Directory", "plain_description": "Name, email, picture, role, or organization information that schools often share but still control."},
-      {"value": "education_record", "label": "Education record", "plain_description": "Enrollment, grade, progress, submission, achievement, or transcript data about a learner."},
-      {"value": "sensitive", "label": "Sensitive", "plain_description": "Data needing extra care, including private identifiers, demographics, accommodations, or security proof material."},
-      {"value": "behavioral", "label": "Behavioral", "plain_description": "Activity or usage data created by using a tool or resource."},
-      {"value": "operational", "label": "Operational", "plain_description": "Import, export, launch, validation, or processing data."},
-      {"value": "system", "label": "System", "plain_description": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data."},
-      {"value": "privacy_governance", "label": "Privacy governance", "plain_description": "Policy and review data used to decide how other data may be shared or retained."}
+      {
+        "value": "public",
+        "label": "Public",
+        "plain_description": "Safe to publish without exposing a private learner record."
+      },
+      {
+        "value": "directory",
+        "label": "Directory",
+        "plain_description": "Name, email, picture, role, or organization information that schools often share but still control."
+      },
+      {
+        "value": "education_record",
+        "label": "Education record",
+        "plain_description": "Enrollment, grade, progress, submission, achievement, or transcript data about a learner."
+      },
+      {
+        "value": "sensitive",
+        "label": "Sensitive",
+        "plain_description": "Data needing extra care, including private identifiers, demographics, accommodations, or security proof material."
+      },
+      {
+        "value": "behavioral",
+        "label": "Behavioral",
+        "plain_description": "Activity or usage data created by using a tool or resource."
+      },
+      {
+        "value": "operational",
+        "label": "Operational",
+        "plain_description": "Import, export, launch, validation, or processing data."
+      },
+      {
+        "value": "system",
+        "label": "System",
+        "plain_description": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data."
+      },
+      {
+        "value": "privacy_governance",
+        "label": "Privacy governance",
+        "plain_description": "Policy and review data used to decide how other data may be shared or retained."
+      }
     ],
     "data_category": [
-      {"value": "roster", "label": "Roster", "plain_description": "People, roles, classes, sections, and memberships."},
-      {"value": "gradebook", "label": "Gradebook", "plain_description": "Line items, scores, results, and grading state."},
-      {"value": "assessment", "label": "Assessment", "plain_description": "Assessment content, attempts, responses, and outcomes."},
-      {"value": "activity", "label": "Activity", "plain_description": "Launches, events, sessions, and tool usage."},
-      {"value": "credential", "label": "Credential", "plain_description": "Badges, transcripts, achievements, endorsements, and proofs."},
-      {"value": "identifier", "label": "Identifier", "plain_description": "IDs and crosswalks that connect people or resources across systems."},
-      {"value": "security", "label": "Security", "plain_description": "Tokens, keys, scopes, client records, and audit evidence."},
-      {"value": "consent", "label": "Consent", "plain_description": "Consent choices and related evidence."},
-      {"value": "raw_payload", "label": "Raw payload", "plain_description": "Original standards payloads retained for audit or reprocessing."}
+      {
+        "value": "roster",
+        "label": "Roster",
+        "plain_description": "People, roles, classes, sections, and memberships."
+      },
+      {
+        "value": "gradebook",
+        "label": "Gradebook",
+        "plain_description": "Line items, scores, results, and grading state."
+      },
+      {
+        "value": "assessment",
+        "label": "Assessment",
+        "plain_description": "Assessment content, attempts, responses, and outcomes."
+      },
+      {
+        "value": "activity",
+        "label": "Activity",
+        "plain_description": "Launches, events, sessions, and tool usage."
+      },
+      {
+        "value": "credential",
+        "label": "Credential",
+        "plain_description": "Badges, transcripts, achievements, endorsements, and proofs."
+      },
+      {
+        "value": "identifier",
+        "label": "Identifier",
+        "plain_description": "IDs and crosswalks that connect people or resources across systems."
+      },
+      {
+        "value": "security",
+        "label": "Security",
+        "plain_description": "Tokens, keys, scopes, client records, and audit evidence."
+      },
+      {
+        "value": "consent",
+        "label": "Consent",
+        "plain_description": "Consent choices and related evidence."
+      },
+      {
+        "value": "raw_payload",
+        "label": "Raw payload",
+        "plain_description": "Original standards payloads retained for audit or reprocessing."
+      }
     ],
     "recipient_type": [
-      {"value": "internal_app", "label": "Internal app", "plain_description": "A platform-owned app or service."},
-      {"value": "external_tool", "label": "External tool", "plain_description": "A third-party tool or integration."},
-      {"value": "district_admin", "label": "District admin", "plain_description": "A district administrator or authorized central-office user."},
-      {"value": "school_staff", "label": "School staff", "plain_description": "A teacher, counselor, administrator, or staff member."},
-      {"value": "learner", "label": "Learner", "plain_description": "The learner whose data is involved."},
-      {"value": "guardian", "label": "Guardian", "plain_description": "A parent or guardian authorized to view the learner's data."},
-      {"value": "service_provider", "label": "Service provider", "plain_description": "A vendor or processor acting under agreement."}
+      {
+        "value": "internal_app",
+        "label": "Internal app",
+        "plain_description": "A platform-owned app or service."
+      },
+      {
+        "value": "external_tool",
+        "label": "External tool",
+        "plain_description": "A third-party tool or integration."
+      },
+      {
+        "value": "district_admin",
+        "label": "District admin",
+        "plain_description": "A district administrator or authorized central-office user."
+      },
+      {
+        "value": "school_staff",
+        "label": "School staff",
+        "plain_description": "A teacher, counselor, administrator, or staff member."
+      },
+      {
+        "value": "learner",
+        "label": "Learner",
+        "plain_description": "The learner whose data is involved."
+      },
+      {
+        "value": "guardian",
+        "label": "Guardian",
+        "plain_description": "A parent or guardian authorized to view the learner's data."
+      },
+      {
+        "value": "service_provider",
+        "label": "Service provider",
+        "plain_description": "A vendor or processor acting under agreement."
+      }
     ],
     "legal_basis": [
-      {"value": "consent", "label": "Consent", "plain_description": "The person or guardian has consented to this sharing."},
-      {"value": "contract", "label": "Contract", "plain_description": "The sharing is covered by a contract or service agreement."},
-      {"value": "school_official", "label": "School official", "plain_description": "The recipient acts under school official or equivalent educational interest rules."},
-      {"value": "legitimate_interest", "label": "Legitimate interest", "plain_description": "The sharing supports an approved operational or educational interest."},
-      {"value": "legal_obligation", "label": "Legal obligation", "plain_description": "The sharing is required by law, regulation, or formal process."}
+      {
+        "value": "consent",
+        "label": "Consent",
+        "plain_description": "The person or guardian has consented to this sharing."
+      },
+      {
+        "value": "contract",
+        "label": "Contract",
+        "plain_description": "The sharing is covered by a contract or service agreement."
+      },
+      {
+        "value": "school_official",
+        "label": "School official",
+        "plain_description": "The recipient acts under school official or equivalent educational interest rules."
+      },
+      {
+        "value": "legitimate_interest",
+        "label": "Legitimate interest",
+        "plain_description": "The sharing supports an approved operational or educational interest."
+      },
+      {
+        "value": "legal_obligation",
+        "label": "Legal obligation",
+        "plain_description": "The sharing is required by law, regulation, or formal process."
+      }
     ],
     "consent_status": [
-      {"value": "pending", "label": "Pending", "plain_description": "The platform has not received a final consent choice."},
-      {"value": "granted", "label": "Granted", "plain_description": "Consent is currently granted."},
-      {"value": "denied", "label": "Denied", "plain_description": "Consent was not granted."},
-      {"value": "revoked", "label": "Revoked", "plain_description": "Previously granted consent was withdrawn."},
-      {"value": "expired", "label": "Expired", "plain_description": "Consent was time-limited and is no longer active."}
+      {
+        "value": "pending",
+        "label": "Pending",
+        "plain_description": "The platform has not received a final consent choice."
+      },
+      {
+        "value": "granted",
+        "label": "Granted",
+        "plain_description": "Consent is currently granted."
+      },
+      {
+        "value": "denied",
+        "label": "Denied",
+        "plain_description": "Consent was not granted."
+      },
+      {
+        "value": "revoked",
+        "label": "Revoked",
+        "plain_description": "Previously granted consent was withdrawn."
+      },
+      {
+        "value": "expired",
+        "label": "Expired",
+        "plain_description": "Consent was time-limited and is no longer active."
+      }
     ],
     "consent_source_method": [
-      {"value": "admin", "label": "Administrator", "plain_description": "An administrator recorded the consent state."},
-      {"value": "guardian_portal", "label": "Guardian portal", "plain_description": "A guardian submitted the consent state through a portal."},
-      {"value": "learner_portal", "label": "Learner portal", "plain_description": "A learner submitted the consent state through a portal."},
-      {"value": "imported_agreement", "label": "Imported agreement", "plain_description": "The consent state came from an imported agreement or external system."}
+      {
+        "value": "admin",
+        "label": "Administrator",
+        "plain_description": "An administrator recorded the consent state."
+      },
+      {
+        "value": "guardian_portal",
+        "label": "Guardian portal",
+        "plain_description": "A guardian submitted the consent state through a portal."
+      },
+      {
+        "value": "learner_portal",
+        "label": "Learner portal",
+        "plain_description": "A learner submitted the consent state through a portal."
+      },
+      {
+        "value": "imported_agreement",
+        "label": "Imported agreement",
+        "plain_description": "The consent state came from an imported agreement or external system."
+      }
     ],
     "source_standard": [
-      {"value": "lti", "label": "LTI", "plain_description": "Learning Tools Interoperability launch or service data."},
-      {"value": "security_framework", "label": "Security Framework", "plain_description": "OAuth, OIDC, key, token, scope, or service security data."},
-      {"value": "data_privacy", "label": "Data Privacy", "plain_description": "Privacy policy, consent, retention, or audit data."},
-      {"value": "oneroster", "label": "OneRoster", "plain_description": "Rostering, gradebook, or related OneRoster data."},
-      {"value": "qti", "label": "QTI", "plain_description": "Assessment package or item data."},
-      {"value": "case", "label": "CASE", "plain_description": "Standards framework data."},
-      {"value": "caliper", "label": "Caliper", "plain_description": "Learning event or analytics data."}
+      {
+        "value": "lti",
+        "label": "LTI",
+        "plain_description": "Learning Tools Interoperability launch or service data."
+      },
+      {
+        "value": "security_framework",
+        "label": "Security Framework",
+        "plain_description": "OAuth, OIDC, key, token, scope, or service security data."
+      },
+      {
+        "value": "data_privacy",
+        "label": "Data Privacy",
+        "plain_description": "Privacy policy, consent, retention, or audit data."
+      },
+      {
+        "value": "oneroster",
+        "label": "OneRoster",
+        "plain_description": "Rostering, gradebook, or related OneRoster data."
+      },
+      {
+        "value": "qti",
+        "label": "QTI",
+        "plain_description": "Assessment package or item data."
+      },
+      {
+        "value": "case",
+        "label": "CASE",
+        "plain_description": "Standards framework data."
+      },
+      {
+        "value": "caliper",
+        "label": "Caliper",
+        "plain_description": "Learning event or analytics data."
+      }
     ],
     "retention_action": [
-      {"value": "delete", "label": "Delete", "plain_description": "Remove the data when the retention limit is reached."},
-      {"value": "anonymize", "label": "Anonymize", "plain_description": "Remove or transform identifiers so the data no longer identifies a learner."},
-      {"value": "aggregate_only", "label": "Aggregate only", "plain_description": "Keep only aggregate counts or summaries."},
-      {"value": "legal_hold", "label": "Legal hold", "plain_description": "Retain the data because a legal hold prevents deletion."}
+      {
+        "value": "delete",
+        "label": "Delete",
+        "plain_description": "Remove the data when the retention limit is reached."
+      },
+      {
+        "value": "anonymize",
+        "label": "Anonymize",
+        "plain_description": "Remove or transform identifiers so the data no longer identifies a learner."
+      },
+      {
+        "value": "aggregate_only",
+        "label": "Aggregate only",
+        "plain_description": "Keep only aggregate counts or summaries."
+      },
+      {
+        "value": "legal_hold",
+        "label": "Legal hold",
+        "plain_description": "Retain the data because a legal hold prevents deletion."
+      }
     ],
     "raw_payload_policy": [
-      {"value": "retain", "label": "Retain", "plain_description": "Keep the original payload under access controls."},
-      {"value": "minimize", "label": "Minimize", "plain_description": "Retain only the payload parts needed for audit or reprocessing."},
-      {"value": "hash_only", "label": "Hash only", "plain_description": "Keep a fingerprint of the payload instead of the full original."},
-      {"value": "discard_after_projection", "label": "Discard after projection", "plain_description": "Delete the raw payload after structured fields are projected."}
+      {
+        "value": "retain",
+        "label": "Retain",
+        "plain_description": "Keep the original payload under access controls."
+      },
+      {
+        "value": "minimize",
+        "label": "Minimize",
+        "plain_description": "Retain only the payload parts needed for audit or reprocessing."
+      },
+      {
+        "value": "hash_only",
+        "label": "Hash only",
+        "plain_description": "Keep a fingerprint of the payload instead of the full original."
+      },
+      {
+        "value": "discard_after_projection",
+        "label": "Discard after projection",
+        "plain_description": "Delete the raw payload after structured fields are projected."
+      }
     ],
     "privacy_event_type": [
-      {"value": "access", "label": "Access", "plain_description": "Data was read or queried."},
-      {"value": "export", "label": "Export", "plain_description": "Data was exported outside the platform."},
-      {"value": "share", "label": "Share", "plain_description": "Data was shared with a recipient or tool."},
-      {"value": "delete", "label": "Delete", "plain_description": "Data was deleted or scheduled for deletion."},
-      {"value": "policy_change", "label": "Policy change", "plain_description": "A privacy, scope, or retention policy changed."},
-      {"value": "consent_change", "label": "Consent change", "plain_description": "A consent state changed."},
-      {"value": "token_issue", "label": "Token issue", "plain_description": "A security token was issued or denied."}
+      {
+        "value": "access",
+        "label": "Access",
+        "plain_description": "Data was read or queried."
+      },
+      {
+        "value": "export",
+        "label": "Export",
+        "plain_description": "Data was exported outside the platform."
+      },
+      {
+        "value": "share",
+        "label": "Share",
+        "plain_description": "Data was shared with a recipient or tool."
+      },
+      {
+        "value": "delete",
+        "label": "Delete",
+        "plain_description": "Data was deleted or scheduled for deletion."
+      },
+      {
+        "value": "policy_change",
+        "label": "Policy change",
+        "plain_description": "A privacy, scope, or retention policy changed."
+      },
+      {
+        "value": "consent_change",
+        "label": "Consent change",
+        "plain_description": "A consent state changed."
+      },
+      {
+        "value": "token_issue",
+        "label": "Token issue",
+        "plain_description": "A security token was issued or denied."
+      }
     ],
     "audit_outcome": [
-      {"value": "allowed", "label": "Allowed", "plain_description": "The platform allowed the action."},
-      {"value": "denied", "label": "Denied", "plain_description": "The platform denied the action."},
-      {"value": "failed", "label": "Failed", "plain_description": "The action failed before completion."},
-      {"value": "completed", "label": "Completed", "plain_description": "The action completed successfully."}
+      {
+        "value": "allowed",
+        "label": "Allowed",
+        "plain_description": "The platform allowed the action."
+      },
+      {
+        "value": "denied",
+        "label": "Denied",
+        "plain_description": "The platform denied the action."
+      },
+      {
+        "value": "failed",
+        "label": "Failed",
+        "plain_description": "The action failed before completion."
+      },
+      {
+        "value": "completed",
+        "label": "Completed",
+        "plain_description": "The action completed successfully."
+      }
     ]
   },
   "unsupported_or_deferred": [
-    {"area": "Live LTI launch validation", "reason": "Requires a hosted OAuth/OIDC backend, nonce and state storage, private key management, and tenant deployment records."},
-    {"area": "Public AGS, NRPS, and Deep Linking runtime", "reason": "Requires token issuance, tenant row-level authorization, gradebook write policy, and live service endpoints."},
-    {"area": "Production OAuth/OIDC server", "reason": "GitHub Pages cannot host token endpoints, client assertion validation, or secret/key storage."},
-    {"area": "Automated privacy enforcement workflows", "reason": "Consent checks, retention jobs, deletion, export, and data-sharing agreements need persistent backend services."},
-    {"area": "Formal certification claims", "reason": "LTI, Security Framework, and Data Privacy certification require conformance testing and organizational review beyond generated dictionary artifacts."}
+    {
+      "area": "Live LTI launch validation",
+      "reason": "Requires a hosted OAuth/OIDC backend, nonce and state storage, private key management, and tenant deployment records."
+    },
+    {
+      "area": "Public AGS, NRPS, and Deep Linking runtime",
+      "reason": "Requires token issuance, tenant row-level authorization, gradebook write policy, and live service endpoints."
+    },
+    {
+      "area": "Production OAuth/OIDC server",
+      "reason": "GitHub Pages cannot host token endpoints, client assertion validation, or secret/key storage."
+    },
+    {
+      "area": "Automated privacy enforcement workflows",
+      "reason": "Consent checks, retention jobs, deletion, export, and data-sharing agreements need persistent backend services."
+    },
+    {
+      "area": "Formal certification claims",
+      "reason": "LTI, Security Framework, and Data Privacy certification require conformance testing and organizational review beyond generated dictionary artifacts."
+    }
   ]
 }

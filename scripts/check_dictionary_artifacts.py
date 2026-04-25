@@ -9,6 +9,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DECISION_TRACE_DOC = ROOT / "docs" / "decisions" / "standards-overlap-decisions.md"
+DECISION_TRACE_START = "<!-- decision-trace:start -->"
+DECISION_TRACE_END = "<!-- decision-trace:end -->"
 
 CONFIGS = [
     {
@@ -78,11 +81,15 @@ REQUIRED_FIELD_KEYS = {
     "plain_description",
     "school_example",
     "privacy_class",
+    "decision_id",
 }
 
 
 def main() -> None:
     errors: list[str] = []
+    decision_trace, trace_errors = load_decision_trace()
+    errors.extend(trace_errors)
+    known_field_refs: set[str] = set()
     total_objects = 0
     total_fields = 0
     total_values = 0
@@ -92,13 +99,15 @@ def main() -> None:
         sql = config["sql"].read_text()
         markdown = config["markdown"].read_text()
         html_doc = config["html"].read_text()
-        errors.extend(check_dictionary_shape(config, data))
+        known_field_refs.update(dictionary_field_refs(config, data))
+        errors.extend(check_dictionary_shape(config, data, decision_trace))
         errors.extend(check_artifacts(config, data, openapi, sql, markdown, html_doc))
         total_objects += len(data["objects"])
         for obj in data["objects"]:
             total_fields += len(obj["fields"])
             for field in obj["fields"]:
                 total_values += len(allowed_values(field, data))
+    errors.extend(check_trace_targets(decision_trace, known_field_refs))
 
     if errors:
         for error in errors:
@@ -110,12 +119,13 @@ def main() -> None:
     )
 
 
-def check_dictionary_shape(config: dict, data: dict) -> list[str]:
+def check_dictionary_shape(config: dict, data: dict, decision_trace: dict[str, set[str]]) -> list[str]:
     errors = []
     seen_objects = set()
     seen_tables = set()
     seen_paths = set()
     allowed_refs = set(data.get("shared_allowed_values", {}))
+    source_ref = config["source"].relative_to(ROOT).as_posix()
     for obj in data.get("objects", []):
         missing = REQUIRED_OBJECT_KEYS - set(obj)
         if missing:
@@ -139,6 +149,17 @@ def check_dictionary_shape(config: dict, data: dict) -> list[str]:
                     f"{config['name']} {obj.get('object_key')} field missing keys "
                     f"{sorted(missing)}: {field.get('field_key')}"
                 )
+            decision_id = field.get("decision_id")
+            field_ref = f"{source_ref}#{obj.get('object_key')}.{field.get('field_key')}"
+            if decision_id:
+                if decision_id not in decision_trace:
+                    errors.append(
+                        f"{config['name']} {field_ref} references unknown decision_id {decision_id}"
+                    )
+                elif field_ref not in decision_trace[decision_id]:
+                    errors.append(
+                        f"{config['name']} {field_ref} missing from produces_fields for {decision_id}"
+                    )
             for key, seen in [
                 ("field_key", seen_fields),
                 ("column_name", seen_columns),
@@ -187,6 +208,7 @@ def check_artifacts(
             errors.append(f"{config['name']} HTML missing object description {obj['object_key']}")
         properties = schema.get("properties", {})
         for field in obj["fields"]:
+            decision_id = field.get("decision_id", "")
             column_comment = (
                 f"COMMENT ON COLUMN {config['sql_schema']}.{obj['table_name']}."
                 f"{field['column_name']} IS "
@@ -208,13 +230,28 @@ def check_artifacts(
                     f"{config['name']} OpenAPI description mismatch "
                     f"{schema_name}.{field['json_name']}"
                 )
+            if prop.get("x-decisionId") != decision_id:
+                errors.append(
+                    f"{config['name']} OpenAPI decision mismatch "
+                    f"{schema_name}.{field['json_name']}"
+                )
             if f"`{field['column_name']}`" not in markdown:
                 errors.append(
                     f"{config['name']} Markdown missing field {obj['table_name']}.{field['column_name']}"
                 )
+            if decision_id and f"`{decision_id}`" not in markdown:
+                errors.append(
+                    f"{config['name']} Markdown missing decision ID "
+                    f"{obj['table_name']}.{field['column_name']}"
+                )
             if html_escape(field["plain_description"]) not in html_doc:
                 errors.append(
                     f"{config['name']} HTML missing field description "
+                    f"{obj['table_name']}.{field['column_name']}"
+                )
+            if decision_id and html_escape(decision_id) not in html_doc:
+                errors.append(
+                    f"{config['name']} HTML missing decision ID "
                     f"{obj['table_name']}.{field['column_name']}"
                 )
             values = allowed_values(field, data)
@@ -224,6 +261,60 @@ def check_artifacts(
                     errors.append(
                         f"{config['name']} OpenAPI enum mismatch {schema_name}.{field['json_name']}"
                     )
+    return errors
+
+
+def load_decision_trace() -> tuple[dict[str, set[str]], list[str]]:
+    errors: list[str] = []
+    if not DECISION_TRACE_DOC.exists():
+        return {}, [f"missing decision trace doc: {DECISION_TRACE_DOC.relative_to(ROOT)}"]
+
+    text = DECISION_TRACE_DOC.read_text()
+    if DECISION_TRACE_START not in text or DECISION_TRACE_END not in text:
+        return {}, ["standards-overlap-decisions.md missing decision-trace markers"]
+
+    raw_block = text.split(DECISION_TRACE_START, 1)[1].split(DECISION_TRACE_END, 1)[0].strip()
+    if raw_block.startswith("```"):
+        lines = raw_block.splitlines()
+        raw_block = "\n".join(lines[1:-1]).strip()
+
+    try:
+        trace_items = json.loads(raw_block)
+    except json.JSONDecodeError as exc:
+        return {}, [f"decision trace JSON is invalid: {exc}"]
+
+    trace: dict[str, set[str]] = {}
+    for index, item in enumerate(trace_items):
+        decision_id = item.get("decision_id")
+        produces_fields = item.get("produces_fields")
+        if not decision_id:
+            errors.append(f"decision trace item {index} missing decision_id")
+            continue
+        if not isinstance(produces_fields, list) or not produces_fields:
+            errors.append(f"decision trace item {decision_id} missing non-empty produces_fields list")
+            continue
+        if decision_id in trace:
+            errors.append(f"duplicate decision trace item {decision_id}")
+            continue
+        trace[decision_id] = set(produces_fields)
+    return trace, errors
+
+
+def dictionary_field_refs(config: dict, data: dict) -> set[str]:
+    source_ref = config["source"].relative_to(ROOT).as_posix()
+    return {
+        f"{source_ref}#{obj['object_key']}.{field['field_key']}"
+        for obj in data["objects"]
+        for field in obj["fields"]
+    }
+
+
+def check_trace_targets(decision_trace: dict[str, set[str]], known_field_refs: set[str]) -> list[str]:
+    errors = []
+    for decision_id, field_refs in decision_trace.items():
+        for field_ref in field_refs:
+            if field_ref not in known_field_refs:
+                errors.append(f"{decision_id} produces unknown dictionary field {field_ref}")
     return errors
 
 

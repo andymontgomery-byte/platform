@@ -599,24 +599,29 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this received Caliper envelope."
+            "description": "The platform's stable ID for this received Caliper envelope.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "tenantId": {
             "type": "string",
-            "description": "The school, district, or customer boundary that owns this event payload."
+            "description": "The school, district, or customer boundary that owns this event payload.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sensorId": {
             "type": "string",
-            "description": "The tool, platform, app, or sensor that sent the payload."
+            "description": "The tool, platform, app, or sensor that sent the payload.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sendTime": {
             "type": "string",
             "description": "When the sensor says it sent the payload.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "dataVersion": {
             "type": "string",
             "description": "The Caliper context or version used to interpret the payload.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "http://purl.imsglobal.org/ctx/caliper/v1p2"
             ],
@@ -626,16 +631,19 @@
           },
           "eventCount": {
             "type": "integer",
-            "description": "How many event objects were found in the payload."
+            "description": "How many event objects were found in the payload.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "receivedAt": {
             "type": "string",
             "description": "When the platform received the payload.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "validationStatus": {
             "type": "string",
             "description": "Whether the payload was accepted, rejected, or held for review.",
+            "x-decisionId": "DEC-010-tenancy-reference-data",
             "enum": [
               "received",
               "valid",
@@ -651,7 +659,8 @@
           },
           "rawPayload": {
             "type": "string",
-            "description": "The original JSON-LD payload retained for audit, replay, and conformance review."
+            "description": "The original JSON-LD payload retained for audit, replay, and conformance review.",
+            "x-decisionId": "DEC-009-content-resource"
           }
         }
       },
@@ -672,19 +681,23 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this projected event row."
+            "description": "The platform's stable ID for this projected event row.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "envelopeId": {
             "type": "string",
-            "description": "The received Caliper envelope that contained this event."
+            "description": "The received Caliper envelope that contained this event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "eventIri": {
             "type": "string",
-            "description": "The globally unique event identifier supplied by the sender."
+            "description": "The globally unique event identifier supplied by the sender.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "eventType": {
             "type": "string",
             "description": "The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "AnnotationEvent",
               "AssessmentEvent",
@@ -735,6 +748,7 @@
           "profile": {
             "type": "string",
             "description": "The Caliper profile that explains which event, action, actor, object, and generated values are expected.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "GeneralProfile",
               "AnnotationProfile",
@@ -773,6 +787,7 @@
           "action": {
             "type": "string",
             "description": "What happened in the event.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "Abandoned",
               "Accepted",
@@ -940,52 +955,64 @@
           },
           "actorId": {
             "type": "string",
-            "description": "The indexed person, app, or agent that performed the action."
+            "description": "The indexed person, app, or agent that performed the action.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "objectId": {
             "type": "string",
-            "description": "The indexed entity that the actor acted on."
+            "description": "The indexed entity that the actor acted on.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "eventTime": {
             "type": "string",
             "description": "When the learning activity happened.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "edAppId": {
             "type": "string",
-            "description": "The indexed application where the event happened."
+            "description": "The indexed application where the event happened.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "generatedId": {
             "type": "string",
-            "description": "The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response."
+            "description": "The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "targetId": {
             "type": "string",
-            "description": "A specific location or target inside the object, such as a media location, page, link, or question target."
+            "description": "A specific location or target inside the object, such as a media location, page, link, or question target.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "referrerId": {
             "type": "string",
-            "description": "The prior app, page, resource, or context that led to this event."
+            "description": "The prior app, page, resource, or context that led to this event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "groupId": {
             "type": "string",
-            "description": "The class, course, group, or organization context for the event."
+            "description": "The class, course, group, or organization context for the event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "membershipId": {
             "type": "string",
-            "description": "The actor's role and status relationship in the group context."
+            "description": "The actor's role and status relationship in the group context.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "sessionId": {
             "type": "string",
-            "description": "The app or user session that groups related events."
+            "description": "The app or user session that groups related events.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "federatedSessionId": {
             "type": "string",
-            "description": "The LTI or federated session context connected to a tool launch."
+            "description": "The LTI or federated session context connected to a tool launch.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "rawEvent": {
             "type": "string",
-            "description": "The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection."
+            "description": "The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection.",
+            "x-decisionId": "DEC-009-content-resource"
           }
         }
       },
@@ -1000,15 +1027,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this indexed entity."
+            "description": "The platform's stable ID for this indexed entity.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "entityIri": {
             "type": "string",
-            "description": "The Caliper IRI or source identifier for the entity."
+            "description": "The Caliper IRI or source identifier for the entity.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "entityType": {
             "type": "string",
             "description": "The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "Agent",
               "AggregateMeasure",
@@ -1158,37 +1188,45 @@
           },
           "name": {
             "type": "string",
-            "description": "A human-readable name for the entity when one is supplied."
+            "description": "A human-readable name for the entity when one is supplied.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "description": {
             "type": "string",
-            "description": "A short explanation or label for the entity."
+            "description": "A short explanation or label for the entity.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "dateCreated": {
             "type": "string",
             "description": "When the source says this entity was created.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "dateModified": {
             "type": "string",
             "description": "When the source says this entity last changed.",
+            "x-decisionId": "DEC-008-time-session",
             "format": "date-time"
           },
           "otherIdentifiers": {
             "type": "string",
-            "description": "Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs."
+            "description": "Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "extensions": {
             "type": "string",
-            "description": "Governed source-specific fields carried on the entity."
+            "description": "Governed source-specific fields carried on the entity.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "canonicalPersonId": {
             "type": "string",
-            "description": "The platform person ID when policy and identifiers allow this entity to resolve to a known person."
+            "description": "The platform person ID when policy and identifiers allow this entity to resolve to a known person.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "canonicalResourceId": {
             "type": "string",
-            "description": "The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content."
+            "description": "The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -1204,15 +1242,18 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this actor projection."
+            "description": "The platform's stable ID for this actor projection.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "entityId": {
             "type": "string",
-            "description": "The indexed Caliper entity that represents the actor."
+            "description": "The indexed Caliper entity that represents the actor.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "actorType": {
             "type": "string",
             "description": "Whether the actor is a person, software app, group, or generic agent.",
+            "x-decisionId": "DEC-001-person-agent-subject",
             "enum": [
               "Agent",
               "Person",
@@ -1228,15 +1269,18 @@
           },
           "platformPersonId": {
             "type": "string",
-            "description": "The resolved platform person ID when the actor is a known school user."
+            "description": "The resolved platform person ID when the actor is a known school user.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "displayName": {
             "type": "string",
-            "description": "A display name supplied for the actor or resolved from a trusted source."
+            "description": "A display name supplied for the actor or resolved from a trusted source.",
+            "x-decisionId": "DEC-001-person-agent-subject"
           },
           "identifierType": {
             "type": "string",
             "description": "The kind of source identifier used to resolve the actor.",
+            "x-decisionId": "DEC-001-person-agent-subject",
             "enum": [
               "AccountUserName",
               "EmailAddress",
@@ -1268,11 +1312,13 @@
           },
           "identifierValue": {
             "type": "string",
-            "description": "The source identifier value used for matching or lineage."
+            "description": "The source identifier value used for matching or lineage.",
+            "x-decisionId": "DEC-001-person-agent-subject"
           },
           "resolutionStatus": {
             "type": "string",
             "description": "Whether the actor was matched to a canonical platform record.",
+            "x-decisionId": "DEC-001-person-agent-subject",
             "enum": [
               "resolved",
               "unresolved",
@@ -1298,23 +1344,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this event context projection."
+            "description": "The platform's stable ID for this event context projection.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "eventId": {
             "type": "string",
-            "description": "The Caliper event this context belongs to."
+            "description": "The Caliper event this context belongs to.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "groupEntityId": {
             "type": "string",
-            "description": "The Caliper group, course section, organization, or class context entity."
+            "description": "The Caliper group, course section, organization, or class context entity.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "membershipEntityId": {
             "type": "string",
-            "description": "The Caliper membership entity that describes the actor's relationship to the group."
+            "description": "The Caliper membership entity that describes the actor's relationship to the group.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "membershipRole": {
             "type": "string",
             "description": "The LIS role supplied in the Caliper membership context.",
+            "x-decisionId": "DEC-003-role-vocabulary",
             "enum": [
               "Administrator",
               "ContentDeveloper",
@@ -1339,6 +1390,7 @@
           "membershipStatus": {
             "type": "string",
             "description": "Whether the membership is active or inactive in the source context.",
+            "x-decisionId": "DEC-004-enrollment-membership",
             "enum": [
               "Active",
               "Inactive"
@@ -1350,15 +1402,18 @@
           },
           "sessionEntityId": {
             "type": "string",
-            "description": "The Caliper session entity that groups related activity."
+            "description": "The Caliper session entity that groups related activity.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "federatedSessionEntityId": {
             "type": "string",
-            "description": "The LTI or federated session entity connected to the event."
+            "description": "The LTI or federated session entity connected to the event.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ltiMessageType": {
             "type": "string",
             "description": "The LTI launch message type when the event came from an LTI workflow.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "LtiDeepLinkingRequest",
               "LtiResourceLinkRequest"
@@ -1370,15 +1425,18 @@
           },
           "ltiPlatformId": {
             "type": "string",
-            "description": "The LTI platform issuer or platform identifier tied to the federated session."
+            "description": "The LTI platform issuer or platform identifier tied to the federated session.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ltiDeploymentId": {
             "type": "string",
-            "description": "The LTI deployment identifier that scopes the tool relationship."
+            "description": "The LTI deployment identifier that scopes the tool relationship.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ltiContextId": {
             "type": "string",
-            "description": "The LTI course or context identifier supplied by the platform."
+            "description": "The LTI course or context identifier supplied by the platform.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           }
         }
       },
@@ -1396,11 +1454,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this profile rule."
+            "description": "The platform's stable ID for this profile rule.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "profile": {
             "type": "string",
             "description": "The Caliper profile the rule belongs to.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "GeneralProfile",
               "AnnotationProfile",
@@ -1439,6 +1499,7 @@
           "eventType": {
             "type": "string",
             "description": "The Caliper event class allowed by the profile rule.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "AnnotationEvent",
               "AssessmentEvent",
@@ -1489,6 +1550,7 @@
           "actorType": {
             "type": "string",
             "description": "The expected actor class for the profile rule.",
+            "x-decisionId": "DEC-001-person-agent-subject",
             "enum": [
               "Agent",
               "Person",
@@ -1505,6 +1567,7 @@
           "allowedAction": {
             "type": "string",
             "description": "One action allowed for this event/profile combination.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "Abandoned",
               "Accepted",
@@ -1673,6 +1736,7 @@
           "objectType": {
             "type": "string",
             "description": "The expected object entity type for the rule.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "Agent",
               "AggregateMeasure",
@@ -1822,11 +1886,13 @@
           },
           "generatedOrTargetType": {
             "type": "string",
-            "description": "The generated entity, target entity, or narrative condition expected by the rule."
+            "description": "The generated entity, target entity, or narrative condition expected by the rule.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "platformGuidance": {
             "type": "string",
-            "description": "How the platform should validate, project, or join events matching this rule."
+            "description": "How the platform should validate, project, or join events matching this rule.",
+            "x-decisionId": "DEC-009-content-resource"
           }
         }
       },
@@ -1845,11 +1911,13 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "The platform's stable ID for this extension projection."
+            "description": "The platform's stable ID for this extension projection.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "ownerType": {
             "type": "string",
             "description": "Whether this extension belongs to an envelope, event, entity, actor, or context row.",
+            "x-decisionId": "DEC-009-content-resource",
             "enum": [
               "envelope",
               "event",
@@ -1867,23 +1935,28 @@
           },
           "ownerId": {
             "type": "string",
-            "description": "The platform row ID that owns this extension value."
+            "description": "The platform row ID that owns this extension value.",
+            "x-decisionId": "DEC-007-identifier-crosswalk"
           },
           "namespace": {
             "type": "string",
-            "description": "The governed namespace or vendor domain for the extension key."
+            "description": "The governed namespace or vendor domain for the extension key.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "extensionKey": {
             "type": "string",
-            "description": "The extension field name within the namespace."
+            "description": "The extension field name within the namespace.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "extensionValue": {
             "type": "string",
-            "description": "The normalized scalar value when the extension can be safely indexed."
+            "description": "The normalized scalar value when the extension can be safely indexed.",
+            "x-decisionId": "DEC-009-content-resource"
           },
           "privacyClassification": {
             "type": "string",
             "description": "The platform privacy classification assigned to this extension value.",
+            "x-decisionId": "DEC-002-learning-context",
             "enum": [
               "public",
               "operational",
@@ -1901,7 +1974,8 @@
           },
           "allowedByPolicy": {
             "type": "boolean",
-            "description": "Whether tenant policy allows this extension to be retained and queried."
+            "description": "Whether tenant policy allows this extension to be retained and queried.",
+            "x-decisionId": "DEC-010-tenancy-reference-data"
           }
         }
       }

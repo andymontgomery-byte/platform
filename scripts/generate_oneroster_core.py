@@ -340,6 +340,7 @@ def object_schema(obj: dict, data: dict) -> dict:
         schema = {
             "type": TYPE_MAP.get(field["data_type"], "string"),
             "description": field["plain_description"],
+            "x-decisionId": field["decision_id"],
         }
         if field["data_type"] == "date":
             schema["format"] = "date"
@@ -398,8 +399,8 @@ def render_markdown(data: dict) -> str:
                 f"- Privacy class: `{obj['privacy_class']}`",
                 f"- Why it exists: {obj['why_it_exists']}",
                 "",
-                "| Field | JSON field | Type | Required | Privacy | Layperson meaning |",
-                "| --- | --- | --- | --- | --- | --- |",
+                "| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |",
+                "| --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for field in obj["fields"]:
@@ -412,6 +413,7 @@ def render_markdown(data: dict) -> str:
                         field["data_type"],
                         "Yes" if field.get("required") else "No",
                         field["privacy_class"],
+                        f"`{field['decision_id']}`",
                         field["plain_description"],
                     ]
                 )
@@ -445,6 +447,7 @@ def render_html(data: dict, markdown: str) -> str:
                 f"<td>{html_escape(field['data_type'])}</td>"
                 f"<td>{'Yes' if field.get('required') else 'No'}</td>"
                 f"<td>{html_escape(field['privacy_class'])}</td>"
+                f"<td><code>{html_escape(field['decision_id'])}</code></td>"
                 f"<td>{html_escape(field['plain_description'])}</td>"
                 "</tr>"
             )
@@ -474,7 +477,7 @@ def render_html(data: dict, markdown: str) -> str:
             f"<dt>Privacy</dt><dd><code>{html_escape(obj['privacy_class'])}</code></dd>"
             f"<dt>Why it exists</dt><dd>{html_escape(obj['why_it_exists'])}</dd>"
             "</dl>"
-            "<table><thead><tr><th>Field</th><th>JSON field</th><th>Type</th><th>Required</th><th>Privacy</th><th>Layperson meaning</th></tr></thead>"
+            "<table><thead><tr><th>Field</th><th>JSON field</th><th>Type</th><th>Required</th><th>Privacy</th><th>Decision</th><th>Layperson meaning</th></tr></thead>"
             f"<tbody>{''.join(field_rows)}</tbody></table>"
             f"{''.join(value_sections)}"
             "</section>"

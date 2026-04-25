@@ -30,7 +30,6 @@ SCORE_SCOPE = (
 )
 KNOWN_NON_SCORED_GAPS = [
     "Full OneRoster 1.2 accounting beyond the current core demo slice.",
-    "Generated cross-spec decision traces that connect dictionary fields to architectural decisions.",
     "A platform-status manifest distinct from the score-gate report.",
     "Hosted Supabase database is live for the current OneRoster core demo slice; broader hosted database coverage is still pending.",
     "A real hosted JSON API runtime beyond static GitHub Pages and local Express.",
