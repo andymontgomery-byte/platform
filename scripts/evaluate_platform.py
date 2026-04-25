@@ -57,6 +57,7 @@ ALWAYS_EVIDENCE = [
     "docs/dictionary-coverage-matrix.md",
     "docs/lead-spec-accounting.md",
     "docs/decisions/standards-overlap-decisions.md",
+    "docs/admin-operations.md",
     "site/api/spec-conformance.json",
     ".env.example",
 ]
@@ -66,7 +67,9 @@ EVIDENCE_GLOBS = [
     "dictionary/*.json",
     "scripts/generate_*.py",
     "scripts/check_*.py",
+    "scripts/snapshot_*.py",
     "supabase/migrations/*.sql",
+    "supabase/policies/*.json",
     "supabase/functions/*/index.ts",
     "supabase/functions/*/deno.json",
     "demo/schema.sql",

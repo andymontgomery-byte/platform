@@ -1,6 +1,6 @@
 {
   "metric": "score_gate",
-  "scoreScope": "Deterministic guardrail for the current docs, dictionary generation, GitHub Pages demo, public accounting, and backlog-tracking gate. This is not a platform completion metric.",
+  "scoreScope": "Advisory file-presence signal for the LLM evaluator. Does NOT gate the Codex loop \u2014 publish is gated by scripts/evaluate_platform.py against docs/eval-rubric.md. This is not a platform completion metric.",
   "notACompletionClaim": true,
   "score": 100.0,
   "earnedPoints": 95,

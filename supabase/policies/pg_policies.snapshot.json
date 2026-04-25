@@ -1,0 +1,192 @@
+{
+  "generatedAt": "2026-04-25T19:38:19Z",
+  "source": {
+    "projectUrl": "https://qzxlgrerjoiamxvnkklq.supabase.co",
+    "provider": "Supabase",
+    "schemas": [
+      "public"
+    ]
+  },
+  "tables": [
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_academic_sessions",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.academic_sessions",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "academic_sessions"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_classes",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.classes",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "classes"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_courses",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.courses",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "courses"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_enrollments",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.enrollments",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "enrollments"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_line_items",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.line_items",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "line_items"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_organizations",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.organizations",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "organizations"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_people",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.people",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "people"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_results",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.results",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "results"
+    },
+    {
+      "forceRowSecurity": false,
+      "policies": [
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_source_identifiers",
+          "roles": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "true",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.source_identifiers",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "source_identifiers"
+    }
+  ]
+}
