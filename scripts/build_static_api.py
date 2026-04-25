@@ -74,7 +74,7 @@ def main() -> None:
                 "provider": "Supabase",
                 "projectUrl": SUPABASE_URL,
                 "restBaseUrl": f"{SUPABASE_URL}/rest/v1",
-                "status": "Provisioned target with schema, seed data, read-only policies, and smoke tests packaged under supabase/. Live load verification requires SUPABASE_DB_URL or SQL editor execution.",
+                "status": "Live for the current OneRoster core demo slice. Supabase Postgres is loaded with seeded demo data, read-only RLS policies, SQL smoke checks, and public REST smoke verification.",
                 "publishableKeyEnv": "SUPABASE_PUBLISHABLE_KEY",
             },
             "endpoints": [

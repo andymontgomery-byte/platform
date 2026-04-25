@@ -22,7 +22,7 @@ The loop turned the standards dictionary work from OneRoster/QTI/CASE-only cover
 | LTI, Security Framework, and Data Privacy | Shared integration/governance structured dictionary, generator, SQL comments, OpenAPI JSON, Markdown docs, rendered portal docs, and artifact coverage checks. |
 | Verification | `VERIFY.md` now runs all generators, rebuilds static API/docs, checks dictionary artifact coverage, writes the spec conformance report, validates JSON, compiles Python, checks Node syntax, resets/tests the demo API, and runs `git diff --check`. |
 | Public accounting | Coverage matrix, Lead spec accounting, backlog, README, portal links, and `site/api/spec-conformance.json` now reflect the generated coverage and remaining runtime gaps. |
-| Hosted database setup | Supabase project URL, publishable client key, PostgreSQL schema, seed data, read-only policies, smoke queries, and optional REST check are packaged; live load verification still needs a database connection string or SQL editor run. |
+| Hosted database setup | Supabase project URL, publishable client key, PostgreSQL schema, seed data, read-only policies, smoke queries, and REST check are packaged; the OneRoster core demo schema is loaded and public REST access is verified. |
 
 ## Review Path
 
@@ -44,7 +44,7 @@ The deterministic score gate is fully passing for the current review scope:
 - `totalPoints`: 95
 - `openScoredGaps`: none
 
-This is not a completion claim. It means the current guardrail passes for the GitHub Pages demonstration layer, structured dictionaries, generated artifacts, public accounting, and explicit backlog tracking. Supabase setup files now exist, but live load verification, custom runtime/API work, tenancy/auth enforcement, broader runnable slices, deployment, and conformance evidence remain open and are listed as non-scored known gaps.
+This is not a completion claim. It means the current guardrail passes for the GitHub Pages demonstration layer, structured dictionaries, generated artifacts, public accounting, and explicit backlog tracking. Supabase is now live for the current OneRoster core demo slice, but custom runtime/API work, tenancy/auth enforcement, broader runnable slices, deployment, and conformance evidence remain open and are listed as non-scored known gaps.
 
 ## Feedback Requested
 

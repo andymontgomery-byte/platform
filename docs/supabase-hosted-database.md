@@ -2,7 +2,7 @@
 
 Project URL: `https://qzxlgrerjoiamxvnkklq.supabase.co`
 
-The repository now has a Supabase setup package for the OneRoster core demo. This is the first step toward the real hosted relational database backlog item.
+The repository now has a live Supabase setup for the OneRoster core demo. The schema and seed data were loaded through the shared pooler and verified on 2026-04-25.
 
 ## What Is Ready
 
@@ -13,20 +13,22 @@ The repository now has a Supabase setup package for the OneRoster core demo. Thi
 - Public client environment variables in `.env.example`.
 - Optional REST smoke test script: `scripts/check_supabase_rest.py`.
 
-## What Is Not Done Yet
+## Verified Live Status
 
-The database has not been verified as loaded from this workspace because the repo has the public Supabase project URL and client keys, but not a database connection string. Server-side Supabase secret and service-role keys are useful for backend API calls, but they do not replace migration access. Loading and verifying the schema requires a Supabase SQL editor session or a local `SUPABASE_DB_URL` connection string.
+- `supabase/migrations/0001_oneroster_core_demo.sql` loaded successfully.
+- `supabase/seed.sql` loaded successfully.
+- `supabase/smoke.sql` returned the expected table counts and review view rows.
+- `python3 scripts/check_supabase_rest.py` returned `ok: true` through the public Supabase REST API.
 
-This does not close the hosted API/server work by itself. Supabase can expose simple read-only REST endpoints once seeded; custom API behavior, safe SQL query execution, OAuth/scope enforcement, and LTI callbacks still need a server layer such as Vercel or Supabase Edge Functions.
+This closes the hosted relational database target for the current OneRoster core demo slice. It does not close the hosted API/server work by itself. Supabase now exposes simple read-only REST endpoints; custom API behavior, safe SQL query execution, OAuth/scope enforcement, and LTI callbacks still need a server layer such as Vercel or Supabase Edge Functions.
 
 ## Reviewer Path
 
 1. Inspect `supabase/migrations/0001_oneroster_core_demo.sql`.
 2. Inspect `supabase/seed.sql`.
 3. Inspect `supabase/smoke.sql`.
-4. Load the migration and seed into the Supabase SQL editor.
-5. Run the smoke queries and confirm the expected counts.
-6. Run `python3 scripts/check_supabase_rest.py` after the SQL smoke queries pass.
+4. Run `supabase/smoke.sql` to confirm the expected counts.
+5. Run `python3 scripts/check_supabase_rest.py` to verify public REST access.
 
 Expected counts:
 

@@ -8,6 +8,8 @@ The publishable client key is recorded in `.env.example` because it is intended 
 
 Put server-only secrets such as `SUPABASE_SECRET_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`, not in tracked files. These keys are useful for server-side Supabase API access, but schema creation still requires the SQL editor, `SUPABASE_DB_URL`, or another migration-capable database connection.
 
+Current status: loaded and verified on 2026-04-25 through the shared pooler. SQL smoke checks and `python3 scripts/check_supabase_rest.py` pass.
+
 ## Files
 
 - `migrations/0001_oneroster_core_demo.sql`: PostgreSQL schema, views, indexes, grants, and read-only row-level security policies for synthetic demo data.
@@ -59,15 +61,13 @@ The policies intentionally allow read-only access to the synthetic demo tables a
 
 ## Optional REST Smoke Test
 
-After loading the migration and seed, run:
+Run:
 
 ```sh
 python3 scripts/check_supabase_rest.py
 ```
 
 The script reads `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from the environment, `.env.local`, `.env`, or `.env.example`.
-
-If the script returns `PGRST205` for `public.people`, the Supabase project is reachable but the migration has not been loaded yet.
 
 ## Next.js/Vercel Note
 
