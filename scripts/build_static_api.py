@@ -13,6 +13,7 @@ DICTIONARY = ROOT / "dictionary" / "oneroster-core.v1.json"
 SCHEMA = ROOT / "demo" / "schema.sql"
 SEED = ROOT / "demo" / "seed.sql"
 OUT = ROOT / "site" / "api"
+SUPABASE_URL = "https://qzxlgrerjoiamxvnkklq.supabase.co"
 
 
 def main() -> None:
@@ -69,6 +70,13 @@ def main() -> None:
         {
             "description": "Static JSON endpoints for the GitHub Pages OneRoster core demo.",
             "note": "GitHub Pages has no server runtime. These are live hosted JSON resources; use the in-browser SQL console for ad hoc SQL.",
+            "hostedDatabase": {
+                "provider": "Supabase",
+                "projectUrl": SUPABASE_URL,
+                "restBaseUrl": f"{SUPABASE_URL}/rest/v1",
+                "status": "Provisioned target with schema, seed data, read-only policies, and smoke tests packaged under supabase/. Live load verification requires SUPABASE_DB_URL or SQL editor execution.",
+                "publishableKeyEnv": "SUPABASE_PUBLISHABLE_KEY",
+            },
             "endpoints": [
                 {
                     "name": name,

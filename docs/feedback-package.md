@@ -8,6 +8,7 @@ This package summarizes the work delivered by the last two Codex loop iterations
 
 - Public portal: [https://andymontgomery-byte.github.io/platform/](https://andymontgomery-byte.github.io/platform/)
 - Source repository: [https://github.com/andymontgomery-byte/platform](https://github.com/andymontgomery-byte/platform)
+- Supabase project URL: [https://qzxlgrerjoiamxvnkklq.supabase.co](https://qzxlgrerjoiamxvnkklq.supabase.co)
 - Latest delivered commit: [Codex loop iteration 2: improve spec score to 100.00](https://github.com/andymontgomery-byte/platform/commit/32e4828) (commit title refers to the loop score gate, not platform completion)
 - Previous delivered commit: [Codex loop iteration 1: improve spec score to 93.68](https://github.com/andymontgomery-byte/platform/commit/0e79189)
 
@@ -21,6 +22,7 @@ The loop turned the standards dictionary work from OneRoster/QTI/CASE-only cover
 | LTI, Security Framework, and Data Privacy | Shared integration/governance structured dictionary, generator, SQL comments, OpenAPI JSON, Markdown docs, rendered portal docs, and artifact coverage checks. |
 | Verification | `VERIFY.md` now runs all generators, rebuilds static API/docs, checks dictionary artifact coverage, writes the spec conformance report, validates JSON, compiles Python, checks Node syntax, resets/tests the demo API, and runs `git diff --check`. |
 | Public accounting | Coverage matrix, Lead spec accounting, backlog, README, portal links, and `site/api/spec-conformance.json` now reflect the generated coverage and remaining runtime gaps. |
+| Hosted database setup | Supabase project URL, publishable client key, PostgreSQL schema, seed data, read-only policies, smoke queries, and optional REST check are packaged; live load verification still needs a database connection string or SQL editor run. |
 
 ## Review Path
 
@@ -29,7 +31,8 @@ The loop turned the standards dictionary work from OneRoster/QTI/CASE-only cover
 3. Open the [Lead Spec Accounting](lead-spec-accounting.md) page to confirm each Lead standard has an explicit posture.
 4. Inspect the generated dictionaries in this order: [OneRoster Core](generated/oneroster-core-dictionary.md), [QTI Core](generated/qti-core-dictionary.md), [CASE Core](generated/case-core-dictionary.md), [Caliper Core](generated/caliper-core-dictionary.md), and [Integration and Governance Core](generated/integration-governance-core-dictionary.md).
 5. Check the [Spec Gap Backlog](spec-gap-backlog.md) for the honest remaining work.
-6. Check `site/api/spec-conformance.json` for the machine-readable score-gate report and non-scored known gaps.
+6. Open the [Supabase Hosted Database](supabase-hosted-database.md) setup notes.
+7. Check `site/api/spec-conformance.json` for the machine-readable score-gate report and non-scored known gaps.
 
 ## Score Gate Status
 
@@ -41,7 +44,7 @@ The deterministic score gate is fully passing for the current review scope:
 - `totalPoints`: 95
 - `openScoredGaps`: none
 
-This is not a completion claim. It means the current guardrail passes for the GitHub Pages demonstration layer, structured dictionaries, generated artifacts, public accounting, and explicit backlog tracking. Runtime/backend work, tenancy/auth enforcement, broader runnable slices, deployment, and conformance evidence remain open and are listed as non-scored known gaps.
+This is not a completion claim. It means the current guardrail passes for the GitHub Pages demonstration layer, structured dictionaries, generated artifacts, public accounting, and explicit backlog tracking. Supabase setup files now exist, but live load verification, custom runtime/API work, tenancy/auth enforcement, broader runnable slices, deployment, and conformance evidence remain open and are listed as non-scored known gaps.
 
 ## Feedback Requested
 
@@ -65,7 +68,7 @@ python3 scripts/build_static_api.py
 python3 scripts/build_site_docs.py
 python3 scripts/check_dictionary_artifacts.py
 python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json --min-score 75
-python3 -m py_compile scripts/generate_oneroster_core.py scripts/generate_qti_core.py scripts/generate_case_core.py scripts/generate_caliper_core.py scripts/generate_integration_governance_core.py scripts/build_static_api.py scripts/build_site_docs.py scripts/check_dictionary_artifacts.py scripts/check_spec_conformance.py scripts/codex_loop.py
+python3 -m py_compile scripts/generate_oneroster_core.py scripts/generate_qti_core.py scripts/generate_case_core.py scripts/generate_caliper_core.py scripts/generate_integration_governance_core.py scripts/build_static_api.py scripts/build_site_docs.py scripts/check_dictionary_artifacts.py scripts/check_spec_conformance.py scripts/check_supabase_rest.py scripts/codex_loop.py
 python3 -m json.tool openapi/generated/oneroster-core.v0.json >/tmp/platform-oneroster-openapi.json
 python3 -m json.tool openapi/generated/oneroster-core-static.v0.json >/tmp/platform-oneroster-static-openapi.json
 python3 -m json.tool openapi/generated/qti-core.v0.json >/tmp/platform-qti-openapi.json

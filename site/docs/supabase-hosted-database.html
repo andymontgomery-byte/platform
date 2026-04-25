@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Supabase Hosted Database</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc-page">
+  <main class="doc-shell">
+    <p class="eyebrow">Rendered portal documentation</p>
+    <p><a class="text-link" href="index.html">Docs index</a></p>
+    <h1>Supabase Hosted Database</h1>
+<p>Project URL: <code>https://qzxlgrerjoiamxvnkklq.supabase.co</code></p>
+<p>The repository now has a Supabase setup package for the OneRoster core demo. This is the first step toward the real hosted relational database backlog item.</p>
+<h2>What Is Ready</h2>
+<ul><li>PostgreSQL schema for the current OneRoster core demo tables and review views.</li><li>Deterministic seed data matching the local SQLite demo.</li><li>Read-only row-level security policies for the synthetic demo data.</li><li>Smoke queries for table counts, class roster, and gradebook result views.</li><li>Public client environment variables in <code>.env.example</code>.</li><li>Optional REST smoke test script: <code>scripts/check_supabase_rest.py</code>.</li></ul>
+<h2>What Is Not Done Yet</h2>
+<p>The database has not been verified as loaded from this workspace because the repo has the public Supabase project URL and client keys, but not a database connection string. Server-side Supabase secret and service-role keys are useful for backend API calls, but they do not replace migration access. Loading and verifying the schema requires a Supabase SQL editor session or a local <code>SUPABASE_DB_URL</code> connection string.</p>
+<p>This does not close the hosted API/server work by itself. Supabase can expose simple read-only REST endpoints once seeded; custom API behavior, safe SQL query execution, OAuth/scope enforcement, and LTI callbacks still need a server layer such as Vercel or Supabase Edge Functions.</p>
+<h2>Reviewer Path</h2>
+<ol><li>Inspect <code>supabase/migrations/0001_oneroster_core_demo.sql</code>.</li><li>Inspect <code>supabase/seed.sql</code>.</li><li>Inspect <code>supabase/smoke.sql</code>.</li><li>Load the migration and seed into the Supabase SQL editor.</li><li>Run the smoke queries and confirm the expected counts.</li><li>Run <code>python3 scripts/check_supabase_rest.py</code> after the SQL smoke queries pass.</li></ol>
+<p>Expected counts:</p>
+<table><thead><tr><th>Table</th><th>Count</th></tr></thead><tbody><tr><td><code>organizations</code></td><td>3</td></tr><tr><td><code>people</code></td><td>6</td></tr><tr><td><code>academic_sessions</code></td><td>3</td></tr><tr><td><code>courses</code></td><td>2</td></tr><tr><td><code>classes</code></td><td>3</td></tr><tr><td><code>enrollments</code></td><td>5</td></tr><tr><td><code>line_items</code></td><td>3</td></tr><tr><td><code>results</code></td><td>4</td></tr><tr><td><code>source_identifiers</code></td><td>4</td></tr></tbody></table>
+<h2>Optional Vercel Role</h2>
+<p>Vercel is not required to load the database. It is useful for the next runtime layer: hosting a custom JSON API, a safe SQL query endpoint, OAuth/scope checks, and LTI launch callbacks. Without that server layer, GitHub Pages remains static and Supabase provides only database plus basic REST behavior.</p>
+<p>The Supabase dashboard&#x27;s <code>@supabase/supabase-js</code>, <code>@supabase/ssr</code>, <code>page.tsx</code>, and middleware instructions are for a Next.js app. They should be applied inside a Vercel/Next runtime package when that app exists, not to the current static portal root.</p>
+<p>Keep <code>SUPABASE_SECRET_KEY</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code>, and database passwords in <code>.env.local</code> or the deployment platform&#x27;s secret store. Do not commit them.</p>
+    <p class="source-note">Source file: <code>docs/supabase-hosted-database.md</code></p>
+  </main>
+</body>
+</html>

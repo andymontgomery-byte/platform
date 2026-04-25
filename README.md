@@ -11,6 +11,7 @@ The platform exposes two developer-facing layers:
 
 - [Customer-Facing Developer Portal](site/index.html)
 - [Feedback Package](docs/feedback-package.md)
+- [Supabase Hosted Database Setup](docs/supabase-hosted-database.md)
 - [Rendered Docs Index](site/docs/index.html)
 - [Hosted OneRoster JSON OpenAPI](site/openapi/hosted-json.html)
 - [Local OneRoster Express OpenAPI](site/openapi/oneroster-core.html)
@@ -109,3 +110,17 @@ Check that structured dictionary sources still match generated SQL, OpenAPI, Mar
 ```sh
 python3 scripts/check_dictionary_artifacts.py
 ```
+
+## Supabase Hosted Database
+
+The Supabase project URL is `https://qzxlgrerjoiamxvnkklq.supabase.co`.
+
+Deploy-ready PostgreSQL setup files live in `supabase/`:
+
+```sh
+psql "$SUPABASE_DB_URL" -f supabase/migrations/0001_oneroster_core_demo.sql
+psql "$SUPABASE_DB_URL" -f supabase/seed.sql
+psql "$SUPABASE_DB_URL" -f supabase/smoke.sql
+```
+
+The URL is public, but the database connection string and API keys stay local in `.env`.
