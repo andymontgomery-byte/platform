@@ -20,6 +20,10 @@
 <p>This closes the hosted relational database target for the current OneRoster core demo slice. It does not close the hosted API/server work by itself. Supabase now exposes simple read-only REST endpoints; custom API behavior, safe SQL query execution, OAuth/scope enforcement, and LTI callbacks still need a server layer such as Vercel or Supabase Edge Functions.</p>
 <h2>Reviewer Path</h2>
 <ol><li>Inspect <code>supabase/migrations/0001_oneroster_core_demo.sql</code>.</li><li>Inspect <code>supabase/seed.sql</code>.</li><li>Inspect <code>supabase/smoke.sql</code>.</li><li>Run <code>supabase/smoke.sql</code> to confirm the expected counts.</li><li>Run <code>python3 scripts/check_supabase_rest.py</code> to verify public REST access.</li></ol>
+<p>Copy-paste public REST check:</p>
+<pre><code>curl &#x27;https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=id,display_name&amp;order=id.asc&amp;limit=1&#x27; \
+  -H &#x27;apikey: sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK&#x27; \
+  -H &#x27;authorization: Bearer sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK&#x27;</code></pre>
 <p>Expected counts:</p>
 <table><thead><tr><th>Table</th><th>Count</th></tr></thead><tbody><tr><td><code>organizations</code></td><td>3</td></tr><tr><td><code>people</code></td><td>6</td></tr><tr><td><code>academic_sessions</code></td><td>3</td></tr><tr><td><code>courses</code></td><td>2</td></tr><tr><td><code>classes</code></td><td>3</td></tr><tr><td><code>enrollments</code></td><td>5</td></tr><tr><td><code>line_items</code></td><td>3</td></tr><tr><td><code>results</code></td><td>4</td></tr><tr><td><code>source_identifiers</code></td><td>4</td></tr></tbody></table>
 <h2>Optional Vercel Role</h2>

@@ -8,6 +8,21 @@ This backlog is ordered from easiest to hardest. "Done" means the repository and
 
 The repository meets the GitHub Pages demonstration layer for OneRoster core, but it does not yet fully meet the whole platform spec. The biggest remaining gaps are full OneRoster 1.2 accounting, runnable backend slices beyond OneRoster, a real hosted database/API runtime, and implemented tenancy/auth/security controls.
 
+## Rubric Trace For Open Items
+
+This table maps known unmet evaluator rubric IDs to backlog work so the LLM loop has a direct repair path.
+
+| Rubric ID | Backlog item | Status | Target slice | Owner notes |
+| --- | --- | --- | --- | --- |
+| `lead_spec_full_accounting` | 10 | Partial | Full OneRoster 1.2 and remaining Lead spec ledgers | Add explicit per-field `sourceStandard` references and field-level unsupported/deferred ledgers. |
+| `decision_traces_to_dictionary` | 11 | Not done | Cross-spec decisions and generated dictionaries | Add machine-readable decision IDs, `produces_fields`, and dictionary field references. |
+| `tenant_isolation_enforced` | 17 | Not done | Supabase OneRoster core first, then all runtime tables | Add `tenant_id`, tenant claims, RLS predicates, and cross-tenant integration tests. |
+| `oauth_scopes_mapped_to_fields` | 18 | Partial | Integration/governance dictionary and OpenAPI | Propagate scope policies into field metadata and generated OpenAPI security schemes. |
+| `audit_log_for_sensitive_reads` | 18 | Not done | Privacy/security runtime | Add audit table plus trigger or Edge Function wrapper for restricted reads. |
+| `edge_functions_for_non_crud_endpoints` | 20, 21, 22 | Not done | QTI import, Caliper ingestion, LTI launch, gradebook bulk operations | Implement Supabase Edge Functions for non-CRUD operations and document live URLs. |
+| `edge_functions_propagate_user_jwt` | 22 | Blocked until Edge Functions exist | Supabase Edge Functions | Every function must forward request `Authorization`; service-role callers require `docs/admin-operations.md` entries. |
+| `rls_enabled_on_referenced_tables` | 17, 19, 20, 21, 22 | Partial | Supabase runtime schemas | Current OneRoster tables have RLS and policies; extend to CASE/QTI/Caliper/LTI tables as they become runtime-backed. |
+
 ## Easiest-First Work List
 
 | Order | Work item | Why it is needed | Current status | Done when |

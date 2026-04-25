@@ -58,6 +58,7 @@ ALWAYS_EVIDENCE = [
     "docs/lead-spec-accounting.md",
     "docs/decisions/standards-overlap-decisions.md",
     "docs/admin-operations.md",
+    "docs/supabase-hosted-database.md",
     "site/api/spec-conformance.json",
     ".env.example",
 ]
@@ -68,6 +69,8 @@ EVIDENCE_GLOBS = [
     "scripts/generate_*.py",
     "scripts/check_*.py",
     "scripts/snapshot_*.py",
+    "scripts/codex_loop.py",
+    "scripts/evaluate_platform.py",
     "supabase/migrations/*.sql",
     "supabase/policies/*.json",
     "supabase/functions/*/index.ts",
@@ -76,6 +79,7 @@ EVIDENCE_GLOBS = [
     "demo/server.js",
     "demo/test.js",
     "site/index.html",
+    "site/app.js",
     "site/docs/index.html",
     "openapi/generated/*.json",
     "schema/generated/*.sql",
@@ -437,9 +441,13 @@ def call_evaluator(
     body = {
         "model": model,
         "max_tokens": max_tokens,
-        "thinking": {"type": "enabled", "budget_tokens": thinking_budget},
         "messages": [{"role": "user", "content": prompt}],
     }
+    if model == "claude-opus-4-7":
+        body["thinking"] = {"type": "adaptive"}
+        body["output_config"] = {"effort": "high"}
+    else:
+        body["thinking"] = {"type": "enabled", "budget_tokens": thinking_budget}
     req = urllib.request.Request(
         ANTHROPIC_MESSAGES_URL,
         method="POST",

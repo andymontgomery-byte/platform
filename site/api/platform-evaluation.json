@@ -1,0 +1,294 @@
+{
+  "rubricVersion": "fef9bc474670",
+  "evaluatedAt": "2026-04-25T20:05:22+00:00",
+  "model": "claude-opus-4-7",
+  "counts": {
+    "pass": 16,
+    "partial": 4,
+    "fail": 4,
+    "blocked": 1,
+    "total": 25
+  },
+  "done": false,
+  "items": [
+    {
+      "id": "portal_renders_as_html",
+      "status": "pass",
+      "reason": "site/index.html and site/docs/index.html are real HTML with navigation and styling; OpenAPI pages (e.g., site/openapi/oneroster-core.html, hosted-json.html, qti-core.html) are rendered with Redoc per advisory check, and no .md/.yaml/.yml hrefs exist under site/.",
+      "evidence_paths": [
+        "site/index.html",
+        "site/docs/index.html",
+        "site/api/spec-conformance.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "developer_guide_present",
+      "status": "pass",
+      "reason": "site/index.html and site/app.js render distinct 'Platform Provides' and 'App Developer Owns' sections; the provides list names OneRoster, CASE, QTI, Caliper, LTI, Open Badges and CLR, and the owns list includes data minimization, UI/accessibility quality, and pedagogy ownership.",
+      "evidence_paths": [
+        "site/index.html",
+        "site/app.js"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "dictionary_single_source",
+      "status": "pass",
+      "reason": "Each generator (e.g., scripts/generate_oneroster_core.py, generate_qti_core.py, generate_case_core.py, generate_caliper_core.py, generate_integration_governance_core.py) reads a single dictionary/*.v1.json and emits SQL comments, OpenAPI JSON, Markdown, and HTML in one run; check_dictionary_artifacts.py verifies coverage across all four surfaces.",
+      "evidence_paths": [
+        "scripts/generate_oneroster_core.py",
+        "scripts/generate_caliper_core.py",
+        "scripts/generate_case_core.py",
+        "scripts/generate_integration_governance_core.py",
+        "scripts/check_dictionary_artifacts.py"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "dictionary_covers_lead_specs",
+      "status": "pass",
+      "reason": "All Lead specs have substantive structured dictionaries: oneroster-core.v1.json, qti-core.v1.json, case-core.v1.json, caliper-core.v1.json, and integration-governance-core.v1.json (which covers LTI, Security Framework, and Data Privacy with many objects each, e.g., LTI registrations/launches, OAuth clients, privacy sharing/consent/retention/audit).",
+      "evidence_paths": [
+        "dictionary/oneroster-core.v1.json",
+        "dictionary/qti-core.v1.json",
+        "dictionary/case-core.v1.json",
+        "dictionary/caliper-core.v1.json",
+        "dictionary/integration-governance-core.v1.json",
+        "docs/lead-spec-accounting.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "lead_spec_full_accounting",
+      "status": "partial",
+      "reason": "docs/lead-spec-accounting.md lists Lead specs and provides reasons for many deferred items (e.g., 'Sensitive data should wait for tenant policy, auth, and row-level controls'), but coverage is incomplete: OneRoster full 1.2 fields, demographics, agents, score scales remain not mapped, and dictionary entries lack explicit per-field `sourceStandard` references. Backlog item 10 self-describes as Partial.",
+      "evidence_paths": [
+        "docs/lead-spec-accounting.md",
+        "docs/spec-gap-backlog.md",
+        "docs/dictionary-coverage-matrix.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "dictionary_covers_canonical_model",
+      "status": "pass",
+      "reason": "scripts/check_dictionary_artifacts.py enforces object/field/value coverage in SQL/OpenAPI/Markdown/HTML, and sampled descriptions are plain-language (e.g., 'The platform's stable ID for this organization', 'A district, school, department, program, or other education organization', 'A learner's score, status, or feedback for a gradebook line item').",
+      "evidence_paths": [
+        "scripts/check_dictionary_artifacts.py",
+        "dictionary/oneroster-core.v1.json",
+        "dictionary/caliper-core.v1.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "vertical_slice_runnable_locally",
+      "status": "partial",
+      "reason": "demo/server.js + demo/test.js run locally and return JSON whose field shapes use OneRoster naming (sourcedId, primaryRole, etc.), but the API paths are not OneRoster 1.2 REST: routes are `/people`, `/classes`, `/gradebook/line-items` rather than `/users/{sourcedId}`, `/classes/{sourcedId}`, etc. Path-level conformance therefore does not match the substance_check example.",
+      "evidence_paths": [
+        "demo/server.js",
+        "demo/test.js",
+        "demo/schema.sql",
+        "dictionary/oneroster-core.v1.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "vertical_slice_callable_externally",
+      "status": "pass",
+      "reason": "docs/supabase-hosted-database.md documents a live Supabase project at qzxlgrerjoiamxvnkklq.supabase.co with /people, /class_roster, /gradebook_results endpoints; scripts/check_supabase_rest.py issues real PostgREST calls against the published URL, and pg_policies.snapshot.json confirms a real Postgres backend.",
+      "evidence_paths": [
+        "docs/supabase-hosted-database.md",
+        "scripts/check_supabase_rest.py",
+        "supabase/policies/pg_policies.snapshot.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "try_it_surface_present",
+      "status": "pass",
+      "reason": "site/app.js loads sql.js with demo/schema.sql + demo/seed.sql in the browser to run real read-only SELECT/WITH queries, AND wires live JSON endpoint preview buttons against site/api/*.json; both execute on real seeded data. site/index.html also includes a working curl against the live Supabase REST URL.",
+      "evidence_paths": [
+        "site/index.html",
+        "site/app.js"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "overlap_decisions_substance",
+      "status": "pass",
+      "reason": "docs/decisions/standards-overlap-decisions.md has 10 numbered sections (Person, Class/Course/Context, Roles, Enrollment/Membership, Results, Standards Alignment, Identifiers, Time, Content/Resources, Tenancy) and each contains specs involved, the conflict, the choice, a per-spec mapping table, and an explicit tradeoff in prose.",
+      "evidence_paths": [
+        "docs/decisions/standards-overlap-decisions.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "decision_traces_to_dictionary",
+      "status": "fail",
+      "reason": "No machine-readable link exists in either direction. Sampled dictionary fields in dictionary/oneroster-core.v1.json, caliper-core.v1.json, and integration-governance-core.v1.json have no `decision_id` (or equivalent) attribute, and docs/decisions/standards-overlap-decisions.md contains no `produces_fields` lists. Backlog item 11 is explicitly 'Not done'.",
+      "evidence_paths": [
+        "dictionary/oneroster-core.v1.json",
+        "dictionary/caliper-core.v1.json",
+        "docs/decisions/standards-overlap-decisions.md",
+        "docs/spec-gap-backlog.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "tenant_isolation_enforced",
+      "status": "fail",
+      "reason": "supabase/migrations/0001_oneroster_core_demo.sql has no `tenant_id` column on any fact table (organizations, people, classes, enrollments, line_items, results), and the policies use `using (true)` to grant blanket read access to anon/authenticated rather than `tenant_id = auth.jwt()->>...`. There is no cross-tenant integration test against the live URL.",
+      "evidence_paths": [
+        "supabase/migrations/0001_oneroster_core_demo.sql",
+        "supabase/policies/pg_policies.snapshot.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "oauth_scopes_mapped_to_fields",
+      "status": "partial",
+      "reason": "dictionary/integration-governance-core.v1.json defines a `security_scope_policy` table that maps scopes to api_resource, allowed_action, privacy_ceiling, and field_patterns, and every dictionary field carries privacy_class. However, individual fields in the OneRoster/QTI/CASE/Caliper dictionaries lack an `oauth_scope` attribute, and the generated OpenAPI documents (openapi/generated/*.json) define no `securitySchemes` referencing scopes.",
+      "evidence_paths": [
+        "dictionary/integration-governance-core.v1.json",
+        "dictionary/oneroster-core.v1.json",
+        "openapi/generated/oneroster-core.v0.json",
+        "openapi/generated/integration-governance-core.v0.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "privacy_class_on_every_field",
+      "status": "pass",
+      "reason": "Sampled fields across dictionary/oneroster-core.v1.json, caliper-core.v1.json, case-core.v1.json, qti-core.v1.json, and integration-governance-core.v1.json all carry a non-empty `privacy_class` drawn from a documented vocabulary (public, directory, education_record, sensitive, behavioral, operational, system, privacy_governance) enumerated in the integration-governance dictionary's controlled values.",
+      "evidence_paths": [
+        "dictionary/oneroster-core.v1.json",
+        "dictionary/caliper-core.v1.json",
+        "dictionary/integration-governance-core.v1.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "audit_log_for_sensitive_reads",
+      "status": "fail",
+      "reason": "supabase/migrations/0001_oneroster_core_demo.sql defines no `audit_log` table, no Postgres trigger on restricted views, and no Edge Function wrapper. The integration-governance dictionary describes a `privacy_audit_event` object schema, but no actual database object or function implements it. Backlog item 18 lists this as 'Not done'.",
+      "evidence_paths": [
+        "supabase/migrations/0001_oneroster_core_demo.sql",
+        "docs/spec-gap-backlog.md",
+        "dictionary/integration-governance-core.v1.json"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "gap_backlog_current",
+      "status": "pass",
+      "reason": "docs/spec-gap-backlog.md contains an explicit 'Rubric Trace For Open Items' table that names rubric IDs (lead_spec_full_accounting, decision_traces_to_dictionary, tenant_isolation_enforced, oauth_scopes_mapped_to_fields, audit_log_for_sensitive_reads, edge_functions_for_non_crud_endpoints, edge_functions_propagate_user_jwt, rls_enabled_on_referenced_tables) with status, target slice, and owner notes.",
+      "evidence_paths": [
+        "docs/spec-gap-backlog.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "coverage_matrix_distinguishes_layers",
+      "status": "pass",
+      "reason": "docs/dictionary-coverage-matrix.md has columns 'Structured source', 'Generated artifacts', 'Runnable slice', and 'Unsupported ledger' populated honestly per spec \u2014 e.g., QTI/CASE/Caliper/LTI all show 'No' under Runnable slice while OneRoster core shows 'Yes'.",
+      "evidence_paths": [
+        "docs/dictionary-coverage-matrix.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "edge_functions_for_non_crud_endpoints",
+      "status": "fail",
+      "reason": "No supabase/functions/* directory appears in the evidence and no `deno.json` / `index.ts` files exist for gradebook bulk submit, LTI 1.3 launch, Caliper ingestion, or OAuth token exchange. Runtime prerequisites (supabase_cli=true, SUPABASE_SERVICE_ROLE_KEY=true) are satisfied, so this is fail rather than blocked.",
+      "evidence_paths": [
+        "docs/spec-gap-backlog.md",
+        "VERIFY.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "edge_functions_propagate_user_jwt",
+      "status": "blocked",
+      "reason": "The rubric explicitly defers this item with 'blocked_if: No Edge Functions exist yet'. Since edge_functions_for_non_crud_endpoints is fail and no supabase/functions/*/index.ts files exist in evidence, there is nothing to grade. docs/admin-operations.md exists as the allowlist scaffold with zero entries.",
+      "evidence_paths": [
+        "docs/admin-operations.md"
+      ],
+      "blocked_prerequisites": [
+        "At least one Supabase Edge Function must exist before JWT-propagation behavior can be evaluated"
+      ]
+    },
+    {
+      "id": "rls_enabled_on_referenced_tables",
+      "status": "partial",
+      "reason": "supabase/policies/pg_policies.snapshot.json shows rowsecurity=true with at least one policy on every demo table (organizations, people, academic_sessions, courses, classes, enrollments, line_items, results, source_identifiers). However, every policy is `using (true)` granting blanket read to anon/authenticated, which satisfies the literal substance_check but fails the spirit of tenant-scoped RLS \u2014 and none of the Caliper/LTI/QTI tables referenced in those dictionaries are runtime-backed yet.",
+      "evidence_paths": [
+        "supabase/policies/pg_policies.snapshot.json",
+        "supabase/migrations/0001_oneroster_core_demo.sql"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "hosted_database_live",
+      "status": "pass",
+      "reason": "scripts/check_supabase_rest.py performs real HTTP calls against https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1 for /people, /class_roster, and /gradebook_results, and docs/supabase-hosted-database.md documents that the schema, seed, and smoke verifications all returned expected counts on 2026-04-25. The publishable key is in .env.example and portal docs.",
+      "evidence_paths": [
+        "scripts/check_supabase_rest.py",
+        "docs/supabase-hosted-database.md",
+        ".env.example"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "hosted_api_callable_no_setup",
+      "status": "pass",
+      "reason": "site/index.html includes a copy-pasteable curl against `https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=id,display_name&order=id.asc&limit=1` with the publishable key inline as both `apikey` and `authorization: Bearer` headers, requiring no env vars or local setup.",
+      "evidence_paths": [
+        "site/index.html",
+        "docs/supabase-hosted-database.md"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "evaluator_runs_each_iteration",
+      "status": "pass",
+      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`, and scripts/evaluate_platform.py writes a per-rubric-item array (id/status/reason/evidence_paths) and overall counts {pass, partial, fail, blocked, total} to that path.",
+      "evidence_paths": [
+        "VERIFY.md",
+        "scripts/evaluate_platform.py"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "advisory_score_gate_kept",
+      "status": "pass",
+      "reason": "scripts/codex_loop.py still invokes `python3 scripts/check_spec_conformance.py --score-only` and writes site/api/spec-conformance.json each iteration, but its publish gate is `maybe_publish` which checks `judge_result.get('publish_recommendation') == 'push'` and rubric_progressed(before_eval, after_eval), not a numeric score threshold. The deterministic report is also passed into the evaluator's prompt as 'ADVISORY DETERMINISTIC REPORT'.",
+      "evidence_paths": [
+        "scripts/codex_loop.py",
+        "scripts/check_spec_conformance.py",
+        "scripts/evaluate_platform.py"
+      ],
+      "blocked_prerequisites": []
+    },
+    {
+      "id": "loop_terminates_on_pass",
+      "status": "pass",
+      "reason": "scripts/codex_loop.py main() returns 0 when `after_eval.get('done')` is True (referencing the LLM evaluator output, not a score), and applies safety rails via DEFAULT_MAX_ITERATIONS=25, DEFAULT_STALL_LIMIT=3 with stall detection via rubric_progressed(), and DEFAULT_COST_CEILING_USD logging.",
+      "evidence_paths": [
+        "scripts/codex_loop.py",
+        "scripts/evaluate_platform.py"
+      ],
+      "blocked_prerequisites": []
+    }
+  ],
+  "advisoryScoreGate": {
+    "score": 100.0,
+    "passed": true,
+    "note": "Advisory only. The deterministic score gate no longer gates publish; this evaluator does."
+  },
+  "runtimePrereqStatus": {
+    "supabase_cli": true,
+    "SUPABASE_SERVICE_ROLE_KEY": true,
+    "SUPABASE_PUBLISHABLE_KEY_OR_ANON": true
+  }
+}

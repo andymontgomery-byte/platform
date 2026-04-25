@@ -30,6 +30,14 @@ This closes the hosted relational database target for the current OneRoster core
 4. Run `supabase/smoke.sql` to confirm the expected counts.
 5. Run `python3 scripts/check_supabase_rest.py` to verify public REST access.
 
+Copy-paste public REST check:
+
+```sh
+curl 'https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=id,display_name&order=id.asc&limit=1' \
+  -H 'apikey: sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK' \
+  -H 'authorization: Bearer sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK'
+```
+
 Expected counts:
 
 | Table | Count |
