@@ -227,6 +227,13 @@ Status values the evaluator emits per requirement: `pass`, `partial`, `fail`, `b
 - **substance_check:** Loop driver should pass the deterministic report into the LLM evaluator's context as one signal among many.
 - **blocked_if:** never.
 
+### loop_overrides_respected
+
+- **requirement:** The Codex loop reads `docs/loop-overrides.md` at the start of every iteration and passes its contents to the Codex prompt as authoritative guidance. The loop also halts when the Pause section contains the literal token `PAUSE` on its own line.
+- **how_to_verify:** Inspect `scripts/codex_loop.py`. Confirm a helper reads `docs/loop-overrides.md`, a check halts the loop on the `PAUSE` token, and the prompt builder injects the overrides into the iteration prompt under a section labeled "Human overrides". Confirm `docs/loop-overrides.md` exists with at minimum a `## Pause`, `## Decisions`, and `## Unblocks` section.
+- **substance_check:** A loop that reads the file but never injects it into the prompt fails this item. A prompt that mentions the file but does not include its contents fails. The PAUSE check must short-circuit before the next iteration runs, not after.
+- **blocked_if:** never.
+
 ### loop_terminates_on_pass
 
 - **requirement:** The Codex loop stops iterating when every rubric item is `pass`, or when every remaining unmet item is `blocked` with a backlog entry.
@@ -247,7 +254,7 @@ Status values the evaluator emits per requirement: `pass`, `partial`, `fail`, `b
 | Privacy, tenancy, and security | 4 |
 | Coverage and accounting | 2 |
 | Hosted runtime | 5 |
-| Loop and harness hygiene | 3 |
-| **Total** | **25** |
+| Loop and harness hygiene | 4 |
+| **Total** | **26** |
 
-The loop is "done" when all 25 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite and a backlog entry.
+The loop is "done" when all 26 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite and a backlog entry.
