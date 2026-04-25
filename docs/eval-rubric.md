@@ -126,10 +126,10 @@ Status values the evaluator emits per requirement: `pass`, `partial`, `fail`, `b
 
 ### tenant_isolation_enforced
 
-- **requirement:** Every fact table carries a `tenant_id` column and PostgreSQL row-level security policies are enabled and tested against the live database.
-- **how_to_verify:** Inspect `supabase/migrations/*.sql` for `tenant_id` columns and `CREATE POLICY ... USING (tenant_id = ...)` statements with `ALTER TABLE ... ENABLE ROW LEVEL SECURITY`. Run an integration test that uses two distinct JWTs scoped to different tenants and confirms tenant A cannot read tenant B's rows via the live Supabase URL.
-- **substance_check:** RLS must be enabled on every fact table, not just declared. The integration test must hit the live Supabase URL, not a local mock. Postgres RLS handles enforcement automatically once policies exist — no app-layer authorization code required.
-- **blocked_if:** never. Path is clear: add `tenant_id` columns + RLS policies in a Supabase migration. No external infra needed — Supabase already hosts the database.
+- **requirement:** Every fact table carries a `tenant_id` column and PostgreSQL row-level security policies are enabled and tested against the live database. Policies must reference `tenant_id` (or an equivalent JWT claim) in their `USING` predicate — not `true`.
+- **how_to_verify:** Inspect `supabase/migrations/*.sql` for `tenant_id` columns and `CREATE POLICY ... USING (tenant_id = ...)` statements with `ALTER TABLE ... ENABLE ROW LEVEL SECURITY`. Confirm `supabase/policies/pg_policies.snapshot.json` shows the same predicate per fact-table policy. Run an integration test (committed under `tests/` and runnable from `npm test` or a documented script) that uses two distinct JWTs scoped to different tenants and confirms tenant A cannot read tenant B's rows via the live Supabase URL.
+- **substance_check:** A policy whose `using` clause is `true` (unconditional) FAILS this item, even if RLS is enabled. The predicate must scope rows to a tenant claim from the JWT (e.g., `tenant_id = (auth.jwt() ->> 'tenant_id')::uuid` or equivalent). The integration test must hit the live Supabase URL, not a local mock, and must be runnable by a fresh evaluator with documented JWTs.
+- **blocked_if:** never. Path is clear: add `tenant_id` columns + tenant-scoped RLS policies in a Supabase migration, regenerate the policy snapshot, add the cross-tenant test.
 
 ### oauth_scopes_mapped_to_fields
 
@@ -143,6 +143,13 @@ Status values the evaluator emits per requirement: `pass`, `partial`, `fail`, `b
 - **requirement:** Every field in the dictionary carries a privacy classification.
 - **how_to_verify:** Read each `dictionary/*.v1.json`, confirm every field has a non-empty `privacy_class` (or equivalent) value drawn from a documented vocabulary.
 - **substance_check:** Vocabulary must be enumerated somewhere (e.g., `public`, `directory`, `educational_record`, `behavioral`, `sensitive_pii`, `system`). `unknown` or empty fails.
+- **blocked_if:** never.
+
+### service_role_calls_allowlisted
+
+- **requirement:** Every `SUPABASE_SERVICE_ROLE_KEY` (or equivalent service-role) usage in `supabase/functions/**`, `scripts/**`, and `demo/**` is justified by an entry in `docs/admin-operations.md` that names the operation, the caller, and why the user JWT path is insufficient.
+- **how_to_verify:** Run a grep for `SUPABASE_SERVICE_ROLE_KEY` (and `service_role`, `service-role`) across the repo. For each match, confirm an inline comment names the admin operation AND a matching row exists in `docs/admin-operations.md` with columns `caller`, `operation`, `why_user_jwt_insufficient`, `last_reviewed`. Confirm `last_reviewed` is within 30 days.
+- **substance_check:** A service-role call without an allowlist row fails the item. An allowlist row whose `why_user_jwt_insufficient` is empty, vague (`admin work`), or stale (>30 days) fails. The allowlist must list every caller — the file existing alone is not enough.
 - **blocked_if:** never.
 
 ### audit_log_for_sensitive_reads
@@ -190,9 +197,9 @@ Status values the evaluator emits per requirement: `pass`, `partial`, `fail`, `b
 
 ### rls_enabled_on_referenced_tables
 
-- **requirement:** Every table referenced by OneRoster, Caliper, LTI, or QTI endpoints has row-level security enabled with at least one policy.
-- **how_to_verify:** Read the committed `supabase/policies/pg_policies.snapshot.json` (produced by `scripts/snapshot_pg_policies.py` against the live project). For each table named in the dictionary's runtime-backed objects, confirm `rowsecurity = true` and at least one row in `pg_policies`.
-- **substance_check:** A snapshot showing `rowsecurity = false` or zero policies on a referenced table fails the item, even if the table exists. The snapshot must be regenerated whenever the schema changes.
+- **requirement:** Every table referenced by OneRoster, Caliper, LTI, or QTI endpoints has row-level security enabled with at least one NON-TRIVIAL policy. A non-trivial policy has a `using` predicate that references row data (a column, a JWT claim, or a function) — not the literal `true`.
+- **how_to_verify:** Read the committed `supabase/policies/pg_policies.snapshot.json` (produced by `scripts/snapshot_pg_policies.py` against the live project). For each table named in the dictionary's runtime-backed objects, confirm `rowsecurity = true`, `forceRowSecurity = true` (so table owners are not exempt), and at least one policy whose `using` clause is NOT `true` and NOT empty. Confirm the snapshot's `generatedAt` is within 24 hours of the latest schema-touching commit.
+- **substance_check:** Policies of the form `using (true)` open the table to whoever has connect access — they fail this item even though RLS is technically enabled. `forceRowSecurity = false` lets the table owner bypass policies and also fails. The snapshot must be regenerated whenever the schema changes; a stale snapshot fails the item.
 - **blocked_if:** Supabase project credentials missing locally — evaluator must report the missing prerequisite explicitly.
 
 ### hosted_database_live
@@ -251,10 +258,10 @@ Status values the evaluator emits per requirement: `pass`, `partial`, `fail`, `b
 | Shared dictionary as source of truth | 4 |
 | Vertical slice runnable end-to-end | 3 |
 | Cross-spec decisions and reconciliation | 2 |
-| Privacy, tenancy, and security | 4 |
+| Privacy, tenancy, and security | 5 |
 | Coverage and accounting | 2 |
 | Hosted runtime | 5 |
 | Loop and harness hygiene | 4 |
-| **Total** | **26** |
+| **Total** | **27** |
 
-The loop is "done" when all 26 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite and a backlog entry.
+The loop is "done" when all 27 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite and a backlog entry.

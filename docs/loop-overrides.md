@@ -22,6 +22,14 @@ Codex must follow these even if they conflict with the rubric's substance_check.
 Move stale entries to the bottom of this section under "## Decisions (archived)" once they are no longer in effect.
 -->
 
+- **Priority order for the next 5 iterations** (cron set, 2026-04-25 21:00 UTC): work the hard items, not the easy ones. In order:
+  1. `tenant_isolation_enforced` — add `tenant_id` columns + replace `using (true)` with `using (tenant_id = (auth.jwt() ->> 'tenant_id')::uuid)` on every fact table; commit a cross-tenant integration test.
+  2. `rls_enabled_on_referenced_tables` — set `force row level security` and regenerate the policy snapshot.
+  3. `edge_functions_for_non_crud_endpoints` — ship at least one real Edge Function (suggest: gradebook bulk submit) that propagates the user JWT.
+  4. `audit_log_for_sensitive_reads` — add `audit_log` table + trigger or Edge Function wrapper for restricted fields.
+  5. `developer_guide_present` and `lead_spec_full_accounting` — finish the partials.
+- **For `rls_enabled_on_referenced_tables`:** the prior `partial` verdict is REVOKED. `using (true)` is no isolation. Treat the current snapshot as failing until policies reference a JWT claim AND `forceRowSecurity = true`.
+
 
 
 ## Unblocks
