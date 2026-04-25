@@ -8,6 +8,7 @@
 # Logs and temporary files
 *.log
 .codex-loop/
+supabase/.temp/
 tmp/
 temp/
 .cache/

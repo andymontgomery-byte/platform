@@ -100,7 +100,11 @@ def main() -> int:
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(parsed, indent=2, sort_keys=True) + "\n")
-    print(f"wrote {output.relative_to(ROOT)} tables={len(parsed.get('tables', []))}")
+    try:
+        display_path = output.relative_to(ROOT)
+    except ValueError:
+        display_path = output
+    print(f"wrote {display_path} tables={len(parsed.get('tables', []))}")
     return 0
 
 
