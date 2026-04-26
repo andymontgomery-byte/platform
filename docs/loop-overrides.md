@@ -45,6 +45,8 @@ One bullet per unblock signal. Format:
 Codex should re-attempt the listed blocked items on the next iteration.
 -->
 
+- 2026-04-26 15:47 ET: `docs/build-an-edtech-app.md` now exists on main (PR #5, merge `d47ebb1`). Workflow 4's `line_items.case_framework_item_uri` column and workflow 5's `caliper_event_receipts` table are added in `supabase/migrations/0002_case_alignment_and_caliper_receipts.sql`. Tenant-scoped INSERT/UPDATE RLS policies for organizations, people, courses, classes, enrollments, and line_items are added in `0003_buildability_write_policies.sql`. Re-evaluate `docs_include_buildability_guide` and `buildable_by_layperson`; if either still fails the gap is in the guide itself, not the platform — tighten the guide rather than reverting.
+- 2026-04-26 16:00 ET: The next leverage point is the three dictionary partials (`dictionary_resolves_cross_spec_overlaps`, `dictionary_unifies_identity`, `dictionary_global_enums`). All three trace to the same root cause: per-spec field-level `canonical_field_id` values are spec-prefixed (e.g., `canonical.oneroster-core.person.email`) instead of pointing to the shared canonical entry (`canonical.identity.person.email`). Fix this in `data/data-dictionary.seed.json` and the generator, in one iteration. Then `dictionary_global_enums` needs a top-level `shared_enums` table with bidirectional spec-native crosswalks and `shared_enum_id` references replacing inline `allowed_values` on overlapping enums (DEC-003 role family, DEC-018 status, identifier_type). After that, only `dictionary_carries_relational_graph` remains as a hard dictionary fail and it requires a `relationships[]` array per object plus `scripts/generate_supabase_migrations.py`.
 
 
 ## Notes to Codex
