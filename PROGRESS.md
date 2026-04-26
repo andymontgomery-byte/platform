@@ -440,3 +440,29 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 scripts/build_static_api.py` passed; `python3 -m py_compile scripts/build_static_api.py scripts/snapshot_pg_policies.py` passed; JSON validation for `site/api/*.json`, `site/api/views/*.json`, and `supabase/policies/pg_policies.snapshot.json` passed; targeted citation check passed with 13 static mirrors, 13 policy snapshot entries, 14 SQL policy/function comments, 5 Edge Functions, and 8 Lead accounting entries; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=11, partial=0, fail=0, blocked=0 and `done=true`.
 - Expected status change: `artifacts_cite_decisions` `partial` -> `pass`.
 - What remains next: No rubric items remain non-pass; the evaluator reports the platform loop as done.
+
+
+## 20260426T163014Z Harness Iteration 6
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 90
+- Publish result: committed and pushed: Codex loop iteration 6: rubric pass=11/11
+- Codex log: `.codex-loop/20260426T161912Z-iteration-006-codex.log`
+- Verify log: `.codex-loop/20260426T161912Z-iteration-006-verify.log`
+- Judge log: `.codex-loop/20260426T161912Z-iteration-006-judge.log`
+- Judge JSON: `.codex-loop/20260426T161912Z-iteration-006-judge.json`
+
+
+## 2026-04-26 13:07:30 EDT Decision Completeness For Buildability Rubric
+
+- Chosen rubric item: `decisions_complete`.
+- Files changed: `docs/decisions/decisions-needed.md`, `docs/decisions/standards-overlap-decisions.md`, rendered `site/docs/*` decision/rubric/override pages from `scripts/build_site_docs.py`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; structural decision check passed with 20 unique needed decisions, no missing six-field decision sections, and the machine-readable section starting after all new decisions at byte 29970; projection summary smoke check passed with 20 decisions, 119 projection refs, 119 present, 0 missing, and 0 unverified fragments; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=6, partial=5, fail=9, blocked=0 and reports `decisions_complete` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed; `git diff --check` passed.
+- Expected status change: `decisions_complete` `fail` -> `pass`.
+- What remains next: `decisions_have_real_alternatives` remains `partial` and is the next top-layer decision item; dictionary implementation items remain blocked by missing shared-dictionary projection data and generators, especially `dictionary_single_source_of_truth`, `dictionary_resolves_cross_spec_overlaps`, `dictionary_global_enums`, `dictionary_closed_privacy_classes`, and `dictionary_carries_relational_graph`.

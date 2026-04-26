@@ -327,6 +327,102 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - `supabase/functions/oauth-token-exchange/index.ts`
   - `tests/supabase_tenant_rls_test.py`
   - `tests/supabase_audit_log_test.py`
+
+## DEC-016 Dictionary Generation Direction
+
+- id: `DEC-016-dictionary-generation-direction`
+- question: Which dictionary artifact is authoritative: the shared platform dictionary or the per-spec dictionaries?
+- options_considered:
+  - Commit only the shared dictionary and generate all spec views on demand.
+  - Keep per-spec JSON files canonical and synthesize shared docs from them.
+  - Use the shared dictionary as canonical and generate committed per-spec projection JSON.
+- choice: `data/data-dictionary.seed.json` is upstream. `dictionary/*.v1.json` files are generated projections; hand-editing a per-spec projection is a build error once the generator lands.
+- consequences:
+  - Removes five-way hand-edited dictionary reconciliation.
+  - Lets CI compare generated projection JSON instead of relying on review memory.
+  - Requires every projected object, field, enum, privacy class, and relationship to live in the shared seed or be marked `spec_only`.
+- projects_to:
+  - `data/data-dictionary.seed.json#objects`
+  - `dictionary/oneroster-core.v1.json`
+  - `dictionary/qti-core.v1.json`
+  - `scripts/check_dictionary_artifacts.py#CONFIGS`
+
+## DEC-017 Canonical Field Reconciliation
+
+- id: `DEC-017-canonical-field-reconciliation`
+- question: How should fields with the same platform meaning across different standards be reconciled?
+- options_considered:
+  - Publish only canonical platform fields and keep spec-native names in adapters.
+  - Preserve only spec-native names and let callers infer overlaps.
+  - Preserve spec-native fields but require overlapping fields to carry `canonical_field_id`.
+- choice: Every overlapping spec field carries `canonical_field_id` pointing at the shared dictionary. Spec-native names remain for conformance; cross-spec app code uses the canonical field identity.
+- consequences:
+  - Removes runtime/docs conversion between `email`, LTI email claims, actor identifiers, and candidate labels.
+  - Eliminates prose-only overlap claims; each overlapping field points to a concrete shared field or a `spec_only` exception.
+  - Requires new per-spec fields to be classified before docs or OpenAPI can publish them.
+- projects_to:
+  - `data/data-dictionary.seed.json#person`
+  - `dictionary/oneroster-core.v1.json#person.email`
+  - `dictionary/integration-governance-core.v1.json#lti_membership.email`
+  - `dictionary/caliper-core.v1.json#caliper_actor.identifier_value`
+
+## DEC-018 Global Enum Crosswalks
+
+- id: `DEC-018-global-enum-crosswalks`
+- question: How should allowed-value vocabularies be unified across standards?
+- options_considered:
+  - Replace spec-native enum values with platform values everywhere.
+  - Let each spec dictionary keep independent enum lists.
+  - Maintain shared enums with `shared_enum_id` references and bidirectional spec crosswalks.
+- choice: Allowed values are global dictionary objects. Each enum field references `shared_enum_id`; the shared enum maps every spec-native value to and from a canonical value.
+- consequences:
+  - Removes per-API parsers for OneRoster names, LTI URIs, Caliper roles, and QTI values.
+  - Eliminates duplicate enum docs for the same platform vocabulary.
+  - Requires every allowed value to crosswalk to a shared enum or be marked spec-only with a reason.
+- projects_to:
+  - `data/data-dictionary.seed.json#person.primary_role`
+  - `dictionary/oneroster-core.v1.json#person.primary_role`
+  - `dictionary/oneroster-core.v1.json#enrollment.role`
+  - `dictionary/integration-governance-core.v1.json#lti_launch.roles`
+
+## DEC-019 Closed Privacy Classes
+
+- id: `DEC-019-closed-privacy-classes`
+- question: What is the closed privacy-class vocabulary, and how are content-dependent placeholders resolved?
+- options_considered:
+  - Collapse every non-public field into one protected class.
+  - Allow placeholders such as `depends_on_entity` and `depends_on_contents`.
+  - Maintain one closed privacy-class list and assign a concrete class to every field occurrence.
+- choice: Closed keys are `public`, `operational`, `directory`, `education_record`, `behavioral`, `sensitive`, `credential`, `privacy_governance`, and `system`. `depends_on_entity` and `depends_on_contents` are invalid.
+- consequences:
+  - Removes generator branches that interpret open-ended privacy placeholders per spec.
+  - Eliminates `depends_on_entity` and `depends_on_contents` from generated dictionaries.
+  - Requires a decision update before a new privacy class can appear in fields, docs, or runtime surfaces.
+- projects_to:
+  - `data/data-dictionary.seed.json#privacy_classes`
+  - `dictionary/caliper-core.v1.json#caliper_entity.name`
+  - `dictionary/caliper-core.v1.json#caliper_entity.extensions`
+  - `dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.privacy_class`
+
+## DEC-020 Relational Graph Migrations
+
+- id: `DEC-020-relational-graph-migrations`
+- question: Where should foreign keys, cardinalities, and ownership relationships live for generated Supabase migrations?
+- options_considered:
+  - Generate database DDL from the dictionary at deploy time and stop committing SQL.
+  - Keep migrations hand-written and document relationships separately.
+  - Store relationships in the shared dictionary and generate committed Supabase migration SQL.
+- choice: Shared dictionary objects own source field, target object, target field, cardinality, ownership, and delete behavior. Supabase migrations are generated from that graph.
+- consequences:
+  - Removes duplicated FK truth across SQL, dictionary prose, docs, and examples.
+  - Lets generators derive table order, FK clauses, and ownership constraints from the graph.
+  - Requires each public SQL relationship to have a dictionary entry.
+- projects_to:
+  - `data/data-dictionary.seed.json#objects`
+  - `dictionary/oneroster-core.v1.json#class.course_id`
+  - `dictionary/oneroster-core.v1.json#enrollment.person_id`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#references public.classes`
+
 ## Machine-Readable Decision Trace
 
 Field references use the dictionary file, object key, and field key. Each `decision_id` also appears on the corresponding dictionary field object and in generated OpenAPI/Markdown/HTML dictionary artifacts.
