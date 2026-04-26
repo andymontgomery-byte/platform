@@ -1,5 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
+// decision_id: DEC-015-service-role-policy; caller Authorization is forwarded so RLS applies.
+// decision_id: DEC-005-results-scores; gradebook writes use the platform result/score contract.
+// decision_id: DEC-010-tenancy-reference-data; referenced rows must be visible in the caller tenant.
+
 type JsonValue = string | number | boolean | null | JsonObject | JsonValue[];
 type JsonObject = { [key: string]: JsonValue };
 

@@ -228,6 +228,7 @@ alter table public.source_identifiers force row level security;
 alter table public.audit_log enable row level security;
 alter table public.audit_log force row level security;
 
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_organizations on public.organizations for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -235,6 +236,7 @@ create policy demo_read_organizations on public.organizations for select to anon
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_people on public.people for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -242,6 +244,7 @@ create policy demo_read_people on public.people for select to anon, authenticate
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_academic_sessions on public.academic_sessions for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -249,6 +252,7 @@ create policy demo_read_academic_sessions on public.academic_sessions for select
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_courses on public.courses for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -256,6 +260,7 @@ create policy demo_read_courses on public.courses for select to anon, authentica
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_classes on public.classes for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -263,6 +268,7 @@ create policy demo_read_classes on public.classes for select to anon, authentica
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_enrollments on public.enrollments for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -270,6 +276,7 @@ create policy demo_read_enrollments on public.enrollments for select to anon, au
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_line_items on public.line_items for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -277,6 +284,7 @@ create policy demo_read_line_items on public.line_items for select to anon, auth
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_results on public.results for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -284,6 +292,7 @@ create policy demo_read_results on public.results for select to anon, authentica
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for results writes.
 create policy demo_insert_results on public.results for insert to authenticated with check (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -308,6 +317,7 @@ create policy demo_insert_results on public.results for insert to authenticated 
       )
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for results writes.
 create policy demo_update_results on public.results for update to authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -337,6 +347,7 @@ create policy demo_update_results on public.results for update to authenticated 
       )
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for identifier crosswalks.
 create policy demo_read_source_identifiers on public.source_identifiers for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -344,6 +355,7 @@ create policy demo_read_source_identifiers on public.source_identifiers for sele
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-013-audit-response-truth; audit writes remain tenant-scoped.
 create policy demo_insert_audit_log on public.audit_log for insert to authenticated with check (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -354,6 +366,7 @@ create policy demo_insert_audit_log on public.audit_log for insert to authentica
   and purpose <> ''
   and field_accessed <> ''
 );
+-- decision_id: DEC-013-audit-response-truth; audited responses read back tenant-scoped rows.
 create policy demo_read_audit_log on public.audit_log for select to authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -361,6 +374,7 @@ create policy demo_read_audit_log on public.audit_log for select to authenticate
   )
 );
 
+-- decision_id: DEC-013-audit-response-truth; sensitive reads write audit_log rows before returning data.
 create function public.read_people_sensitive_audited(
   person_id text,
   client_id text,

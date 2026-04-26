@@ -414,3 +414,29 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 11 rubric items and 56 evidence files; direct `gather_evidence()` smoke check confirmed `docs/decisions/decisions-pending.md` and `docs/decisions/decisions-needed.md` are always-included evidence files at positions 10 and 11; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=10, partial=1, fail=0, blocked=0 and reports `no_unforced_decisions` as `pass`.
 - Expected status change: `no_unforced_decisions` `partial` -> `pass`.
 - What remains next: `artifacts_cite_decisions` remains `partial`; SQL/RLS policies, policy snapshots, Edge Functions, static API mirrors, and Lead-spec coverage/accounting need explicit decision citations or a documented mapping table.
+
+
+## 20260426T161912Z Harness Iteration 5
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 82
+- Publish result: committed and pushed: Codex loop iteration 5: rubric pass=9/11
+- Codex log: `.codex-loop/20260426T161024Z-iteration-005-codex.log`
+- Verify log: `.codex-loop/20260426T161024Z-iteration-005-verify.log`
+- Judge log: `.codex-loop/20260426T161024Z-iteration-005-judge.log`
+- Judge JSON: `.codex-loop/20260426T161024Z-iteration-005-judge.json`
+
+
+## 2026-04-26 12:26:42 EDT Artifact Decision Citation Iteration
+
+- Chosen rubric item: `artifacts_cite_decisions`.
+- Files changed: `scripts/build_static_api.py`, generated static mirrors under `site/api/` and `site/api/views/`, `supabase/migrations/0001_oneroster_core_demo.sql`, `scripts/snapshot_pg_policies.py`, `supabase/policies/pg_policies.snapshot.json`, `supabase/functions/*/index.ts`, `docs/lead-spec-accounting.md`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_static_api.py` passed; `python3 -m py_compile scripts/build_static_api.py scripts/snapshot_pg_policies.py` passed; JSON validation for `site/api/*.json`, `site/api/views/*.json`, and `supabase/policies/pg_policies.snapshot.json` passed; targeted citation check passed with 13 static mirrors, 13 policy snapshot entries, 14 SQL policy/function comments, 5 Edge Functions, and 8 Lead accounting entries; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=11, partial=0, fail=0, blocked=0 and `done=true`.
+- Expected status change: `artifacts_cite_decisions` `partial` -> `pass`.
+- What remains next: No rubric items remain non-pass; the evaluator reports the platform loop as done.

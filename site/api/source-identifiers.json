@@ -38,9 +38,27 @@
     }
   ],
   "count": 4,
+  "decision_id": "DEC-014-static-mirror-policy",
   "source": {
     "objectKey": "source_identifier",
     "tableName": "source_identifiers",
-    "dictionary": "dictionary/oneroster-core.v1.json"
+    "dictionary": "dictionary/oneroster-core.v1.json",
+    "decision_id": "DEC-014-static-mirror-policy",
+    "decision_ids": [
+      "DEC-007-identifier-crosswalk",
+      "DEC-009-content-resource",
+      "DEC-010-tenancy-reference-data",
+      "DEC-011-privacy-surfaces",
+      "DEC-014-static-mirror-policy"
+    ],
+    "fieldDecisionIds": {
+      "id": "DEC-007-identifier-crosswalk",
+      "objectType": "DEC-009-content-resource",
+      "objectId": "DEC-007-identifier-crosswalk",
+      "sourceSystem": "DEC-010-tenancy-reference-data",
+      "externalId": "DEC-007-identifier-crosswalk",
+      "identifierType": "DEC-009-content-resource",
+      "status": "DEC-010-tenancy-reference-data"
+    }
   }
 }

@@ -56,5 +56,18 @@
       "status": "active"
     }
   ],
-  "count": 5
+  "count": 5,
+  "decision_id": "DEC-014-static-mirror-policy",
+  "source": {
+    "view": "class_roster",
+    "dictionary": "dictionary/oneroster-core.v1.json",
+    "decision_id": "DEC-014-static-mirror-policy",
+    "decision_ids": [
+      "DEC-002-learning-context",
+      "DEC-003-role-vocabulary",
+      "DEC-004-enrollment-membership",
+      "DEC-010-tenancy-reference-data",
+      "DEC-014-static-mirror-policy"
+    ]
+  }
 }

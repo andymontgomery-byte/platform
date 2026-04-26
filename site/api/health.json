@@ -2,5 +2,6 @@
   "ok": true,
   "name": "Platform OneRoster Core Static JSON API",
   "hosting": "GitHub Pages",
-  "dictionaryVersion": "1.0.0-demo"
+  "dictionaryVersion": "1.0.0-demo",
+  "decision_id": "DEC-014-static-mirror-policy"
 }

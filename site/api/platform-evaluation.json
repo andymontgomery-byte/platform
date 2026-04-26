@@ -1,20 +1,20 @@
 {
   "rubricVersion": "fba6cb8e8f9d",
-  "evaluatedAt": "2026-04-26T16:18:39+00:00",
+  "evaluatedAt": "2026-04-26T16:29:56+00:00",
   "model": "claude-opus-4-7",
   "counts": {
-    "pass": 9,
-    "partial": 2,
+    "pass": 11,
+    "partial": 0,
     "fail": 0,
     "blocked": 0,
     "total": 11
   },
-  "done": false,
+  "done": true,
   "items": [
     {
       "id": "decisions_complete",
       "status": "pass",
-      "reason": "All 15 required decision areas (DEC-001 through DEC-015) exist in `docs/decisions/standards-overlap-decisions.md` with id, question, options_considered, choice, consequences, and `projects_to` fields populated. The five new platform-shape decisions (DEC-011 privacy surfaces, DEC-012 runtime coverage, DEC-013 audit response truth, DEC-014 static mirror policy, DEC-015 service-role policy) are all present with non-empty projection lists. Each consequences section names what the decision eliminates or simplifies (e.g., DEC-013: 'Eliminates hard-coded audit counts such as logged: 5 as acceptable evidence').",
+      "reason": "All 15 required decision areas are documented in `docs/decisions/standards-overlap-decisions.md` as DEC-001 through DEC-015, each with id, question, options_considered, choice, consequences, and projects_to fields populated. The five new platform-shape decisions (privacy-surfaces, runtime-coverage-per-spec, audit-response-truth, static-mirror-policy, service-role-policy) are present alongside the original 10 cross-spec decisions, and each consequences section names work that becomes unnecessary.",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md",
         "docs/decisions/decisions-needed.md"
@@ -24,16 +24,17 @@
     {
       "id": "no_unforced_decisions",
       "status": "pass",
-      "reason": "`docs/decisions/decisions-pending.md` lists PEND-001 (runtime slice schedule, owner Andy, target 2026-05-15) and PEND-005 (deno check in CI, owner Andy, target 2026-05-03), each with description, why-it-matters, and 'Blocked on' columns. Both target dates are future relative to the 2026-04-24 research date, and entries reference what blocks the decision (product priority, CI capacity).",
+      "reason": "`docs/decisions/decisions-pending.md` lists PEND-001 (owner Andy, target 2026-05-15, blocked on product priority) and PEND-005 (owner Andy, target 2026-05-03, blocked on CI capacity), each with description, why-it-matters, and a blocker. Both target dates are in the future relative to the 2026-04-26 research date, and entries name what blocks resolution.",
       "evidence_paths": [
-        "docs/decisions/decisions-pending.md"
+        "docs/decisions/decisions-pending.md",
+        "docs/decisions/decisions-needed.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "decisions_simplify",
       "status": "pass",
-      "reason": "Every decision's consequences section starts at least one bullet with 'Removes the need for', 'Eliminates', 'Lets', or 'Makes redundant' (e.g., DEC-010: 'Removes the need for application code to perform per-table tenant filtering; PostgreSQL RLS is the single runtime gate'; DEC-013: 'Eliminates hard-coded audit counts such as logged: 5 as acceptable evidence'). All 15 decisions name work the choice deletes, not just work it creates.",
+      "reason": "Every decision DEC-001 through DEC-015 has a consequences section with at least one bullet starting with simplification language such as `Removes the need for`, `Eliminates`, `Makes`, or `Lets`. For example, DEC-010 says `Removes the need for application code to perform per-table tenant filtering; PostgreSQL RLS is the single runtime gate`, and DEC-011 says `Removes the need to delete synthetic directory fields like site/api/people.json email`.",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
       ],
@@ -41,66 +42,61 @@
     },
     {
       "id": "artifacts_cite_decisions",
-      "status": "partial",
-      "reason": "Dictionary fields in `dictionary/*.v1.json` carry `decision_id` and `sourceStandard` references that match decisions in the register, and `check_dictionary_artifacts.py` enforces this against a parsed decision-trace block. However, RLS policies in `supabase/migrations/0001_oneroster_core_demo.sql` and `supabase/policies/pg_policies.snapshot.json` carry no inline decision-id comments (e.g., the tenant-claim policies do not cite DEC-010), and Edge Functions like `supabase/functions/audited-roster-read/index.ts` do not name DEC-013 or DEC-015 in comments. `docs/lead-spec-accounting.md` lacks a per-entry decision_id mapping table.",
+      "status": "pass",
+      "reason": "Dictionary fields carry `decision_id` (e.g., `dictionary/oneroster-core.v1.json` person.email -> DEC-001-person-agent-subject), SQL migrations carry inline `-- decision_id:` comments on every policy and the audited RPC, Edge Functions carry top-of-file `// decision_id:` comments (e.g., `audited-roster-read/index.ts` cites DEC-015, DEC-013, DEC-011), the policy snapshot embeds `decision_id` per policy, and `docs/lead-spec-accounting.md` has a `Decision Citation Map` table. Static `site/api/*.json` mirrors are explicitly enumerated in DEC-014 `projects_to`.",
       "evidence_paths": [
         "dictionary/oneroster-core.v1.json",
-        "dictionary/integration-governance-core.v1.json",
         "supabase/migrations/0001_oneroster_core_demo.sql",
         "supabase/policies/pg_policies.snapshot.json",
         "supabase/functions/audited-roster-read/index.ts",
+        "supabase/functions/gradebook-bulk-submit/index.ts",
         "docs/lead-spec-accounting.md",
-        "scripts/check_dictionary_artifacts.py"
+        "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "projections_match_reality",
       "status": "pass",
-      "reason": "DEC-011 (privacy surfaces) explicitly permits synthetic directory fields like demo email on static mirrors, resolving the previous people.json contradiction. DEC-013 is honored: `audited-roster-read/index.ts` now queries `audit_log` after the RPC and builds the response audit block from those rows (`logged: auditRows.length, fields: auditRows.map((row) => row.field_accessed)`), and `tests/supabase_audit_log_test.py` asserts `assert_response_audit_matches_rows` against the database. DEC-015 holds: all five Edge Functions construct their Supabase client from `req.headers.get('Authorization')` with the anon/publishable key\u2014none reference `SUPABASE_SERVICE_ROLE_KEY`. RLS policies in `pg_policies.snapshot.json` use JWT tenant-claim predicates, not `using(true)`, matching DEC-010.",
+      "reason": "DEC-013's truthful-audit choice is honored: `supabase/functions/audited-roster-read/index.ts` reads back `audit_log` rows by request_id and returns `audit.logged` derived from those rows (no hard-coded count), and `tests/supabase_audit_log_test.py` verifies the response audit block matches written rows. DEC-011 explicitly permits `directory` fields in synthetic static mirrors, so `site/api/people.json` carrying `email` is consistent with the decision. DEC-015's no-service-role-in-functions rule is honored across all five Edge Functions, and DEC-010's tenant-claim RLS predicate appears in the policy snapshot with no `using(true)`.",
       "evidence_paths": [
-        "docs/decisions/standards-overlap-decisions.md",
         "supabase/functions/audited-roster-read/index.ts",
-        "supabase/functions/gradebook-bulk-submit/index.ts",
-        "supabase/functions/lti-launch-handler/index.ts",
-        "supabase/functions/caliper-event-ingestion/index.ts",
-        "supabase/functions/oauth-token-exchange/index.ts",
         "tests/supabase_audit_log_test.py",
-        "supabase/policies/pg_policies.snapshot.json"
+        "supabase/policies/pg_policies.snapshot.json",
+        "supabase/migrations/0001_oneroster_core_demo.sql",
+        "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "runtime_coverage_per_spec_honest",
       "status": "pass",
-      "reason": "`docs/dictionary-coverage-matrix.md` honestly distinguishes runnable slices: OneRoster core 'Yes' (SQLite + Supabase REST + RLS); CASE 'No'; QTI 'No'; Caliper, LTI, Security 'Partial: authenticated Edge Function receipt path'; Privacy 'No'. DEC-012 declares the same posture, and PEND-001 in decisions-pending.md schedules the deferred runtime slices (CASE search, QTI import, full Caliper projection, LTI Advantage, production OAuth, privacy workflows) with target 2026-05-15. The OneRoster runtime claim is backed by `tests/supabase_tenant_rls_test.py` and `tests/supabase_audit_log_test.py` hitting live URLs.",
+      "reason": "`docs/dictionary-coverage-matrix.md` and DEC-012 agree: OneRoster core marked Yes (with live SQLite/Supabase REST/RLS/tests backing it), QTI/CASE marked No runtime (doc-only), and Caliper/LTI/Security/Privacy marked Partial with the specific Edge Function receipt path that exists. Deferred areas are tracked in `docs/decisions/decisions-pending.md` (PEND-001 with target 2026-05-15) rather than vague `see backlog` references.",
       "evidence_paths": [
         "docs/dictionary-coverage-matrix.md",
         "docs/decisions/standards-overlap-decisions.md",
         "docs/decisions/decisions-pending.md",
-        "tests/supabase_tenant_rls_test.py",
-        "tests/supabase_audit_log_test.py"
+        "docs/lead-spec-accounting.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "vertical_slice_runs_end_to_end",
       "status": "pass",
-      "reason": "`docs/supabase-hosted-database.md` documents a verified 2026-04-26 run: Supabase REST returned spec-shaped JSON with the publishable key, `tests/supabase_tenant_rls_test.py` created two distinct-tenant Auth users and confirmed cross-tenant reads were blocked, and `tests/supabase_audit_log_test.py` called the live `audited-roster-read` Edge Function and read back `audit_log` rows confirming `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, and `timestamp` were written. The portal `site/index.html` includes copy-pasteable curls for `/rest/v1/people` and the audited Edge Function with the documented publishable key.",
+      "reason": "VERIFY.md runs `cd demo && npm run reset-db && npm test` plus `tests/supabase_tenant_rls_test.py` and `tests/supabase_audit_log_test.py` against the live Supabase URL each iteration. The tenant test creates two distinct-tenant JWT users via service role and proves cross-tenant reads are blocked; the audit test calls the live Edge Function and reads `audit_log` directly to confirm rows with `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, `request_id`, and `timestamp`. The portal includes copy-pasteable curl snippets in `site/index.html` for the live REST endpoint and Edge Functions.",
       "evidence_paths": [
-        "docs/supabase-hosted-database.md",
+        "VERIFY.md",
         "tests/supabase_tenant_rls_test.py",
         "tests/supabase_audit_log_test.py",
         "site/index.html",
-        "supabase/functions/audited-roster-read/index.ts",
-        "supabase/migrations/0001_oneroster_core_demo.sql"
+        "docs/supabase-hosted-database.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "portal_leads_with_decisions",
-      "status": "partial",
-      "reason": "`site/index.html` has 'Decisions' in primary nav alongside Dictionary and API, and the decision section renders cards with id anchors (`id=\"DEC-001-person-agent-subject\"`), choice, consequences, and projects_to lists parsed from the markdown register at runtime by `site/app.js`. However, decisions appear AFTER 'Standards' in nav order rather than leading, and the rendering depends on a client-side fetch+regex parse of the raw markdown file (`fetch('../docs/decisions/standards-overlap-decisions.md')`)\u2014a fetch failure falls back to a single link. The dedicated `docs/decisions-standards-overlap-decisions.html` rendered page is linked but is not the primary surface a new developer lands on.",
+      "status": "pass",
+      "reason": "`site/index.html` primary nav includes `Decisions` alongside Standards/Dictionary/API, and the Decisions section renders cards via `site/app.js`'s `renderDecisions()` which parses the canonical register, gives each card an `id=\"DEC-XXX-...\"` anchor, and renders the choice, consequences bullets, and projects_to list inline (not a Markdown link). A link to the rendered HTML decision register (`docs/decisions-standards-overlap-decisions.html`) is also provided.",
       "evidence_paths": [
         "site/index.html",
         "site/app.js",
@@ -111,18 +107,17 @@
     {
       "id": "evaluator_runs_each_iteration",
       "status": "pass",
-      "reason": "`VERIFY.md` ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`, which `scripts/codex_loop.py` runs as part of every iteration's verify block. `scripts/evaluate_platform.py` writes a report containing `counts`, per-item verdicts, and a `projections` section built by `build_projection_summary`, which walks each decision's `projects_to` list and reports per-projection match status with totals (`projectionRefs`, `present`, `missing`).",
+      "reason": "`VERIFY.md` ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`, and `scripts/evaluate_platform.py` writes a report with `done`, per-item statuses, `counts`, and a `projections` section built by `build_projection_summary()` that walks each decision's `projects_to` list and reports present/missing per-decision matches.",
       "evidence_paths": [
         "VERIFY.md",
-        "scripts/evaluate_platform.py",
-        "scripts/codex_loop.py"
+        "scripts/evaluate_platform.py"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "loop_overrides_respected",
       "status": "pass",
-      "reason": "`scripts/codex_loop.py` defines `read_overrides()` to read `docs/loop-overrides.md` at the start of every iteration, `overrides_paused()` checks for a literal `PAUSE` token on its own line (skipping HTML-comment example), and `format_overrides_for_prompt()` injects the overrides into the prompt under a 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE...)' section in `build_prompt()`. The PAUSE check runs before `run_codex` is invoked for each iteration, halting before next work begins.",
+      "reason": "`scripts/codex_loop.py` calls `read_overrides(repo)` at the top of every iteration, then checks `overrides_paused(overrides)` and halts BEFORE the next iteration runs if the literal PAUSE token appears on its own line outside HTML comments. `build_prompt()` injects the cleaned overrides text into the prompt under a `Human overrides from docs/loop-overrides.md (AUTHORITATIVE...)` section.",
       "evidence_paths": [
         "scripts/codex_loop.py",
         "docs/loop-overrides.md"
@@ -132,7 +127,7 @@
     {
       "id": "loop_terminates_on_done",
       "status": "pass",
-      "reason": "In `scripts/codex_loop.py`, the main loop checks `if after_eval and after_eval.get('done'): print('Evaluator reports `done`...'); return 0` after each iteration, with no numeric score threshold gating termination. Hard safety rails (DEFAULT_MAX_ITERATIONS=25, DEFAULT_STALL_LIMIT=3 via `rubric_progressed`, DEFAULT_COST_CEILING_USD) apply as documented. The publish gate also checks rubric progress rather than the advisory deterministic score.",
+      "reason": "`scripts/codex_loop.py` terminates via `if after_eval and after_eval.get(\"done\"): ... return 0` after each iteration, and pre-iteration via the same `done` check; numeric-score gating is not used for termination. Hard caps (`max_iterations`, `stall_limit`) and stall detection are present as safety rails only, consistent with the rubric's substance check.",
       "evidence_paths": [
         "scripts/codex_loop.py"
       ],

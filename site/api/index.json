@@ -1,6 +1,7 @@
 {
   "description": "Static JSON endpoints for the GitHub Pages OneRoster core demo.",
   "note": "GitHub Pages has no server runtime. These are live hosted JSON resources; use the in-browser SQL console for ad hoc SQL.",
+  "decision_id": "DEC-014-static-mirror-policy",
   "hostedDatabase": {
     "provider": "Supabase",
     "projectUrl": "https://qzxlgrerjoiamxvnkklq.supabase.co",

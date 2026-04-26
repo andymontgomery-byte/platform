@@ -16,6 +16,21 @@ This page explains how every standard currently marked `Lead` is accounted for. 
 | Caliper event/profile/action/entity values and deferred full Sensor API ledger | `dictionary/caliper-core.v1.json` |
 | LTI, Security Framework, and Data Privacy fields plus deferred production workflow ledger | `dictionary/integration-governance-core.v1.json` |
 
+## Decision Citation Map
+
+Each Lead-spec accounting entry below is a projection of the decision register, not a standalone coverage claim.
+
+| Lead area | decision_id | What the decision fixes for this accounting entry |
+| --- | --- | --- |
+| OneRoster 1.2 runtime/core accounting | `DEC-010-tenancy-reference-data` | Tenant-owned roster and gradebook records are isolated by RLS; shared reference data is separate. |
+| OneRoster 1.2 score/result accounting | `DEC-005-results-scores` | Gradebook line items and results use a stable result contract while richer score-scale/profile fields stay deferred. |
+| CASE 1.1 accounting | `DEC-006-standards-alignment` | Standards frameworks and alignments are modeled as governed graph/reference data. |
+| QTI 3 accounting | `DEC-009-content-resource` | QTI packages and items remain content/resource artifacts until runtime delivery is implemented. |
+| Caliper 1.2 accounting | `DEC-012-runtime-coverage-per-spec` | Caliper is partial runtime only through the authenticated receipt path. |
+| LTI 1.3/LTI Advantage accounting | `DEC-012-runtime-coverage-per-spec` | LTI is partial runtime only through the authenticated launch receipt path. |
+| Security Framework 1.1 accounting | `DEC-015-service-role-policy` | Request-scoped runtime code must use caller JWTs, with service-role use limited to admin/test operations. |
+| Data Privacy 1.0 accounting | `DEC-011-privacy-surfaces` | Privacy classes determine which fields may appear on docs, static mirrors, live REST, and audited Edge Functions. |
+
 ## Explicit Unsupported Field/Value Ledger
 
 The tables below make the structured `unsupported_or_deferred[].sourceFieldsOrValues` ledgers visible without relying on large JSON files. Supported items are exhaustive through `sourceStandard` on every dictionary object, field, and controlled vocabulary value; unsupported items are exhaustive through these field/value lists plus the reasons in the same row.

@@ -13,6 +13,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_academic_sessions",
           "roles": [
@@ -33,6 +34,7 @@
       "policies": [
         {
           "command": "INSERT",
+          "decision_id": "DEC-013-audit-response-truth",
           "permissive": "PERMISSIVE",
           "policyName": "demo_insert_audit_log",
           "roles": [
@@ -43,6 +45,7 @@
         },
         {
           "command": "SELECT",
+          "decision_id": "DEC-013-audit-response-truth",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_audit_log",
           "roles": [
@@ -62,6 +65,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_classes",
           "roles": [
@@ -82,6 +86,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_courses",
           "roles": [
@@ -102,6 +107,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_enrollments",
           "roles": [
@@ -122,6 +128,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_line_items",
           "roles": [
@@ -142,6 +149,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_organizations",
           "roles": [
@@ -162,6 +170,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_people",
           "roles": [
@@ -182,6 +191,7 @@
       "policies": [
         {
           "command": "INSERT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_insert_results",
           "roles": [
@@ -192,6 +202,7 @@
         },
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_results",
           "roles": [
@@ -203,6 +214,7 @@
         },
         {
           "command": "UPDATE",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_update_results",
           "roles": [
@@ -222,6 +234,7 @@
       "policies": [
         {
           "command": "SELECT",
+          "decision_id": "DEC-010-tenancy-reference-data",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_source_identifiers",
           "roles": [

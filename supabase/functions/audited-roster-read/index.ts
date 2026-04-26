@@ -1,5 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
+// decision_id: DEC-015-service-role-policy; caller Authorization is forwarded so RLS applies.
+// decision_id: DEC-013-audit-response-truth; the audit block is built from audit_log rows read back by request_id.
+// decision_id: DEC-011-privacy-surfaces; directory fields are only returned through an audited user-JWT path.
+
 type JsonValue = string | number | boolean | null | JsonObject | JsonValue[];
 type JsonObject = { [key: string]: JsonValue };
 

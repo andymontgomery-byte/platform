@@ -50,9 +50,30 @@
     }
   ],
   "count": 4,
+  "decision_id": "DEC-014-static-mirror-policy",
   "source": {
     "objectKey": "result",
     "tableName": "results",
-    "dictionary": "dictionary/oneroster-core.v1.json"
+    "dictionary": "dictionary/oneroster-core.v1.json",
+    "decision_id": "DEC-014-static-mirror-policy",
+    "decision_ids": [
+      "DEC-005-results-scores",
+      "DEC-007-identifier-crosswalk",
+      "DEC-008-time-session",
+      "DEC-011-privacy-surfaces",
+      "DEC-014-static-mirror-policy"
+    ],
+    "fieldDecisionIds": {
+      "id": "DEC-007-identifier-crosswalk",
+      "sourcedId": "DEC-007-identifier-crosswalk",
+      "lineItemId": "DEC-007-identifier-crosswalk",
+      "personId": "DEC-007-identifier-crosswalk",
+      "scoreStatus": "DEC-005-results-scores",
+      "score": "DEC-005-results-scores",
+      "scoreDate": "DEC-008-time-session",
+      "comment": "DEC-005-results-scores",
+      "status": "DEC-005-results-scores",
+      "dateLastModified": "DEC-008-time-session"
+    }
   }
 }

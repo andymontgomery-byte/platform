@@ -1,5 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
+// decision_id: DEC-015-service-role-policy; caller Authorization is forwarded so RLS applies.
+// decision_id: DEC-012-runtime-coverage-per-spec; this is the partial LTI runtime receipt path.
+// decision_id: DEC-002-learning-context; LTI context IDs resolve to tenant-visible learning contexts.
+
 type JsonValue = string | number | boolean | null | JsonObject | JsonValue[];
 type JsonObject = { [key: string]: JsonValue };
 

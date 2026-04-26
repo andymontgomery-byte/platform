@@ -67,9 +67,32 @@
     }
   ],
   "count": 5,
+  "decision_id": "DEC-014-static-mirror-policy",
   "source": {
     "objectKey": "enrollment",
     "tableName": "enrollments",
-    "dictionary": "dictionary/oneroster-core.v1.json"
+    "dictionary": "dictionary/oneroster-core.v1.json",
+    "decision_id": "DEC-014-static-mirror-policy",
+    "decision_ids": [
+      "DEC-003-role-vocabulary",
+      "DEC-004-enrollment-membership",
+      "DEC-007-identifier-crosswalk",
+      "DEC-008-time-session",
+      "DEC-011-privacy-surfaces",
+      "DEC-014-static-mirror-policy"
+    ],
+    "fieldDecisionIds": {
+      "id": "DEC-007-identifier-crosswalk",
+      "sourcedId": "DEC-007-identifier-crosswalk",
+      "classId": "DEC-007-identifier-crosswalk",
+      "personId": "DEC-007-identifier-crosswalk",
+      "schoolId": "DEC-007-identifier-crosswalk",
+      "role": "DEC-003-role-vocabulary",
+      "beginDate": "DEC-008-time-session",
+      "endDate": "DEC-008-time-session",
+      "primary": "DEC-004-enrollment-membership",
+      "status": "DEC-004-enrollment-membership",
+      "dateLastModified": "DEC-008-time-session"
+    }
   }
 }

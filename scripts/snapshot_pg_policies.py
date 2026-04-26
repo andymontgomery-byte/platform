@@ -56,6 +56,11 @@ select jsonb_pretty(
             (
               select jsonb_agg(
                 jsonb_build_object(
+                  'decision_id',
+                  case
+                    when p.policyname in ('demo_insert_audit_log', 'demo_read_audit_log') then 'DEC-013-audit-response-truth'
+                    else 'DEC-010-tenancy-reference-data'
+                  end,
                   'policyName', p.policyname,
                   'permissive', p.permissive,
                   'roles', p.roles,
