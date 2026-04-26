@@ -62,6 +62,7 @@ ALWAYS_EVIDENCE = [
     "docs/decisions/decisions-needed.md",
     "docs/admin-operations.md",
     "docs/supabase-hosted-database.md",
+    "data/data-dictionary.seed.json",
     "site/api/spec-conformance.json",
     ".env.example",
 ]

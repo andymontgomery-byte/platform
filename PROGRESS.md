@@ -568,3 +568,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 20 rubric items and 52 evidence files; evaluator evidence smoke check confirmed `docs/decisions/standards-overlap-decisions.md` includes DEC-020 before truncation; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=9, partial=3, fail=8, blocked=0 and reports `decisions_simplify` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed; `node --check site/app.js` passed; `git diff --check` passed.
 - Expected status change: `decisions_simplify` `partial` -> `pass`.
 - What remains next: the next top-down fail is `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and wire a zero-diff generator check so per-spec dictionaries are projections from the shared seed.
+
+
+## 20260426T181342Z Harness Iteration 5
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 72
+- Publish result: committed and pushed: Codex loop iteration 5: rubric pass=8/20
+- Codex log: `.codex-loop/20260426T175245Z-iteration-005-codex.log`
+- Verify log: `.codex-loop/20260426T175245Z-iteration-005-verify.log`
+- Judge log: `.codex-loop/20260426T175245Z-iteration-005-judge.log`
+- Judge JSON: `.codex-loop/20260426T175245Z-iteration-005-judge.json`
+
+## 2026-04-26T18:30:07Z Shared Dictionary Projection Source Iteration
+
+- Chosen rubric item: `dictionary_single_source_of_truth`.
+- Files changed: `data/data-dictionary.seed.json`, `scripts/generate_spec_dictionaries.py`, `scripts/check_dictionary_artifacts.py`, `VERIFY.md`, `scripts/evaluate_platform.py`, `docs/dictionary-coverage-matrix.md`, rendered `site/docs/dictionary-coverage-matrix.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 58 objects, and 568 fields; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; all five per-spec generators plus `scripts/build_static_api.py`, `scripts/build_site_docs.py`, and `scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py scripts/evaluate_platform.py` passed; JSON validation for `data/data-dictionary.seed.json` and `site/api/platform-evaluation.json` passed; `node --check site/app.js && node --check demo/server.js` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=10, partial=3, fail=7, blocked=0 and reports `dictionary_single_source_of_truth` as `pass`.
+- Expected status change: `dictionary_single_source_of_truth` `fail` -> `pass`; `decisions_complete` and `no_unforced_decisions` also returned to `pass` because DEC-016 now projects to real generator/check artifacts.
+- What remains next: the next top-down dictionary failures are `dictionary_resolves_cross_spec_overlaps` and `dictionary_unifies_identity`; the seed currently uses spec-namespaced canonical IDs and needs shared cross-spec `canonical_field_id` and `canonical_object_id` values.

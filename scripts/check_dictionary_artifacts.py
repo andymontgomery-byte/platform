@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -96,6 +97,7 @@ REQUIRED_UNSUPPORTED_KEYS = {
 
 def main() -> None:
     errors: list[str] = []
+    errors.extend(check_spec_dictionary_projection_drift())
     decision_trace, trace_errors = load_decision_trace()
     errors.extend(trace_errors)
     known_field_refs: set[str] = set()
@@ -200,6 +202,28 @@ def check_dictionary_shape(config: dict, data: dict, decision_trace: dict[str, s
                 f"{item.get('area')}"
             )
     return errors
+
+
+def check_spec_dictionary_projection_drift() -> list[str]:
+    generator = ROOT / "scripts" / "generate_spec_dictionaries.py"
+    if not generator.exists():
+        return ["missing shared-to-spec dictionary generator: scripts/generate_spec_dictionaries.py"]
+
+    result = subprocess.run(
+        [sys.executable, str(generator), "--check"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode == 0:
+        return []
+
+    output = "\n".join(part for part in [result.stdout.strip(), result.stderr.strip()] if part)
+    if not output:
+        output = f"exit code {result.returncode}"
+    return [f"spec dictionary projection drift: {output}"]
 
 
 def check_artifacts(
