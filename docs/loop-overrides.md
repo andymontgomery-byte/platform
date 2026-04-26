@@ -22,13 +22,15 @@ Codex must follow these even if they conflict with the rubric's substance_check.
 Move stale entries to the bottom of this section under "## Decisions (archived)" once they are no longer in effect.
 -->
 
-- **Priority order for the next 5 iterations** (cron set, 2026-04-25 21:00 UTC): work the hard items, not the easy ones. In order:
-  1. `tenant_isolation_enforced` — add `tenant_id` columns + replace `using (true)` with `using (tenant_id = (auth.jwt() ->> 'tenant_id')::uuid)` on every fact table; commit a cross-tenant integration test.
-  2. `rls_enabled_on_referenced_tables` — set `force row level security` and regenerate the policy snapshot.
-  3. `edge_functions_for_non_crud_endpoints` — ship at least one real Edge Function (suggest: gradebook bulk submit) that propagates the user JWT.
-  4. `audit_log_for_sensitive_reads` — add `audit_log` table + trigger or Edge Function wrapper for restricted fields.
-  5. `developer_guide_present` and `lead_spec_full_accounting` — finish the partials.
-- **For `rls_enabled_on_referenced_tables`:** the prior `partial` verdict is REVOKED. `using (true)` is no isolation. Treat the current snapshot as failing until policies reference a JWT claim AND `forceRowSecurity = true`.
+- **Rubric was restructured around decisions** (2026-04-26 14:30 UTC). The old 27-item rubric is replaced by 11 items organized around decisions as the spine. Read `docs/eval-rubric.md` from scratch — do not assume continuity with prior items.
+- **Priority order for the next iterations:** the spine work, in order:
+  1. `decisions_complete` — add the five new platform-shape decisions (`DEC-011-privacy-surfaces`, `DEC-012-runtime-coverage-per-spec`, `DEC-013-audit-response-truth`, `DEC-014-static-mirror-policy`, `DEC-015-service-role-policy`) to `docs/decisions/standards-overlap-decisions.md`. Each must have id, question, options_considered, choice, consequences, and `projects_to`. Required projection lists are non-empty.
+  2. `decisions_simplify` — for every existing decision (`DEC-001` through `DEC-010`), add or sharpen the `consequences` section to name what the decision makes unnecessary or simpler. Decisions that genuinely cannot simplify anything must be marked `simplifies: none` with a reason.
+  3. `projections_match_reality` — once `DEC-011-privacy-surfaces` is decided, fix the divergence: either remove `email` and other `directory`-class fields from `site/api/people.json` and the other static mirrors, OR document that those mirrors are part of the surface and update `DEC-011` to permit it (and explain why the audit gate on the live URL is then redundant). The decision rules; the artifacts follow.
+  4. `projections_match_reality` — fix `audited-roster-read` so the response `audit` block reflects rows actually written (read back from `audit_log`), or change `DEC-013` to declare a silent / advisory response and remove the misleading hard-coded fields. Do not leave a hard-coded `logged: 5` in the response with a decision that says responses must be truthful.
+  5. `runtime_coverage_per_spec_honest` — update `docs/dictionary-coverage-matrix.md` so each Lead spec's runtime column is honest. CASE, QTI, Caliper, LTI: doc-only with target date in `decisions-pending.md`, not "see backlog."
+  6. `artifacts_cite_decisions` — ensure every static `site/api/*.json` mirror, every RLS policy, every Edge Function, and every dictionary field has a `decision_id` (or inline comment) tying it to a decision in `docs/decisions/`.
+- **Stop adding rubric items.** If you find a problem the current rubric doesn't catch, the answer is a missing decision, not a new check. Add the decision instead.
 
 
 
