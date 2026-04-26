@@ -14,36 +14,37 @@ Model scope: Event ingestion metadata, immutable raw event retention, search pro
 - SQL table: `analytics.caliper_envelopes`
 - API path: `/events/caliper/envelopes`
 - Privacy class: `behavioral`
+- Source standard: Caliper 1.2 Caliper Envelope
 - Why it exists: The envelope preserves source, send time, version, validation status, and raw payload lineage before individual events are projected.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this received Caliper envelope. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The school, district, or customer boundary that owns this event payload. |
-| `sensor_id` | `sensorId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The tool, platform, app, or sensor that sent the payload. |
-| `send_time` | `sendTime` | datetime | Yes | operational | `DEC-008-time-session` | When the sensor says it sent the payload. |
-| `data_version` | `dataVersion` | enum | Yes | operational | `DEC-009-content-resource` | The Caliper context or version used to interpret the payload. |
-| `event_count` | `eventCount` | integer | No | operational | `DEC-009-content-resource` | How many event objects were found in the payload. |
-| `received_at` | `receivedAt` | datetime | Yes | operational | `DEC-008-time-session` | When the platform received the payload. |
-| `validation_status` | `validationStatus` | enum | Yes | operational | `DEC-010-tenancy-reference-data` | Whether the payload was accepted, rejected, or held for review. |
-| `raw_payload` | `rawPayload` | text | Yes | behavioral | `DEC-009-content-resource` | The original JSON-LD payload retained for audit, replay, and conformance review. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Envelope.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this received Caliper envelope. |
+| `tenant_id` | `tenantId` | text | Yes | operational | Caliper 1.2 Caliper Envelope.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The school, district, or customer boundary that owns this event payload. |
+| `sensor_id` | `sensorId` | text | Yes | operational | Caliper 1.2 Caliper Envelope.sensorId | `DEC-007-identifier-crosswalk` | The tool, platform, app, or sensor that sent the payload. |
+| `send_time` | `sendTime` | datetime | Yes | operational | Caliper 1.2 Caliper Envelope.sendTime | `DEC-008-time-session` | When the sensor says it sent the payload. |
+| `data_version` | `dataVersion` | enum | Yes | operational | Caliper 1.2 Caliper Envelope.dataVersion | `DEC-009-content-resource` | The Caliper context or version used to interpret the payload. |
+| `event_count` | `eventCount` | integer | No | operational | Caliper 1.2 Caliper Envelope.eventCount | `DEC-009-content-resource` | How many event objects were found in the payload. |
+| `received_at` | `receivedAt` | datetime | Yes | operational | Caliper 1.2 Caliper Envelope.receivedAt | `DEC-008-time-session` | When the platform received the payload. |
+| `validation_status` | `validationStatus` | enum | Yes | operational | Caliper 1.2 Caliper Envelope.validationStatus | `DEC-010-tenancy-reference-data` | Whether the payload was accepted, rejected, or held for review. |
+| `raw_payload` | `rawPayload` | text | Yes | behavioral | Caliper 1.2 Caliper Envelope.rawPayload | `DEC-009-content-resource` | The original JSON-LD payload retained for audit, replay, and conformance review. |
 
 #### Controlled Values
 
 Values for `data_version`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `http://purl.imsglobal.org/ctx/caliper/v1p2` | Caliper 1.2 context | The JSON-LD context IRI used for Caliper 1.2 payloads. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `http://purl.imsglobal.org/ctx/caliper/v1p2` | Caliper 1.2 context | Caliper 1.2 data_version.http://purl.imsglobal.org/ctx/caliper/v1p2 | The JSON-LD context IRI used for Caliper 1.2 payloads. |
 
 Values for `validation_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `received` | Received | The payload was received but has not completed validation. |
-| `valid` | Valid | The payload passed validation for the platform's current projection. |
-| `rejected` | Rejected | The payload failed validation and should not be projected. |
-| `quarantined` | Quarantined | The payload is held for review because policy, privacy, or schema checks need attention. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `received` | Received | Caliper 1.2 ingestion_status.received | The payload was received but has not completed validation. |
+| `valid` | Valid | Caliper 1.2 ingestion_status.valid | The payload passed validation for the platform's current projection. |
+| `rejected` | Rejected | Caliper 1.2 ingestion_status.rejected | The payload failed validation and should not be projected. |
+| `quarantined` | Quarantined | Caliper 1.2 ingestion_status.quarantined | The payload is held for review because policy, privacy, or schema checks need attention. |
 
 
 ### Caliper Event
@@ -52,161 +53,162 @@ Values for `validation_status`:
 - SQL table: `analytics.caliper_events`
 - API path: `/events/caliper/events`
 - Privacy class: `behavioral`
+- Source standard: Caliper 1.2 Caliper Event
 - Why it exists: Events are the core behavioral history for learning analytics, audit, and cross-standard joins without making analytics the gradebook source of truth.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this projected event row. |
-| `envelope_id` | `envelopeId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The received Caliper envelope that contained this event. |
-| `event_iri` | `eventIri` | text | Yes | behavioral | `DEC-009-content-resource` | The globally unique event identifier supplied by the sender. |
-| `event_type` | `eventType` | enum | Yes | behavioral | `DEC-009-content-resource` | The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent. |
-| `profile` | `profile` | enum | No | behavioral | `DEC-009-content-resource` | The Caliper profile that explains which event, action, actor, object, and generated values are expected. |
-| `action` | `action` | enum | Yes | behavioral | `DEC-009-content-resource` | What happened in the event. |
-| `actor_id` | `actorId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The indexed person, app, or agent that performed the action. |
-| `object_id` | `objectId` | text | Yes | behavioral | `DEC-007-identifier-crosswalk` | The indexed entity that the actor acted on. |
-| `event_time` | `eventTime` | datetime | Yes | behavioral | `DEC-008-time-session` | When the learning activity happened. |
-| `ed_app_id` | `edAppId` | text | No | operational | `DEC-007-identifier-crosswalk` | The indexed application where the event happened. |
-| `generated_id` | `generatedId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response. |
-| `target_id` | `targetId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | A specific location or target inside the object, such as a media location, page, link, or question target. |
-| `referrer_id` | `referrerId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The prior app, page, resource, or context that led to this event. |
-| `group_id` | `groupId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The class, course, group, or organization context for the event. |
-| `membership_id` | `membershipId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The actor's role and status relationship in the group context. |
-| `session_id` | `sessionId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The app or user session that groups related events. |
-| `federated_session_id` | `federatedSessionId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI or federated session context connected to a tool launch. |
-| `raw_event` | `rawEvent` | text | Yes | behavioral | `DEC-009-content-resource` | The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Event.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this projected event row. |
+| `envelope_id` | `envelopeId` | text | Yes | operational | Caliper 1.2 Caliper Event.envelopeId | `DEC-007-identifier-crosswalk` | The received Caliper envelope that contained this event. |
+| `event_iri` | `eventIri` | text | Yes | behavioral | Caliper 1.2 Caliper Event.eventIri | `DEC-009-content-resource` | The globally unique event identifier supplied by the sender. |
+| `event_type` | `eventType` | enum | Yes | behavioral | Caliper 1.2 Caliper Event.eventType | `DEC-009-content-resource` | The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent. |
+| `profile` | `profile` | enum | No | behavioral | Caliper 1.2 Caliper Event.profile | `DEC-009-content-resource` | The Caliper profile that explains which event, action, actor, object, and generated values are expected. |
+| `action` | `action` | enum | Yes | behavioral | Caliper 1.2 Caliper Event.action | `DEC-009-content-resource` | What happened in the event. |
+| `actor_id` | `actorId` | text | Yes | education_record | Caliper 1.2 Caliper Event.actorId | `DEC-007-identifier-crosswalk` | The indexed person, app, or agent that performed the action. |
+| `object_id` | `objectId` | text | Yes | behavioral | Caliper 1.2 Caliper Event.objectId | `DEC-007-identifier-crosswalk` | The indexed entity that the actor acted on. |
+| `event_time` | `eventTime` | datetime | Yes | behavioral | Caliper 1.2 Caliper Event.eventTime | `DEC-008-time-session` | When the learning activity happened. |
+| `ed_app_id` | `edAppId` | text | No | operational | Caliper 1.2 Caliper Event.edAppId | `DEC-007-identifier-crosswalk` | The indexed application where the event happened. |
+| `generated_id` | `generatedId` | text | No | behavioral | Caliper 1.2 Caliper Event.generatedId | `DEC-007-identifier-crosswalk` | The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response. |
+| `target_id` | `targetId` | text | No | behavioral | Caliper 1.2 Caliper Event.targetId | `DEC-007-identifier-crosswalk` | A specific location or target inside the object, such as a media location, page, link, or question target. |
+| `referrer_id` | `referrerId` | text | No | behavioral | Caliper 1.2 Caliper Event.referrerId | `DEC-007-identifier-crosswalk` | The prior app, page, resource, or context that led to this event. |
+| `group_id` | `groupId` | text | No | education_record | Caliper 1.2 Caliper Event.groupId | `DEC-007-identifier-crosswalk` | The class, course, group, or organization context for the event. |
+| `membership_id` | `membershipId` | text | No | education_record | Caliper 1.2 Caliper Event.membershipId | `DEC-007-identifier-crosswalk` | The actor's role and status relationship in the group context. |
+| `session_id` | `sessionId` | text | No | behavioral | Caliper 1.2 Caliper Event.sessionId | `DEC-007-identifier-crosswalk` | The app or user session that groups related events. |
+| `federated_session_id` | `federatedSessionId` | text | No | operational | Caliper 1.2 Caliper Event.federatedSessionId | `DEC-007-identifier-crosswalk` | The LTI or federated session context connected to a tool launch. |
+| `raw_event` | `rawEvent` | text | Yes | behavioral | Caliper 1.2 Caliper Event.rawEvent | `DEC-009-content-resource` | The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection. |
 
 #### Controlled Values
 
 Values for `event_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `AnnotationEvent` | Annotation event | A person creates or shares an annotation on a digital resource. |
-| `AssessmentEvent` | Assessment event | A person works with a whole assessment. |
-| `AssessmentItemEvent` | Assessment item event | A person works with one assessment item or question. |
-| `AssignableEvent` | Assignable event | A person works with assigned digital content. |
-| `FeedbackEvent` | Feedback event | A person comments on or rates something. |
-| `ForumEvent` | Forum event | A person subscribes or unsubscribes from a forum. |
-| `GradeEvent` | Grade event | A person or app grades an attempt. |
-| `MediaEvent` | Media event | A person interacts with audio, video, or media. |
-| `MessageEvent` | Message event | A person posts or marks a message. |
-| `NavigationEvent` | Navigation event | A person navigates to a resource, app, or location. |
-| `QuestionnaireEvent` | Questionnaire event | A person starts or submits a questionnaire. |
-| `QuestionnaireItemEvent` | Questionnaire item event | A person works with one questionnaire item. |
-| `ResourceManagementEvent` | Resource management event | A person manages a digital resource. |
-| `SearchEvent` | Search event | A person searches a resource or app. |
-| `SessionEvent` | Session event | A person or app starts, ends, or times out a session. |
-| `SurveyEvent` | Survey event | A person opts into or out of a survey. |
-| `SurveyInvitationEvent` | Survey invitation event | A person sends or responds to a survey invitation. |
-| `ThreadEvent` | Thread event | A person marks a forum thread read or unread. |
-| `ToolLaunchEvent` | Tool launch event | A person launches or returns from a tool. |
-| `ToolUseEvent` | Tool use event | A person uses a software application. |
-| `ViewEvent` | View event | A person views something. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `AnnotationEvent` | Annotation event | Caliper 1.2 event_type.AnnotationEvent | A person creates or shares an annotation on a digital resource. |
+| `AssessmentEvent` | Assessment event | Caliper 1.2 event_type.AssessmentEvent | A person works with a whole assessment. |
+| `AssessmentItemEvent` | Assessment item event | Caliper 1.2 event_type.AssessmentItemEvent | A person works with one assessment item or question. |
+| `AssignableEvent` | Assignable event | Caliper 1.2 event_type.AssignableEvent | A person works with assigned digital content. |
+| `FeedbackEvent` | Feedback event | Caliper 1.2 event_type.FeedbackEvent | A person comments on or rates something. |
+| `ForumEvent` | Forum event | Caliper 1.2 event_type.ForumEvent | A person subscribes or unsubscribes from a forum. |
+| `GradeEvent` | Grade event | Caliper 1.2 event_type.GradeEvent | A person or app grades an attempt. |
+| `MediaEvent` | Media event | Caliper 1.2 event_type.MediaEvent | A person interacts with audio, video, or media. |
+| `MessageEvent` | Message event | Caliper 1.2 event_type.MessageEvent | A person posts or marks a message. |
+| `NavigationEvent` | Navigation event | Caliper 1.2 event_type.NavigationEvent | A person navigates to a resource, app, or location. |
+| `QuestionnaireEvent` | Questionnaire event | Caliper 1.2 event_type.QuestionnaireEvent | A person starts or submits a questionnaire. |
+| `QuestionnaireItemEvent` | Questionnaire item event | Caliper 1.2 event_type.QuestionnaireItemEvent | A person works with one questionnaire item. |
+| `ResourceManagementEvent` | Resource management event | Caliper 1.2 event_type.ResourceManagementEvent | A person manages a digital resource. |
+| `SearchEvent` | Search event | Caliper 1.2 event_type.SearchEvent | A person searches a resource or app. |
+| `SessionEvent` | Session event | Caliper 1.2 event_type.SessionEvent | A person or app starts, ends, or times out a session. |
+| `SurveyEvent` | Survey event | Caliper 1.2 event_type.SurveyEvent | A person opts into or out of a survey. |
+| `SurveyInvitationEvent` | Survey invitation event | Caliper 1.2 event_type.SurveyInvitationEvent | A person sends or responds to a survey invitation. |
+| `ThreadEvent` | Thread event | Caliper 1.2 event_type.ThreadEvent | A person marks a forum thread read or unread. |
+| `ToolLaunchEvent` | Tool launch event | Caliper 1.2 event_type.ToolLaunchEvent | A person launches or returns from a tool. |
+| `ToolUseEvent` | Tool use event | Caliper 1.2 event_type.ToolUseEvent | A person uses a software application. |
+| `ViewEvent` | View event | Caliper 1.2 event_type.ViewEvent | A person views something. |
 
 Values for `profile`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `GeneralProfile` | General profile | Generic profile for events not covered by a narrower profile. |
-| `AnnotationProfile` | Annotation profile | Annotation, bookmark, highlight, share, and tag activity. |
-| `AssessmentProfile` | Assessment profile | Assessment and assessment-item activity. |
-| `AssignableProfile` | Assignable profile | Assignment and digital-resource work activity. |
-| `FeedbackProfile` | Feedback profile | Commenting and rating activity. |
-| `ForumProfile` | Forum profile | Forum, thread, and message activity. |
-| `GradingProfile` | Grading profile | Grading and score creation activity. |
-| `MediaProfile` | Media profile | Audio, video, and media activity. |
-| `ReadingProfile` | Reading profile | Reading, navigation, and viewing resource activity. |
-| `ResourceManagementProfile` | Resource management profile | Resource creation, upload, publish, print, download, and similar management activity. |
-| `SearchProfile` | Search profile | Search activity. |
-| `SessionProfile` | Session profile | Login, logout, and timeout session activity. |
-| `SurveyProfile` | Survey profile | Survey and questionnaire activity. |
-| `ToolLaunchProfile` | Tool launch profile | LTI or tool launch and return activity. |
-| `ToolUseProfile` | Tool use profile | Software application use metrics. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `GeneralProfile` | General profile | Caliper 1.2 profile.GeneralProfile | Generic profile for events not covered by a narrower profile. |
+| `AnnotationProfile` | Annotation profile | Caliper 1.2 profile.AnnotationProfile | Annotation, bookmark, highlight, share, and tag activity. |
+| `AssessmentProfile` | Assessment profile | Caliper 1.2 profile.AssessmentProfile | Assessment and assessment-item activity. |
+| `AssignableProfile` | Assignable profile | Caliper 1.2 profile.AssignableProfile | Assignment and digital-resource work activity. |
+| `FeedbackProfile` | Feedback profile | Caliper 1.2 profile.FeedbackProfile | Commenting and rating activity. |
+| `ForumProfile` | Forum profile | Caliper 1.2 profile.ForumProfile | Forum, thread, and message activity. |
+| `GradingProfile` | Grading profile | Caliper 1.2 profile.GradingProfile | Grading and score creation activity. |
+| `MediaProfile` | Media profile | Caliper 1.2 profile.MediaProfile | Audio, video, and media activity. |
+| `ReadingProfile` | Reading profile | Caliper 1.2 profile.ReadingProfile | Reading, navigation, and viewing resource activity. |
+| `ResourceManagementProfile` | Resource management profile | Caliper 1.2 profile.ResourceManagementProfile | Resource creation, upload, publish, print, download, and similar management activity. |
+| `SearchProfile` | Search profile | Caliper 1.2 profile.SearchProfile | Search activity. |
+| `SessionProfile` | Session profile | Caliper 1.2 profile.SessionProfile | Login, logout, and timeout session activity. |
+| `SurveyProfile` | Survey profile | Caliper 1.2 profile.SurveyProfile | Survey and questionnaire activity. |
+| `ToolLaunchProfile` | Tool launch profile | Caliper 1.2 profile.ToolLaunchProfile | LTI or tool launch and return activity. |
+| `ToolUseProfile` | Tool use profile | Caliper 1.2 profile.ToolUseProfile | Software application use metrics. |
 
 Values for `action`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Abandoned` | Abandoned | A user abandoned something before completion. |
-| `Accepted` | Accepted | A user accepted an invitation or request. |
-| `Activated` | Activated | Something was made active. |
-| `Added` | Added | Something was added. |
-| `Archived` | Archived | A resource was archived. |
-| `Attached` | Attached | Something was attached to another thing. |
-| `Bookmarked` | Bookmarked | A user created a bookmark. |
-| `ChangedResolution` | Changed resolution | Media resolution changed. |
-| `ChangedSize` | Changed size | Media display size changed. |
-| `ChangedSpeed` | Changed speed | Media playback speed changed. |
-| `ChangedVolume` | Changed volume | Media volume changed. |
-| `Classified` | Classified | Something was classified or categorized. |
-| `ClosedPopout` | Closed popout | A media popout or window was closed. |
-| `Commented` | Commented | A user left a comment. |
-| `Completed` | Completed | A user completed an item or task. |
-| `Copied` | Copied | A resource was copied. |
-| `Created` | Created | A resource or entity was created. |
-| `Deactivated` | Deactivated | Something was made inactive. |
-| `Declined` | Declined | A user declined an invitation or request. |
-| `Deleted` | Deleted | A resource or entity was deleted. |
-| `Described` | Described | Metadata or description was added or changed. |
-| `DisabledClosedCaptioning` | Disabled closed captioning | Closed captions were turned off. |
-| `Disliked` | Disliked | A user disliked something. |
-| `Downloaded` | Downloaded | A resource was downloaded. |
-| `EnabledClosedCaptioning` | Enabled closed captioning | Closed captions were turned on. |
-| `Ended` | Ended | Activity or media ended. |
-| `EnteredFullScreen` | Entered full screen | Media entered full screen. |
-| `ExitedFullScreen` | Exited full screen | Media exited full screen. |
-| `ForwardedTo` | Forwarded to | Media playback moved forward. |
-| `Graded` | Graded | An attempt was graded. |
-| `Hid` | Hid | Something was hidden. |
-| `Highlighted` | Highlighted | Text or resource content was highlighted. |
-| `Identified` | Identified | Something was identified. |
-| `JumpedTo` | Jumped to | Media or navigation jumped to a location. |
-| `Launched` | Launched | A tool or app was launched. |
-| `Liked` | Liked | A user liked something. |
-| `Linked` | Linked | Something was linked. |
-| `LoggedIn` | Logged in | A user logged in. |
-| `LoggedOut` | Logged out | A user logged out. |
-| `MarkedAsRead` | Marked as read | A message or thread was marked read. |
-| `MarkedAsUnread` | Marked as unread | A message or thread was marked unread. |
-| `Modified` | Modified | A resource or entity was changed. |
-| `Muted` | Muted | Media audio was muted. |
-| `NavigatedTo` | Navigated to | A user navigated to a resource or location. |
-| `OpenedPopout` | Opened popout | A media popout or window was opened. |
-| `OptedIn` | Opted in | A user opted in. |
-| `OptedOut` | Opted out | A user opted out. |
-| `Paused` | Paused | Activity or media was paused. |
-| `Posted` | Posted | A message was posted. |
-| `Printed` | Printed | A resource was printed. |
-| `Published` | Published | A resource was published. |
-| `Questioned` | Questioned | A question was asked. |
-| `Ranked` | Ranked | A user rated or ranked something. |
-| `Recommended` | Recommended | Something was recommended. |
-| `Removed` | Removed | Something was removed. |
-| `Reset` | Reset | Activity or an attempt was reset. |
-| `Restarted` | Restarted | Activity or media restarted. |
-| `Restored` | Restored | A resource was restored. |
-| `Resumed` | Resumed | Activity or media resumed. |
-| `Retrieved` | Retrieved | A resource was retrieved. |
-| `Returned` | Returned | A user returned from a launched tool or workflow. |
-| `Reviewed` | Reviewed | A user reviewed something. |
-| `Rewound` | Rewound | Media playback moved backward. |
-| `Saved` | Saved | A resource or work item was saved. |
-| `Searched` | Searched | A user performed a search. |
-| `Sent` | Sent | A message or invitation was sent. |
-| `Shared` | Shared | Something was shared. |
-| `Showed` | Showed | Something was shown. |
-| `Skipped` | Skipped | A learner skipped an item or task. |
-| `Started` | Started | A learner or user started something. |
-| `Submitted` | Submitted | Work or an attempt was submitted. |
-| `Subscribed` | Subscribed | A user subscribed. |
-| `Tagged` | Tagged | A user added tags. |
-| `TimedOut` | Timed out | A session timed out. |
-| `Unmuted` | Unmuted | Media audio was unmuted. |
-| `Unpublished` | Unpublished | A resource was unpublished. |
-| `Unsubscribed` | Unsubscribed | A user unsubscribed. |
-| `Uploaded` | Uploaded | A resource or file was uploaded. |
-| `Used` | Used | A user used a tool or application. |
-| `Viewed` | Viewed | A user viewed something. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Abandoned` | Abandoned | Caliper 1.2 action.Abandoned | A user abandoned something before completion. |
+| `Accepted` | Accepted | Caliper 1.2 action.Accepted | A user accepted an invitation or request. |
+| `Activated` | Activated | Caliper 1.2 action.Activated | Something was made active. |
+| `Added` | Added | Caliper 1.2 action.Added | Something was added. |
+| `Archived` | Archived | Caliper 1.2 action.Archived | A resource was archived. |
+| `Attached` | Attached | Caliper 1.2 action.Attached | Something was attached to another thing. |
+| `Bookmarked` | Bookmarked | Caliper 1.2 action.Bookmarked | A user created a bookmark. |
+| `ChangedResolution` | Changed resolution | Caliper 1.2 action.ChangedResolution | Media resolution changed. |
+| `ChangedSize` | Changed size | Caliper 1.2 action.ChangedSize | Media display size changed. |
+| `ChangedSpeed` | Changed speed | Caliper 1.2 action.ChangedSpeed | Media playback speed changed. |
+| `ChangedVolume` | Changed volume | Caliper 1.2 action.ChangedVolume | Media volume changed. |
+| `Classified` | Classified | Caliper 1.2 action.Classified | Something was classified or categorized. |
+| `ClosedPopout` | Closed popout | Caliper 1.2 action.ClosedPopout | A media popout or window was closed. |
+| `Commented` | Commented | Caliper 1.2 action.Commented | A user left a comment. |
+| `Completed` | Completed | Caliper 1.2 action.Completed | A user completed an item or task. |
+| `Copied` | Copied | Caliper 1.2 action.Copied | A resource was copied. |
+| `Created` | Created | Caliper 1.2 action.Created | A resource or entity was created. |
+| `Deactivated` | Deactivated | Caliper 1.2 action.Deactivated | Something was made inactive. |
+| `Declined` | Declined | Caliper 1.2 action.Declined | A user declined an invitation or request. |
+| `Deleted` | Deleted | Caliper 1.2 action.Deleted | A resource or entity was deleted. |
+| `Described` | Described | Caliper 1.2 action.Described | Metadata or description was added or changed. |
+| `DisabledClosedCaptioning` | Disabled closed captioning | Caliper 1.2 action.DisabledClosedCaptioning | Closed captions were turned off. |
+| `Disliked` | Disliked | Caliper 1.2 action.Disliked | A user disliked something. |
+| `Downloaded` | Downloaded | Caliper 1.2 action.Downloaded | A resource was downloaded. |
+| `EnabledClosedCaptioning` | Enabled closed captioning | Caliper 1.2 action.EnabledClosedCaptioning | Closed captions were turned on. |
+| `Ended` | Ended | Caliper 1.2 action.Ended | Activity or media ended. |
+| `EnteredFullScreen` | Entered full screen | Caliper 1.2 action.EnteredFullScreen | Media entered full screen. |
+| `ExitedFullScreen` | Exited full screen | Caliper 1.2 action.ExitedFullScreen | Media exited full screen. |
+| `ForwardedTo` | Forwarded to | Caliper 1.2 action.ForwardedTo | Media playback moved forward. |
+| `Graded` | Graded | Caliper 1.2 action.Graded | An attempt was graded. |
+| `Hid` | Hid | Caliper 1.2 action.Hid | Something was hidden. |
+| `Highlighted` | Highlighted | Caliper 1.2 action.Highlighted | Text or resource content was highlighted. |
+| `Identified` | Identified | Caliper 1.2 action.Identified | Something was identified. |
+| `JumpedTo` | Jumped to | Caliper 1.2 action.JumpedTo | Media or navigation jumped to a location. |
+| `Launched` | Launched | Caliper 1.2 action.Launched | A tool or app was launched. |
+| `Liked` | Liked | Caliper 1.2 action.Liked | A user liked something. |
+| `Linked` | Linked | Caliper 1.2 action.Linked | Something was linked. |
+| `LoggedIn` | Logged in | Caliper 1.2 action.LoggedIn | A user logged in. |
+| `LoggedOut` | Logged out | Caliper 1.2 action.LoggedOut | A user logged out. |
+| `MarkedAsRead` | Marked as read | Caliper 1.2 action.MarkedAsRead | A message or thread was marked read. |
+| `MarkedAsUnread` | Marked as unread | Caliper 1.2 action.MarkedAsUnread | A message or thread was marked unread. |
+| `Modified` | Modified | Caliper 1.2 action.Modified | A resource or entity was changed. |
+| `Muted` | Muted | Caliper 1.2 action.Muted | Media audio was muted. |
+| `NavigatedTo` | Navigated to | Caliper 1.2 action.NavigatedTo | A user navigated to a resource or location. |
+| `OpenedPopout` | Opened popout | Caliper 1.2 action.OpenedPopout | A media popout or window was opened. |
+| `OptedIn` | Opted in | Caliper 1.2 action.OptedIn | A user opted in. |
+| `OptedOut` | Opted out | Caliper 1.2 action.OptedOut | A user opted out. |
+| `Paused` | Paused | Caliper 1.2 action.Paused | Activity or media was paused. |
+| `Posted` | Posted | Caliper 1.2 action.Posted | A message was posted. |
+| `Printed` | Printed | Caliper 1.2 action.Printed | A resource was printed. |
+| `Published` | Published | Caliper 1.2 action.Published | A resource was published. |
+| `Questioned` | Questioned | Caliper 1.2 action.Questioned | A question was asked. |
+| `Ranked` | Ranked | Caliper 1.2 action.Ranked | A user rated or ranked something. |
+| `Recommended` | Recommended | Caliper 1.2 action.Recommended | Something was recommended. |
+| `Removed` | Removed | Caliper 1.2 action.Removed | Something was removed. |
+| `Reset` | Reset | Caliper 1.2 action.Reset | Activity or an attempt was reset. |
+| `Restarted` | Restarted | Caliper 1.2 action.Restarted | Activity or media restarted. |
+| `Restored` | Restored | Caliper 1.2 action.Restored | A resource was restored. |
+| `Resumed` | Resumed | Caliper 1.2 action.Resumed | Activity or media resumed. |
+| `Retrieved` | Retrieved | Caliper 1.2 action.Retrieved | A resource was retrieved. |
+| `Returned` | Returned | Caliper 1.2 action.Returned | A user returned from a launched tool or workflow. |
+| `Reviewed` | Reviewed | Caliper 1.2 action.Reviewed | A user reviewed something. |
+| `Rewound` | Rewound | Caliper 1.2 action.Rewound | Media playback moved backward. |
+| `Saved` | Saved | Caliper 1.2 action.Saved | A resource or work item was saved. |
+| `Searched` | Searched | Caliper 1.2 action.Searched | A user performed a search. |
+| `Sent` | Sent | Caliper 1.2 action.Sent | A message or invitation was sent. |
+| `Shared` | Shared | Caliper 1.2 action.Shared | Something was shared. |
+| `Showed` | Showed | Caliper 1.2 action.Showed | Something was shown. |
+| `Skipped` | Skipped | Caliper 1.2 action.Skipped | A learner skipped an item or task. |
+| `Started` | Started | Caliper 1.2 action.Started | A learner or user started something. |
+| `Submitted` | Submitted | Caliper 1.2 action.Submitted | Work or an attempt was submitted. |
+| `Subscribed` | Subscribed | Caliper 1.2 action.Subscribed | A user subscribed. |
+| `Tagged` | Tagged | Caliper 1.2 action.Tagged | A user added tags. |
+| `TimedOut` | Timed out | Caliper 1.2 action.TimedOut | A session timed out. |
+| `Unmuted` | Unmuted | Caliper 1.2 action.Unmuted | Media audio was unmuted. |
+| `Unpublished` | Unpublished | Caliper 1.2 action.Unpublished | A resource was unpublished. |
+| `Unsubscribed` | Unsubscribed | Caliper 1.2 action.Unsubscribed | A user unsubscribed. |
+| `Uploaded` | Uploaded | Caliper 1.2 action.Uploaded | A resource or file was uploaded. |
+| `Used` | Used | Caliper 1.2 action.Used | A user used a tool or application. |
+| `Viewed` | Viewed | Caliper 1.2 action.Viewed | A user viewed something. |
 
 
 ### Caliper Entity
@@ -215,99 +217,100 @@ Values for `action`:
 - SQL table: `analytics.caliper_entities`
 - API path: `/events/caliper/entities`
 - Privacy class: `behavioral`
+- Source standard: Caliper 1.2 Caliper Entity
 - Why it exists: Entity indexing lets the platform search event objects, join to roster/content systems, and avoid flattening every Caliper type into a separate table at first.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this indexed entity. |
-| `entity_iri` | `entityIri` | text | Yes | behavioral | `DEC-009-content-resource` | The Caliper IRI or source identifier for the entity. |
-| `entity_type` | `entityType` | enum | Yes | behavioral | `DEC-009-content-resource` | The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource. |
-| `name` | `name` | text | No | depends_on_entity | `DEC-009-content-resource` | A human-readable name for the entity when one is supplied. |
-| `description` | `description` | text | No | depends_on_entity | `DEC-009-content-resource` | A short explanation or label for the entity. |
-| `date_created` | `dateCreated` | datetime | No | operational | `DEC-008-time-session` | When the source says this entity was created. |
-| `date_modified` | `dateModified` | datetime | No | operational | `DEC-008-time-session` | When the source says this entity last changed. |
-| `other_identifiers` | `otherIdentifiers` | text | No | education_record | `DEC-009-content-resource` | Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs. |
-| `extensions` | `extensions` | text | No | depends_on_contents | `DEC-009-content-resource` | Governed source-specific fields carried on the entity. |
-| `canonical_person_id` | `canonicalPersonId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The platform person ID when policy and identifiers allow this entity to resolve to a known person. |
-| `canonical_resource_id` | `canonicalResourceId` | text | No | operational | `DEC-007-identifier-crosswalk` | The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Entity.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this indexed entity. |
+| `entity_iri` | `entityIri` | text | Yes | behavioral | Caliper 1.2 Caliper Entity.entityIri | `DEC-009-content-resource` | The Caliper IRI or source identifier for the entity. |
+| `entity_type` | `entityType` | enum | Yes | behavioral | Caliper 1.2 Caliper Entity.entityType | `DEC-009-content-resource` | The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource. |
+| `name` | `name` | text | No | depends_on_entity | Caliper 1.2 Caliper Entity.name | `DEC-009-content-resource` | A human-readable name for the entity when one is supplied. |
+| `description` | `description` | text | No | depends_on_entity | Caliper 1.2 Caliper Entity.description | `DEC-009-content-resource` | A short explanation or label for the entity. |
+| `date_created` | `dateCreated` | datetime | No | operational | Caliper 1.2 Caliper Entity.dateCreated | `DEC-008-time-session` | When the source says this entity was created. |
+| `date_modified` | `dateModified` | datetime | No | operational | Caliper 1.2 Caliper Entity.dateModified | `DEC-008-time-session` | When the source says this entity last changed. |
+| `other_identifiers` | `otherIdentifiers` | text | No | education_record | Caliper 1.2 Caliper Entity.otherIdentifiers | `DEC-009-content-resource` | Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs. |
+| `extensions` | `extensions` | text | No | depends_on_contents | Caliper 1.2 Caliper Entity.extensions | `DEC-009-content-resource` | Governed source-specific fields carried on the entity. |
+| `canonical_person_id` | `canonicalPersonId` | text | No | education_record | Caliper 1.2 Caliper Entity.canonicalPersonId | `DEC-007-identifier-crosswalk` | The platform person ID when policy and identifiers allow this entity to resolve to a known person. |
+| `canonical_resource_id` | `canonicalResourceId` | text | No | operational | Caliper 1.2 Caliper Entity.canonicalResourceId | `DEC-007-identifier-crosswalk` | The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content. |
 
 #### Controlled Values
 
 Values for `entity_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Agent` | Agent | A person or software agent. |
-| `AggregateMeasure` | Aggregate measure | A computed usage or learning metric. |
-| `AggregateMeasureCollection` | Aggregate measure collection | A set of aggregate measures. |
-| `Annotation` | Annotation | A note or mark connected to a digital resource. |
-| `Assessment` | Assessment | A whole assessment. |
-| `AssessmentItem` | Assessment item | One assessment item or question. |
-| `AssignableDigitalResource` | Assignable digital resource | Digital content assigned to a learner. |
-| `Attempt` | Attempt | One try at an assignment, assessment, or questionnaire. |
-| `AudioObject` | Audio object | Audio media. |
-| `BookmarkAnnotation` | Bookmark annotation | Bookmark note. |
-| `Chapter` | Chapter | Chapter in content or media. |
-| `Collection` | Collection | Ordered group of entities. |
-| `Comment` | Comment | Written feedback or comment. |
-| `CourseOffering` | Course offering | Course offering. |
-| `CourseSection` | Course section | Course or class section. |
-| `DateTimeQuestion` | Date/time question | Question asking for a date or time. |
-| `DateTimeResponse` | Date/time response | Date or time answer. |
-| `DigitalResource` | Digital resource | Digital content or resource. |
-| `DigitalResourceCollection` | Digital resource collection | Collection of digital resources. |
-| `Document` | Document | Document resource. |
-| `FillinBlankResponse` | Fill-in-blank response | Fill-in-the-blank answer. |
-| `Forum` | Forum | Forum. |
-| `Frame` | Frame | Segment or location in a resource. |
-| `Group` | Group | Group context. |
-| `HighlightAnnotation` | Highlight annotation | Highlighted text annotation. |
-| `ImageObject` | Image object | Image media. |
-| `LearningObjective` | Learning objective | Learning goal or objective, preferably linked to CASE when available. |
-| `LikertScale` | Likert scale | Likert rating scale. |
-| `Link` | Link | Web link. |
-| `LtiLink` | LTI link | LTI launch or resource link. |
-| `LtiSession` | LTI session | LTI platform/tool session. |
-| `MediaLocation` | Media location | Point in media playback. |
-| `MediaObject` | Media object | Audio, video, or media resource. |
-| `Membership` | Membership | A person's relationship to a group or organization. |
-| `Message` | Message | Forum or message post. |
-| `MultipleChoiceResponse` | Multiple choice response | Single-choice answer. |
-| `MultipleResponseResponse` | Multiple response response | Multi-select answer. |
-| `MultiselectQuestion` | Multiselect question | Multiple-select question definition. |
-| `MultiselectResponse` | Multiselect response | Multiple-select response. |
-| `MultiselectScale` | Multiselect scale | Multiple-select rating scale. |
-| `NumericScale` | Numeric scale | Numeric rating scale. |
-| `OpenEndedQuestion` | Open-ended question | Open-ended question. |
-| `OpenEndedResponse` | Open-ended response | Open-ended text response. |
-| `Organization` | Organization | School, district, provider, or other organization. |
-| `Page` | Page | Page in a resource. |
-| `Person` | Person | Human actor. |
-| `Query` | Query | Search query. |
-| `Question` | Question | Question prompt. |
-| `Questionnaire` | Questionnaire | Questionnaire or survey instrument. |
-| `QuestionnaireItem` | Questionnaire item | One questionnaire item. |
-| `Rating` | Rating | Rating feedback. |
-| `RatingScaleQuestion` | Rating scale question | Rating scale question. |
-| `RatingScaleResponse` | Rating scale response | Rating scale response. |
-| `Response` | Response | Learner response. |
-| `Result` | Result | Result score or feedback. |
-| `Scale` | Scale | Generic scale. |
-| `Score` | Score | Score generated by grading. |
-| `SearchResponse` | Search response | Search result summary. |
-| `SelectTextResponse` | Select text response | Selected text response. |
-| `Session` | Session | User or app session. |
-| `SharedAnnotation` | Shared annotation | Annotation shared with people. |
-| `SoftwareApplication` | Software application | App or tool. |
-| `Survey` | Survey | Survey. |
-| `SurveyInvitation` | Survey invitation | Invitation to take a survey. |
-| `TagAnnotation` | Tag annotation | Tag annotation. |
-| `Thread` | Thread | Forum thread. |
-| `TrueFalseResponse` | True/false response | True/false response. |
-| `VideoObject` | Video object | Video media. |
-| `WebPage` | Web page | Web page. |
-| `TextPositionSelector` | Text position selector | Text-range selector without an entity ID. |
-| `SystemIdentifier` | System identifier | Other system identifier without an entity ID. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Agent` | Agent | Caliper 1.2 entity_type.Agent | A person or software agent. |
+| `AggregateMeasure` | Aggregate measure | Caliper 1.2 entity_type.AggregateMeasure | A computed usage or learning metric. |
+| `AggregateMeasureCollection` | Aggregate measure collection | Caliper 1.2 entity_type.AggregateMeasureCollection | A set of aggregate measures. |
+| `Annotation` | Annotation | Caliper 1.2 entity_type.Annotation | A note or mark connected to a digital resource. |
+| `Assessment` | Assessment | Caliper 1.2 entity_type.Assessment | A whole assessment. |
+| `AssessmentItem` | Assessment item | Caliper 1.2 entity_type.AssessmentItem | One assessment item or question. |
+| `AssignableDigitalResource` | Assignable digital resource | Caliper 1.2 entity_type.AssignableDigitalResource | Digital content assigned to a learner. |
+| `Attempt` | Attempt | Caliper 1.2 entity_type.Attempt | One try at an assignment, assessment, or questionnaire. |
+| `AudioObject` | Audio object | Caliper 1.2 entity_type.AudioObject | Audio media. |
+| `BookmarkAnnotation` | Bookmark annotation | Caliper 1.2 entity_type.BookmarkAnnotation | Bookmark note. |
+| `Chapter` | Chapter | Caliper 1.2 entity_type.Chapter | Chapter in content or media. |
+| `Collection` | Collection | Caliper 1.2 entity_type.Collection | Ordered group of entities. |
+| `Comment` | Comment | Caliper 1.2 entity_type.Comment | Written feedback or comment. |
+| `CourseOffering` | Course offering | Caliper 1.2 entity_type.CourseOffering | Course offering. |
+| `CourseSection` | Course section | Caliper 1.2 entity_type.CourseSection | Course or class section. |
+| `DateTimeQuestion` | Date/time question | Caliper 1.2 entity_type.DateTimeQuestion | Question asking for a date or time. |
+| `DateTimeResponse` | Date/time response | Caliper 1.2 entity_type.DateTimeResponse | Date or time answer. |
+| `DigitalResource` | Digital resource | Caliper 1.2 entity_type.DigitalResource | Digital content or resource. |
+| `DigitalResourceCollection` | Digital resource collection | Caliper 1.2 entity_type.DigitalResourceCollection | Collection of digital resources. |
+| `Document` | Document | Caliper 1.2 entity_type.Document | Document resource. |
+| `FillinBlankResponse` | Fill-in-blank response | Caliper 1.2 entity_type.FillinBlankResponse | Fill-in-the-blank answer. |
+| `Forum` | Forum | Caliper 1.2 entity_type.Forum | Forum. |
+| `Frame` | Frame | Caliper 1.2 entity_type.Frame | Segment or location in a resource. |
+| `Group` | Group | Caliper 1.2 entity_type.Group | Group context. |
+| `HighlightAnnotation` | Highlight annotation | Caliper 1.2 entity_type.HighlightAnnotation | Highlighted text annotation. |
+| `ImageObject` | Image object | Caliper 1.2 entity_type.ImageObject | Image media. |
+| `LearningObjective` | Learning objective | Caliper 1.2 entity_type.LearningObjective | Learning goal or objective, preferably linked to CASE when available. |
+| `LikertScale` | Likert scale | Caliper 1.2 entity_type.LikertScale | Likert rating scale. |
+| `Link` | Link | Caliper 1.2 entity_type.Link | Web link. |
+| `LtiLink` | LTI link | Caliper 1.2 entity_type.LtiLink | LTI launch or resource link. |
+| `LtiSession` | LTI session | Caliper 1.2 entity_type.LtiSession | LTI platform/tool session. |
+| `MediaLocation` | Media location | Caliper 1.2 entity_type.MediaLocation | Point in media playback. |
+| `MediaObject` | Media object | Caliper 1.2 entity_type.MediaObject | Audio, video, or media resource. |
+| `Membership` | Membership | Caliper 1.2 entity_type.Membership | A person's relationship to a group or organization. |
+| `Message` | Message | Caliper 1.2 entity_type.Message | Forum or message post. |
+| `MultipleChoiceResponse` | Multiple choice response | Caliper 1.2 entity_type.MultipleChoiceResponse | Single-choice answer. |
+| `MultipleResponseResponse` | Multiple response response | Caliper 1.2 entity_type.MultipleResponseResponse | Multi-select answer. |
+| `MultiselectQuestion` | Multiselect question | Caliper 1.2 entity_type.MultiselectQuestion | Multiple-select question definition. |
+| `MultiselectResponse` | Multiselect response | Caliper 1.2 entity_type.MultiselectResponse | Multiple-select response. |
+| `MultiselectScale` | Multiselect scale | Caliper 1.2 entity_type.MultiselectScale | Multiple-select rating scale. |
+| `NumericScale` | Numeric scale | Caliper 1.2 entity_type.NumericScale | Numeric rating scale. |
+| `OpenEndedQuestion` | Open-ended question | Caliper 1.2 entity_type.OpenEndedQuestion | Open-ended question. |
+| `OpenEndedResponse` | Open-ended response | Caliper 1.2 entity_type.OpenEndedResponse | Open-ended text response. |
+| `Organization` | Organization | Caliper 1.2 entity_type.Organization | School, district, provider, or other organization. |
+| `Page` | Page | Caliper 1.2 entity_type.Page | Page in a resource. |
+| `Person` | Person | Caliper 1.2 entity_type.Person | Human actor. |
+| `Query` | Query | Caliper 1.2 entity_type.Query | Search query. |
+| `Question` | Question | Caliper 1.2 entity_type.Question | Question prompt. |
+| `Questionnaire` | Questionnaire | Caliper 1.2 entity_type.Questionnaire | Questionnaire or survey instrument. |
+| `QuestionnaireItem` | Questionnaire item | Caliper 1.2 entity_type.QuestionnaireItem | One questionnaire item. |
+| `Rating` | Rating | Caliper 1.2 entity_type.Rating | Rating feedback. |
+| `RatingScaleQuestion` | Rating scale question | Caliper 1.2 entity_type.RatingScaleQuestion | Rating scale question. |
+| `RatingScaleResponse` | Rating scale response | Caliper 1.2 entity_type.RatingScaleResponse | Rating scale response. |
+| `Response` | Response | Caliper 1.2 entity_type.Response | Learner response. |
+| `Result` | Result | Caliper 1.2 entity_type.Result | Result score or feedback. |
+| `Scale` | Scale | Caliper 1.2 entity_type.Scale | Generic scale. |
+| `Score` | Score | Caliper 1.2 entity_type.Score | Score generated by grading. |
+| `SearchResponse` | Search response | Caliper 1.2 entity_type.SearchResponse | Search result summary. |
+| `SelectTextResponse` | Select text response | Caliper 1.2 entity_type.SelectTextResponse | Selected text response. |
+| `Session` | Session | Caliper 1.2 entity_type.Session | User or app session. |
+| `SharedAnnotation` | Shared annotation | Caliper 1.2 entity_type.SharedAnnotation | Annotation shared with people. |
+| `SoftwareApplication` | Software application | Caliper 1.2 entity_type.SoftwareApplication | App or tool. |
+| `Survey` | Survey | Caliper 1.2 entity_type.Survey | Survey. |
+| `SurveyInvitation` | Survey invitation | Caliper 1.2 entity_type.SurveyInvitation | Invitation to take a survey. |
+| `TagAnnotation` | Tag annotation | Caliper 1.2 entity_type.TagAnnotation | Tag annotation. |
+| `Thread` | Thread | Caliper 1.2 entity_type.Thread | Forum thread. |
+| `TrueFalseResponse` | True/false response | Caliper 1.2 entity_type.TrueFalseResponse | True/false response. |
+| `VideoObject` | Video object | Caliper 1.2 entity_type.VideoObject | Video media. |
+| `WebPage` | Web page | Caliper 1.2 entity_type.WebPage | Web page. |
+| `TextPositionSelector` | Text position selector | Caliper 1.2 entity_type.TextPositionSelector | Text-range selector without an entity ID. |
+| `SystemIdentifier` | System identifier | Caliper 1.2 entity_type.SystemIdentifier | Other system identifier without an entity ID. |
 
 
 ### Caliper Actor
@@ -316,55 +319,56 @@ Values for `entity_type`:
 - SQL table: `analytics.caliper_actors`
 - API path: `/events/caliper/actors`
 - Privacy class: `education_record`
+- Source standard: Caliper 1.2 Caliper Actor
 - Why it exists: Actors need explicit resolution rules because raw Caliper actors may be known roster users, apps, groups, or unresolved source agents.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this actor projection. |
-| `entity_id` | `entityId` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The indexed Caliper entity that represents the actor. |
-| `actor_type` | `actorType` | enum | Yes | education_record | `DEC-001-person-agent-subject` | Whether the actor is a person, software app, group, or generic agent. |
-| `platform_person_id` | `platformPersonId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The resolved platform person ID when the actor is a known school user. |
-| `display_name` | `displayName` | text | No | education_record | `DEC-001-person-agent-subject` | A display name supplied for the actor or resolved from a trusted source. |
-| `identifier_type` | `identifierType` | enum | No | education_record | `DEC-001-person-agent-subject` | The kind of source identifier used to resolve the actor. |
-| `identifier_value` | `identifierValue` | text | No | education_record | `DEC-001-person-agent-subject` | The source identifier value used for matching or lineage. |
-| `resolution_status` | `resolutionStatus` | enum | Yes | operational | `DEC-001-person-agent-subject` | Whether the actor was matched to a canonical platform record. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Actor.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this actor projection. |
+| `entity_id` | `entityId` | text | Yes | education_record | Caliper 1.2 Caliper Actor.entityId | `DEC-007-identifier-crosswalk` | The indexed Caliper entity that represents the actor. |
+| `actor_type` | `actorType` | enum | Yes | education_record | Caliper 1.2 Caliper Actor.actorType | `DEC-001-person-agent-subject` | Whether the actor is a person, software app, group, or generic agent. |
+| `platform_person_id` | `platformPersonId` | text | No | education_record | Caliper 1.2 Caliper Actor.platformPersonId | `DEC-007-identifier-crosswalk` | The resolved platform person ID when the actor is a known school user. |
+| `display_name` | `displayName` | text | No | education_record | Caliper 1.2 Caliper Actor.displayName | `DEC-001-person-agent-subject` | A display name supplied for the actor or resolved from a trusted source. |
+| `identifier_type` | `identifierType` | enum | No | education_record | Caliper 1.2 Caliper Actor.identifierType | `DEC-001-person-agent-subject` | The kind of source identifier used to resolve the actor. |
+| `identifier_value` | `identifierValue` | text | No | education_record | Caliper 1.2 Caliper Actor.identifierValue | `DEC-001-person-agent-subject` | The source identifier value used for matching or lineage. |
+| `resolution_status` | `resolutionStatus` | enum | Yes | operational | Caliper 1.2 Caliper Actor.resolutionStatus | `DEC-001-person-agent-subject` | Whether the actor was matched to a canonical platform record. |
 
 #### Controlled Values
 
 Values for `actor_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Agent` | Agent | A generic person or software agent. |
-| `Person` | Person | A human actor. |
-| `SoftwareApplication` | Software application | An app or tool acting as the event actor. |
-| `Group` | Group | A group acting as or standing in for the actor. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Agent` | Agent | Caliper 1.2 actor_type.Agent | A generic person or software agent. |
+| `Person` | Person | Caliper 1.2 actor_type.Person | A human actor. |
+| `SoftwareApplication` | Software application | Caliper 1.2 actor_type.SoftwareApplication | An app or tool acting as the event actor. |
+| `Group` | Group | Caliper 1.2 actor_type.Group | A group acting as or standing in for the actor. |
 
 Values for `identifier_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `AccountUserName` | Account username | Account username. |
-| `EmailAddress` | Email address | Email address. |
-| `LisSourcedId` | LIS sourced ID | LIS source identifier. |
-| `LtiContextId` | LTI context ID | LTI context or course ID. |
-| `LtiDeploymentId` | LTI deployment ID | LTI deployment ID. |
-| `LtiPlatformId` | LTI platform ID | LTI platform ID. |
-| `LtiToolId` | LTI tool ID | LTI tool ID. |
-| `LtiUserId` | LTI user ID | LTI user ID. |
-| `OneRosterSourcedId` | OneRoster sourcedId | OneRoster sourcedId. |
-| `Other` | Other | Other identifier type. |
-| `SisSourcedId` | SIS sourced ID | Student information system sourced ID. |
-| `SystemId` | System ID | Internal system ID. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `AccountUserName` | Account username | Caliper 1.2 system_identifier_type.AccountUserName | Account username. |
+| `EmailAddress` | Email address | Caliper 1.2 system_identifier_type.EmailAddress | Email address. |
+| `LisSourcedId` | LIS sourced ID | Caliper 1.2 system_identifier_type.LisSourcedId | LIS source identifier. |
+| `LtiContextId` | LTI context ID | Caliper 1.2 system_identifier_type.LtiContextId | LTI context or course ID. |
+| `LtiDeploymentId` | LTI deployment ID | Caliper 1.2 system_identifier_type.LtiDeploymentId | LTI deployment ID. |
+| `LtiPlatformId` | LTI platform ID | Caliper 1.2 system_identifier_type.LtiPlatformId | LTI platform ID. |
+| `LtiToolId` | LTI tool ID | Caliper 1.2 system_identifier_type.LtiToolId | LTI tool ID. |
+| `LtiUserId` | LTI user ID | Caliper 1.2 system_identifier_type.LtiUserId | LTI user ID. |
+| `OneRosterSourcedId` | OneRoster sourcedId | Caliper 1.2 system_identifier_type.OneRosterSourcedId | OneRoster sourcedId. |
+| `Other` | Other | Caliper 1.2 system_identifier_type.Other | Other identifier type. |
+| `SisSourcedId` | SIS sourced ID | Caliper 1.2 system_identifier_type.SisSourcedId | Student information system sourced ID. |
+| `SystemId` | System ID | Caliper 1.2 system_identifier_type.SystemId | Internal system ID. |
 
 Values for `resolution_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `resolved` | Resolved | The actor or entity was matched to a canonical platform record. |
-| `unresolved` | Unresolved | The actor or entity remains source-only until a safe match is available. |
-| `conflict` | Conflict | The source identifiers matched multiple possible platform records. |
-| `blocked_by_policy` | Blocked by policy | Privacy or tenant policy prevents canonical matching. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `resolved` | Resolved | Caliper 1.2 resolution_status.resolved | The actor or entity was matched to a canonical platform record. |
+| `unresolved` | Unresolved | Caliper 1.2 resolution_status.unresolved | The actor or entity remains source-only until a safe match is available. |
+| `conflict` | Conflict | Caliper 1.2 resolution_status.conflict | The source identifiers matched multiple possible platform records. |
+| `blocked_by_policy` | Blocked by policy | Caliper 1.2 resolution_status.blocked_by_policy | Privacy or tenant policy prevents canonical matching. |
 
 
 ### Caliper Context
@@ -373,51 +377,52 @@ Values for `resolution_status`:
 - SQL table: `analytics.caliper_contexts`
 - API path: `/events/caliper/contexts`
 - Privacy class: `education_record`
+- Source standard: Caliper 1.2 Caliper Context
 - Why it exists: Context connects activity to classes, roles, sessions, and tool launches without losing the original event envelope.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this event context projection. |
-| `event_id` | `eventId` | text | Yes | behavioral | `DEC-007-identifier-crosswalk` | The Caliper event this context belongs to. |
-| `group_entity_id` | `groupEntityId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The Caliper group, course section, organization, or class context entity. |
-| `membership_entity_id` | `membershipEntityId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The Caliper membership entity that describes the actor's relationship to the group. |
-| `membership_role` | `membershipRole` | enum | No | education_record | `DEC-003-role-vocabulary` | The LIS role supplied in the Caliper membership context. |
-| `membership_status` | `membershipStatus` | enum | No | education_record | `DEC-004-enrollment-membership` | Whether the membership is active or inactive in the source context. |
-| `session_entity_id` | `sessionEntityId` | text | No | behavioral | `DEC-007-identifier-crosswalk` | The Caliper session entity that groups related activity. |
-| `federated_session_entity_id` | `federatedSessionEntityId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI or federated session entity connected to the event. |
-| `lti_message_type` | `ltiMessageType` | enum | No | operational | `DEC-002-learning-context` | The LTI launch message type when the event came from an LTI workflow. |
-| `lti_platform_id` | `ltiPlatformId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI platform issuer or platform identifier tied to the federated session. |
-| `lti_deployment_id` | `ltiDeploymentId` | text | No | operational | `DEC-007-identifier-crosswalk` | The LTI deployment identifier that scopes the tool relationship. |
-| `lti_context_id` | `ltiContextId` | text | No | education_record | `DEC-007-identifier-crosswalk` | The LTI course or context identifier supplied by the platform. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Context.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this event context projection. |
+| `event_id` | `eventId` | text | Yes | behavioral | Caliper 1.2 Caliper Context.eventId | `DEC-007-identifier-crosswalk` | The Caliper event this context belongs to. |
+| `group_entity_id` | `groupEntityId` | text | No | education_record | Caliper 1.2 Caliper Context.groupEntityId | `DEC-007-identifier-crosswalk` | The Caliper group, course section, organization, or class context entity. |
+| `membership_entity_id` | `membershipEntityId` | text | No | education_record | Caliper 1.2 Caliper Context.membershipEntityId | `DEC-007-identifier-crosswalk` | The Caliper membership entity that describes the actor's relationship to the group. |
+| `membership_role` | `membershipRole` | enum | No | education_record | Caliper 1.2 Caliper Context.membershipRole | `DEC-003-role-vocabulary` | The LIS role supplied in the Caliper membership context. |
+| `membership_status` | `membershipStatus` | enum | No | education_record | Caliper 1.2 Caliper Context.membershipStatus | `DEC-004-enrollment-membership` | Whether the membership is active or inactive in the source context. |
+| `session_entity_id` | `sessionEntityId` | text | No | behavioral | Caliper 1.2 Caliper Context.sessionEntityId | `DEC-007-identifier-crosswalk` | The Caliper session entity that groups related activity. |
+| `federated_session_entity_id` | `federatedSessionEntityId` | text | No | operational | Caliper 1.2 Caliper Context.federatedSessionEntityId | `DEC-007-identifier-crosswalk` | The LTI or federated session entity connected to the event. |
+| `lti_message_type` | `ltiMessageType` | enum | No | operational | Caliper 1.2 Caliper Context.ltiMessageType | `DEC-002-learning-context` | The LTI launch message type when the event came from an LTI workflow. |
+| `lti_platform_id` | `ltiPlatformId` | text | No | operational | Caliper 1.2 Caliper Context.ltiPlatformId | `DEC-007-identifier-crosswalk` | The LTI platform issuer or platform identifier tied to the federated session. |
+| `lti_deployment_id` | `ltiDeploymentId` | text | No | operational | Caliper 1.2 Caliper Context.ltiDeploymentId | `DEC-007-identifier-crosswalk` | The LTI deployment identifier that scopes the tool relationship. |
+| `lti_context_id` | `ltiContextId` | text | No | education_record | Caliper 1.2 Caliper Context.ltiContextId | `DEC-007-identifier-crosswalk` | The LTI course or context identifier supplied by the platform. |
 
 #### Controlled Values
 
 Values for `membership_role`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Administrator` | Administrator | Administrative role. |
-| `ContentDeveloper` | Content developer | Content author or developer role. |
-| `Instructor` | Instructor | Teacher or instructor role. |
-| `Learner` | Learner | Student or learner role. |
-| `Manager` | Manager | Manager role. |
-| `Member` | Member | General member role. |
-| `Mentor` | Mentor | Mentor, advisor, or support role. |
-| `Officer` | Officer | Officer or official role. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Administrator` | Administrator | Caliper 1.2 lis_role.Administrator | Administrative role. |
+| `ContentDeveloper` | Content developer | Caliper 1.2 lis_role.ContentDeveloper | Content author or developer role. |
+| `Instructor` | Instructor | Caliper 1.2 lis_role.Instructor | Teacher or instructor role. |
+| `Learner` | Learner | Caliper 1.2 lis_role.Learner | Student or learner role. |
+| `Manager` | Manager | Caliper 1.2 lis_role.Manager | Manager role. |
+| `Member` | Member | Caliper 1.2 lis_role.Member | General member role. |
+| `Mentor` | Mentor | Caliper 1.2 lis_role.Mentor | Mentor, advisor, or support role. |
+| `Officer` | Officer | Caliper 1.2 lis_role.Officer | Officer or official role. |
 
 Values for `membership_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Active` | Active | The membership or status is active. |
-| `Inactive` | Inactive | The membership or status is inactive. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Active` | Active | Caliper 1.2 lis_status.Active | The membership or status is active. |
+| `Inactive` | Inactive | Caliper 1.2 lis_status.Inactive | The membership or status is inactive. |
 
 Values for `lti_message_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `LtiDeepLinkingRequest` | LTI deep-linking request | LTI deep-linking content selection launch. |
-| `LtiResourceLinkRequest` | LTI resource link request | Normal LTI resource link launch. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `LtiDeepLinkingRequest` | LTI deep-linking request | Caliper 1.2 lti_message_type.LtiDeepLinkingRequest | LTI deep-linking content selection launch. |
+| `LtiResourceLinkRequest` | LTI resource link request | Caliper 1.2 lti_message_type.LtiResourceLinkRequest | Normal LTI resource link launch. |
 
 
 ### Caliper Profile Rule
@@ -426,236 +431,237 @@ Values for `lti_message_type`:
 - SQL table: `analytics.caliper_profile_rules`
 - API path: `/events/caliper/profile-rules`
 - Privacy class: `operational`
+- Source standard: Caliper 1.2 Caliper Profile Rule
 - Why it exists: Profile rules give developers and validators a machine-readable crosswalk from Caliper profiles to the event/action/entity combinations the platform expects.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this profile rule. |
-| `profile` | `profile` | enum | Yes | operational | `DEC-009-content-resource` | The Caliper profile the rule belongs to. |
-| `event_type` | `eventType` | enum | Yes | operational | `DEC-009-content-resource` | The Caliper event class allowed by the profile rule. |
-| `actor_type` | `actorType` | enum | Yes | operational | `DEC-001-person-agent-subject` | The expected actor class for the profile rule. |
-| `allowed_action` | `allowedAction` | enum | Yes | operational | `DEC-009-content-resource` | One action allowed for this event/profile combination. |
-| `object_type` | `objectType` | enum | Yes | operational | `DEC-009-content-resource` | The expected object entity type for the rule. |
-| `generated_or_target_type` | `generatedOrTargetType` | text | No | operational | `DEC-009-content-resource` | The generated entity, target entity, or narrative condition expected by the rule. |
-| `platform_guidance` | `platformGuidance` | text | No | operational | `DEC-009-content-resource` | How the platform should validate, project, or join events matching this rule. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Profile Rule.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this profile rule. |
+| `profile` | `profile` | enum | Yes | operational | Caliper 1.2 Caliper Profile Rule.profile | `DEC-009-content-resource` | The Caliper profile the rule belongs to. |
+| `event_type` | `eventType` | enum | Yes | operational | Caliper 1.2 Caliper Profile Rule.eventType | `DEC-009-content-resource` | The Caliper event class allowed by the profile rule. |
+| `actor_type` | `actorType` | enum | Yes | operational | Caliper 1.2 Caliper Profile Rule.actorType | `DEC-001-person-agent-subject` | The expected actor class for the profile rule. |
+| `allowed_action` | `allowedAction` | enum | Yes | operational | Caliper 1.2 Caliper Profile Rule.allowedAction | `DEC-009-content-resource` | One action allowed for this event/profile combination. |
+| `object_type` | `objectType` | enum | Yes | operational | Caliper 1.2 Caliper Profile Rule.objectType | `DEC-009-content-resource` | The expected object entity type for the rule. |
+| `generated_or_target_type` | `generatedOrTargetType` | text | No | operational | Caliper 1.2 Caliper Profile Rule.generatedOrTargetType | `DEC-009-content-resource` | The generated entity, target entity, or narrative condition expected by the rule. |
+| `platform_guidance` | `platformGuidance` | text | No | operational | Caliper 1.2 Caliper Profile Rule.platformGuidance | `DEC-009-content-resource` | How the platform should validate, project, or join events matching this rule. |
 
 #### Controlled Values
 
 Values for `profile`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `GeneralProfile` | General profile | Generic profile for events not covered by a narrower profile. |
-| `AnnotationProfile` | Annotation profile | Annotation, bookmark, highlight, share, and tag activity. |
-| `AssessmentProfile` | Assessment profile | Assessment and assessment-item activity. |
-| `AssignableProfile` | Assignable profile | Assignment and digital-resource work activity. |
-| `FeedbackProfile` | Feedback profile | Commenting and rating activity. |
-| `ForumProfile` | Forum profile | Forum, thread, and message activity. |
-| `GradingProfile` | Grading profile | Grading and score creation activity. |
-| `MediaProfile` | Media profile | Audio, video, and media activity. |
-| `ReadingProfile` | Reading profile | Reading, navigation, and viewing resource activity. |
-| `ResourceManagementProfile` | Resource management profile | Resource creation, upload, publish, print, download, and similar management activity. |
-| `SearchProfile` | Search profile | Search activity. |
-| `SessionProfile` | Session profile | Login, logout, and timeout session activity. |
-| `SurveyProfile` | Survey profile | Survey and questionnaire activity. |
-| `ToolLaunchProfile` | Tool launch profile | LTI or tool launch and return activity. |
-| `ToolUseProfile` | Tool use profile | Software application use metrics. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `GeneralProfile` | General profile | Caliper 1.2 profile.GeneralProfile | Generic profile for events not covered by a narrower profile. |
+| `AnnotationProfile` | Annotation profile | Caliper 1.2 profile.AnnotationProfile | Annotation, bookmark, highlight, share, and tag activity. |
+| `AssessmentProfile` | Assessment profile | Caliper 1.2 profile.AssessmentProfile | Assessment and assessment-item activity. |
+| `AssignableProfile` | Assignable profile | Caliper 1.2 profile.AssignableProfile | Assignment and digital-resource work activity. |
+| `FeedbackProfile` | Feedback profile | Caliper 1.2 profile.FeedbackProfile | Commenting and rating activity. |
+| `ForumProfile` | Forum profile | Caliper 1.2 profile.ForumProfile | Forum, thread, and message activity. |
+| `GradingProfile` | Grading profile | Caliper 1.2 profile.GradingProfile | Grading and score creation activity. |
+| `MediaProfile` | Media profile | Caliper 1.2 profile.MediaProfile | Audio, video, and media activity. |
+| `ReadingProfile` | Reading profile | Caliper 1.2 profile.ReadingProfile | Reading, navigation, and viewing resource activity. |
+| `ResourceManagementProfile` | Resource management profile | Caliper 1.2 profile.ResourceManagementProfile | Resource creation, upload, publish, print, download, and similar management activity. |
+| `SearchProfile` | Search profile | Caliper 1.2 profile.SearchProfile | Search activity. |
+| `SessionProfile` | Session profile | Caliper 1.2 profile.SessionProfile | Login, logout, and timeout session activity. |
+| `SurveyProfile` | Survey profile | Caliper 1.2 profile.SurveyProfile | Survey and questionnaire activity. |
+| `ToolLaunchProfile` | Tool launch profile | Caliper 1.2 profile.ToolLaunchProfile | LTI or tool launch and return activity. |
+| `ToolUseProfile` | Tool use profile | Caliper 1.2 profile.ToolUseProfile | Software application use metrics. |
 
 Values for `event_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `AnnotationEvent` | Annotation event | A person creates or shares an annotation on a digital resource. |
-| `AssessmentEvent` | Assessment event | A person works with a whole assessment. |
-| `AssessmentItemEvent` | Assessment item event | A person works with one assessment item or question. |
-| `AssignableEvent` | Assignable event | A person works with assigned digital content. |
-| `FeedbackEvent` | Feedback event | A person comments on or rates something. |
-| `ForumEvent` | Forum event | A person subscribes or unsubscribes from a forum. |
-| `GradeEvent` | Grade event | A person or app grades an attempt. |
-| `MediaEvent` | Media event | A person interacts with audio, video, or media. |
-| `MessageEvent` | Message event | A person posts or marks a message. |
-| `NavigationEvent` | Navigation event | A person navigates to a resource, app, or location. |
-| `QuestionnaireEvent` | Questionnaire event | A person starts or submits a questionnaire. |
-| `QuestionnaireItemEvent` | Questionnaire item event | A person works with one questionnaire item. |
-| `ResourceManagementEvent` | Resource management event | A person manages a digital resource. |
-| `SearchEvent` | Search event | A person searches a resource or app. |
-| `SessionEvent` | Session event | A person or app starts, ends, or times out a session. |
-| `SurveyEvent` | Survey event | A person opts into or out of a survey. |
-| `SurveyInvitationEvent` | Survey invitation event | A person sends or responds to a survey invitation. |
-| `ThreadEvent` | Thread event | A person marks a forum thread read or unread. |
-| `ToolLaunchEvent` | Tool launch event | A person launches or returns from a tool. |
-| `ToolUseEvent` | Tool use event | A person uses a software application. |
-| `ViewEvent` | View event | A person views something. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `AnnotationEvent` | Annotation event | Caliper 1.2 event_type.AnnotationEvent | A person creates or shares an annotation on a digital resource. |
+| `AssessmentEvent` | Assessment event | Caliper 1.2 event_type.AssessmentEvent | A person works with a whole assessment. |
+| `AssessmentItemEvent` | Assessment item event | Caliper 1.2 event_type.AssessmentItemEvent | A person works with one assessment item or question. |
+| `AssignableEvent` | Assignable event | Caliper 1.2 event_type.AssignableEvent | A person works with assigned digital content. |
+| `FeedbackEvent` | Feedback event | Caliper 1.2 event_type.FeedbackEvent | A person comments on or rates something. |
+| `ForumEvent` | Forum event | Caliper 1.2 event_type.ForumEvent | A person subscribes or unsubscribes from a forum. |
+| `GradeEvent` | Grade event | Caliper 1.2 event_type.GradeEvent | A person or app grades an attempt. |
+| `MediaEvent` | Media event | Caliper 1.2 event_type.MediaEvent | A person interacts with audio, video, or media. |
+| `MessageEvent` | Message event | Caliper 1.2 event_type.MessageEvent | A person posts or marks a message. |
+| `NavigationEvent` | Navigation event | Caliper 1.2 event_type.NavigationEvent | A person navigates to a resource, app, or location. |
+| `QuestionnaireEvent` | Questionnaire event | Caliper 1.2 event_type.QuestionnaireEvent | A person starts or submits a questionnaire. |
+| `QuestionnaireItemEvent` | Questionnaire item event | Caliper 1.2 event_type.QuestionnaireItemEvent | A person works with one questionnaire item. |
+| `ResourceManagementEvent` | Resource management event | Caliper 1.2 event_type.ResourceManagementEvent | A person manages a digital resource. |
+| `SearchEvent` | Search event | Caliper 1.2 event_type.SearchEvent | A person searches a resource or app. |
+| `SessionEvent` | Session event | Caliper 1.2 event_type.SessionEvent | A person or app starts, ends, or times out a session. |
+| `SurveyEvent` | Survey event | Caliper 1.2 event_type.SurveyEvent | A person opts into or out of a survey. |
+| `SurveyInvitationEvent` | Survey invitation event | Caliper 1.2 event_type.SurveyInvitationEvent | A person sends or responds to a survey invitation. |
+| `ThreadEvent` | Thread event | Caliper 1.2 event_type.ThreadEvent | A person marks a forum thread read or unread. |
+| `ToolLaunchEvent` | Tool launch event | Caliper 1.2 event_type.ToolLaunchEvent | A person launches or returns from a tool. |
+| `ToolUseEvent` | Tool use event | Caliper 1.2 event_type.ToolUseEvent | A person uses a software application. |
+| `ViewEvent` | View event | Caliper 1.2 event_type.ViewEvent | A person views something. |
 
 Values for `actor_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Agent` | Agent | A generic person or software agent. |
-| `Person` | Person | A human actor. |
-| `SoftwareApplication` | Software application | An app or tool acting as the event actor. |
-| `Group` | Group | A group acting as or standing in for the actor. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Agent` | Agent | Caliper 1.2 actor_type.Agent | A generic person or software agent. |
+| `Person` | Person | Caliper 1.2 actor_type.Person | A human actor. |
+| `SoftwareApplication` | Software application | Caliper 1.2 actor_type.SoftwareApplication | An app or tool acting as the event actor. |
+| `Group` | Group | Caliper 1.2 actor_type.Group | A group acting as or standing in for the actor. |
 
 Values for `allowed_action`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Abandoned` | Abandoned | A user abandoned something before completion. |
-| `Accepted` | Accepted | A user accepted an invitation or request. |
-| `Activated` | Activated | Something was made active. |
-| `Added` | Added | Something was added. |
-| `Archived` | Archived | A resource was archived. |
-| `Attached` | Attached | Something was attached to another thing. |
-| `Bookmarked` | Bookmarked | A user created a bookmark. |
-| `ChangedResolution` | Changed resolution | Media resolution changed. |
-| `ChangedSize` | Changed size | Media display size changed. |
-| `ChangedSpeed` | Changed speed | Media playback speed changed. |
-| `ChangedVolume` | Changed volume | Media volume changed. |
-| `Classified` | Classified | Something was classified or categorized. |
-| `ClosedPopout` | Closed popout | A media popout or window was closed. |
-| `Commented` | Commented | A user left a comment. |
-| `Completed` | Completed | A user completed an item or task. |
-| `Copied` | Copied | A resource was copied. |
-| `Created` | Created | A resource or entity was created. |
-| `Deactivated` | Deactivated | Something was made inactive. |
-| `Declined` | Declined | A user declined an invitation or request. |
-| `Deleted` | Deleted | A resource or entity was deleted. |
-| `Described` | Described | Metadata or description was added or changed. |
-| `DisabledClosedCaptioning` | Disabled closed captioning | Closed captions were turned off. |
-| `Disliked` | Disliked | A user disliked something. |
-| `Downloaded` | Downloaded | A resource was downloaded. |
-| `EnabledClosedCaptioning` | Enabled closed captioning | Closed captions were turned on. |
-| `Ended` | Ended | Activity or media ended. |
-| `EnteredFullScreen` | Entered full screen | Media entered full screen. |
-| `ExitedFullScreen` | Exited full screen | Media exited full screen. |
-| `ForwardedTo` | Forwarded to | Media playback moved forward. |
-| `Graded` | Graded | An attempt was graded. |
-| `Hid` | Hid | Something was hidden. |
-| `Highlighted` | Highlighted | Text or resource content was highlighted. |
-| `Identified` | Identified | Something was identified. |
-| `JumpedTo` | Jumped to | Media or navigation jumped to a location. |
-| `Launched` | Launched | A tool or app was launched. |
-| `Liked` | Liked | A user liked something. |
-| `Linked` | Linked | Something was linked. |
-| `LoggedIn` | Logged in | A user logged in. |
-| `LoggedOut` | Logged out | A user logged out. |
-| `MarkedAsRead` | Marked as read | A message or thread was marked read. |
-| `MarkedAsUnread` | Marked as unread | A message or thread was marked unread. |
-| `Modified` | Modified | A resource or entity was changed. |
-| `Muted` | Muted | Media audio was muted. |
-| `NavigatedTo` | Navigated to | A user navigated to a resource or location. |
-| `OpenedPopout` | Opened popout | A media popout or window was opened. |
-| `OptedIn` | Opted in | A user opted in. |
-| `OptedOut` | Opted out | A user opted out. |
-| `Paused` | Paused | Activity or media was paused. |
-| `Posted` | Posted | A message was posted. |
-| `Printed` | Printed | A resource was printed. |
-| `Published` | Published | A resource was published. |
-| `Questioned` | Questioned | A question was asked. |
-| `Ranked` | Ranked | A user rated or ranked something. |
-| `Recommended` | Recommended | Something was recommended. |
-| `Removed` | Removed | Something was removed. |
-| `Reset` | Reset | Activity or an attempt was reset. |
-| `Restarted` | Restarted | Activity or media restarted. |
-| `Restored` | Restored | A resource was restored. |
-| `Resumed` | Resumed | Activity or media resumed. |
-| `Retrieved` | Retrieved | A resource was retrieved. |
-| `Returned` | Returned | A user returned from a launched tool or workflow. |
-| `Reviewed` | Reviewed | A user reviewed something. |
-| `Rewound` | Rewound | Media playback moved backward. |
-| `Saved` | Saved | A resource or work item was saved. |
-| `Searched` | Searched | A user performed a search. |
-| `Sent` | Sent | A message or invitation was sent. |
-| `Shared` | Shared | Something was shared. |
-| `Showed` | Showed | Something was shown. |
-| `Skipped` | Skipped | A learner skipped an item or task. |
-| `Started` | Started | A learner or user started something. |
-| `Submitted` | Submitted | Work or an attempt was submitted. |
-| `Subscribed` | Subscribed | A user subscribed. |
-| `Tagged` | Tagged | A user added tags. |
-| `TimedOut` | Timed out | A session timed out. |
-| `Unmuted` | Unmuted | Media audio was unmuted. |
-| `Unpublished` | Unpublished | A resource was unpublished. |
-| `Unsubscribed` | Unsubscribed | A user unsubscribed. |
-| `Uploaded` | Uploaded | A resource or file was uploaded. |
-| `Used` | Used | A user used a tool or application. |
-| `Viewed` | Viewed | A user viewed something. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Abandoned` | Abandoned | Caliper 1.2 action.Abandoned | A user abandoned something before completion. |
+| `Accepted` | Accepted | Caliper 1.2 action.Accepted | A user accepted an invitation or request. |
+| `Activated` | Activated | Caliper 1.2 action.Activated | Something was made active. |
+| `Added` | Added | Caliper 1.2 action.Added | Something was added. |
+| `Archived` | Archived | Caliper 1.2 action.Archived | A resource was archived. |
+| `Attached` | Attached | Caliper 1.2 action.Attached | Something was attached to another thing. |
+| `Bookmarked` | Bookmarked | Caliper 1.2 action.Bookmarked | A user created a bookmark. |
+| `ChangedResolution` | Changed resolution | Caliper 1.2 action.ChangedResolution | Media resolution changed. |
+| `ChangedSize` | Changed size | Caliper 1.2 action.ChangedSize | Media display size changed. |
+| `ChangedSpeed` | Changed speed | Caliper 1.2 action.ChangedSpeed | Media playback speed changed. |
+| `ChangedVolume` | Changed volume | Caliper 1.2 action.ChangedVolume | Media volume changed. |
+| `Classified` | Classified | Caliper 1.2 action.Classified | Something was classified or categorized. |
+| `ClosedPopout` | Closed popout | Caliper 1.2 action.ClosedPopout | A media popout or window was closed. |
+| `Commented` | Commented | Caliper 1.2 action.Commented | A user left a comment. |
+| `Completed` | Completed | Caliper 1.2 action.Completed | A user completed an item or task. |
+| `Copied` | Copied | Caliper 1.2 action.Copied | A resource was copied. |
+| `Created` | Created | Caliper 1.2 action.Created | A resource or entity was created. |
+| `Deactivated` | Deactivated | Caliper 1.2 action.Deactivated | Something was made inactive. |
+| `Declined` | Declined | Caliper 1.2 action.Declined | A user declined an invitation or request. |
+| `Deleted` | Deleted | Caliper 1.2 action.Deleted | A resource or entity was deleted. |
+| `Described` | Described | Caliper 1.2 action.Described | Metadata or description was added or changed. |
+| `DisabledClosedCaptioning` | Disabled closed captioning | Caliper 1.2 action.DisabledClosedCaptioning | Closed captions were turned off. |
+| `Disliked` | Disliked | Caliper 1.2 action.Disliked | A user disliked something. |
+| `Downloaded` | Downloaded | Caliper 1.2 action.Downloaded | A resource was downloaded. |
+| `EnabledClosedCaptioning` | Enabled closed captioning | Caliper 1.2 action.EnabledClosedCaptioning | Closed captions were turned on. |
+| `Ended` | Ended | Caliper 1.2 action.Ended | Activity or media ended. |
+| `EnteredFullScreen` | Entered full screen | Caliper 1.2 action.EnteredFullScreen | Media entered full screen. |
+| `ExitedFullScreen` | Exited full screen | Caliper 1.2 action.ExitedFullScreen | Media exited full screen. |
+| `ForwardedTo` | Forwarded to | Caliper 1.2 action.ForwardedTo | Media playback moved forward. |
+| `Graded` | Graded | Caliper 1.2 action.Graded | An attempt was graded. |
+| `Hid` | Hid | Caliper 1.2 action.Hid | Something was hidden. |
+| `Highlighted` | Highlighted | Caliper 1.2 action.Highlighted | Text or resource content was highlighted. |
+| `Identified` | Identified | Caliper 1.2 action.Identified | Something was identified. |
+| `JumpedTo` | Jumped to | Caliper 1.2 action.JumpedTo | Media or navigation jumped to a location. |
+| `Launched` | Launched | Caliper 1.2 action.Launched | A tool or app was launched. |
+| `Liked` | Liked | Caliper 1.2 action.Liked | A user liked something. |
+| `Linked` | Linked | Caliper 1.2 action.Linked | Something was linked. |
+| `LoggedIn` | Logged in | Caliper 1.2 action.LoggedIn | A user logged in. |
+| `LoggedOut` | Logged out | Caliper 1.2 action.LoggedOut | A user logged out. |
+| `MarkedAsRead` | Marked as read | Caliper 1.2 action.MarkedAsRead | A message or thread was marked read. |
+| `MarkedAsUnread` | Marked as unread | Caliper 1.2 action.MarkedAsUnread | A message or thread was marked unread. |
+| `Modified` | Modified | Caliper 1.2 action.Modified | A resource or entity was changed. |
+| `Muted` | Muted | Caliper 1.2 action.Muted | Media audio was muted. |
+| `NavigatedTo` | Navigated to | Caliper 1.2 action.NavigatedTo | A user navigated to a resource or location. |
+| `OpenedPopout` | Opened popout | Caliper 1.2 action.OpenedPopout | A media popout or window was opened. |
+| `OptedIn` | Opted in | Caliper 1.2 action.OptedIn | A user opted in. |
+| `OptedOut` | Opted out | Caliper 1.2 action.OptedOut | A user opted out. |
+| `Paused` | Paused | Caliper 1.2 action.Paused | Activity or media was paused. |
+| `Posted` | Posted | Caliper 1.2 action.Posted | A message was posted. |
+| `Printed` | Printed | Caliper 1.2 action.Printed | A resource was printed. |
+| `Published` | Published | Caliper 1.2 action.Published | A resource was published. |
+| `Questioned` | Questioned | Caliper 1.2 action.Questioned | A question was asked. |
+| `Ranked` | Ranked | Caliper 1.2 action.Ranked | A user rated or ranked something. |
+| `Recommended` | Recommended | Caliper 1.2 action.Recommended | Something was recommended. |
+| `Removed` | Removed | Caliper 1.2 action.Removed | Something was removed. |
+| `Reset` | Reset | Caliper 1.2 action.Reset | Activity or an attempt was reset. |
+| `Restarted` | Restarted | Caliper 1.2 action.Restarted | Activity or media restarted. |
+| `Restored` | Restored | Caliper 1.2 action.Restored | A resource was restored. |
+| `Resumed` | Resumed | Caliper 1.2 action.Resumed | Activity or media resumed. |
+| `Retrieved` | Retrieved | Caliper 1.2 action.Retrieved | A resource was retrieved. |
+| `Returned` | Returned | Caliper 1.2 action.Returned | A user returned from a launched tool or workflow. |
+| `Reviewed` | Reviewed | Caliper 1.2 action.Reviewed | A user reviewed something. |
+| `Rewound` | Rewound | Caliper 1.2 action.Rewound | Media playback moved backward. |
+| `Saved` | Saved | Caliper 1.2 action.Saved | A resource or work item was saved. |
+| `Searched` | Searched | Caliper 1.2 action.Searched | A user performed a search. |
+| `Sent` | Sent | Caliper 1.2 action.Sent | A message or invitation was sent. |
+| `Shared` | Shared | Caliper 1.2 action.Shared | Something was shared. |
+| `Showed` | Showed | Caliper 1.2 action.Showed | Something was shown. |
+| `Skipped` | Skipped | Caliper 1.2 action.Skipped | A learner skipped an item or task. |
+| `Started` | Started | Caliper 1.2 action.Started | A learner or user started something. |
+| `Submitted` | Submitted | Caliper 1.2 action.Submitted | Work or an attempt was submitted. |
+| `Subscribed` | Subscribed | Caliper 1.2 action.Subscribed | A user subscribed. |
+| `Tagged` | Tagged | Caliper 1.2 action.Tagged | A user added tags. |
+| `TimedOut` | Timed out | Caliper 1.2 action.TimedOut | A session timed out. |
+| `Unmuted` | Unmuted | Caliper 1.2 action.Unmuted | Media audio was unmuted. |
+| `Unpublished` | Unpublished | Caliper 1.2 action.Unpublished | A resource was unpublished. |
+| `Unsubscribed` | Unsubscribed | Caliper 1.2 action.Unsubscribed | A user unsubscribed. |
+| `Uploaded` | Uploaded | Caliper 1.2 action.Uploaded | A resource or file was uploaded. |
+| `Used` | Used | Caliper 1.2 action.Used | A user used a tool or application. |
+| `Viewed` | Viewed | Caliper 1.2 action.Viewed | A user viewed something. |
 
 Values for `object_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Agent` | Agent | A person or software agent. |
-| `AggregateMeasure` | Aggregate measure | A computed usage or learning metric. |
-| `AggregateMeasureCollection` | Aggregate measure collection | A set of aggregate measures. |
-| `Annotation` | Annotation | A note or mark connected to a digital resource. |
-| `Assessment` | Assessment | A whole assessment. |
-| `AssessmentItem` | Assessment item | One assessment item or question. |
-| `AssignableDigitalResource` | Assignable digital resource | Digital content assigned to a learner. |
-| `Attempt` | Attempt | One try at an assignment, assessment, or questionnaire. |
-| `AudioObject` | Audio object | Audio media. |
-| `BookmarkAnnotation` | Bookmark annotation | Bookmark note. |
-| `Chapter` | Chapter | Chapter in content or media. |
-| `Collection` | Collection | Ordered group of entities. |
-| `Comment` | Comment | Written feedback or comment. |
-| `CourseOffering` | Course offering | Course offering. |
-| `CourseSection` | Course section | Course or class section. |
-| `DateTimeQuestion` | Date/time question | Question asking for a date or time. |
-| `DateTimeResponse` | Date/time response | Date or time answer. |
-| `DigitalResource` | Digital resource | Digital content or resource. |
-| `DigitalResourceCollection` | Digital resource collection | Collection of digital resources. |
-| `Document` | Document | Document resource. |
-| `FillinBlankResponse` | Fill-in-blank response | Fill-in-the-blank answer. |
-| `Forum` | Forum | Forum. |
-| `Frame` | Frame | Segment or location in a resource. |
-| `Group` | Group | Group context. |
-| `HighlightAnnotation` | Highlight annotation | Highlighted text annotation. |
-| `ImageObject` | Image object | Image media. |
-| `LearningObjective` | Learning objective | Learning goal or objective, preferably linked to CASE when available. |
-| `LikertScale` | Likert scale | Likert rating scale. |
-| `Link` | Link | Web link. |
-| `LtiLink` | LTI link | LTI launch or resource link. |
-| `LtiSession` | LTI session | LTI platform/tool session. |
-| `MediaLocation` | Media location | Point in media playback. |
-| `MediaObject` | Media object | Audio, video, or media resource. |
-| `Membership` | Membership | A person's relationship to a group or organization. |
-| `Message` | Message | Forum or message post. |
-| `MultipleChoiceResponse` | Multiple choice response | Single-choice answer. |
-| `MultipleResponseResponse` | Multiple response response | Multi-select answer. |
-| `MultiselectQuestion` | Multiselect question | Multiple-select question definition. |
-| `MultiselectResponse` | Multiselect response | Multiple-select response. |
-| `MultiselectScale` | Multiselect scale | Multiple-select rating scale. |
-| `NumericScale` | Numeric scale | Numeric rating scale. |
-| `OpenEndedQuestion` | Open-ended question | Open-ended question. |
-| `OpenEndedResponse` | Open-ended response | Open-ended text response. |
-| `Organization` | Organization | School, district, provider, or other organization. |
-| `Page` | Page | Page in a resource. |
-| `Person` | Person | Human actor. |
-| `Query` | Query | Search query. |
-| `Question` | Question | Question prompt. |
-| `Questionnaire` | Questionnaire | Questionnaire or survey instrument. |
-| `QuestionnaireItem` | Questionnaire item | One questionnaire item. |
-| `Rating` | Rating | Rating feedback. |
-| `RatingScaleQuestion` | Rating scale question | Rating scale question. |
-| `RatingScaleResponse` | Rating scale response | Rating scale response. |
-| `Response` | Response | Learner response. |
-| `Result` | Result | Result score or feedback. |
-| `Scale` | Scale | Generic scale. |
-| `Score` | Score | Score generated by grading. |
-| `SearchResponse` | Search response | Search result summary. |
-| `SelectTextResponse` | Select text response | Selected text response. |
-| `Session` | Session | User or app session. |
-| `SharedAnnotation` | Shared annotation | Annotation shared with people. |
-| `SoftwareApplication` | Software application | App or tool. |
-| `Survey` | Survey | Survey. |
-| `SurveyInvitation` | Survey invitation | Invitation to take a survey. |
-| `TagAnnotation` | Tag annotation | Tag annotation. |
-| `Thread` | Thread | Forum thread. |
-| `TrueFalseResponse` | True/false response | True/false response. |
-| `VideoObject` | Video object | Video media. |
-| `WebPage` | Web page | Web page. |
-| `TextPositionSelector` | Text position selector | Text-range selector without an entity ID. |
-| `SystemIdentifier` | System identifier | Other system identifier without an entity ID. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Agent` | Agent | Caliper 1.2 entity_type.Agent | A person or software agent. |
+| `AggregateMeasure` | Aggregate measure | Caliper 1.2 entity_type.AggregateMeasure | A computed usage or learning metric. |
+| `AggregateMeasureCollection` | Aggregate measure collection | Caliper 1.2 entity_type.AggregateMeasureCollection | A set of aggregate measures. |
+| `Annotation` | Annotation | Caliper 1.2 entity_type.Annotation | A note or mark connected to a digital resource. |
+| `Assessment` | Assessment | Caliper 1.2 entity_type.Assessment | A whole assessment. |
+| `AssessmentItem` | Assessment item | Caliper 1.2 entity_type.AssessmentItem | One assessment item or question. |
+| `AssignableDigitalResource` | Assignable digital resource | Caliper 1.2 entity_type.AssignableDigitalResource | Digital content assigned to a learner. |
+| `Attempt` | Attempt | Caliper 1.2 entity_type.Attempt | One try at an assignment, assessment, or questionnaire. |
+| `AudioObject` | Audio object | Caliper 1.2 entity_type.AudioObject | Audio media. |
+| `BookmarkAnnotation` | Bookmark annotation | Caliper 1.2 entity_type.BookmarkAnnotation | Bookmark note. |
+| `Chapter` | Chapter | Caliper 1.2 entity_type.Chapter | Chapter in content or media. |
+| `Collection` | Collection | Caliper 1.2 entity_type.Collection | Ordered group of entities. |
+| `Comment` | Comment | Caliper 1.2 entity_type.Comment | Written feedback or comment. |
+| `CourseOffering` | Course offering | Caliper 1.2 entity_type.CourseOffering | Course offering. |
+| `CourseSection` | Course section | Caliper 1.2 entity_type.CourseSection | Course or class section. |
+| `DateTimeQuestion` | Date/time question | Caliper 1.2 entity_type.DateTimeQuestion | Question asking for a date or time. |
+| `DateTimeResponse` | Date/time response | Caliper 1.2 entity_type.DateTimeResponse | Date or time answer. |
+| `DigitalResource` | Digital resource | Caliper 1.2 entity_type.DigitalResource | Digital content or resource. |
+| `DigitalResourceCollection` | Digital resource collection | Caliper 1.2 entity_type.DigitalResourceCollection | Collection of digital resources. |
+| `Document` | Document | Caliper 1.2 entity_type.Document | Document resource. |
+| `FillinBlankResponse` | Fill-in-blank response | Caliper 1.2 entity_type.FillinBlankResponse | Fill-in-the-blank answer. |
+| `Forum` | Forum | Caliper 1.2 entity_type.Forum | Forum. |
+| `Frame` | Frame | Caliper 1.2 entity_type.Frame | Segment or location in a resource. |
+| `Group` | Group | Caliper 1.2 entity_type.Group | Group context. |
+| `HighlightAnnotation` | Highlight annotation | Caliper 1.2 entity_type.HighlightAnnotation | Highlighted text annotation. |
+| `ImageObject` | Image object | Caliper 1.2 entity_type.ImageObject | Image media. |
+| `LearningObjective` | Learning objective | Caliper 1.2 entity_type.LearningObjective | Learning goal or objective, preferably linked to CASE when available. |
+| `LikertScale` | Likert scale | Caliper 1.2 entity_type.LikertScale | Likert rating scale. |
+| `Link` | Link | Caliper 1.2 entity_type.Link | Web link. |
+| `LtiLink` | LTI link | Caliper 1.2 entity_type.LtiLink | LTI launch or resource link. |
+| `LtiSession` | LTI session | Caliper 1.2 entity_type.LtiSession | LTI platform/tool session. |
+| `MediaLocation` | Media location | Caliper 1.2 entity_type.MediaLocation | Point in media playback. |
+| `MediaObject` | Media object | Caliper 1.2 entity_type.MediaObject | Audio, video, or media resource. |
+| `Membership` | Membership | Caliper 1.2 entity_type.Membership | A person's relationship to a group or organization. |
+| `Message` | Message | Caliper 1.2 entity_type.Message | Forum or message post. |
+| `MultipleChoiceResponse` | Multiple choice response | Caliper 1.2 entity_type.MultipleChoiceResponse | Single-choice answer. |
+| `MultipleResponseResponse` | Multiple response response | Caliper 1.2 entity_type.MultipleResponseResponse | Multi-select answer. |
+| `MultiselectQuestion` | Multiselect question | Caliper 1.2 entity_type.MultiselectQuestion | Multiple-select question definition. |
+| `MultiselectResponse` | Multiselect response | Caliper 1.2 entity_type.MultiselectResponse | Multiple-select response. |
+| `MultiselectScale` | Multiselect scale | Caliper 1.2 entity_type.MultiselectScale | Multiple-select rating scale. |
+| `NumericScale` | Numeric scale | Caliper 1.2 entity_type.NumericScale | Numeric rating scale. |
+| `OpenEndedQuestion` | Open-ended question | Caliper 1.2 entity_type.OpenEndedQuestion | Open-ended question. |
+| `OpenEndedResponse` | Open-ended response | Caliper 1.2 entity_type.OpenEndedResponse | Open-ended text response. |
+| `Organization` | Organization | Caliper 1.2 entity_type.Organization | School, district, provider, or other organization. |
+| `Page` | Page | Caliper 1.2 entity_type.Page | Page in a resource. |
+| `Person` | Person | Caliper 1.2 entity_type.Person | Human actor. |
+| `Query` | Query | Caliper 1.2 entity_type.Query | Search query. |
+| `Question` | Question | Caliper 1.2 entity_type.Question | Question prompt. |
+| `Questionnaire` | Questionnaire | Caliper 1.2 entity_type.Questionnaire | Questionnaire or survey instrument. |
+| `QuestionnaireItem` | Questionnaire item | Caliper 1.2 entity_type.QuestionnaireItem | One questionnaire item. |
+| `Rating` | Rating | Caliper 1.2 entity_type.Rating | Rating feedback. |
+| `RatingScaleQuestion` | Rating scale question | Caliper 1.2 entity_type.RatingScaleQuestion | Rating scale question. |
+| `RatingScaleResponse` | Rating scale response | Caliper 1.2 entity_type.RatingScaleResponse | Rating scale response. |
+| `Response` | Response | Caliper 1.2 entity_type.Response | Learner response. |
+| `Result` | Result | Caliper 1.2 entity_type.Result | Result score or feedback. |
+| `Scale` | Scale | Caliper 1.2 entity_type.Scale | Generic scale. |
+| `Score` | Score | Caliper 1.2 entity_type.Score | Score generated by grading. |
+| `SearchResponse` | Search response | Caliper 1.2 entity_type.SearchResponse | Search result summary. |
+| `SelectTextResponse` | Select text response | Caliper 1.2 entity_type.SelectTextResponse | Selected text response. |
+| `Session` | Session | Caliper 1.2 entity_type.Session | User or app session. |
+| `SharedAnnotation` | Shared annotation | Caliper 1.2 entity_type.SharedAnnotation | Annotation shared with people. |
+| `SoftwareApplication` | Software application | Caliper 1.2 entity_type.SoftwareApplication | App or tool. |
+| `Survey` | Survey | Caliper 1.2 entity_type.Survey | Survey. |
+| `SurveyInvitation` | Survey invitation | Caliper 1.2 entity_type.SurveyInvitation | Invitation to take a survey. |
+| `TagAnnotation` | Tag annotation | Caliper 1.2 entity_type.TagAnnotation | Tag annotation. |
+| `Thread` | Thread | Caliper 1.2 entity_type.Thread | Forum thread. |
+| `TrueFalseResponse` | True/false response | Caliper 1.2 entity_type.TrueFalseResponse | True/false response. |
+| `VideoObject` | Video object | Caliper 1.2 entity_type.VideoObject | Video media. |
+| `WebPage` | Web page | Caliper 1.2 entity_type.WebPage | Web page. |
+| `TextPositionSelector` | Text position selector | Caliper 1.2 entity_type.TextPositionSelector | Text-range selector without an entity ID. |
+| `SystemIdentifier` | System identifier | Caliper 1.2 entity_type.SystemIdentifier | Other system identifier without an entity ID. |
 
 
 ### Caliper Extension
@@ -664,47 +670,48 @@ Values for `object_type`:
 - SQL table: `analytics.caliper_extensions`
 - API path: `/events/caliper/extensions`
 - Privacy class: `depends_on_contents`
+- Source standard: Caliper 1.2 Caliper Extension
 - Why it exists: Extensions can carry useful vendor data, but they need namespace, privacy, and policy controls before becoming queryable platform fields.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this extension projection. |
-| `owner_type` | `ownerType` | enum | Yes | operational | `DEC-009-content-resource` | Whether this extension belongs to an envelope, event, entity, actor, or context row. |
-| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform row ID that owns this extension value. |
-| `namespace` | `namespace` | text | Yes | operational | `DEC-009-content-resource` | The governed namespace or vendor domain for the extension key. |
-| `extension_key` | `extensionKey` | text | Yes | depends_on_contents | `DEC-009-content-resource` | The extension field name within the namespace. |
-| `extension_value` | `extensionValue` | text | No | depends_on_contents | `DEC-009-content-resource` | The normalized scalar value when the extension can be safely indexed. |
-| `privacy_classification` | `privacyClassification` | enum | Yes | operational | `DEC-002-learning-context` | The platform privacy classification assigned to this extension value. |
-| `allowed_by_policy` | `allowedByPolicy` | boolean | Yes | operational | `DEC-010-tenancy-reference-data` | Whether tenant policy allows this extension to be retained and queried. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Extension.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this extension projection. |
+| `owner_type` | `ownerType` | enum | Yes | operational | Caliper 1.2 Caliper Extension.ownerType | `DEC-009-content-resource` | Whether this extension belongs to an envelope, event, entity, actor, or context row. |
+| `owner_id` | `ownerId` | text | Yes | operational | Caliper 1.2 Caliper Extension.ownerId | `DEC-007-identifier-crosswalk` | The platform row ID that owns this extension value. |
+| `namespace` | `namespace` | text | Yes | operational | Caliper 1.2 Caliper Extension.namespace | `DEC-009-content-resource` | The governed namespace or vendor domain for the extension key. |
+| `extension_key` | `extensionKey` | text | Yes | depends_on_contents | Caliper 1.2 Caliper Extension.extensionKey | `DEC-009-content-resource` | The extension field name within the namespace. |
+| `extension_value` | `extensionValue` | text | No | depends_on_contents | Caliper 1.2 Caliper Extension.extensionValue | `DEC-009-content-resource` | The normalized scalar value when the extension can be safely indexed. |
+| `privacy_classification` | `privacyClassification` | enum | Yes | operational | Caliper 1.2 Caliper Extension.privacyClassification | `DEC-002-learning-context` | The platform privacy classification assigned to this extension value. |
+| `allowed_by_policy` | `allowedByPolicy` | boolean | Yes | operational | Caliper 1.2 Caliper Extension.allowedByPolicy | `DEC-010-tenancy-reference-data` | Whether tenant policy allows this extension to be retained and queried. |
 
 #### Controlled Values
 
 Values for `owner_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `envelope` | Envelope | The extension belongs to a Caliper envelope. |
-| `event` | Event | The extension belongs to a Caliper event. |
-| `entity` | Entity | The extension belongs to a Caliper entity. |
-| `actor` | Actor | The extension belongs to a Caliper actor projection. |
-| `context` | Context | The extension belongs to a Caliper context projection. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `envelope` | Envelope | Caliper 1.2 extension_owner_type.envelope | The extension belongs to a Caliper envelope. |
+| `event` | Event | Caliper 1.2 extension_owner_type.event | The extension belongs to a Caliper event. |
+| `entity` | Entity | Caliper 1.2 extension_owner_type.entity | The extension belongs to a Caliper entity. |
+| `actor` | Actor | Caliper 1.2 extension_owner_type.actor | The extension belongs to a Caliper actor projection. |
+| `context` | Context | Caliper 1.2 extension_owner_type.context | The extension belongs to a Caliper context projection. |
 
 Values for `privacy_classification`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `public` | Public | The extension can be treated as public metadata. |
-| `operational` | Operational | The extension is operational metadata. |
-| `education_record` | Education record | The extension may identify or describe a student's education record. |
-| `behavioral` | Behavioral | The extension describes learning behavior or activity. |
-| `restricted` | Restricted | The extension is sensitive and requires explicit policy before use. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `public` | Public | Caliper 1.2 extension_privacy.public | The extension can be treated as public metadata. |
+| `operational` | Operational | Caliper 1.2 extension_privacy.operational | The extension is operational metadata. |
+| `education_record` | Education record | Caliper 1.2 extension_privacy.education_record | The extension may identify or describe a student's education record. |
+| `behavioral` | Behavioral | Caliper 1.2 extension_privacy.behavioral | The extension describes learning behavior or activity. |
+| `restricted` | Restricted | Caliper 1.2 extension_privacy.restricted | The extension is sensitive and requires explicit policy before use. |
 
 
 ## Unsupported or Deferred
 
 | Area | Reason |
 | --- | --- |
-| Live Sensor API ingestion endpoint | Requires hosted auth, tenant isolation, event validation, rate limits, retention policy, and server-side storage. |
-| Full profile-specific relational decomposition | The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally. |
-| Analytics warehouse and dashboards | Requires retention, aggregation, access control, and de-identification decisions beyond GitHub Pages. |
+| Full Sensor API validation, immutable storage, and replay/idempotency handling | A minimal authenticated receipt Edge Function exists. Full Sensor API conformance still needs profile validation, immutable event storage, replay handling, retention policy, and operational controls. |
+| Full profile-specific relational decomposition | The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally based on product value. |
+| Analytics warehouse and dashboards | Requires retention, aggregation, access control, and de-identification decisions beyond the event receipt path. |
 | Formal Caliper certification claim | Requires conformance testing and organizational certification work beyond these generated dictionary artifacts. |

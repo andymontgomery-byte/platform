@@ -6,7 +6,7 @@ This backlog is ordered from easiest to hardest. "Done" means the repository and
 
 ## Current Honest Status
 
-The repository meets the GitHub Pages demonstration layer and a hosted Supabase runtime for the OneRoster core slice, including tenant-scoped RLS on the live OneRoster tables. It does not yet fully meet the whole platform spec. The biggest remaining gaps are full OneRoster 1.2 accounting, runnable backend slices beyond the current OneRoster core tables, and broader implemented privacy/security workflows beyond the current tenant isolation and audited sensitive-read slices.
+The repository meets the GitHub Pages demonstration layer and a hosted Supabase runtime for the OneRoster core slice, including tenant-scoped RLS on the live OneRoster tables. Full Lead spec accounting is now explicit through per-object, per-field, and per-value `sourceStandard` references plus structured unsupported/deferred ledgers. The biggest remaining future-product gaps are runnable backend slices beyond the current OneRoster core tables and broader implemented privacy/security workflows beyond the current tenant isolation and audited sensitive-read slices.
 
 ## Rubric Trace For Open Items
 
@@ -14,7 +14,7 @@ This table maps known unmet evaluator rubric IDs to backlog work so the LLM loop
 
 | Rubric ID | Backlog item | Status | Target slice | Owner notes |
 | --- | --- | --- | --- | --- |
-| `lead_spec_full_accounting` | 10 | Partial | Full OneRoster 1.2 and remaining Lead spec ledgers | Add explicit per-field `sourceStandard` references and field-level unsupported/deferred ledgers. |
+| `lead_spec_full_accounting` | 10 | Done | Full OneRoster 1.2 and remaining Lead spec ledgers | Every generated dictionary object, field, and controlled value now carries `sourceStandard`; unsupported/deferred ledgers include `sourceStandard`, `sourceFieldsOrValues`, and substantive reasons. |
 | `tenant_isolation_enforced` | 17 | Done for Supabase OneRoster core | Supabase OneRoster core first, then all runtime tables | Live OneRoster tables now carry `tenant_id`, force RLS, use tenant-claim predicates, and have `tests/supabase_tenant_rls_test.py` for cross-tenant REST verification. Extend the same pattern when CASE/QTI/Caliper/LTI become runtime-backed. |
 | `oauth_scopes_mapped_to_fields` | 18 | Done for generated field mapping | Integration/governance dictionary and OpenAPI | `oauth_scope_policies` now maps scopes to exact dictionary fields and privacy ceilings; generated OpenAPI emits `platformOAuth`, `x-oauthScopePolicies`, and per-field `x-oauthScopes`. Runtime token enforcement remains tracked by tenancy, audit, and Edge Function items. |
 | `audit_log_for_sensitive_reads` | 18 | Done for OneRoster sensitive person reads | Privacy/security runtime | `audit_log`, `read_people_sensitive_audited`, and `supabase/functions/audited-roster-read` write rows with client, scope, purpose, field, tenant, and timestamp before returning restricted `people` fields. Extend the same pattern as CASE/QTI/Caliper/LTI runtime tables are added. |
@@ -35,7 +35,7 @@ This table maps known unmet evaluator rubric IDs to backlog work so the LLM loop
 | 7 | Convert CASE to a structured source dictionary and generated artifacts. | CASE is Lead and should be generator-backed, not only Markdown. | Done for framework graph projection. | CASE source emits SQL comments, OpenAPI schemas, and portal pages. |
 | 8 | Convert Caliper to a structured source dictionary and generated artifacts. | Caliper is Lead and has many event/entity/action values. | Done for event projection. | Caliper source emits SQL comments, OpenAPI schemas, and portal pages, including event/action values. |
 | 9 | Convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured source dictionaries. | These are Lead/Governance surfaces and drive API scopes, auth, launch, consent, and policy. | Done for integration/governance projection. | `dictionary/integration-governance-core.v1.json` emits SQL comments, OpenAPI schemas, and portal pages for launch, AGS, NRPS, Deep Linking, OAuth, privacy, and governance objects. |
-| 10 | Expand OneRoster from core demo to full OneRoster 1.2 accounting. | Current executable model is core, not the whole OneRoster standard. | Core slice generated; broader Markdown exists. | Every OneRoster object/field/value is generated, supported, or explicitly deferred with reason. |
+| 10 | Expand OneRoster from core demo to full OneRoster 1.2 accounting. | Current executable model is core, not the whole OneRoster standard. | Done for accounting: supported fields and values have generated `sourceStandard`; non-runnable OneRoster 1.2 objects, fields, values, REST/CSV behavior, and Assessment Results Profile details are listed in the structured unsupported/deferred ledger with reasons. | Every OneRoster object/field/value is generated, supported, or explicitly deferred with reason. |
 | 11 | Add generated cross-spec decision traces. | Decisions should connect fields across specs, not live only as prose. | Done for generated dictionaries. | Dictionary entries expose cross-standard mappings and decisions link to the affected objects/fields. |
 | 12 | Add a public machine-readable status manifest. | AI agents need a simple way to know what is runnable, generated, planned, or unsupported. | Not done. | `site/api/platform-status.json` or equivalent lists coverage and runnable surfaces. |
 | 13 | Add a stronger browser "try it" workflow. | The current SQL console works, but examples should cover roster, class roster, and gradebook queries. | Basic SQL works. | Site includes selectable queries and JSON endpoint previews for the complete OneRoster demo slice. |
@@ -55,4 +55,4 @@ This table maps known unmet evaluator rubric IDs to backlog work so the LLM loop
 
 ## Immediate Execution Order
 
-Items 1 through 9 are now cleared for the structured OneRoster, QTI, CASE, Caliper, and integration/governance dictionaries. The next cheapest high-leverage work is item 10: expand OneRoster from the core demo to full OneRoster 1.2 accounting.
+Items 1 through 11 are now cleared for the structured OneRoster, QTI, CASE, Caliper, integration/governance dictionaries, decision traces, and Lead spec accounting. The next cheapest future-product work is item 12: publish a machine-readable status manifest distinct from the advisory score report.

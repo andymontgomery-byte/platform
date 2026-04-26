@@ -14,6 +14,12 @@
       "plain_description": "A district, school, department, program, or other education organization.",
       "why_it_exists": "Apps need to know where people, courses, classes, and enrollments belong.",
       "privacy_class": "directory",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Org",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -24,7 +30,14 @@
           "plain_description": "The platform's stable ID for this organization.",
           "school_example": "org_school_lincoln",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Org",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -35,7 +48,14 @@
           "plain_description": "The OneRoster source ID used by the sending system.",
           "school_example": "SCHOOL-100",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Org",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "name",
@@ -46,7 +66,14 @@
           "plain_description": "The organization name people recognize.",
           "school_example": "Lincoln Middle School",
           "privacy_class": "directory",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Org",
+            "field": "name",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "organization_type",
@@ -61,25 +88,60 @@
             {
               "value": "district",
               "label": "District",
-              "plain_description": "A local education agency or district office."
+              "plain_description": "A local education agency or district office.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "district",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "school",
               "label": "School",
-              "plain_description": "A school building or campus."
+              "plain_description": "A school building or campus.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "school",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "department",
               "label": "Department",
-              "plain_description": "A department inside a school or district."
+              "plain_description": "A department inside a school or district.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "department",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "program",
               "label": "Program",
-              "plain_description": "A program, academy, pathway, or organized learning group."
+              "plain_description": "A program, academy, pathway, or organized learning group.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "program",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Org",
+            "field": "type",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "parent_organization_id",
@@ -90,7 +152,14 @@
           "plain_description": "The organization that contains this one.",
           "school_example": "A school belongs to a district.",
           "privacy_class": "directory",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Org",
+            "field": "parent",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -105,20 +174,48 @@
             {
               "value": "active",
               "label": "Active",
-              "plain_description": "The record is current and should normally be used."
+              "plain_description": "The record is current and should normally be used.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "status",
+                "value": "active",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "inactive",
               "label": "Inactive",
-              "plain_description": "The record exists but should not normally be used for new activity."
+              "plain_description": "The record exists but should not normally be used for new activity.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "status",
+                "value": "inactive",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "tobedeleted",
               "label": "To be deleted",
-              "plain_description": "The source system says this record should be removed or ignored."
+              "plain_description": "The source system says this record should be removed or ignored.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Org",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -129,7 +226,14 @@
           "plain_description": "When the source system says this organization record last changed.",
           "school_example": "2026-04-24T09:10:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Org",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -141,6 +245,12 @@
       "plain_description": "A learner, teacher, staff member, guardian, or administrator known to the platform.",
       "why_it_exists": "Apps need a stable way to refer to the people who learn, teach, administer, or support learning.",
       "privacy_class": "education_record",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "User",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -151,7 +261,14 @@
           "plain_description": "The platform's stable ID for this person.",
           "school_example": "person_ada",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -162,7 +279,14 @@
           "plain_description": "The OneRoster source ID used by the sending system.",
           "school_example": "USER-2001",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "display_name",
@@ -173,7 +297,14 @@
           "plain_description": "The name shown in user interfaces.",
           "school_example": "Ada Johnson",
           "privacy_class": "directory",
-          "decision_id": "DEC-001-person-agent-subject"
+          "decision_id": "DEC-001-person-agent-subject",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "givenName/familyName/preferredName projection",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "given_name",
@@ -184,7 +315,14 @@
           "plain_description": "The person's first or given name.",
           "school_example": "Ada",
           "privacy_class": "directory",
-          "decision_id": "DEC-001-person-agent-subject"
+          "decision_id": "DEC-001-person-agent-subject",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "givenName",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "family_name",
@@ -195,7 +333,14 @@
           "plain_description": "The person's last or family name.",
           "school_example": "Johnson",
           "privacy_class": "directory",
-          "decision_id": "DEC-001-person-agent-subject"
+          "decision_id": "DEC-001-person-agent-subject",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "familyName",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "email",
@@ -206,7 +351,14 @@
           "plain_description": "The person's school email address.",
           "school_example": "ada.johnson@northview.k12.test",
           "privacy_class": "directory",
-          "decision_id": "DEC-001-person-agent-subject"
+          "decision_id": "DEC-001-person-agent-subject",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "email",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "primary_role",
@@ -221,25 +373,60 @@
             {
               "value": "student",
               "label": "Student",
-              "plain_description": "A learner enrolled in one or more classes."
+              "plain_description": "A learner enrolled in one or more classes.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "student",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "teacher",
               "label": "Teacher",
-              "plain_description": "An educator assigned to teach or manage classes."
+              "plain_description": "An educator assigned to teach or manage classes.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "teacher",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "administrator",
               "label": "Administrator",
-              "plain_description": "A user with school or district administrative responsibilities."
+              "plain_description": "A user with school or district administrative responsibilities.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "administrator",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "guardian",
               "label": "Guardian",
-              "plain_description": "A parent, guardian, or adult connected to a learner."
+              "plain_description": "A parent, guardian, or adult connected to a learner.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "guardian",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-003-role-vocabulary"
+          "decision_id": "DEC-003-role-vocabulary",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "roles.role",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "enabled_user",
@@ -254,15 +441,36 @@
             {
               "value": "true",
               "label": "True",
-              "plain_description": "The user account is enabled."
+              "plain_description": "The user account is enabled.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "enabled_user",
+                "value": "true",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "false",
               "label": "False",
-              "plain_description": "The user account is disabled."
+              "plain_description": "The user account is disabled.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "enabled_user",
+                "value": "false",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-001-person-agent-subject"
+          "decision_id": "DEC-001-person-agent-subject",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "enabledUser",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -274,7 +482,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-001-person-agent-subject"
+          "decision_id": "DEC-001-person-agent-subject",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -285,7 +500,14 @@
           "plain_description": "When the source system says this person record last changed.",
           "school_example": "2026-04-24T09:15:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "User",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -297,6 +519,12 @@
       "plain_description": "A school year, term, semester, quarter, grading period, or other calendar window.",
       "why_it_exists": "Courses, classes, enrollments, and gradebook work need dates and school-year context.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "AcademicSession",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -307,7 +535,14 @@
           "plain_description": "The platform's stable ID for this academic session.",
           "school_example": "session_2026_fall",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -318,7 +553,14 @@
           "plain_description": "The OneRoster source ID for this calendar record.",
           "school_example": "TERM-FALL-2026",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -329,7 +571,14 @@
           "plain_description": "The calendar name people see.",
           "school_example": "Fall 2026",
           "privacy_class": "operational",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "session_type",
@@ -344,30 +593,72 @@
             {
               "value": "schoolYear",
               "label": "School year",
-              "plain_description": "The full school year."
+              "plain_description": "The full school year.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "schoolYear",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "term",
               "label": "Term",
-              "plain_description": "A major teaching period such as fall or spring."
+              "plain_description": "A major teaching period such as fall or spring.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "term",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "semester",
               "label": "Semester",
-              "plain_description": "A half-year academic period."
+              "plain_description": "A half-year academic period.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "semester",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "quarter",
               "label": "Quarter",
-              "plain_description": "A quarter-year academic period."
+              "plain_description": "A quarter-year academic period.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "quarter",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "gradingPeriod",
               "label": "Grading period",
-              "plain_description": "A reporting or grading window."
+              "plain_description": "A reporting or grading window.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "gradingPeriod",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "type",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "start_date",
@@ -378,7 +669,14 @@
           "plain_description": "The first date in the session.",
           "school_example": "2026-08-24",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "startDate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "end_date",
@@ -389,7 +687,14 @@
           "plain_description": "The last date in the session.",
           "school_example": "2026-12-18",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "endDate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "school_year",
@@ -400,7 +705,14 @@
           "plain_description": "The calendar year associated with the school year.",
           "school_example": "2026",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "schoolYear",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -412,7 +724,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -423,7 +742,14 @@
           "plain_description": "When the source system says this session record last changed.",
           "school_example": "2026-04-24T09:20:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "AcademicSession",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -435,6 +761,12 @@
       "plain_description": "A course template or catalog entry, such as Grade 6 Mathematics.",
       "why_it_exists": "Classes are scheduled instances of courses, and course IDs help organize curriculum and reporting.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Course",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -445,7 +777,14 @@
           "plain_description": "The platform's stable ID for this course.",
           "school_example": "course_math_6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -456,7 +795,14 @@
           "plain_description": "The OneRoster source ID for this course.",
           "school_example": "COURSE-MATH-6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -467,7 +813,14 @@
           "plain_description": "The course name people see.",
           "school_example": "Grade 6 Mathematics",
           "privacy_class": "operational",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "course_code",
@@ -478,7 +831,14 @@
           "plain_description": "A local course code used by the school or district.",
           "school_example": "MATH-06",
           "privacy_class": "operational",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "courseCode",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "org_id",
@@ -489,7 +849,14 @@
           "plain_description": "The organization that owns or offers the course.",
           "school_example": "org_district_north",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "org",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "school_year_id",
@@ -500,7 +867,14 @@
           "plain_description": "The school year this course belongs to, if the source provides one.",
           "school_example": "session_2026",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "schoolYear",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -512,7 +886,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -523,7 +904,14 @@
           "plain_description": "When the source system says this course record last changed.",
           "school_example": "2026-04-24T09:25:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Course",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -535,6 +923,12 @@
       "plain_description": "A scheduled class or section where learners and teachers meet around a course.",
       "why_it_exists": "Most tool launches, enrollments, assignments, and grades happen in a class context.",
       "privacy_class": "education_record",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Class",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -545,7 +939,14 @@
           "plain_description": "The platform's stable ID for this class.",
           "school_example": "class_math_6_a",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -556,7 +957,14 @@
           "plain_description": "The OneRoster source ID for this class.",
           "school_example": "CLASS-MATH-6A",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -567,7 +975,14 @@
           "plain_description": "The class name people see.",
           "school_example": "Math 6 - Period 1",
           "privacy_class": "education_record",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "class_type",
@@ -582,15 +997,36 @@
             {
               "value": "scheduled",
               "label": "Scheduled",
-              "plain_description": "A normal scheduled class or section."
+              "plain_description": "A normal scheduled class or section.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "class_type",
+                "value": "scheduled",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "homeroom",
               "label": "Homeroom",
-              "plain_description": "A homeroom or advisory group."
+              "plain_description": "A homeroom or advisory group.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "class_type",
+                "value": "homeroom",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "classType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "class_code",
@@ -601,7 +1037,14 @@
           "plain_description": "A local code for the class section.",
           "school_example": "P1-MATH6",
           "privacy_class": "education_record",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "classCode",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "course_id",
@@ -612,7 +1055,14 @@
           "plain_description": "The course this class teaches.",
           "school_example": "course_math_6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "course",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "school_id",
@@ -623,7 +1073,14 @@
           "plain_description": "The school where the class is offered.",
           "school_example": "org_school_lincoln",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "school",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "term_id",
@@ -634,7 +1091,14 @@
           "plain_description": "The academic session when the class runs.",
           "school_example": "session_2026_fall",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "terms",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -646,7 +1110,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -657,7 +1128,14 @@
           "plain_description": "When the source system says this class record last changed.",
           "school_example": "2026-04-24T09:30:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Class",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -669,6 +1147,12 @@
       "plain_description": "A record that says a person participates in a class with a specific role.",
       "why_it_exists": "Apps use enrollments to know which learners and educators belong in a class.",
       "privacy_class": "education_record",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Enrollment",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -679,7 +1163,14 @@
           "plain_description": "The platform's stable ID for this enrollment.",
           "school_example": "enr_ada_math_6_a",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -690,7 +1181,14 @@
           "plain_description": "The OneRoster source ID for this enrollment.",
           "school_example": "ENR-10001",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "class_id",
@@ -701,7 +1199,14 @@
           "plain_description": "The class where the person is enrolled.",
           "school_example": "class_math_6_a",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "class",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "person_id",
@@ -712,7 +1217,14 @@
           "plain_description": "The learner, teacher, or other person in the class.",
           "school_example": "person_ada",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "user",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "school_id",
@@ -723,7 +1235,14 @@
           "plain_description": "The school associated with this enrollment.",
           "school_example": "org_school_lincoln",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "school",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "role",
@@ -738,25 +1257,60 @@
             {
               "value": "student",
               "label": "Student",
-              "plain_description": "A learner in the class."
+              "plain_description": "A learner in the class.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "student",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "teacher",
               "label": "Teacher",
-              "plain_description": "An educator assigned to the class."
+              "plain_description": "An educator assigned to the class.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "teacher",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "administrator",
               "label": "Administrator",
-              "plain_description": "A school or district administrator associated with the class."
+              "plain_description": "A school or district administrator associated with the class.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "administrator",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "aide",
               "label": "Aide",
-              "plain_description": "A support staff member assisting the class."
+              "plain_description": "A support staff member assisting the class.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "aide",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-003-role-vocabulary"
+          "decision_id": "DEC-003-role-vocabulary",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "role",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "begin_date",
@@ -767,7 +1321,14 @@
           "plain_description": "The first date this enrollment applies.",
           "school_example": "2026-08-24",
           "privacy_class": "education_record",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "beginDate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "end_date",
@@ -778,7 +1339,14 @@
           "plain_description": "The last date this enrollment applies.",
           "school_example": "2026-12-18",
           "privacy_class": "education_record",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "endDate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "primary_flag",
@@ -790,7 +1358,14 @@
           "school_example": "true",
           "privacy_class": "education_record",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-004-enrollment-membership"
+          "decision_id": "DEC-004-enrollment-membership",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "primary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -802,7 +1377,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-004-enrollment-membership"
+          "decision_id": "DEC-004-enrollment-membership",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -813,7 +1395,14 @@
           "plain_description": "When the source system says this enrollment record last changed.",
           "school_example": "2026-04-24T09:35:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Enrollment",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -825,6 +1414,12 @@
       "plain_description": "A gradebook column, assignment, assessment, or activity that can receive results.",
       "why_it_exists": "Tools and reports need a clear gradebook target before they can exchange scores.",
       "privacy_class": "education_record",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "LineItem",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -835,7 +1430,14 @@
           "plain_description": "The platform's stable ID for this gradebook item.",
           "school_example": "li_quiz_1",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -846,7 +1448,14 @@
           "plain_description": "The OneRoster source ID for this line item.",
           "school_example": "LINEITEM-QUIZ-1",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -857,7 +1466,14 @@
           "plain_description": "The gradebook item name.",
           "school_example": "Unit 1 Quiz",
           "privacy_class": "education_record",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "class_id",
@@ -868,7 +1484,14 @@
           "plain_description": "The class whose gradebook contains this item.",
           "school_example": "class_math_6_a",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "class",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "category",
@@ -883,25 +1506,60 @@
             {
               "value": "assignment",
               "label": "Assignment",
-              "plain_description": "A task learners complete."
+              "plain_description": "A task learners complete.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "assignment",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "quiz",
               "label": "Quiz",
-              "plain_description": "A short assessment."
+              "plain_description": "A short assessment.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "quiz",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "test",
               "label": "Test",
-              "plain_description": "A larger assessment."
+              "plain_description": "A larger assessment.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "test",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "participation",
               "label": "Participation",
-              "plain_description": "Participation or engagement score."
+              "plain_description": "Participation or engagement score.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "participation",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "category",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "assign_date",
@@ -912,7 +1570,14 @@
           "plain_description": "The date the item was assigned.",
           "school_example": "2026-09-08",
           "privacy_class": "education_record",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "assignDate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "due_date",
@@ -923,7 +1588,14 @@
           "plain_description": "The date the item is due.",
           "school_example": "2026-09-15",
           "privacy_class": "education_record",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "dueDate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "result_value_min",
@@ -934,7 +1606,14 @@
           "plain_description": "The minimum possible numeric result.",
           "school_example": "0",
           "privacy_class": "education_record",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "resultValueMin",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "result_value_max",
@@ -945,7 +1624,14 @@
           "plain_description": "The maximum possible numeric result.",
           "school_example": "100",
           "privacy_class": "education_record",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "resultValueMax",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -957,7 +1643,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -968,7 +1661,14 @@
           "plain_description": "When the source system says this line item record last changed.",
           "school_example": "2026-04-24T09:40:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -980,6 +1680,12 @@
       "plain_description": "A learner's score, status, or feedback for a gradebook line item.",
       "why_it_exists": "Results are the bridge between assignments, assessment tools, gradebooks, and reporting.",
       "privacy_class": "education_record",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Result",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -990,7 +1696,14 @@
           "plain_description": "The platform's stable ID for this result.",
           "school_example": "res_ada_quiz_1",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "sourcedId/internal platform id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "sourced_id",
@@ -1001,7 +1714,14 @@
           "plain_description": "The OneRoster source ID for this result.",
           "school_example": "RESULT-9001",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "line_item_id",
@@ -1012,7 +1732,14 @@
           "plain_description": "The gradebook item this result belongs to.",
           "school_example": "li_quiz_1",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "lineItem",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "person_id",
@@ -1023,7 +1750,14 @@
           "plain_description": "The learner who received the result.",
           "school_example": "person_ada",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "student",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "score_status",
@@ -1038,25 +1772,60 @@
             {
               "value": "notSubmitted",
               "label": "Not submitted",
-              "plain_description": "The learner has not submitted work."
+              "plain_description": "The learner has not submitted work.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "notSubmitted",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "submitted",
               "label": "Submitted",
-              "plain_description": "The learner submitted work but grading may not be final."
+              "plain_description": "The learner submitted work but grading may not be final.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "submitted",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "partiallyGraded",
               "label": "Partially graded",
-              "plain_description": "Some grading is complete but not final."
+              "plain_description": "Some grading is complete but not final.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "partiallyGraded",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "fullyGraded",
               "label": "Fully graded",
-              "plain_description": "The result is final enough to show or report."
+              "plain_description": "The result is final enough to show or report.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "fullyGraded",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "scoreStatus",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "score",
@@ -1067,7 +1836,14 @@
           "plain_description": "The numeric score earned.",
           "school_example": "87",
           "privacy_class": "education_record",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "score",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "score_date",
@@ -1078,7 +1854,14 @@
           "plain_description": "When the score was assigned or last updated.",
           "school_example": "2026-09-16T14:30:00Z",
           "privacy_class": "education_record",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "scoreDate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "comment",
@@ -1089,7 +1872,14 @@
           "plain_description": "Feedback or notes attached to the result.",
           "school_example": "Strong strategy; check question 4.",
           "privacy_class": "education_record",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "comment",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -1101,7 +1891,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "status",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "date_last_modified",
@@ -1112,7 +1909,14 @@
           "plain_description": "When the source system says this result record last changed.",
           "school_example": "2026-04-24T09:45:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "Result",
+            "field": "dateLastModified",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1124,6 +1928,12 @@
       "plain_description": "An ID used by another system to refer to the same object the platform tracks.",
       "why_it_exists": "Different systems use different IDs, and developers need to know which ID came from which source.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "GUIDRef/sourceId crosswalk",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1134,7 +1944,14 @@
           "plain_description": "The platform's stable ID for this source identifier record.",
           "school_example": "sid_1",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "GUIDRef/sourceId crosswalk",
+            "field": "sourcedId",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "object_type",
@@ -1145,7 +1962,14 @@
           "plain_description": "The kind of platform object this identifier describes.",
           "school_example": "person",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "GUIDRef/sourceId crosswalk",
+            "field": "type",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "object_id",
@@ -1156,7 +1980,14 @@
           "plain_description": "The platform object that has this external identifier.",
           "school_example": "person_ada",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "GUIDRef/sourceId crosswalk",
+            "field": "sourcedId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "source_system",
@@ -1167,7 +1998,14 @@
           "plain_description": "The outside system that created or owns the identifier.",
           "school_example": "North SIS",
           "privacy_class": "operational",
-          "decision_id": "DEC-010-tenancy-reference-data"
+          "decision_id": "DEC-010-tenancy-reference-data",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "GUIDRef/sourceId crosswalk",
+            "field": "source system",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "external_id",
@@ -1178,7 +2016,14 @@
           "plain_description": "The actual identifier value used by the outside system.",
           "school_example": "USER-2001",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "GUIDRef/sourceId crosswalk",
+            "field": "sourcedId/identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier_type",
@@ -1193,30 +2038,72 @@
             {
               "value": "oneRosterSourcedId",
               "label": "OneRoster sourced ID",
-              "plain_description": "The object's OneRoster sourcedId."
+              "plain_description": "The object's OneRoster sourcedId.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "oneRosterSourcedId",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "sisSourcedId",
               "label": "SIS sourced ID",
-              "plain_description": "An identifier from the student information system."
+              "plain_description": "An identifier from the student information system.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "sisSourcedId",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "ltiContextId",
               "label": "LTI context ID",
-              "plain_description": "A course or class context identifier from an LTI platform."
+              "plain_description": "A course or class context identifier from an LTI platform.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "ltiContextId",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "ltiUserId",
               "label": "LTI user ID",
-              "plain_description": "A user identifier from an LTI platform or tool."
+              "plain_description": "A user identifier from an LTI platform or tool.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "ltiUserId",
+                "coverage": "mapped"
+              }
             },
             {
               "value": "emailAddress",
               "label": "Email address",
-              "plain_description": "An email address used as an identifier."
+              "plain_description": "An email address used as an identifier.",
+              "sourceStandard": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "emailAddress",
+                "coverage": "mapped"
+              }
             }
           ],
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "GUIDRef/sourceId crosswalk",
+            "field": "type",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "status",
@@ -1228,7 +2115,14 @@
           "school_example": "active",
           "privacy_class": "operational",
           "allowed_values_ref": "base_status",
-          "decision_id": "DEC-010-tenancy-reference-data"
+          "decision_id": "DEC-010-tenancy-reference-data",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "GUIDRef/sourceId crosswalk",
+            "field": "status",
+            "coverage": "mapped"
+          }
         }
       ]
     }
@@ -1238,30 +2132,285 @@
       {
         "value": "active",
         "label": "Active",
-        "plain_description": "The record is current and should normally be used."
+        "plain_description": "The record is current and should normally be used.",
+        "sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "vocabulary": "base_status",
+          "value": "active",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "inactive",
         "label": "Inactive",
-        "plain_description": "The record exists but should not normally be used for new activity."
+        "plain_description": "The record exists but should not normally be used for new activity.",
+        "sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "vocabulary": "base_status",
+          "value": "inactive",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "tobedeleted",
         "label": "To be deleted",
-        "plain_description": "The source system says this record should be removed or ignored."
+        "plain_description": "The source system says this record should be removed or ignored.",
+        "sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "vocabulary": "base_status",
+          "value": "tobedeleted",
+          "coverage": "mapped"
+        }
       }
     ],
     "true_false": [
       {
         "value": "true",
         "label": "True",
-        "plain_description": "Yes or enabled."
+        "plain_description": "Yes or enabled.",
+        "sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "vocabulary": "true_false",
+          "value": "true",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "false",
         "label": "False",
-        "plain_description": "No or disabled."
+        "plain_description": "No or disabled.",
+        "sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "vocabulary": "true_false",
+          "value": "false",
+          "coverage": "mapped"
+        }
       }
     ]
-  }
+  },
+  "unsupported_or_deferred": [
+    {
+      "area": "OneRoster Demographics object fields",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Demographics",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "Demographics.birthDate",
+        "Demographics.sex",
+        "Demographics.americanIndianOrAlaskaNative",
+        "Demographics.asian",
+        "Demographics.blackOrAfricanAmerican",
+        "Demographics.nativeHawaiianOrOtherPacificIslander",
+        "Demographics.white",
+        "Demographics.demographicRaceTwoOrMoreRaces",
+        "Demographics.hispanicOrLatinoEthnicity",
+        "Demographics.countryOfBirthCode",
+        "Demographics.stateOfBirthAbbreviation",
+        "Demographics.cityOfBirth",
+        "Demographics.publicSchoolResidenceStatus",
+        "sex value female",
+        "sex value male",
+        "sex value other",
+        "sex value unspecified"
+      ],
+      "reason": "Highly sensitive demographic fields are not needed for the current roster/gradebook slice and should only be exposed after tenant policy, purpose limitation, and audited access rules are implemented for that data category."
+    },
+    {
+      "area": "OneRoster User agent, profile, credential, password, and contact fields",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "User/UserProfile/Credential/Role",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "User.userMasterIdentifier",
+        "User.username",
+        "User.userIds",
+        "User.middleName",
+        "User.preferredFirstName",
+        "User.preferredMiddleName",
+        "User.preferredLastName",
+        "User.pronouns",
+        "User.roles",
+        "User.userProfiles",
+        "User.primaryOrg",
+        "User.identifier",
+        "User.sms",
+        "User.phone",
+        "User.agents",
+        "User.grades",
+        "User.password",
+        "User.resources",
+        "UserProfile.profileId",
+        "UserProfile.profileType",
+        "UserProfile.vendorId",
+        "UserProfile.applicationId",
+        "UserProfile.description",
+        "UserProfile.credentials",
+        "Credential.type",
+        "Credential.username",
+        "Credential.password",
+        "Credential.extensions",
+        "Role.roleType",
+        "Role.role",
+        "Role.org",
+        "Role.userProfile",
+        "Role.beginDate",
+        "Role.endDate"
+      ],
+      "reason": "The runnable model exposes directory-safe user identity and one primary role first. Relationship, profile, credential, password, phone, pronoun, and organization-role details have higher privacy and integration impact, so they need a dedicated identity/account slice with field-level authorization before exposure."
+    },
+    {
+      "area": "OneRoster Resource object and resource references",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Resource",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "Resource.title",
+        "Resource.roles",
+        "Resource.importance",
+        "Resource.vendorResourceId",
+        "Resource.vendorId",
+        "Resource.applicationId",
+        "Course.resources",
+        "Class.resources",
+        "User.resources",
+        "importance value primary",
+        "importance value secondary",
+        "resource role value administrator",
+        "resource role value aide",
+        "resource role value guardian",
+        "resource role value parent",
+        "resource role value proctor",
+        "resource role value relative",
+        "resource role value student",
+        "resource role value teacher"
+      ],
+      "reason": "Resource records overlap with QTI packages, Common Cartridge content, LTI links, and content licensing. They are deferred until the content/resource slice can preserve package lineage and avoid treating resource metadata as the actual content asset."
+    },
+    {
+      "area": "OneRoster ScoreScale, Assessment Results Profile, and learning-objective result fields",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "ScoreScale/AssessmentLineItem/AssessmentResult/LearningObjectiveSet",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "ScoreScale.title",
+        "ScoreScale.type",
+        "ScoreScale.course",
+        "ScoreScale.class",
+        "ScoreScale.scoreScaleValue",
+        "ScoreScaleValue.itemValueLHS",
+        "ScoreScaleValue.itemValueRHS",
+        "LineItem.scoreScale",
+        "LineItem.learningObjectiveSet",
+        "Result.class",
+        "Result.scoreScale",
+        "Result.textScore",
+        "Result.learningObjectiveSet",
+        "Result.inProgress",
+        "Result.incomplete",
+        "Result.late",
+        "Result.missing",
+        "AssessmentLineItem.title",
+        "AssessmentLineItem.description",
+        "AssessmentLineItem.class",
+        "AssessmentLineItem.parentAssessmentLineItem",
+        "AssessmentLineItem.scoreScale",
+        "AssessmentLineItem.resultValueMin",
+        "AssessmentLineItem.resultValueMax",
+        "AssessmentLineItem.learningObjectiveSet",
+        "AssessmentResult.assessmentLineItem",
+        "AssessmentResult.student",
+        "AssessmentResult.score",
+        "AssessmentResult.textScore",
+        "AssessmentResult.scoreDate",
+        "AssessmentResult.scoreScale",
+        "AssessmentResult.scorePercentile",
+        "AssessmentResult.scoreStatus",
+        "AssessmentResult.comment",
+        "AssessmentResult.learningObjectiveSet",
+        "AssessmentResult.inProgress",
+        "AssessmentResult.incomplete",
+        "AssessmentResult.late",
+        "AssessmentResult.missing",
+        "LearningObjectiveSet.source",
+        "LearningObjectiveSet.learningObjectiveIds",
+        "LearningObjectiveResult.learningObjectiveId",
+        "LearningObjectiveResult.score",
+        "LearningObjectiveResult.textScore"
+      ],
+      "reason": "The current gradebook slice supports line items and numeric results. Score-scale mapping, assessment-result profile records, and per-standard mastery scores depend on QTI/CASE alignment and assessment runtime choices, so exposing them now would create unstable contracts."
+    },
+    {
+      "area": "OneRoster extended object fields, references, and organization values outside the core slice",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "Org/Course/Class/reference/status metadata",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "common metadata",
+        "reference.href",
+        "reference.type",
+        "AcademicSession.parent",
+        "AcademicSession.children",
+        "Org.identifier",
+        "Org.children",
+        "Org type value local",
+        "Org type value national",
+        "Org type value state",
+        "Course.grades",
+        "Course.subjects",
+        "Course.subjectCodes",
+        "Class.location",
+        "Class.grades",
+        "Class.subjects",
+        "Class.subjectCodes",
+        "Class.periods",
+        "API status imsx_codeMajor",
+        "API status imsx_severity",
+        "API status imsx_description",
+        "API status imsx_CodeMinor",
+        "API status imsx_codeMinorFieldName",
+        "API status imsx_codeMinorFieldValue"
+      ],
+      "reason": "The core runnable model keeps the fields needed for roster membership, gradebook joins, tenant isolation, and hosted smoke tests. Extra metadata, references, org-level values, subjects, grade arrays, periods, and API status payloads are deferred until full REST/CSV provider behavior and filtering/error semantics are implemented."
+    },
+    {
+      "area": "Full OneRoster REST provider/consumer and CSV bulk-exchange binding behavior",
+      "sourceStandard": {
+        "standard": "OneRoster",
+        "version": "1.2",
+        "object": "REST and CSV bindings",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "pagination",
+        "filtering",
+        "sorting",
+        "field selection",
+        "bulk CSV import/export",
+        "provider certification fixtures",
+        "consumer certification fixtures",
+        "delete/write endpoints"
+      ],
+      "reason": "The hosted demo is intentionally read-mostly and tenant-scoped. Full binding behavior requires production auth, pagination/filter semantics, write policy, certification fixtures, and operational import/export jobs beyond the current vertical slice."
+    }
+  ]
 }

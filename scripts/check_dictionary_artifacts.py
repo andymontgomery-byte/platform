@@ -69,6 +69,7 @@ REQUIRED_OBJECT_KEYS = {
     "plain_description",
     "why_it_exists",
     "privacy_class",
+    "sourceStandard",
     "fields",
 }
 
@@ -82,6 +83,14 @@ REQUIRED_FIELD_KEYS = {
     "school_example",
     "privacy_class",
     "decision_id",
+    "sourceStandard",
+}
+
+REQUIRED_UNSUPPORTED_KEYS = {
+    "area",
+    "reason",
+    "sourceStandard",
+    "sourceFieldsOrValues",
 }
 
 
@@ -173,11 +182,23 @@ def check_dictionary_shape(config: dict, data: dict, decision_trace: dict[str, s
             if ref and ref not in allowed_refs:
                 errors.append(f"{config['name']} {field.get('field_key')} references missing values: {ref}")
             for value in allowed_values(field, data):
-                for key in ["value", "label", "plain_description"]:
+                for key in ["value", "label", "plain_description", "sourceStandard"]:
                     if key not in value or not str(value[key]).strip():
                         errors.append(
                             f"{config['name']} {field.get('field_key')} value missing {key}: {value}"
                         )
+    for item in data.get("unsupported_or_deferred", []):
+        missing = REQUIRED_UNSUPPORTED_KEYS - set(item)
+        if missing:
+            errors.append(
+                f"{config['name']} unsupported/deferred item missing keys "
+                f"{sorted(missing)}: {item.get('area')}"
+            )
+        if not isinstance(item.get("sourceFieldsOrValues"), list) or not item.get("sourceFieldsOrValues"):
+            errors.append(
+                f"{config['name']} unsupported/deferred item missing non-empty sourceFieldsOrValues: "
+                f"{item.get('area')}"
+            )
     return errors
 
 
@@ -197,6 +218,8 @@ def check_artifacts(
         if not schema:
             errors.append(f"{config['name']} OpenAPI missing schema {schema_name}")
             continue
+        if schema.get("x-sourceStandard") != obj.get("sourceStandard"):
+            errors.append(f"{config['name']} OpenAPI sourceStandard mismatch for {schema_name}")
         if obj["api_path"] not in openapi.get("paths", {}):
             errors.append(f"{config['name']} OpenAPI missing path {obj['api_path']}")
         table_comment = f"COMMENT ON TABLE {config['sql_schema']}.{obj['table_name']} IS "
@@ -235,9 +258,20 @@ def check_artifacts(
                     f"{config['name']} OpenAPI decision mismatch "
                     f"{schema_name}.{field['json_name']}"
                 )
+            if prop.get("x-sourceStandard") != field.get("sourceStandard"):
+                errors.append(
+                    f"{config['name']} OpenAPI sourceStandard mismatch "
+                    f"{schema_name}.{field['json_name']}"
+                )
             if f"`{field['column_name']}`" not in markdown:
                 errors.append(
                     f"{config['name']} Markdown missing field {obj['table_name']}.{field['column_name']}"
+                )
+            field_source = format_source_standard(field.get("sourceStandard", {}))
+            if field_source and field_source not in markdown:
+                errors.append(
+                    f"{config['name']} Markdown missing sourceStandard "
+                    f"{obj['table_name']}.{field['column_name']}"
                 )
             if decision_id and f"`{decision_id}`" not in markdown:
                 errors.append(
@@ -254,12 +288,25 @@ def check_artifacts(
                     f"{config['name']} HTML missing decision ID "
                     f"{obj['table_name']}.{field['column_name']}"
                 )
+            if field_source and html_escape(field_source) not in html_doc:
+                errors.append(
+                    f"{config['name']} HTML missing sourceStandard "
+                    f"{obj['table_name']}.{field['column_name']}"
+                )
             values = allowed_values(field, data)
             if values:
                 expected_enum = [item["value"] for item in values]
                 if prop.get("enum") != expected_enum:
                     errors.append(
                         f"{config['name']} OpenAPI enum mismatch {schema_name}.{field['json_name']}"
+                    )
+                expected_value_sources = {
+                    item["value"]: item["sourceStandard"] for item in values
+                }
+                if prop.get("x-valueSourceStandards") != expected_value_sources:
+                    errors.append(
+                        f"{config['name']} OpenAPI enum sourceStandard mismatch "
+                        f"{schema_name}.{field['json_name']}"
                     )
     return errors
 
@@ -325,6 +372,23 @@ def allowed_values(field: dict, data: dict) -> list[dict]:
     if ref:
         return data.get("shared_allowed_values", {}).get(ref, [])
     return []
+
+
+def format_source_standard(source: dict) -> str:
+    if not isinstance(source, dict):
+        return ""
+    parts = [source.get("standard", ""), source.get("version", "")]
+    target = ".".join(
+        str(source[key])
+        for key in ["object", "field", "vocabulary", "value"]
+        if source.get(key)
+    )
+    if target:
+        parts.append(target)
+    coverage = source.get("coverage")
+    if coverage and coverage != "mapped":
+        parts.append(f"({coverage})")
+    return " ".join(str(part) for part in parts if part)
 
 
 def pascal(value: str) -> str:

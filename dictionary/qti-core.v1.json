@@ -15,6 +15,12 @@
       "plain_description": "An imported assessment bundle containing QTI XML, resources, media, metadata, and a manifest.",
       "why_it_exists": "Apps and AI agents need one record that says where the package came from, whether it is valid, and where the original artifact is stored.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "QTI package manifest",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -25,7 +31,14 @@
           "plain_description": "The platform's stable ID for this QTI package.",
           "school_example": "qti_pkg_midyear_math_6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "package_identifier",
@@ -36,7 +49,14 @@
           "plain_description": "The package ID supplied by the publisher, item bank, authoring tool, or import process.",
           "school_example": "MATH6-MIDYEAR-2026",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "packageIdentifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "qti_version",
@@ -48,7 +68,14 @@
           "school_example": "3.0",
           "privacy_class": "operational",
           "allowed_values_ref": "qti_version",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "qtiVersion",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "source_system",
@@ -59,7 +86,14 @@
           "plain_description": "The publisher, item bank, LMS, or authoring tool that supplied the package.",
           "school_example": "Northview Item Bank",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "sourceSystem",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "validation_status",
@@ -71,7 +105,14 @@
           "school_example": "valid",
           "privacy_class": "operational",
           "allowed_values_ref": "validation_status",
-          "decision_id": "DEC-010-tenancy-reference-data"
+          "decision_id": "DEC-010-tenancy-reference-data",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "validationStatus",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "validation_error_count",
@@ -82,7 +123,14 @@
           "plain_description": "How many validation problems were found during import.",
           "school_example": "0",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "validationErrorCount",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "manifest_path",
@@ -93,7 +141,14 @@
           "plain_description": "The location of the package manifest file inside the package.",
           "school_example": "imsmanifest.xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "manifestPath",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "original_file_uri",
@@ -104,7 +159,14 @@
           "plain_description": "Where the platform stores the original uploaded package file.",
           "school_example": "s3://platform-demo/qti/MATH6-MIDYEAR-2026.zip",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "originalFileUri",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "imported_at",
@@ -115,7 +177,14 @@
           "plain_description": "When the platform received or imported the package.",
           "school_example": "2026-04-24T14:30:00Z",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package manifest",
+            "field": "importedAt",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -127,6 +196,12 @@
       "plain_description": "One question, task, or prompt plus its response variables, scoring rules, body content, feedback, and accessibility metadata.",
       "why_it_exists": "Item banks, search, reuse, alignment, accessibility review, and item-level analytics need item records.",
       "privacy_class": "directory",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "AssessmentItem",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -137,7 +212,14 @@
           "plain_description": "The platform's stable ID for this item.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "package_id",
@@ -148,7 +230,14 @@
           "plain_description": "The QTI package this item came from.",
           "school_example": "qti_pkg_midyear_math_6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "packageId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier",
@@ -159,7 +248,14 @@
           "plain_description": "The local QTI identifier for the item inside its package.",
           "school_example": "fraction_equivalence_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -170,7 +266,14 @@
           "plain_description": "The item title used to browse or select the item.",
           "school_example": "Equivalent Fractions",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "label",
@@ -181,7 +284,14 @@
           "plain_description": "An authoring-system label for the item.",
           "school_example": "NF-A-1 medium",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "label",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "language",
@@ -192,7 +302,14 @@
           "plain_description": "The main language of the item as a language tag.",
           "school_example": "en-US",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "language",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "authoring_tool_name",
@@ -203,7 +320,14 @@
           "plain_description": "The tool that created the item.",
           "school_example": "ItemAuthor Pro",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "authoringToolName",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "authoring_tool_version",
@@ -214,7 +338,14 @@
           "plain_description": "The version of the authoring tool that created the item.",
           "school_example": "12.4.1",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "authoringToolVersion",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "adaptive",
@@ -226,7 +357,14 @@
           "school_example": "false",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "adaptive",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "time_dependent",
@@ -238,7 +376,14 @@
           "school_example": "false",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "timeDependent",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "item_body_summary",
@@ -249,7 +394,14 @@
           "plain_description": "A safe summary of the visible question body, not necessarily the full item HTML/XML.",
           "school_example": "Choose all models that show one half.",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "itemBodySummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "primary_interaction_type",
@@ -261,7 +413,14 @@
           "school_example": "choiceInteraction",
           "privacy_class": "operational",
           "allowed_values_ref": "interaction_type",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "primaryInteractionType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "max_score",
@@ -272,7 +431,14 @@
           "plain_description": "The highest normal score this item can produce when known.",
           "school_example": "1",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "maxScore",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "has_correct_response",
@@ -284,7 +450,14 @@
           "school_example": "true",
           "privacy_class": "sensitive",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "hasCorrectResponse",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "accessibility_catalog_id",
@@ -295,7 +468,14 @@
           "plain_description": "The accessibility catalog record attached to this item, if any.",
           "school_example": "cat_fraction_001",
           "privacy_class": "sensitive",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "accessibilityCatalogId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "source_href",
@@ -306,7 +486,14 @@
           "plain_description": "The package-relative XML file or resource path for this item.",
           "school_example": "items/fraction_equivalence_001.xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItem",
+            "field": "sourceHref",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -318,6 +505,12 @@
       "plain_description": "Shared content such as a reading passage, chart, scenario, or media asset used by one or more items.",
       "why_it_exists": "Stimuli need search, reuse, accessibility review, and many-to-many links to items.",
       "privacy_class": "directory",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "AssessmentStimulus",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -328,7 +521,14 @@
           "plain_description": "The platform's stable ID for this stimulus.",
           "school_example": "qti_stimulus_water_cycle",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "package_id",
@@ -339,7 +539,14 @@
           "plain_description": "The QTI package this stimulus came from.",
           "school_example": "qti_pkg_science_6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "packageId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier",
@@ -350,7 +557,14 @@
           "plain_description": "The local QTI identifier for the stimulus.",
           "school_example": "water_cycle_passage",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -361,7 +575,14 @@
           "plain_description": "The stimulus title used to browse or select it.",
           "school_example": "Water Cycle Passage",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "language",
@@ -372,7 +593,14 @@
           "plain_description": "The main language of the stimulus as a language tag.",
           "school_example": "en-US",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "language",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "stimulus_body_summary",
@@ -383,7 +611,14 @@
           "plain_description": "A safe summary of the passage, chart, media, or other shared content.",
           "school_example": "A short passage explaining evaporation and condensation.",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "stimulusBodySummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "accessibility_catalog_id",
@@ -394,7 +629,14 @@
           "plain_description": "The accessibility catalog record attached to this stimulus, if any.",
           "school_example": "cat_water_cycle",
           "privacy_class": "sensitive",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "accessibilityCatalogId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "source_href",
@@ -405,7 +647,14 @@
           "plain_description": "The package-relative XML file or resource path for this stimulus.",
           "school_example": "stimuli/water_cycle.xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentStimulus",
+            "field": "sourceHref",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -417,6 +666,12 @@
       "plain_description": "A whole test definition, including parts, sections, item references, timing, outcomes, and feedback.",
       "why_it_exists": "Schools and apps need to search, assign, inspect, and align whole assessments, not only individual items.",
       "privacy_class": "directory",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "AssessmentTest",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -427,7 +682,14 @@
           "plain_description": "The platform's stable ID for this test.",
           "school_example": "qti_test_math6_midyear",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "package_id",
@@ -438,7 +700,14 @@
           "plain_description": "The QTI package this test came from.",
           "school_example": "qti_pkg_midyear_math_6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "packageId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier",
@@ -449,7 +718,14 @@
           "plain_description": "The local QTI identifier for the test.",
           "school_example": "math6_midyear_form_a",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -460,7 +736,14 @@
           "plain_description": "The test title people see.",
           "school_example": "Grade 6 Mathematics Midyear Form A",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "class_tokens",
@@ -471,7 +754,14 @@
           "plain_description": "Style or category tokens from the QTI test; this is not a school class.",
           "school_example": "benchmark midyear",
           "privacy_class": "operational",
-          "decision_id": "DEC-002-learning-context"
+          "decision_id": "DEC-002-learning-context",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "classTokens",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "authoring_tool_name",
@@ -482,7 +772,14 @@
           "plain_description": "The tool that created the test.",
           "school_example": "Assessment Builder",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "authoringToolName",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "authoring_tool_version",
@@ -493,7 +790,14 @@
           "plain_description": "The version of the tool that created the test.",
           "school_example": "5.8",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "authoringToolVersion",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "time_limit_seconds",
@@ -504,7 +808,14 @@
           "plain_description": "The maximum time allowed for the test when known, in seconds.",
           "school_example": "3600",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "timeLimitSeconds",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "outcome_processing_summary",
@@ -515,7 +826,14 @@
           "plain_description": "A safe summary of how test-level outcomes are calculated.",
           "school_example": "Sum item scores into SCORE and compare with mastery threshold.",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "outcomeProcessingSummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "source_href",
@@ -526,7 +844,14 @@
           "plain_description": "The package-relative XML file or resource path for this test.",
           "school_example": "tests/math6_midyear_form_a.xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentTest",
+            "field": "sourceHref",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -538,6 +863,12 @@
       "plain_description": "A major part of a test that controls navigation, submission, timing, and item-session behavior.",
       "why_it_exists": "Delivery and analytics need to know how learners are allowed to move through a test.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "TestPart",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -548,7 +879,14 @@
           "plain_description": "The platform's stable ID for this test part.",
           "school_example": "qti_part_math6_a_1",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "test_id",
@@ -559,7 +897,14 @@
           "plain_description": "The test that contains this part.",
           "school_example": "qti_test_math6_midyear",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "testId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier",
@@ -570,7 +915,14 @@
           "plain_description": "The local QTI identifier for this test part.",
           "school_example": "part_1",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -581,7 +933,14 @@
           "plain_description": "The title for this part, if shown or managed separately.",
           "school_example": "Calculator Not Allowed",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "navigation_mode",
@@ -593,7 +952,14 @@
           "school_example": "linear",
           "privacy_class": "operational",
           "allowed_values_ref": "navigation_mode",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "navigationMode",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "submission_mode",
@@ -605,7 +971,14 @@
           "school_example": "individual",
           "privacy_class": "operational",
           "allowed_values_ref": "submission_mode",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "submissionMode",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "max_time_seconds",
@@ -616,7 +989,14 @@
           "plain_description": "The maximum time allowed for this part, in seconds.",
           "school_example": "1800",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "maxTimeSeconds",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "item_session_control_id",
@@ -627,7 +1007,14 @@
           "plain_description": "The timing/review/attempt-control record for items in this part, if modeled separately.",
           "school_example": "isc_part_1",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "TestPart",
+            "field": "itemSessionControlId",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -639,6 +1026,12 @@
       "plain_description": "A group inside a test that can organize item references, nested sections, randomization, and section-level rules.",
       "why_it_exists": "Sections are needed for test construction, search, item selection, and analytics by part of a test.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "AssessmentSection",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -649,7 +1042,14 @@
           "plain_description": "The platform's stable ID for this section.",
           "school_example": "qti_section_number_sense",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "test_id",
@@ -660,7 +1060,14 @@
           "plain_description": "The test that contains this section.",
           "school_example": "qti_test_math6_midyear",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "testId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "parent_section_id",
@@ -671,7 +1078,14 @@
           "plain_description": "The section that contains this section, if sections are nested.",
           "school_example": "qti_section_part_1",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "parentSectionId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier",
@@ -682,7 +1096,14 @@
           "plain_description": "The local QTI identifier for the section.",
           "school_example": "number_sense",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -693,7 +1114,14 @@
           "plain_description": "The title used to browse or present the section.",
           "school_example": "Number Sense",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "required_in_selection",
@@ -705,7 +1133,14 @@
           "school_example": "true",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "requiredInSelection",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "fixed_in_shuffle",
@@ -717,7 +1152,14 @@
           "school_example": "false",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "fixedInShuffle",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "visible_to_candidate",
@@ -729,7 +1171,14 @@
           "school_example": "true",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "visibleToCandidate",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "keep_together",
@@ -741,7 +1190,14 @@
           "school_example": "false",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "keepTogether",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "selection_count",
@@ -752,7 +1208,14 @@
           "plain_description": "How many child parts should be selected from this section, if selection is used.",
           "school_example": "10",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "selectionCount",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "ordering_shuffle",
@@ -764,7 +1227,14 @@
           "school_example": "true",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentSection",
+            "field": "orderingShuffle",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -776,6 +1246,12 @@
       "plain_description": "A test's reference to an item file, including test-specific category, timing, weight, and selection behavior.",
       "why_it_exists": "The same item can appear in more than one test or section with different rules.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "AssessmentItemRef",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -786,7 +1262,14 @@
           "plain_description": "The platform's stable ID for this item reference.",
           "school_example": "qti_ref_number_sense_01",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "section_id",
@@ -797,7 +1280,14 @@
           "plain_description": "The section containing this item reference.",
           "school_example": "qti_section_number_sense",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "sectionId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "item_id",
@@ -808,7 +1298,14 @@
           "plain_description": "The resolved platform item record, if the href has been matched to an item.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "itemId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier",
@@ -819,7 +1316,14 @@
           "plain_description": "The test-local identifier for this item reference.",
           "school_example": "item_ref_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "href",
@@ -830,7 +1334,14 @@
           "plain_description": "The package-relative link to the item XML file.",
           "school_example": "../items/fraction_equivalence_001.xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "href",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "required_in_selection",
@@ -842,7 +1353,14 @@
           "school_example": "false",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "requiredInSelection",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "fixed_in_shuffle",
@@ -854,7 +1372,14 @@
           "school_example": "false",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "fixedInShuffle",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "category",
@@ -865,7 +1390,14 @@
           "plain_description": "Category tags used for reporting, subscores, or selection rules.",
           "school_example": "fractions; number-sense",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "category",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "weight",
@@ -876,7 +1408,14 @@
           "plain_description": "Test-specific score weight for this item.",
           "school_example": "1.5",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "weight",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "time_limit_seconds",
@@ -887,7 +1426,14 @@
           "plain_description": "The maximum time allowed for this item reference, in seconds.",
           "school_example": "120",
           "privacy_class": "operational",
-          "decision_id": "DEC-008-time-session"
+          "decision_id": "DEC-008-time-session",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "AssessmentItemRef",
+            "field": "timeLimitSeconds",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -899,6 +1445,12 @@
       "plain_description": "A response, outcome, template, or context variable used by an item or test.",
       "why_it_exists": "Variables explain how answers, scores, status values, templates, and context values are named and typed.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "Response/Outcome/Template/ContextDeclaration",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -909,7 +1461,14 @@
           "plain_description": "The platform's stable ID for this variable declaration.",
           "school_example": "qti_var_item001_RESPONSE",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "owner_object_type",
@@ -921,7 +1480,14 @@
           "school_example": "item",
           "privacy_class": "operational",
           "allowed_values_ref": "owner_object_type",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "ownerObjectType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "owner_id",
@@ -932,7 +1498,14 @@
           "plain_description": "The platform ID of the item, test, or other owner object.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "ownerId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "declaration_kind",
@@ -944,7 +1517,14 @@
           "school_example": "response",
           "privacy_class": "operational",
           "allowed_values_ref": "declaration_kind",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "declarationKind",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "identifier",
@@ -955,7 +1535,14 @@
           "plain_description": "The QTI variable name.",
           "school_example": "RESPONSE",
           "privacy_class": "education_record",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "identifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "cardinality",
@@ -967,7 +1554,14 @@
           "school_example": "single",
           "privacy_class": "operational",
           "allowed_values_ref": "cardinality",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "cardinality",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "base_type",
@@ -979,7 +1573,14 @@
           "school_example": "identifier",
           "privacy_class": "operational",
           "allowed_values_ref": "base_type",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "baseType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "default_value_summary",
@@ -990,7 +1591,14 @@
           "plain_description": "A safe summary of the default value, if any.",
           "school_example": "No default answer.",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "defaultValueSummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "correct_response_summary",
@@ -1001,7 +1609,14 @@
           "plain_description": "A safe summary of the correct response, if the item declares one.",
           "school_example": "Choice B.",
           "privacy_class": "sensitive",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "correctResponseSummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "mapping_summary",
@@ -1012,7 +1627,14 @@
           "plain_description": "A safe summary of how response values map to scores or outcomes.",
           "school_example": "Correct choice earns 1 point.",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "mappingSummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "view",
@@ -1024,7 +1646,14 @@
           "school_example": "candidate",
           "privacy_class": "sensitive",
           "allowed_values_ref": "view",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template/ContextDeclaration",
+            "field": "view",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1036,6 +1665,12 @@
       "plain_description": "The part of an item where the learner answers, such as choosing, typing, matching, uploading, clicking, or using media.",
       "why_it_exists": "Apps need interaction-level search, accessibility review, analytics, and delivery planning.",
       "privacy_class": "directory",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "ItemBody interaction objects",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1046,7 +1681,14 @@
           "plain_description": "The platform's stable ID for this interaction.",
           "school_example": "qti_interaction_item001_choice",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "item_id",
@@ -1057,7 +1699,14 @@
           "plain_description": "The item containing this interaction.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "itemId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "response_identifier",
@@ -1068,7 +1717,14 @@
           "plain_description": "The response variable that stores the learner's answer for this interaction.",
           "school_example": "RESPONSE",
           "privacy_class": "education_record",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "responseIdentifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "interaction_type",
@@ -1080,7 +1736,14 @@
           "school_example": "choiceInteraction",
           "privacy_class": "operational",
           "allowed_values_ref": "interaction_type",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "interactionType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "prompt_summary",
@@ -1091,7 +1754,14 @@
           "plain_description": "A safe summary of the instructions or prompt shown with the interaction.",
           "school_example": "Select all equivalent fractions.",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "promptSummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "shuffle",
@@ -1103,7 +1773,14 @@
           "school_example": "true",
           "privacy_class": "operational",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "shuffle",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "min_choices",
@@ -1114,7 +1791,14 @@
           "plain_description": "The smallest number of choices a learner must select.",
           "school_example": "1",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "minChoices",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "max_choices",
@@ -1125,7 +1809,14 @@
           "plain_description": "The largest number of choices a learner may select; zero often means no limit.",
           "school_example": "3",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "maxChoices",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "min_associations",
@@ -1136,7 +1827,14 @@
           "plain_description": "The smallest number of pairings or matches required.",
           "school_example": "2",
           "privacy_class": "operational",
-          "decision_id": "DEC-006-standards-alignment"
+          "decision_id": "DEC-006-standards-alignment",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "minAssociations",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "max_associations",
@@ -1147,7 +1845,14 @@
           "plain_description": "The largest number of pairings or matches allowed.",
           "school_example": "4",
           "privacy_class": "operational",
-          "decision_id": "DEC-006-standards-alignment"
+          "decision_id": "DEC-006-standards-alignment",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "maxAssociations",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "orientation",
@@ -1159,7 +1864,14 @@
           "school_example": "vertical",
           "privacy_class": "operational",
           "allowed_values_ref": "orientation",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "orientation",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "expected_length",
@@ -1170,7 +1882,14 @@
           "plain_description": "Expected response length for text interactions.",
           "school_example": "80",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "expectedLength",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "text_format",
@@ -1182,7 +1901,14 @@
           "school_example": "plain",
           "privacy_class": "operational",
           "allowed_values_ref": "text_format",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "textFormat",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "shape",
@@ -1194,7 +1920,14 @@
           "school_example": "rect",
           "privacy_class": "operational",
           "allowed_values_ref": "shape",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ItemBody interaction objects",
+            "field": "shape",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1206,6 +1939,12 @@
       "plain_description": "A preserved summary of response, outcome, template, branch, or precondition logic from QTI XML.",
       "why_it_exists": "The platform needs searchable processing metadata without pretending to reimplement the full QTI runtime.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "Response/Outcome/Template processing rules",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1216,7 +1955,14 @@
           "plain_description": "The platform's stable ID for this processing rule.",
           "school_example": "qti_rule_item001_score",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template processing rules",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "owner_object_type",
@@ -1228,7 +1974,14 @@
           "school_example": "item",
           "privacy_class": "operational",
           "allowed_values_ref": "owner_object_type",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template processing rules",
+            "field": "ownerObjectType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "owner_id",
@@ -1239,7 +1992,14 @@
           "plain_description": "The platform ID of the object that owns this rule.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template processing rules",
+            "field": "ownerId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "processing_kind",
@@ -1251,7 +2011,14 @@
           "school_example": "responseProcessing",
           "privacy_class": "operational",
           "allowed_values_ref": "processing_kind",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template processing rules",
+            "field": "processingKind",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "template_uri",
@@ -1262,7 +2029,14 @@
           "plain_description": "A reusable QTI processing template URI, if one is referenced.",
           "school_example": "https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template processing rules",
+            "field": "templateUri",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "target_identifier",
@@ -1273,7 +2047,14 @@
           "plain_description": "The target item, section, outcome, or special destination used by this rule.",
           "school_example": "section_review",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template processing rules",
+            "field": "targetIdentifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "logic_summary",
@@ -1284,7 +2065,14 @@
           "plain_description": "A safe plain-language summary of the rule logic.",
           "school_example": "If SCORE is below 1, show remediation feedback.",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "Response/Outcome/Template processing rules",
+            "field": "logicSummary",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1296,6 +2084,12 @@
       "plain_description": "Feedback, rubric, or instructional content controlled by outcomes, timing, or audience.",
       "why_it_exists": "Feedback and rubrics are important for delivery, review, accessibility, and analytics.",
       "privacy_class": "education_record",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "ModalFeedback/TestFeedback/RubricBlock",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1306,7 +2100,14 @@
           "plain_description": "The platform's stable ID for this feedback record.",
           "school_example": "qti_feedback_item001_correct",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "owner_object_type",
@@ -1318,7 +2119,14 @@
           "school_example": "item",
           "privacy_class": "operational",
           "allowed_values_ref": "owner_object_type",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "ownerObjectType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "owner_id",
@@ -1329,7 +2137,14 @@
           "plain_description": "The platform ID of the object that owns this feedback.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "ownerId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "feedback_kind",
@@ -1341,7 +2156,14 @@
           "school_example": "modalFeedback",
           "privacy_class": "operational",
           "allowed_values_ref": "feedback_kind",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "feedbackKind",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "outcome_identifier",
@@ -1352,7 +2174,14 @@
           "plain_description": "The outcome variable that controls whether this feedback appears.",
           "school_example": "FEEDBACK",
           "privacy_class": "education_record",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "outcomeIdentifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "show_hide",
@@ -1364,7 +2193,14 @@
           "school_example": "show",
           "privacy_class": "operational",
           "allowed_values_ref": "show_hide",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "showHide",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "feedback_identifier",
@@ -1375,7 +2211,14 @@
           "plain_description": "The value tested against an outcome to decide whether the feedback applies.",
           "school_example": "correct",
           "privacy_class": "operational",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "feedbackIdentifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -1386,7 +2229,14 @@
           "plain_description": "An optional title for the feedback or rubric.",
           "school_example": "Try another representation",
           "privacy_class": "directory",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "access",
@@ -1398,7 +2248,14 @@
           "school_example": "atEnd",
           "privacy_class": "operational",
           "allowed_values_ref": "feedback_access",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "access",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "rubric_use",
@@ -1410,7 +2267,14 @@
           "school_example": "scoring",
           "privacy_class": "sensitive",
           "allowed_values_ref": "rubric_use",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "rubricUse",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "view",
@@ -1422,7 +2286,14 @@
           "school_example": "candidate",
           "privacy_class": "sensitive",
           "allowed_values_ref": "view",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "view",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "body_summary",
@@ -1433,7 +2304,14 @@
           "plain_description": "A safe summary of the feedback or rubric content.",
           "school_example": "Explains why multiplying numerator and denominator by the same number keeps value equal.",
           "privacy_class": "education_record",
-          "decision_id": "DEC-005-results-scores"
+          "decision_id": "DEC-005-results-scores",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "ModalFeedback/TestFeedback/RubricBlock",
+            "field": "bodySummary",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1445,6 +2323,12 @@
       "plain_description": "Alternative content, catalog entries, and accessibility support metadata attached to QTI content.",
       "why_it_exists": "Assessment content must expose accessibility supports without leaking learner accommodations unnecessarily.",
       "privacy_class": "sensitive",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "CatalogInfo and accessibility support",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1455,7 +2339,14 @@
           "plain_description": "The platform's stable ID for this accessibility support record.",
           "school_example": "qti_access_item001_audio",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "owner_object_type",
@@ -1467,7 +2358,14 @@
           "school_example": "item",
           "privacy_class": "operational",
           "allowed_values_ref": "owner_object_type",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "ownerObjectType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "owner_id",
@@ -1478,7 +2376,14 @@
           "plain_description": "The platform ID of the object this support belongs to.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "ownerId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "support_type",
@@ -1490,7 +2395,14 @@
           "school_example": "spoken",
           "privacy_class": "sensitive",
           "allowed_values_ref": "accessibility_support",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "supportType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "catalog_idref",
@@ -1501,7 +2413,14 @@
           "plain_description": "The QTI catalog ID reference for this support.",
           "school_example": "cat_spoken_item001",
           "privacy_class": "sensitive",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "catalogIdref",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "tts_suppression",
@@ -1513,7 +2432,14 @@
           "school_example": "screen-reader",
           "privacy_class": "sensitive",
           "allowed_values_ref": "tts_suppression",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "ttsSuppression",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "content_summary",
@@ -1524,7 +2450,14 @@
           "plain_description": "A safe summary of the alternative or support content.",
           "school_example": "Audio narration of the chart.",
           "privacy_class": "sensitive",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "contentSummary",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "sensitive",
@@ -1536,7 +2469,14 @@
           "school_example": "true",
           "privacy_class": "sensitive",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CatalogInfo and accessibility support",
+            "field": "sensitive",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1548,6 +2488,12 @@
       "plain_description": "A calculator, ruler, protractor, file, physical material, or vendor extension allowed or required during an item.",
       "why_it_exists": "Assessment delivery, accommodations, and proctoring need to know which materials are permitted.",
       "privacy_class": "sensitive",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "CompanionMaterialsInfo",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1558,7 +2504,14 @@
           "plain_description": "The platform's stable ID for this companion material.",
           "school_example": "qti_material_item001_calculator",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CompanionMaterialsInfo",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "item_id",
@@ -1569,7 +2522,14 @@
           "plain_description": "The item this companion material applies to.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CompanionMaterialsInfo",
+            "field": "itemId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "material_type",
@@ -1581,7 +2541,14 @@
           "school_example": "calculator",
           "privacy_class": "sensitive",
           "allowed_values_ref": "material_type",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CompanionMaterialsInfo",
+            "field": "materialType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "calculator_type",
@@ -1593,7 +2560,14 @@
           "school_example": "scientific",
           "privacy_class": "sensitive",
           "allowed_values_ref": "calculator_type",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CompanionMaterialsInfo",
+            "field": "calculatorType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "title",
@@ -1604,7 +2578,14 @@
           "plain_description": "A human-facing name for the material.",
           "school_example": "Scientific calculator",
           "privacy_class": "directory",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CompanionMaterialsInfo",
+            "field": "title",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "required_for_delivery",
@@ -1616,7 +2597,14 @@
           "school_example": "false",
           "privacy_class": "sensitive",
           "allowed_values_ref": "true_false",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CompanionMaterialsInfo",
+            "field": "requiredForDelivery",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "material_uri",
@@ -1627,7 +2615,14 @@
           "plain_description": "A package file path, external URI, or local reference for the material.",
           "school_example": "materials/ruler.pdf",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "CompanionMaterialsInfo",
+            "field": "materialUri",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1639,6 +2634,12 @@
       "plain_description": "A link from QTI content to an academic standard, competency, skill, or other alignment target.",
       "why_it_exists": "The platform uses CASE as the canonical standards graph, but it preserves QTI source alignment metadata.",
       "privacy_class": "directory",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "QTI metadata alignment",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1649,7 +2650,14 @@
           "plain_description": "The platform's stable ID for this alignment.",
           "school_example": "qti_align_item001_case001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI metadata alignment",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "owner_object_type",
@@ -1661,7 +2669,14 @@
           "school_example": "item",
           "privacy_class": "operational",
           "allowed_values_ref": "owner_object_type",
-          "decision_id": "DEC-006-standards-alignment"
+          "decision_id": "DEC-006-standards-alignment",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI metadata alignment",
+            "field": "ownerObjectType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "owner_id",
@@ -1672,7 +2687,14 @@
           "plain_description": "The platform ID of the aligned QTI object.",
           "school_example": "qti_item_fraction_001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI metadata alignment",
+            "field": "ownerId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "target_type",
@@ -1684,7 +2706,14 @@
           "school_example": "caseItem",
           "privacy_class": "directory",
           "allowed_values_ref": "alignment_target_type",
-          "decision_id": "DEC-006-standards-alignment"
+          "decision_id": "DEC-006-standards-alignment",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI metadata alignment",
+            "field": "targetType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "target_identifier",
@@ -1695,7 +2724,14 @@
           "plain_description": "The CASE item ID, URI, or local standard identifier.",
           "school_example": "case:math-6-ns-1",
           "privacy_class": "directory",
-          "decision_id": "DEC-006-standards-alignment"
+          "decision_id": "DEC-006-standards-alignment",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI metadata alignment",
+            "field": "targetIdentifier",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "alignment_label",
@@ -1706,7 +2742,14 @@
           "plain_description": "The human-readable standard, competency, or skill label.",
           "school_example": "Understand equivalent fractions.",
           "privacy_class": "directory",
-          "decision_id": "DEC-006-standards-alignment"
+          "decision_id": "DEC-006-standards-alignment",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI metadata alignment",
+            "field": "alignmentLabel",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "source_metadata_uri",
@@ -1717,7 +2760,14 @@
           "plain_description": "Where the original QTI or package metadata described this alignment.",
           "school_example": "metadata/alignments.xml#item001",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI metadata alignment",
+            "field": "sourceMetadataUri",
+            "coverage": "mapped"
+          }
         }
       ]
     },
@@ -1729,6 +2779,12 @@
       "plain_description": "A file preserved from the QTI package, such as XML, media, stylesheet, manifest, or other referenced resource.",
       "why_it_exists": "The platform must preserve the original files while projecting only useful search and governance fields into tables.",
       "privacy_class": "operational",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "QTI package resource",
+        "coverage": "mapped"
+      },
       "fields": [
         {
           "field_key": "id",
@@ -1739,7 +2795,14 @@
           "plain_description": "The platform's stable ID for this package artifact.",
           "school_example": "qti_artifact_item001_xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package resource",
+            "field": "id",
+            "coverage": "platform_projection"
+          }
         },
         {
           "field_key": "package_id",
@@ -1750,7 +2813,14 @@
           "plain_description": "The package containing this artifact.",
           "school_example": "qti_pkg_midyear_math_6",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package resource",
+            "field": "packageId",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "href",
@@ -1761,7 +2831,14 @@
           "plain_description": "The package-relative path to the file.",
           "school_example": "items/fraction_equivalence_001.xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package resource",
+            "field": "href",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "media_type",
@@ -1772,7 +2849,14 @@
           "plain_description": "The file's MIME type when known.",
           "school_example": "application/xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package resource",
+            "field": "mediaType",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "artifact_role",
@@ -1784,7 +2868,14 @@
           "school_example": "itemXml",
           "privacy_class": "operational",
           "allowed_values_ref": "artifact_role",
-          "decision_id": "DEC-009-content-resource"
+          "decision_id": "DEC-009-content-resource",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package resource",
+            "field": "artifactRole",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "sha256",
@@ -1795,7 +2886,14 @@
           "plain_description": "A hash used to confirm the file did not change.",
           "school_example": "8b1a9953c4611296a827abf8c47804d7...",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package resource",
+            "field": "sha256",
+            "coverage": "mapped"
+          }
         },
         {
           "field_key": "storage_uri",
@@ -1806,7 +2904,14 @@
           "plain_description": "Where the platform stores this artifact after import.",
           "school_example": "s3://platform-demo/qti/MATH6/items/fraction_equivalence_001.xml",
           "privacy_class": "operational",
-          "decision_id": "DEC-007-identifier-crosswalk"
+          "decision_id": "DEC-007-identifier-crosswalk",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "object": "QTI package resource",
+            "field": "storageUri",
+            "coverage": "mapped"
+          }
         }
       ]
     }
@@ -1816,723 +2921,1712 @@
       {
         "value": "3.0",
         "label": "QTI 3.0",
-        "plain_description": "The current QTI 3 assessment, section, and item model targeted by the platform."
+        "plain_description": "The current QTI 3 assessment, section, and item model targeted by the platform.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "qti_version",
+          "value": "3.0",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "2.2",
         "label": "QTI 2.2",
-        "plain_description": "A legacy QTI version the platform may preserve or migrate, but not the lead model."
+        "plain_description": "A legacy QTI version the platform may preserve or migrate, but not the lead model.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "qti_version",
+          "value": "2.2",
+          "coverage": "mapped"
+        }
       }
     ],
     "validation_status": [
       {
         "value": "pending",
         "label": "Pending",
-        "plain_description": "The platform has not checked the package yet."
+        "plain_description": "The platform has not checked the package yet.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "validation_status",
+          "value": "pending",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "valid",
         "label": "Valid",
-        "plain_description": "The package passed platform validation."
+        "plain_description": "The package passed platform validation.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "validation_status",
+          "value": "valid",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "invalid",
         "label": "Invalid",
-        "plain_description": "The package failed validation and should not be trusted for delivery."
+        "plain_description": "The package failed validation and should not be trusted for delivery.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "validation_status",
+          "value": "invalid",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "warning",
         "label": "Warning",
-        "plain_description": "The package is usable but has non-blocking issues that should be reviewed."
+        "plain_description": "The package is usable but has non-blocking issues that should be reviewed.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "validation_status",
+          "value": "warning",
+          "coverage": "mapped"
+        }
       }
     ],
     "true_false": [
       {
         "value": "true",
         "label": "True",
-        "plain_description": "Yes, this condition applies."
+        "plain_description": "Yes, this condition applies.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "true_false",
+          "value": "true",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "false",
         "label": "False",
-        "plain_description": "No, this condition does not apply."
+        "plain_description": "No, this condition does not apply.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "true_false",
+          "value": "false",
+          "coverage": "mapped"
+        }
       }
     ],
     "owner_object_type": [
       {
         "value": "package",
         "label": "Package",
-        "plain_description": "A QTI package."
+        "plain_description": "A QTI package.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "package",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "item",
         "label": "Item",
-        "plain_description": "A QTI assessment item."
+        "plain_description": "A QTI assessment item.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "item",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "stimulus",
         "label": "Stimulus",
-        "plain_description": "A QTI assessment stimulus."
+        "plain_description": "A QTI assessment stimulus.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "stimulus",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "test",
         "label": "Test",
-        "plain_description": "A QTI assessment test."
+        "plain_description": "A QTI assessment test.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "test",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "testPart",
         "label": "Test part",
-        "plain_description": "A major part of a QTI test."
+        "plain_description": "A major part of a QTI test.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "testPart",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "section",
         "label": "Section",
-        "plain_description": "A QTI assessment section."
+        "plain_description": "A QTI assessment section.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "section",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "itemRef",
         "label": "Item reference",
-        "plain_description": "A test or section reference to an item."
+        "plain_description": "A test or section reference to an item.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "itemRef",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "interaction",
         "label": "Interaction",
-        "plain_description": "The answer interaction inside an item."
+        "plain_description": "The answer interaction inside an item.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "owner_object_type",
+          "value": "interaction",
+          "coverage": "mapped"
+        }
       }
     ],
     "declaration_kind": [
       {
         "value": "response",
         "label": "Response",
-        "plain_description": "A variable that stores a learner answer."
+        "plain_description": "A variable that stores a learner answer.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "declaration_kind",
+          "value": "response",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "outcome",
         "label": "Outcome",
-        "plain_description": "A variable that stores a score, status, or other result."
+        "plain_description": "A variable that stores a score, status, or other result.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "declaration_kind",
+          "value": "outcome",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "template",
         "label": "Template",
-        "plain_description": "A variable used to create item variants."
+        "plain_description": "A variable used to create item variants.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "declaration_kind",
+          "value": "template",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "context",
         "label": "Context",
-        "plain_description": "A global value available to processing rules."
+        "plain_description": "A global value available to processing rules.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "declaration_kind",
+          "value": "context",
+          "coverage": "mapped"
+        }
       }
     ],
     "cardinality": [
       {
         "value": "single",
         "label": "Single",
-        "plain_description": "Exactly one value."
+        "plain_description": "Exactly one value.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "cardinality",
+          "value": "single",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "multiple",
         "label": "Multiple",
-        "plain_description": "A list of values where order does not matter."
+        "plain_description": "A list of values where order does not matter.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "cardinality",
+          "value": "multiple",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "ordered",
         "label": "Ordered",
-        "plain_description": "A list of values where order matters."
+        "plain_description": "A list of values where order matters.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "cardinality",
+          "value": "ordered",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "record",
         "label": "Record",
-        "plain_description": "A set of named values with their own types."
+        "plain_description": "A set of named values with their own types.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "cardinality",
+          "value": "record",
+          "coverage": "mapped"
+        }
       }
     ],
     "base_type": [
       {
         "value": "boolean",
         "label": "Boolean",
-        "plain_description": "True or false."
+        "plain_description": "True or false.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "boolean",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "directedPair",
         "label": "Directed pair",
-        "plain_description": "Two IDs where direction matters."
+        "plain_description": "Two IDs where direction matters.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "directedPair",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "duration",
         "label": "Duration",
-        "plain_description": "A length of time."
+        "plain_description": "A length of time.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "duration",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "file",
         "label": "File",
-        "plain_description": "Uploaded file bytes with content type and optional filename."
+        "plain_description": "Uploaded file bytes with content type and optional filename.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "file",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "float",
         "label": "Float",
-        "plain_description": "A decimal number."
+        "plain_description": "A decimal number.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "float",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "identifier",
         "label": "Identifier",
-        "plain_description": "A QTI identifier value."
+        "plain_description": "A QTI identifier value.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "identifier",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "integer",
         "label": "Integer",
-        "plain_description": "A whole number."
+        "plain_description": "A whole number.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "integer",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "pair",
         "label": "Pair",
-        "plain_description": "Two IDs where direction does not matter."
+        "plain_description": "Two IDs where direction does not matter.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "pair",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "point",
         "label": "Point",
-        "plain_description": "A graphic coordinate point."
+        "plain_description": "A graphic coordinate point.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "point",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "string",
         "label": "String",
-        "plain_description": "Text."
+        "plain_description": "Text.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "string",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "uri",
         "label": "URI",
-        "plain_description": "A web identifier or URI."
+        "plain_description": "A web identifier or URI.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "base_type",
+          "value": "uri",
+          "coverage": "mapped"
+        }
       }
     ],
     "view": [
       {
         "value": "author",
         "label": "Author",
-        "plain_description": "Intended for someone authoring the assessment."
+        "plain_description": "Intended for someone authoring the assessment.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "view",
+          "value": "author",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "candidate",
         "label": "Candidate",
-        "plain_description": "Intended for the learner or test taker."
+        "plain_description": "Intended for the learner or test taker.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "view",
+          "value": "candidate",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "proctor",
         "label": "Proctor",
-        "plain_description": "Intended for the person supervising the assessment."
+        "plain_description": "Intended for the person supervising the assessment.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "view",
+          "value": "proctor",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "scorer",
         "label": "Scorer",
-        "plain_description": "Intended for someone scoring the assessment."
+        "plain_description": "Intended for someone scoring the assessment.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "view",
+          "value": "scorer",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "testConstructor",
         "label": "Test constructor",
-        "plain_description": "Intended for someone assembling the test."
+        "plain_description": "Intended for someone assembling the test.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "view",
+          "value": "testConstructor",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "tutor",
         "label": "Tutor",
-        "plain_description": "Intended for an educator or tutor supporting the learner."
+        "plain_description": "Intended for an educator or tutor supporting the learner.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "view",
+          "value": "tutor",
+          "coverage": "mapped"
+        }
       }
     ],
     "interaction_type": [
       {
         "value": "choiceInteraction",
         "label": "Choice",
-        "plain_description": "Select one or more choices."
+        "plain_description": "Select one or more choices.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "choiceInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "orderInteraction",
         "label": "Ordering",
-        "plain_description": "Put choices in order."
+        "plain_description": "Put choices in order.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "orderInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "associateInteraction",
         "label": "Associate",
-        "plain_description": "Create pairings between choices."
+        "plain_description": "Create pairings between choices.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "associateInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "matchInteraction",
         "label": "Match",
-        "plain_description": "Match choices from one set to another."
+        "plain_description": "Match choices from one set to another.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "matchInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "gapMatchInteraction",
         "label": "Gap match",
-        "plain_description": "Put choices into gaps in surrounding content."
+        "plain_description": "Put choices into gaps in surrounding content.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "gapMatchInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "textEntryInteraction",
         "label": "Text entry",
-        "plain_description": "Type a short answer inline."
+        "plain_description": "Type a short answer inline.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "textEntryInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "extendedTextInteraction",
         "label": "Extended text",
-        "plain_description": "Type an essay or longer response."
+        "plain_description": "Type an essay or longer response.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "extendedTextInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "inlineChoiceInteraction",
         "label": "Inline choice",
-        "plain_description": "Choose text inside a sentence or passage."
+        "plain_description": "Choose text inside a sentence or passage.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "inlineChoiceInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "hottextInteraction",
         "label": "Hot text",
-        "plain_description": "Select highlighted text."
+        "plain_description": "Select highlighted text.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "hottextInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "hotspotInteraction",
         "label": "Hotspot",
-        "plain_description": "Click or tap one or more regions on an image."
+        "plain_description": "Click or tap one or more regions on an image.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "hotspotInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "selectPointInteraction",
         "label": "Select point",
-        "plain_description": "Mark one or more points on an image."
+        "plain_description": "Mark one or more points on an image.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "selectPointInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "graphicOrderInteraction",
         "label": "Graphic order",
-        "plain_description": "Put image hotspots into order."
+        "plain_description": "Put image hotspots into order.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "graphicOrderInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "graphicAssociateInteraction",
         "label": "Graphic associate",
-        "plain_description": "Pair image regions with each other."
+        "plain_description": "Pair image regions with each other.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "graphicAssociateInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "graphicGapMatchInteraction",
         "label": "Graphic gap match",
-        "plain_description": "Match choices to image regions."
+        "plain_description": "Match choices to image regions.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "graphicGapMatchInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "positionObjectInteraction",
         "label": "Position object",
-        "plain_description": "Place an image object onto a stage."
+        "plain_description": "Place an image object onto a stage.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "positionObjectInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "sliderInteraction",
         "label": "Slider",
-        "plain_description": "Choose a number on a range."
+        "plain_description": "Choose a number on a range.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "sliderInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "uploadInteraction",
         "label": "Upload",
-        "plain_description": "Upload a response file."
+        "plain_description": "Upload a response file.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "uploadInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "drawingInteraction",
         "label": "Drawing",
-        "plain_description": "Draw or mark up an image or canvas."
+        "plain_description": "Draw or mark up an image or canvas.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "drawingInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "mediaInteraction",
         "label": "Media",
-        "plain_description": "Play or interact with audio or video."
+        "plain_description": "Play or interact with audio or video.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "mediaInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "endAttemptInteraction",
         "label": "End attempt",
-        "plain_description": "Trigger response processing, often for a hint or action button."
+        "plain_description": "Trigger response processing, often for a hint or action button.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "endAttemptInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "portableCustomInteraction",
         "label": "Portable custom",
-        "plain_description": "Use a packaged custom interaction module."
+        "plain_description": "Use a packaged custom interaction module.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "portableCustomInteraction",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "customInteraction",
         "label": "Custom",
-        "plain_description": "Use proprietary custom behavior preserved for compatibility."
+        "plain_description": "Use proprietary custom behavior preserved for compatibility.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "interaction_type",
+          "value": "customInteraction",
+          "coverage": "mapped"
+        }
       }
     ],
     "navigation_mode": [
       {
         "value": "linear",
         "label": "Linear",
-        "plain_description": "The learner proceeds in order and cannot freely return to earlier items."
+        "plain_description": "The learner proceeds in order and cannot freely return to earlier items.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "navigation_mode",
+          "value": "linear",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "nonlinear",
         "label": "Nonlinear",
-        "plain_description": "The learner may navigate items in a freer order."
+        "plain_description": "The learner may navigate items in a freer order.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "navigation_mode",
+          "value": "nonlinear",
+          "coverage": "mapped"
+        }
       }
     ],
     "submission_mode": [
       {
         "value": "individual",
         "label": "Individual",
-        "plain_description": "Each item is submitted and processed separately."
+        "plain_description": "Each item is submitted and processed separately.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "submission_mode",
+          "value": "individual",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "simultaneous",
         "label": "Simultaneous",
-        "plain_description": "Responses are submitted together at the end of the part."
+        "plain_description": "Responses are submitted together at the end of the part.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "submission_mode",
+          "value": "simultaneous",
+          "coverage": "mapped"
+        }
       }
     ],
     "orientation": [
       {
         "value": "horizontal",
         "label": "Horizontal",
-        "plain_description": "Laid out left-to-right or along a horizontal axis."
+        "plain_description": "Laid out left-to-right or along a horizontal axis.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "orientation",
+          "value": "horizontal",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "vertical",
         "label": "Vertical",
-        "plain_description": "Laid out top-to-bottom or along a vertical axis."
+        "plain_description": "Laid out top-to-bottom or along a vertical axis.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "orientation",
+          "value": "vertical",
+          "coverage": "mapped"
+        }
       }
     ],
     "text_format": [
       {
         "value": "plain",
         "label": "Plain",
-        "plain_description": "Plain typed text."
+        "plain_description": "Plain typed text.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "text_format",
+          "value": "plain",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "preformatted",
         "label": "Preformatted",
-        "plain_description": "Text where spacing and line breaks should be preserved."
+        "plain_description": "Text where spacing and line breaks should be preserved.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "text_format",
+          "value": "preformatted",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "xhtml",
         "label": "XHTML",
-        "plain_description": "Structured rich text marked up as XHTML."
+        "plain_description": "Structured rich text marked up as XHTML.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "text_format",
+          "value": "xhtml",
+          "coverage": "mapped"
+        }
       }
     ],
     "shape": [
       {
         "value": "circle",
         "label": "Circle",
-        "plain_description": "A circular hotspot."
+        "plain_description": "A circular hotspot.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "shape",
+          "value": "circle",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "default",
         "label": "Default",
-        "plain_description": "The entire image area."
+        "plain_description": "The entire image area.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "shape",
+          "value": "default",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "ellipse",
         "label": "Ellipse",
-        "plain_description": "An ellipse hotspot preserved for compatibility."
+        "plain_description": "An ellipse hotspot preserved for compatibility.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "shape",
+          "value": "ellipse",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "poly",
         "label": "Polygon",
-        "plain_description": "A polygon hotspot."
+        "plain_description": "A polygon hotspot.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "shape",
+          "value": "poly",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "rect",
         "label": "Rectangle",
-        "plain_description": "A rectangular hotspot."
+        "plain_description": "A rectangular hotspot.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "shape",
+          "value": "rect",
+          "coverage": "mapped"
+        }
       }
     ],
     "processing_kind": [
       {
         "value": "responseProcessing",
         "label": "Response processing",
-        "plain_description": "Rules that calculate item outcomes from learner responses."
+        "plain_description": "Rules that calculate item outcomes from learner responses.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "processing_kind",
+          "value": "responseProcessing",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "outcomeProcessing",
         "label": "Outcome processing",
-        "plain_description": "Rules that calculate test outcomes from item outcomes."
+        "plain_description": "Rules that calculate test outcomes from item outcomes.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "processing_kind",
+          "value": "outcomeProcessing",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "templateProcessing",
         "label": "Template processing",
-        "plain_description": "Rules that set template values before delivery."
+        "plain_description": "Rules that set template values before delivery.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "processing_kind",
+          "value": "templateProcessing",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "branchRule",
         "label": "Branch rule",
-        "plain_description": "Logic that jumps to a target when a condition is true."
+        "plain_description": "Logic that jumps to a target when a condition is true.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "processing_kind",
+          "value": "branchRule",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "preCondition",
         "label": "Precondition",
-        "plain_description": "Logic that decides whether to skip a part, section, or item."
+        "plain_description": "Logic that decides whether to skip a part, section, or item.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "processing_kind",
+          "value": "preCondition",
+          "coverage": "mapped"
+        }
       }
     ],
     "feedback_kind": [
       {
         "value": "modalFeedback",
         "label": "Modal feedback",
-        "plain_description": "Item-level feedback shown based on an outcome value."
+        "plain_description": "Item-level feedback shown based on an outcome value.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "feedback_kind",
+          "value": "modalFeedback",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "testFeedback",
         "label": "Test feedback",
-        "plain_description": "Test-level feedback shown during or after the test."
+        "plain_description": "Test-level feedback shown during or after the test.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "feedback_kind",
+          "value": "testFeedback",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "rubricBlock",
         "label": "Rubric block",
-        "plain_description": "Directions, scoring, navigation, or support information for a selected audience."
+        "plain_description": "Directions, scoring, navigation, or support information for a selected audience.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "feedback_kind",
+          "value": "rubricBlock",
+          "coverage": "mapped"
+        }
       }
     ],
     "show_hide": [
       {
         "value": "show",
         "label": "Show",
-        "plain_description": "Hidden by default; show when the condition matches."
+        "plain_description": "Hidden by default; show when the condition matches.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "show_hide",
+          "value": "show",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "hide",
         "label": "Hide",
-        "plain_description": "Shown by default; hide when the condition matches."
+        "plain_description": "Shown by default; hide when the condition matches.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "show_hide",
+          "value": "hide",
+          "coverage": "mapped"
+        }
       }
     ],
     "feedback_access": [
       {
         "value": "during",
         "label": "During",
-        "plain_description": "Feedback may appear during the test."
+        "plain_description": "Feedback may appear during the test.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "feedback_access",
+          "value": "during",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "atEnd",
         "label": "At end",
-        "plain_description": "Feedback appears at the end of the test."
+        "plain_description": "Feedback appears at the end of the test.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "feedback_access",
+          "value": "atEnd",
+          "coverage": "mapped"
+        }
       }
     ],
     "rubric_use": [
       {
         "value": "instructions",
         "label": "Instructions",
-        "plain_description": "Directions for the assessment."
+        "plain_description": "Directions for the assessment.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "rubric_use",
+          "value": "instructions",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "navigation",
         "label": "Navigation",
-        "plain_description": "Information about moving around the assessment."
+        "plain_description": "Information about moving around the assessment.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "rubric_use",
+          "value": "navigation",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "scoring",
         "label": "Scoring",
-        "plain_description": "Information about scoring."
+        "plain_description": "Information about scoring.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "rubric_use",
+          "value": "scoring",
+          "coverage": "mapped"
+        }
       }
     ],
     "accessibility_support": [
       {
         "value": "additional-directions",
         "label": "Additional directions",
-        "plain_description": "Extra directions are available."
+        "plain_description": "Extra directions are available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "additional-directions",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "audio-description",
         "label": "Audio description",
-        "plain_description": "Narration describes important visual details."
+        "plain_description": "Narration describes important visual details.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "audio-description",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "braille",
         "label": "Braille",
-        "plain_description": "Braille support is available."
+        "plain_description": "Braille support is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "braille",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "glossary-on-screen",
         "label": "On-screen glossary",
-        "plain_description": "On-screen glossary support is available."
+        "plain_description": "On-screen glossary support is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "glossary-on-screen",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "high-contrast",
         "label": "High contrast",
-        "plain_description": "High-contrast visual alternative is available."
+        "plain_description": "High-contrast visual alternative is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "high-contrast",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "keyboard-directions",
         "label": "Keyboard directions",
-        "plain_description": "Keyboard-use directions are available."
+        "plain_description": "Keyboard-use directions are available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "keyboard-directions",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "keyword-translation",
         "label": "Keyword translation",
-        "plain_description": "Keyword translation support is available."
+        "plain_description": "Keyword translation support is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "keyword-translation",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "linguistic-guidance",
         "label": "Linguistic guidance",
-        "plain_description": "Language guidance is available."
+        "plain_description": "Language guidance is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "linguistic-guidance",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "long-description",
         "label": "Long description",
-        "plain_description": "Longer description is available."
+        "plain_description": "Longer description is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "long-description",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "sign-language",
         "label": "Sign language",
-        "plain_description": "Sign language support is available."
+        "plain_description": "Sign language support is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "sign-language",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "simplified-graphics",
         "label": "Simplified graphics",
-        "plain_description": "Simplified graphic alternative is available."
+        "plain_description": "Simplified graphic alternative is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "simplified-graphics",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "simplified-language-portions",
         "label": "Simplified language portions",
-        "plain_description": "Simplified language alternative is available."
+        "plain_description": "Simplified language alternative is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "simplified-language-portions",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "spoken",
         "label": "Spoken",
-        "plain_description": "Spoken version or content is available."
+        "plain_description": "Spoken version or content is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "spoken",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "tactile",
         "label": "Tactile",
-        "plain_description": "Tactile alternative is available."
+        "plain_description": "Tactile alternative is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "tactile",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "transcript",
         "label": "Transcript",
-        "plain_description": "Transcript is available."
+        "plain_description": "Transcript is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "accessibility_support",
+          "value": "transcript",
+          "coverage": "mapped"
+        }
       }
     ],
     "tts_suppression": [
       {
         "value": "all",
         "label": "All",
-        "plain_description": "Suppress read-aloud on all devices."
+        "plain_description": "Suppress read-aloud on all devices.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "tts_suppression",
+          "value": "all",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "computer-read-aloud",
         "label": "Computer read-aloud",
-        "plain_description": "Suppress computer read-aloud tools."
+        "plain_description": "Suppress computer read-aloud tools.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "tts_suppression",
+          "value": "computer-read-aloud",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "screen-reader",
         "label": "Screen reader",
-        "plain_description": "Suppress screen-reader read-aloud."
+        "plain_description": "Suppress screen-reader read-aloud.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "tts_suppression",
+          "value": "screen-reader",
+          "coverage": "mapped"
+        }
       }
     ],
     "material_type": [
       {
         "value": "calculator",
         "label": "Calculator",
-        "plain_description": "A calculator is allowed or required."
+        "plain_description": "A calculator is allowed or required.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "material_type",
+          "value": "calculator",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "ruler",
         "label": "Ruler",
-        "plain_description": "A ruler is allowed or required."
+        "plain_description": "A ruler is allowed or required.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "material_type",
+          "value": "ruler",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "protractor",
         "label": "Protractor",
-        "plain_description": "A protractor is allowed or required."
+        "plain_description": "A protractor is allowed or required.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "material_type",
+          "value": "protractor",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "digitalMaterial",
         "label": "Digital material",
-        "plain_description": "A digital file or material is available."
+        "plain_description": "A digital file or material is available.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "material_type",
+          "value": "digitalMaterial",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "physicalMaterial",
         "label": "Physical material",
-        "plain_description": "A physical item or material is needed."
+        "plain_description": "A physical item or material is needed.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "material_type",
+          "value": "physicalMaterial",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "vendorExtension",
         "label": "Vendor extension",
-        "plain_description": "Vendor-specific material information is preserved."
+        "plain_description": "Vendor-specific material information is preserved.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "material_type",
+          "value": "vendorExtension",
+          "coverage": "mapped"
+        }
       }
     ],
     "calculator_type": [
       {
         "value": "basic",
         "label": "Basic",
-        "plain_description": "Basic calculator."
+        "plain_description": "Basic calculator.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "calculator_type",
+          "value": "basic",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "standard",
         "label": "Standard",
-        "plain_description": "Standard calculator."
+        "plain_description": "Standard calculator.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "calculator_type",
+          "value": "standard",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "scientific",
         "label": "Scientific",
-        "plain_description": "Scientific calculator."
+        "plain_description": "Scientific calculator.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "calculator_type",
+          "value": "scientific",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "graphing",
         "label": "Graphing",
-        "plain_description": "Graphing calculator."
+        "plain_description": "Graphing calculator.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "calculator_type",
+          "value": "graphing",
+          "coverage": "mapped"
+        }
       }
     ],
     "alignment_target_type": [
       {
         "value": "caseItem",
         "label": "CASE item",
-        "plain_description": "A CASE competency, standard, or skill item."
+        "plain_description": "A CASE competency, standard, or skill item.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "alignment_target_type",
+          "value": "caseItem",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "uri",
         "label": "URI",
-        "plain_description": "A web URI or external standards target."
+        "plain_description": "A web URI or external standards target.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "alignment_target_type",
+          "value": "uri",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "local",
         "label": "Local",
-        "plain_description": "A local district, publisher, or authoring-system alignment target."
+        "plain_description": "A local district, publisher, or authoring-system alignment target.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "alignment_target_type",
+          "value": "local",
+          "coverage": "mapped"
+        }
       }
     ],
     "artifact_role": [
       {
         "value": "manifest",
         "label": "Manifest",
-        "plain_description": "The package manifest file."
+        "plain_description": "The package manifest file.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "artifact_role",
+          "value": "manifest",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "itemXml",
         "label": "Item XML",
-        "plain_description": "A QTI assessment item XML file."
+        "plain_description": "A QTI assessment item XML file.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "artifact_role",
+          "value": "itemXml",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "testXml",
         "label": "Test XML",
-        "plain_description": "A QTI assessment test XML file."
+        "plain_description": "A QTI assessment test XML file.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "artifact_role",
+          "value": "testXml",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "stimulusXml",
         "label": "Stimulus XML",
-        "plain_description": "A QTI stimulus XML file."
+        "plain_description": "A QTI stimulus XML file.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "artifact_role",
+          "value": "stimulusXml",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "media",
         "label": "Media",
-        "plain_description": "An image, audio, video, or other media file."
+        "plain_description": "An image, audio, video, or other media file.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "artifact_role",
+          "value": "media",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "stylesheet",
         "label": "Stylesheet",
-        "plain_description": "A CSS or style file used to render content."
+        "plain_description": "A CSS or style file used to render content.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "artifact_role",
+          "value": "stylesheet",
+          "coverage": "mapped"
+        }
       },
       {
         "value": "other",
         "label": "Other",
-        "plain_description": "Another preserved package file."
+        "plain_description": "Another preserved package file.",
+        "sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "vocabulary": "artifact_role",
+          "value": "other",
+          "coverage": "mapped"
+        }
       }
     ]
   },
   "unsupported_or_deferred": [
     {
-      "area": "Assessment delivery/runtime",
-      "reason": "The platform is first modeling repository, import, search, alignment, and governance. Delivery requires a tested QTI runtime engine."
+      "area": "QTI assessment delivery/runtime behavior",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "Assessment delivery/session runtime",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "session state",
+        "candidate responses",
+        "attempt lifecycle",
+        "delivery navigation",
+        "runtime scoring"
+      ],
+      "reason": "The platform is first modeling repository, import, search, alignment, and governance. Delivery requires a tested QTI runtime engine before learner session behavior should become a platform contract."
     },
     {
-      "area": "Every low-level XML child node as a SQL column",
-      "reason": "The original QTI XML is preserved as the source artifact. Only public platform fields are projected into SQL/API fields."
+      "area": "QTI low-level XML and item-body child nodes not promoted to SQL/API fields",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "ItemBody, content body, and package XML children",
+        "coverage": "preserved_in_artifact"
+      },
+      "sourceFieldsOrValues": [
+        "HTML/ARIA/MathML children",
+        "qti-content-body children",
+        "object/img/picture media children",
+        "data-* extensions",
+        "package-local XML order and namespaces"
+      ],
+      "reason": "The original QTI XML and package files remain the legal source artifact. Only public platform fields useful for search, governance, alignment, accessibility review, and delivery planning are projected into relational/API fields."
     },
     {
-      "area": "Full response-processing execution",
-      "reason": "Processing logic is preserved and summarized. Executing it safely belongs to a QTI runtime service."
+      "area": "QTI interaction-specific child fields below the normalized interaction index",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "Interaction object children",
+        "coverage": "preserved_in_artifact"
+      },
+      "sourceFieldsOrValues": [
+        "SimpleChoice.identifier",
+        "SimpleChoice.fixed",
+        "SimpleChoice.templateIdentifier",
+        "SimpleChoice.showHide",
+        "GapChoice",
+        "InlineChoice",
+        "HotspotChoice.coords",
+        "AssociableHotspot.matchMax",
+        "PositionObjectStage",
+        "SliderInteraction.lowerBound",
+        "SliderInteraction.upperBound",
+        "SliderInteraction.step",
+        "UploadInteraction.type",
+        "MediaInteraction.autostart",
+        "MediaInteraction.minPlays",
+        "MediaInteraction.maxPlays",
+        "EndAttemptInteraction.countAttempt",
+        "PortableCustomInteraction.module",
+        "PortableCustomInteraction.customInteractionTypeIdentifier",
+        "CustomInteraction.extension"
+      ],
+      "reason": "The dictionary accounts for every interaction family as controlled values and projects common interaction planning fields. Interaction-specific rendering and response mechanics stay in preserved QTI XML until a delivery/runtime service can validate and execute them."
     },
     {
-      "area": "Computer-adaptive testing runtime",
-      "reason": "CAT depends on mature item metadata, delivery services, and psychometric configuration beyond this repository dictionary."
+      "area": "QTI response-processing execution and rule tree decomposition",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "ResponseProcessing/OutcomeProcessing/TemplateProcessing",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "responseRuleGroup",
+        "outcomeRule",
+        "templateRule",
+        "branchRule logic tree",
+        "preCondition logic tree",
+        "lookupTable execution"
+      ],
+      "reason": "Processing logic is preserved and summarized for search and review. Executing it safely belongs to a QTI runtime service with conformance fixtures."
     },
     {
-      "area": "Vendor extension semantics",
-      "reason": "Vendor extensions are preserved and governed, but not promoted to core platform fields until intentionally modeled."
+      "area": "QTI computer-adaptive testing and vendor extension semantics",
+      "sourceStandard": {
+        "standard": "QTI",
+        "version": "3.0",
+        "object": "Adaptive/runtime extensions",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "CAT runtime configuration",
+        "adaptive item/session algorithms",
+        "vendor extension semantics"
+      ],
+      "reason": "CAT and vendor-specific behavior depend on mature item metadata, delivery services, psychometric configuration, and reviewed extension contracts beyond this repository dictionary."
     }
   ]
 }

@@ -14,37 +14,38 @@ Model scope: Repository, import, search, metadata, alignment, and governance. Th
 - SQL table: `assessment.qti_packages`
 - API path: `/assessments/qti/packages`
 - Privacy class: `operational`
+- Source standard: QTI 3.0 QTI package manifest
 - Why it exists: Apps and AI agents need one record that says where the package came from, whether it is valid, and where the original artifact is stored.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this QTI package. |
-| `package_identifier` | `packageIdentifier` | text | Yes | operational | `DEC-009-content-resource` | The package ID supplied by the publisher, item bank, authoring tool, or import process. |
-| `qti_version` | `qtiVersion` | enum | Yes | operational | `DEC-009-content-resource` | The QTI version the package claims to use. |
-| `source_system` | `sourceSystem` | text | No | operational | `DEC-009-content-resource` | The publisher, item bank, LMS, or authoring tool that supplied the package. |
-| `validation_status` | `validationStatus` | enum | Yes | operational | `DEC-010-tenancy-reference-data` | Whether the platform has checked the package and found it valid, invalid, warning-only, or not yet checked. |
-| `validation_error_count` | `validationErrorCount` | integer | No | operational | `DEC-009-content-resource` | How many validation problems were found during import. |
-| `manifest_path` | `manifestPath` | text | No | operational | `DEC-007-identifier-crosswalk` | The location of the package manifest file inside the package. |
-| `original_file_uri` | `originalFileUri` | text | Yes | operational | `DEC-007-identifier-crosswalk` | Where the platform stores the original uploaded package file. |
-| `imported_at` | `importedAt` | datetime | Yes | operational | `DEC-008-time-session` | When the platform received or imported the package. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 QTI package manifest.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this QTI package. |
+| `package_identifier` | `packageIdentifier` | text | Yes | operational | QTI 3.0 QTI package manifest.packageIdentifier | `DEC-009-content-resource` | The package ID supplied by the publisher, item bank, authoring tool, or import process. |
+| `qti_version` | `qtiVersion` | enum | Yes | operational | QTI 3.0 QTI package manifest.qtiVersion | `DEC-009-content-resource` | The QTI version the package claims to use. |
+| `source_system` | `sourceSystem` | text | No | operational | QTI 3.0 QTI package manifest.sourceSystem | `DEC-009-content-resource` | The publisher, item bank, LMS, or authoring tool that supplied the package. |
+| `validation_status` | `validationStatus` | enum | Yes | operational | QTI 3.0 QTI package manifest.validationStatus | `DEC-010-tenancy-reference-data` | Whether the platform has checked the package and found it valid, invalid, warning-only, or not yet checked. |
+| `validation_error_count` | `validationErrorCount` | integer | No | operational | QTI 3.0 QTI package manifest.validationErrorCount | `DEC-009-content-resource` | How many validation problems were found during import. |
+| `manifest_path` | `manifestPath` | text | No | operational | QTI 3.0 QTI package manifest.manifestPath | `DEC-007-identifier-crosswalk` | The location of the package manifest file inside the package. |
+| `original_file_uri` | `originalFileUri` | text | Yes | operational | QTI 3.0 QTI package manifest.originalFileUri | `DEC-007-identifier-crosswalk` | Where the platform stores the original uploaded package file. |
+| `imported_at` | `importedAt` | datetime | Yes | operational | QTI 3.0 QTI package manifest.importedAt | `DEC-008-time-session` | When the platform received or imported the package. |
 
 #### Controlled Values
 
 Values for `qti_version`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `3.0` | QTI 3.0 | The current QTI 3 assessment, section, and item model targeted by the platform. |
-| `2.2` | QTI 2.2 | A legacy QTI version the platform may preserve or migrate, but not the lead model. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `3.0` | QTI 3.0 | QTI 3.0 qti_version.3.0 | The current QTI 3 assessment, section, and item model targeted by the platform. |
+| `2.2` | QTI 2.2 | QTI 3.0 qti_version.2.2 | A legacy QTI version the platform may preserve or migrate, but not the lead model. |
 
 Values for `validation_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `pending` | Pending | The platform has not checked the package yet. |
-| `valid` | Valid | The package passed platform validation. |
-| `invalid` | Invalid | The package failed validation and should not be trusted for delivery. |
-| `warning` | Warning | The package is usable but has non-blocking issues that should be reviewed. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `pending` | Pending | QTI 3.0 validation_status.pending | The platform has not checked the package yet. |
+| `valid` | Valid | QTI 3.0 validation_status.valid | The package passed platform validation. |
+| `invalid` | Invalid | QTI 3.0 validation_status.invalid | The package failed validation and should not be trusted for delivery. |
+| `warning` | Warning | QTI 3.0 validation_status.warning | The package is usable but has non-blocking issues that should be reviewed. |
 
 
 ### QTI Assessment Item
@@ -53,76 +54,77 @@ Values for `validation_status`:
 - SQL table: `assessment.qti_assessment_items`
 - API path: `/assessments/qti/items`
 - Privacy class: `directory`
+- Source standard: QTI 3.0 AssessmentItem
 - Why it exists: Item banks, search, reuse, alignment, accessibility review, and item-level analytics need item records.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item. |
-| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The QTI package this item came from. |
-| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the item inside its package. |
-| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The item title used to browse or select the item. |
-| `label` | `label` | text | No | operational | `DEC-009-content-resource` | An authoring-system label for the item. |
-| `language` | `language` | text | No | directory | `DEC-009-content-resource` | The main language of the item as a language tag. |
-| `authoring_tool_name` | `authoringToolName` | text | No | operational | `DEC-009-content-resource` | The tool that created the item. |
-| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | `DEC-009-content-resource` | The version of the authoring tool that created the item. |
-| `adaptive` | `adaptive` | enum | No | operational | `DEC-009-content-resource` | Whether the item can change based on learner responses or test logic. |
-| `time_dependent` | `timeDependent` | enum | Yes | operational | `DEC-008-time-session` | Whether timing can affect response processing or scoring for this item. |
-| `item_body_summary` | `itemBodySummary` | text | No | directory | `DEC-009-content-resource` | A safe summary of the visible question body, not necessarily the full item HTML/XML. |
-| `primary_interaction_type` | `primaryInteractionType` | enum | No | operational | `DEC-009-content-resource` | The main way the learner answers this item. |
-| `max_score` | `maxScore` | number | No | operational | `DEC-005-results-scores` | The highest normal score this item can produce when known. |
-| `has_correct_response` | `hasCorrectResponse` | enum | No | sensitive | `DEC-005-results-scores` | Whether the item includes a declared correct response. |
-| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | `DEC-007-identifier-crosswalk` | The accessibility catalog record attached to this item, if any. |
-| `source_href` | `sourceHref` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this item. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 AssessmentItem.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item. |
+| `package_id` | `packageId` | text | Yes | operational | QTI 3.0 AssessmentItem.packageId | `DEC-007-identifier-crosswalk` | The QTI package this item came from. |
+| `identifier` | `identifier` | text | Yes | operational | QTI 3.0 AssessmentItem.identifier | `DEC-007-identifier-crosswalk` | The local QTI identifier for the item inside its package. |
+| `title` | `title` | text | Yes | directory | QTI 3.0 AssessmentItem.title | `DEC-009-content-resource` | The item title used to browse or select the item. |
+| `label` | `label` | text | No | operational | QTI 3.0 AssessmentItem.label | `DEC-009-content-resource` | An authoring-system label for the item. |
+| `language` | `language` | text | No | directory | QTI 3.0 AssessmentItem.language | `DEC-009-content-resource` | The main language of the item as a language tag. |
+| `authoring_tool_name` | `authoringToolName` | text | No | operational | QTI 3.0 AssessmentItem.authoringToolName | `DEC-009-content-resource` | The tool that created the item. |
+| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | QTI 3.0 AssessmentItem.authoringToolVersion | `DEC-009-content-resource` | The version of the authoring tool that created the item. |
+| `adaptive` | `adaptive` | enum | No | operational | QTI 3.0 AssessmentItem.adaptive | `DEC-009-content-resource` | Whether the item can change based on learner responses or test logic. |
+| `time_dependent` | `timeDependent` | enum | Yes | operational | QTI 3.0 AssessmentItem.timeDependent | `DEC-008-time-session` | Whether timing can affect response processing or scoring for this item. |
+| `item_body_summary` | `itemBodySummary` | text | No | directory | QTI 3.0 AssessmentItem.itemBodySummary | `DEC-009-content-resource` | A safe summary of the visible question body, not necessarily the full item HTML/XML. |
+| `primary_interaction_type` | `primaryInteractionType` | enum | No | operational | QTI 3.0 AssessmentItem.primaryInteractionType | `DEC-009-content-resource` | The main way the learner answers this item. |
+| `max_score` | `maxScore` | number | No | operational | QTI 3.0 AssessmentItem.maxScore | `DEC-005-results-scores` | The highest normal score this item can produce when known. |
+| `has_correct_response` | `hasCorrectResponse` | enum | No | sensitive | QTI 3.0 AssessmentItem.hasCorrectResponse | `DEC-005-results-scores` | Whether the item includes a declared correct response. |
+| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | QTI 3.0 AssessmentItem.accessibilityCatalogId | `DEC-007-identifier-crosswalk` | The accessibility catalog record attached to this item, if any. |
+| `source_href` | `sourceHref` | text | Yes | operational | QTI 3.0 AssessmentItem.sourceHref | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this item. |
 
 #### Controlled Values
 
 Values for `adaptive`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `time_dependent`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `primary_interaction_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `choiceInteraction` | Choice | Select one or more choices. |
-| `orderInteraction` | Ordering | Put choices in order. |
-| `associateInteraction` | Associate | Create pairings between choices. |
-| `matchInteraction` | Match | Match choices from one set to another. |
-| `gapMatchInteraction` | Gap match | Put choices into gaps in surrounding content. |
-| `textEntryInteraction` | Text entry | Type a short answer inline. |
-| `extendedTextInteraction` | Extended text | Type an essay or longer response. |
-| `inlineChoiceInteraction` | Inline choice | Choose text inside a sentence or passage. |
-| `hottextInteraction` | Hot text | Select highlighted text. |
-| `hotspotInteraction` | Hotspot | Click or tap one or more regions on an image. |
-| `selectPointInteraction` | Select point | Mark one or more points on an image. |
-| `graphicOrderInteraction` | Graphic order | Put image hotspots into order. |
-| `graphicAssociateInteraction` | Graphic associate | Pair image regions with each other. |
-| `graphicGapMatchInteraction` | Graphic gap match | Match choices to image regions. |
-| `positionObjectInteraction` | Position object | Place an image object onto a stage. |
-| `sliderInteraction` | Slider | Choose a number on a range. |
-| `uploadInteraction` | Upload | Upload a response file. |
-| `drawingInteraction` | Drawing | Draw or mark up an image or canvas. |
-| `mediaInteraction` | Media | Play or interact with audio or video. |
-| `endAttemptInteraction` | End attempt | Trigger response processing, often for a hint or action button. |
-| `portableCustomInteraction` | Portable custom | Use a packaged custom interaction module. |
-| `customInteraction` | Custom | Use proprietary custom behavior preserved for compatibility. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `choiceInteraction` | Choice | QTI 3.0 interaction_type.choiceInteraction | Select one or more choices. |
+| `orderInteraction` | Ordering | QTI 3.0 interaction_type.orderInteraction | Put choices in order. |
+| `associateInteraction` | Associate | QTI 3.0 interaction_type.associateInteraction | Create pairings between choices. |
+| `matchInteraction` | Match | QTI 3.0 interaction_type.matchInteraction | Match choices from one set to another. |
+| `gapMatchInteraction` | Gap match | QTI 3.0 interaction_type.gapMatchInteraction | Put choices into gaps in surrounding content. |
+| `textEntryInteraction` | Text entry | QTI 3.0 interaction_type.textEntryInteraction | Type a short answer inline. |
+| `extendedTextInteraction` | Extended text | QTI 3.0 interaction_type.extendedTextInteraction | Type an essay or longer response. |
+| `inlineChoiceInteraction` | Inline choice | QTI 3.0 interaction_type.inlineChoiceInteraction | Choose text inside a sentence or passage. |
+| `hottextInteraction` | Hot text | QTI 3.0 interaction_type.hottextInteraction | Select highlighted text. |
+| `hotspotInteraction` | Hotspot | QTI 3.0 interaction_type.hotspotInteraction | Click or tap one or more regions on an image. |
+| `selectPointInteraction` | Select point | QTI 3.0 interaction_type.selectPointInteraction | Mark one or more points on an image. |
+| `graphicOrderInteraction` | Graphic order | QTI 3.0 interaction_type.graphicOrderInteraction | Put image hotspots into order. |
+| `graphicAssociateInteraction` | Graphic associate | QTI 3.0 interaction_type.graphicAssociateInteraction | Pair image regions with each other. |
+| `graphicGapMatchInteraction` | Graphic gap match | QTI 3.0 interaction_type.graphicGapMatchInteraction | Match choices to image regions. |
+| `positionObjectInteraction` | Position object | QTI 3.0 interaction_type.positionObjectInteraction | Place an image object onto a stage. |
+| `sliderInteraction` | Slider | QTI 3.0 interaction_type.sliderInteraction | Choose a number on a range. |
+| `uploadInteraction` | Upload | QTI 3.0 interaction_type.uploadInteraction | Upload a response file. |
+| `drawingInteraction` | Drawing | QTI 3.0 interaction_type.drawingInteraction | Draw or mark up an image or canvas. |
+| `mediaInteraction` | Media | QTI 3.0 interaction_type.mediaInteraction | Play or interact with audio or video. |
+| `endAttemptInteraction` | End attempt | QTI 3.0 interaction_type.endAttemptInteraction | Trigger response processing, often for a hint or action button. |
+| `portableCustomInteraction` | Portable custom | QTI 3.0 interaction_type.portableCustomInteraction | Use a packaged custom interaction module. |
+| `customInteraction` | Custom | QTI 3.0 interaction_type.customInteraction | Use proprietary custom behavior preserved for compatibility. |
 
 Values for `has_correct_response`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 
 ### QTI Assessment Stimulus
@@ -131,18 +133,19 @@ Values for `has_correct_response`:
 - SQL table: `assessment.qti_assessment_stimuli`
 - API path: `/assessments/qti/stimuli`
 - Privacy class: `directory`
+- Source standard: QTI 3.0 AssessmentStimulus
 - Why it exists: Stimuli need search, reuse, accessibility review, and many-to-many links to items.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this stimulus. |
-| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The QTI package this stimulus came from. |
-| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the stimulus. |
-| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The stimulus title used to browse or select it. |
-| `language` | `language` | text | No | directory | `DEC-009-content-resource` | The main language of the stimulus as a language tag. |
-| `stimulus_body_summary` | `stimulusBodySummary` | text | No | directory | `DEC-009-content-resource` | A safe summary of the passage, chart, media, or other shared content. |
-| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | `DEC-007-identifier-crosswalk` | The accessibility catalog record attached to this stimulus, if any. |
-| `source_href` | `sourceHref` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this stimulus. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 AssessmentStimulus.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this stimulus. |
+| `package_id` | `packageId` | text | Yes | operational | QTI 3.0 AssessmentStimulus.packageId | `DEC-007-identifier-crosswalk` | The QTI package this stimulus came from. |
+| `identifier` | `identifier` | text | Yes | operational | QTI 3.0 AssessmentStimulus.identifier | `DEC-007-identifier-crosswalk` | The local QTI identifier for the stimulus. |
+| `title` | `title` | text | Yes | directory | QTI 3.0 AssessmentStimulus.title | `DEC-009-content-resource` | The stimulus title used to browse or select it. |
+| `language` | `language` | text | No | directory | QTI 3.0 AssessmentStimulus.language | `DEC-009-content-resource` | The main language of the stimulus as a language tag. |
+| `stimulus_body_summary` | `stimulusBodySummary` | text | No | directory | QTI 3.0 AssessmentStimulus.stimulusBodySummary | `DEC-009-content-resource` | A safe summary of the passage, chart, media, or other shared content. |
+| `accessibility_catalog_id` | `accessibilityCatalogId` | text | No | sensitive | QTI 3.0 AssessmentStimulus.accessibilityCatalogId | `DEC-007-identifier-crosswalk` | The accessibility catalog record attached to this stimulus, if any. |
+| `source_href` | `sourceHref` | text | Yes | operational | QTI 3.0 AssessmentStimulus.sourceHref | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this stimulus. |
 
 ### QTI Assessment Test
 
@@ -150,20 +153,21 @@ Values for `has_correct_response`:
 - SQL table: `assessment.qti_assessment_tests`
 - API path: `/assessments/qti/tests`
 - Privacy class: `directory`
+- Source standard: QTI 3.0 AssessmentTest
 - Why it exists: Schools and apps need to search, assign, inspect, and align whole assessments, not only individual items.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this test. |
-| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The QTI package this test came from. |
-| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the test. |
-| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The test title people see. |
-| `class_tokens` | `classTokens` | text | No | operational | `DEC-002-learning-context` | Style or category tokens from the QTI test; this is not a school class. |
-| `authoring_tool_name` | `authoringToolName` | text | No | operational | `DEC-009-content-resource` | The tool that created the test. |
-| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | `DEC-009-content-resource` | The version of the tool that created the test. |
-| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | `DEC-008-time-session` | The maximum time allowed for the test when known, in seconds. |
-| `outcome_processing_summary` | `outcomeProcessingSummary` | text | No | operational | `DEC-005-results-scores` | A safe summary of how test-level outcomes are calculated. |
-| `source_href` | `sourceHref` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this test. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 AssessmentTest.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this test. |
+| `package_id` | `packageId` | text | Yes | operational | QTI 3.0 AssessmentTest.packageId | `DEC-007-identifier-crosswalk` | The QTI package this test came from. |
+| `identifier` | `identifier` | text | Yes | operational | QTI 3.0 AssessmentTest.identifier | `DEC-007-identifier-crosswalk` | The local QTI identifier for the test. |
+| `title` | `title` | text | Yes | directory | QTI 3.0 AssessmentTest.title | `DEC-009-content-resource` | The test title people see. |
+| `class_tokens` | `classTokens` | text | No | operational | QTI 3.0 AssessmentTest.classTokens | `DEC-002-learning-context` | Style or category tokens from the QTI test; this is not a school class. |
+| `authoring_tool_name` | `authoringToolName` | text | No | operational | QTI 3.0 AssessmentTest.authoringToolName | `DEC-009-content-resource` | The tool that created the test. |
+| `authoring_tool_version` | `authoringToolVersion` | text | No | operational | QTI 3.0 AssessmentTest.authoringToolVersion | `DEC-009-content-resource` | The version of the tool that created the test. |
+| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | QTI 3.0 AssessmentTest.timeLimitSeconds | `DEC-008-time-session` | The maximum time allowed for the test when known, in seconds. |
+| `outcome_processing_summary` | `outcomeProcessingSummary` | text | No | operational | QTI 3.0 AssessmentTest.outcomeProcessingSummary | `DEC-005-results-scores` | A safe summary of how test-level outcomes are calculated. |
+| `source_href` | `sourceHref` | text | Yes | operational | QTI 3.0 AssessmentTest.sourceHref | `DEC-007-identifier-crosswalk` | The package-relative XML file or resource path for this test. |
 
 ### QTI Test Part
 
@@ -171,34 +175,35 @@ Values for `has_correct_response`:
 - SQL table: `assessment.qti_test_parts`
 - API path: `/assessments/qti/test-parts`
 - Privacy class: `operational`
+- Source standard: QTI 3.0 TestPart
 - Why it exists: Delivery and analytics need to know how learners are allowed to move through a test.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this test part. |
-| `test_id` | `testId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The test that contains this part. |
-| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for this test part. |
-| `title` | `title` | text | No | directory | `DEC-009-content-resource` | The title for this part, if shown or managed separately. |
-| `navigation_mode` | `navigationMode` | enum | Yes | operational | `DEC-009-content-resource` | Whether the learner must go in order or can move around. |
-| `submission_mode` | `submissionMode` | enum | Yes | operational | `DEC-009-content-resource` | Whether answers are submitted item-by-item or together. |
-| `max_time_seconds` | `maxTimeSeconds` | integer | No | operational | `DEC-008-time-session` | The maximum time allowed for this part, in seconds. |
-| `item_session_control_id` | `itemSessionControlId` | text | No | operational | `DEC-007-identifier-crosswalk` | The timing/review/attempt-control record for items in this part, if modeled separately. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 TestPart.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this test part. |
+| `test_id` | `testId` | text | Yes | operational | QTI 3.0 TestPart.testId | `DEC-007-identifier-crosswalk` | The test that contains this part. |
+| `identifier` | `identifier` | text | Yes | operational | QTI 3.0 TestPart.identifier | `DEC-007-identifier-crosswalk` | The local QTI identifier for this test part. |
+| `title` | `title` | text | No | directory | QTI 3.0 TestPart.title | `DEC-009-content-resource` | The title for this part, if shown or managed separately. |
+| `navigation_mode` | `navigationMode` | enum | Yes | operational | QTI 3.0 TestPart.navigationMode | `DEC-009-content-resource` | Whether the learner must go in order or can move around. |
+| `submission_mode` | `submissionMode` | enum | Yes | operational | QTI 3.0 TestPart.submissionMode | `DEC-009-content-resource` | Whether answers are submitted item-by-item or together. |
+| `max_time_seconds` | `maxTimeSeconds` | integer | No | operational | QTI 3.0 TestPart.maxTimeSeconds | `DEC-008-time-session` | The maximum time allowed for this part, in seconds. |
+| `item_session_control_id` | `itemSessionControlId` | text | No | operational | QTI 3.0 TestPart.itemSessionControlId | `DEC-007-identifier-crosswalk` | The timing/review/attempt-control record for items in this part, if modeled separately. |
 
 #### Controlled Values
 
 Values for `navigation_mode`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `linear` | Linear | The learner proceeds in order and cannot freely return to earlier items. |
-| `nonlinear` | Nonlinear | The learner may navigate items in a freer order. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `linear` | Linear | QTI 3.0 navigation_mode.linear | The learner proceeds in order and cannot freely return to earlier items. |
+| `nonlinear` | Nonlinear | QTI 3.0 navigation_mode.nonlinear | The learner may navigate items in a freer order. |
 
 Values for `submission_mode`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `individual` | Individual | Each item is submitted and processed separately. |
-| `simultaneous` | Simultaneous | Responses are submitted together at the end of the part. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `individual` | Individual | QTI 3.0 submission_mode.individual | Each item is submitted and processed separately. |
+| `simultaneous` | Simultaneous | QTI 3.0 submission_mode.simultaneous | Responses are submitted together at the end of the part. |
 
 
 ### QTI Assessment Section
@@ -207,58 +212,59 @@ Values for `submission_mode`:
 - SQL table: `assessment.qti_assessment_sections`
 - API path: `/assessments/qti/sections`
 - Privacy class: `operational`
+- Source standard: QTI 3.0 AssessmentSection
 - Why it exists: Sections are needed for test construction, search, item selection, and analytics by part of a test.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this section. |
-| `test_id` | `testId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The test that contains this section. |
-| `parent_section_id` | `parentSectionId` | text | No | operational | `DEC-007-identifier-crosswalk` | The section that contains this section, if sections are nested. |
-| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The local QTI identifier for the section. |
-| `title` | `title` | text | Yes | directory | `DEC-009-content-resource` | The title used to browse or present the section. |
-| `required_in_selection` | `requiredInSelection` | enum | No | operational | `DEC-009-content-resource` | Whether this section must be selected when test selection rules run. |
-| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | `DEC-009-content-resource` | Whether this section keeps its position when nearby content is shuffled. |
-| `visible_to_candidate` | `visibleToCandidate` | enum | Yes | operational | `DEC-008-time-session` | Whether the learner can see this as a visible section. |
-| `keep_together` | `keepTogether` | enum | No | operational | `DEC-009-content-resource` | Whether children of an invisible shuffled section should move together as a group. |
-| `selection_count` | `selectionCount` | integer | No | operational | `DEC-009-content-resource` | How many child parts should be selected from this section, if selection is used. |
-| `ordering_shuffle` | `orderingShuffle` | enum | No | operational | `DEC-009-content-resource` | Whether child parts may be presented in shuffled order. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 AssessmentSection.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this section. |
+| `test_id` | `testId` | text | Yes | operational | QTI 3.0 AssessmentSection.testId | `DEC-007-identifier-crosswalk` | The test that contains this section. |
+| `parent_section_id` | `parentSectionId` | text | No | operational | QTI 3.0 AssessmentSection.parentSectionId | `DEC-007-identifier-crosswalk` | The section that contains this section, if sections are nested. |
+| `identifier` | `identifier` | text | Yes | operational | QTI 3.0 AssessmentSection.identifier | `DEC-007-identifier-crosswalk` | The local QTI identifier for the section. |
+| `title` | `title` | text | Yes | directory | QTI 3.0 AssessmentSection.title | `DEC-009-content-resource` | The title used to browse or present the section. |
+| `required_in_selection` | `requiredInSelection` | enum | No | operational | QTI 3.0 AssessmentSection.requiredInSelection | `DEC-009-content-resource` | Whether this section must be selected when test selection rules run. |
+| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | QTI 3.0 AssessmentSection.fixedInShuffle | `DEC-009-content-resource` | Whether this section keeps its position when nearby content is shuffled. |
+| `visible_to_candidate` | `visibleToCandidate` | enum | Yes | operational | QTI 3.0 AssessmentSection.visibleToCandidate | `DEC-008-time-session` | Whether the learner can see this as a visible section. |
+| `keep_together` | `keepTogether` | enum | No | operational | QTI 3.0 AssessmentSection.keepTogether | `DEC-009-content-resource` | Whether children of an invisible shuffled section should move together as a group. |
+| `selection_count` | `selectionCount` | integer | No | operational | QTI 3.0 AssessmentSection.selectionCount | `DEC-009-content-resource` | How many child parts should be selected from this section, if selection is used. |
+| `ordering_shuffle` | `orderingShuffle` | enum | No | operational | QTI 3.0 AssessmentSection.orderingShuffle | `DEC-009-content-resource` | Whether child parts may be presented in shuffled order. |
 
 #### Controlled Values
 
 Values for `required_in_selection`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `fixed_in_shuffle`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `visible_to_candidate`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `keep_together`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `ordering_shuffle`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 
 ### QTI Item Reference
@@ -267,36 +273,37 @@ Values for `ordering_shuffle`:
 - SQL table: `assessment.qti_item_refs`
 - API path: `/assessments/qti/item-refs`
 - Privacy class: `operational`
+- Source standard: QTI 3.0 AssessmentItemRef
 - Why it exists: The same item can appear in more than one test or section with different rules.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item reference. |
-| `section_id` | `sectionId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The section containing this item reference. |
-| `item_id` | `itemId` | text | No | operational | `DEC-007-identifier-crosswalk` | The resolved platform item record, if the href has been matched to an item. |
-| `identifier` | `identifier` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The test-local identifier for this item reference. |
-| `href` | `href` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative link to the item XML file. |
-| `required_in_selection` | `requiredInSelection` | enum | No | operational | `DEC-009-content-resource` | Whether this item must be selected when selection rules run. |
-| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | `DEC-009-content-resource` | Whether this item keeps its position during shuffling. |
-| `category` | `category` | text | No | directory | `DEC-009-content-resource` | Category tags used for reporting, subscores, or selection rules. |
-| `weight` | `weight` | number | No | operational | `DEC-005-results-scores` | Test-specific score weight for this item. |
-| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | `DEC-008-time-session` | The maximum time allowed for this item reference, in seconds. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 AssessmentItemRef.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item reference. |
+| `section_id` | `sectionId` | text | Yes | operational | QTI 3.0 AssessmentItemRef.sectionId | `DEC-007-identifier-crosswalk` | The section containing this item reference. |
+| `item_id` | `itemId` | text | No | operational | QTI 3.0 AssessmentItemRef.itemId | `DEC-007-identifier-crosswalk` | The resolved platform item record, if the href has been matched to an item. |
+| `identifier` | `identifier` | text | Yes | operational | QTI 3.0 AssessmentItemRef.identifier | `DEC-007-identifier-crosswalk` | The test-local identifier for this item reference. |
+| `href` | `href` | text | Yes | operational | QTI 3.0 AssessmentItemRef.href | `DEC-007-identifier-crosswalk` | The package-relative link to the item XML file. |
+| `required_in_selection` | `requiredInSelection` | enum | No | operational | QTI 3.0 AssessmentItemRef.requiredInSelection | `DEC-009-content-resource` | Whether this item must be selected when selection rules run. |
+| `fixed_in_shuffle` | `fixedInShuffle` | enum | No | operational | QTI 3.0 AssessmentItemRef.fixedInShuffle | `DEC-009-content-resource` | Whether this item keeps its position during shuffling. |
+| `category` | `category` | text | No | directory | QTI 3.0 AssessmentItemRef.category | `DEC-009-content-resource` | Category tags used for reporting, subscores, or selection rules. |
+| `weight` | `weight` | number | No | operational | QTI 3.0 AssessmentItemRef.weight | `DEC-005-results-scores` | Test-specific score weight for this item. |
+| `time_limit_seconds` | `timeLimitSeconds` | integer | No | operational | QTI 3.0 AssessmentItemRef.timeLimitSeconds | `DEC-008-time-session` | The maximum time allowed for this item reference, in seconds. |
 
 #### Controlled Values
 
 Values for `required_in_selection`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `fixed_in_shuffle`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 
 ### QTI Variable Declaration
@@ -305,81 +312,82 @@ Values for `fixed_in_shuffle`:
 - SQL table: `assessment.qti_variable_declarations`
 - API path: `/assessments/qti/variable-declarations`
 - Privacy class: `operational`
+- Source standard: QTI 3.0 Response/Outcome/Template/ContextDeclaration
 - Why it exists: Variables explain how answers, scores, status values, templates, and context values are named and typed.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this variable declaration. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-009-content-resource` | The kind of QTI object that owns this variable. |
-| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the item, test, or other owner object. |
-| `declaration_kind` | `declarationKind` | enum | Yes | operational | `DEC-009-content-resource` | Whether this variable stores an answer, score/status outcome, template value, or context value. |
-| `identifier` | `identifier` | text | Yes | education_record | `DEC-007-identifier-crosswalk` | The QTI variable name. |
-| `cardinality` | `cardinality` | enum | Yes | operational | `DEC-009-content-resource` | Whether the variable holds one value, many values, ordered values, or a record. |
-| `base_type` | `baseType` | enum | No | operational | `DEC-009-content-resource` | The type of each value held by the variable. |
-| `default_value_summary` | `defaultValueSummary` | text | No | operational | `DEC-009-content-resource` | A safe summary of the default value, if any. |
-| `correct_response_summary` | `correctResponseSummary` | text | No | sensitive | `DEC-005-results-scores` | A safe summary of the correct response, if the item declares one. |
-| `mapping_summary` | `mappingSummary` | text | No | operational | `DEC-005-results-scores` | A safe summary of how response values map to scores or outcomes. |
-| `view` | `view` | enum | No | sensitive | `DEC-009-content-resource` | The audience this outcome or feedback-related variable is intended for. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this variable declaration. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.ownerObjectType | `DEC-009-content-resource` | The kind of QTI object that owns this variable. |
+| `owner_id` | `ownerId` | text | Yes | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.ownerId | `DEC-007-identifier-crosswalk` | The platform ID of the item, test, or other owner object. |
+| `declaration_kind` | `declarationKind` | enum | Yes | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.declarationKind | `DEC-009-content-resource` | Whether this variable stores an answer, score/status outcome, template value, or context value. |
+| `identifier` | `identifier` | text | Yes | education_record | QTI 3.0 Response/Outcome/Template/ContextDeclaration.identifier | `DEC-007-identifier-crosswalk` | The QTI variable name. |
+| `cardinality` | `cardinality` | enum | Yes | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.cardinality | `DEC-009-content-resource` | Whether the variable holds one value, many values, ordered values, or a record. |
+| `base_type` | `baseType` | enum | No | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.baseType | `DEC-009-content-resource` | The type of each value held by the variable. |
+| `default_value_summary` | `defaultValueSummary` | text | No | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.defaultValueSummary | `DEC-009-content-resource` | A safe summary of the default value, if any. |
+| `correct_response_summary` | `correctResponseSummary` | text | No | sensitive | QTI 3.0 Response/Outcome/Template/ContextDeclaration.correctResponseSummary | `DEC-005-results-scores` | A safe summary of the correct response, if the item declares one. |
+| `mapping_summary` | `mappingSummary` | text | No | operational | QTI 3.0 Response/Outcome/Template/ContextDeclaration.mappingSummary | `DEC-005-results-scores` | A safe summary of how response values map to scores or outcomes. |
+| `view` | `view` | enum | No | sensitive | QTI 3.0 Response/Outcome/Template/ContextDeclaration.view | `DEC-009-content-resource` | The audience this outcome or feedback-related variable is intended for. |
 
 #### Controlled Values
 
 Values for `owner_object_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `package` | Package | A QTI package. |
-| `item` | Item | A QTI assessment item. |
-| `stimulus` | Stimulus | A QTI assessment stimulus. |
-| `test` | Test | A QTI assessment test. |
-| `testPart` | Test part | A major part of a QTI test. |
-| `section` | Section | A QTI assessment section. |
-| `itemRef` | Item reference | A test or section reference to an item. |
-| `interaction` | Interaction | The answer interaction inside an item. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `package` | Package | QTI 3.0 owner_object_type.package | A QTI package. |
+| `item` | Item | QTI 3.0 owner_object_type.item | A QTI assessment item. |
+| `stimulus` | Stimulus | QTI 3.0 owner_object_type.stimulus | A QTI assessment stimulus. |
+| `test` | Test | QTI 3.0 owner_object_type.test | A QTI assessment test. |
+| `testPart` | Test part | QTI 3.0 owner_object_type.testPart | A major part of a QTI test. |
+| `section` | Section | QTI 3.0 owner_object_type.section | A QTI assessment section. |
+| `itemRef` | Item reference | QTI 3.0 owner_object_type.itemRef | A test or section reference to an item. |
+| `interaction` | Interaction | QTI 3.0 owner_object_type.interaction | The answer interaction inside an item. |
 
 Values for `declaration_kind`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `response` | Response | A variable that stores a learner answer. |
-| `outcome` | Outcome | A variable that stores a score, status, or other result. |
-| `template` | Template | A variable used to create item variants. |
-| `context` | Context | A global value available to processing rules. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `response` | Response | QTI 3.0 declaration_kind.response | A variable that stores a learner answer. |
+| `outcome` | Outcome | QTI 3.0 declaration_kind.outcome | A variable that stores a score, status, or other result. |
+| `template` | Template | QTI 3.0 declaration_kind.template | A variable used to create item variants. |
+| `context` | Context | QTI 3.0 declaration_kind.context | A global value available to processing rules. |
 
 Values for `cardinality`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `single` | Single | Exactly one value. |
-| `multiple` | Multiple | A list of values where order does not matter. |
-| `ordered` | Ordered | A list of values where order matters. |
-| `record` | Record | A set of named values with their own types. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `single` | Single | QTI 3.0 cardinality.single | Exactly one value. |
+| `multiple` | Multiple | QTI 3.0 cardinality.multiple | A list of values where order does not matter. |
+| `ordered` | Ordered | QTI 3.0 cardinality.ordered | A list of values where order matters. |
+| `record` | Record | QTI 3.0 cardinality.record | A set of named values with their own types. |
 
 Values for `base_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `boolean` | Boolean | True or false. |
-| `directedPair` | Directed pair | Two IDs where direction matters. |
-| `duration` | Duration | A length of time. |
-| `file` | File | Uploaded file bytes with content type and optional filename. |
-| `float` | Float | A decimal number. |
-| `identifier` | Identifier | A QTI identifier value. |
-| `integer` | Integer | A whole number. |
-| `pair` | Pair | Two IDs where direction does not matter. |
-| `point` | Point | A graphic coordinate point. |
-| `string` | String | Text. |
-| `uri` | URI | A web identifier or URI. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `boolean` | Boolean | QTI 3.0 base_type.boolean | True or false. |
+| `directedPair` | Directed pair | QTI 3.0 base_type.directedPair | Two IDs where direction matters. |
+| `duration` | Duration | QTI 3.0 base_type.duration | A length of time. |
+| `file` | File | QTI 3.0 base_type.file | Uploaded file bytes with content type and optional filename. |
+| `float` | Float | QTI 3.0 base_type.float | A decimal number. |
+| `identifier` | Identifier | QTI 3.0 base_type.identifier | A QTI identifier value. |
+| `integer` | Integer | QTI 3.0 base_type.integer | A whole number. |
+| `pair` | Pair | QTI 3.0 base_type.pair | Two IDs where direction does not matter. |
+| `point` | Point | QTI 3.0 base_type.point | A graphic coordinate point. |
+| `string` | String | QTI 3.0 base_type.string | Text. |
+| `uri` | URI | QTI 3.0 base_type.uri | A web identifier or URI. |
 
 Values for `view`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `author` | Author | Intended for someone authoring the assessment. |
-| `candidate` | Candidate | Intended for the learner or test taker. |
-| `proctor` | Proctor | Intended for the person supervising the assessment. |
-| `scorer` | Scorer | Intended for someone scoring the assessment. |
-| `testConstructor` | Test constructor | Intended for someone assembling the test. |
-| `tutor` | Tutor | Intended for an educator or tutor supporting the learner. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `author` | Author | QTI 3.0 view.author | Intended for someone authoring the assessment. |
+| `candidate` | Candidate | QTI 3.0 view.candidate | Intended for the learner or test taker. |
+| `proctor` | Proctor | QTI 3.0 view.proctor | Intended for the person supervising the assessment. |
+| `scorer` | Scorer | QTI 3.0 view.scorer | Intended for someone scoring the assessment. |
+| `testConstructor` | Test constructor | QTI 3.0 view.testConstructor | Intended for someone assembling the test. |
+| `tutor` | Tutor | QTI 3.0 view.tutor | Intended for an educator or tutor supporting the learner. |
 
 
 ### QTI Interaction
@@ -388,85 +396,86 @@ Values for `view`:
 - SQL table: `assessment.qti_interactions`
 - API path: `/assessments/qti/interactions`
 - Privacy class: `directory`
+- Source standard: QTI 3.0 ItemBody interaction objects
 - Why it exists: Apps need interaction-level search, accessibility review, analytics, and delivery planning.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this interaction. |
-| `item_id` | `itemId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The item containing this interaction. |
-| `response_identifier` | `responseIdentifier` | text | No | education_record | `DEC-009-content-resource` | The response variable that stores the learner's answer for this interaction. |
-| `interaction_type` | `interactionType` | enum | Yes | operational | `DEC-009-content-resource` | The QTI interaction family. |
-| `prompt_summary` | `promptSummary` | text | No | directory | `DEC-009-content-resource` | A safe summary of the instructions or prompt shown with the interaction. |
-| `shuffle` | `shuffle` | enum | No | operational | `DEC-009-content-resource` | Whether choices should appear in randomized order. |
-| `min_choices` | `minChoices` | integer | No | operational | `DEC-009-content-resource` | The smallest number of choices a learner must select. |
-| `max_choices` | `maxChoices` | integer | No | operational | `DEC-009-content-resource` | The largest number of choices a learner may select; zero often means no limit. |
-| `min_associations` | `minAssociations` | integer | No | operational | `DEC-006-standards-alignment` | The smallest number of pairings or matches required. |
-| `max_associations` | `maxAssociations` | integer | No | operational | `DEC-006-standards-alignment` | The largest number of pairings or matches allowed. |
-| `orientation` | `orientation` | enum | No | operational | `DEC-009-content-resource` | Whether layout naturally reads horizontally or vertically. |
-| `expected_length` | `expectedLength` | integer | No | operational | `DEC-009-content-resource` | Expected response length for text interactions. |
-| `text_format` | `textFormat` | enum | No | operational | `DEC-009-content-resource` | Whether typed text is plain, preformatted, or XHTML. |
-| `shape` | `shape` | enum | No | operational | `DEC-009-content-resource` | The hotspot shape used by graphic interactions. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 ItemBody interaction objects.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this interaction. |
+| `item_id` | `itemId` | text | Yes | operational | QTI 3.0 ItemBody interaction objects.itemId | `DEC-007-identifier-crosswalk` | The item containing this interaction. |
+| `response_identifier` | `responseIdentifier` | text | No | education_record | QTI 3.0 ItemBody interaction objects.responseIdentifier | `DEC-009-content-resource` | The response variable that stores the learner's answer for this interaction. |
+| `interaction_type` | `interactionType` | enum | Yes | operational | QTI 3.0 ItemBody interaction objects.interactionType | `DEC-009-content-resource` | The QTI interaction family. |
+| `prompt_summary` | `promptSummary` | text | No | directory | QTI 3.0 ItemBody interaction objects.promptSummary | `DEC-009-content-resource` | A safe summary of the instructions or prompt shown with the interaction. |
+| `shuffle` | `shuffle` | enum | No | operational | QTI 3.0 ItemBody interaction objects.shuffle | `DEC-009-content-resource` | Whether choices should appear in randomized order. |
+| `min_choices` | `minChoices` | integer | No | operational | QTI 3.0 ItemBody interaction objects.minChoices | `DEC-009-content-resource` | The smallest number of choices a learner must select. |
+| `max_choices` | `maxChoices` | integer | No | operational | QTI 3.0 ItemBody interaction objects.maxChoices | `DEC-009-content-resource` | The largest number of choices a learner may select; zero often means no limit. |
+| `min_associations` | `minAssociations` | integer | No | operational | QTI 3.0 ItemBody interaction objects.minAssociations | `DEC-006-standards-alignment` | The smallest number of pairings or matches required. |
+| `max_associations` | `maxAssociations` | integer | No | operational | QTI 3.0 ItemBody interaction objects.maxAssociations | `DEC-006-standards-alignment` | The largest number of pairings or matches allowed. |
+| `orientation` | `orientation` | enum | No | operational | QTI 3.0 ItemBody interaction objects.orientation | `DEC-009-content-resource` | Whether layout naturally reads horizontally or vertically. |
+| `expected_length` | `expectedLength` | integer | No | operational | QTI 3.0 ItemBody interaction objects.expectedLength | `DEC-009-content-resource` | Expected response length for text interactions. |
+| `text_format` | `textFormat` | enum | No | operational | QTI 3.0 ItemBody interaction objects.textFormat | `DEC-009-content-resource` | Whether typed text is plain, preformatted, or XHTML. |
+| `shape` | `shape` | enum | No | operational | QTI 3.0 ItemBody interaction objects.shape | `DEC-009-content-resource` | The hotspot shape used by graphic interactions. |
 
 #### Controlled Values
 
 Values for `interaction_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `choiceInteraction` | Choice | Select one or more choices. |
-| `orderInteraction` | Ordering | Put choices in order. |
-| `associateInteraction` | Associate | Create pairings between choices. |
-| `matchInteraction` | Match | Match choices from one set to another. |
-| `gapMatchInteraction` | Gap match | Put choices into gaps in surrounding content. |
-| `textEntryInteraction` | Text entry | Type a short answer inline. |
-| `extendedTextInteraction` | Extended text | Type an essay or longer response. |
-| `inlineChoiceInteraction` | Inline choice | Choose text inside a sentence or passage. |
-| `hottextInteraction` | Hot text | Select highlighted text. |
-| `hotspotInteraction` | Hotspot | Click or tap one or more regions on an image. |
-| `selectPointInteraction` | Select point | Mark one or more points on an image. |
-| `graphicOrderInteraction` | Graphic order | Put image hotspots into order. |
-| `graphicAssociateInteraction` | Graphic associate | Pair image regions with each other. |
-| `graphicGapMatchInteraction` | Graphic gap match | Match choices to image regions. |
-| `positionObjectInteraction` | Position object | Place an image object onto a stage. |
-| `sliderInteraction` | Slider | Choose a number on a range. |
-| `uploadInteraction` | Upload | Upload a response file. |
-| `drawingInteraction` | Drawing | Draw or mark up an image or canvas. |
-| `mediaInteraction` | Media | Play or interact with audio or video. |
-| `endAttemptInteraction` | End attempt | Trigger response processing, often for a hint or action button. |
-| `portableCustomInteraction` | Portable custom | Use a packaged custom interaction module. |
-| `customInteraction` | Custom | Use proprietary custom behavior preserved for compatibility. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `choiceInteraction` | Choice | QTI 3.0 interaction_type.choiceInteraction | Select one or more choices. |
+| `orderInteraction` | Ordering | QTI 3.0 interaction_type.orderInteraction | Put choices in order. |
+| `associateInteraction` | Associate | QTI 3.0 interaction_type.associateInteraction | Create pairings between choices. |
+| `matchInteraction` | Match | QTI 3.0 interaction_type.matchInteraction | Match choices from one set to another. |
+| `gapMatchInteraction` | Gap match | QTI 3.0 interaction_type.gapMatchInteraction | Put choices into gaps in surrounding content. |
+| `textEntryInteraction` | Text entry | QTI 3.0 interaction_type.textEntryInteraction | Type a short answer inline. |
+| `extendedTextInteraction` | Extended text | QTI 3.0 interaction_type.extendedTextInteraction | Type an essay or longer response. |
+| `inlineChoiceInteraction` | Inline choice | QTI 3.0 interaction_type.inlineChoiceInteraction | Choose text inside a sentence or passage. |
+| `hottextInteraction` | Hot text | QTI 3.0 interaction_type.hottextInteraction | Select highlighted text. |
+| `hotspotInteraction` | Hotspot | QTI 3.0 interaction_type.hotspotInteraction | Click or tap one or more regions on an image. |
+| `selectPointInteraction` | Select point | QTI 3.0 interaction_type.selectPointInteraction | Mark one or more points on an image. |
+| `graphicOrderInteraction` | Graphic order | QTI 3.0 interaction_type.graphicOrderInteraction | Put image hotspots into order. |
+| `graphicAssociateInteraction` | Graphic associate | QTI 3.0 interaction_type.graphicAssociateInteraction | Pair image regions with each other. |
+| `graphicGapMatchInteraction` | Graphic gap match | QTI 3.0 interaction_type.graphicGapMatchInteraction | Match choices to image regions. |
+| `positionObjectInteraction` | Position object | QTI 3.0 interaction_type.positionObjectInteraction | Place an image object onto a stage. |
+| `sliderInteraction` | Slider | QTI 3.0 interaction_type.sliderInteraction | Choose a number on a range. |
+| `uploadInteraction` | Upload | QTI 3.0 interaction_type.uploadInteraction | Upload a response file. |
+| `drawingInteraction` | Drawing | QTI 3.0 interaction_type.drawingInteraction | Draw or mark up an image or canvas. |
+| `mediaInteraction` | Media | QTI 3.0 interaction_type.mediaInteraction | Play or interact with audio or video. |
+| `endAttemptInteraction` | End attempt | QTI 3.0 interaction_type.endAttemptInteraction | Trigger response processing, often for a hint or action button. |
+| `portableCustomInteraction` | Portable custom | QTI 3.0 interaction_type.portableCustomInteraction | Use a packaged custom interaction module. |
+| `customInteraction` | Custom | QTI 3.0 interaction_type.customInteraction | Use proprietary custom behavior preserved for compatibility. |
 
 Values for `shuffle`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 Values for `orientation`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `horizontal` | Horizontal | Laid out left-to-right or along a horizontal axis. |
-| `vertical` | Vertical | Laid out top-to-bottom or along a vertical axis. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `horizontal` | Horizontal | QTI 3.0 orientation.horizontal | Laid out left-to-right or along a horizontal axis. |
+| `vertical` | Vertical | QTI 3.0 orientation.vertical | Laid out top-to-bottom or along a vertical axis. |
 
 Values for `text_format`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `plain` | Plain | Plain typed text. |
-| `preformatted` | Preformatted | Text where spacing and line breaks should be preserved. |
-| `xhtml` | XHTML | Structured rich text marked up as XHTML. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `plain` | Plain | QTI 3.0 text_format.plain | Plain typed text. |
+| `preformatted` | Preformatted | QTI 3.0 text_format.preformatted | Text where spacing and line breaks should be preserved. |
+| `xhtml` | XHTML | QTI 3.0 text_format.xhtml | Structured rich text marked up as XHTML. |
 
 Values for `shape`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `circle` | Circle | A circular hotspot. |
-| `default` | Default | The entire image area. |
-| `ellipse` | Ellipse | An ellipse hotspot preserved for compatibility. |
-| `poly` | Polygon | A polygon hotspot. |
-| `rect` | Rectangle | A rectangular hotspot. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `circle` | Circle | QTI 3.0 shape.circle | A circular hotspot. |
+| `default` | Default | QTI 3.0 shape.default | The entire image area. |
+| `ellipse` | Ellipse | QTI 3.0 shape.ellipse | An ellipse hotspot preserved for compatibility. |
+| `poly` | Polygon | QTI 3.0 shape.poly | A polygon hotspot. |
+| `rect` | Rectangle | QTI 3.0 shape.rect | A rectangular hotspot. |
 
 
 ### QTI Processing Rule
@@ -475,42 +484,43 @@ Values for `shape`:
 - SQL table: `assessment.qti_processing_rules`
 - API path: `/assessments/qti/processing-rules`
 - Privacy class: `operational`
+- Source standard: QTI 3.0 Response/Outcome/Template processing rules
 - Why it exists: The platform needs searchable processing metadata without pretending to reimplement the full QTI runtime.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this processing rule. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-005-results-scores` | The kind of QTI object that owns this rule. |
-| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the object that owns this rule. |
-| `processing_kind` | `processingKind` | enum | Yes | operational | `DEC-005-results-scores` | The kind of processing rule. |
-| `template_uri` | `templateUri` | text | No | operational | `DEC-005-results-scores` | A reusable QTI processing template URI, if one is referenced. |
-| `target_identifier` | `targetIdentifier` | text | No | operational | `DEC-005-results-scores` | The target item, section, outcome, or special destination used by this rule. |
-| `logic_summary` | `logicSummary` | text | No | operational | `DEC-005-results-scores` | A safe plain-language summary of the rule logic. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 Response/Outcome/Template processing rules.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this processing rule. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | QTI 3.0 Response/Outcome/Template processing rules.ownerObjectType | `DEC-005-results-scores` | The kind of QTI object that owns this rule. |
+| `owner_id` | `ownerId` | text | Yes | operational | QTI 3.0 Response/Outcome/Template processing rules.ownerId | `DEC-007-identifier-crosswalk` | The platform ID of the object that owns this rule. |
+| `processing_kind` | `processingKind` | enum | Yes | operational | QTI 3.0 Response/Outcome/Template processing rules.processingKind | `DEC-005-results-scores` | The kind of processing rule. |
+| `template_uri` | `templateUri` | text | No | operational | QTI 3.0 Response/Outcome/Template processing rules.templateUri | `DEC-005-results-scores` | A reusable QTI processing template URI, if one is referenced. |
+| `target_identifier` | `targetIdentifier` | text | No | operational | QTI 3.0 Response/Outcome/Template processing rules.targetIdentifier | `DEC-005-results-scores` | The target item, section, outcome, or special destination used by this rule. |
+| `logic_summary` | `logicSummary` | text | No | operational | QTI 3.0 Response/Outcome/Template processing rules.logicSummary | `DEC-005-results-scores` | A safe plain-language summary of the rule logic. |
 
 #### Controlled Values
 
 Values for `owner_object_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `package` | Package | A QTI package. |
-| `item` | Item | A QTI assessment item. |
-| `stimulus` | Stimulus | A QTI assessment stimulus. |
-| `test` | Test | A QTI assessment test. |
-| `testPart` | Test part | A major part of a QTI test. |
-| `section` | Section | A QTI assessment section. |
-| `itemRef` | Item reference | A test or section reference to an item. |
-| `interaction` | Interaction | The answer interaction inside an item. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `package` | Package | QTI 3.0 owner_object_type.package | A QTI package. |
+| `item` | Item | QTI 3.0 owner_object_type.item | A QTI assessment item. |
+| `stimulus` | Stimulus | QTI 3.0 owner_object_type.stimulus | A QTI assessment stimulus. |
+| `test` | Test | QTI 3.0 owner_object_type.test | A QTI assessment test. |
+| `testPart` | Test part | QTI 3.0 owner_object_type.testPart | A major part of a QTI test. |
+| `section` | Section | QTI 3.0 owner_object_type.section | A QTI assessment section. |
+| `itemRef` | Item reference | QTI 3.0 owner_object_type.itemRef | A test or section reference to an item. |
+| `interaction` | Interaction | QTI 3.0 owner_object_type.interaction | The answer interaction inside an item. |
 
 Values for `processing_kind`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `responseProcessing` | Response processing | Rules that calculate item outcomes from learner responses. |
-| `outcomeProcessing` | Outcome processing | Rules that calculate test outcomes from item outcomes. |
-| `templateProcessing` | Template processing | Rules that set template values before delivery. |
-| `branchRule` | Branch rule | Logic that jumps to a target when a condition is true. |
-| `preCondition` | Precondition | Logic that decides whether to skip a part, section, or item. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `responseProcessing` | Response processing | QTI 3.0 processing_kind.responseProcessing | Rules that calculate item outcomes from learner responses. |
+| `outcomeProcessing` | Outcome processing | QTI 3.0 processing_kind.outcomeProcessing | Rules that calculate test outcomes from item outcomes. |
+| `templateProcessing` | Template processing | QTI 3.0 processing_kind.templateProcessing | Rules that set template values before delivery. |
+| `branchRule` | Branch rule | QTI 3.0 processing_kind.branchRule | Logic that jumps to a target when a condition is true. |
+| `preCondition` | Precondition | QTI 3.0 processing_kind.preCondition | Logic that decides whether to skip a part, section, or item. |
 
 
 ### QTI Feedback
@@ -519,78 +529,79 @@ Values for `processing_kind`:
 - SQL table: `assessment.qti_feedback`
 - API path: `/assessments/qti/feedback`
 - Privacy class: `education_record`
+- Source standard: QTI 3.0 ModalFeedback/TestFeedback/RubricBlock
 - Why it exists: Feedback and rubrics are important for delivery, review, accessibility, and analytics.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this feedback record. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-005-results-scores` | The kind of QTI object that owns this feedback. |
-| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the object that owns this feedback. |
-| `feedback_kind` | `feedbackKind` | enum | Yes | operational | `DEC-005-results-scores` | Whether this is item feedback, test feedback, or a rubric block. |
-| `outcome_identifier` | `outcomeIdentifier` | text | No | education_record | `DEC-005-results-scores` | The outcome variable that controls whether this feedback appears. |
-| `show_hide` | `showHide` | enum | No | operational | `DEC-005-results-scores` | Whether matching the identifier shows or hides the feedback. |
-| `feedback_identifier` | `feedbackIdentifier` | text | No | operational | `DEC-005-results-scores` | The value tested against an outcome to decide whether the feedback applies. |
-| `title` | `title` | text | No | directory | `DEC-005-results-scores` | An optional title for the feedback or rubric. |
-| `access` | `access` | enum | No | operational | `DEC-005-results-scores` | Whether test feedback appears during the test or at the end. |
-| `rubric_use` | `rubricUse` | enum | No | sensitive | `DEC-005-results-scores` | The purpose of a rubric block. |
-| `view` | `view` | enum | No | sensitive | `DEC-005-results-scores` | The audience that should see this feedback or rubric. |
-| `body_summary` | `bodySummary` | text | No | education_record | `DEC-005-results-scores` | A safe summary of the feedback or rubric content. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this feedback record. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.ownerObjectType | `DEC-005-results-scores` | The kind of QTI object that owns this feedback. |
+| `owner_id` | `ownerId` | text | Yes | operational | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.ownerId | `DEC-007-identifier-crosswalk` | The platform ID of the object that owns this feedback. |
+| `feedback_kind` | `feedbackKind` | enum | Yes | operational | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.feedbackKind | `DEC-005-results-scores` | Whether this is item feedback, test feedback, or a rubric block. |
+| `outcome_identifier` | `outcomeIdentifier` | text | No | education_record | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.outcomeIdentifier | `DEC-005-results-scores` | The outcome variable that controls whether this feedback appears. |
+| `show_hide` | `showHide` | enum | No | operational | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.showHide | `DEC-005-results-scores` | Whether matching the identifier shows or hides the feedback. |
+| `feedback_identifier` | `feedbackIdentifier` | text | No | operational | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.feedbackIdentifier | `DEC-005-results-scores` | The value tested against an outcome to decide whether the feedback applies. |
+| `title` | `title` | text | No | directory | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.title | `DEC-005-results-scores` | An optional title for the feedback or rubric. |
+| `access` | `access` | enum | No | operational | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.access | `DEC-005-results-scores` | Whether test feedback appears during the test or at the end. |
+| `rubric_use` | `rubricUse` | enum | No | sensitive | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.rubricUse | `DEC-005-results-scores` | The purpose of a rubric block. |
+| `view` | `view` | enum | No | sensitive | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.view | `DEC-005-results-scores` | The audience that should see this feedback or rubric. |
+| `body_summary` | `bodySummary` | text | No | education_record | QTI 3.0 ModalFeedback/TestFeedback/RubricBlock.bodySummary | `DEC-005-results-scores` | A safe summary of the feedback or rubric content. |
 
 #### Controlled Values
 
 Values for `owner_object_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `package` | Package | A QTI package. |
-| `item` | Item | A QTI assessment item. |
-| `stimulus` | Stimulus | A QTI assessment stimulus. |
-| `test` | Test | A QTI assessment test. |
-| `testPart` | Test part | A major part of a QTI test. |
-| `section` | Section | A QTI assessment section. |
-| `itemRef` | Item reference | A test or section reference to an item. |
-| `interaction` | Interaction | The answer interaction inside an item. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `package` | Package | QTI 3.0 owner_object_type.package | A QTI package. |
+| `item` | Item | QTI 3.0 owner_object_type.item | A QTI assessment item. |
+| `stimulus` | Stimulus | QTI 3.0 owner_object_type.stimulus | A QTI assessment stimulus. |
+| `test` | Test | QTI 3.0 owner_object_type.test | A QTI assessment test. |
+| `testPart` | Test part | QTI 3.0 owner_object_type.testPart | A major part of a QTI test. |
+| `section` | Section | QTI 3.0 owner_object_type.section | A QTI assessment section. |
+| `itemRef` | Item reference | QTI 3.0 owner_object_type.itemRef | A test or section reference to an item. |
+| `interaction` | Interaction | QTI 3.0 owner_object_type.interaction | The answer interaction inside an item. |
 
 Values for `feedback_kind`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `modalFeedback` | Modal feedback | Item-level feedback shown based on an outcome value. |
-| `testFeedback` | Test feedback | Test-level feedback shown during or after the test. |
-| `rubricBlock` | Rubric block | Directions, scoring, navigation, or support information for a selected audience. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `modalFeedback` | Modal feedback | QTI 3.0 feedback_kind.modalFeedback | Item-level feedback shown based on an outcome value. |
+| `testFeedback` | Test feedback | QTI 3.0 feedback_kind.testFeedback | Test-level feedback shown during or after the test. |
+| `rubricBlock` | Rubric block | QTI 3.0 feedback_kind.rubricBlock | Directions, scoring, navigation, or support information for a selected audience. |
 
 Values for `show_hide`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `show` | Show | Hidden by default; show when the condition matches. |
-| `hide` | Hide | Shown by default; hide when the condition matches. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `show` | Show | QTI 3.0 show_hide.show | Hidden by default; show when the condition matches. |
+| `hide` | Hide | QTI 3.0 show_hide.hide | Shown by default; hide when the condition matches. |
 
 Values for `access`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `during` | During | Feedback may appear during the test. |
-| `atEnd` | At end | Feedback appears at the end of the test. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `during` | During | QTI 3.0 feedback_access.during | Feedback may appear during the test. |
+| `atEnd` | At end | QTI 3.0 feedback_access.atEnd | Feedback appears at the end of the test. |
 
 Values for `rubric_use`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `instructions` | Instructions | Directions for the assessment. |
-| `navigation` | Navigation | Information about moving around the assessment. |
-| `scoring` | Scoring | Information about scoring. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `instructions` | Instructions | QTI 3.0 rubric_use.instructions | Directions for the assessment. |
+| `navigation` | Navigation | QTI 3.0 rubric_use.navigation | Information about moving around the assessment. |
+| `scoring` | Scoring | QTI 3.0 rubric_use.scoring | Information about scoring. |
 
 Values for `view`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `author` | Author | Intended for someone authoring the assessment. |
-| `candidate` | Candidate | Intended for the learner or test taker. |
-| `proctor` | Proctor | Intended for the person supervising the assessment. |
-| `scorer` | Scorer | Intended for someone scoring the assessment. |
-| `testConstructor` | Test constructor | Intended for someone assembling the test. |
-| `tutor` | Tutor | Intended for an educator or tutor supporting the learner. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `author` | Author | QTI 3.0 view.author | Intended for someone authoring the assessment. |
+| `candidate` | Candidate | QTI 3.0 view.candidate | Intended for the learner or test taker. |
+| `proctor` | Proctor | QTI 3.0 view.proctor | Intended for the person supervising the assessment. |
+| `scorer` | Scorer | QTI 3.0 view.scorer | Intended for someone scoring the assessment. |
+| `testConstructor` | Test constructor | QTI 3.0 view.testConstructor | Intended for someone assembling the test. |
+| `tutor` | Tutor | QTI 3.0 view.tutor | Intended for an educator or tutor supporting the learner. |
 
 
 ### QTI Accessibility Support
@@ -599,68 +610,69 @@ Values for `view`:
 - SQL table: `assessment.qti_accessibility_support`
 - API path: `/assessments/qti/accessibility-support`
 - Privacy class: `sensitive`
+- Source standard: QTI 3.0 CatalogInfo and accessibility support
 - Why it exists: Assessment content must expose accessibility supports without leaking learner accommodations unnecessarily.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this accessibility support record. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-009-content-resource` | The kind of QTI object this support belongs to. |
-| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the object this support belongs to. |
-| `support_type` | `supportType` | enum | Yes | sensitive | `DEC-009-content-resource` | The kind of accessibility support available. |
-| `catalog_idref` | `catalogIdref` | text | No | sensitive | `DEC-009-content-resource` | The QTI catalog ID reference for this support. |
-| `tts_suppression` | `ttsSuppression` | enum | No | sensitive | `DEC-009-content-resource` | Whether text-to-speech should be suppressed for this content. |
-| `content_summary` | `contentSummary` | text | No | sensitive | `DEC-009-content-resource` | A safe summary of the alternative or support content. |
-| `sensitive` | `sensitive` | enum | Yes | sensitive | `DEC-009-content-resource` | Whether this support metadata may reveal accessibility needs or accommodations. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 CatalogInfo and accessibility support.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this accessibility support record. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | QTI 3.0 CatalogInfo and accessibility support.ownerObjectType | `DEC-009-content-resource` | The kind of QTI object this support belongs to. |
+| `owner_id` | `ownerId` | text | Yes | operational | QTI 3.0 CatalogInfo and accessibility support.ownerId | `DEC-007-identifier-crosswalk` | The platform ID of the object this support belongs to. |
+| `support_type` | `supportType` | enum | Yes | sensitive | QTI 3.0 CatalogInfo and accessibility support.supportType | `DEC-009-content-resource` | The kind of accessibility support available. |
+| `catalog_idref` | `catalogIdref` | text | No | sensitive | QTI 3.0 CatalogInfo and accessibility support.catalogIdref | `DEC-009-content-resource` | The QTI catalog ID reference for this support. |
+| `tts_suppression` | `ttsSuppression` | enum | No | sensitive | QTI 3.0 CatalogInfo and accessibility support.ttsSuppression | `DEC-009-content-resource` | Whether text-to-speech should be suppressed for this content. |
+| `content_summary` | `contentSummary` | text | No | sensitive | QTI 3.0 CatalogInfo and accessibility support.contentSummary | `DEC-009-content-resource` | A safe summary of the alternative or support content. |
+| `sensitive` | `sensitive` | enum | Yes | sensitive | QTI 3.0 CatalogInfo and accessibility support.sensitive | `DEC-009-content-resource` | Whether this support metadata may reveal accessibility needs or accommodations. |
 
 #### Controlled Values
 
 Values for `owner_object_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `package` | Package | A QTI package. |
-| `item` | Item | A QTI assessment item. |
-| `stimulus` | Stimulus | A QTI assessment stimulus. |
-| `test` | Test | A QTI assessment test. |
-| `testPart` | Test part | A major part of a QTI test. |
-| `section` | Section | A QTI assessment section. |
-| `itemRef` | Item reference | A test or section reference to an item. |
-| `interaction` | Interaction | The answer interaction inside an item. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `package` | Package | QTI 3.0 owner_object_type.package | A QTI package. |
+| `item` | Item | QTI 3.0 owner_object_type.item | A QTI assessment item. |
+| `stimulus` | Stimulus | QTI 3.0 owner_object_type.stimulus | A QTI assessment stimulus. |
+| `test` | Test | QTI 3.0 owner_object_type.test | A QTI assessment test. |
+| `testPart` | Test part | QTI 3.0 owner_object_type.testPart | A major part of a QTI test. |
+| `section` | Section | QTI 3.0 owner_object_type.section | A QTI assessment section. |
+| `itemRef` | Item reference | QTI 3.0 owner_object_type.itemRef | A test or section reference to an item. |
+| `interaction` | Interaction | QTI 3.0 owner_object_type.interaction | The answer interaction inside an item. |
 
 Values for `support_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `additional-directions` | Additional directions | Extra directions are available. |
-| `audio-description` | Audio description | Narration describes important visual details. |
-| `braille` | Braille | Braille support is available. |
-| `glossary-on-screen` | On-screen glossary | On-screen glossary support is available. |
-| `high-contrast` | High contrast | High-contrast visual alternative is available. |
-| `keyboard-directions` | Keyboard directions | Keyboard-use directions are available. |
-| `keyword-translation` | Keyword translation | Keyword translation support is available. |
-| `linguistic-guidance` | Linguistic guidance | Language guidance is available. |
-| `long-description` | Long description | Longer description is available. |
-| `sign-language` | Sign language | Sign language support is available. |
-| `simplified-graphics` | Simplified graphics | Simplified graphic alternative is available. |
-| `simplified-language-portions` | Simplified language portions | Simplified language alternative is available. |
-| `spoken` | Spoken | Spoken version or content is available. |
-| `tactile` | Tactile | Tactile alternative is available. |
-| `transcript` | Transcript | Transcript is available. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `additional-directions` | Additional directions | QTI 3.0 accessibility_support.additional-directions | Extra directions are available. |
+| `audio-description` | Audio description | QTI 3.0 accessibility_support.audio-description | Narration describes important visual details. |
+| `braille` | Braille | QTI 3.0 accessibility_support.braille | Braille support is available. |
+| `glossary-on-screen` | On-screen glossary | QTI 3.0 accessibility_support.glossary-on-screen | On-screen glossary support is available. |
+| `high-contrast` | High contrast | QTI 3.0 accessibility_support.high-contrast | High-contrast visual alternative is available. |
+| `keyboard-directions` | Keyboard directions | QTI 3.0 accessibility_support.keyboard-directions | Keyboard-use directions are available. |
+| `keyword-translation` | Keyword translation | QTI 3.0 accessibility_support.keyword-translation | Keyword translation support is available. |
+| `linguistic-guidance` | Linguistic guidance | QTI 3.0 accessibility_support.linguistic-guidance | Language guidance is available. |
+| `long-description` | Long description | QTI 3.0 accessibility_support.long-description | Longer description is available. |
+| `sign-language` | Sign language | QTI 3.0 accessibility_support.sign-language | Sign language support is available. |
+| `simplified-graphics` | Simplified graphics | QTI 3.0 accessibility_support.simplified-graphics | Simplified graphic alternative is available. |
+| `simplified-language-portions` | Simplified language portions | QTI 3.0 accessibility_support.simplified-language-portions | Simplified language alternative is available. |
+| `spoken` | Spoken | QTI 3.0 accessibility_support.spoken | Spoken version or content is available. |
+| `tactile` | Tactile | QTI 3.0 accessibility_support.tactile | Tactile alternative is available. |
+| `transcript` | Transcript | QTI 3.0 accessibility_support.transcript | Transcript is available. |
 
 Values for `tts_suppression`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `all` | All | Suppress read-aloud on all devices. |
-| `computer-read-aloud` | Computer read-aloud | Suppress computer read-aloud tools. |
-| `screen-reader` | Screen reader | Suppress screen-reader read-aloud. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `all` | All | QTI 3.0 tts_suppression.all | Suppress read-aloud on all devices. |
+| `computer-read-aloud` | Computer read-aloud | QTI 3.0 tts_suppression.computer-read-aloud | Suppress computer read-aloud tools. |
+| `screen-reader` | Screen reader | QTI 3.0 tts_suppression.screen-reader | Suppress screen-reader read-aloud. |
 
 Values for `sensitive`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 
 ### QTI Companion Material
@@ -669,46 +681,47 @@ Values for `sensitive`:
 - SQL table: `assessment.qti_companion_materials`
 - API path: `/assessments/qti/companion-materials`
 - Privacy class: `sensitive`
+- Source standard: QTI 3.0 CompanionMaterialsInfo
 - Why it exists: Assessment delivery, accommodations, and proctoring need to know which materials are permitted.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this companion material. |
-| `item_id` | `itemId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The item this companion material applies to. |
-| `material_type` | `materialType` | enum | Yes | sensitive | `DEC-009-content-resource` | The kind of companion material. |
-| `calculator_type` | `calculatorType` | enum | No | sensitive | `DEC-009-content-resource` | The calculator capability allowed or required. |
-| `title` | `title` | text | No | directory | `DEC-009-content-resource` | A human-facing name for the material. |
-| `required_for_delivery` | `requiredForDelivery` | enum | No | sensitive | `DEC-009-content-resource` | Whether the item requires this material to be available. |
-| `material_uri` | `materialUri` | text | No | operational | `DEC-009-content-resource` | A package file path, external URI, or local reference for the material. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 CompanionMaterialsInfo.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this companion material. |
+| `item_id` | `itemId` | text | Yes | operational | QTI 3.0 CompanionMaterialsInfo.itemId | `DEC-007-identifier-crosswalk` | The item this companion material applies to. |
+| `material_type` | `materialType` | enum | Yes | sensitive | QTI 3.0 CompanionMaterialsInfo.materialType | `DEC-009-content-resource` | The kind of companion material. |
+| `calculator_type` | `calculatorType` | enum | No | sensitive | QTI 3.0 CompanionMaterialsInfo.calculatorType | `DEC-009-content-resource` | The calculator capability allowed or required. |
+| `title` | `title` | text | No | directory | QTI 3.0 CompanionMaterialsInfo.title | `DEC-009-content-resource` | A human-facing name for the material. |
+| `required_for_delivery` | `requiredForDelivery` | enum | No | sensitive | QTI 3.0 CompanionMaterialsInfo.requiredForDelivery | `DEC-009-content-resource` | Whether the item requires this material to be available. |
+| `material_uri` | `materialUri` | text | No | operational | QTI 3.0 CompanionMaterialsInfo.materialUri | `DEC-009-content-resource` | A package file path, external URI, or local reference for the material. |
 
 #### Controlled Values
 
 Values for `material_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `calculator` | Calculator | A calculator is allowed or required. |
-| `ruler` | Ruler | A ruler is allowed or required. |
-| `protractor` | Protractor | A protractor is allowed or required. |
-| `digitalMaterial` | Digital material | A digital file or material is available. |
-| `physicalMaterial` | Physical material | A physical item or material is needed. |
-| `vendorExtension` | Vendor extension | Vendor-specific material information is preserved. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `calculator` | Calculator | QTI 3.0 material_type.calculator | A calculator is allowed or required. |
+| `ruler` | Ruler | QTI 3.0 material_type.ruler | A ruler is allowed or required. |
+| `protractor` | Protractor | QTI 3.0 material_type.protractor | A protractor is allowed or required. |
+| `digitalMaterial` | Digital material | QTI 3.0 material_type.digitalMaterial | A digital file or material is available. |
+| `physicalMaterial` | Physical material | QTI 3.0 material_type.physicalMaterial | A physical item or material is needed. |
+| `vendorExtension` | Vendor extension | QTI 3.0 material_type.vendorExtension | Vendor-specific material information is preserved. |
 
 Values for `calculator_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `basic` | Basic | Basic calculator. |
-| `standard` | Standard | Standard calculator. |
-| `scientific` | Scientific | Scientific calculator. |
-| `graphing` | Graphing | Graphing calculator. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `basic` | Basic | QTI 3.0 calculator_type.basic | Basic calculator. |
+| `standard` | Standard | QTI 3.0 calculator_type.standard | Standard calculator. |
+| `scientific` | Scientific | QTI 3.0 calculator_type.scientific | Scientific calculator. |
+| `graphing` | Graphing | QTI 3.0 calculator_type.graphing | Graphing calculator. |
 
 Values for `required_for_delivery`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `true` | True | Yes, this condition applies. |
-| `false` | False | No, this condition does not apply. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `true` | True | QTI 3.0 true_false.true | Yes, this condition applies. |
+| `false` | False | QTI 3.0 true_false.false | No, this condition does not apply. |
 
 
 ### QTI Alignment
@@ -717,40 +730,41 @@ Values for `required_for_delivery`:
 - SQL table: `assessment.qti_alignments`
 - API path: `/assessments/qti/alignments`
 - Privacy class: `directory`
+- Source standard: QTI 3.0 QTI metadata alignment
 - Why it exists: The platform uses CASE as the canonical standards graph, but it preserves QTI source alignment metadata.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this alignment. |
-| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | `DEC-006-standards-alignment` | The kind of QTI object being aligned. |
-| `owner_id` | `ownerId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform ID of the aligned QTI object. |
-| `target_type` | `targetType` | enum | Yes | directory | `DEC-006-standards-alignment` | What kind of target the QTI content is aligned to. |
-| `target_identifier` | `targetIdentifier` | text | Yes | directory | `DEC-006-standards-alignment` | The CASE item ID, URI, or local standard identifier. |
-| `alignment_label` | `alignmentLabel` | text | No | directory | `DEC-006-standards-alignment` | The human-readable standard, competency, or skill label. |
-| `source_metadata_uri` | `sourceMetadataUri` | text | No | operational | `DEC-007-identifier-crosswalk` | Where the original QTI or package metadata described this alignment. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 QTI metadata alignment.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this alignment. |
+| `owner_object_type` | `ownerObjectType` | enum | Yes | operational | QTI 3.0 QTI metadata alignment.ownerObjectType | `DEC-006-standards-alignment` | The kind of QTI object being aligned. |
+| `owner_id` | `ownerId` | text | Yes | operational | QTI 3.0 QTI metadata alignment.ownerId | `DEC-007-identifier-crosswalk` | The platform ID of the aligned QTI object. |
+| `target_type` | `targetType` | enum | Yes | directory | QTI 3.0 QTI metadata alignment.targetType | `DEC-006-standards-alignment` | What kind of target the QTI content is aligned to. |
+| `target_identifier` | `targetIdentifier` | text | Yes | directory | QTI 3.0 QTI metadata alignment.targetIdentifier | `DEC-006-standards-alignment` | The CASE item ID, URI, or local standard identifier. |
+| `alignment_label` | `alignmentLabel` | text | No | directory | QTI 3.0 QTI metadata alignment.alignmentLabel | `DEC-006-standards-alignment` | The human-readable standard, competency, or skill label. |
+| `source_metadata_uri` | `sourceMetadataUri` | text | No | operational | QTI 3.0 QTI metadata alignment.sourceMetadataUri | `DEC-007-identifier-crosswalk` | Where the original QTI or package metadata described this alignment. |
 
 #### Controlled Values
 
 Values for `owner_object_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `package` | Package | A QTI package. |
-| `item` | Item | A QTI assessment item. |
-| `stimulus` | Stimulus | A QTI assessment stimulus. |
-| `test` | Test | A QTI assessment test. |
-| `testPart` | Test part | A major part of a QTI test. |
-| `section` | Section | A QTI assessment section. |
-| `itemRef` | Item reference | A test or section reference to an item. |
-| `interaction` | Interaction | The answer interaction inside an item. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `package` | Package | QTI 3.0 owner_object_type.package | A QTI package. |
+| `item` | Item | QTI 3.0 owner_object_type.item | A QTI assessment item. |
+| `stimulus` | Stimulus | QTI 3.0 owner_object_type.stimulus | A QTI assessment stimulus. |
+| `test` | Test | QTI 3.0 owner_object_type.test | A QTI assessment test. |
+| `testPart` | Test part | QTI 3.0 owner_object_type.testPart | A major part of a QTI test. |
+| `section` | Section | QTI 3.0 owner_object_type.section | A QTI assessment section. |
+| `itemRef` | Item reference | QTI 3.0 owner_object_type.itemRef | A test or section reference to an item. |
+| `interaction` | Interaction | QTI 3.0 owner_object_type.interaction | The answer interaction inside an item. |
 
 Values for `target_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `caseItem` | CASE item | A CASE competency, standard, or skill item. |
-| `uri` | URI | A web URI or external standards target. |
-| `local` | Local | A local district, publisher, or authoring-system alignment target. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `caseItem` | CASE item | QTI 3.0 alignment_target_type.caseItem | A CASE competency, standard, or skill item. |
+| `uri` | URI | QTI 3.0 alignment_target_type.uri | A web URI or external standards target. |
+| `local` | Local | QTI 3.0 alignment_target_type.local | A local district, publisher, or authoring-system alignment target. |
 
 
 ### QTI Package Artifact
@@ -759,39 +773,40 @@ Values for `target_type`:
 - SQL table: `assessment.qti_package_artifacts`
 - API path: `/assessments/qti/artifacts`
 - Privacy class: `operational`
+- Source standard: QTI 3.0 QTI package resource
 - Why it exists: The platform must preserve the original files while projecting only useful search and governance fields into tables.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this package artifact. |
-| `package_id` | `packageId` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package containing this artifact. |
-| `href` | `href` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The package-relative path to the file. |
-| `media_type` | `mediaType` | text | No | operational | `DEC-009-content-resource` | The file's MIME type when known. |
-| `artifact_role` | `artifactRole` | enum | Yes | operational | `DEC-009-content-resource` | The role this file plays in the QTI package. |
-| `sha256` | `sha256` | text | No | operational | `DEC-007-identifier-crosswalk` | A hash used to confirm the file did not change. |
-| `storage_uri` | `storageUri` | text | Yes | operational | `DEC-007-identifier-crosswalk` | Where the platform stores this artifact after import. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 QTI package resource.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this package artifact. |
+| `package_id` | `packageId` | text | Yes | operational | QTI 3.0 QTI package resource.packageId | `DEC-007-identifier-crosswalk` | The package containing this artifact. |
+| `href` | `href` | text | Yes | operational | QTI 3.0 QTI package resource.href | `DEC-007-identifier-crosswalk` | The package-relative path to the file. |
+| `media_type` | `mediaType` | text | No | operational | QTI 3.0 QTI package resource.mediaType | `DEC-009-content-resource` | The file's MIME type when known. |
+| `artifact_role` | `artifactRole` | enum | Yes | operational | QTI 3.0 QTI package resource.artifactRole | `DEC-009-content-resource` | The role this file plays in the QTI package. |
+| `sha256` | `sha256` | text | No | operational | QTI 3.0 QTI package resource.sha256 | `DEC-007-identifier-crosswalk` | A hash used to confirm the file did not change. |
+| `storage_uri` | `storageUri` | text | Yes | operational | QTI 3.0 QTI package resource.storageUri | `DEC-007-identifier-crosswalk` | Where the platform stores this artifact after import. |
 
 #### Controlled Values
 
 Values for `artifact_role`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `manifest` | Manifest | The package manifest file. |
-| `itemXml` | Item XML | A QTI assessment item XML file. |
-| `testXml` | Test XML | A QTI assessment test XML file. |
-| `stimulusXml` | Stimulus XML | A QTI stimulus XML file. |
-| `media` | Media | An image, audio, video, or other media file. |
-| `stylesheet` | Stylesheet | A CSS or style file used to render content. |
-| `other` | Other | Another preserved package file. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `manifest` | Manifest | QTI 3.0 artifact_role.manifest | The package manifest file. |
+| `itemXml` | Item XML | QTI 3.0 artifact_role.itemXml | A QTI assessment item XML file. |
+| `testXml` | Test XML | QTI 3.0 artifact_role.testXml | A QTI assessment test XML file. |
+| `stimulusXml` | Stimulus XML | QTI 3.0 artifact_role.stimulusXml | A QTI stimulus XML file. |
+| `media` | Media | QTI 3.0 artifact_role.media | An image, audio, video, or other media file. |
+| `stylesheet` | Stylesheet | QTI 3.0 artifact_role.stylesheet | A CSS or style file used to render content. |
+| `other` | Other | QTI 3.0 artifact_role.other | Another preserved package file. |
 
 
 ## Unsupported or Deferred
 
 | Area | Reason |
 | --- | --- |
-| Assessment delivery/runtime | The platform is first modeling repository, import, search, alignment, and governance. Delivery requires a tested QTI runtime engine. |
-| Every low-level XML child node as a SQL column | The original QTI XML is preserved as the source artifact. Only public platform fields are projected into SQL/API fields. |
-| Full response-processing execution | Processing logic is preserved and summarized. Executing it safely belongs to a QTI runtime service. |
-| Computer-adaptive testing runtime | CAT depends on mature item metadata, delivery services, and psychometric configuration beyond this repository dictionary. |
-| Vendor extension semantics | Vendor extensions are preserved and governed, but not promoted to core platform fields until intentionally modeled. |
+| QTI assessment delivery/runtime behavior | The platform is first modeling repository, import, search, alignment, and governance. Delivery requires a tested QTI runtime engine before learner session behavior should become a platform contract. |
+| QTI low-level XML and item-body child nodes not promoted to SQL/API fields | The original QTI XML and package files remain the legal source artifact. Only public platform fields useful for search, governance, alignment, accessibility review, and delivery planning are projected into relational/API fields. |
+| QTI interaction-specific child fields below the normalized interaction index | The dictionary accounts for every interaction family as controlled values and projects common interaction planning fields. Interaction-specific rendering and response mechanics stay in preserved QTI XML until a delivery/runtime service can validate and execute them. |
+| QTI response-processing execution and rule tree decomposition | Processing logic is preserved and summarized for search and review. Executing it safely belongs to a QTI runtime service with conformance fixtures. |
+| QTI computer-adaptive testing and vendor extension semantics | CAT and vendor-specific behavior depend on mature item metadata, delivery services, psychometric configuration, and reviewed extension contracts beyond this repository dictionary. |

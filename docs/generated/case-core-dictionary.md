@@ -14,27 +14,28 @@ Model scope: Framework import, search, graph traversal, standards alignment, rub
 - SQL table: `standards.case_packages`
 - API path: `/standards/case/packages`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Package
 - Why it exists: A package lets the platform import and version a complete standards framework as one unit.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this CASE package. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The root framework document in this package. |
-| `source_system` | `sourceSystem` | text | No | public | `DEC-006-standards-alignment` | The standards publisher, state agency, institution, or importer that supplied the package. |
-| `package_uri` | `packageUri` | text | No | public | `DEC-007-identifier-crosswalk` | A URI for the package or import source when one is available. |
-| `imported_at` | `importedAt` | datetime | Yes | operational | `DEC-008-time-session` | When the platform imported this CASE package. |
-| `validation_status` | `validationStatus` | enum | Yes | operational | `DEC-006-standards-alignment` | Whether the CASE package passed platform validation. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Package.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this CASE package. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Package.documentId | `DEC-007-identifier-crosswalk` | The root framework document in this package. |
+| `source_system` | `sourceSystem` | text | No | public | CASE 1.1 CASE Package.sourceSystem | `DEC-006-standards-alignment` | The standards publisher, state agency, institution, or importer that supplied the package. |
+| `package_uri` | `packageUri` | text | No | public | CASE 1.1 CASE Package.packageUri | `DEC-007-identifier-crosswalk` | A URI for the package or import source when one is available. |
+| `imported_at` | `importedAt` | datetime | Yes | operational | CASE 1.1 CASE Package.importedAt | `DEC-008-time-session` | When the platform imported this CASE package. |
+| `validation_status` | `validationStatus` | enum | Yes | operational | CASE 1.1 CASE Package.validationStatus | `DEC-006-standards-alignment` | Whether the CASE package passed platform validation. |
 
 #### Controlled Values
 
 Values for `validation_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `pending` | Pending | The platform has not checked the package yet. |
-| `valid` | Valid | The package passed platform validation. |
-| `invalid` | Invalid | The package failed validation and should not be trusted for alignment. |
-| `warning` | Warning | The package is usable but has non-blocking issues that should be reviewed. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `pending` | Pending | CASE 1.1 validation_status.pending | The platform has not checked the package yet. |
+| `valid` | Valid | CASE 1.1 validation_status.valid | The package passed platform validation. |
+| `invalid` | Invalid | CASE 1.1 validation_status.invalid | The package failed validation and should not be trusted for alignment. |
+| `warning` | Warning | CASE 1.1 validation_status.warning | The package is usable but has non-blocking issues that should be reviewed. |
 
 
 ### CASE Framework Document
@@ -43,52 +44,53 @@ Values for `validation_status`:
 - SQL table: `standards.case_documents`
 - API path: `/standards/case/documents`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Framework Document
 - Why it exists: Apps need a framework-level record before they can browse items, align content, or report mastery.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this framework document. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for this framework document. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for this framework document. |
-| `framework_type` | `frameworkType` | enum | No | public | `DEC-006-standards-alignment` | What kind of framework this is. |
-| `case_version` | `caseVersion` | enum | No | operational | `DEC-006-standards-alignment` | The CASE version used by the document. |
-| `creator` | `creator` | text | Yes | public | `DEC-006-standards-alignment` | The organization with authority over the framework. |
-| `title` | `title` | text | Yes | public | `DEC-006-standards-alignment` | The name of the framework document. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | A summary of what the framework covers. |
-| `subject` | `subject` | text | No | public | `DEC-006-standards-alignment` | Subject labels such as Mathematics, Reading, or Biology. |
-| `language` | `language` | text | No | public | `DEC-006-standards-alignment` | Default language used in the framework text. |
-| `publisher_version` | `publisherVersion` | text | No | public | `DEC-006-standards-alignment` | The publisher's revision or version label. |
-| `adoption_status` | `adoptionStatus` | enum | No | public | `DEC-006-standards-alignment` | The publication or adoption status of the framework. |
-| `official_source_url` | `officialSourceUrl` | text | No | public | `DEC-007-identifier-crosswalk` | A link to the human-readable official source document. |
-| `license_uri` | `licenseUri` | text | No | public | `DEC-007-identifier-crosswalk` | A link to legal permissions for using the framework. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the publisher last changed this framework document. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Framework Document.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this framework document. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Framework Document.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for this framework document. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Framework Document.uri | `DEC-007-identifier-crosswalk` | A web identifier for this framework document. |
+| `framework_type` | `frameworkType` | enum | No | public | CASE 1.1 CASE Framework Document.frameworkType | `DEC-006-standards-alignment` | What kind of framework this is. |
+| `case_version` | `caseVersion` | enum | No | operational | CASE 1.1 CASE Framework Document.caseVersion | `DEC-006-standards-alignment` | The CASE version used by the document. |
+| `creator` | `creator` | text | Yes | public | CASE 1.1 CASE Framework Document.creator | `DEC-006-standards-alignment` | The organization with authority over the framework. |
+| `title` | `title` | text | Yes | public | CASE 1.1 CASE Framework Document.title | `DEC-006-standards-alignment` | The name of the framework document. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE Framework Document.description | `DEC-006-standards-alignment` | A summary of what the framework covers. |
+| `subject` | `subject` | text | No | public | CASE 1.1 CASE Framework Document.subject | `DEC-006-standards-alignment` | Subject labels such as Mathematics, Reading, or Biology. |
+| `language` | `language` | text | No | public | CASE 1.1 CASE Framework Document.language | `DEC-006-standards-alignment` | Default language used in the framework text. |
+| `publisher_version` | `publisherVersion` | text | No | public | CASE 1.1 CASE Framework Document.publisherVersion | `DEC-006-standards-alignment` | The publisher's revision or version label. |
+| `adoption_status` | `adoptionStatus` | enum | No | public | CASE 1.1 CASE Framework Document.adoptionStatus | `DEC-006-standards-alignment` | The publication or adoption status of the framework. |
+| `official_source_url` | `officialSourceUrl` | text | No | public | CASE 1.1 CASE Framework Document.officialSourceUrl | `DEC-007-identifier-crosswalk` | A link to the human-readable official source document. |
+| `license_uri` | `licenseUri` | text | No | public | CASE 1.1 CASE Framework Document.licenseUri | `DEC-007-identifier-crosswalk` | A link to legal permissions for using the framework. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Framework Document.lastChangeDateTime | `DEC-008-time-session` | When the publisher last changed this framework document. |
 
 #### Controlled Values
 
 Values for `framework_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `academicStandards` | Academic standards | A framework of academic standards. |
-| `competencyFramework` | Competency framework | A framework of competencies or skills. |
-| `courseCodes` | Course codes | A framework used to publish course codes. |
-| `workforceSkills` | Workforce skills | A framework of workforce skills or occupational competencies. |
-| `localFramework` | Local framework | A district, school, or institution-specific framework. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `academicStandards` | Academic standards | CASE 1.1 framework_type.academicStandards | A framework of academic standards. |
+| `competencyFramework` | Competency framework | CASE 1.1 framework_type.competencyFramework | A framework of competencies or skills. |
+| `courseCodes` | Course codes | CASE 1.1 framework_type.courseCodes | A framework used to publish course codes. |
+| `workforceSkills` | Workforce skills | CASE 1.1 framework_type.workforceSkills | A framework of workforce skills or occupational competencies. |
+| `localFramework` | Local framework | CASE 1.1 framework_type.localFramework | A district, school, or institution-specific framework. |
 
 Values for `case_version`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `1.1` | CASE 1.1 | The CASE 1.1 framework and competency exchange model. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `1.1` | CASE 1.1 | CASE 1.1 case_version.1.1 | The CASE 1.1 framework and competency exchange model. |
 
 Values for `adoption_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `draft` | Draft | The framework is being developed and may change. |
-| `adopted` | Adopted | The framework is officially adopted or active. |
-| `retired` | Retired | The framework is no longer active for new use. |
-| `superseded` | Superseded | The framework has been replaced by another version. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `draft` | Draft | CASE 1.1 adoption_status.draft | The framework is being developed and may change. |
+| `adopted` | Adopted | CASE 1.1 adoption_status.adopted | The framework is officially adopted or active. |
+| `retired` | Retired | CASE 1.1 adoption_status.retired | The framework is no longer active for new use. |
+| `superseded` | Superseded | CASE 1.1 adoption_status.superseded | The framework has been replaced by another version. |
 
 
 ### CASE Framework Item
@@ -97,41 +99,42 @@ Values for `adoption_status`:
 - SQL table: `standards.case_items`
 - API path: `/standards/case/items`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Framework Item
 - Why it exists: Framework items are the targets that QTI, OneRoster, Caliper, Common Cartridge, Open Badges, and CLR data align to.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this framework item. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this item belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for this framework item. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for this framework item. |
-| `human_coding_scheme` | `humanCodingScheme` | text | No | public | `DEC-006-standards-alignment` | The short code people see in standards documents. |
-| `full_statement` | `fullStatement` | text | Yes | public | `DEC-006-standards-alignment` | The complete text of the standard, competency, skill, objective, or grouping statement. |
-| `abbreviated_statement` | `abbreviatedStatement` | text | No | public | `DEC-006-standards-alignment` | A shortened version of the full statement. |
-| `alternative_label` | `alternativeLabel` | text | No | public | `DEC-006-standards-alignment` | Another label the publisher uses for this kind of item. |
-| `item_type` | `itemType` | enum | No | public | `DEC-006-standards-alignment` | Publisher label for what kind of item this is. |
-| `item_type_uri` | `itemTypeUri` | text | No | public | `DEC-006-standards-alignment` | Linked-data identifier for the item type. |
-| `concept_keywords` | `conceptKeywords` | text | No | public | `DEC-006-standards-alignment` | Topic keywords connected to the item. |
-| `subject` | `subject` | text | No | public | `DEC-006-standards-alignment` | Subject labels for this item. |
-| `education_level` | `educationLevel` | text | No | public | `DEC-006-standards-alignment` | Intended grade, education level, or instructional level. |
-| `list_enumeration` | `listEnumeration` | text | No | public | `DEC-006-standards-alignment` | The item's visible position in a list or outline. |
-| `license_uri` | `licenseUri` | text | No | public | `DEC-007-identifier-crosswalk` | License that applies to this item. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When this item last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Framework Item.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this framework item. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Framework Item.documentId | `DEC-007-identifier-crosswalk` | The framework document this item belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Framework Item.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for this framework item. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Framework Item.uri | `DEC-007-identifier-crosswalk` | A web identifier for this framework item. |
+| `human_coding_scheme` | `humanCodingScheme` | text | No | public | CASE 1.1 CASE Framework Item.humanCodingScheme | `DEC-006-standards-alignment` | The short code people see in standards documents. |
+| `full_statement` | `fullStatement` | text | Yes | public | CASE 1.1 CASE Framework Item.fullStatement | `DEC-006-standards-alignment` | The complete text of the standard, competency, skill, objective, or grouping statement. |
+| `abbreviated_statement` | `abbreviatedStatement` | text | No | public | CASE 1.1 CASE Framework Item.abbreviatedStatement | `DEC-006-standards-alignment` | A shortened version of the full statement. |
+| `alternative_label` | `alternativeLabel` | text | No | public | CASE 1.1 CASE Framework Item.alternativeLabel | `DEC-006-standards-alignment` | Another label the publisher uses for this kind of item. |
+| `item_type` | `itemType` | enum | No | public | CASE 1.1 CASE Framework Item.itemType | `DEC-006-standards-alignment` | Publisher label for what kind of item this is. |
+| `item_type_uri` | `itemTypeUri` | text | No | public | CASE 1.1 CASE Framework Item.itemTypeUri | `DEC-006-standards-alignment` | Linked-data identifier for the item type. |
+| `concept_keywords` | `conceptKeywords` | text | No | public | CASE 1.1 CASE Framework Item.conceptKeywords | `DEC-006-standards-alignment` | Topic keywords connected to the item. |
+| `subject` | `subject` | text | No | public | CASE 1.1 CASE Framework Item.subject | `DEC-006-standards-alignment` | Subject labels for this item. |
+| `education_level` | `educationLevel` | text | No | public | CASE 1.1 CASE Framework Item.educationLevel | `DEC-006-standards-alignment` | Intended grade, education level, or instructional level. |
+| `list_enumeration` | `listEnumeration` | text | No | public | CASE 1.1 CASE Framework Item.listEnumeration | `DEC-006-standards-alignment` | The item's visible position in a list or outline. |
+| `license_uri` | `licenseUri` | text | No | public | CASE 1.1 CASE Framework Item.licenseUri | `DEC-007-identifier-crosswalk` | License that applies to this item. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Framework Item.lastChangeDateTime | `DEC-008-time-session` | When this item last changed. |
 
 #### Controlled Values
 
 Values for `item_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `domain` | Domain | A broad grouping inside a framework. |
-| `strand` | Strand | A major learning strand or category. |
-| `cluster` | Cluster | A group of related standards or skills. |
-| `standard` | Standard | A statement of what learners should know or do. |
-| `competency` | Competency | A demonstrated capability or skill area. |
-| `skill` | Skill | A specific skill or capability. |
-| `learningObjective` | Learning objective | A learning goal or objective. |
-| `courseCode` | Course code | A course-code item in a CASE framework. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `domain` | Domain | CASE 1.1 item_type.domain | A broad grouping inside a framework. |
+| `strand` | Strand | CASE 1.1 item_type.strand | A major learning strand or category. |
+| `cluster` | Cluster | CASE 1.1 item_type.cluster | A group of related standards or skills. |
+| `standard` | Standard | CASE 1.1 item_type.standard | A statement of what learners should know or do. |
+| `competency` | Competency | CASE 1.1 item_type.competency | A demonstrated capability or skill area. |
+| `skill` | Skill | CASE 1.1 item_type.skill | A specific skill or capability. |
+| `learningObjective` | Learning objective | CASE 1.1 item_type.learningObjective | A learning goal or objective. |
+| `courseCode` | Course code | CASE 1.1 item_type.courseCode | A course-code item in a CASE framework. |
 
 
 ### CASE Association
@@ -140,38 +143,39 @@ Values for `item_type`:
 - SQL table: `standards.case_associations`
 - API path: `/standards/case/associations`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Association
 - Why it exists: Associations represent hierarchy, crosswalks, replacements, translations, sequence, and other framework relationships.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this association. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this association belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for this relationship. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for this relationship. |
-| `association_type` | `associationType` | enum | Yes | public | `DEC-006-standards-alignment` | What kind of relationship this is. |
-| `origin_node_uri` | `originNodeUri` | text | Yes | public | `DEC-006-standards-alignment` | The item or document where the relationship starts. |
-| `destination_node_uri` | `destinationNodeUri` | text | Yes | public | `DEC-006-standards-alignment` | The item or document where the relationship points. |
-| `sequence_number` | `sequenceNumber` | number | No | public | `DEC-006-standards-alignment` | The display or processing order for this relationship. |
-| `association_grouping_uri` | `associationGroupingUri` | text | No | public | `DEC-006-standards-alignment` | A group label or URI for related associations. |
-| `notes` | `notes` | text | No | public | `DEC-006-standards-alignment` | Publisher notes about the relationship. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When this association last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Association.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this association. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Association.documentId | `DEC-007-identifier-crosswalk` | The framework document this association belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Association.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for this relationship. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Association.uri | `DEC-007-identifier-crosswalk` | A web identifier for this relationship. |
+| `association_type` | `associationType` | enum | Yes | public | CASE 1.1 CASE Association.associationType | `DEC-006-standards-alignment` | What kind of relationship this is. |
+| `origin_node_uri` | `originNodeUri` | text | Yes | public | CASE 1.1 CASE Association.originNodeUri | `DEC-006-standards-alignment` | The item or document where the relationship starts. |
+| `destination_node_uri` | `destinationNodeUri` | text | Yes | public | CASE 1.1 CASE Association.destinationNodeUri | `DEC-006-standards-alignment` | The item or document where the relationship points. |
+| `sequence_number` | `sequenceNumber` | number | No | public | CASE 1.1 CASE Association.sequenceNumber | `DEC-006-standards-alignment` | The display or processing order for this relationship. |
+| `association_grouping_uri` | `associationGroupingUri` | text | No | public | CASE 1.1 CASE Association.associationGroupingUri | `DEC-006-standards-alignment` | A group label or URI for related associations. |
+| `notes` | `notes` | text | No | public | CASE 1.1 CASE Association.notes | `DEC-006-standards-alignment` | Publisher notes about the relationship. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Association.lastChangeDateTime | `DEC-008-time-session` | When this association last changed. |
 
 #### Controlled Values
 
 Values for `association_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `isChildOf` | Is child of | The origin item is a child of the destination item. |
-| `isPeerOf` | Is peer of | The origin item is a peer of the destination item. |
-| `isPartOf` | Is part of | The origin item is included in the destination item. |
-| `exactMatchOf` | Exact match of | The origin item is equivalent to the destination item. |
-| `precedes` | Precedes | The origin item comes before the destination item. |
-| `isRelatedTo` | Is related to | The origin item is related to the destination item in a general way. |
-| `replacedBy` | Replaced by | The origin item has been replaced by the destination item. |
-| `exemplar` | Exemplar | The destination is an example of the origin. |
-| `hasSkillLevel` | Has skill level | The destination defines a skill or difficulty level for the origin. |
-| `isTranslationOf` | Is translation of | The destination is a translation of the origin. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `isChildOf` | Is child of | CASE 1.1 association_type.isChildOf | The origin item is a child of the destination item. |
+| `isPeerOf` | Is peer of | CASE 1.1 association_type.isPeerOf | The origin item is a peer of the destination item. |
+| `isPartOf` | Is part of | CASE 1.1 association_type.isPartOf | The origin item is included in the destination item. |
+| `exactMatchOf` | Exact match of | CASE 1.1 association_type.exactMatchOf | The origin item is equivalent to the destination item. |
+| `precedes` | Precedes | CASE 1.1 association_type.precedes | The origin item comes before the destination item. |
+| `isRelatedTo` | Is related to | CASE 1.1 association_type.isRelatedTo | The origin item is related to the destination item in a general way. |
+| `replacedBy` | Replaced by | CASE 1.1 association_type.replacedBy | The origin item has been replaced by the destination item. |
+| `exemplar` | Exemplar | CASE 1.1 association_type.exemplar | The destination is an example of the origin. |
+| `hasSkillLevel` | Has skill level | CASE 1.1 association_type.hasSkillLevel | The destination defines a skill or difficulty level for the origin. |
+| `isTranslationOf` | Is translation of | CASE 1.1 association_type.isTranslationOf | The destination is a translation of the origin. |
 
 
 ### CASE Definition Set
@@ -180,16 +184,17 @@ Values for `association_type`:
 - SQL table: `standards.case_definitions`
 - API path: `/standards/case/definitions`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Definition Set
 - Why it exists: Definitions explain framework concepts, subjects, item types, licenses, and relationship groupings.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this definition set. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this definition set belongs to. |
-| `concept_count` | `conceptCount` | integer | No | operational | `DEC-006-standards-alignment` | How many concept definitions are present. |
-| `subject_count` | `subjectCount` | integer | No | operational | `DEC-006-standards-alignment` | How many subject definitions are present. |
-| `item_type_count` | `itemTypeCount` | integer | No | operational | `DEC-006-standards-alignment` | How many item type definitions are present. |
-| `license_count` | `licenseCount` | integer | No | operational | `DEC-006-standards-alignment` | How many license definitions are present. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Definition Set.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this definition set. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Definition Set.documentId | `DEC-007-identifier-crosswalk` | The framework document this definition set belongs to. |
+| `concept_count` | `conceptCount` | integer | No | operational | CASE 1.1 CASE Definition Set.conceptCount | `DEC-006-standards-alignment` | How many concept definitions are present. |
+| `subject_count` | `subjectCount` | integer | No | operational | CASE 1.1 CASE Definition Set.subjectCount | `DEC-006-standards-alignment` | How many subject definitions are present. |
+| `item_type_count` | `itemTypeCount` | integer | No | operational | CASE 1.1 CASE Definition Set.itemTypeCount | `DEC-006-standards-alignment` | How many item type definitions are present. |
+| `license_count` | `licenseCount` | integer | No | operational | CASE 1.1 CASE Definition Set.licenseCount | `DEC-006-standards-alignment` | How many license definitions are present. |
 
 ### CASE Concept
 
@@ -197,19 +202,20 @@ Values for `association_type`:
 - SQL table: `standards.case_concepts`
 - API path: `/standards/case/concepts`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Concept
 - Why it exists: Concepts support search, browsing, tagging, and crosswalks across frameworks.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this concept. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this concept belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the concept. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the concept. |
-| `title` | `title` | text | Yes | public | `DEC-006-standards-alignment` | The concept name. |
-| `keywords` | `keywords` | text | No | public | `DEC-006-standards-alignment` | Keywords connected to the concept. |
-| `hierarchy_code` | `hierarchyCode` | text | Yes | public | `DEC-006-standards-alignment` | The publisher's code showing where the concept fits in a concept hierarchy. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | Explanation of the concept. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the concept last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Concept.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this concept. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Concept.documentId | `DEC-007-identifier-crosswalk` | The framework document this concept belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Concept.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the concept. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Concept.uri | `DEC-007-identifier-crosswalk` | A web identifier for the concept. |
+| `title` | `title` | text | Yes | public | CASE 1.1 CASE Concept.title | `DEC-006-standards-alignment` | The concept name. |
+| `keywords` | `keywords` | text | No | public | CASE 1.1 CASE Concept.keywords | `DEC-006-standards-alignment` | Keywords connected to the concept. |
+| `hierarchy_code` | `hierarchyCode` | text | Yes | public | CASE 1.1 CASE Concept.hierarchyCode | `DEC-006-standards-alignment` | The publisher's code showing where the concept fits in a concept hierarchy. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE Concept.description | `DEC-006-standards-alignment` | Explanation of the concept. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Concept.lastChangeDateTime | `DEC-008-time-session` | When the concept last changed. |
 
 ### CASE Subject
 
@@ -217,18 +223,19 @@ Values for `association_type`:
 - SQL table: `standards.case_subjects`
 - API path: `/standards/case/subjects`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Subject
 - Why it exists: Subjects let developers filter frameworks and standards by broad learning area.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this subject. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this subject belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the subject. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the subject. |
-| `title` | `title` | text | Yes | public | `DEC-006-standards-alignment` | The subject name. |
-| `hierarchy_code` | `hierarchyCode` | text | Yes | public | `DEC-006-standards-alignment` | The publisher's code for where the subject fits in a subject hierarchy. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | Explanation of the subject. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the subject last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Subject.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this subject. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Subject.documentId | `DEC-007-identifier-crosswalk` | The framework document this subject belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Subject.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the subject. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Subject.uri | `DEC-007-identifier-crosswalk` | A web identifier for the subject. |
+| `title` | `title` | text | Yes | public | CASE 1.1 CASE Subject.title | `DEC-006-standards-alignment` | The subject name. |
+| `hierarchy_code` | `hierarchyCode` | text | Yes | public | CASE 1.1 CASE Subject.hierarchyCode | `DEC-006-standards-alignment` | The publisher's code for where the subject fits in a subject hierarchy. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE Subject.description | `DEC-006-standards-alignment` | Explanation of the subject. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Subject.lastChangeDateTime | `DEC-008-time-session` | When the subject last changed. |
 
 ### CASE Item Type
 
@@ -236,34 +243,35 @@ Values for `association_type`:
 - SQL table: `standards.case_item_types`
 - API path: `/standards/case/item-types`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Item Type
 - Why it exists: Item types tell developers whether a node is a domain, strand, standard, competency, skill, objective, or course code.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item type. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this item type belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the item type. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the item type. |
-| `title` | `title` | text | Yes | public | `DEC-006-standards-alignment` | The item type name. |
-| `description` | `description` | text | Yes | public | `DEC-006-standards-alignment` | Explanation of the item type. |
-| `hierarchy_code` | `hierarchyCode` | text | Yes | public | `DEC-006-standards-alignment` | The publisher's code for where the item type fits in a hierarchy. |
-| `type_code` | `typeCode` | enum | No | public | `DEC-006-standards-alignment` | A normalized item type code used by the platform. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the item type last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Item Type.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this item type. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Item Type.documentId | `DEC-007-identifier-crosswalk` | The framework document this item type belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Item Type.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the item type. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Item Type.uri | `DEC-007-identifier-crosswalk` | A web identifier for the item type. |
+| `title` | `title` | text | Yes | public | CASE 1.1 CASE Item Type.title | `DEC-006-standards-alignment` | The item type name. |
+| `description` | `description` | text | Yes | public | CASE 1.1 CASE Item Type.description | `DEC-006-standards-alignment` | Explanation of the item type. |
+| `hierarchy_code` | `hierarchyCode` | text | Yes | public | CASE 1.1 CASE Item Type.hierarchyCode | `DEC-006-standards-alignment` | The publisher's code for where the item type fits in a hierarchy. |
+| `type_code` | `typeCode` | enum | No | public | CASE 1.1 CASE Item Type.typeCode | `DEC-006-standards-alignment` | A normalized item type code used by the platform. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Item Type.lastChangeDateTime | `DEC-008-time-session` | When the item type last changed. |
 
 #### Controlled Values
 
 Values for `type_code`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `domain` | Domain | A broad grouping inside a framework. |
-| `strand` | Strand | A major learning strand or category. |
-| `cluster` | Cluster | A group of related standards or skills. |
-| `standard` | Standard | A statement of what learners should know or do. |
-| `competency` | Competency | A demonstrated capability or skill area. |
-| `skill` | Skill | A specific skill or capability. |
-| `learningObjective` | Learning objective | A learning goal or objective. |
-| `courseCode` | Course code | A course-code item in a CASE framework. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `domain` | Domain | CASE 1.1 item_type.domain | A broad grouping inside a framework. |
+| `strand` | Strand | CASE 1.1 item_type.strand | A major learning strand or category. |
+| `cluster` | Cluster | CASE 1.1 item_type.cluster | A group of related standards or skills. |
+| `standard` | Standard | CASE 1.1 item_type.standard | A statement of what learners should know or do. |
+| `competency` | Competency | CASE 1.1 item_type.competency | A demonstrated capability or skill area. |
+| `skill` | Skill | CASE 1.1 item_type.skill | A specific skill or capability. |
+| `learningObjective` | Learning objective | CASE 1.1 item_type.learningObjective | A learning goal or objective. |
+| `courseCode` | Course code | CASE 1.1 item_type.courseCode | A course-code item in a CASE framework. |
 
 
 ### CASE License
@@ -272,18 +280,19 @@ Values for `type_code`:
 - SQL table: `standards.case_licenses`
 - API path: `/standards/case/licenses`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE License
 - Why it exists: Apps need to know whether standards text and related content may be displayed, copied, or reused.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this license. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this license belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the license record. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the license record. |
-| `title` | `title` | text | Yes | public | `DEC-006-standards-alignment` | The license name. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | Explanation of the license. |
-| `license_text` | `licenseText` | text | Yes | public | `DEC-006-standards-alignment` | The legal text or a reference to legal text for the license. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the license record last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE License.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this license. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE License.documentId | `DEC-007-identifier-crosswalk` | The framework document this license belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE License.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the license record. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE License.uri | `DEC-007-identifier-crosswalk` | A web identifier for the license record. |
+| `title` | `title` | text | Yes | public | CASE 1.1 CASE License.title | `DEC-006-standards-alignment` | The license name. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE License.description | `DEC-006-standards-alignment` | Explanation of the license. |
+| `license_text` | `licenseText` | text | Yes | public | CASE 1.1 CASE License.licenseText | `DEC-006-standards-alignment` | The legal text or a reference to legal text for the license. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE License.lastChangeDateTime | `DEC-008-time-session` | When the license record last changed. |
 
 ### CASE Association Grouping
 
@@ -291,17 +300,18 @@ Values for `type_code`:
 - SQL table: `standards.case_association_groupings`
 - API path: `/standards/case/association-groupings`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Association Grouping
 - Why it exists: Groupings help explain batches of crosswalks, hierarchy edges, or mapping relationships.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this association grouping. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this grouping belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the association group. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the association group. |
-| `title` | `title` | text | Yes | public | `DEC-006-standards-alignment` | The group name. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | Explanation of the group. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the group last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Association Grouping.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this association grouping. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Association Grouping.documentId | `DEC-007-identifier-crosswalk` | The framework document this grouping belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Association Grouping.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the association group. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Association Grouping.uri | `DEC-007-identifier-crosswalk` | A web identifier for the association group. |
+| `title` | `title` | text | Yes | public | CASE 1.1 CASE Association Grouping.title | `DEC-006-standards-alignment` | The group name. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE Association Grouping.description | `DEC-006-standards-alignment` | Explanation of the group. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Association Grouping.lastChangeDateTime | `DEC-008-time-session` | When the group last changed. |
 
 ### CASE Rubric
 
@@ -309,17 +319,18 @@ Values for `type_code`:
 - SQL table: `standards.case_rubrics`
 - API path: `/standards/case/rubrics`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Rubric
 - Why it exists: Rubrics connect standards to scoring guidance, performance levels, and feedback.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this rubric. |
-| `document_id` | `documentId` | text | Yes | public | `DEC-007-identifier-crosswalk` | The framework document this rubric belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the rubric. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the rubric. |
-| `title` | `title` | text | No | public | `DEC-006-standards-alignment` | The rubric name. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | Explanation of the rubric. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the rubric last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Rubric.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this rubric. |
+| `document_id` | `documentId` | text | Yes | public | CASE 1.1 CASE Rubric.documentId | `DEC-007-identifier-crosswalk` | The framework document this rubric belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Rubric.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the rubric. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Rubric.uri | `DEC-007-identifier-crosswalk` | A web identifier for the rubric. |
+| `title` | `title` | text | No | public | CASE 1.1 CASE Rubric.title | `DEC-006-standards-alignment` | The rubric name. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE Rubric.description | `DEC-006-standards-alignment` | Explanation of the rubric. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Rubric.lastChangeDateTime | `DEC-008-time-session` | When the rubric last changed. |
 
 ### CASE Rubric Criterion
 
@@ -327,20 +338,21 @@ Values for `type_code`:
 - SQL table: `standards.case_rubric_criteria`
 - API path: `/standards/case/rubric-criteria`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Rubric Criterion
 - Why it exists: Criteria let apps show and analyze the parts of a rubric separately.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this rubric criterion. |
-| `rubric_id` | `rubricId` | text | No | public | `DEC-007-identifier-crosswalk` | The rubric this criterion belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the criterion. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the criterion. |
-| `category` | `category` | text | No | public | `DEC-006-standards-alignment` | A label used to group criteria. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | What this criterion measures. |
-| `case_item_uri` | `caseItemUri` | text | No | public | `DEC-006-standards-alignment` | The standard, competency, or skill this criterion connects to. |
-| `weight` | `weight` | number | No | public | `DEC-005-results-scores` | How much this criterion counts in scoring. |
-| `position` | `position` | integer | No | public | `DEC-006-standards-alignment` | Display order of this criterion in the rubric. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the criterion last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Rubric Criterion.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this rubric criterion. |
+| `rubric_id` | `rubricId` | text | No | public | CASE 1.1 CASE Rubric Criterion.rubricId | `DEC-007-identifier-crosswalk` | The rubric this criterion belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Rubric Criterion.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the criterion. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Rubric Criterion.uri | `DEC-007-identifier-crosswalk` | A web identifier for the criterion. |
+| `category` | `category` | text | No | public | CASE 1.1 CASE Rubric Criterion.category | `DEC-006-standards-alignment` | A label used to group criteria. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE Rubric Criterion.description | `DEC-006-standards-alignment` | What this criterion measures. |
+| `case_item_uri` | `caseItemUri` | text | No | public | CASE 1.1 CASE Rubric Criterion.caseItemUri | `DEC-006-standards-alignment` | The standard, competency, or skill this criterion connects to. |
+| `weight` | `weight` | number | No | public | CASE 1.1 CASE Rubric Criterion.weight | `DEC-005-results-scores` | How much this criterion counts in scoring. |
+| `position` | `position` | integer | No | public | CASE 1.1 CASE Rubric Criterion.position | `DEC-006-standards-alignment` | Display order of this criterion in the rubric. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Rubric Criterion.lastChangeDateTime | `DEC-008-time-session` | When the criterion last changed. |
 
 ### CASE Rubric Criterion Level
 
@@ -348,31 +360,32 @@ Values for `type_code`:
 - SQL table: `standards.case_rubric_criterion_levels`
 - API path: `/standards/case/rubric-criterion-levels`
 - Privacy class: `public`
+- Source standard: CASE 1.1 CASE Rubric Criterion Level
 - Why it exists: Levels let apps show score bands and feedback in a standards-aligned way.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this criterion level. |
-| `criterion_id` | `criterionId` | text | No | public | `DEC-007-identifier-crosswalk` | The criterion this level belongs to. |
-| `identifier` | `identifier` | text | Yes | public | `DEC-007-identifier-crosswalk` | The official CASE UUID for the level. |
-| `uri` | `uri` | text | Yes | public | `DEC-007-identifier-crosswalk` | A web identifier for the level. |
-| `quality` | `quality` | enum | No | public | `DEC-005-results-scores` | The label for the performance level. |
-| `description` | `description` | text | No | public | `DEC-006-standards-alignment` | Explanation of the performance level. |
-| `score` | `score` | number | No | public | `DEC-005-results-scores` | Points awarded for this level. |
-| `feedback` | `feedback` | text | No | public | `DEC-005-results-scores` | Pre-written feedback or guidance for this level. |
-| `position` | `position` | integer | No | public | `DEC-006-standards-alignment` | Display order of this level. |
-| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | `DEC-008-time-session` | When the level last changed. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE Rubric Criterion Level.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this criterion level. |
+| `criterion_id` | `criterionId` | text | No | public | CASE 1.1 CASE Rubric Criterion Level.criterionId | `DEC-007-identifier-crosswalk` | The criterion this level belongs to. |
+| `identifier` | `identifier` | text | Yes | public | CASE 1.1 CASE Rubric Criterion Level.identifier | `DEC-007-identifier-crosswalk` | The official CASE UUID for the level. |
+| `uri` | `uri` | text | Yes | public | CASE 1.1 CASE Rubric Criterion Level.uri | `DEC-007-identifier-crosswalk` | A web identifier for the level. |
+| `quality` | `quality` | enum | No | public | CASE 1.1 CASE Rubric Criterion Level.quality | `DEC-005-results-scores` | The label for the performance level. |
+| `description` | `description` | text | No | public | CASE 1.1 CASE Rubric Criterion Level.description | `DEC-006-standards-alignment` | Explanation of the performance level. |
+| `score` | `score` | number | No | public | CASE 1.1 CASE Rubric Criterion Level.score | `DEC-005-results-scores` | Points awarded for this level. |
+| `feedback` | `feedback` | text | No | public | CASE 1.1 CASE Rubric Criterion Level.feedback | `DEC-005-results-scores` | Pre-written feedback or guidance for this level. |
+| `position` | `position` | integer | No | public | CASE 1.1 CASE Rubric Criterion Level.position | `DEC-006-standards-alignment` | Display order of this level. |
+| `last_change_date_time` | `lastChangeDateTime` | datetime | Yes | operational | CASE 1.1 CASE Rubric Criterion Level.lastChangeDateTime | `DEC-008-time-session` | When the level last changed. |
 
 #### Controlled Values
 
 Values for `quality`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `beginning` | Beginning | Early or limited evidence of the criterion. |
-| `developing` | Developing | Partial or emerging evidence of the criterion. |
-| `proficient` | Proficient | Expected evidence of the criterion. |
-| `advanced` | Advanced | Strong or extended evidence of the criterion. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `beginning` | Beginning | CASE 1.1 rubric_quality.beginning | Early or limited evidence of the criterion. |
+| `developing` | Developing | CASE 1.1 rubric_quality.developing | Partial or emerging evidence of the criterion. |
+| `proficient` | Proficient | CASE 1.1 rubric_quality.proficient | Expected evidence of the criterion. |
+| `advanced` | Advanced | CASE 1.1 rubric_quality.advanced | Strong or extended evidence of the criterion. |
 
 
 ### CASE API Status
@@ -381,35 +394,36 @@ Values for `quality`:
 - SQL table: `standards.case_api_statuses`
 - API path: `/standards/case/statuses`
 - Privacy class: `operational`
+- Source standard: CASE 1.1 CASE API Status
 - Why it exists: Importers and sync jobs need consistent status details when CASE operations do not fully succeed.
 
-| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `DEC-007-identifier-crosswalk` | The platform's stable ID for this status record. |
-| `operation_id` | `operationId` | text | No | operational | `DEC-007-identifier-crosswalk` | The import, sync, or API operation this status belongs to. |
-| `imsx_code_major` | `imsxCodeMajor` | enum | Yes | operational | `DEC-006-standards-alignment` | Broad result of the CASE API request. |
-| `imsx_severity` | `imsxSeverity` | enum | Yes | operational | `DEC-006-standards-alignment` | Whether the status is informational, warning, or error. |
-| `imsx_description` | `imsxDescription` | text | No | operational | `DEC-006-standards-alignment` | Human-readable details about the status. |
-| `imsx_code_minor` | `imsxCodeMinor` | text | No | operational | `DEC-006-standards-alignment` | More specific status details from the service. |
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | CASE 1.1 CASE API Status.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this status record. |
+| `operation_id` | `operationId` | text | No | operational | CASE 1.1 CASE API Status.operationId | `DEC-007-identifier-crosswalk` | The import, sync, or API operation this status belongs to. |
+| `imsx_code_major` | `imsxCodeMajor` | enum | Yes | operational | CASE 1.1 CASE API Status.imsxCodeMajor | `DEC-006-standards-alignment` | Broad result of the CASE API request. |
+| `imsx_severity` | `imsxSeverity` | enum | Yes | operational | CASE 1.1 CASE API Status.imsxSeverity | `DEC-006-standards-alignment` | Whether the status is informational, warning, or error. |
+| `imsx_description` | `imsxDescription` | text | No | operational | CASE 1.1 CASE API Status.imsxDescription | `DEC-006-standards-alignment` | Human-readable details about the status. |
+| `imsx_code_minor` | `imsxCodeMinor` | text | No | operational | CASE 1.1 CASE API Status.imsxCodeMinor | `DEC-006-standards-alignment` | More specific status details from the service. |
 
 #### Controlled Values
 
 Values for `imsx_code_major`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `success` | Success | The operation succeeded. |
-| `processing` | Processing | The operation is still being processed. |
-| `failure` | Failure | The operation failed. |
-| `unsupported` | Unsupported | The requested operation or feature is not supported. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `success` | Success | CASE 1.1 code_major.success | The operation succeeded. |
+| `processing` | Processing | CASE 1.1 code_major.processing | The operation is still being processed. |
+| `failure` | Failure | CASE 1.1 code_major.failure | The operation failed. |
+| `unsupported` | Unsupported | CASE 1.1 code_major.unsupported | The requested operation or feature is not supported. |
 
 Values for `imsx_severity`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `status` | Status | Informational status. |
-| `warning` | Warning | A non-blocking issue occurred. |
-| `error` | Error | A blocking error occurred. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `status` | Status | CASE 1.1 severity.status | Informational status. |
+| `warning` | Warning | CASE 1.1 severity.warning | A non-blocking issue occurred. |
+| `error` | Error | CASE 1.1 severity.error | A blocking error occurred. |
 
 
 ## Unsupported or Deferred
@@ -417,6 +431,6 @@ Values for `imsx_severity`:
 | Area | Reason |
 | --- | --- |
 | Formal CASE certification claim | Requires official conformance testing and certification process beyond generated dictionary artifacts. |
-| Live CASE import API | Needs a hosted database, validation service, auth, and tenant/shared-reference policy. |
+| Live CASE import API | Needs a hosted database, validation service, auth, and tenant/shared-reference policy before public import/search workflows are useful. |
 | Publisher extension semantics | Extensions are preserved as governed metadata, but not promoted to core fields until intentionally modeled. |
 | Full graph diff/merge workflow | Version comparison and merge tooling should be implemented after persistent backend storage exists. |

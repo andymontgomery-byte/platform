@@ -586,6 +586,12 @@
       "CaliperEnvelope": {
         "type": "object",
         "description": "One Sensor API payload received from a tool, platform, or app.",
+        "x-sourceStandard": {
+          "standard": "Caliper",
+          "version": "1.2",
+          "object": "Caliper Envelope",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -600,50 +606,115 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this received Caliper envelope.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
             "description": "The school, district, or customer boundary that owns this event payload.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "sensorId": {
             "type": "string",
             "description": "The tool, platform, app, or sensor that sent the payload.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "sensorId",
+              "coverage": "mapped"
+            }
           },
           "sendTime": {
             "type": "string",
             "description": "When the sensor says it sent the payload.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "sendTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "dataVersion": {
             "type": "string",
             "description": "The Caliper context or version used to interpret the payload.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "dataVersion",
+              "coverage": "mapped"
+            },
             "enum": [
               "http://purl.imsglobal.org/ctx/caliper/v1p2"
             ],
             "x-valueDescriptions": {
               "http://purl.imsglobal.org/ctx/caliper/v1p2": "The JSON-LD context IRI used for Caliper 1.2 payloads."
+            },
+            "x-valueSourceStandards": {
+              "http://purl.imsglobal.org/ctx/caliper/v1p2": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "data_version",
+                "value": "http://purl.imsglobal.org/ctx/caliper/v1p2",
+                "coverage": "mapped"
+              }
             }
           },
           "eventCount": {
             "type": "integer",
             "description": "How many event objects were found in the payload.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "eventCount",
+              "coverage": "mapped"
+            }
           },
           "receivedAt": {
             "type": "string",
             "description": "When the platform received the payload.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "receivedAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "validationStatus": {
             "type": "string",
             "description": "Whether the payload was accepted, rejected, or held for review.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "validationStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "received",
               "valid",
@@ -655,18 +726,61 @@
               "valid": "The payload passed validation for the platform's current projection.",
               "rejected": "The payload failed validation and should not be projected.",
               "quarantined": "The payload is held for review because policy, privacy, or schema checks need attention."
+            },
+            "x-valueSourceStandards": {
+              "received": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "ingestion_status",
+                "value": "received",
+                "coverage": "mapped"
+              },
+              "valid": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "ingestion_status",
+                "value": "valid",
+                "coverage": "mapped"
+              },
+              "rejected": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "ingestion_status",
+                "value": "rejected",
+                "coverage": "mapped"
+              },
+              "quarantined": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "ingestion_status",
+                "value": "quarantined",
+                "coverage": "mapped"
+              }
             }
           },
           "rawPayload": {
             "type": "string",
             "description": "The original JSON-LD payload retained for audit, replay, and conformance review.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Envelope",
+              "field": "rawPayload",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "CaliperEvent": {
         "type": "object",
         "description": "One immutable learning activity event projected from a Caliper envelope.",
+        "x-sourceStandard": {
+          "standard": "Caliper",
+          "version": "1.2",
+          "object": "Caliper Event",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "envelopeId",
@@ -682,22 +796,50 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this projected event row.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "envelopeId": {
             "type": "string",
             "description": "The received Caliper envelope that contained this event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "envelopeId",
+              "coverage": "mapped"
+            }
           },
           "eventIri": {
             "type": "string",
             "description": "The globally unique event identifier supplied by the sender.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "eventIri",
+              "coverage": "mapped"
+            }
           },
           "eventType": {
             "type": "string",
             "description": "The Caliper event class, such as AssessmentEvent, MediaEvent, or ToolLaunchEvent.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "eventType",
+              "coverage": "mapped"
+            },
             "enum": [
               "AnnotationEvent",
               "AssessmentEvent",
@@ -743,12 +885,168 @@
               "ToolLaunchEvent": "A person launches or returns from a tool.",
               "ToolUseEvent": "A person uses a software application.",
               "ViewEvent": "A person views something."
+            },
+            "x-valueSourceStandards": {
+              "AnnotationEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AnnotationEvent",
+                "coverage": "mapped"
+              },
+              "AssessmentEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AssessmentEvent",
+                "coverage": "mapped"
+              },
+              "AssessmentItemEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AssessmentItemEvent",
+                "coverage": "mapped"
+              },
+              "AssignableEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AssignableEvent",
+                "coverage": "mapped"
+              },
+              "FeedbackEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "FeedbackEvent",
+                "coverage": "mapped"
+              },
+              "ForumEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ForumEvent",
+                "coverage": "mapped"
+              },
+              "GradeEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "GradeEvent",
+                "coverage": "mapped"
+              },
+              "MediaEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "MediaEvent",
+                "coverage": "mapped"
+              },
+              "MessageEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "MessageEvent",
+                "coverage": "mapped"
+              },
+              "NavigationEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "NavigationEvent",
+                "coverage": "mapped"
+              },
+              "QuestionnaireEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "QuestionnaireEvent",
+                "coverage": "mapped"
+              },
+              "QuestionnaireItemEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "QuestionnaireItemEvent",
+                "coverage": "mapped"
+              },
+              "ResourceManagementEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ResourceManagementEvent",
+                "coverage": "mapped"
+              },
+              "SearchEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SearchEvent",
+                "coverage": "mapped"
+              },
+              "SessionEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SessionEvent",
+                "coverage": "mapped"
+              },
+              "SurveyEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SurveyEvent",
+                "coverage": "mapped"
+              },
+              "SurveyInvitationEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SurveyInvitationEvent",
+                "coverage": "mapped"
+              },
+              "ThreadEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ThreadEvent",
+                "coverage": "mapped"
+              },
+              "ToolLaunchEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ToolLaunchEvent",
+                "coverage": "mapped"
+              },
+              "ToolUseEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ToolUseEvent",
+                "coverage": "mapped"
+              },
+              "ViewEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ViewEvent",
+                "coverage": "mapped"
+              }
             }
           },
           "profile": {
             "type": "string",
             "description": "The Caliper profile that explains which event, action, actor, object, and generated values are expected.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "profile",
+              "coverage": "mapped"
+            },
             "enum": [
               "GeneralProfile",
               "AnnotationProfile",
@@ -782,12 +1080,126 @@
               "SurveyProfile": "Survey and questionnaire activity.",
               "ToolLaunchProfile": "LTI or tool launch and return activity.",
               "ToolUseProfile": "Software application use metrics."
+            },
+            "x-valueSourceStandards": {
+              "GeneralProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "GeneralProfile",
+                "coverage": "mapped"
+              },
+              "AnnotationProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "AnnotationProfile",
+                "coverage": "mapped"
+              },
+              "AssessmentProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "AssessmentProfile",
+                "coverage": "mapped"
+              },
+              "AssignableProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "AssignableProfile",
+                "coverage": "mapped"
+              },
+              "FeedbackProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "FeedbackProfile",
+                "coverage": "mapped"
+              },
+              "ForumProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ForumProfile",
+                "coverage": "mapped"
+              },
+              "GradingProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "GradingProfile",
+                "coverage": "mapped"
+              },
+              "MediaProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "MediaProfile",
+                "coverage": "mapped"
+              },
+              "ReadingProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ReadingProfile",
+                "coverage": "mapped"
+              },
+              "ResourceManagementProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ResourceManagementProfile",
+                "coverage": "mapped"
+              },
+              "SearchProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "SearchProfile",
+                "coverage": "mapped"
+              },
+              "SessionProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "SessionProfile",
+                "coverage": "mapped"
+              },
+              "SurveyProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "SurveyProfile",
+                "coverage": "mapped"
+              },
+              "ToolLaunchProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ToolLaunchProfile",
+                "coverage": "mapped"
+              },
+              "ToolUseProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ToolUseProfile",
+                "coverage": "mapped"
+              }
             }
           },
           "action": {
             "type": "string",
             "description": "What happened in the event.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "action",
+              "coverage": "mapped"
+            },
             "enum": [
               "Abandoned",
               "Accepted",
@@ -951,74 +1363,726 @@
               "Uploaded": "A resource or file was uploaded.",
               "Used": "A user used a tool or application.",
               "Viewed": "A user viewed something."
+            },
+            "x-valueSourceStandards": {
+              "Abandoned": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Abandoned",
+                "coverage": "mapped"
+              },
+              "Accepted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Accepted",
+                "coverage": "mapped"
+              },
+              "Activated": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Activated",
+                "coverage": "mapped"
+              },
+              "Added": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Added",
+                "coverage": "mapped"
+              },
+              "Archived": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Archived",
+                "coverage": "mapped"
+              },
+              "Attached": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Attached",
+                "coverage": "mapped"
+              },
+              "Bookmarked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Bookmarked",
+                "coverage": "mapped"
+              },
+              "ChangedResolution": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedResolution",
+                "coverage": "mapped"
+              },
+              "ChangedSize": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedSize",
+                "coverage": "mapped"
+              },
+              "ChangedSpeed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedSpeed",
+                "coverage": "mapped"
+              },
+              "ChangedVolume": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedVolume",
+                "coverage": "mapped"
+              },
+              "Classified": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Classified",
+                "coverage": "mapped"
+              },
+              "ClosedPopout": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ClosedPopout",
+                "coverage": "mapped"
+              },
+              "Commented": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Commented",
+                "coverage": "mapped"
+              },
+              "Completed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Completed",
+                "coverage": "mapped"
+              },
+              "Copied": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Copied",
+                "coverage": "mapped"
+              },
+              "Created": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Created",
+                "coverage": "mapped"
+              },
+              "Deactivated": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Deactivated",
+                "coverage": "mapped"
+              },
+              "Declined": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Declined",
+                "coverage": "mapped"
+              },
+              "Deleted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Deleted",
+                "coverage": "mapped"
+              },
+              "Described": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Described",
+                "coverage": "mapped"
+              },
+              "DisabledClosedCaptioning": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "DisabledClosedCaptioning",
+                "coverage": "mapped"
+              },
+              "Disliked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Disliked",
+                "coverage": "mapped"
+              },
+              "Downloaded": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Downloaded",
+                "coverage": "mapped"
+              },
+              "EnabledClosedCaptioning": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "EnabledClosedCaptioning",
+                "coverage": "mapped"
+              },
+              "Ended": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Ended",
+                "coverage": "mapped"
+              },
+              "EnteredFullScreen": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "EnteredFullScreen",
+                "coverage": "mapped"
+              },
+              "ExitedFullScreen": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ExitedFullScreen",
+                "coverage": "mapped"
+              },
+              "ForwardedTo": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ForwardedTo",
+                "coverage": "mapped"
+              },
+              "Graded": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Graded",
+                "coverage": "mapped"
+              },
+              "Hid": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Hid",
+                "coverage": "mapped"
+              },
+              "Highlighted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Highlighted",
+                "coverage": "mapped"
+              },
+              "Identified": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Identified",
+                "coverage": "mapped"
+              },
+              "JumpedTo": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "JumpedTo",
+                "coverage": "mapped"
+              },
+              "Launched": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Launched",
+                "coverage": "mapped"
+              },
+              "Liked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Liked",
+                "coverage": "mapped"
+              },
+              "Linked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Linked",
+                "coverage": "mapped"
+              },
+              "LoggedIn": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "LoggedIn",
+                "coverage": "mapped"
+              },
+              "LoggedOut": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "LoggedOut",
+                "coverage": "mapped"
+              },
+              "MarkedAsRead": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "MarkedAsRead",
+                "coverage": "mapped"
+              },
+              "MarkedAsUnread": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "MarkedAsUnread",
+                "coverage": "mapped"
+              },
+              "Modified": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Modified",
+                "coverage": "mapped"
+              },
+              "Muted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Muted",
+                "coverage": "mapped"
+              },
+              "NavigatedTo": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "NavigatedTo",
+                "coverage": "mapped"
+              },
+              "OpenedPopout": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "OpenedPopout",
+                "coverage": "mapped"
+              },
+              "OptedIn": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "OptedIn",
+                "coverage": "mapped"
+              },
+              "OptedOut": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "OptedOut",
+                "coverage": "mapped"
+              },
+              "Paused": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Paused",
+                "coverage": "mapped"
+              },
+              "Posted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Posted",
+                "coverage": "mapped"
+              },
+              "Printed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Printed",
+                "coverage": "mapped"
+              },
+              "Published": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Published",
+                "coverage": "mapped"
+              },
+              "Questioned": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Questioned",
+                "coverage": "mapped"
+              },
+              "Ranked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Ranked",
+                "coverage": "mapped"
+              },
+              "Recommended": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Recommended",
+                "coverage": "mapped"
+              },
+              "Removed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Removed",
+                "coverage": "mapped"
+              },
+              "Reset": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Reset",
+                "coverage": "mapped"
+              },
+              "Restarted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Restarted",
+                "coverage": "mapped"
+              },
+              "Restored": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Restored",
+                "coverage": "mapped"
+              },
+              "Resumed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Resumed",
+                "coverage": "mapped"
+              },
+              "Retrieved": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Retrieved",
+                "coverage": "mapped"
+              },
+              "Returned": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Returned",
+                "coverage": "mapped"
+              },
+              "Reviewed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Reviewed",
+                "coverage": "mapped"
+              },
+              "Rewound": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Rewound",
+                "coverage": "mapped"
+              },
+              "Saved": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Saved",
+                "coverage": "mapped"
+              },
+              "Searched": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Searched",
+                "coverage": "mapped"
+              },
+              "Sent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Sent",
+                "coverage": "mapped"
+              },
+              "Shared": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Shared",
+                "coverage": "mapped"
+              },
+              "Showed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Showed",
+                "coverage": "mapped"
+              },
+              "Skipped": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Skipped",
+                "coverage": "mapped"
+              },
+              "Started": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Started",
+                "coverage": "mapped"
+              },
+              "Submitted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Submitted",
+                "coverage": "mapped"
+              },
+              "Subscribed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Subscribed",
+                "coverage": "mapped"
+              },
+              "Tagged": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Tagged",
+                "coverage": "mapped"
+              },
+              "TimedOut": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "TimedOut",
+                "coverage": "mapped"
+              },
+              "Unmuted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Unmuted",
+                "coverage": "mapped"
+              },
+              "Unpublished": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Unpublished",
+                "coverage": "mapped"
+              },
+              "Unsubscribed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Unsubscribed",
+                "coverage": "mapped"
+              },
+              "Uploaded": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Uploaded",
+                "coverage": "mapped"
+              },
+              "Used": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Used",
+                "coverage": "mapped"
+              },
+              "Viewed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Viewed",
+                "coverage": "mapped"
+              }
             }
           },
           "actorId": {
             "type": "string",
             "description": "The indexed person, app, or agent that performed the action.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "actorId",
+              "coverage": "mapped"
+            }
           },
           "objectId": {
             "type": "string",
             "description": "The indexed entity that the actor acted on.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "objectId",
+              "coverage": "mapped"
+            }
           },
           "eventTime": {
             "type": "string",
             "description": "When the learning activity happened.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "eventTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "edAppId": {
             "type": "string",
             "description": "The indexed application where the event happened.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "edAppId",
+              "coverage": "mapped"
+            }
           },
           "generatedId": {
             "type": "string",
             "description": "The indexed entity created or produced by the event, such as an attempt, response, score, annotation, or search response.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "generatedId",
+              "coverage": "mapped"
+            }
           },
           "targetId": {
             "type": "string",
             "description": "A specific location or target inside the object, such as a media location, page, link, or question target.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "targetId",
+              "coverage": "mapped"
+            }
           },
           "referrerId": {
             "type": "string",
             "description": "The prior app, page, resource, or context that led to this event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "referrerId",
+              "coverage": "mapped"
+            }
           },
           "groupId": {
             "type": "string",
             "description": "The class, course, group, or organization context for the event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "groupId",
+              "coverage": "mapped"
+            }
           },
           "membershipId": {
             "type": "string",
             "description": "The actor's role and status relationship in the group context.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "membershipId",
+              "coverage": "mapped"
+            }
           },
           "sessionId": {
             "type": "string",
             "description": "The app or user session that groups related events.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "sessionId",
+              "coverage": "mapped"
+            }
           },
           "federatedSessionId": {
             "type": "string",
             "description": "The LTI or federated session context connected to a tool launch.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "federatedSessionId",
+              "coverage": "mapped"
+            }
           },
           "rawEvent": {
             "type": "string",
             "description": "The original event JSON-LD object retained for audit, replay, and deeper profile-specific projection.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Event",
+              "field": "rawEvent",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "CaliperEntity": {
         "type": "object",
         "description": "A normalized index entry for a Caliper person, app, resource, attempt, score, session, or other event object.",
+        "x-sourceStandard": {
+          "standard": "Caliper",
+          "version": "1.2",
+          "object": "Caliper Entity",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "entityIri",
@@ -1028,17 +2092,38 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this indexed entity.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "entityIri": {
             "type": "string",
             "description": "The Caliper IRI or source identifier for the entity.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "entityIri",
+              "coverage": "mapped"
+            }
           },
           "entityType": {
             "type": "string",
             "description": "The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "entityType",
+              "coverage": "mapped"
+            },
             "enum": [
               "Agent",
               "AggregateMeasure",
@@ -1184,55 +2269,616 @@
               "WebPage": "Web page.",
               "TextPositionSelector": "Text-range selector without an entity ID.",
               "SystemIdentifier": "Other system identifier without an entity ID."
+            },
+            "x-valueSourceStandards": {
+              "Agent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Agent",
+                "coverage": "mapped"
+              },
+              "AggregateMeasure": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AggregateMeasure",
+                "coverage": "mapped"
+              },
+              "AggregateMeasureCollection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AggregateMeasureCollection",
+                "coverage": "mapped"
+              },
+              "Annotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Annotation",
+                "coverage": "mapped"
+              },
+              "Assessment": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Assessment",
+                "coverage": "mapped"
+              },
+              "AssessmentItem": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AssessmentItem",
+                "coverage": "mapped"
+              },
+              "AssignableDigitalResource": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AssignableDigitalResource",
+                "coverage": "mapped"
+              },
+              "Attempt": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Attempt",
+                "coverage": "mapped"
+              },
+              "AudioObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AudioObject",
+                "coverage": "mapped"
+              },
+              "BookmarkAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "BookmarkAnnotation",
+                "coverage": "mapped"
+              },
+              "Chapter": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Chapter",
+                "coverage": "mapped"
+              },
+              "Collection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Collection",
+                "coverage": "mapped"
+              },
+              "Comment": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Comment",
+                "coverage": "mapped"
+              },
+              "CourseOffering": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "CourseOffering",
+                "coverage": "mapped"
+              },
+              "CourseSection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "CourseSection",
+                "coverage": "mapped"
+              },
+              "DateTimeQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DateTimeQuestion",
+                "coverage": "mapped"
+              },
+              "DateTimeResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DateTimeResponse",
+                "coverage": "mapped"
+              },
+              "DigitalResource": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DigitalResource",
+                "coverage": "mapped"
+              },
+              "DigitalResourceCollection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DigitalResourceCollection",
+                "coverage": "mapped"
+              },
+              "Document": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Document",
+                "coverage": "mapped"
+              },
+              "FillinBlankResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "FillinBlankResponse",
+                "coverage": "mapped"
+              },
+              "Forum": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Forum",
+                "coverage": "mapped"
+              },
+              "Frame": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Frame",
+                "coverage": "mapped"
+              },
+              "Group": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Group",
+                "coverage": "mapped"
+              },
+              "HighlightAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "HighlightAnnotation",
+                "coverage": "mapped"
+              },
+              "ImageObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "ImageObject",
+                "coverage": "mapped"
+              },
+              "LearningObjective": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LearningObjective",
+                "coverage": "mapped"
+              },
+              "LikertScale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LikertScale",
+                "coverage": "mapped"
+              },
+              "Link": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Link",
+                "coverage": "mapped"
+              },
+              "LtiLink": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LtiLink",
+                "coverage": "mapped"
+              },
+              "LtiSession": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LtiSession",
+                "coverage": "mapped"
+              },
+              "MediaLocation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MediaLocation",
+                "coverage": "mapped"
+              },
+              "MediaObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MediaObject",
+                "coverage": "mapped"
+              },
+              "Membership": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Membership",
+                "coverage": "mapped"
+              },
+              "Message": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Message",
+                "coverage": "mapped"
+              },
+              "MultipleChoiceResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultipleChoiceResponse",
+                "coverage": "mapped"
+              },
+              "MultipleResponseResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultipleResponseResponse",
+                "coverage": "mapped"
+              },
+              "MultiselectQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultiselectQuestion",
+                "coverage": "mapped"
+              },
+              "MultiselectResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultiselectResponse",
+                "coverage": "mapped"
+              },
+              "MultiselectScale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultiselectScale",
+                "coverage": "mapped"
+              },
+              "NumericScale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "NumericScale",
+                "coverage": "mapped"
+              },
+              "OpenEndedQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "OpenEndedQuestion",
+                "coverage": "mapped"
+              },
+              "OpenEndedResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "OpenEndedResponse",
+                "coverage": "mapped"
+              },
+              "Organization": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Organization",
+                "coverage": "mapped"
+              },
+              "Page": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Page",
+                "coverage": "mapped"
+              },
+              "Person": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Person",
+                "coverage": "mapped"
+              },
+              "Query": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Query",
+                "coverage": "mapped"
+              },
+              "Question": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Question",
+                "coverage": "mapped"
+              },
+              "Questionnaire": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Questionnaire",
+                "coverage": "mapped"
+              },
+              "QuestionnaireItem": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "QuestionnaireItem",
+                "coverage": "mapped"
+              },
+              "Rating": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Rating",
+                "coverage": "mapped"
+              },
+              "RatingScaleQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "RatingScaleQuestion",
+                "coverage": "mapped"
+              },
+              "RatingScaleResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "RatingScaleResponse",
+                "coverage": "mapped"
+              },
+              "Response": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Response",
+                "coverage": "mapped"
+              },
+              "Result": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Result",
+                "coverage": "mapped"
+              },
+              "Scale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Scale",
+                "coverage": "mapped"
+              },
+              "Score": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Score",
+                "coverage": "mapped"
+              },
+              "SearchResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SearchResponse",
+                "coverage": "mapped"
+              },
+              "SelectTextResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SelectTextResponse",
+                "coverage": "mapped"
+              },
+              "Session": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Session",
+                "coverage": "mapped"
+              },
+              "SharedAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SharedAnnotation",
+                "coverage": "mapped"
+              },
+              "SoftwareApplication": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SoftwareApplication",
+                "coverage": "mapped"
+              },
+              "Survey": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Survey",
+                "coverage": "mapped"
+              },
+              "SurveyInvitation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SurveyInvitation",
+                "coverage": "mapped"
+              },
+              "TagAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "TagAnnotation",
+                "coverage": "mapped"
+              },
+              "Thread": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Thread",
+                "coverage": "mapped"
+              },
+              "TrueFalseResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "TrueFalseResponse",
+                "coverage": "mapped"
+              },
+              "VideoObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "VideoObject",
+                "coverage": "mapped"
+              },
+              "WebPage": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "WebPage",
+                "coverage": "mapped"
+              },
+              "TextPositionSelector": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "TextPositionSelector",
+                "coverage": "mapped"
+              },
+              "SystemIdentifier": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SystemIdentifier",
+                "coverage": "mapped"
+              }
             }
           },
           "name": {
             "type": "string",
             "description": "A human-readable name for the entity when one is supplied.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "name",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "A short explanation or label for the entity.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "dateCreated": {
             "type": "string",
             "description": "When the source says this entity was created.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "dateCreated",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "dateModified": {
             "type": "string",
             "description": "When the source says this entity last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "dateModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "otherIdentifiers": {
             "type": "string",
             "description": "Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "otherIdentifiers",
+              "coverage": "mapped"
+            }
           },
           "extensions": {
             "type": "string",
             "description": "Governed source-specific fields carried on the entity.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "extensions",
+              "coverage": "mapped"
+            }
           },
           "canonicalPersonId": {
             "type": "string",
             "description": "The platform person ID when policy and identifiers allow this entity to resolve to a known person.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "canonicalPersonId",
+              "coverage": "mapped"
+            }
           },
           "canonicalResourceId": {
             "type": "string",
             "description": "The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Entity",
+              "field": "canonicalResourceId",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "CaliperActor": {
         "type": "object",
         "description": "The person, application, group, or agent that performs a Caliper event action.",
+        "x-sourceStandard": {
+          "standard": "Caliper",
+          "version": "1.2",
+          "object": "Caliper Actor",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "entityId",
@@ -1243,17 +2889,38 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this actor projection.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "entityId": {
             "type": "string",
             "description": "The indexed Caliper entity that represents the actor.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "entityId",
+              "coverage": "mapped"
+            }
           },
           "actorType": {
             "type": "string",
             "description": "Whether the actor is a person, software app, group, or generic agent.",
             "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "actorType",
+              "coverage": "mapped"
+            },
             "enum": [
               "Agent",
               "Person",
@@ -1265,22 +2932,73 @@
               "Person": "A human actor.",
               "SoftwareApplication": "An app or tool acting as the event actor.",
               "Group": "A group acting as or standing in for the actor."
+            },
+            "x-valueSourceStandards": {
+              "Agent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "Agent",
+                "coverage": "mapped"
+              },
+              "Person": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "Person",
+                "coverage": "mapped"
+              },
+              "SoftwareApplication": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "SoftwareApplication",
+                "coverage": "mapped"
+              },
+              "Group": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "Group",
+                "coverage": "mapped"
+              }
             }
           },
           "platformPersonId": {
             "type": "string",
             "description": "The resolved platform person ID when the actor is a known school user.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "platformPersonId",
+              "coverage": "mapped"
+            }
           },
           "displayName": {
             "type": "string",
             "description": "A display name supplied for the actor or resolved from a trusted source.",
-            "x-decisionId": "DEC-001-person-agent-subject"
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "displayName",
+              "coverage": "mapped"
+            }
           },
           "identifierType": {
             "type": "string",
             "description": "The kind of source identifier used to resolve the actor.",
             "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "identifierType",
+              "coverage": "mapped"
+            },
             "enum": [
               "AccountUserName",
               "EmailAddress",
@@ -1308,17 +3026,117 @@
               "Other": "Other identifier type.",
               "SisSourcedId": "Student information system sourced ID.",
               "SystemId": "Internal system ID."
+            },
+            "x-valueSourceStandards": {
+              "AccountUserName": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "AccountUserName",
+                "coverage": "mapped"
+              },
+              "EmailAddress": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "EmailAddress",
+                "coverage": "mapped"
+              },
+              "LisSourcedId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "LisSourcedId",
+                "coverage": "mapped"
+              },
+              "LtiContextId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "LtiContextId",
+                "coverage": "mapped"
+              },
+              "LtiDeploymentId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "LtiDeploymentId",
+                "coverage": "mapped"
+              },
+              "LtiPlatformId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "LtiPlatformId",
+                "coverage": "mapped"
+              },
+              "LtiToolId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "LtiToolId",
+                "coverage": "mapped"
+              },
+              "LtiUserId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "LtiUserId",
+                "coverage": "mapped"
+              },
+              "OneRosterSourcedId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "OneRosterSourcedId",
+                "coverage": "mapped"
+              },
+              "Other": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "Other",
+                "coverage": "mapped"
+              },
+              "SisSourcedId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "SisSourcedId",
+                "coverage": "mapped"
+              },
+              "SystemId": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "system_identifier_type",
+                "value": "SystemId",
+                "coverage": "mapped"
+              }
             }
           },
           "identifierValue": {
             "type": "string",
             "description": "The source identifier value used for matching or lineage.",
-            "x-decisionId": "DEC-001-person-agent-subject"
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "identifierValue",
+              "coverage": "mapped"
+            }
           },
           "resolutionStatus": {
             "type": "string",
             "description": "Whether the actor was matched to a canonical platform record.",
             "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "resolutionStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "resolved",
               "unresolved",
@@ -1330,6 +3148,36 @@
               "unresolved": "The actor or entity remains source-only until a safe match is available.",
               "conflict": "The source identifiers matched multiple possible platform records.",
               "blocked_by_policy": "Privacy or tenant policy prevents canonical matching."
+            },
+            "x-valueSourceStandards": {
+              "resolved": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "resolution_status",
+                "value": "resolved",
+                "coverage": "mapped"
+              },
+              "unresolved": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "resolution_status",
+                "value": "unresolved",
+                "coverage": "mapped"
+              },
+              "conflict": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "resolution_status",
+                "value": "conflict",
+                "coverage": "mapped"
+              },
+              "blocked_by_policy": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "resolution_status",
+                "value": "blocked_by_policy",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -1337,6 +3185,12 @@
       "CaliperContext": {
         "type": "object",
         "description": "The group, membership, session, and LTI context surrounding a Caliper event.",
+        "x-sourceStandard": {
+          "standard": "Caliper",
+          "version": "1.2",
+          "object": "Caliper Context",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "eventId"
@@ -1345,27 +3199,62 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this event context projection.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "eventId": {
             "type": "string",
             "description": "The Caliper event this context belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "eventId",
+              "coverage": "mapped"
+            }
           },
           "groupEntityId": {
             "type": "string",
             "description": "The Caliper group, course section, organization, or class context entity.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "groupEntityId",
+              "coverage": "mapped"
+            }
           },
           "membershipEntityId": {
             "type": "string",
             "description": "The Caliper membership entity that describes the actor's relationship to the group.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "membershipEntityId",
+              "coverage": "mapped"
+            }
           },
           "membershipRole": {
             "type": "string",
             "description": "The LIS role supplied in the Caliper membership context.",
             "x-decisionId": "DEC-003-role-vocabulary",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "membershipRole",
+              "coverage": "mapped"
+            },
             "enum": [
               "Administrator",
               "ContentDeveloper",
@@ -1385,12 +3274,77 @@
               "Member": "General member role.",
               "Mentor": "Mentor, advisor, or support role.",
               "Officer": "Officer or official role."
+            },
+            "x-valueSourceStandards": {
+              "Administrator": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "Administrator",
+                "coverage": "mapped"
+              },
+              "ContentDeveloper": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "ContentDeveloper",
+                "coverage": "mapped"
+              },
+              "Instructor": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "Instructor",
+                "coverage": "mapped"
+              },
+              "Learner": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "Learner",
+                "coverage": "mapped"
+              },
+              "Manager": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "Manager",
+                "coverage": "mapped"
+              },
+              "Member": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "Member",
+                "coverage": "mapped"
+              },
+              "Mentor": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "Mentor",
+                "coverage": "mapped"
+              },
+              "Officer": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_role",
+                "value": "Officer",
+                "coverage": "mapped"
+              }
             }
           },
           "membershipStatus": {
             "type": "string",
             "description": "Whether the membership is active or inactive in the source context.",
             "x-decisionId": "DEC-004-enrollment-membership",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "membershipStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "Active",
               "Inactive"
@@ -1398,22 +3352,59 @@
             "x-valueDescriptions": {
               "Active": "The membership or status is active.",
               "Inactive": "The membership or status is inactive."
+            },
+            "x-valueSourceStandards": {
+              "Active": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_status",
+                "value": "Active",
+                "coverage": "mapped"
+              },
+              "Inactive": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lis_status",
+                "value": "Inactive",
+                "coverage": "mapped"
+              }
             }
           },
           "sessionEntityId": {
             "type": "string",
             "description": "The Caliper session entity that groups related activity.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "sessionEntityId",
+              "coverage": "mapped"
+            }
           },
           "federatedSessionEntityId": {
             "type": "string",
             "description": "The LTI or federated session entity connected to the event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "federatedSessionEntityId",
+              "coverage": "mapped"
+            }
           },
           "ltiMessageType": {
             "type": "string",
             "description": "The LTI launch message type when the event came from an LTI workflow.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "ltiMessageType",
+              "coverage": "mapped"
+            },
             "enum": [
               "LtiDeepLinkingRequest",
               "LtiResourceLinkRequest"
@@ -1421,28 +3412,71 @@
             "x-valueDescriptions": {
               "LtiDeepLinkingRequest": "LTI deep-linking content selection launch.",
               "LtiResourceLinkRequest": "Normal LTI resource link launch."
+            },
+            "x-valueSourceStandards": {
+              "LtiDeepLinkingRequest": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lti_message_type",
+                "value": "LtiDeepLinkingRequest",
+                "coverage": "mapped"
+              },
+              "LtiResourceLinkRequest": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "lti_message_type",
+                "value": "LtiResourceLinkRequest",
+                "coverage": "mapped"
+              }
             }
           },
           "ltiPlatformId": {
             "type": "string",
             "description": "The LTI platform issuer or platform identifier tied to the federated session.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "ltiPlatformId",
+              "coverage": "mapped"
+            }
           },
           "ltiDeploymentId": {
             "type": "string",
             "description": "The LTI deployment identifier that scopes the tool relationship.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "ltiDeploymentId",
+              "coverage": "mapped"
+            }
           },
           "ltiContextId": {
             "type": "string",
             "description": "The LTI course or context identifier supplied by the platform.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Context",
+              "field": "ltiContextId",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "CaliperProfileRule": {
         "type": "object",
         "description": "A governed row describing an expected Caliper profile, event, action, actor, object, and generated or target combination.",
+        "x-sourceStandard": {
+          "standard": "Caliper",
+          "version": "1.2",
+          "object": "Caliper Profile Rule",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "profile",
@@ -1455,12 +3489,26 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this profile rule.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "profile": {
             "type": "string",
             "description": "The Caliper profile the rule belongs to.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "profile",
+              "coverage": "mapped"
+            },
             "enum": [
               "GeneralProfile",
               "AnnotationProfile",
@@ -1494,12 +3542,126 @@
               "SurveyProfile": "Survey and questionnaire activity.",
               "ToolLaunchProfile": "LTI or tool launch and return activity.",
               "ToolUseProfile": "Software application use metrics."
+            },
+            "x-valueSourceStandards": {
+              "GeneralProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "GeneralProfile",
+                "coverage": "mapped"
+              },
+              "AnnotationProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "AnnotationProfile",
+                "coverage": "mapped"
+              },
+              "AssessmentProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "AssessmentProfile",
+                "coverage": "mapped"
+              },
+              "AssignableProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "AssignableProfile",
+                "coverage": "mapped"
+              },
+              "FeedbackProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "FeedbackProfile",
+                "coverage": "mapped"
+              },
+              "ForumProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ForumProfile",
+                "coverage": "mapped"
+              },
+              "GradingProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "GradingProfile",
+                "coverage": "mapped"
+              },
+              "MediaProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "MediaProfile",
+                "coverage": "mapped"
+              },
+              "ReadingProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ReadingProfile",
+                "coverage": "mapped"
+              },
+              "ResourceManagementProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ResourceManagementProfile",
+                "coverage": "mapped"
+              },
+              "SearchProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "SearchProfile",
+                "coverage": "mapped"
+              },
+              "SessionProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "SessionProfile",
+                "coverage": "mapped"
+              },
+              "SurveyProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "SurveyProfile",
+                "coverage": "mapped"
+              },
+              "ToolLaunchProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ToolLaunchProfile",
+                "coverage": "mapped"
+              },
+              "ToolUseProfile": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "profile",
+                "value": "ToolUseProfile",
+                "coverage": "mapped"
+              }
             }
           },
           "eventType": {
             "type": "string",
             "description": "The Caliper event class allowed by the profile rule.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "eventType",
+              "coverage": "mapped"
+            },
             "enum": [
               "AnnotationEvent",
               "AssessmentEvent",
@@ -1545,12 +3707,168 @@
               "ToolLaunchEvent": "A person launches or returns from a tool.",
               "ToolUseEvent": "A person uses a software application.",
               "ViewEvent": "A person views something."
+            },
+            "x-valueSourceStandards": {
+              "AnnotationEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AnnotationEvent",
+                "coverage": "mapped"
+              },
+              "AssessmentEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AssessmentEvent",
+                "coverage": "mapped"
+              },
+              "AssessmentItemEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AssessmentItemEvent",
+                "coverage": "mapped"
+              },
+              "AssignableEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "AssignableEvent",
+                "coverage": "mapped"
+              },
+              "FeedbackEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "FeedbackEvent",
+                "coverage": "mapped"
+              },
+              "ForumEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ForumEvent",
+                "coverage": "mapped"
+              },
+              "GradeEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "GradeEvent",
+                "coverage": "mapped"
+              },
+              "MediaEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "MediaEvent",
+                "coverage": "mapped"
+              },
+              "MessageEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "MessageEvent",
+                "coverage": "mapped"
+              },
+              "NavigationEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "NavigationEvent",
+                "coverage": "mapped"
+              },
+              "QuestionnaireEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "QuestionnaireEvent",
+                "coverage": "mapped"
+              },
+              "QuestionnaireItemEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "QuestionnaireItemEvent",
+                "coverage": "mapped"
+              },
+              "ResourceManagementEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ResourceManagementEvent",
+                "coverage": "mapped"
+              },
+              "SearchEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SearchEvent",
+                "coverage": "mapped"
+              },
+              "SessionEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SessionEvent",
+                "coverage": "mapped"
+              },
+              "SurveyEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SurveyEvent",
+                "coverage": "mapped"
+              },
+              "SurveyInvitationEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "SurveyInvitationEvent",
+                "coverage": "mapped"
+              },
+              "ThreadEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ThreadEvent",
+                "coverage": "mapped"
+              },
+              "ToolLaunchEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ToolLaunchEvent",
+                "coverage": "mapped"
+              },
+              "ToolUseEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ToolUseEvent",
+                "coverage": "mapped"
+              },
+              "ViewEvent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "event_type",
+                "value": "ViewEvent",
+                "coverage": "mapped"
+              }
             }
           },
           "actorType": {
             "type": "string",
             "description": "The expected actor class for the profile rule.",
             "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "actorType",
+              "coverage": "mapped"
+            },
             "enum": [
               "Agent",
               "Person",
@@ -1562,12 +3880,49 @@
               "Person": "A human actor.",
               "SoftwareApplication": "An app or tool acting as the event actor.",
               "Group": "A group acting as or standing in for the actor."
+            },
+            "x-valueSourceStandards": {
+              "Agent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "Agent",
+                "coverage": "mapped"
+              },
+              "Person": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "Person",
+                "coverage": "mapped"
+              },
+              "SoftwareApplication": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "SoftwareApplication",
+                "coverage": "mapped"
+              },
+              "Group": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "actor_type",
+                "value": "Group",
+                "coverage": "mapped"
+              }
             }
           },
           "allowedAction": {
             "type": "string",
             "description": "One action allowed for this event/profile combination.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "allowedAction",
+              "coverage": "mapped"
+            },
             "enum": [
               "Abandoned",
               "Accepted",
@@ -1731,12 +4086,581 @@
               "Uploaded": "A resource or file was uploaded.",
               "Used": "A user used a tool or application.",
               "Viewed": "A user viewed something."
+            },
+            "x-valueSourceStandards": {
+              "Abandoned": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Abandoned",
+                "coverage": "mapped"
+              },
+              "Accepted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Accepted",
+                "coverage": "mapped"
+              },
+              "Activated": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Activated",
+                "coverage": "mapped"
+              },
+              "Added": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Added",
+                "coverage": "mapped"
+              },
+              "Archived": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Archived",
+                "coverage": "mapped"
+              },
+              "Attached": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Attached",
+                "coverage": "mapped"
+              },
+              "Bookmarked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Bookmarked",
+                "coverage": "mapped"
+              },
+              "ChangedResolution": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedResolution",
+                "coverage": "mapped"
+              },
+              "ChangedSize": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedSize",
+                "coverage": "mapped"
+              },
+              "ChangedSpeed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedSpeed",
+                "coverage": "mapped"
+              },
+              "ChangedVolume": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ChangedVolume",
+                "coverage": "mapped"
+              },
+              "Classified": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Classified",
+                "coverage": "mapped"
+              },
+              "ClosedPopout": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ClosedPopout",
+                "coverage": "mapped"
+              },
+              "Commented": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Commented",
+                "coverage": "mapped"
+              },
+              "Completed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Completed",
+                "coverage": "mapped"
+              },
+              "Copied": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Copied",
+                "coverage": "mapped"
+              },
+              "Created": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Created",
+                "coverage": "mapped"
+              },
+              "Deactivated": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Deactivated",
+                "coverage": "mapped"
+              },
+              "Declined": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Declined",
+                "coverage": "mapped"
+              },
+              "Deleted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Deleted",
+                "coverage": "mapped"
+              },
+              "Described": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Described",
+                "coverage": "mapped"
+              },
+              "DisabledClosedCaptioning": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "DisabledClosedCaptioning",
+                "coverage": "mapped"
+              },
+              "Disliked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Disliked",
+                "coverage": "mapped"
+              },
+              "Downloaded": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Downloaded",
+                "coverage": "mapped"
+              },
+              "EnabledClosedCaptioning": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "EnabledClosedCaptioning",
+                "coverage": "mapped"
+              },
+              "Ended": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Ended",
+                "coverage": "mapped"
+              },
+              "EnteredFullScreen": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "EnteredFullScreen",
+                "coverage": "mapped"
+              },
+              "ExitedFullScreen": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ExitedFullScreen",
+                "coverage": "mapped"
+              },
+              "ForwardedTo": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "ForwardedTo",
+                "coverage": "mapped"
+              },
+              "Graded": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Graded",
+                "coverage": "mapped"
+              },
+              "Hid": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Hid",
+                "coverage": "mapped"
+              },
+              "Highlighted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Highlighted",
+                "coverage": "mapped"
+              },
+              "Identified": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Identified",
+                "coverage": "mapped"
+              },
+              "JumpedTo": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "JumpedTo",
+                "coverage": "mapped"
+              },
+              "Launched": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Launched",
+                "coverage": "mapped"
+              },
+              "Liked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Liked",
+                "coverage": "mapped"
+              },
+              "Linked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Linked",
+                "coverage": "mapped"
+              },
+              "LoggedIn": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "LoggedIn",
+                "coverage": "mapped"
+              },
+              "LoggedOut": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "LoggedOut",
+                "coverage": "mapped"
+              },
+              "MarkedAsRead": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "MarkedAsRead",
+                "coverage": "mapped"
+              },
+              "MarkedAsUnread": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "MarkedAsUnread",
+                "coverage": "mapped"
+              },
+              "Modified": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Modified",
+                "coverage": "mapped"
+              },
+              "Muted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Muted",
+                "coverage": "mapped"
+              },
+              "NavigatedTo": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "NavigatedTo",
+                "coverage": "mapped"
+              },
+              "OpenedPopout": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "OpenedPopout",
+                "coverage": "mapped"
+              },
+              "OptedIn": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "OptedIn",
+                "coverage": "mapped"
+              },
+              "OptedOut": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "OptedOut",
+                "coverage": "mapped"
+              },
+              "Paused": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Paused",
+                "coverage": "mapped"
+              },
+              "Posted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Posted",
+                "coverage": "mapped"
+              },
+              "Printed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Printed",
+                "coverage": "mapped"
+              },
+              "Published": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Published",
+                "coverage": "mapped"
+              },
+              "Questioned": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Questioned",
+                "coverage": "mapped"
+              },
+              "Ranked": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Ranked",
+                "coverage": "mapped"
+              },
+              "Recommended": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Recommended",
+                "coverage": "mapped"
+              },
+              "Removed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Removed",
+                "coverage": "mapped"
+              },
+              "Reset": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Reset",
+                "coverage": "mapped"
+              },
+              "Restarted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Restarted",
+                "coverage": "mapped"
+              },
+              "Restored": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Restored",
+                "coverage": "mapped"
+              },
+              "Resumed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Resumed",
+                "coverage": "mapped"
+              },
+              "Retrieved": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Retrieved",
+                "coverage": "mapped"
+              },
+              "Returned": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Returned",
+                "coverage": "mapped"
+              },
+              "Reviewed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Reviewed",
+                "coverage": "mapped"
+              },
+              "Rewound": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Rewound",
+                "coverage": "mapped"
+              },
+              "Saved": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Saved",
+                "coverage": "mapped"
+              },
+              "Searched": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Searched",
+                "coverage": "mapped"
+              },
+              "Sent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Sent",
+                "coverage": "mapped"
+              },
+              "Shared": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Shared",
+                "coverage": "mapped"
+              },
+              "Showed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Showed",
+                "coverage": "mapped"
+              },
+              "Skipped": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Skipped",
+                "coverage": "mapped"
+              },
+              "Started": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Started",
+                "coverage": "mapped"
+              },
+              "Submitted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Submitted",
+                "coverage": "mapped"
+              },
+              "Subscribed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Subscribed",
+                "coverage": "mapped"
+              },
+              "Tagged": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Tagged",
+                "coverage": "mapped"
+              },
+              "TimedOut": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "TimedOut",
+                "coverage": "mapped"
+              },
+              "Unmuted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Unmuted",
+                "coverage": "mapped"
+              },
+              "Unpublished": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Unpublished",
+                "coverage": "mapped"
+              },
+              "Unsubscribed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Unsubscribed",
+                "coverage": "mapped"
+              },
+              "Uploaded": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Uploaded",
+                "coverage": "mapped"
+              },
+              "Used": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Used",
+                "coverage": "mapped"
+              },
+              "Viewed": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "action",
+                "value": "Viewed",
+                "coverage": "mapped"
+              }
             }
           },
           "objectType": {
             "type": "string",
             "description": "The expected object entity type for the rule.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "objectType",
+              "coverage": "mapped"
+            },
             "enum": [
               "Agent",
               "AggregateMeasure",
@@ -1882,23 +4806,542 @@
               "WebPage": "Web page.",
               "TextPositionSelector": "Text-range selector without an entity ID.",
               "SystemIdentifier": "Other system identifier without an entity ID."
+            },
+            "x-valueSourceStandards": {
+              "Agent": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Agent",
+                "coverage": "mapped"
+              },
+              "AggregateMeasure": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AggregateMeasure",
+                "coverage": "mapped"
+              },
+              "AggregateMeasureCollection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AggregateMeasureCollection",
+                "coverage": "mapped"
+              },
+              "Annotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Annotation",
+                "coverage": "mapped"
+              },
+              "Assessment": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Assessment",
+                "coverage": "mapped"
+              },
+              "AssessmentItem": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AssessmentItem",
+                "coverage": "mapped"
+              },
+              "AssignableDigitalResource": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AssignableDigitalResource",
+                "coverage": "mapped"
+              },
+              "Attempt": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Attempt",
+                "coverage": "mapped"
+              },
+              "AudioObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "AudioObject",
+                "coverage": "mapped"
+              },
+              "BookmarkAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "BookmarkAnnotation",
+                "coverage": "mapped"
+              },
+              "Chapter": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Chapter",
+                "coverage": "mapped"
+              },
+              "Collection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Collection",
+                "coverage": "mapped"
+              },
+              "Comment": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Comment",
+                "coverage": "mapped"
+              },
+              "CourseOffering": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "CourseOffering",
+                "coverage": "mapped"
+              },
+              "CourseSection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "CourseSection",
+                "coverage": "mapped"
+              },
+              "DateTimeQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DateTimeQuestion",
+                "coverage": "mapped"
+              },
+              "DateTimeResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DateTimeResponse",
+                "coverage": "mapped"
+              },
+              "DigitalResource": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DigitalResource",
+                "coverage": "mapped"
+              },
+              "DigitalResourceCollection": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "DigitalResourceCollection",
+                "coverage": "mapped"
+              },
+              "Document": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Document",
+                "coverage": "mapped"
+              },
+              "FillinBlankResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "FillinBlankResponse",
+                "coverage": "mapped"
+              },
+              "Forum": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Forum",
+                "coverage": "mapped"
+              },
+              "Frame": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Frame",
+                "coverage": "mapped"
+              },
+              "Group": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Group",
+                "coverage": "mapped"
+              },
+              "HighlightAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "HighlightAnnotation",
+                "coverage": "mapped"
+              },
+              "ImageObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "ImageObject",
+                "coverage": "mapped"
+              },
+              "LearningObjective": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LearningObjective",
+                "coverage": "mapped"
+              },
+              "LikertScale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LikertScale",
+                "coverage": "mapped"
+              },
+              "Link": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Link",
+                "coverage": "mapped"
+              },
+              "LtiLink": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LtiLink",
+                "coverage": "mapped"
+              },
+              "LtiSession": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "LtiSession",
+                "coverage": "mapped"
+              },
+              "MediaLocation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MediaLocation",
+                "coverage": "mapped"
+              },
+              "MediaObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MediaObject",
+                "coverage": "mapped"
+              },
+              "Membership": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Membership",
+                "coverage": "mapped"
+              },
+              "Message": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Message",
+                "coverage": "mapped"
+              },
+              "MultipleChoiceResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultipleChoiceResponse",
+                "coverage": "mapped"
+              },
+              "MultipleResponseResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultipleResponseResponse",
+                "coverage": "mapped"
+              },
+              "MultiselectQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultiselectQuestion",
+                "coverage": "mapped"
+              },
+              "MultiselectResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultiselectResponse",
+                "coverage": "mapped"
+              },
+              "MultiselectScale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "MultiselectScale",
+                "coverage": "mapped"
+              },
+              "NumericScale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "NumericScale",
+                "coverage": "mapped"
+              },
+              "OpenEndedQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "OpenEndedQuestion",
+                "coverage": "mapped"
+              },
+              "OpenEndedResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "OpenEndedResponse",
+                "coverage": "mapped"
+              },
+              "Organization": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Organization",
+                "coverage": "mapped"
+              },
+              "Page": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Page",
+                "coverage": "mapped"
+              },
+              "Person": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Person",
+                "coverage": "mapped"
+              },
+              "Query": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Query",
+                "coverage": "mapped"
+              },
+              "Question": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Question",
+                "coverage": "mapped"
+              },
+              "Questionnaire": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Questionnaire",
+                "coverage": "mapped"
+              },
+              "QuestionnaireItem": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "QuestionnaireItem",
+                "coverage": "mapped"
+              },
+              "Rating": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Rating",
+                "coverage": "mapped"
+              },
+              "RatingScaleQuestion": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "RatingScaleQuestion",
+                "coverage": "mapped"
+              },
+              "RatingScaleResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "RatingScaleResponse",
+                "coverage": "mapped"
+              },
+              "Response": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Response",
+                "coverage": "mapped"
+              },
+              "Result": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Result",
+                "coverage": "mapped"
+              },
+              "Scale": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Scale",
+                "coverage": "mapped"
+              },
+              "Score": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Score",
+                "coverage": "mapped"
+              },
+              "SearchResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SearchResponse",
+                "coverage": "mapped"
+              },
+              "SelectTextResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SelectTextResponse",
+                "coverage": "mapped"
+              },
+              "Session": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Session",
+                "coverage": "mapped"
+              },
+              "SharedAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SharedAnnotation",
+                "coverage": "mapped"
+              },
+              "SoftwareApplication": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SoftwareApplication",
+                "coverage": "mapped"
+              },
+              "Survey": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Survey",
+                "coverage": "mapped"
+              },
+              "SurveyInvitation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SurveyInvitation",
+                "coverage": "mapped"
+              },
+              "TagAnnotation": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "TagAnnotation",
+                "coverage": "mapped"
+              },
+              "Thread": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "Thread",
+                "coverage": "mapped"
+              },
+              "TrueFalseResponse": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "TrueFalseResponse",
+                "coverage": "mapped"
+              },
+              "VideoObject": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "VideoObject",
+                "coverage": "mapped"
+              },
+              "WebPage": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "WebPage",
+                "coverage": "mapped"
+              },
+              "TextPositionSelector": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "TextPositionSelector",
+                "coverage": "mapped"
+              },
+              "SystemIdentifier": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "entity_type",
+                "value": "SystemIdentifier",
+                "coverage": "mapped"
+              }
             }
           },
           "generatedOrTargetType": {
             "type": "string",
             "description": "The generated entity, target entity, or narrative condition expected by the rule.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "generatedOrTargetType",
+              "coverage": "mapped"
+            }
           },
           "platformGuidance": {
             "type": "string",
             "description": "How the platform should validate, project, or join events matching this rule.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Profile Rule",
+              "field": "platformGuidance",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "CaliperExtension": {
         "type": "object",
         "description": "A governed custom field found under a Caliper extensions object.",
+        "x-sourceStandard": {
+          "standard": "Caliper",
+          "version": "1.2",
+          "object": "Caliper Extension",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "ownerType",
@@ -1912,12 +5355,26 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this extension projection.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "ownerType": {
             "type": "string",
             "description": "Whether this extension belongs to an envelope, event, entity, actor, or context row.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "ownerType",
+              "coverage": "mapped"
+            },
             "enum": [
               "envelope",
               "event",
@@ -1931,32 +5388,104 @@
               "entity": "The extension belongs to a Caliper entity.",
               "actor": "The extension belongs to a Caliper actor projection.",
               "context": "The extension belongs to a Caliper context projection."
+            },
+            "x-valueSourceStandards": {
+              "envelope": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_owner_type",
+                "value": "envelope",
+                "coverage": "mapped"
+              },
+              "event": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_owner_type",
+                "value": "event",
+                "coverage": "mapped"
+              },
+              "entity": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_owner_type",
+                "value": "entity",
+                "coverage": "mapped"
+              },
+              "actor": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_owner_type",
+                "value": "actor",
+                "coverage": "mapped"
+              },
+              "context": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_owner_type",
+                "value": "context",
+                "coverage": "mapped"
+              }
             }
           },
           "ownerId": {
             "type": "string",
             "description": "The platform row ID that owns this extension value.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "ownerId",
+              "coverage": "mapped"
+            }
           },
           "namespace": {
             "type": "string",
             "description": "The governed namespace or vendor domain for the extension key.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "namespace",
+              "coverage": "mapped"
+            }
           },
           "extensionKey": {
             "type": "string",
             "description": "The extension field name within the namespace.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "extensionKey",
+              "coverage": "mapped"
+            }
           },
           "extensionValue": {
             "type": "string",
             "description": "The normalized scalar value when the extension can be safely indexed.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "extensionValue",
+              "coverage": "mapped"
+            }
           },
           "privacyClassification": {
             "type": "string",
             "description": "The platform privacy classification assigned to this extension value.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "privacyClassification",
+              "coverage": "mapped"
+            },
             "enum": [
               "public",
               "operational",
@@ -1970,12 +5499,56 @@
               "education_record": "The extension may identify or describe a student's education record.",
               "behavioral": "The extension describes learning behavior or activity.",
               "restricted": "The extension is sensitive and requires explicit policy before use."
+            },
+            "x-valueSourceStandards": {
+              "public": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_privacy",
+                "value": "public",
+                "coverage": "mapped"
+              },
+              "operational": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_privacy",
+                "value": "operational",
+                "coverage": "mapped"
+              },
+              "education_record": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_privacy",
+                "value": "education_record",
+                "coverage": "mapped"
+              },
+              "behavioral": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_privacy",
+                "value": "behavioral",
+                "coverage": "mapped"
+              },
+              "restricted": {
+                "standard": "Caliper",
+                "version": "1.2",
+                "vocabulary": "extension_privacy",
+                "value": "restricted",
+                "coverage": "mapped"
+              }
             }
           },
           "allowedByPolicy": {
             "type": "boolean",
             "description": "Whether tenant policy allows this extension to be retained and queried.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Extension",
+              "field": "allowedByPolicy",
+              "coverage": "mapped"
+            }
           }
         }
       }
@@ -1983,19 +5556,65 @@
   },
   "x-unsupported-or-deferred": [
     {
-      "area": "Live Sensor API ingestion endpoint",
-      "reason": "Requires hosted auth, tenant isolation, event validation, rate limits, retention policy, and server-side storage."
+      "area": "Full Sensor API validation, immutable storage, and replay/idempotency handling",
+      "sourceStandard": {
+        "standard": "Caliper",
+        "version": "1.2",
+        "object": "Sensor API ingestion",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "profile validation",
+        "immutable raw-event store",
+        "rate limits",
+        "retention policy",
+        "idempotency/replay controls"
+      ],
+      "reason": "A minimal authenticated receipt Edge Function exists. Full Sensor API conformance still needs profile validation, immutable event storage, replay handling, retention policy, and operational controls."
     },
     {
       "area": "Full profile-specific relational decomposition",
-      "reason": "The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally."
+      "sourceStandard": {
+        "standard": "Caliper",
+        "version": "1.2",
+        "object": "Profile-specific event/entity extensions",
+        "coverage": "preserved_in_artifact"
+      },
+      "sourceFieldsOrValues": [
+        "profile-specific metric fields",
+        "profile-specific object extensions",
+        "profile-specific generated/target fields"
+      ],
+      "reason": "The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally based on product value."
     },
     {
       "area": "Analytics warehouse and dashboards",
-      "reason": "Requires retention, aggregation, access control, and de-identification decisions beyond GitHub Pages."
+      "sourceStandard": {
+        "standard": "Caliper",
+        "version": "1.2",
+        "object": "Analytics projections",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "warehouse fact tables",
+        "aggregations",
+        "de-identification jobs",
+        "dashboards"
+      ],
+      "reason": "Requires retention, aggregation, access control, and de-identification decisions beyond the event receipt path."
     },
     {
       "area": "Formal Caliper certification claim",
+      "sourceStandard": {
+        "standard": "Caliper",
+        "version": "1.2",
+        "object": "Conformance/certification",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "official certification fixtures",
+        "profile conformance reports"
+      ],
       "reason": "Requires conformance testing and organizational certification work beyond these generated dictionary artifacts."
     }
   ]

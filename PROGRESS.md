@@ -264,3 +264,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `node --check site/app.js` passed; all three new `deno.json` files passed `python3 -m json.tool`; grep confirmed no `SUPABASE_SERVICE_ROLE_KEY` usage under `supabase/functions`; grep confirmed every Edge Function reads `req.headers.get("Authorization")` and forwards `Authorization: authorization`; deployed `lti-launch-handler`, `caliper-event-ingestion`, and `oauth-token-exchange` with `supabase functions deploy ... --use-api`; `supabase functions list --project-ref qzxlgrerjoiamxvnkklq` showed all five functions active; one-off live smoke with a temporary tenant-scoped Supabase Auth user passed for `lti-launch-handler`, `caliper-event-ingestion`, and `oauth-token-exchange` (an earlier helper-based OAuth form attempt returned the expected 400 because the helper JSON-encoded the form body); `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 tests/supabase_audit_log_test.py` passed; `node --check site/app.js && node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; `python3 -m json.tool site/api/platform-evaluation.json` and `python3 -m json.tool site/api/spec-conformance.json` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=26, partial=1, fail=0, blocked=0 and reports `edge_functions_for_non_crud_endpoints` as `pass`.
 - Expected status change: `edge_functions_for_non_crud_endpoints` `partial` -> `pass`.
 - What remains next: `lead_spec_full_accounting` remains `partial`; the evaluator still wants full OneRoster 1.2 accounting and explicit per-field `sourceStandard`/unsupported ledgers across Lead spec fields and values.
+
+
+## 20260426T113857Z Harness Iteration 4
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 88
+- Publish result: committed and pushed: Codex loop iteration 4: rubric pass=26/27
+- Codex log: `.codex-loop/20260426T111736Z-iteration-004-codex.log`
+- Verify log: `.codex-loop/20260426T111736Z-iteration-004-verify.log`
+- Judge log: `.codex-loop/20260426T111736Z-iteration-004-judge.log`
+- Judge JSON: `.codex-loop/20260426T111736Z-iteration-004-judge.json`
+
+## 2026-04-26 08:02:48 EDT Lead Spec Full Accounting Iteration
+
+- Chosen rubric item: `lead_spec_full_accounting`.
+- Files changed: `dictionary/*.v1.json`; `scripts/generate_oneroster_core.py`, `scripts/generate_qti_core.py`, `scripts/generate_case_core.py`, `scripts/generate_caliper_core.py`, `scripts/generate_integration_governance_core.py`; `scripts/check_dictionary_artifacts.py`; `scripts/check_spec_conformance.py`; `scripts/evaluate_platform.py`; generated dictionary Markdown/OpenAPI/site HTML artifacts; `docs/lead-spec-accounting.md`; `docs/spec-gap-backlog.md`; `docs/dictionary-coverage-matrix.md`; `PLAN.md`; `site/api/spec-conformance.json`; `site/api/platform-evaluation.json`; `PROGRESS.md`.
+- Checks run and result: all five dictionary generators passed; `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values while enforcing `sourceStandard` and unsupported-ledger fields; `python3 -m py_compile` passed for the changed generator/check/evaluator scripts; dictionary and generated OpenAPI JSON validation passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=27, partial=0, fail=0, blocked=0 and `done=true`.
+- Expected status change: `lead_spec_full_accounting` `partial` -> `pass`; evaluator overall `done=false` -> `done=true`.
+- What remains next: no non-pass rubric items remain. Future product backlog still includes status manifest cleanup, broader hosted runtime/API slices beyond the current OneRoster core and minimal Edge Function receipts, formal conformance fixtures, production deployment docs, generated dictionary URL cleanup, and Codex loop harness tests.

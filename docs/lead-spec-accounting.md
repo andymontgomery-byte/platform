@@ -2,19 +2,84 @@
 
 Research date: 2026-04-24
 
-This page explains how every standard currently marked `Lead` is accounted for. "Accounted for" means the standard is either covered by a layperson dictionary entry, represented in the current runnable model, or explicitly deferred with a reason.
+This page explains how every standard currently marked `Lead` is accounted for. "Accounted for" means every exposed object, field, and controlled value has a dictionary `sourceStandard` reference, and every intentionally unsupported or deferred object/field/value is listed in a structured ledger with a business, scope, or downstream-impact reason.
+
+## SourceStandard Control
+
+`scripts/check_dictionary_artifacts.py` now fails unless every generated dictionary object, field, and controlled vocabulary value carries `sourceStandard`, and every unsupported/deferred ledger row carries `sourceStandard` plus a non-empty `sourceFieldsOrValues` list. The generators emit the same field and value accounting into OpenAPI (`x-sourceStandard`, `x-valueSourceStandards`) and generated Markdown/HTML dictionary pages.
+
+| Accounting evidence | Location |
+| --- | --- |
+| OneRoster supported fields and unsupported full-1.2 ledger | `dictionary/oneroster-core.v1.json` |
+| QTI repository fields, interaction values, and preserved/deferred XML/runtime ledger | `dictionary/qti-core.v1.json` |
+| CASE framework graph fields and deferred live/certification ledger | `dictionary/case-core.v1.json` |
+| Caliper event/profile/action/entity values and deferred full Sensor API ledger | `dictionary/caliper-core.v1.json` |
+| LTI, Security Framework, and Data Privacy fields plus deferred production workflow ledger | `dictionary/integration-governance-core.v1.json` |
+
+## Explicit Unsupported Field/Value Ledger
+
+The tables below make the structured `unsupported_or_deferred[].sourceFieldsOrValues` ledgers visible without relying on large JSON files. Supported items are exhaustive through `sourceStandard` on every dictionary object, field, and controlled vocabulary value; unsupported items are exhaustive through these field/value lists plus the reasons in the same row.
+
+### OneRoster 1.2 Unsupported or Deferred Items
+
+| Area | Source fields or values | Reason |
+| --- | --- | --- |
+| OneRoster Demographics object fields | `Demographics.birthDate`, `Demographics.sex`, `Demographics.americanIndianOrAlaskaNative`, `Demographics.asian`, `Demographics.blackOrAfricanAmerican`, `Demographics.nativeHawaiianOrOtherPacificIslander`, `Demographics.white`, `Demographics.demographicRaceTwoOrMoreRaces`, `Demographics.hispanicOrLatinoEthnicity`, `Demographics.countryOfBirthCode`, `Demographics.stateOfBirthAbbreviation`, `Demographics.cityOfBirth`, `Demographics.publicSchoolResidenceStatus`, `sex value female`, `sex value male`, `sex value other`, `sex value unspecified` | Highly sensitive demographic fields are not needed for the current roster/gradebook slice and should only be exposed after tenant policy, purpose limitation, and audited access rules are implemented for that data category. |
+| OneRoster User agent, profile, credential, password, and contact fields | `User.userMasterIdentifier`, `User.username`, `User.userIds`, `User.middleName`, `User.preferredFirstName`, `User.preferredMiddleName`, `User.preferredLastName`, `User.pronouns`, `User.roles`, `User.userProfiles`, `User.primaryOrg`, `User.identifier`, `User.sms`, `User.phone`, `User.agents`, `User.grades`, `User.password`, `User.resources`, `UserProfile.profileId`, `UserProfile.profileType`, `UserProfile.vendorId`, `UserProfile.applicationId`, `UserProfile.description`, `UserProfile.credentials`, `Credential.type`, `Credential.username`, `Credential.password`, `Credential.extensions`, `Role.roleType`, `Role.role`, `Role.org`, `Role.userProfile`, `Role.beginDate`, `Role.endDate` | The runnable model exposes directory-safe user identity and one primary role first. Relationship, profile, credential, password, phone, pronoun, and organization-role details have higher privacy and integration impact, so they need a dedicated identity/account slice with field-level authorization before exposure. |
+| OneRoster Resource object and resource references | `Resource.title`, `Resource.roles`, `Resource.importance`, `Resource.vendorResourceId`, `Resource.vendorId`, `Resource.applicationId`, `Course.resources`, `Class.resources`, `User.resources`, `importance value primary`, `importance value secondary`, `resource role value administrator`, `resource role value aide`, `resource role value guardian`, `resource role value parent`, `resource role value proctor`, `resource role value relative`, `resource role value student`, `resource role value teacher` | Resource records overlap with QTI packages, Common Cartridge content, LTI links, and content licensing. They are deferred until the content/resource slice can preserve package lineage and avoid treating resource metadata as the actual content asset. |
+| OneRoster ScoreScale, Assessment Results Profile, and learning-objective result fields | `ScoreScale.title`, `ScoreScale.type`, `ScoreScale.course`, `ScoreScale.class`, `ScoreScale.scoreScaleValue`, `ScoreScaleValue.itemValueLHS`, `ScoreScaleValue.itemValueRHS`, `LineItem.scoreScale`, `LineItem.learningObjectiveSet`, `Result.class`, `Result.scoreScale`, `Result.textScore`, `Result.learningObjectiveSet`, `Result.inProgress`, `Result.incomplete`, `Result.late`, `Result.missing`, `AssessmentLineItem.title`, `AssessmentLineItem.description`, `AssessmentLineItem.class`, `AssessmentLineItem.parentAssessmentLineItem`, `AssessmentLineItem.scoreScale`, `AssessmentLineItem.resultValueMin`, `AssessmentLineItem.resultValueMax`, `AssessmentLineItem.learningObjectiveSet`, `AssessmentResult.assessmentLineItem`, `AssessmentResult.student`, `AssessmentResult.score`, `AssessmentResult.textScore`, `AssessmentResult.scoreDate`, `AssessmentResult.scoreScale`, `AssessmentResult.scorePercentile`, `AssessmentResult.scoreStatus`, `AssessmentResult.comment`, `AssessmentResult.learningObjectiveSet`, `AssessmentResult.inProgress`, `AssessmentResult.incomplete`, `AssessmentResult.late`, `AssessmentResult.missing`, `LearningObjectiveSet.source`, `LearningObjectiveSet.learningObjectiveIds`, `LearningObjectiveResult.learningObjectiveId`, `LearningObjectiveResult.score`, `LearningObjectiveResult.textScore` | The current gradebook slice supports line items and numeric results. Score-scale mapping, assessment-result profile records, and per-standard mastery scores depend on QTI/CASE alignment and assessment runtime choices, so exposing them now would create unstable contracts. |
+| OneRoster extended object fields, references, and organization values outside the core slice | `common metadata`, `reference.href`, `reference.type`, `AcademicSession.parent`, `AcademicSession.children`, `Org.identifier`, `Org.children`, `Org type value local`, `Org type value national`, `Org type value state`, `Course.grades`, `Course.subjects`, `Course.subjectCodes`, `Class.location`, `Class.grades`, `Class.subjects`, `Class.subjectCodes`, `Class.periods`, `API status imsx_codeMajor`, `API status imsx_severity`, `API status imsx_description`, `API status imsx_CodeMinor`, `API status imsx_codeMinorFieldName`, `API status imsx_codeMinorFieldValue` | The core runnable model keeps the fields needed for roster membership, gradebook joins, tenant isolation, and hosted smoke tests. Extra metadata, references, org-level values, subjects, grade arrays, periods, and API status payloads are deferred until full REST/CSV provider behavior and filtering/error semantics are implemented. |
+| Full OneRoster REST provider/consumer and CSV bulk-exchange binding behavior | `pagination`, `filtering`, `sorting`, `field selection`, `bulk CSV import/export`, `provider certification fixtures`, `consumer certification fixtures`, `delete/write endpoints` | The hosted demo is intentionally read-mostly and tenant-scoped. Full binding behavior requires production auth, pagination/filter semantics, write policy, certification fixtures, and operational import/export jobs beyond the current vertical slice. |
+
+### QTI 3 Unsupported or Deferred Items
+
+| Area | Source fields or values | Reason |
+| --- | --- | --- |
+| QTI assessment delivery/runtime behavior | `session state`, `candidate responses`, `attempt lifecycle`, `delivery navigation`, `runtime scoring` | The platform is first modeling repository, import, search, alignment, and governance. Delivery requires a tested QTI runtime engine before learner session behavior should become a platform contract. |
+| QTI low-level XML and item-body child nodes not promoted to SQL/API fields | `HTML/ARIA/MathML children`, `qti-content-body children`, `object/img/picture media children`, `data-* extensions`, `package-local XML order and namespaces` | The original QTI XML and package files remain the legal source artifact. Only public platform fields useful for search, governance, alignment, accessibility review, and delivery planning are projected into relational/API fields. |
+| QTI interaction-specific child fields below the normalized interaction index | `SimpleChoice.identifier`, `SimpleChoice.fixed`, `SimpleChoice.templateIdentifier`, `SimpleChoice.showHide`, `GapChoice`, `InlineChoice`, `HotspotChoice.coords`, `AssociableHotspot.matchMax`, `PositionObjectStage`, `SliderInteraction.lowerBound`, `SliderInteraction.upperBound`, `SliderInteraction.step`, `UploadInteraction.type`, `MediaInteraction.autostart`, `MediaInteraction.minPlays`, `MediaInteraction.maxPlays`, `EndAttemptInteraction.countAttempt`, `PortableCustomInteraction.module`, `PortableCustomInteraction.customInteractionTypeIdentifier`, `CustomInteraction.extension` | The dictionary accounts for every interaction family as controlled values and projects common interaction planning fields. Interaction-specific rendering and response mechanics stay in preserved QTI XML until a delivery/runtime service can validate and execute them. |
+| QTI response-processing execution and rule tree decomposition | `responseRuleGroup`, `outcomeRule`, `templateRule`, `branchRule logic tree`, `preCondition logic tree`, `lookupTable execution` | Processing logic is preserved and summarized for search and review. Executing it safely belongs to a QTI runtime service with conformance fixtures. |
+| QTI computer-adaptive testing and vendor extension semantics | `CAT runtime configuration`, `adaptive item/session algorithms`, `vendor extension semantics` | CAT and vendor-specific behavior depend on mature item metadata, delivery services, psychometric configuration, and reviewed extension contracts beyond this repository dictionary. |
+
+### CASE 1.1 Unsupported or Deferred Items
+
+| Area | Source fields or values | Reason |
+| --- | --- | --- |
+| Formal CASE certification claim | `official certification test evidence`, `member certification workflow` | Requires official conformance testing and certification process beyond generated dictionary artifacts. |
+| Live CASE import API | `package upload`, `validation service`, `tenant adoption records`, `search indexing` | Needs a hosted database, validation service, auth, and tenant/shared-reference policy before public import/search workflows are useful. |
+| Publisher extension semantics | `publisher extension fields`, `custom payload semantics` | Extensions are preserved as governed metadata, but not promoted to core fields until intentionally modeled. |
+| Full graph diff/merge workflow | `version diff`, `framework merge`, `tenant override reconciliation` | Version comparison and merge tooling should be implemented after persistent backend storage exists. |
+
+### Caliper 1.2 Unsupported or Deferred Items
+
+| Area | Source fields or values | Reason |
+| --- | --- | --- |
+| Full Sensor API validation, immutable storage, and replay/idempotency handling | `profile validation`, `immutable raw-event store`, `rate limits`, `retention policy`, `idempotency/replay controls` | A minimal authenticated receipt Edge Function exists. Full Sensor API conformance still needs profile validation, immutable event storage, replay handling, retention policy, and operational controls. |
+| Full profile-specific relational decomposition | `profile-specific metric fields`, `profile-specific object extensions`, `profile-specific generated/target fields` | The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally based on product value. |
+| Analytics warehouse and dashboards | `warehouse fact tables`, `aggregations`, `de-identification jobs`, `dashboards` | Requires retention, aggregation, access control, and de-identification decisions beyond the event receipt path. |
+| Formal Caliper certification claim | `official certification fixtures`, `profile conformance reports` | Requires conformance testing and organizational certification work beyond these generated dictionary artifacts. |
+
+### LTI/Security/Data Privacy Unsupported or Deferred Items
+
+| Area | Source fields or values | Reason |
+| --- | --- | --- |
+| Full LTI OIDC/JWT launch validation | `nonce storage`, `state storage`, `JWKS validation`, `deployment lookup`, `id_token signature validation` | A minimal authenticated launch receipt path exists. Production launch validation requires key management, nonce/state storage, deployment records, signature validation, and certification fixtures. |
+| Public AGS, NRPS, and Deep Linking runtime services | `AGS line items`, `AGS scores`, `AGS results`, `NRPS memberships`, `Deep Linking responses` | Need production token issuance, tenant row-level authorization, gradebook write policy, and service-specific conformance tests before public exposure. |
+| Production OAuth/OIDC server | `client assertion validation`, `token issuance`, `secret/key rotation`, `introspection/revocation` | A minimal authenticated token-exchange receipt path exists. Production token issuance requires server-side auth state, client assertion validation, and managed secret/key storage. |
+| Automated privacy enforcement workflows | `consent enforcement`, `retention jobs`, `deletion workflow`, `export workflow`, `data-sharing agreement approvals` | The dictionary and audit slices model policy and sensitive-read audit rows. Automated consent checks, retention jobs, deletion, export, and data-sharing agreements need broader backend workflow services. |
+| Formal certification claims | `LTI certification fixtures`, `Security Framework certification fixtures`, `Data Privacy organizational review` | LTI, Security Framework, and Data Privacy certification require conformance testing and organizational review beyond generated dictionary artifacts. |
 
 ## Summary
 
 | Lead area | Current status | Dictionary/accounting location |
 | --- | --- | --- |
-| OneRoster 1.2 | Runnable core slice plus broader layperson dictionary. | `dictionary/oneroster-core.v1.json`, generated OneRoster docs, OneRoster layperson dictionary. |
+| OneRoster 1.2 | Runnable core slice plus full sourceStandard/unsupported ledger for the remaining 1.2 objects, fields, and values. | `dictionary/oneroster-core.v1.json`, generated OneRoster docs, OneRoster layperson dictionary. |
 | CASE 1.1 | Structured/generated framework graph projection exists; not yet executable. | `dictionary/case-core.v1.json`, generated CASE docs/OpenAPI/SQL comments, CASE layperson dictionary, overlap decisions for alignment. |
 | QTI 3 | Structured/generated repository projection exists; not yet executable. | `dictionary/qti-core.v1.json`, generated QTI docs/OpenAPI/SQL comments, QTI layperson dictionary, QTI projection decision, overlap decisions for results, alignment, resources, time. |
 | Caliper 1.2 | Structured/generated event projection plus a minimal authenticated ingestion Edge Function receipt path. | `dictionary/caliper-core.v1.json`, generated Caliper docs/OpenAPI/SQL comments, Caliper layperson dictionary, overlap decisions for actor, membership, grade events, time, `supabase/functions/caliper-event-ingestion`. |
 | LTI 1.3/LTI Advantage | Structured/generated integration projection plus a minimal authenticated launch handler. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, integration layperson dictionary, overlap decisions for launch context, roles, membership, IDs, resources, `supabase/functions/lti-launch-handler`. |
 | Security Framework 1.1 | Structured/generated OAuth and scope-policy projection plus a minimal authenticated token-exchange receipt path. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions, `supabase/functions/oauth-token-exchange`. |
-| Data Privacy 1.0 | Structured/generated policy projection exists; live privacy workflows are deferred until tenant/auth layer exists. | `dictionary/integration-governance-core.v1.json`, privacy classes, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions. |
+| Data Privacy 1.0 | Structured/generated policy projection exists; audited sensitive reads are live for the OneRoster slice, while consent/deletion/export jobs are explicitly deferred. | `dictionary/integration-governance-core.v1.json`, privacy classes, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions. |
 
 ## OneRoster 1.2
 
@@ -31,23 +96,23 @@ Covered in the current runnable model:
 - Source identifiers/crosswalks
 - Controlled values for organization type, status, role, class type, session type, enabled user, categories, score status, identifier type, and true/false fields
 
-Covered in the broader dictionary but not yet executable:
+Accounted for in the structured unsupported/deferred ledger:
 
-- Demographics
-- Agents/relationships
-- Resources
-- Categories beyond the demo set
-- Score scales
-- Assessment Results Profile fields
-- CSV bulk-exchange operational details beyond the schema/dictionary seed
+- Demographics fields and sex/race/ethnicity values
+- Agent, user profile, credential, password, contact, role-detail, and relationship fields
+- Resource objects, resource references, resource role values, and resource importance values
+- ScoreScale, ScoreScaleValue, Assessment Results Profile, and learning-objective result fields
+- Extended organization/reference/status fields and organization values outside the core slice
+- Full REST provider/consumer and CSV bulk-exchange behavior
 
 Deferred or not supported in the runnable slice:
 
-| Area | Reason |
-| --- | --- |
-| Write APIs | The public demo is read-only to make GitHub Pages hosting safe. |
-| Full OneRoster REST provider/consumer conformance | Requires hosted auth, certification testing, pagination, filtering, and full binding behavior. |
-| Demographics execution | Sensitive data should wait for tenant policy, auth, and row-level controls. |
+| Area | Ledger detail | Reason |
+| --- | --- | --- |
+| Write APIs and full REST/CSV binding behavior | `dictionary/oneroster-core.v1.json` lists pagination, filtering, sorting, field selection, bulk CSV import/export, provider/consumer certification fixtures, and delete/write endpoints. | The hosted demo is tenant-scoped and read-mostly; full binding behavior needs production auth, write policy, certification fixtures, and operational jobs. |
+| Demographics execution | `dictionary/oneroster-core.v1.json` lists each demographics field plus sex/race/ethnicity values. | These highly sensitive fields are not needed for the roster/gradebook slice and require purpose-limited, audited access rules before exposure. |
+| Agents, profiles, credentials, and contact details | `dictionary/oneroster-core.v1.json` lists each user/profile/credential/role/contact field. | These fields need a dedicated identity/account slice with field-level authorization because they have higher privacy and integration impact. |
+| Resources, score scales, and Assessment Results Profile | `dictionary/oneroster-core.v1.json` lists each resource, score-scale, assessment-result, and learning-objective field/value. | These overlap QTI, CASE, content packages, and assessment runtime behavior; exposing them now would create unstable contracts. |
 
 ## CASE 1.1
 
@@ -110,9 +175,10 @@ Deferred or not supported yet:
 
 | Area | Reason |
 | --- | --- |
-| QTI delivery/runtime | Repository/search/import/export is separate from assessment delivery conformance. |
-| Full XML decomposition | Too broad for the first platform slice; preserve original artifacts and project developer-useful fields first. |
-| CAT runtime | Depends on mature QTI repository and assessment delivery services. |
+| QTI delivery/runtime | Repository/search/import/export is separate from assessment delivery conformance; the ledger lists session state, candidate responses, attempt lifecycle, navigation, and runtime scoring as deferred. |
+| Full XML decomposition | The original XML is preserved as the source artifact; the ledger lists low-level XML/content-body children and package-local details as preserved rather than promoted to SQL fields. |
+| Interaction-specific child fields | All interaction families are controlled values with `sourceStandard`; per-interaction child mechanics such as choice children, hotspot coordinates, upload MIME details, media play limits, PCI modules, and custom extensions remain in preserved XML until a runtime exists. |
+| CAT/runtime extensions | Depends on mature QTI repository, assessment delivery services, psychometric configuration, and reviewed extension contracts. |
 
 ## Caliper 1.2
 

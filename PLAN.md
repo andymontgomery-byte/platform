@@ -26,7 +26,7 @@ Current public backlog: `docs/spec-gap-backlog.md`.
 - [x] Convert Caliper to a structured source dictionary and generated artifacts.
 - [x] Convert LTI/LTI Advantage, Security Framework, and Data Privacy to structured source dictionaries.
 - [x] Add generated cross-spec decision traces.
-- [ ] Expand OneRoster full 1.2 accounting beyond the current core generated slice.
+- [x] Expand OneRoster full 1.2 accounting beyond the current core generated slice.
 - [ ] Add a machine-readable platform status manifest.
 - [ ] Improve the browser "try it" workflow with more sample queries.
 - [ ] Add real hosted database/API infrastructure after GitHub-only work is exhausted.

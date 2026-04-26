@@ -623,6 +623,12 @@
       "Organization": {
         "type": "object",
         "description": "A district, school, department, program, or other education organization.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "Org",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -635,48 +641,150 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this organization.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Org",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID used by the sending system.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Org",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "name": {
             "type": "string",
             "description": "The organization name people recognize.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Org",
+              "field": "name",
+              "coverage": "mapped"
+            }
           },
           "type": {
             "type": "string",
             "description": "The kind of organization this record represents.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Org",
+              "field": "type",
+              "coverage": "mapped"
+            },
             "enum": [
               "district",
               "school",
               "department",
               "program"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "district": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "district",
+                "coverage": "mapped"
+              },
+              "school": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "school",
+                "coverage": "mapped"
+              },
+              "department": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "department",
+                "coverage": "mapped"
+              },
+              "program": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "organization_type",
+                "value": "program",
+                "coverage": "mapped"
+              }
+            }
           },
           "parentOrganizationId": {
             "type": "string",
             "description": "The organization that contains this one.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Org",
+              "field": "parent",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Org",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this organization record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Org",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -684,6 +792,12 @@
       "Person": {
         "type": "object",
         "description": "A learner, teacher, staff member, guardian, or administrator known to the platform.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "User",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -697,67 +811,206 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this person.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID used by the sending system.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "displayName": {
             "type": "string",
             "description": "The name shown in user interfaces.",
-            "x-decisionId": "DEC-001-person-agent-subject"
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "givenName/familyName/preferredName projection",
+              "coverage": "mapped"
+            }
           },
           "givenName": {
             "type": "string",
             "description": "The person's first or given name.",
-            "x-decisionId": "DEC-001-person-agent-subject"
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "givenName",
+              "coverage": "mapped"
+            }
           },
           "familyName": {
             "type": "string",
             "description": "The person's last or family name.",
-            "x-decisionId": "DEC-001-person-agent-subject"
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "familyName",
+              "coverage": "mapped"
+            }
           },
           "email": {
             "type": "string",
             "description": "The person's school email address.",
-            "x-decisionId": "DEC-001-person-agent-subject"
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "email",
+              "coverage": "mapped"
+            }
           },
           "primaryRole": {
             "type": "string",
             "description": "The person's broad role in the education environment.",
             "x-decisionId": "DEC-003-role-vocabulary",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "roles.role",
+              "coverage": "mapped"
+            },
             "enum": [
               "student",
               "teacher",
               "administrator",
               "guardian"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "student": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "student",
+                "coverage": "mapped"
+              },
+              "teacher": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "teacher",
+                "coverage": "mapped"
+              },
+              "administrator": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "administrator",
+                "coverage": "mapped"
+              },
+              "guardian": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "primary_role",
+                "value": "guardian",
+                "coverage": "mapped"
+              }
+            }
           },
           "enabledUser": {
             "type": "string",
             "description": "Whether the person can currently sign in or be used as an active user.",
             "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "enabledUser",
+              "coverage": "mapped"
+            },
             "enum": [
               "true",
               "false"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "true": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "enabled_user",
+                "value": "true",
+                "coverage": "mapped"
+              },
+              "false": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "enabled_user",
+                "value": "false",
+                "coverage": "mapped"
+              }
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the person record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this person record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "User",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -765,6 +1018,12 @@
       "AcademicSession": {
         "type": "object",
         "description": "A school year, term, semester, quarter, grading period, or other calendar window.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "AcademicSession",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -779,61 +1038,184 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this academic session.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID for this calendar record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The calendar name people see.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "type": {
             "type": "string",
             "description": "The kind of calendar window.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "type",
+              "coverage": "mapped"
+            },
             "enum": [
               "schoolYear",
               "term",
               "semester",
               "quarter",
               "gradingPeriod"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "schoolYear": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "schoolYear",
+                "coverage": "mapped"
+              },
+              "term": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "term",
+                "coverage": "mapped"
+              },
+              "semester": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "semester",
+                "coverage": "mapped"
+              },
+              "quarter": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "quarter",
+                "coverage": "mapped"
+              },
+              "gradingPeriod": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "session_type",
+                "value": "gradingPeriod",
+                "coverage": "mapped"
+              }
+            }
           },
           "startDate": {
             "type": "string",
             "description": "The first date in the session.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "startDate",
+              "coverage": "mapped"
+            },
             "format": "date"
           },
           "endDate": {
             "type": "string",
             "description": "The last date in the session.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "endDate",
+              "coverage": "mapped"
+            },
             "format": "date"
           },
           "schoolYear": {
             "type": "integer",
             "description": "The calendar year associated with the school year.",
-            "x-decisionId": "DEC-008-time-session"
+            "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "schoolYear",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the session record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this session record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "AcademicSession",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -841,6 +1223,12 @@
       "Course": {
         "type": "object",
         "description": "A course template or catalog entry, such as Grade 6 Mathematics.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "Course",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -853,47 +1241,126 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this course.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID for this course.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The course name people see.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "courseCode": {
             "type": "string",
             "description": "A local course code used by the school or district.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "courseCode",
+              "coverage": "mapped"
+            }
           },
           "orgId": {
             "type": "string",
             "description": "The organization that owns or offers the course.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "org",
+              "coverage": "mapped"
+            }
           },
           "schoolYearId": {
             "type": "string",
             "description": "The school year this course belongs to, if the source provides one.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "schoolYear",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the course record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this course record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Course",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -901,6 +1368,12 @@
       "Class": {
         "type": "object",
         "description": "A scheduled class or section where learners and teachers meet around a course.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "Class",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -915,61 +1388,170 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this class.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID for this class.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The class name people see.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "classType": {
             "type": "string",
             "description": "Whether this is a normal scheduled class or another kind of class grouping.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "classType",
+              "coverage": "mapped"
+            },
             "enum": [
               "scheduled",
               "homeroom"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "scheduled": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "class_type",
+                "value": "scheduled",
+                "coverage": "mapped"
+              },
+              "homeroom": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "class_type",
+                "value": "homeroom",
+                "coverage": "mapped"
+              }
+            }
           },
           "classCode": {
             "type": "string",
             "description": "A local code for the class section.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "classCode",
+              "coverage": "mapped"
+            }
           },
           "courseId": {
             "type": "string",
             "description": "The course this class teaches.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "course",
+              "coverage": "mapped"
+            }
           },
           "schoolId": {
             "type": "string",
             "description": "The school where the class is offered.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "school",
+              "coverage": "mapped"
+            }
           },
           "termId": {
             "type": "string",
             "description": "The academic session when the class runs.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "terms",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the class record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this class record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Class",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -977,6 +1559,12 @@
       "Enrollment": {
         "type": "object",
         "description": "A record that says a person participates in a class with a specific role.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "Enrollment",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -991,74 +1579,220 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this enrollment.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID for this enrollment.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "classId": {
             "type": "string",
             "description": "The class where the person is enrolled.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "class",
+              "coverage": "mapped"
+            }
           },
           "personId": {
             "type": "string",
             "description": "The learner, teacher, or other person in the class.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "user",
+              "coverage": "mapped"
+            }
           },
           "schoolId": {
             "type": "string",
             "description": "The school associated with this enrollment.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "school",
+              "coverage": "mapped"
+            }
           },
           "role": {
             "type": "string",
             "description": "The person's job in the class.",
             "x-decisionId": "DEC-003-role-vocabulary",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "role",
+              "coverage": "mapped"
+            },
             "enum": [
               "student",
               "teacher",
               "administrator",
               "aide"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "student": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "student",
+                "coverage": "mapped"
+              },
+              "teacher": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "teacher",
+                "coverage": "mapped"
+              },
+              "administrator": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "administrator",
+                "coverage": "mapped"
+              },
+              "aide": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "role",
+                "value": "aide",
+                "coverage": "mapped"
+              }
+            }
           },
           "beginDate": {
             "type": "string",
             "description": "The first date this enrollment applies.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "beginDate",
+              "coverage": "mapped"
+            },
             "format": "date"
           },
           "endDate": {
             "type": "string",
             "description": "The last date this enrollment applies.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "endDate",
+              "coverage": "mapped"
+            },
             "format": "date"
           },
           "primary": {
             "type": "string",
             "description": "Whether this is the primary teacher or primary enrollment when the source makes that distinction.",
             "x-decisionId": "DEC-004-enrollment-membership",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "primary",
+              "coverage": "mapped"
+            },
             "enum": [
               "true",
               "false"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "true": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "true_false",
+                "value": "true",
+                "coverage": "mapped"
+              },
+              "false": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "true_false",
+                "value": "false",
+                "coverage": "mapped"
+              }
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the enrollment record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-004-enrollment-membership",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this enrollment record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Enrollment",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1066,6 +1800,12 @@
       "LineItem": {
         "type": "object",
         "description": "A gradebook column, assignment, assessment, or activity that can receive results.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "LineItem",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -1078,70 +1818,200 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this gradebook item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID for this line item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The gradebook item name.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "classId": {
             "type": "string",
             "description": "The class whose gradebook contains this item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "class",
+              "coverage": "mapped"
+            }
           },
           "category": {
             "type": "string",
             "description": "The local gradebook category for the item.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "category",
+              "coverage": "mapped"
+            },
             "enum": [
               "assignment",
               "quiz",
               "test",
               "participation"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "assignment": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "assignment",
+                "coverage": "mapped"
+              },
+              "quiz": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "quiz",
+                "coverage": "mapped"
+              },
+              "test": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "test",
+                "coverage": "mapped"
+              },
+              "participation": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "category",
+                "value": "participation",
+                "coverage": "mapped"
+              }
+            }
           },
           "assignDate": {
             "type": "string",
             "description": "The date the item was assigned.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "assignDate",
+              "coverage": "mapped"
+            },
             "format": "date"
           },
           "dueDate": {
             "type": "string",
             "description": "The date the item is due.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "dueDate",
+              "coverage": "mapped"
+            },
             "format": "date"
           },
           "resultValueMin": {
             "type": "number",
             "description": "The minimum possible numeric result.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "resultValueMin",
+              "coverage": "mapped"
+            }
           },
           "resultValueMax": {
             "type": "number",
             "description": "The maximum possible numeric result.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "resultValueMax",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the line item record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this line item record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1149,6 +2019,12 @@
       "Result": {
         "type": "object",
         "description": "A learner's score, status, or feedback for a gradebook line item.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "Result",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "sourcedId",
@@ -1162,64 +2038,187 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this result.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "sourcedId/internal platform id",
+              "coverage": "platform_projection"
+            }
           },
           "sourcedId": {
             "type": "string",
             "description": "The OneRoster source ID for this result.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "lineItemId": {
             "type": "string",
             "description": "The gradebook item this result belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "lineItem",
+              "coverage": "mapped"
+            }
           },
           "personId": {
             "type": "string",
             "description": "The learner who received the result.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "student",
+              "coverage": "mapped"
+            }
           },
           "scoreStatus": {
             "type": "string",
             "description": "The scoring state for this result.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "scoreStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "notSubmitted",
               "submitted",
               "partiallyGraded",
               "fullyGraded"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "notSubmitted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "notSubmitted",
+                "coverage": "mapped"
+              },
+              "submitted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "submitted",
+                "coverage": "mapped"
+              },
+              "partiallyGraded": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "partiallyGraded",
+                "coverage": "mapped"
+              },
+              "fullyGraded": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "score_status",
+                "value": "fullyGraded",
+                "coverage": "mapped"
+              }
+            }
           },
           "score": {
             "type": "number",
             "description": "The numeric score earned.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "score",
+              "coverage": "mapped"
+            }
           },
           "scoreDate": {
             "type": "string",
             "description": "When the score was assigned or last updated.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "scoreDate",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "comment": {
             "type": "string",
             "description": "Feedback or notes attached to the result.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "comment",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the result record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           },
           "dateLastModified": {
             "type": "string",
             "description": "When the source system says this result record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "Result",
+              "field": "dateLastModified",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1227,6 +2226,12 @@
       "SourceIdentifier": {
         "type": "object",
         "description": "An ID used by another system to refer to the same object the platform tracks.",
+        "x-sourceStandard": {
+          "standard": "OneRoster",
+          "version": "1.2",
+          "object": "GUIDRef/sourceId crosswalk",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "objectType",
@@ -1240,49 +2245,158 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this source identifier record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "GUIDRef/sourceId crosswalk",
+              "field": "sourcedId",
+              "coverage": "platform_projection"
+            }
           },
           "objectType": {
             "type": "string",
             "description": "The kind of platform object this identifier describes.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "GUIDRef/sourceId crosswalk",
+              "field": "type",
+              "coverage": "mapped"
+            }
           },
           "objectId": {
             "type": "string",
             "description": "The platform object that has this external identifier.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "GUIDRef/sourceId crosswalk",
+              "field": "sourcedId",
+              "coverage": "mapped"
+            }
           },
           "sourceSystem": {
             "type": "string",
             "description": "The outside system that created or owns the identifier.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "GUIDRef/sourceId crosswalk",
+              "field": "source system",
+              "coverage": "mapped"
+            }
           },
           "externalId": {
             "type": "string",
             "description": "The actual identifier value used by the outside system.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "GUIDRef/sourceId crosswalk",
+              "field": "sourcedId/identifier",
+              "coverage": "mapped"
+            }
           },
           "identifierType": {
             "type": "string",
             "description": "What kind of outside ID this is.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "GUIDRef/sourceId crosswalk",
+              "field": "type",
+              "coverage": "mapped"
+            },
             "enum": [
               "oneRosterSourcedId",
               "sisSourcedId",
               "ltiContextId",
               "ltiUserId",
               "emailAddress"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "oneRosterSourcedId": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "oneRosterSourcedId",
+                "coverage": "mapped"
+              },
+              "sisSourcedId": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "sisSourcedId",
+                "coverage": "mapped"
+              },
+              "ltiContextId": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "ltiContextId",
+                "coverage": "mapped"
+              },
+              "ltiUserId": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "ltiUserId",
+                "coverage": "mapped"
+              },
+              "emailAddress": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "identifier_type",
+                "value": "emailAddress",
+                "coverage": "mapped"
+              }
+            }
           },
           "status": {
             "type": "string",
             "description": "Whether the identifier record is active, inactive, or marked for deletion.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "GUIDRef/sourceId crosswalk",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
               "tobedeleted"
-            ]
+            ],
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "tobedeleted": {
+                "standard": "OneRoster",
+                "version": "1.2",
+                "vocabulary": "base_status",
+                "value": "tobedeleted",
+                "coverage": "mapped"
+              }
+            }
           }
         }
       }

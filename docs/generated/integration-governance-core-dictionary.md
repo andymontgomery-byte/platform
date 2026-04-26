@@ -36,34 +36,35 @@ Generated scope policies map OAuth scopes to exact dictionary fields and privacy
 - SQL table: `integration.lti_registrations`
 - API path: `/integrations/lti/registrations`
 - Privacy class: `system`
+- Source standard: LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration
 - Why it exists: A registration stores the issuer, client ID, launch URLs, key material references, and service scopes a tool may use before any course deployment can launch it.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this LTI registration. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The school, district, or customer boundary that owns this registration. |
-| `issuer` | `issuer` | text | Yes | system | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The platform issuer identifier used in LTI launch tokens. |
-| `client_id` | `clientId` | text | Yes | system | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The OAuth client ID assigned to the tool by the platform. |
-| `tool_name` | `toolName` | text | Yes | operational | `platform.integrations.registration:read` | `DEC-002-learning-context` | The name administrators and instructors see for the external tool. |
-| `initiate_login_uri` | `initiateLoginUri` | text | Yes | system | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The tool URL where the platform starts the LTI login flow. |
-| `redirect_uris` | `redirectUris` | text | Yes | system | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The tool URLs that are allowed to receive launch responses. |
-| `jwks_uri` | `jwksUri` | text | No | system | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The URL where public signing keys for the tool or platform can be fetched. |
-| `authorization_endpoint` | `authorizationEndpoint` | text | Yes | system | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The platform URL used during OpenID Connect authentication. |
-| `token_endpoint` | `tokenEndpoint` | text | Yes | system | `platform.integrations.registration:read` | `DEC-007-identifier-crosswalk` | The platform URL where the tool asks for service access tokens. |
-| `allowed_scopes` | `allowedScopes` | text | Yes | system | `platform.integrations.registration:read` | `DEC-002-learning-context` | The service permissions the tool may request after policy review. |
-| `status` | `status` | enum | Yes | operational | `platform.integrations.registration:read` | `DEC-002-learning-context` | Whether this registration can currently be used. |
-| `created_at` | `createdAt` | datetime | Yes | operational | `platform.integrations.registration:read` | `DEC-008-time-session` | When this registration was created. |
-| `updated_at` | `updatedAt` | datetime | Yes | operational | `platform.integrations.registration:read` | `DEC-008-time-session` | When this registration was last changed. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this LTI registration. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The school, district, or customer boundary that owns this registration. |
+| `issuer` | `issuer` | text | Yes | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.issuer | `DEC-007-identifier-crosswalk` | The platform issuer identifier used in LTI launch tokens. |
+| `client_id` | `clientId` | text | Yes | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.clientId | `DEC-007-identifier-crosswalk` | The OAuth client ID assigned to the tool by the platform. |
+| `tool_name` | `toolName` | text | Yes | operational | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.toolName | `DEC-002-learning-context` | The name administrators and instructors see for the external tool. |
+| `initiate_login_uri` | `initiateLoginUri` | text | Yes | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.initiateLoginUri | `DEC-007-identifier-crosswalk` | The tool URL where the platform starts the LTI login flow. |
+| `redirect_uris` | `redirectUris` | text | Yes | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.redirectUris | `DEC-007-identifier-crosswalk` | The tool URLs that are allowed to receive launch responses. |
+| `jwks_uri` | `jwksUri` | text | No | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.jwksUri | `DEC-007-identifier-crosswalk` | The URL where public signing keys for the tool or platform can be fetched. |
+| `authorization_endpoint` | `authorizationEndpoint` | text | Yes | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.authorizationEndpoint | `DEC-007-identifier-crosswalk` | The platform URL used during OpenID Connect authentication. |
+| `token_endpoint` | `tokenEndpoint` | text | Yes | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.tokenEndpoint | `DEC-007-identifier-crosswalk` | The platform URL where the tool asks for service access tokens. |
+| `allowed_scopes` | `allowedScopes` | text | Yes | system | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.allowedScopes | `DEC-002-learning-context` | The service permissions the tool may request after policy review. |
+| `status` | `status` | enum | Yes | operational | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.status | `DEC-002-learning-context` | Whether this registration can currently be used. |
+| `created_at` | `createdAt` | datetime | Yes | operational | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.createdAt | `DEC-008-time-session` | When this registration was created. |
+| `updated_at` | `updatedAt` | datetime | Yes | operational | `platform.integrations.registration:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Registration.updatedAt | `DEC-008-time-session` | When this registration was last changed. |
 
 #### Controlled Values
 
 Values for `status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `active` | Active | The record is currently allowed for use. |
-| `inactive` | Inactive | The record exists but is not currently usable. |
-| `retired` | Retired | The record is kept for history but should not be used for new activity. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `active` | Active | Integration/Governance Lead Specs lead record_status.active | The record is currently allowed for use. |
+| `inactive` | Inactive | Integration/Governance Lead Specs lead record_status.inactive | The record exists but is not currently usable. |
+| `retired` | Retired | Integration/Governance Lead Specs lead record_status.retired | The record is kept for history but should not be used for new activity. |
 
 
 ### LTI Deployment
@@ -72,39 +73,40 @@ Values for `status`:
 - SQL table: `integration.lti_deployments`
 - API path: `/integrations/lti/deployments`
 - Privacy class: `system`
+- Source standard: LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment
 - Why it exists: Deployments scope which registration can launch in which learning context and which services are available there.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this deployment. |
-| `registration_id` | `registrationId` | text | Yes | system | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The LTI registration that governs this deployment. |
-| `deployment_id` | `deploymentId` | text | Yes | system | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The immutable deployment identifier sent in LTI launch claims. |
-| `deployment_scope` | `deploymentScope` | enum | Yes | operational | `platform.integrations.deployment:read` | `DEC-002-learning-context` | The level where this tool installation is available. |
-| `context_id` | `contextId` | text | No | education_record | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The course, section, school, or tenant context this deployment is attached to. |
-| `resource_link_id` | `resourceLinkId` | text | No | operational | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The specific course activity link this deployment is tied to when the tool is activity-scoped. |
-| `service_scopes` | `serviceScopes` | text | No | system | `platform.integrations.deployment:read` | `DEC-002-learning-context` | The LTI Advantage scopes enabled for this deployment after tenant policy filtering. |
-| `status` | `status` | enum | Yes | operational | `platform.integrations.deployment:read` | `DEC-002-learning-context` | Whether launches and services for this deployment are enabled. |
-| `created_at` | `createdAt` | datetime | Yes | operational | `platform.integrations.deployment:read` | `DEC-008-time-session` | When this deployment was created. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this deployment. |
+| `registration_id` | `registrationId` | text | Yes | system | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.registrationId | `DEC-007-identifier-crosswalk` | The LTI registration that governs this deployment. |
+| `deployment_id` | `deploymentId` | text | Yes | system | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.deploymentId | `DEC-007-identifier-crosswalk` | The immutable deployment identifier sent in LTI launch claims. |
+| `deployment_scope` | `deploymentScope` | enum | Yes | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.deploymentScope | `DEC-002-learning-context` | The level where this tool installation is available. |
+| `context_id` | `contextId` | text | No | education_record | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.contextId | `DEC-007-identifier-crosswalk` | The course, section, school, or tenant context this deployment is attached to. |
+| `resource_link_id` | `resourceLinkId` | text | No | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.resourceLinkId | `DEC-007-identifier-crosswalk` | The specific course activity link this deployment is tied to when the tool is activity-scoped. |
+| `service_scopes` | `serviceScopes` | text | No | system | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.serviceScopes | `DEC-002-learning-context` | The LTI Advantage scopes enabled for this deployment after tenant policy filtering. |
+| `status` | `status` | enum | Yes | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.status | `DEC-002-learning-context` | Whether launches and services for this deployment are enabled. |
+| `created_at` | `createdAt` | datetime | Yes | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deployment.createdAt | `DEC-008-time-session` | When this deployment was created. |
 
 #### Controlled Values
 
 Values for `deployment_scope`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `tenant` | Tenant | The deployment applies across the whole school, district, or customer boundary. |
-| `school` | School | The deployment applies to one school or building. |
-| `course` | Course | The deployment applies to one course offering. |
-| `section` | Section | The deployment applies to one class or section. |
-| `activity` | Activity | The deployment applies to one resource link or learning activity. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `tenant` | Tenant | LTI 1.3/LTI Advantage 1.3/Advantage deployment_scope.tenant | The deployment applies across the whole school, district, or customer boundary. |
+| `school` | School | LTI 1.3/LTI Advantage 1.3/Advantage deployment_scope.school | The deployment applies to one school or building. |
+| `course` | Course | LTI 1.3/LTI Advantage 1.3/Advantage deployment_scope.course | The deployment applies to one course offering. |
+| `section` | Section | LTI 1.3/LTI Advantage 1.3/Advantage deployment_scope.section | The deployment applies to one class or section. |
+| `activity` | Activity | LTI 1.3/LTI Advantage 1.3/Advantage deployment_scope.activity | The deployment applies to one resource link or learning activity. |
 
 Values for `status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `active` | Active | The record is currently allowed for use. |
-| `inactive` | Inactive | The record exists but is not currently usable. |
-| `retired` | Retired | The record is kept for history but should not be used for new activity. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `active` | Active | Integration/Governance Lead Specs lead record_status.active | The record is currently allowed for use. |
+| `inactive` | Inactive | Integration/Governance Lead Specs lead record_status.inactive | The record exists but is not currently usable. |
+| `retired` | Retired | Integration/Governance Lead Specs lead record_status.retired | The record is kept for history but should not be used for new activity. |
 
 
 ### LTI Launch
@@ -113,50 +115,51 @@ Values for `status`:
 - SQL table: `integration.lti_launches`
 - API path: `/integrations/lti/launches`
 - Privacy class: `behavioral`
+- Source standard: LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch
 - Why it exists: Launch records preserve who launched, from which class or activity, which tool received the launch, and how the signed claims were validated.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this launch attempt. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | The tenant boundary that owns the launch event. |
-| `registration_id` | `registrationId` | text | Yes | system | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | The registration used to validate and route the launch. |
-| `deployment_id` | `deploymentId` | text | Yes | system | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | The LTI deployment identifier included in the launch. |
-| `message_type` | `messageType` | enum | Yes | operational | `platform.integrations.launch.audit:read` | `DEC-009-content-resource` | The LTI workflow represented by this launch. |
-| `lti_version` | `ltiVersion` | enum | Yes | operational | `platform.integrations.launch.audit:read` | `DEC-009-content-resource` | The LTI version claim supplied in the launch. |
-| `subject_id` | `subjectId` | text | No | education_record | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | The user identifier from the launch token when the launch is not anonymous. |
-| `context_id` | `contextId` | text | No | education_record | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | The course, section, or group where the launch happened. |
-| `roles` | `roles` | text | No | education_record | `platform.integrations.launch.audit:read` | `DEC-003-role-vocabulary` | The LTI roles supplied for the launching user. |
-| `target_link_uri` | `targetLinkUri` | text | Yes | system | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | The final tool URL that should receive the launch. |
-| `nonce_hash` | `nonceHash` | text | Yes | sensitive | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | A stored fingerprint of the one-time launch nonce used to prevent replay. |
-| `id_token_hash` | `idTokenHash` | text | Yes | sensitive | `platform.integrations.launch.audit:read` | `DEC-007-identifier-crosswalk` | A fingerprint of the signed launch token kept for audit without exposing the full token everywhere. |
-| `raw_claims` | `rawClaims` | text | Yes | sensitive | `platform.integrations.launch.audit:read` | `DEC-009-content-resource` | The original launch claims retained for troubleshooting and conformance review under tenant policy. |
-| `launched_at` | `launchedAt` | datetime | Yes | behavioral | `platform.integrations.launch.audit:read` | `DEC-008-time-session` | When the launch was initiated. |
-| `validation_status` | `validationStatus` | enum | Yes | operational | `platform.integrations.launch.audit:read` | `DEC-010-tenancy-reference-data` | Whether signature, issuer, audience, deployment, nonce, and time checks passed. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this launch attempt. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The tenant boundary that owns the launch event. |
+| `registration_id` | `registrationId` | text | Yes | system | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.registrationId | `DEC-007-identifier-crosswalk` | The registration used to validate and route the launch. |
+| `deployment_id` | `deploymentId` | text | Yes | system | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.deploymentId | `DEC-007-identifier-crosswalk` | The LTI deployment identifier included in the launch. |
+| `message_type` | `messageType` | enum | Yes | operational | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.messageType | `DEC-009-content-resource` | The LTI workflow represented by this launch. |
+| `lti_version` | `ltiVersion` | enum | Yes | operational | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.ltiVersion | `DEC-009-content-resource` | The LTI version claim supplied in the launch. |
+| `subject_id` | `subjectId` | text | No | education_record | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.subjectId | `DEC-007-identifier-crosswalk` | The user identifier from the launch token when the launch is not anonymous. |
+| `context_id` | `contextId` | text | No | education_record | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.contextId | `DEC-007-identifier-crosswalk` | The course, section, or group where the launch happened. |
+| `roles` | `roles` | text | No | education_record | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.roles | `DEC-003-role-vocabulary` | The LTI roles supplied for the launching user. |
+| `target_link_uri` | `targetLinkUri` | text | Yes | system | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.targetLinkUri | `DEC-007-identifier-crosswalk` | The final tool URL that should receive the launch. |
+| `nonce_hash` | `nonceHash` | text | Yes | sensitive | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.nonceHash | `DEC-007-identifier-crosswalk` | A stored fingerprint of the one-time launch nonce used to prevent replay. |
+| `id_token_hash` | `idTokenHash` | text | Yes | sensitive | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.idTokenHash | `DEC-007-identifier-crosswalk` | A fingerprint of the signed launch token kept for audit without exposing the full token everywhere. |
+| `raw_claims` | `rawClaims` | text | Yes | sensitive | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.rawClaims | `DEC-009-content-resource` | The original launch claims retained for troubleshooting and conformance review under tenant policy. |
+| `launched_at` | `launchedAt` | datetime | Yes | behavioral | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.launchedAt | `DEC-008-time-session` | When the launch was initiated. |
+| `validation_status` | `validationStatus` | enum | Yes | operational | `platform.integrations.launch.audit:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Launch.validationStatus | `DEC-010-tenancy-reference-data` | Whether signature, issuer, audience, deployment, nonce, and time checks passed. |
 
 #### Controlled Values
 
 Values for `message_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `LtiResourceLinkRequest` | Resource link launch | A normal launch from a course activity link. |
-| `LtiDeepLinkingRequest` | Deep Linking request | An instructor launch used to select content from a tool. |
-| `LtiDeepLinkingResponse` | Deep Linking response | A tool response returning selected content to the platform. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `LtiResourceLinkRequest` | Resource link launch | LTI 1.3/LTI Advantage 1.3/Advantage lti_message_type.LtiResourceLinkRequest | A normal launch from a course activity link. |
+| `LtiDeepLinkingRequest` | Deep Linking request | LTI 1.3/LTI Advantage 1.3/Advantage lti_message_type.LtiDeepLinkingRequest | An instructor launch used to select content from a tool. |
+| `LtiDeepLinkingResponse` | Deep Linking response | LTI 1.3/LTI Advantage 1.3/Advantage lti_message_type.LtiDeepLinkingResponse | A tool response returning selected content to the platform. |
 
 Values for `lti_version`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `1.3.0` | LTI 1.3 | The LTI 1.3 launch message version used by the current model. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `1.3.0` | LTI 1.3 | LTI 1.3/LTI Advantage 1.3/Advantage lti_version.1.3.0 | The LTI 1.3 launch message version used by the current model. |
 
 Values for `validation_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `pending` | Pending | The payload or workflow has not been fully checked yet. |
-| `valid` | Valid | The payload or workflow passed platform validation. |
-| `invalid` | Invalid | The payload or workflow failed validation. |
-| `rejected` | Rejected | The platform rejected the payload or workflow under policy. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `pending` | Pending | Integration/Governance Lead Specs lead validation_status.pending | The payload or workflow has not been fully checked yet. |
+| `valid` | Valid | Integration/Governance Lead Specs lead validation_status.valid | The payload or workflow passed platform validation. |
+| `invalid` | Invalid | Integration/Governance Lead Specs lead validation_status.invalid | The payload or workflow failed validation. |
+| `rejected` | Rejected | Integration/Governance Lead Specs lead validation_status.rejected | The platform rejected the payload or workflow under policy. |
 
 
 ### LTI Service Endpoint
@@ -165,38 +168,39 @@ Values for `validation_status`:
 - SQL table: `integration.lti_service_endpoints`
 - API path: `/integrations/lti/service-endpoints`
 - Privacy class: `system`
+- Source standard: LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint
 - Why it exists: Services such as NRPS, AGS, and Deep Linking need explicit URLs, versions, scopes, and policy gates before a tool can call them.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this LTI service endpoint. |
-| `deployment_id` | `deploymentId` | text | Yes | system | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The deployment that may expose this service endpoint. |
-| `service_type` | `serviceType` | enum | Yes | system | `platform.integrations.deployment:read` | `DEC-002-learning-context` | Which LTI Advantage service this endpoint supports. |
-| `endpoint_url` | `endpointUrl` | text | Yes | system | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The API URL a tool calls for this service. |
-| `service_versions` | `serviceVersions` | text | Yes | operational | `platform.integrations.deployment:read` | `DEC-002-learning-context` | The supported service versions advertised to the tool. |
-| `required_scope` | `requiredScope` | text | Yes | system | `platform.integrations.deployment:read` | `DEC-002-learning-context` | The OAuth scope required before the tool may call this endpoint. |
-| `context_id` | `contextId` | text | No | education_record | `platform.integrations.deployment:read` | `DEC-007-identifier-crosswalk` | The class, course, section, or activity context the service is scoped to. |
-| `policy_status` | `policyStatus` | enum | Yes | operational | `platform.integrations.deployment:read` | `DEC-002-learning-context` | Whether tenant privacy and scope policy allows this service to be exposed. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this LTI service endpoint. |
+| `deployment_id` | `deploymentId` | text | Yes | system | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.deploymentId | `DEC-007-identifier-crosswalk` | The deployment that may expose this service endpoint. |
+| `service_type` | `serviceType` | enum | Yes | system | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.serviceType | `DEC-002-learning-context` | Which LTI Advantage service this endpoint supports. |
+| `endpoint_url` | `endpointUrl` | text | Yes | system | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.endpointUrl | `DEC-007-identifier-crosswalk` | The API URL a tool calls for this service. |
+| `service_versions` | `serviceVersions` | text | Yes | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.serviceVersions | `DEC-002-learning-context` | The supported service versions advertised to the tool. |
+| `required_scope` | `requiredScope` | text | Yes | system | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.requiredScope | `DEC-002-learning-context` | The OAuth scope required before the tool may call this endpoint. |
+| `context_id` | `contextId` | text | No | education_record | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.contextId | `DEC-007-identifier-crosswalk` | The class, course, section, or activity context the service is scoped to. |
+| `policy_status` | `policyStatus` | enum | Yes | operational | `platform.integrations.deployment:read` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Service Endpoint.policyStatus | `DEC-002-learning-context` | Whether tenant privacy and scope policy allows this service to be exposed. |
 
 #### Controlled Values
 
 Values for `service_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `nrps` | Names and Role Provisioning | The service that returns course or context memberships. |
-| `ags_line_items` | AGS line items | The service surface for gradebook columns. |
-| `ags_scores` | AGS scores | The service surface for sending score updates. |
-| `ags_results` | AGS results | The service surface for reading stored grade results. |
-| `deep_linking` | Deep Linking | The launch workflow for selecting tool content into a course. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `nrps` | Names and Role Provisioning | LTI 1.3/LTI Advantage 1.3/Advantage service_type.nrps | The service that returns course or context memberships. |
+| `ags_line_items` | AGS line items | LTI 1.3/LTI Advantage 1.3/Advantage service_type.ags_line_items | The service surface for gradebook columns. |
+| `ags_scores` | AGS scores | LTI 1.3/LTI Advantage 1.3/Advantage service_type.ags_scores | The service surface for sending score updates. |
+| `ags_results` | AGS results | LTI 1.3/LTI Advantage 1.3/Advantage service_type.ags_results | The service surface for reading stored grade results. |
+| `deep_linking` | Deep Linking | LTI 1.3/LTI Advantage 1.3/Advantage service_type.deep_linking | The launch workflow for selecting tool content into a course. |
 
 Values for `policy_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `active` | Active | The record is currently allowed for use. |
-| `inactive` | Inactive | The record exists but is not currently usable. |
-| `retired` | Retired | The record is kept for history but should not be used for new activity. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `active` | Active | Integration/Governance Lead Specs lead record_status.active | The record is currently allowed for use. |
+| `inactive` | Inactive | Integration/Governance Lead Specs lead record_status.inactive | The record exists but is not currently usable. |
+| `retired` | Retired | Integration/Governance Lead Specs lead record_status.retired | The record is kept for history but should not be used for new activity. |
 
 
 ### LTI Membership
@@ -205,29 +209,30 @@ Values for `policy_status`:
 - SQL table: `integration.lti_memberships`
 - API path: `/integrations/lti/memberships`
 - Privacy class: `education_record`
+- Source standard: LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership
 - Why it exists: NRPS memberships let a tool understand who belongs to a launch context without copying the whole roster contract into every launch.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this LTI membership projection. |
-| `service_endpoint_id` | `serviceEndpointId` | text | Yes | system | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-007-identifier-crosswalk` | The NRPS endpoint that returned or would return this membership. |
-| `context_id` | `contextId` | text | Yes | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-007-identifier-crosswalk` | The course, section, group, or other context represented by the membership. |
-| `user_id` | `userId` | text | Yes | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-007-identifier-crosswalk` | The LTI user ID for the member. |
-| `platform_person_id` | `platformPersonId` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-007-identifier-crosswalk` | The resolved platform person ID when policy permits resolution. |
-| `display_name` | `displayName` | text | No | directory | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-004-enrollment-membership` | The member name shared with the tool. |
-| `email` | `email` | text | No | directory | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-004-enrollment-membership` | The member email shared with the tool if policy allows it. |
-| `roles` | `roles` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-003-role-vocabulary` | The LTI roles this member has in the context. |
-| `status` | `status` | enum | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-004-enrollment-membership` | Whether the membership is currently active. |
-| `lis_person_sourcedid` | `lisPersonSourcedid` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | `DEC-004-enrollment-membership` | A legacy or SIS-linked person identifier shared through LTI when allowed. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this LTI membership projection. |
+| `service_endpoint_id` | `serviceEndpointId` | text | Yes | system | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.serviceEndpointId | `DEC-007-identifier-crosswalk` | The NRPS endpoint that returned or would return this membership. |
+| `context_id` | `contextId` | text | Yes | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.contextId | `DEC-007-identifier-crosswalk` | The course, section, group, or other context represented by the membership. |
+| `user_id` | `userId` | text | Yes | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.userId | `DEC-007-identifier-crosswalk` | The LTI user ID for the member. |
+| `platform_person_id` | `platformPersonId` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.platformPersonId | `DEC-007-identifier-crosswalk` | The resolved platform person ID when policy permits resolution. |
+| `display_name` | `displayName` | text | No | directory | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.displayName | `DEC-004-enrollment-membership` | The member name shared with the tool. |
+| `email` | `email` | text | No | directory | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.email | `DEC-004-enrollment-membership` | The member email shared with the tool if policy allows it. |
+| `roles` | `roles` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.roles | `DEC-003-role-vocabulary` | The LTI roles this member has in the context. |
+| `status` | `status` | enum | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.status | `DEC-004-enrollment-membership` | Whether the membership is currently active. |
+| `lis_person_sourcedid` | `lisPersonSourcedid` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Membership.lisPersonSourcedid | `DEC-004-enrollment-membership` | A legacy or SIS-linked person identifier shared through LTI when allowed. |
 
 #### Controlled Values
 
 Values for `status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Active` | Active | The person is currently active in the context. |
-| `Inactive` | Inactive | The person has a membership but is not currently active. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Active` | Active | LTI 1.3/LTI Advantage 1.3/Advantage membership_status.Active | The person is currently active in the context. |
+| `Inactive` | Inactive | LTI 1.3/LTI Advantage 1.3/Advantage membership_status.Inactive | The person has a membership but is not currently active. |
 
 
 ### LTI Grade Exchange
@@ -236,52 +241,53 @@ Values for `status`:
 - SQL table: `integration.lti_grade_exchanges`
 - API path: `/integrations/lti/grade-exchanges`
 - Privacy class: `education_record`
+- Source standard: LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange
 - Why it exists: AGS activity needs a governed projection so tools can create gradebook columns, send scores, and read results without bypassing privacy and gradebook policy.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this AGS exchange record. |
-| `service_endpoint_id` | `serviceEndpointId` | text | Yes | system | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-007-identifier-crosswalk` | The AGS endpoint used for this grade exchange. |
-| `line_item_url` | `lineItemUrl` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-007-identifier-crosswalk` | The URL or identifier for the gradebook line item. |
-| `line_item_label` | `lineItemLabel` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly` | `DEC-005-results-scores` | The human-readable gradebook column name. |
-| `score_maximum` | `scoreMaximum` | number | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly` | `DEC-005-results-scores` | The maximum possible score for the line item or score update. |
-| `score_given` | `scoreGiven` | number | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-005-results-scores` | The points or score earned by the learner. |
-| `user_id` | `userId` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-007-identifier-crosswalk` | The learner who receives the score or result. |
-| `activity_progress` | `activityProgress` | enum | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-005-results-scores` | Where the learner is in the activity lifecycle. |
-| `grading_progress` | `gradingProgress` | enum | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-005-results-scores` | Where the score is in the grading lifecycle. |
-| `timestamp` | `timestamp` | datetime | Yes | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-008-time-session` | When the tool or platform created this grade exchange event. |
-| `exchange_status` | `exchangeStatus` | enum | Yes | operational | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | `DEC-005-results-scores` | Whether the AGS exchange was accepted, rejected, or held for review. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this AGS exchange record. |
+| `service_endpoint_id` | `serviceEndpointId` | text | Yes | system | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.serviceEndpointId | `DEC-007-identifier-crosswalk` | The AGS endpoint used for this grade exchange. |
+| `line_item_url` | `lineItemUrl` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.lineItemUrl | `DEC-007-identifier-crosswalk` | The URL or identifier for the gradebook line item. |
+| `line_item_label` | `lineItemLabel` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.lineItemLabel | `DEC-005-results-scores` | The human-readable gradebook column name. |
+| `score_maximum` | `scoreMaximum` | number | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.scoreMaximum | `DEC-005-results-scores` | The maximum possible score for the line item or score update. |
+| `score_given` | `scoreGiven` | number | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.scoreGiven | `DEC-005-results-scores` | The points or score earned by the learner. |
+| `user_id` | `userId` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.userId | `DEC-007-identifier-crosswalk` | The learner who receives the score or result. |
+| `activity_progress` | `activityProgress` | enum | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.activityProgress | `DEC-005-results-scores` | Where the learner is in the activity lifecycle. |
+| `grading_progress` | `gradingProgress` | enum | No | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.gradingProgress | `DEC-005-results-scores` | Where the score is in the grading lifecycle. |
+| `timestamp` | `timestamp` | datetime | Yes | education_record | `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.timestamp | `DEC-008-time-session` | When the tool or platform created this grade exchange event. |
+| `exchange_status` | `exchangeStatus` | enum | Yes | operational | `https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly`, `https://purl.imsglobal.org/spec/lti-ags/scope/score` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Grade Exchange.exchangeStatus | `DEC-005-results-scores` | Whether the AGS exchange was accepted, rejected, or held for review. |
 
 #### Controlled Values
 
 Values for `activity_progress`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `Initialized` | Initialized | The activity record exists but work has not started. |
-| `Started` | Started | The learner started the activity. |
-| `InProgress` | In progress | The learner is still working. |
-| `Submitted` | Submitted | The learner submitted work. |
-| `Completed` | Completed | The activity is complete. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `Initialized` | Initialized | LTI 1.3/LTI Advantage 1.3/Advantage activity_progress.Initialized | The activity record exists but work has not started. |
+| `Started` | Started | LTI 1.3/LTI Advantage 1.3/Advantage activity_progress.Started | The learner started the activity. |
+| `InProgress` | In progress | LTI 1.3/LTI Advantage 1.3/Advantage activity_progress.InProgress | The learner is still working. |
+| `Submitted` | Submitted | LTI 1.3/LTI Advantage 1.3/Advantage activity_progress.Submitted | The learner submitted work. |
+| `Completed` | Completed | LTI 1.3/LTI Advantage 1.3/Advantage activity_progress.Completed | The activity is complete. |
 
 Values for `grading_progress`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `FullyGraded` | Fully graded | The final grade is ready. |
-| `Pending` | Pending | The grade is not ready yet. |
-| `PendingManual` | Pending manual | A person still needs to grade the work. |
-| `Failed` | Failed | Grading failed. |
-| `NotReady` | Not ready | There is not enough information to grade yet. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `FullyGraded` | Fully graded | LTI 1.3/LTI Advantage 1.3/Advantage grading_progress.FullyGraded | The final grade is ready. |
+| `Pending` | Pending | LTI 1.3/LTI Advantage 1.3/Advantage grading_progress.Pending | The grade is not ready yet. |
+| `PendingManual` | Pending manual | LTI 1.3/LTI Advantage 1.3/Advantage grading_progress.PendingManual | A person still needs to grade the work. |
+| `Failed` | Failed | LTI 1.3/LTI Advantage 1.3/Advantage grading_progress.Failed | Grading failed. |
+| `NotReady` | Not ready | LTI 1.3/LTI Advantage 1.3/Advantage grading_progress.NotReady | There is not enough information to grade yet. |
 
 Values for `exchange_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `pending` | Pending | The payload or workflow has not been fully checked yet. |
-| `valid` | Valid | The payload or workflow passed platform validation. |
-| `invalid` | Invalid | The payload or workflow failed validation. |
-| `rejected` | Rejected | The platform rejected the payload or workflow under policy. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `pending` | Pending | Integration/Governance Lead Specs lead validation_status.pending | The payload or workflow has not been fully checked yet. |
+| `valid` | Valid | Integration/Governance Lead Specs lead validation_status.valid | The payload or workflow passed platform validation. |
+| `invalid` | Invalid | Integration/Governance Lead Specs lead validation_status.invalid | The payload or workflow failed validation. |
+| `rejected` | Rejected | Integration/Governance Lead Specs lead validation_status.rejected | The platform rejected the payload or workflow under policy. |
 
 
 ### LTI Deep Link Item
@@ -290,40 +296,41 @@ Values for `exchange_status`:
 - SQL table: `integration.lti_deep_link_items`
 - API path: `/integrations/lti/deep-link-items`
 - Privacy class: `operational`
+- Source standard: LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item
 - Why it exists: Deep Linking lets tools add links, files, HTML snippets, or tool activities into course content while preserving placement and gradebook metadata.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this deep-linked item. |
-| `launch_id` | `launchId` | text | Yes | behavioral | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-007-identifier-crosswalk` | The Deep Linking launch that produced this selected item. |
-| `item_type` | `itemType` | enum | Yes | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-006-standards-alignment` | The kind of content the tool returned. |
-| `title` | `title` | text | No | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-009-content-resource` | The title shown for the selected content item. |
-| `url` | `url` | text | No | system | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-007-identifier-crosswalk` | The content or tool URL returned by the tool. |
-| `html` | `html` | text | No | sensitive | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-009-content-resource` | An HTML snippet returned by the tool when the item is embedded content. |
-| `document_target` | `documentTarget` | enum | No | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-006-standards-alignment` | How the platform should display the selected item. |
-| `line_item_json` | `lineItemJson` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-005-results-scores` | Gradebook line item details returned with the selected item. |
-| `availability_start_at` | `availabilityStartAt` | datetime | No | education_record | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-008-time-session` | When the item becomes available to learners. |
-| `submission_end_at` | `submissionEndAt` | datetime | No | education_record | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | `DEC-008-time-session` | When learner submissions for the item are due or closed. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this deep-linked item. |
+| `launch_id` | `launchId` | text | Yes | behavioral | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.launchId | `DEC-007-identifier-crosswalk` | The Deep Linking launch that produced this selected item. |
+| `item_type` | `itemType` | enum | Yes | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.itemType | `DEC-006-standards-alignment` | The kind of content the tool returned. |
+| `title` | `title` | text | No | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.title | `DEC-009-content-resource` | The title shown for the selected content item. |
+| `url` | `url` | text | No | system | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.url | `DEC-007-identifier-crosswalk` | The content or tool URL returned by the tool. |
+| `html` | `html` | text | No | sensitive | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.html | `DEC-009-content-resource` | An HTML snippet returned by the tool when the item is embedded content. |
+| `document_target` | `documentTarget` | enum | No | operational | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.documentTarget | `DEC-006-standards-alignment` | How the platform should display the selected item. |
+| `line_item_json` | `lineItemJson` | text | No | education_record | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.lineItemJson | `DEC-005-results-scores` | Gradebook line item details returned with the selected item. |
+| `availability_start_at` | `availabilityStartAt` | datetime | No | education_record | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.availabilityStartAt | `DEC-008-time-session` | When the item becomes available to learners. |
+| `submission_end_at` | `submissionEndAt` | datetime | No | education_record | `https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking` | LTI 1.3/LTI Advantage 1.3/Advantage LTI Deep Link Item.submissionEndAt | `DEC-008-time-session` | When learner submissions for the item are due or closed. |
 
 #### Controlled Values
 
 Values for `item_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `link` | Link | A normal web link. |
-| `file` | File | A file selected from the tool. |
-| `html` | HTML | An HTML snippet selected from the tool. |
-| `ltiResourceLink` | LTI resource link | A launchable LTI activity returned by the tool. |
-| `image` | Image | An image resource selected from the tool. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `link` | Link | LTI 1.3/LTI Advantage 1.3/Advantage deep_link_item_type.link | A normal web link. |
+| `file` | File | LTI 1.3/LTI Advantage 1.3/Advantage deep_link_item_type.file | A file selected from the tool. |
+| `html` | HTML | LTI 1.3/LTI Advantage 1.3/Advantage deep_link_item_type.html | An HTML snippet selected from the tool. |
+| `ltiResourceLink` | LTI resource link | LTI 1.3/LTI Advantage 1.3/Advantage deep_link_item_type.ltiResourceLink | A launchable LTI activity returned by the tool. |
+| `image` | Image | LTI 1.3/LTI Advantage 1.3/Advantage deep_link_item_type.image | An image resource selected from the tool. |
 
 Values for `document_target`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `iframe` | Iframe | Display the item in an embedded frame. |
-| `window` | Window | Open the item in a new browser window or tab. |
-| `embed` | Embed | Place the item directly in page content. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `iframe` | Iframe | LTI 1.3/LTI Advantage 1.3/Advantage document_target.iframe | Display the item in an embedded frame. |
+| `window` | Window | LTI 1.3/LTI Advantage 1.3/Advantage document_target.window | Open the item in a new browser window or tab. |
+| `embed` | Embed | LTI 1.3/LTI Advantage 1.3/Advantage document_target.embed | Place the item directly in page content. |
 
 
 ### Security OAuth Client
@@ -332,38 +339,39 @@ Values for `document_target`:
 - SQL table: `integration.security_oauth_clients`
 - API path: `/governance/security/oauth-clients`
 - Privacy class: `system`
+- Source standard: Security Framework 1.1 Security OAuth Client
 - Why it exists: Security Framework behavior needs a governed client registry for token issuance, key validation, scopes, and lifecycle status.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.security.policy:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this OAuth client. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `platform.security.policy:read` | `DEC-007-identifier-crosswalk` | The tenant that owns or authorizes this client. |
-| `client_id` | `clientId` | text | Yes | system | `platform.security.policy:read` | `DEC-007-identifier-crosswalk` | The public OAuth client identifier. |
-| `client_name` | `clientName` | text | Yes | operational | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | The name shown to administrators when reviewing the client. |
-| `jwks_uri` | `jwksUri` | text | No | system | `platform.security.policy:read` | `DEC-007-identifier-crosswalk` | The URL where the client's public keys can be fetched. |
-| `public_jwk` | `publicJwk` | text | No | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | A stored public key used to verify client assertions when a JWKS URL is not used. |
-| `auth_method` | `authMethod` | enum | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | How the client proves its identity to the token endpoint. |
-| `grant_types` | `grantTypes` | text | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | The OAuth grant types this client is allowed to use. |
-| `allowed_scopes` | `allowedScopes` | text | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | The scopes this client may request after tenant and privacy policy are applied. |
-| `status` | `status` | enum | Yes | operational | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | Whether tokens may currently be issued for this client. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this OAuth client. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The tenant that owns or authorizes this client. |
+| `client_id` | `clientId` | text | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.clientId | `DEC-007-identifier-crosswalk` | The public OAuth client identifier. |
+| `client_name` | `clientName` | text | Yes | operational | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.clientName | `DEC-010-tenancy-reference-data` | The name shown to administrators when reviewing the client. |
+| `jwks_uri` | `jwksUri` | text | No | system | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.jwksUri | `DEC-007-identifier-crosswalk` | The URL where the client's public keys can be fetched. |
+| `public_jwk` | `publicJwk` | text | No | system | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.publicJwk | `DEC-010-tenancy-reference-data` | A stored public key used to verify client assertions when a JWKS URL is not used. |
+| `auth_method` | `authMethod` | enum | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.authMethod | `DEC-010-tenancy-reference-data` | How the client proves its identity to the token endpoint. |
+| `grant_types` | `grantTypes` | text | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.grantTypes | `DEC-010-tenancy-reference-data` | The OAuth grant types this client is allowed to use. |
+| `allowed_scopes` | `allowedScopes` | text | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.allowedScopes | `DEC-010-tenancy-reference-data` | The scopes this client may request after tenant and privacy policy are applied. |
+| `status` | `status` | enum | Yes | operational | `platform.security.policy:read` | Security Framework 1.1 Security OAuth Client.status | `DEC-010-tenancy-reference-data` | Whether tokens may currently be issued for this client. |
 
 #### Controlled Values
 
 Values for `auth_method`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `private_key_jwt` | Private key JWT | The client signs a JWT with its private key to authenticate. |
-| `client_secret_basic` | Client secret basic | The client authenticates with a shared secret using basic authentication. |
-| `client_secret_post` | Client secret post | The client authenticates with a shared secret in the token request body. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `private_key_jwt` | Private key JWT | Security Framework 1.1 auth_method.private_key_jwt | The client signs a JWT with its private key to authenticate. |
+| `client_secret_basic` | Client secret basic | Security Framework 1.1 auth_method.client_secret_basic | The client authenticates with a shared secret using basic authentication. |
+| `client_secret_post` | Client secret post | Security Framework 1.1 auth_method.client_secret_post | The client authenticates with a shared secret in the token request body. |
 
 Values for `status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `active` | Active | The client may request tokens. |
-| `suspended` | Suspended | Token issuance is paused for this client. |
-| `retired` | Retired | The client is retained for history but should not receive new tokens. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `active` | Active | Security Framework 1.1 client_status.active | The client may request tokens. |
+| `suspended` | Suspended | Security Framework 1.1 client_status.suspended | Token issuance is paused for this client. |
+| `retired` | Retired | Security Framework 1.1 client_status.retired | The client is retained for history but should not receive new tokens. |
 
 
 ### Security Scope Policy
@@ -372,51 +380,52 @@ Values for `status`:
 - SQL table: `integration.security_scope_policies`
 - API path: `/governance/security/scope-policies`
 - Privacy class: `system`
+- Source standard: Security Framework 1.1 Security Scope Policy
 - Why it exists: Scopes should mean more than endpoint names; they need a machine-readable connection to dictionary fields and privacy limits.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.security.policy:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this scope policy. |
-| `scope` | `scope` | text | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | The OAuth scope controlled by this rule. |
-| `api_resource` | `apiResource` | text | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | The endpoint group or dictionary object this scope may access. |
-| `allowed_action` | `allowedAction` | enum | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | The operation permitted by this scope. |
-| `privacy_ceiling` | `privacyCeiling` | enum | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | The most sensitive privacy class this scope may expose without another policy rule. |
-| `field_patterns` | `fieldPatterns` | text | No | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | Optional dictionary field names or patterns allowed by this scope. |
-| `requires_launch_context` | `requiresLaunchContext` | boolean | Yes | system | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | Whether access must be tied to a current launch, deployment, class, or activity context. |
-| `allowed_roles` | `allowedRoles` | text | No | system | `platform.security.policy:read` | `DEC-003-role-vocabulary` | Roles that may use or benefit from the scope. |
-| `policy_status` | `policyStatus` | enum | Yes | operational | `platform.security.policy:read` | `DEC-010-tenancy-reference-data` | Whether this scope policy is active, inactive, or retired. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this scope policy. |
+| `scope` | `scope` | text | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.scope | `DEC-010-tenancy-reference-data` | The OAuth scope controlled by this rule. |
+| `api_resource` | `apiResource` | text | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.apiResource | `DEC-010-tenancy-reference-data` | The endpoint group or dictionary object this scope may access. |
+| `allowed_action` | `allowedAction` | enum | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.allowedAction | `DEC-010-tenancy-reference-data` | The operation permitted by this scope. |
+| `privacy_ceiling` | `privacyCeiling` | enum | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.privacyCeiling | `DEC-010-tenancy-reference-data` | The most sensitive privacy class this scope may expose without another policy rule. |
+| `field_patterns` | `fieldPatterns` | text | No | system | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.fieldPatterns | `DEC-010-tenancy-reference-data` | Optional dictionary field names or patterns allowed by this scope. |
+| `requires_launch_context` | `requiresLaunchContext` | boolean | Yes | system | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.requiresLaunchContext | `DEC-010-tenancy-reference-data` | Whether access must be tied to a current launch, deployment, class, or activity context. |
+| `allowed_roles` | `allowedRoles` | text | No | system | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.allowedRoles | `DEC-003-role-vocabulary` | Roles that may use or benefit from the scope. |
+| `policy_status` | `policyStatus` | enum | Yes | operational | `platform.security.policy:read` | Security Framework 1.1 Security Scope Policy.policyStatus | `DEC-010-tenancy-reference-data` | Whether this scope policy is active, inactive, or retired. |
 
 #### Controlled Values
 
 Values for `allowed_action`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `read` | Read | The scope allows data to be read. |
-| `write` | Write | The scope allows data to be created or changed. |
-| `launch` | Launch | The scope or policy supports launch-bound access. |
-| `admin` | Admin | The scope allows administrative configuration. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `read` | Read | Security Framework 1.1 scope_action.read | The scope allows data to be read. |
+| `write` | Write | Security Framework 1.1 scope_action.write | The scope allows data to be created or changed. |
+| `launch` | Launch | Security Framework 1.1 scope_action.launch | The scope or policy supports launch-bound access. |
+| `admin` | Admin | Security Framework 1.1 scope_action.admin | The scope allows administrative configuration. |
 
 Values for `privacy_ceiling`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `public` | Public | Safe to publish without exposing a private learner record. |
-| `directory` | Directory | Name, email, picture, role, or organization information that schools often share but still control. |
-| `education_record` | Education record | Enrollment, grade, progress, submission, achievement, or transcript data about a learner. |
-| `sensitive` | Sensitive | Data needing extra care, including private identifiers, demographics, accommodations, or security proof material. |
-| `behavioral` | Behavioral | Activity or usage data created by using a tool or resource. |
-| `operational` | Operational | Import, export, launch, validation, or processing data. |
-| `system` | System | Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data. |
-| `privacy_governance` | Privacy governance | Policy and review data used to decide how other data may be shared or retained. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `public` | Public | Data Privacy 1.0 privacy_class_value.public | Safe to publish without exposing a private learner record. |
+| `directory` | Directory | Data Privacy 1.0 privacy_class_value.directory | Name, email, picture, role, or organization information that schools often share but still control. |
+| `education_record` | Education record | Data Privacy 1.0 privacy_class_value.education_record | Enrollment, grade, progress, submission, achievement, or transcript data about a learner. |
+| `sensitive` | Sensitive | Data Privacy 1.0 privacy_class_value.sensitive | Data needing extra care, including private identifiers, demographics, accommodations, or security proof material. |
+| `behavioral` | Behavioral | Data Privacy 1.0 privacy_class_value.behavioral | Activity or usage data created by using a tool or resource. |
+| `operational` | Operational | Data Privacy 1.0 privacy_class_value.operational | Import, export, launch, validation, or processing data. |
+| `system` | System | Data Privacy 1.0 privacy_class_value.system | Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data. |
+| `privacy_governance` | Privacy governance | Data Privacy 1.0 privacy_class_value.privacy_governance | Policy and review data used to decide how other data may be shared or retained. |
 
 Values for `policy_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `active` | Active | The record is currently allowed for use. |
-| `inactive` | Inactive | The record exists but is not currently usable. |
-| `retired` | Retired | The record is kept for history but should not be used for new activity. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `active` | Active | Integration/Governance Lead Specs lead record_status.active | The record is currently allowed for use. |
+| `inactive` | Inactive | Integration/Governance Lead Specs lead record_status.inactive | The record exists but is not currently usable. |
+| `retired` | Retired | Integration/Governance Lead Specs lead record_status.retired | The record is kept for history but should not be used for new activity. |
 
 
 ### Privacy Data Sharing Rule
@@ -425,80 +434,81 @@ Values for `policy_status`:
 - SQL table: `integration.privacy_data_sharing_rules`
 - API path: `/governance/privacy/data-sharing-rules`
 - Privacy class: `privacy_governance`
+- Source standard: Data Privacy 1.0 Privacy Data Sharing Rule
 - Why it exists: Data Privacy requirements need field-level sharing decisions that can be audited and connected to scopes, tools, and API responses.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.privacy.policy:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this data sharing rule. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.policy:read` | `DEC-007-identifier-crosswalk` | The tenant whose policy this rule belongs to. |
-| `data_category` | `dataCategory` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | The broad kind of school data governed by the rule. |
-| `privacy_class` | `privacyClass` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | The platform privacy class for the data covered by this rule. |
-| `recipient_type` | `recipientType` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | Who may receive the data under this rule. |
-| `purpose` | `purpose` | text | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | The educational or operational reason for sharing the data. |
-| `legal_basis` | `legalBasis` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | The legal or policy basis used to justify the data sharing. |
-| `field_patterns` | `fieldPatterns` | text | No | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | The dictionary fields or field patterns this rule covers. |
-| `minimization_note` | `minimizationNote` | text | No | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | How the platform limits shared data to what the purpose requires. |
-| `status` | `status` | enum | Yes | operational | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | Whether this sharing rule is currently active. |
-| `reviewed_at` | `reviewedAt` | datetime | No | operational | `platform.privacy.policy:read` | `DEC-008-time-session` | When the rule was last reviewed. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this data sharing rule. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The tenant whose policy this rule belongs to. |
+| `data_category` | `dataCategory` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.dataCategory | `DEC-010-tenancy-reference-data` | The broad kind of school data governed by the rule. |
+| `privacy_class` | `privacyClass` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.privacyClass | `DEC-010-tenancy-reference-data` | The platform privacy class for the data covered by this rule. |
+| `recipient_type` | `recipientType` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.recipientType | `DEC-010-tenancy-reference-data` | Who may receive the data under this rule. |
+| `purpose` | `purpose` | text | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.purpose | `DEC-010-tenancy-reference-data` | The educational or operational reason for sharing the data. |
+| `legal_basis` | `legalBasis` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.legalBasis | `DEC-010-tenancy-reference-data` | The legal or policy basis used to justify the data sharing. |
+| `field_patterns` | `fieldPatterns` | text | No | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.fieldPatterns | `DEC-010-tenancy-reference-data` | The dictionary fields or field patterns this rule covers. |
+| `minimization_note` | `minimizationNote` | text | No | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.minimizationNote | `DEC-010-tenancy-reference-data` | How the platform limits shared data to what the purpose requires. |
+| `status` | `status` | enum | Yes | operational | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.status | `DEC-010-tenancy-reference-data` | Whether this sharing rule is currently active. |
+| `reviewed_at` | `reviewedAt` | datetime | No | operational | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Data Sharing Rule.reviewedAt | `DEC-008-time-session` | When the rule was last reviewed. |
 
 #### Controlled Values
 
 Values for `data_category`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `roster` | Roster | People, roles, classes, sections, and memberships. |
-| `gradebook` | Gradebook | Line items, scores, results, and grading state. |
-| `assessment` | Assessment | Assessment content, attempts, responses, and outcomes. |
-| `activity` | Activity | Launches, events, sessions, and tool usage. |
-| `credential` | Credential | Badges, transcripts, achievements, endorsements, and proofs. |
-| `identifier` | Identifier | IDs and crosswalks that connect people or resources across systems. |
-| `security` | Security | Tokens, keys, scopes, client records, and audit evidence. |
-| `consent` | Consent | Consent choices and related evidence. |
-| `raw_payload` | Raw payload | Original standards payloads retained for audit or reprocessing. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `roster` | Roster | Data Privacy 1.0 data_category.roster | People, roles, classes, sections, and memberships. |
+| `gradebook` | Gradebook | Data Privacy 1.0 data_category.gradebook | Line items, scores, results, and grading state. |
+| `assessment` | Assessment | Data Privacy 1.0 data_category.assessment | Assessment content, attempts, responses, and outcomes. |
+| `activity` | Activity | Data Privacy 1.0 data_category.activity | Launches, events, sessions, and tool usage. |
+| `credential` | Credential | Data Privacy 1.0 data_category.credential | Badges, transcripts, achievements, endorsements, and proofs. |
+| `identifier` | Identifier | Data Privacy 1.0 data_category.identifier | IDs and crosswalks that connect people or resources across systems. |
+| `security` | Security | Data Privacy 1.0 data_category.security | Tokens, keys, scopes, client records, and audit evidence. |
+| `consent` | Consent | Data Privacy 1.0 data_category.consent | Consent choices and related evidence. |
+| `raw_payload` | Raw payload | Data Privacy 1.0 data_category.raw_payload | Original standards payloads retained for audit or reprocessing. |
 
 Values for `privacy_class`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `public` | Public | Safe to publish without exposing a private learner record. |
-| `directory` | Directory | Name, email, picture, role, or organization information that schools often share but still control. |
-| `education_record` | Education record | Enrollment, grade, progress, submission, achievement, or transcript data about a learner. |
-| `sensitive` | Sensitive | Data needing extra care, including private identifiers, demographics, accommodations, or security proof material. |
-| `behavioral` | Behavioral | Activity or usage data created by using a tool or resource. |
-| `operational` | Operational | Import, export, launch, validation, or processing data. |
-| `system` | System | Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data. |
-| `privacy_governance` | Privacy governance | Policy and review data used to decide how other data may be shared or retained. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `public` | Public | Data Privacy 1.0 privacy_class_value.public | Safe to publish without exposing a private learner record. |
+| `directory` | Directory | Data Privacy 1.0 privacy_class_value.directory | Name, email, picture, role, or organization information that schools often share but still control. |
+| `education_record` | Education record | Data Privacy 1.0 privacy_class_value.education_record | Enrollment, grade, progress, submission, achievement, or transcript data about a learner. |
+| `sensitive` | Sensitive | Data Privacy 1.0 privacy_class_value.sensitive | Data needing extra care, including private identifiers, demographics, accommodations, or security proof material. |
+| `behavioral` | Behavioral | Data Privacy 1.0 privacy_class_value.behavioral | Activity or usage data created by using a tool or resource. |
+| `operational` | Operational | Data Privacy 1.0 privacy_class_value.operational | Import, export, launch, validation, or processing data. |
+| `system` | System | Data Privacy 1.0 privacy_class_value.system | Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data. |
+| `privacy_governance` | Privacy governance | Data Privacy 1.0 privacy_class_value.privacy_governance | Policy and review data used to decide how other data may be shared or retained. |
 
 Values for `recipient_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `internal_app` | Internal app | A platform-owned app or service. |
-| `external_tool` | External tool | A third-party tool or integration. |
-| `district_admin` | District admin | A district administrator or authorized central-office user. |
-| `school_staff` | School staff | A teacher, counselor, administrator, or staff member. |
-| `learner` | Learner | The learner whose data is involved. |
-| `guardian` | Guardian | A parent or guardian authorized to view the learner's data. |
-| `service_provider` | Service provider | A vendor or processor acting under agreement. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `internal_app` | Internal app | Data Privacy 1.0 recipient_type.internal_app | A platform-owned app or service. |
+| `external_tool` | External tool | Data Privacy 1.0 recipient_type.external_tool | A third-party tool or integration. |
+| `district_admin` | District admin | Data Privacy 1.0 recipient_type.district_admin | A district administrator or authorized central-office user. |
+| `school_staff` | School staff | Data Privacy 1.0 recipient_type.school_staff | A teacher, counselor, administrator, or staff member. |
+| `learner` | Learner | Data Privacy 1.0 recipient_type.learner | The learner whose data is involved. |
+| `guardian` | Guardian | Data Privacy 1.0 recipient_type.guardian | A parent or guardian authorized to view the learner's data. |
+| `service_provider` | Service provider | Data Privacy 1.0 recipient_type.service_provider | A vendor or processor acting under agreement. |
 
 Values for `legal_basis`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `consent` | Consent | The person or guardian has consented to this sharing. |
-| `contract` | Contract | The sharing is covered by a contract or service agreement. |
-| `school_official` | School official | The recipient acts under school official or equivalent educational interest rules. |
-| `legitimate_interest` | Legitimate interest | The sharing supports an approved operational or educational interest. |
-| `legal_obligation` | Legal obligation | The sharing is required by law, regulation, or formal process. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `consent` | Consent | Data Privacy 1.0 legal_basis.consent | The person or guardian has consented to this sharing. |
+| `contract` | Contract | Data Privacy 1.0 legal_basis.contract | The sharing is covered by a contract or service agreement. |
+| `school_official` | School official | Data Privacy 1.0 legal_basis.school_official | The recipient acts under school official or equivalent educational interest rules. |
+| `legitimate_interest` | Legitimate interest | Data Privacy 1.0 legal_basis.legitimate_interest | The sharing supports an approved operational or educational interest. |
+| `legal_obligation` | Legal obligation | Data Privacy 1.0 legal_basis.legal_obligation | The sharing is required by law, regulation, or formal process. |
 
 Values for `status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `active` | Active | The record is currently allowed for use. |
-| `inactive` | Inactive | The record exists but is not currently usable. |
-| `retired` | Retired | The record is kept for history but should not be used for new activity. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `active` | Active | Integration/Governance Lead Specs lead record_status.active | The record is currently allowed for use. |
+| `inactive` | Inactive | Integration/Governance Lead Specs lead record_status.inactive | The record exists but is not currently usable. |
+| `retired` | Retired | Integration/Governance Lead Specs lead record_status.retired | The record is kept for history but should not be used for new activity. |
 
 
 ### Privacy Consent Record
@@ -507,41 +517,42 @@ Values for `status`:
 - SQL table: `integration.privacy_consent_records`
 - API path: `/governance/privacy/consent-records`
 - Privacy class: `sensitive`
+- Source standard: Data Privacy 1.0 Privacy Consent Record
 - Why it exists: Some sharing workflows require explicit consent state that can be checked before exposing data to tools or exports.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.privacy.consent:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this consent record. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.consent:read` | `DEC-007-identifier-crosswalk` | The tenant boundary for this consent record. |
-| `person_id` | `personId` | text | Yes | education_record | `platform.privacy.consent:read` | `DEC-007-identifier-crosswalk` | The learner or user whose data the consent concerns. |
-| `guardian_person_id` | `guardianPersonId` | text | No | sensitive | `platform.privacy.consent:read` | `DEC-007-identifier-crosswalk` | The guardian or authorized person who gave consent when applicable. |
-| `rule_id` | `ruleId` | text | Yes | privacy_governance | `platform.privacy.consent:read` | `DEC-007-identifier-crosswalk` | The data sharing rule this consent applies to. |
-| `consent_status` | `consentStatus` | enum | Yes | sensitive | `platform.privacy.consent:read` | `DEC-010-tenancy-reference-data` | Whether consent is granted, denied, revoked, expired, or pending. |
-| `effective_at` | `effectiveAt` | datetime | Yes | sensitive | `platform.privacy.consent:read` | `DEC-008-time-session` | When the consent state became effective. |
-| `expires_at` | `expiresAt` | datetime | No | sensitive | `platform.privacy.consent:read` | `DEC-008-time-session` | When the consent state expires if it is time-limited. |
-| `source_method` | `sourceMethod` | enum | Yes | sensitive | `platform.privacy.consent:read` | `DEC-010-tenancy-reference-data` | How the platform received this consent state. |
-| `evidence_uri` | `evidenceUri` | text | No | sensitive | `platform.privacy.consent:read` | `DEC-007-identifier-crosswalk` | A reference to the form, agreement, or audit evidence for the consent. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this consent record. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The tenant boundary for this consent record. |
+| `person_id` | `personId` | text | Yes | education_record | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.personId | `DEC-007-identifier-crosswalk` | The learner or user whose data the consent concerns. |
+| `guardian_person_id` | `guardianPersonId` | text | No | sensitive | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.guardianPersonId | `DEC-007-identifier-crosswalk` | The guardian or authorized person who gave consent when applicable. |
+| `rule_id` | `ruleId` | text | Yes | privacy_governance | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.ruleId | `DEC-007-identifier-crosswalk` | The data sharing rule this consent applies to. |
+| `consent_status` | `consentStatus` | enum | Yes | sensitive | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.consentStatus | `DEC-010-tenancy-reference-data` | Whether consent is granted, denied, revoked, expired, or pending. |
+| `effective_at` | `effectiveAt` | datetime | Yes | sensitive | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.effectiveAt | `DEC-008-time-session` | When the consent state became effective. |
+| `expires_at` | `expiresAt` | datetime | No | sensitive | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.expiresAt | `DEC-008-time-session` | When the consent state expires if it is time-limited. |
+| `source_method` | `sourceMethod` | enum | Yes | sensitive | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.sourceMethod | `DEC-010-tenancy-reference-data` | How the platform received this consent state. |
+| `evidence_uri` | `evidenceUri` | text | No | sensitive | `platform.privacy.consent:read` | Data Privacy 1.0 Privacy Consent Record.evidenceUri | `DEC-007-identifier-crosswalk` | A reference to the form, agreement, or audit evidence for the consent. |
 
 #### Controlled Values
 
 Values for `consent_status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `pending` | Pending | The platform has not received a final consent choice. |
-| `granted` | Granted | Consent is currently granted. |
-| `denied` | Denied | Consent was not granted. |
-| `revoked` | Revoked | Previously granted consent was withdrawn. |
-| `expired` | Expired | Consent was time-limited and is no longer active. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `pending` | Pending | Data Privacy 1.0 consent_status.pending | The platform has not received a final consent choice. |
+| `granted` | Granted | Data Privacy 1.0 consent_status.granted | Consent is currently granted. |
+| `denied` | Denied | Data Privacy 1.0 consent_status.denied | Consent was not granted. |
+| `revoked` | Revoked | Data Privacy 1.0 consent_status.revoked | Previously granted consent was withdrawn. |
+| `expired` | Expired | Data Privacy 1.0 consent_status.expired | Consent was time-limited and is no longer active. |
 
 Values for `source_method`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `admin` | Administrator | An administrator recorded the consent state. |
-| `guardian_portal` | Guardian portal | A guardian submitted the consent state through a portal. |
-| `learner_portal` | Learner portal | A learner submitted the consent state through a portal. |
-| `imported_agreement` | Imported agreement | The consent state came from an imported agreement or external system. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `admin` | Administrator | Data Privacy 1.0 consent_source_method.admin | An administrator recorded the consent state. |
+| `guardian_portal` | Guardian portal | Data Privacy 1.0 consent_source_method.guardian_portal | A guardian submitted the consent state through a portal. |
+| `learner_portal` | Learner portal | Data Privacy 1.0 consent_source_method.learner_portal | A learner submitted the consent state through a portal. |
+| `imported_agreement` | Imported agreement | Data Privacy 1.0 consent_source_method.imported_agreement | The consent state came from an imported agreement or external system. |
 
 
 ### Privacy Retention Rule
@@ -550,73 +561,74 @@ Values for `source_method`:
 - SQL table: `integration.privacy_retention_rules`
 - API path: `/governance/privacy/retention-rules`
 - Privacy class: `privacy_governance`
+- Source standard: Data Privacy 1.0 Privacy Retention Rule
 - Why it exists: Retention rules make it clear how raw launches, tokens, events, scores, consent records, and audit data should be minimized or deleted.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.privacy.policy:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this retention rule. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.policy:read` | `DEC-007-identifier-crosswalk` | The tenant whose data retention policy this rule belongs to. |
-| `source_standard` | `sourceStandard` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | The standard or platform area that produces the data. |
-| `data_category` | `dataCategory` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | The category of data controlled by this retention rule. |
-| `retention_period_days` | `retentionPeriodDays` | integer | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-008-time-session` | How many days the data may be retained before the action is due. |
-| `action_on_expiry` | `actionOnExpiry` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | What the platform should do when data reaches the retention limit. |
-| `raw_payload_policy` | `rawPayloadPolicy` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | How the platform should retain raw standards payloads after projection. |
-| `legal_hold` | `legalHold` | boolean | Yes | privacy_governance | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | Whether deletion or anonymization is paused by a legal hold. |
-| `status` | `status` | enum | Yes | operational | `platform.privacy.policy:read` | `DEC-010-tenancy-reference-data` | Whether this retention rule is active, inactive, or retired. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this retention rule. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The tenant whose data retention policy this rule belongs to. |
+| `source_standard` | `sourceStandard` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.sourceStandard | `DEC-010-tenancy-reference-data` | The standard or platform area that produces the data. |
+| `data_category` | `dataCategory` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.dataCategory | `DEC-010-tenancy-reference-data` | The category of data controlled by this retention rule. |
+| `retention_period_days` | `retentionPeriodDays` | integer | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.retentionPeriodDays | `DEC-008-time-session` | How many days the data may be retained before the action is due. |
+| `action_on_expiry` | `actionOnExpiry` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.actionOnExpiry | `DEC-010-tenancy-reference-data` | What the platform should do when data reaches the retention limit. |
+| `raw_payload_policy` | `rawPayloadPolicy` | enum | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.rawPayloadPolicy | `DEC-010-tenancy-reference-data` | How the platform should retain raw standards payloads after projection. |
+| `legal_hold` | `legalHold` | boolean | Yes | privacy_governance | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.legalHold | `DEC-010-tenancy-reference-data` | Whether deletion or anonymization is paused by a legal hold. |
+| `status` | `status` | enum | Yes | operational | `platform.privacy.policy:read` | Data Privacy 1.0 Privacy Retention Rule.status | `DEC-010-tenancy-reference-data` | Whether this retention rule is active, inactive, or retired. |
 
 #### Controlled Values
 
 Values for `source_standard`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `lti` | LTI | Learning Tools Interoperability launch or service data. |
-| `security_framework` | Security Framework | OAuth, OIDC, key, token, scope, or service security data. |
-| `data_privacy` | Data Privacy | Privacy policy, consent, retention, or audit data. |
-| `oneroster` | OneRoster | Rostering, gradebook, or related OneRoster data. |
-| `qti` | QTI | Assessment package or item data. |
-| `case` | CASE | Standards framework data. |
-| `caliper` | Caliper | Learning event or analytics data. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `lti` | LTI | Data Privacy 1.0 source_standard.lti | Learning Tools Interoperability launch or service data. |
+| `security_framework` | Security Framework | Data Privacy 1.0 source_standard.security_framework | OAuth, OIDC, key, token, scope, or service security data. |
+| `data_privacy` | Data Privacy | Data Privacy 1.0 source_standard.data_privacy | Privacy policy, consent, retention, or audit data. |
+| `oneroster` | OneRoster | Data Privacy 1.0 source_standard.oneroster | Rostering, gradebook, or related OneRoster data. |
+| `qti` | QTI | Data Privacy 1.0 source_standard.qti | Assessment package or item data. |
+| `case` | CASE | Data Privacy 1.0 source_standard.case | Standards framework data. |
+| `caliper` | Caliper | Data Privacy 1.0 source_standard.caliper | Learning event or analytics data. |
 
 Values for `data_category`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `roster` | Roster | People, roles, classes, sections, and memberships. |
-| `gradebook` | Gradebook | Line items, scores, results, and grading state. |
-| `assessment` | Assessment | Assessment content, attempts, responses, and outcomes. |
-| `activity` | Activity | Launches, events, sessions, and tool usage. |
-| `credential` | Credential | Badges, transcripts, achievements, endorsements, and proofs. |
-| `identifier` | Identifier | IDs and crosswalks that connect people or resources across systems. |
-| `security` | Security | Tokens, keys, scopes, client records, and audit evidence. |
-| `consent` | Consent | Consent choices and related evidence. |
-| `raw_payload` | Raw payload | Original standards payloads retained for audit or reprocessing. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `roster` | Roster | Data Privacy 1.0 data_category.roster | People, roles, classes, sections, and memberships. |
+| `gradebook` | Gradebook | Data Privacy 1.0 data_category.gradebook | Line items, scores, results, and grading state. |
+| `assessment` | Assessment | Data Privacy 1.0 data_category.assessment | Assessment content, attempts, responses, and outcomes. |
+| `activity` | Activity | Data Privacy 1.0 data_category.activity | Launches, events, sessions, and tool usage. |
+| `credential` | Credential | Data Privacy 1.0 data_category.credential | Badges, transcripts, achievements, endorsements, and proofs. |
+| `identifier` | Identifier | Data Privacy 1.0 data_category.identifier | IDs and crosswalks that connect people or resources across systems. |
+| `security` | Security | Data Privacy 1.0 data_category.security | Tokens, keys, scopes, client records, and audit evidence. |
+| `consent` | Consent | Data Privacy 1.0 data_category.consent | Consent choices and related evidence. |
+| `raw_payload` | Raw payload | Data Privacy 1.0 data_category.raw_payload | Original standards payloads retained for audit or reprocessing. |
 
 Values for `action_on_expiry`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `delete` | Delete | Remove the data when the retention limit is reached. |
-| `anonymize` | Anonymize | Remove or transform identifiers so the data no longer identifies a learner. |
-| `aggregate_only` | Aggregate only | Keep only aggregate counts or summaries. |
-| `legal_hold` | Legal hold | Retain the data because a legal hold prevents deletion. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `delete` | Delete | Data Privacy 1.0 retention_action.delete | Remove the data when the retention limit is reached. |
+| `anonymize` | Anonymize | Data Privacy 1.0 retention_action.anonymize | Remove or transform identifiers so the data no longer identifies a learner. |
+| `aggregate_only` | Aggregate only | Data Privacy 1.0 retention_action.aggregate_only | Keep only aggregate counts or summaries. |
+| `legal_hold` | Legal hold | Data Privacy 1.0 retention_action.legal_hold | Retain the data because a legal hold prevents deletion. |
 
 Values for `raw_payload_policy`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `retain` | Retain | Keep the original payload under access controls. |
-| `minimize` | Minimize | Retain only the payload parts needed for audit or reprocessing. |
-| `hash_only` | Hash only | Keep a fingerprint of the payload instead of the full original. |
-| `discard_after_projection` | Discard after projection | Delete the raw payload after structured fields are projected. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `retain` | Retain | Data Privacy 1.0 raw_payload_policy.retain | Keep the original payload under access controls. |
+| `minimize` | Minimize | Data Privacy 1.0 raw_payload_policy.minimize | Retain only the payload parts needed for audit or reprocessing. |
+| `hash_only` | Hash only | Data Privacy 1.0 raw_payload_policy.hash_only | Keep a fingerprint of the payload instead of the full original. |
+| `discard_after_projection` | Discard after projection | Data Privacy 1.0 raw_payload_policy.discard_after_projection | Delete the raw payload after structured fields are projected. |
 
 Values for `status`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `active` | Active | The record is currently allowed for use. |
-| `inactive` | Inactive | The record exists but is not currently usable. |
-| `retired` | Retired | The record is kept for history but should not be used for new activity. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `active` | Active | Integration/Governance Lead Specs lead record_status.active | The record is currently allowed for use. |
+| `inactive` | Inactive | Integration/Governance Lead Specs lead record_status.inactive | The record exists but is not currently usable. |
+| `retired` | Retired | Integration/Governance Lead Specs lead record_status.retired | The record is kept for history but should not be used for new activity. |
 
 
 ### Privacy Audit Event
@@ -625,66 +637,67 @@ Values for `status`:
 - SQL table: `integration.privacy_audit_events`
 - API path: `/governance/privacy/audit-events`
 - Privacy class: `sensitive`
+- Source standard: Data Privacy 1.0 Privacy Audit Event
 - Why it exists: Privacy and security controls must leave evidence of who accessed data, why it was allowed or denied, and what policy was applied.
 
-| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | `platform.privacy.audit:read` | `DEC-007-identifier-crosswalk` | The platform's stable ID for this audit event. |
-| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.audit:read` | `DEC-007-identifier-crosswalk` | The tenant boundary for the audited event. |
-| `actor_person_id` | `actorPersonId` | text | No | education_record | `platform.privacy.audit:read` | `DEC-007-identifier-crosswalk` | The person who performed the audited action, if a person was involved. |
-| `client_id` | `clientId` | text | No | system | `platform.privacy.audit:read` | `DEC-007-identifier-crosswalk` | The OAuth client or tool that performed the audited action, if an integration was involved. |
-| `event_type` | `eventType` | enum | Yes | sensitive | `platform.privacy.audit:read` | `DEC-010-tenancy-reference-data` | The type of privacy or security event being recorded. |
-| `object_type` | `objectType` | text | Yes | sensitive | `platform.privacy.audit:read` | `DEC-010-tenancy-reference-data` | The dictionary object, endpoint group, or policy area affected by the event. |
-| `object_id` | `objectId` | text | No | sensitive | `platform.privacy.audit:read` | `DEC-007-identifier-crosswalk` | The specific record affected by the event when one applies. |
-| `privacy_class` | `privacyClass` | enum | Yes | sensitive | `platform.privacy.audit:read` | `DEC-010-tenancy-reference-data` | The most sensitive privacy class involved in the event. |
-| `policy_id` | `policyId` | text | No | privacy_governance | `platform.privacy.audit:read` | `DEC-007-identifier-crosswalk` | The scope, sharing, consent, or retention policy that governed the event. |
-| `occurred_at` | `occurredAt` | datetime | Yes | operational | `platform.privacy.audit:read` | `DEC-008-time-session` | When the audited event occurred. |
-| `outcome` | `outcome` | enum | Yes | sensitive | `platform.privacy.audit:read` | `DEC-010-tenancy-reference-data` | Whether the action was allowed, denied, failed, or completed. |
-| `reason` | `reason` | text | No | sensitive | `platform.privacy.audit:read` | `DEC-010-tenancy-reference-data` | A short explanation for the audit outcome. |
+| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this audit event. |
+| `tenant_id` | `tenantId` | text | Yes | operational | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.tenantId (platform_projection) | `DEC-007-identifier-crosswalk` | The tenant boundary for the audited event. |
+| `actor_person_id` | `actorPersonId` | text | No | education_record | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.actorPersonId | `DEC-007-identifier-crosswalk` | The person who performed the audited action, if a person was involved. |
+| `client_id` | `clientId` | text | No | system | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.clientId | `DEC-007-identifier-crosswalk` | The OAuth client or tool that performed the audited action, if an integration was involved. |
+| `event_type` | `eventType` | enum | Yes | sensitive | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.eventType | `DEC-010-tenancy-reference-data` | The type of privacy or security event being recorded. |
+| `object_type` | `objectType` | text | Yes | sensitive | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.objectType | `DEC-010-tenancy-reference-data` | The dictionary object, endpoint group, or policy area affected by the event. |
+| `object_id` | `objectId` | text | No | sensitive | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.objectId | `DEC-007-identifier-crosswalk` | The specific record affected by the event when one applies. |
+| `privacy_class` | `privacyClass` | enum | Yes | sensitive | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.privacyClass | `DEC-010-tenancy-reference-data` | The most sensitive privacy class involved in the event. |
+| `policy_id` | `policyId` | text | No | privacy_governance | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.policyId | `DEC-007-identifier-crosswalk` | The scope, sharing, consent, or retention policy that governed the event. |
+| `occurred_at` | `occurredAt` | datetime | Yes | operational | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.occurredAt | `DEC-008-time-session` | When the audited event occurred. |
+| `outcome` | `outcome` | enum | Yes | sensitive | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.outcome | `DEC-010-tenancy-reference-data` | Whether the action was allowed, denied, failed, or completed. |
+| `reason` | `reason` | text | No | sensitive | `platform.privacy.audit:read` | Data Privacy 1.0 Privacy Audit Event.reason | `DEC-010-tenancy-reference-data` | A short explanation for the audit outcome. |
 
 #### Controlled Values
 
 Values for `event_type`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `access` | Access | Data was read or queried. |
-| `export` | Export | Data was exported outside the platform. |
-| `share` | Share | Data was shared with a recipient or tool. |
-| `delete` | Delete | Data was deleted or scheduled for deletion. |
-| `policy_change` | Policy change | A privacy, scope, or retention policy changed. |
-| `consent_change` | Consent change | A consent state changed. |
-| `token_issue` | Token issue | A security token was issued or denied. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `access` | Access | Data Privacy 1.0 privacy_event_type.access | Data was read or queried. |
+| `export` | Export | Data Privacy 1.0 privacy_event_type.export | Data was exported outside the platform. |
+| `share` | Share | Data Privacy 1.0 privacy_event_type.share | Data was shared with a recipient or tool. |
+| `delete` | Delete | Data Privacy 1.0 privacy_event_type.delete | Data was deleted or scheduled for deletion. |
+| `policy_change` | Policy change | Data Privacy 1.0 privacy_event_type.policy_change | A privacy, scope, or retention policy changed. |
+| `consent_change` | Consent change | Data Privacy 1.0 privacy_event_type.consent_change | A consent state changed. |
+| `token_issue` | Token issue | Data Privacy 1.0 privacy_event_type.token_issue | A security token was issued or denied. |
 
 Values for `privacy_class`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `public` | Public | Safe to publish without exposing a private learner record. |
-| `directory` | Directory | Name, email, picture, role, or organization information that schools often share but still control. |
-| `education_record` | Education record | Enrollment, grade, progress, submission, achievement, or transcript data about a learner. |
-| `sensitive` | Sensitive | Data needing extra care, including private identifiers, demographics, accommodations, or security proof material. |
-| `behavioral` | Behavioral | Activity or usage data created by using a tool or resource. |
-| `operational` | Operational | Import, export, launch, validation, or processing data. |
-| `system` | System | Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data. |
-| `privacy_governance` | Privacy governance | Policy and review data used to decide how other data may be shared or retained. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `public` | Public | Data Privacy 1.0 privacy_class_value.public | Safe to publish without exposing a private learner record. |
+| `directory` | Directory | Data Privacy 1.0 privacy_class_value.directory | Name, email, picture, role, or organization information that schools often share but still control. |
+| `education_record` | Education record | Data Privacy 1.0 privacy_class_value.education_record | Enrollment, grade, progress, submission, achievement, or transcript data about a learner. |
+| `sensitive` | Sensitive | Data Privacy 1.0 privacy_class_value.sensitive | Data needing extra care, including private identifiers, demographics, accommodations, or security proof material. |
+| `behavioral` | Behavioral | Data Privacy 1.0 privacy_class_value.behavioral | Activity or usage data created by using a tool or resource. |
+| `operational` | Operational | Data Privacy 1.0 privacy_class_value.operational | Import, export, launch, validation, or processing data. |
+| `system` | System | Data Privacy 1.0 privacy_class_value.system | Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data. |
+| `privacy_governance` | Privacy governance | Data Privacy 1.0 privacy_class_value.privacy_governance | Policy and review data used to decide how other data may be shared or retained. |
 
 Values for `outcome`:
 
-| Value | Label | Layperson meaning |
-| --- | --- | --- |
-| `allowed` | Allowed | The platform allowed the action. |
-| `denied` | Denied | The platform denied the action. |
-| `failed` | Failed | The action failed before completion. |
-| `completed` | Completed | The action completed successfully. |
+| Value | Label | Source standard | Layperson meaning |
+| --- | --- | --- | --- |
+| `allowed` | Allowed | Data Privacy 1.0 audit_outcome.allowed | The platform allowed the action. |
+| `denied` | Denied | Data Privacy 1.0 audit_outcome.denied | The platform denied the action. |
+| `failed` | Failed | Data Privacy 1.0 audit_outcome.failed | The action failed before completion. |
+| `completed` | Completed | Data Privacy 1.0 audit_outcome.completed | The action completed successfully. |
 
 
 ## Unsupported or Deferred
 
 | Area | Reason |
 | --- | --- |
-| Live LTI launch validation | Requires a hosted OAuth/OIDC backend, nonce and state storage, private key management, and tenant deployment records. |
-| Public AGS, NRPS, and Deep Linking runtime | Requires token issuance, tenant row-level authorization, gradebook write policy, and live service endpoints. |
-| Production OAuth/OIDC server | GitHub Pages cannot host token endpoints, client assertion validation, or secret/key storage. |
-| Automated privacy enforcement workflows | Consent checks, retention jobs, deletion, export, and data-sharing agreements need persistent backend services. |
+| Full LTI OIDC/JWT launch validation | A minimal authenticated launch receipt path exists. Production launch validation requires key management, nonce/state storage, deployment records, signature validation, and certification fixtures. |
+| Public AGS, NRPS, and Deep Linking runtime services | Need production token issuance, tenant row-level authorization, gradebook write policy, and service-specific conformance tests before public exposure. |
+| Production OAuth/OIDC server | A minimal authenticated token-exchange receipt path exists. Production token issuance requires server-side auth state, client assertion validation, and managed secret/key storage. |
+| Automated privacy enforcement workflows | The dictionary and audit slices model policy and sensitive-read audit rows. Automated consent checks, retention jobs, deletion, export, and data-sharing agreements need broader backend workflow services. |
 | Formal certification claims | LTI, Security Framework, and Data Privacy certification require conformance testing and organizational review beyond generated dictionary artifacts. |

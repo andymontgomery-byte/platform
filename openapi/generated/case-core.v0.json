@@ -1153,6 +1153,12 @@
       "CasePackage": {
         "type": "object",
         "description": "The full bundle for one framework: root document, items, relationship edges, definitions, and rubrics.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Package",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1163,33 +1169,75 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this CASE package.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Package",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The root framework document in this package.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Package",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "sourceSystem": {
             "type": "string",
             "description": "The standards publisher, state agency, institution, or importer that supplied the package.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Package",
+              "field": "sourceSystem",
+              "coverage": "mapped"
+            }
           },
           "packageUri": {
             "type": "string",
             "description": "A URI for the package or import source when one is available.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Package",
+              "field": "packageUri",
+              "coverage": "mapped"
+            }
           },
           "importedAt": {
             "type": "string",
             "description": "When the platform imported this CASE package.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Package",
+              "field": "importedAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "validationStatus": {
             "type": "string",
             "description": "Whether the CASE package passed platform validation.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Package",
+              "field": "validationStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "pending",
               "valid",
@@ -1201,6 +1249,36 @@
               "valid": "The package passed platform validation.",
               "invalid": "The package failed validation and should not be trusted for alignment.",
               "warning": "The package is usable but has non-blocking issues that should be reviewed."
+            },
+            "x-valueSourceStandards": {
+              "pending": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "validation_status",
+                "value": "pending",
+                "coverage": "mapped"
+              },
+              "valid": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "validation_status",
+                "value": "valid",
+                "coverage": "mapped"
+              },
+              "invalid": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "validation_status",
+                "value": "invalid",
+                "coverage": "mapped"
+              },
+              "warning": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "validation_status",
+                "value": "warning",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -1208,6 +1286,12 @@
       "CaseDocument": {
         "type": "object",
         "description": "The root document for a standards, competency, course-code, or skill framework.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Framework Document",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "identifier",
@@ -1220,22 +1304,50 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this framework document.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for this framework document.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for this framework document.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "frameworkType": {
             "type": "string",
             "description": "What kind of framework this is.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "frameworkType",
+              "coverage": "mapped"
+            },
             "enum": [
               "academicStandards",
               "competencyFramework",
@@ -1249,53 +1361,155 @@
               "courseCodes": "A framework used to publish course codes.",
               "workforceSkills": "A framework of workforce skills or occupational competencies.",
               "localFramework": "A district, school, or institution-specific framework."
+            },
+            "x-valueSourceStandards": {
+              "academicStandards": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "framework_type",
+                "value": "academicStandards",
+                "coverage": "mapped"
+              },
+              "competencyFramework": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "framework_type",
+                "value": "competencyFramework",
+                "coverage": "mapped"
+              },
+              "courseCodes": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "framework_type",
+                "value": "courseCodes",
+                "coverage": "mapped"
+              },
+              "workforceSkills": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "framework_type",
+                "value": "workforceSkills",
+                "coverage": "mapped"
+              },
+              "localFramework": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "framework_type",
+                "value": "localFramework",
+                "coverage": "mapped"
+              }
             }
           },
           "caseVersion": {
             "type": "string",
             "description": "The CASE version used by the document.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "caseVersion",
+              "coverage": "mapped"
+            },
             "enum": [
               "1.1"
             ],
             "x-valueDescriptions": {
               "1.1": "The CASE 1.1 framework and competency exchange model."
+            },
+            "x-valueSourceStandards": {
+              "1.1": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "case_version",
+                "value": "1.1",
+                "coverage": "mapped"
+              }
             }
           },
           "creator": {
             "type": "string",
             "description": "The organization with authority over the framework.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "creator",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The name of the framework document.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "A summary of what the framework covers.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "subject": {
             "type": "string",
             "description": "Subject labels such as Mathematics, Reading, or Biology.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "subject",
+              "coverage": "mapped"
+            }
           },
           "language": {
             "type": "string",
             "description": "Default language used in the framework text.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "language",
+              "coverage": "mapped"
+            }
           },
           "publisherVersion": {
             "type": "string",
             "description": "The publisher's revision or version label.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "publisherVersion",
+              "coverage": "mapped"
+            }
           },
           "adoptionStatus": {
             "type": "string",
             "description": "The publication or adoption status of the framework.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "adoptionStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "draft",
               "adopted",
@@ -1307,22 +1521,73 @@
               "adopted": "The framework is officially adopted or active.",
               "retired": "The framework is no longer active for new use.",
               "superseded": "The framework has been replaced by another version."
+            },
+            "x-valueSourceStandards": {
+              "draft": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "adoption_status",
+                "value": "draft",
+                "coverage": "mapped"
+              },
+              "adopted": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "adoption_status",
+                "value": "adopted",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "adoption_status",
+                "value": "retired",
+                "coverage": "mapped"
+              },
+              "superseded": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "adoption_status",
+                "value": "superseded",
+                "coverage": "mapped"
+              }
             }
           },
           "officialSourceUrl": {
             "type": "string",
             "description": "A link to the human-readable official source document.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "officialSourceUrl",
+              "coverage": "mapped"
+            }
           },
           "licenseUri": {
             "type": "string",
             "description": "A link to legal permissions for using the framework.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "licenseUri",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the publisher last changed this framework document.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Document",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1330,6 +1595,12 @@
       "CaseItem": {
         "type": "object",
         "description": "One node in the framework, such as a standard, competency, skill, objective, course code, strand, domain, or cluster.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Framework Item",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1342,47 +1613,110 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this framework item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this item belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for this framework item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for this framework item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "humanCodingScheme": {
             "type": "string",
             "description": "The short code people see in standards documents.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "humanCodingScheme",
+              "coverage": "mapped"
+            }
           },
           "fullStatement": {
             "type": "string",
             "description": "The complete text of the standard, competency, skill, objective, or grouping statement.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "fullStatement",
+              "coverage": "mapped"
+            }
           },
           "abbreviatedStatement": {
             "type": "string",
             "description": "A shortened version of the full statement.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "abbreviatedStatement",
+              "coverage": "mapped"
+            }
           },
           "alternativeLabel": {
             "type": "string",
             "description": "Another label the publisher uses for this kind of item.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "alternativeLabel",
+              "coverage": "mapped"
+            }
           },
           "itemType": {
             "type": "string",
             "description": "Publisher label for what kind of item this is.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "itemType",
+              "coverage": "mapped"
+            },
             "enum": [
               "domain",
               "strand",
@@ -1402,42 +1736,149 @@
               "skill": "A specific skill or capability.",
               "learningObjective": "A learning goal or objective.",
               "courseCode": "A course-code item in a CASE framework."
+            },
+            "x-valueSourceStandards": {
+              "domain": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "domain",
+                "coverage": "mapped"
+              },
+              "strand": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "strand",
+                "coverage": "mapped"
+              },
+              "cluster": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "cluster",
+                "coverage": "mapped"
+              },
+              "standard": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "standard",
+                "coverage": "mapped"
+              },
+              "competency": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "competency",
+                "coverage": "mapped"
+              },
+              "skill": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "skill",
+                "coverage": "mapped"
+              },
+              "learningObjective": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "learningObjective",
+                "coverage": "mapped"
+              },
+              "courseCode": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "courseCode",
+                "coverage": "mapped"
+              }
             }
           },
           "itemTypeUri": {
             "type": "string",
             "description": "Linked-data identifier for the item type.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "itemTypeUri",
+              "coverage": "mapped"
+            }
           },
           "conceptKeywords": {
             "type": "string",
             "description": "Topic keywords connected to the item.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "conceptKeywords",
+              "coverage": "mapped"
+            }
           },
           "subject": {
             "type": "string",
             "description": "Subject labels for this item.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "subject",
+              "coverage": "mapped"
+            }
           },
           "educationLevel": {
             "type": "string",
             "description": "Intended grade, education level, or instructional level.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "educationLevel",
+              "coverage": "mapped"
+            }
           },
           "listEnumeration": {
             "type": "string",
             "description": "The item's visible position in a list or outline.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "listEnumeration",
+              "coverage": "mapped"
+            }
           },
           "licenseUri": {
             "type": "string",
             "description": "License that applies to this item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "licenseUri",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When this item last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Framework Item",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1445,6 +1886,12 @@
       "CaseAssociation": {
         "type": "object",
         "description": "A relationship edge between framework documents or items.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Association",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1459,27 +1906,62 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this association.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this association belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for this relationship.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for this relationship.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "associationType": {
             "type": "string",
             "description": "What kind of relationship this is.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "associationType",
+              "coverage": "mapped"
+            },
             "enum": [
               "isChildOf",
               "isPeerOf",
@@ -1503,37 +1985,151 @@
               "exemplar": "The destination is an example of the origin.",
               "hasSkillLevel": "The destination defines a skill or difficulty level for the origin.",
               "isTranslationOf": "The destination is a translation of the origin."
+            },
+            "x-valueSourceStandards": {
+              "isChildOf": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "isChildOf",
+                "coverage": "mapped"
+              },
+              "isPeerOf": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "isPeerOf",
+                "coverage": "mapped"
+              },
+              "isPartOf": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "isPartOf",
+                "coverage": "mapped"
+              },
+              "exactMatchOf": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "exactMatchOf",
+                "coverage": "mapped"
+              },
+              "precedes": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "precedes",
+                "coverage": "mapped"
+              },
+              "isRelatedTo": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "isRelatedTo",
+                "coverage": "mapped"
+              },
+              "replacedBy": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "replacedBy",
+                "coverage": "mapped"
+              },
+              "exemplar": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "exemplar",
+                "coverage": "mapped"
+              },
+              "hasSkillLevel": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "hasSkillLevel",
+                "coverage": "mapped"
+              },
+              "isTranslationOf": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "association_type",
+                "value": "isTranslationOf",
+                "coverage": "mapped"
+              }
             }
           },
           "originNodeUri": {
             "type": "string",
             "description": "The item or document where the relationship starts.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "originNodeUri",
+              "coverage": "mapped"
+            }
           },
           "destinationNodeUri": {
             "type": "string",
             "description": "The item or document where the relationship points.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "destinationNodeUri",
+              "coverage": "mapped"
+            }
           },
           "sequenceNumber": {
             "type": "number",
             "description": "The display or processing order for this relationship.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "sequenceNumber",
+              "coverage": "mapped"
+            }
           },
           "associationGroupingUri": {
             "type": "string",
             "description": "A group label or URI for related associations.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "associationGroupingUri",
+              "coverage": "mapped"
+            }
           },
           "notes": {
             "type": "string",
             "description": "Publisher notes about the relationship.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "notes",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When this association last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1541,6 +2137,12 @@
       "CaseDefinition": {
         "type": "object",
         "description": "A set of reusable lookup definitions used by a framework.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Definition Set",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId"
@@ -1549,38 +2151,86 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this definition set.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Definition Set",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this definition set belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Definition Set",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "conceptCount": {
             "type": "integer",
             "description": "How many concept definitions are present.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Definition Set",
+              "field": "conceptCount",
+              "coverage": "mapped"
+            }
           },
           "subjectCount": {
             "type": "integer",
             "description": "How many subject definitions are present.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Definition Set",
+              "field": "subjectCount",
+              "coverage": "mapped"
+            }
           },
           "itemTypeCount": {
             "type": "integer",
             "description": "How many item type definitions are present.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Definition Set",
+              "field": "itemTypeCount",
+              "coverage": "mapped"
+            }
           },
           "licenseCount": {
             "type": "integer",
             "description": "How many license definitions are present.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Definition Set",
+              "field": "licenseCount",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "CaseConcept": {
         "type": "object",
         "description": "A topic or idea addressed by the framework.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Concept",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1594,47 +2244,110 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this concept.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this concept belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the concept.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the concept.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The concept name.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "keywords": {
             "type": "string",
             "description": "Keywords connected to the concept.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "keywords",
+              "coverage": "mapped"
+            }
           },
           "hierarchyCode": {
             "type": "string",
             "description": "The publisher's code showing where the concept fits in a concept hierarchy.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "hierarchyCode",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "Explanation of the concept.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the concept last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Concept",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1642,6 +2355,12 @@
       "CaseSubject": {
         "type": "object",
         "description": "An academic or topical subject used by the framework.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Subject",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1655,42 +2374,98 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this subject.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this subject belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the subject.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the subject.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The subject name.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "hierarchyCode": {
             "type": "string",
             "description": "The publisher's code for where the subject fits in a subject hierarchy.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "hierarchyCode",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "Explanation of the subject.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the subject last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Subject",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1698,6 +2473,12 @@
       "CaseItemType": {
         "type": "object",
         "description": "A definition explaining what kind of framework item something is.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Item Type",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1712,42 +2493,98 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this item type.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this item type belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the item type.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the item type.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The item type name.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "Explanation of the item type.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "hierarchyCode": {
             "type": "string",
             "description": "The publisher's code for where the item type fits in a hierarchy.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "hierarchyCode",
+              "coverage": "mapped"
+            }
           },
           "typeCode": {
             "type": "string",
             "description": "A normalized item type code used by the platform.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "typeCode",
+              "coverage": "mapped"
+            },
             "enum": [
               "domain",
               "strand",
@@ -1767,12 +2604,77 @@
               "skill": "A specific skill or capability.",
               "learningObjective": "A learning goal or objective.",
               "courseCode": "A course-code item in a CASE framework."
+            },
+            "x-valueSourceStandards": {
+              "domain": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "domain",
+                "coverage": "mapped"
+              },
+              "strand": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "strand",
+                "coverage": "mapped"
+              },
+              "cluster": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "cluster",
+                "coverage": "mapped"
+              },
+              "standard": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "standard",
+                "coverage": "mapped"
+              },
+              "competency": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "competency",
+                "coverage": "mapped"
+              },
+              "skill": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "skill",
+                "coverage": "mapped"
+              },
+              "learningObjective": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "learningObjective",
+                "coverage": "mapped"
+              },
+              "courseCode": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "item_type",
+                "value": "courseCode",
+                "coverage": "mapped"
+              }
             }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the item type last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Item Type",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1780,6 +2682,12 @@
       "CaseLicense": {
         "type": "object",
         "description": "A definition of permissions for using a framework, item, rubric, or related content.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE License",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1793,42 +2701,98 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this license.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this license belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the license record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the license record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The license name.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "Explanation of the license.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "licenseText": {
             "type": "string",
             "description": "The legal text or a reference to legal text for the license.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "licenseText",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the license record last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE License",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1836,6 +2800,12 @@
       "CaseAssociationGrouping": {
         "type": "object",
         "description": "A label for a set of associations so people can understand why those relationships belong together.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Association Grouping",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1848,37 +2818,86 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this association grouping.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association Grouping",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this grouping belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association Grouping",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the association group.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association Grouping",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the association group.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association Grouping",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The group name.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association Grouping",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "Explanation of the group.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association Grouping",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the group last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Association Grouping",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1886,6 +2905,12 @@
       "CaseRubric": {
         "type": "object",
         "description": "A rubric describing criteria and performance levels for judging work or mastery.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Rubric",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "documentId",
@@ -1897,37 +2922,86 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this rubric.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "documentId": {
             "type": "string",
             "description": "The framework document this rubric belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric",
+              "field": "documentId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the rubric.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the rubric.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "title": {
             "type": "string",
             "description": "The rubric name.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "Explanation of the rubric.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the rubric last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1935,6 +3009,12 @@
       "CaseRubricCriterion": {
         "type": "object",
         "description": "One thing being judged in a rubric, such as reasoning, fluency, accuracy, evidence, or collaboration.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Rubric Criterion",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "identifier",
@@ -1945,52 +3025,122 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this rubric criterion.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "rubricId": {
             "type": "string",
             "description": "The rubric this criterion belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "rubricId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the criterion.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the criterion.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "category": {
             "type": "string",
             "description": "A label used to group criteria.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "category",
+              "coverage": "mapped"
+            }
           },
           "description": {
             "type": "string",
             "description": "What this criterion measures.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "caseItemUri": {
             "type": "string",
             "description": "The standard, competency, or skill this criterion connects to.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "caseItemUri",
+              "coverage": "mapped"
+            }
           },
           "weight": {
             "type": "number",
             "description": "How much this criterion counts in scoring.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "weight",
+              "coverage": "mapped"
+            }
           },
           "position": {
             "type": "integer",
             "description": "Display order of this criterion in the rubric.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "position",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the criterion last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1998,6 +3148,12 @@
       "CaseRubricCriterionLevel": {
         "type": "object",
         "description": "One performance level for a rubric criterion, such as beginning, developing, proficient, or advanced.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE Rubric Criterion Level",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "identifier",
@@ -2008,27 +3164,62 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this criterion level.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "criterionId": {
             "type": "string",
             "description": "The criterion this level belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "criterionId",
+              "coverage": "mapped"
+            }
           },
           "identifier": {
             "type": "string",
             "description": "The official CASE UUID for the level.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "identifier",
+              "coverage": "mapped"
+            }
           },
           "uri": {
             "type": "string",
             "description": "A web identifier for the level.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "uri",
+              "coverage": "mapped"
+            }
           },
           "quality": {
             "type": "string",
             "description": "The label for the performance level.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "quality",
+              "coverage": "mapped"
+            },
             "enum": [
               "beginning",
               "developing",
@@ -2040,32 +3231,97 @@
               "developing": "Partial or emerging evidence of the criterion.",
               "proficient": "Expected evidence of the criterion.",
               "advanced": "Strong or extended evidence of the criterion."
+            },
+            "x-valueSourceStandards": {
+              "beginning": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "rubric_quality",
+                "value": "beginning",
+                "coverage": "mapped"
+              },
+              "developing": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "rubric_quality",
+                "value": "developing",
+                "coverage": "mapped"
+              },
+              "proficient": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "rubric_quality",
+                "value": "proficient",
+                "coverage": "mapped"
+              },
+              "advanced": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "rubric_quality",
+                "value": "advanced",
+                "coverage": "mapped"
+              }
             }
           },
           "description": {
             "type": "string",
             "description": "Explanation of the performance level.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "description",
+              "coverage": "mapped"
+            }
           },
           "score": {
             "type": "number",
             "description": "Points awarded for this level.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "score",
+              "coverage": "mapped"
+            }
           },
           "feedback": {
             "type": "string",
             "description": "Pre-written feedback or guidance for this level.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "feedback",
+              "coverage": "mapped"
+            }
           },
           "position": {
             "type": "integer",
             "description": "Display order of this level.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "position",
+              "coverage": "mapped"
+            }
           },
           "lastChangeDateTime": {
             "type": "string",
             "description": "When the level last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE Rubric Criterion Level",
+              "field": "lastChangeDateTime",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -2073,6 +3329,12 @@
       "CaseApiStatus": {
         "type": "object",
         "description": "Operational status information for failed or partial CASE service operations.",
+        "x-sourceStandard": {
+          "standard": "CASE",
+          "version": "1.1",
+          "object": "CASE API Status",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "imsxCodeMajor",
@@ -2082,17 +3344,38 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this status record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE API Status",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "operationId": {
             "type": "string",
             "description": "The import, sync, or API operation this status belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE API Status",
+              "field": "operationId",
+              "coverage": "mapped"
+            }
           },
           "imsxCodeMajor": {
             "type": "string",
             "description": "Broad result of the CASE API request.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE API Status",
+              "field": "imsxCodeMajor",
+              "coverage": "mapped"
+            },
             "enum": [
               "success",
               "processing",
@@ -2104,12 +3387,49 @@
               "processing": "The operation is still being processed.",
               "failure": "The operation failed.",
               "unsupported": "The requested operation or feature is not supported."
+            },
+            "x-valueSourceStandards": {
+              "success": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "code_major",
+                "value": "success",
+                "coverage": "mapped"
+              },
+              "processing": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "code_major",
+                "value": "processing",
+                "coverage": "mapped"
+              },
+              "failure": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "code_major",
+                "value": "failure",
+                "coverage": "mapped"
+              },
+              "unsupported": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "code_major",
+                "value": "unsupported",
+                "coverage": "mapped"
+              }
             }
           },
           "imsxSeverity": {
             "type": "string",
             "description": "Whether the status is informational, warning, or error.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE API Status",
+              "field": "imsxSeverity",
+              "coverage": "mapped"
+            },
             "enum": [
               "status",
               "warning",
@@ -2119,17 +3439,54 @@
               "status": "Informational status.",
               "warning": "A non-blocking issue occurred.",
               "error": "A blocking error occurred."
+            },
+            "x-valueSourceStandards": {
+              "status": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "severity",
+                "value": "status",
+                "coverage": "mapped"
+              },
+              "warning": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "severity",
+                "value": "warning",
+                "coverage": "mapped"
+              },
+              "error": {
+                "standard": "CASE",
+                "version": "1.1",
+                "vocabulary": "severity",
+                "value": "error",
+                "coverage": "mapped"
+              }
             }
           },
           "imsxDescription": {
             "type": "string",
             "description": "Human-readable details about the status.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE API Status",
+              "field": "imsxDescription",
+              "coverage": "mapped"
+            }
           },
           "imsxCodeMinor": {
             "type": "string",
             "description": "More specific status details from the service.",
-            "x-decisionId": "DEC-006-standards-alignment"
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "CASE",
+              "version": "1.1",
+              "object": "CASE API Status",
+              "field": "imsxCodeMinor",
+              "coverage": "mapped"
+            }
           }
         }
       }
@@ -2138,18 +3495,61 @@
   "x-unsupported-or-deferred": [
     {
       "area": "Formal CASE certification claim",
+      "sourceStandard": {
+        "standard": "CASE",
+        "version": "1.1",
+        "object": "Conformance/certification",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "official certification test evidence",
+        "member certification workflow"
+      ],
       "reason": "Requires official conformance testing and certification process beyond generated dictionary artifacts."
     },
     {
       "area": "Live CASE import API",
-      "reason": "Needs a hosted database, validation service, auth, and tenant/shared-reference policy."
+      "sourceStandard": {
+        "standard": "CASE",
+        "version": "1.1",
+        "object": "CFPackage import service",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "package upload",
+        "validation service",
+        "tenant adoption records",
+        "search indexing"
+      ],
+      "reason": "Needs a hosted database, validation service, auth, and tenant/shared-reference policy before public import/search workflows are useful."
     },
     {
       "area": "Publisher extension semantics",
+      "sourceStandard": {
+        "standard": "CASE",
+        "version": "1.1",
+        "object": "Extensions",
+        "coverage": "preserved_in_artifact"
+      },
+      "sourceFieldsOrValues": [
+        "publisher extension fields",
+        "custom payload semantics"
+      ],
       "reason": "Extensions are preserved as governed metadata, but not promoted to core fields until intentionally modeled."
     },
     {
       "area": "Full graph diff/merge workflow",
+      "sourceStandard": {
+        "standard": "CASE",
+        "version": "1.1",
+        "object": "Framework version graph operations",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "version diff",
+        "framework merge",
+        "tenant override reconciliation"
+      ],
       "reason": "Version comparison and merge tooling should be implemented after persistent backend storage exists."
     }
   ]

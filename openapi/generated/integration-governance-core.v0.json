@@ -1274,6 +1274,12 @@
       "LtiRegistration": {
         "type": "object",
         "description": "The security agreement between this platform and one external LTI tool.",
+        "x-sourceStandard": {
+          "standard": "LTI 1.3/LTI Advantage",
+          "version": "1.3/Advantage",
+          "object": "LTI Registration",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -1297,7 +1303,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
@@ -1306,7 +1319,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "issuer": {
             "type": "string",
@@ -1315,7 +1335,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "issuer",
+              "coverage": "mapped"
+            }
           },
           "clientId": {
             "type": "string",
@@ -1324,7 +1351,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "clientId",
+              "coverage": "mapped"
+            }
           },
           "toolName": {
             "type": "string",
@@ -1333,7 +1367,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "toolName",
+              "coverage": "mapped"
+            }
           },
           "initiateLoginUri": {
             "type": "string",
@@ -1342,7 +1383,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "initiateLoginUri",
+              "coverage": "mapped"
+            }
           },
           "redirectUris": {
             "type": "string",
@@ -1351,7 +1399,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "redirectUris",
+              "coverage": "mapped"
+            }
           },
           "jwksUri": {
             "type": "string",
@@ -1360,7 +1415,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "jwksUri",
+              "coverage": "mapped"
+            }
           },
           "authorizationEndpoint": {
             "type": "string",
@@ -1369,7 +1431,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "authorizationEndpoint",
+              "coverage": "mapped"
+            }
           },
           "tokenEndpoint": {
             "type": "string",
@@ -1378,7 +1447,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "tokenEndpoint",
+              "coverage": "mapped"
+            }
           },
           "allowedScopes": {
             "type": "string",
@@ -1387,7 +1463,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.registration:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "allowedScopes",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
@@ -1397,6 +1480,13 @@
             "x-oauthScopes": [
               "platform.integrations.registration:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
@@ -1406,6 +1496,29 @@
               "active": "The record is currently allowed for use.",
               "inactive": "The record exists but is not currently usable.",
               "retired": "The record is kept for history but should not be used for new activity."
+            },
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "retired",
+                "coverage": "mapped"
+              }
             }
           },
           "createdAt": {
@@ -1416,6 +1529,13 @@
             "x-oauthScopes": [
               "platform.integrations.registration:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "createdAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "updatedAt": {
@@ -1426,6 +1546,13 @@
             "x-oauthScopes": [
               "platform.integrations.registration:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Registration",
+              "field": "updatedAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1433,6 +1560,12 @@
       "LtiDeployment": {
         "type": "object",
         "description": "One installation of an LTI tool for a tenant, school, course, section, or activity.",
+        "x-sourceStandard": {
+          "standard": "LTI 1.3/LTI Advantage",
+          "version": "1.3/Advantage",
+          "object": "LTI Deployment",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "registrationId",
@@ -1449,7 +1582,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "registrationId": {
             "type": "string",
@@ -1458,7 +1598,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "registrationId",
+              "coverage": "mapped"
+            }
           },
           "deploymentId": {
             "type": "string",
@@ -1467,7 +1614,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "deploymentId",
+              "coverage": "mapped"
+            }
           },
           "deploymentScope": {
             "type": "string",
@@ -1477,6 +1631,13 @@
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "deploymentScope",
+              "coverage": "mapped"
+            },
             "enum": [
               "tenant",
               "school",
@@ -1490,6 +1651,43 @@
               "course": "The deployment applies to one course offering.",
               "section": "The deployment applies to one class or section.",
               "activity": "The deployment applies to one resource link or learning activity."
+            },
+            "x-valueSourceStandards": {
+              "tenant": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deployment_scope",
+                "value": "tenant",
+                "coverage": "mapped"
+              },
+              "school": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deployment_scope",
+                "value": "school",
+                "coverage": "mapped"
+              },
+              "course": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deployment_scope",
+                "value": "course",
+                "coverage": "mapped"
+              },
+              "section": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deployment_scope",
+                "value": "section",
+                "coverage": "mapped"
+              },
+              "activity": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deployment_scope",
+                "value": "activity",
+                "coverage": "mapped"
+              }
             }
           },
           "contextId": {
@@ -1499,7 +1697,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "contextId",
+              "coverage": "mapped"
+            }
           },
           "resourceLinkId": {
             "type": "string",
@@ -1508,7 +1713,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "resourceLinkId",
+              "coverage": "mapped"
+            }
           },
           "serviceScopes": {
             "type": "string",
@@ -1517,7 +1729,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "serviceScopes",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
@@ -1527,6 +1746,13 @@
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
@@ -1536,6 +1762,29 @@
               "active": "The record is currently allowed for use.",
               "inactive": "The record exists but is not currently usable.",
               "retired": "The record is kept for history but should not be used for new activity."
+            },
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "retired",
+                "coverage": "mapped"
+              }
             }
           },
           "createdAt": {
@@ -1546,6 +1795,13 @@
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deployment",
+              "field": "createdAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -1553,6 +1809,12 @@
       "LtiLaunch": {
         "type": "object",
         "description": "One launch attempt from the platform to an external LTI tool.",
+        "x-sourceStandard": {
+          "standard": "LTI 1.3/LTI Advantage",
+          "version": "1.3/Advantage",
+          "object": "LTI Launch",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -1575,7 +1837,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
@@ -1584,7 +1853,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "registrationId": {
             "type": "string",
@@ -1593,7 +1869,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "registrationId",
+              "coverage": "mapped"
+            }
           },
           "deploymentId": {
             "type": "string",
@@ -1602,7 +1885,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "deploymentId",
+              "coverage": "mapped"
+            }
           },
           "messageType": {
             "type": "string",
@@ -1612,6 +1902,13 @@
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "messageType",
+              "coverage": "mapped"
+            },
             "enum": [
               "LtiResourceLinkRequest",
               "LtiDeepLinkingRequest",
@@ -1621,6 +1918,29 @@
               "LtiResourceLinkRequest": "A normal launch from a course activity link.",
               "LtiDeepLinkingRequest": "An instructor launch used to select content from a tool.",
               "LtiDeepLinkingResponse": "A tool response returning selected content to the platform."
+            },
+            "x-valueSourceStandards": {
+              "LtiResourceLinkRequest": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "lti_message_type",
+                "value": "LtiResourceLinkRequest",
+                "coverage": "mapped"
+              },
+              "LtiDeepLinkingRequest": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "lti_message_type",
+                "value": "LtiDeepLinkingRequest",
+                "coverage": "mapped"
+              },
+              "LtiDeepLinkingResponse": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "lti_message_type",
+                "value": "LtiDeepLinkingResponse",
+                "coverage": "mapped"
+              }
             }
           },
           "ltiVersion": {
@@ -1631,11 +1951,27 @@
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "ltiVersion",
+              "coverage": "mapped"
+            },
             "enum": [
               "1.3.0"
             ],
             "x-valueDescriptions": {
               "1.3.0": "The LTI 1.3 launch message version used by the current model."
+            },
+            "x-valueSourceStandards": {
+              "1.3.0": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "lti_version",
+                "value": "1.3.0",
+                "coverage": "mapped"
+              }
             }
           },
           "subjectId": {
@@ -1645,7 +1981,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "subjectId",
+              "coverage": "mapped"
+            }
           },
           "contextId": {
             "type": "string",
@@ -1654,7 +1997,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "contextId",
+              "coverage": "mapped"
+            }
           },
           "roles": {
             "type": "string",
@@ -1663,7 +2013,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "roles",
+              "coverage": "mapped"
+            }
           },
           "targetLinkUri": {
             "type": "string",
@@ -1672,7 +2029,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "targetLinkUri",
+              "coverage": "mapped"
+            }
           },
           "nonceHash": {
             "type": "string",
@@ -1681,7 +2045,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "nonceHash",
+              "coverage": "mapped"
+            }
           },
           "idTokenHash": {
             "type": "string",
@@ -1690,7 +2061,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "idTokenHash",
+              "coverage": "mapped"
+            }
           },
           "rawClaims": {
             "type": "string",
@@ -1699,7 +2077,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "rawClaims",
+              "coverage": "mapped"
+            }
           },
           "launchedAt": {
             "type": "string",
@@ -1709,6 +2094,13 @@
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "launchedAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "validationStatus": {
@@ -1719,6 +2111,13 @@
             "x-oauthScopes": [
               "platform.integrations.launch.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Launch",
+              "field": "validationStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "pending",
               "valid",
@@ -1730,6 +2129,36 @@
               "valid": "The payload or workflow passed platform validation.",
               "invalid": "The payload or workflow failed validation.",
               "rejected": "The platform rejected the payload or workflow under policy."
+            },
+            "x-valueSourceStandards": {
+              "pending": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "pending",
+                "coverage": "mapped"
+              },
+              "valid": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "valid",
+                "coverage": "mapped"
+              },
+              "invalid": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "invalid",
+                "coverage": "mapped"
+              },
+              "rejected": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "rejected",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -1737,6 +2166,12 @@
       "LtiServiceEndpoint": {
         "type": "object",
         "description": "An LTI Advantage service URL that a tool may call for roster, gradebook, or deep-linking workflows.",
+        "x-sourceStandard": {
+          "standard": "LTI 1.3/LTI Advantage",
+          "version": "1.3/Advantage",
+          "object": "LTI Service Endpoint",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "deploymentId",
@@ -1754,7 +2189,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "deploymentId": {
             "type": "string",
@@ -1763,7 +2205,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "deploymentId",
+              "coverage": "mapped"
+            }
           },
           "serviceType": {
             "type": "string",
@@ -1773,6 +2222,13 @@
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "serviceType",
+              "coverage": "mapped"
+            },
             "enum": [
               "nrps",
               "ags_line_items",
@@ -1786,6 +2242,43 @@
               "ags_scores": "The service surface for sending score updates.",
               "ags_results": "The service surface for reading stored grade results.",
               "deep_linking": "The launch workflow for selecting tool content into a course."
+            },
+            "x-valueSourceStandards": {
+              "nrps": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "service_type",
+                "value": "nrps",
+                "coverage": "mapped"
+              },
+              "ags_line_items": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "service_type",
+                "value": "ags_line_items",
+                "coverage": "mapped"
+              },
+              "ags_scores": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "service_type",
+                "value": "ags_scores",
+                "coverage": "mapped"
+              },
+              "ags_results": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "service_type",
+                "value": "ags_results",
+                "coverage": "mapped"
+              },
+              "deep_linking": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "service_type",
+                "value": "deep_linking",
+                "coverage": "mapped"
+              }
             }
           },
           "endpointUrl": {
@@ -1795,7 +2288,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "endpointUrl",
+              "coverage": "mapped"
+            }
           },
           "serviceVersions": {
             "type": "string",
@@ -1804,7 +2304,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "serviceVersions",
+              "coverage": "mapped"
+            }
           },
           "requiredScope": {
             "type": "string",
@@ -1813,7 +2320,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "requiredScope",
+              "coverage": "mapped"
+            }
           },
           "contextId": {
             "type": "string",
@@ -1822,7 +2336,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "contextId",
+              "coverage": "mapped"
+            }
           },
           "policyStatus": {
             "type": "string",
@@ -1832,6 +2353,13 @@
             "x-oauthScopes": [
               "platform.integrations.deployment:read"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Service Endpoint",
+              "field": "policyStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
@@ -1841,6 +2369,29 @@
               "active": "The record is currently allowed for use.",
               "inactive": "The record exists but is not currently usable.",
               "retired": "The record is kept for history but should not be used for new activity."
+            },
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "retired",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -1848,6 +2399,12 @@
       "LtiMembership": {
         "type": "object",
         "description": "One person returned in an LTI Names and Role Provisioning Service roster response.",
+        "x-sourceStandard": {
+          "standard": "LTI 1.3/LTI Advantage",
+          "version": "1.3/Advantage",
+          "object": "LTI Membership",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "serviceEndpointId",
@@ -1862,7 +2419,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "serviceEndpointId": {
             "type": "string",
@@ -1871,7 +2435,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "serviceEndpointId",
+              "coverage": "mapped"
+            }
           },
           "contextId": {
             "type": "string",
@@ -1880,7 +2451,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "contextId",
+              "coverage": "mapped"
+            }
           },
           "userId": {
             "type": "string",
@@ -1889,7 +2467,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "userId",
+              "coverage": "mapped"
+            }
           },
           "platformPersonId": {
             "type": "string",
@@ -1898,7 +2483,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "platformPersonId",
+              "coverage": "mapped"
+            }
           },
           "displayName": {
             "type": "string",
@@ -1907,7 +2499,14 @@
             "x-privacyClass": "directory",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "displayName",
+              "coverage": "mapped"
+            }
           },
           "email": {
             "type": "string",
@@ -1916,7 +2515,14 @@
             "x-privacyClass": "directory",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "email",
+              "coverage": "mapped"
+            }
           },
           "roles": {
             "type": "string",
@@ -1925,7 +2531,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "roles",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
@@ -1935,6 +2548,13 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "Active",
               "Inactive"
@@ -1942,6 +2562,22 @@
             "x-valueDescriptions": {
               "Active": "The person is currently active in the context.",
               "Inactive": "The person has a membership but is not currently active."
+            },
+            "x-valueSourceStandards": {
+              "Active": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "membership_status",
+                "value": "Active",
+                "coverage": "mapped"
+              },
+              "Inactive": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "membership_status",
+                "value": "Inactive",
+                "coverage": "mapped"
+              }
             }
           },
           "lisPersonSourcedid": {
@@ -1951,13 +2587,26 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Membership",
+              "field": "lisPersonSourcedid",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "LtiGradeExchange": {
         "type": "object",
         "description": "A gradebook line item, score, or result exchanged through LTI Assignment and Grade Services.",
+        "x-sourceStandard": {
+          "standard": "LTI 1.3/LTI Advantage",
+          "version": "1.3/Advantage",
+          "object": "LTI Grade Exchange",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "serviceEndpointId",
@@ -1973,7 +2622,14 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "serviceEndpointId": {
             "type": "string",
@@ -1984,7 +2640,14 @@
               "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "serviceEndpointId",
+              "coverage": "mapped"
+            }
           },
           "lineItemUrl": {
             "type": "string",
@@ -1995,7 +2658,14 @@
               "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "lineItemUrl",
+              "coverage": "mapped"
+            }
           },
           "lineItemLabel": {
             "type": "string",
@@ -2004,7 +2674,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "lineItemLabel",
+              "coverage": "mapped"
+            }
           },
           "scoreMaximum": {
             "type": "number",
@@ -2013,7 +2690,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "scoreMaximum",
+              "coverage": "mapped"
+            }
           },
           "scoreGiven": {
             "type": "number",
@@ -2023,7 +2707,14 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "scoreGiven",
+              "coverage": "mapped"
+            }
           },
           "userId": {
             "type": "string",
@@ -2033,7 +2724,14 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "userId",
+              "coverage": "mapped"
+            }
           },
           "activityProgress": {
             "type": "string",
@@ -2044,6 +2742,13 @@
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "activityProgress",
+              "coverage": "mapped"
+            },
             "enum": [
               "Initialized",
               "Started",
@@ -2057,6 +2762,43 @@
               "InProgress": "The learner is still working.",
               "Submitted": "The learner submitted work.",
               "Completed": "The activity is complete."
+            },
+            "x-valueSourceStandards": {
+              "Initialized": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "activity_progress",
+                "value": "Initialized",
+                "coverage": "mapped"
+              },
+              "Started": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "activity_progress",
+                "value": "Started",
+                "coverage": "mapped"
+              },
+              "InProgress": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "activity_progress",
+                "value": "InProgress",
+                "coverage": "mapped"
+              },
+              "Submitted": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "activity_progress",
+                "value": "Submitted",
+                "coverage": "mapped"
+              },
+              "Completed": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "activity_progress",
+                "value": "Completed",
+                "coverage": "mapped"
+              }
             }
           },
           "gradingProgress": {
@@ -2068,6 +2810,13 @@
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "gradingProgress",
+              "coverage": "mapped"
+            },
             "enum": [
               "FullyGraded",
               "Pending",
@@ -2081,6 +2830,43 @@
               "PendingManual": "A person still needs to grade the work.",
               "Failed": "Grading failed.",
               "NotReady": "There is not enough information to grade yet."
+            },
+            "x-valueSourceStandards": {
+              "FullyGraded": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "grading_progress",
+                "value": "FullyGraded",
+                "coverage": "mapped"
+              },
+              "Pending": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "grading_progress",
+                "value": "Pending",
+                "coverage": "mapped"
+              },
+              "PendingManual": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "grading_progress",
+                "value": "PendingManual",
+                "coverage": "mapped"
+              },
+              "Failed": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "grading_progress",
+                "value": "Failed",
+                "coverage": "mapped"
+              },
+              "NotReady": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "grading_progress",
+                "value": "NotReady",
+                "coverage": "mapped"
+              }
             }
           },
           "timestamp": {
@@ -2092,6 +2878,13 @@
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "timestamp",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "exchangeStatus": {
@@ -2104,6 +2897,13 @@
               "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
               "https://purl.imsglobal.org/spec/lti-ags/scope/score"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Grade Exchange",
+              "field": "exchangeStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "pending",
               "valid",
@@ -2115,6 +2915,36 @@
               "valid": "The payload or workflow passed platform validation.",
               "invalid": "The payload or workflow failed validation.",
               "rejected": "The platform rejected the payload or workflow under policy."
+            },
+            "x-valueSourceStandards": {
+              "pending": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "pending",
+                "coverage": "mapped"
+              },
+              "valid": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "valid",
+                "coverage": "mapped"
+              },
+              "invalid": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "invalid",
+                "coverage": "mapped"
+              },
+              "rejected": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "validation_status",
+                "value": "rejected",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -2122,6 +2952,12 @@
       "LtiDeepLinkItem": {
         "type": "object",
         "description": "One content item selected by an instructor from an LTI tool and returned to the platform.",
+        "x-sourceStandard": {
+          "standard": "LTI 1.3/LTI Advantage",
+          "version": "1.3/Advantage",
+          "object": "LTI Deep Link Item",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "launchId",
@@ -2135,7 +2971,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "launchId": {
             "type": "string",
@@ -2144,7 +2987,14 @@
             "x-privacyClass": "behavioral",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "launchId",
+              "coverage": "mapped"
+            }
           },
           "itemType": {
             "type": "string",
@@ -2154,6 +3004,13 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "itemType",
+              "coverage": "mapped"
+            },
             "enum": [
               "link",
               "file",
@@ -2167,6 +3024,43 @@
               "html": "An HTML snippet selected from the tool.",
               "ltiResourceLink": "A launchable LTI activity returned by the tool.",
               "image": "An image resource selected from the tool."
+            },
+            "x-valueSourceStandards": {
+              "link": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deep_link_item_type",
+                "value": "link",
+                "coverage": "mapped"
+              },
+              "file": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deep_link_item_type",
+                "value": "file",
+                "coverage": "mapped"
+              },
+              "html": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deep_link_item_type",
+                "value": "html",
+                "coverage": "mapped"
+              },
+              "ltiResourceLink": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deep_link_item_type",
+                "value": "ltiResourceLink",
+                "coverage": "mapped"
+              },
+              "image": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "deep_link_item_type",
+                "value": "image",
+                "coverage": "mapped"
+              }
             }
           },
           "title": {
@@ -2176,7 +3070,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "title",
+              "coverage": "mapped"
+            }
           },
           "url": {
             "type": "string",
@@ -2185,7 +3086,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "url",
+              "coverage": "mapped"
+            }
           },
           "html": {
             "type": "string",
@@ -2194,7 +3102,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "html",
+              "coverage": "mapped"
+            }
           },
           "documentTarget": {
             "type": "string",
@@ -2204,6 +3119,13 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "documentTarget",
+              "coverage": "mapped"
+            },
             "enum": [
               "iframe",
               "window",
@@ -2213,6 +3135,29 @@
               "iframe": "Display the item in an embedded frame.",
               "window": "Open the item in a new browser window or tab.",
               "embed": "Place the item directly in page content."
+            },
+            "x-valueSourceStandards": {
+              "iframe": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "document_target",
+                "value": "iframe",
+                "coverage": "mapped"
+              },
+              "window": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "document_target",
+                "value": "window",
+                "coverage": "mapped"
+              },
+              "embed": {
+                "standard": "LTI 1.3/LTI Advantage",
+                "version": "1.3/Advantage",
+                "vocabulary": "document_target",
+                "value": "embed",
+                "coverage": "mapped"
+              }
             }
           },
           "lineItemJson": {
@@ -2222,7 +3167,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "lineItemJson",
+              "coverage": "mapped"
+            }
           },
           "availabilityStartAt": {
             "type": "string",
@@ -2232,6 +3184,13 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "availabilityStartAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "submissionEndAt": {
@@ -2242,6 +3201,13 @@
             "x-oauthScopes": [
               "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
             ],
+            "x-sourceStandard": {
+              "standard": "LTI 1.3/LTI Advantage",
+              "version": "1.3/Advantage",
+              "object": "LTI Deep Link Item",
+              "field": "submissionEndAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -2249,6 +3215,12 @@
       "SecurityOauthClient": {
         "type": "object",
         "description": "An OAuth client record used for LTI tools or other API integrations.",
+        "x-sourceStandard": {
+          "standard": "Security Framework",
+          "version": "1.1",
+          "object": "Security OAuth Client",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -2267,7 +3239,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
@@ -2276,7 +3255,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "clientId": {
             "type": "string",
@@ -2285,7 +3271,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "clientId",
+              "coverage": "mapped"
+            }
           },
           "clientName": {
             "type": "string",
@@ -2294,7 +3287,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "clientName",
+              "coverage": "mapped"
+            }
           },
           "jwksUri": {
             "type": "string",
@@ -2303,7 +3303,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "jwksUri",
+              "coverage": "mapped"
+            }
           },
           "publicJwk": {
             "type": "string",
@@ -2312,7 +3319,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "publicJwk",
+              "coverage": "mapped"
+            }
           },
           "authMethod": {
             "type": "string",
@@ -2322,6 +3336,13 @@
             "x-oauthScopes": [
               "platform.security.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "authMethod",
+              "coverage": "mapped"
+            },
             "enum": [
               "private_key_jwt",
               "client_secret_basic",
@@ -2331,6 +3352,29 @@
               "private_key_jwt": "The client signs a JWT with its private key to authenticate.",
               "client_secret_basic": "The client authenticates with a shared secret using basic authentication.",
               "client_secret_post": "The client authenticates with a shared secret in the token request body."
+            },
+            "x-valueSourceStandards": {
+              "private_key_jwt": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "auth_method",
+                "value": "private_key_jwt",
+                "coverage": "mapped"
+              },
+              "client_secret_basic": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "auth_method",
+                "value": "client_secret_basic",
+                "coverage": "mapped"
+              },
+              "client_secret_post": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "auth_method",
+                "value": "client_secret_post",
+                "coverage": "mapped"
+              }
             }
           },
           "grantTypes": {
@@ -2340,7 +3384,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "grantTypes",
+              "coverage": "mapped"
+            }
           },
           "allowedScopes": {
             "type": "string",
@@ -2349,7 +3400,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "allowedScopes",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
@@ -2359,6 +3417,13 @@
             "x-oauthScopes": [
               "platform.security.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security OAuth Client",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "suspended",
@@ -2368,6 +3433,29 @@
               "active": "The client may request tokens.",
               "suspended": "Token issuance is paused for this client.",
               "retired": "The client is retained for history but should not receive new tokens."
+            },
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "client_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "suspended": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "client_status",
+                "value": "suspended",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "client_status",
+                "value": "retired",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -2375,6 +3463,12 @@
       "SecurityScopePolicy": {
         "type": "object",
         "description": "A rule mapping an OAuth scope to the API resources, actions, roles, and privacy classes it may access.",
+        "x-sourceStandard": {
+          "standard": "Security Framework",
+          "version": "1.1",
+          "object": "Security Scope Policy",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "scope",
@@ -2392,7 +3486,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "scope": {
             "type": "string",
@@ -2401,7 +3502,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "scope",
+              "coverage": "mapped"
+            }
           },
           "apiResource": {
             "type": "string",
@@ -2410,7 +3518,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "apiResource",
+              "coverage": "mapped"
+            }
           },
           "allowedAction": {
             "type": "string",
@@ -2420,6 +3535,13 @@
             "x-oauthScopes": [
               "platform.security.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "allowedAction",
+              "coverage": "mapped"
+            },
             "enum": [
               "read",
               "write",
@@ -2431,6 +3553,36 @@
               "write": "The scope allows data to be created or changed.",
               "launch": "The scope or policy supports launch-bound access.",
               "admin": "The scope allows administrative configuration."
+            },
+            "x-valueSourceStandards": {
+              "read": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "scope_action",
+                "value": "read",
+                "coverage": "mapped"
+              },
+              "write": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "scope_action",
+                "value": "write",
+                "coverage": "mapped"
+              },
+              "launch": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "scope_action",
+                "value": "launch",
+                "coverage": "mapped"
+              },
+              "admin": {
+                "standard": "Security Framework",
+                "version": "1.1",
+                "vocabulary": "scope_action",
+                "value": "admin",
+                "coverage": "mapped"
+              }
             }
           },
           "privacyCeiling": {
@@ -2441,6 +3593,13 @@
             "x-oauthScopes": [
               "platform.security.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "privacyCeiling",
+              "coverage": "mapped"
+            },
             "enum": [
               "public",
               "directory",
@@ -2460,6 +3619,64 @@
               "operational": "Import, export, launch, validation, or processing data.",
               "system": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data.",
               "privacy_governance": "Policy and review data used to decide how other data may be shared or retained."
+            },
+            "x-valueSourceStandards": {
+              "public": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "public",
+                "coverage": "mapped"
+              },
+              "directory": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "directory",
+                "coverage": "mapped"
+              },
+              "education_record": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "education_record",
+                "coverage": "mapped"
+              },
+              "sensitive": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "sensitive",
+                "coverage": "mapped"
+              },
+              "behavioral": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "behavioral",
+                "coverage": "mapped"
+              },
+              "operational": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "operational",
+                "coverage": "mapped"
+              },
+              "system": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "system",
+                "coverage": "mapped"
+              },
+              "privacy_governance": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "privacy_governance",
+                "coverage": "mapped"
+              }
             }
           },
           "fieldPatterns": {
@@ -2469,7 +3686,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "fieldPatterns",
+              "coverage": "mapped"
+            }
           },
           "requiresLaunchContext": {
             "type": "boolean",
@@ -2478,7 +3702,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "requiresLaunchContext",
+              "coverage": "mapped"
+            }
           },
           "allowedRoles": {
             "type": "string",
@@ -2487,7 +3718,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.security.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "allowedRoles",
+              "coverage": "mapped"
+            }
           },
           "policyStatus": {
             "type": "string",
@@ -2497,6 +3735,13 @@
             "x-oauthScopes": [
               "platform.security.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Security Framework",
+              "version": "1.1",
+              "object": "Security Scope Policy",
+              "field": "policyStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
@@ -2506,6 +3751,29 @@
               "active": "The record is currently allowed for use.",
               "inactive": "The record exists but is not currently usable.",
               "retired": "The record is kept for history but should not be used for new activity."
+            },
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "retired",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -2513,6 +3781,12 @@
       "PrivacyDataSharingRule": {
         "type": "object",
         "description": "A tenant policy rule explaining what data may be shared, with whom, for what purpose, and under what legal basis.",
+        "x-sourceStandard": {
+          "standard": "Data Privacy",
+          "version": "1.0",
+          "object": "Privacy Data Sharing Rule",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -2531,7 +3805,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
@@ -2540,7 +3821,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "dataCategory": {
             "type": "string",
@@ -2550,6 +3838,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "dataCategory",
+              "coverage": "mapped"
+            },
             "enum": [
               "roster",
               "gradebook",
@@ -2571,6 +3866,71 @@
               "security": "Tokens, keys, scopes, client records, and audit evidence.",
               "consent": "Consent choices and related evidence.",
               "raw_payload": "Original standards payloads retained for audit or reprocessing."
+            },
+            "x-valueSourceStandards": {
+              "roster": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "roster",
+                "coverage": "mapped"
+              },
+              "gradebook": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "gradebook",
+                "coverage": "mapped"
+              },
+              "assessment": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "assessment",
+                "coverage": "mapped"
+              },
+              "activity": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "activity",
+                "coverage": "mapped"
+              },
+              "credential": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "credential",
+                "coverage": "mapped"
+              },
+              "identifier": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "identifier",
+                "coverage": "mapped"
+              },
+              "security": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "security",
+                "coverage": "mapped"
+              },
+              "consent": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "consent",
+                "coverage": "mapped"
+              },
+              "raw_payload": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "raw_payload",
+                "coverage": "mapped"
+              }
             }
           },
           "privacyClass": {
@@ -2581,6 +3941,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "privacyClass",
+              "coverage": "mapped"
+            },
             "enum": [
               "public",
               "directory",
@@ -2600,6 +3967,64 @@
               "operational": "Import, export, launch, validation, or processing data.",
               "system": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data.",
               "privacy_governance": "Policy and review data used to decide how other data may be shared or retained."
+            },
+            "x-valueSourceStandards": {
+              "public": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "public",
+                "coverage": "mapped"
+              },
+              "directory": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "directory",
+                "coverage": "mapped"
+              },
+              "education_record": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "education_record",
+                "coverage": "mapped"
+              },
+              "sensitive": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "sensitive",
+                "coverage": "mapped"
+              },
+              "behavioral": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "behavioral",
+                "coverage": "mapped"
+              },
+              "operational": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "operational",
+                "coverage": "mapped"
+              },
+              "system": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "system",
+                "coverage": "mapped"
+              },
+              "privacy_governance": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "privacy_governance",
+                "coverage": "mapped"
+              }
             }
           },
           "recipientType": {
@@ -2610,6 +4035,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "recipientType",
+              "coverage": "mapped"
+            },
             "enum": [
               "internal_app",
               "external_tool",
@@ -2627,6 +4059,57 @@
               "learner": "The learner whose data is involved.",
               "guardian": "A parent or guardian authorized to view the learner's data.",
               "service_provider": "A vendor or processor acting under agreement."
+            },
+            "x-valueSourceStandards": {
+              "internal_app": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "recipient_type",
+                "value": "internal_app",
+                "coverage": "mapped"
+              },
+              "external_tool": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "recipient_type",
+                "value": "external_tool",
+                "coverage": "mapped"
+              },
+              "district_admin": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "recipient_type",
+                "value": "district_admin",
+                "coverage": "mapped"
+              },
+              "school_staff": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "recipient_type",
+                "value": "school_staff",
+                "coverage": "mapped"
+              },
+              "learner": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "recipient_type",
+                "value": "learner",
+                "coverage": "mapped"
+              },
+              "guardian": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "recipient_type",
+                "value": "guardian",
+                "coverage": "mapped"
+              },
+              "service_provider": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "recipient_type",
+                "value": "service_provider",
+                "coverage": "mapped"
+              }
             }
           },
           "purpose": {
@@ -2636,7 +4119,14 @@
             "x-privacyClass": "privacy_governance",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "purpose",
+              "coverage": "mapped"
+            }
           },
           "legalBasis": {
             "type": "string",
@@ -2646,6 +4136,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "legalBasis",
+              "coverage": "mapped"
+            },
             "enum": [
               "consent",
               "contract",
@@ -2659,6 +4156,43 @@
               "school_official": "The recipient acts under school official or equivalent educational interest rules.",
               "legitimate_interest": "The sharing supports an approved operational or educational interest.",
               "legal_obligation": "The sharing is required by law, regulation, or formal process."
+            },
+            "x-valueSourceStandards": {
+              "consent": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "legal_basis",
+                "value": "consent",
+                "coverage": "mapped"
+              },
+              "contract": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "legal_basis",
+                "value": "contract",
+                "coverage": "mapped"
+              },
+              "school_official": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "legal_basis",
+                "value": "school_official",
+                "coverage": "mapped"
+              },
+              "legitimate_interest": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "legal_basis",
+                "value": "legitimate_interest",
+                "coverage": "mapped"
+              },
+              "legal_obligation": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "legal_basis",
+                "value": "legal_obligation",
+                "coverage": "mapped"
+              }
             }
           },
           "fieldPatterns": {
@@ -2668,7 +4202,14 @@
             "x-privacyClass": "privacy_governance",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "fieldPatterns",
+              "coverage": "mapped"
+            }
           },
           "minimizationNote": {
             "type": "string",
@@ -2677,7 +4218,14 @@
             "x-privacyClass": "privacy_governance",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "minimizationNote",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
@@ -2687,6 +4235,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
@@ -2696,6 +4251,29 @@
               "active": "The record is currently allowed for use.",
               "inactive": "The record exists but is not currently usable.",
               "retired": "The record is kept for history but should not be used for new activity."
+            },
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "retired",
+                "coverage": "mapped"
+              }
             }
           },
           "reviewedAt": {
@@ -2706,6 +4284,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Data Sharing Rule",
+              "field": "reviewedAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           }
         }
@@ -2713,6 +4298,12 @@
       "PrivacyConsentRecord": {
         "type": "object",
         "description": "A record of learner, guardian, or administrator consent connected to a privacy rule.",
+        "x-sourceStandard": {
+          "standard": "Data Privacy",
+          "version": "1.0",
+          "object": "Privacy Consent Record",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -2730,7 +4321,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.consent:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
@@ -2739,7 +4337,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.consent:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "personId": {
             "type": "string",
@@ -2748,7 +4353,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "platform.privacy.consent:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "personId",
+              "coverage": "mapped"
+            }
           },
           "guardianPersonId": {
             "type": "string",
@@ -2757,7 +4369,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.privacy.consent:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "guardianPersonId",
+              "coverage": "mapped"
+            }
           },
           "ruleId": {
             "type": "string",
@@ -2766,7 +4385,14 @@
             "x-privacyClass": "privacy_governance",
             "x-oauthScopes": [
               "platform.privacy.consent:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "ruleId",
+              "coverage": "mapped"
+            }
           },
           "consentStatus": {
             "type": "string",
@@ -2776,6 +4402,13 @@
             "x-oauthScopes": [
               "platform.privacy.consent:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "consentStatus",
+              "coverage": "mapped"
+            },
             "enum": [
               "pending",
               "granted",
@@ -2789,6 +4422,43 @@
               "denied": "Consent was not granted.",
               "revoked": "Previously granted consent was withdrawn.",
               "expired": "Consent was time-limited and is no longer active."
+            },
+            "x-valueSourceStandards": {
+              "pending": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_status",
+                "value": "pending",
+                "coverage": "mapped"
+              },
+              "granted": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_status",
+                "value": "granted",
+                "coverage": "mapped"
+              },
+              "denied": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_status",
+                "value": "denied",
+                "coverage": "mapped"
+              },
+              "revoked": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_status",
+                "value": "revoked",
+                "coverage": "mapped"
+              },
+              "expired": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_status",
+                "value": "expired",
+                "coverage": "mapped"
+              }
             }
           },
           "effectiveAt": {
@@ -2799,6 +4469,13 @@
             "x-oauthScopes": [
               "platform.privacy.consent:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "effectiveAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "expiresAt": {
@@ -2809,6 +4486,13 @@
             "x-oauthScopes": [
               "platform.privacy.consent:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "expiresAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "sourceMethod": {
@@ -2819,6 +4503,13 @@
             "x-oauthScopes": [
               "platform.privacy.consent:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "sourceMethod",
+              "coverage": "mapped"
+            },
             "enum": [
               "admin",
               "guardian_portal",
@@ -2830,6 +4521,36 @@
               "guardian_portal": "A guardian submitted the consent state through a portal.",
               "learner_portal": "A learner submitted the consent state through a portal.",
               "imported_agreement": "The consent state came from an imported agreement or external system."
+            },
+            "x-valueSourceStandards": {
+              "admin": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_source_method",
+                "value": "admin",
+                "coverage": "mapped"
+              },
+              "guardian_portal": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_source_method",
+                "value": "guardian_portal",
+                "coverage": "mapped"
+              },
+              "learner_portal": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_source_method",
+                "value": "learner_portal",
+                "coverage": "mapped"
+              },
+              "imported_agreement": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "consent_source_method",
+                "value": "imported_agreement",
+                "coverage": "mapped"
+              }
             }
           },
           "evidenceUri": {
@@ -2839,13 +4560,26 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.privacy.consent:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Consent Record",
+              "field": "evidenceUri",
+              "coverage": "mapped"
+            }
           }
         }
       },
       "PrivacyRetentionRule": {
         "type": "object",
         "description": "A tenant rule for how long a category of data is retained and what happens when it expires.",
+        "x-sourceStandard": {
+          "standard": "Data Privacy",
+          "version": "1.0",
+          "object": "Privacy Retention Rule",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -2865,7 +4599,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
@@ -2874,7 +4615,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "sourceStandard": {
             "type": "string",
@@ -2884,6 +4632,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "sourceStandard",
+              "coverage": "mapped"
+            },
             "enum": [
               "lti",
               "security_framework",
@@ -2901,6 +4656,57 @@
               "qti": "Assessment package or item data.",
               "case": "Standards framework data.",
               "caliper": "Learning event or analytics data."
+            },
+            "x-valueSourceStandards": {
+              "lti": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "source_standard",
+                "value": "lti",
+                "coverage": "mapped"
+              },
+              "security_framework": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "source_standard",
+                "value": "security_framework",
+                "coverage": "mapped"
+              },
+              "data_privacy": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "source_standard",
+                "value": "data_privacy",
+                "coverage": "mapped"
+              },
+              "oneroster": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "source_standard",
+                "value": "oneroster",
+                "coverage": "mapped"
+              },
+              "qti": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "source_standard",
+                "value": "qti",
+                "coverage": "mapped"
+              },
+              "case": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "source_standard",
+                "value": "case",
+                "coverage": "mapped"
+              },
+              "caliper": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "source_standard",
+                "value": "caliper",
+                "coverage": "mapped"
+              }
             }
           },
           "dataCategory": {
@@ -2911,6 +4717,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "dataCategory",
+              "coverage": "mapped"
+            },
             "enum": [
               "roster",
               "gradebook",
@@ -2932,6 +4745,71 @@
               "security": "Tokens, keys, scopes, client records, and audit evidence.",
               "consent": "Consent choices and related evidence.",
               "raw_payload": "Original standards payloads retained for audit or reprocessing."
+            },
+            "x-valueSourceStandards": {
+              "roster": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "roster",
+                "coverage": "mapped"
+              },
+              "gradebook": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "gradebook",
+                "coverage": "mapped"
+              },
+              "assessment": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "assessment",
+                "coverage": "mapped"
+              },
+              "activity": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "activity",
+                "coverage": "mapped"
+              },
+              "credential": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "credential",
+                "coverage": "mapped"
+              },
+              "identifier": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "identifier",
+                "coverage": "mapped"
+              },
+              "security": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "security",
+                "coverage": "mapped"
+              },
+              "consent": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "consent",
+                "coverage": "mapped"
+              },
+              "raw_payload": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "data_category",
+                "value": "raw_payload",
+                "coverage": "mapped"
+              }
             }
           },
           "retentionPeriodDays": {
@@ -2941,7 +4819,14 @@
             "x-privacyClass": "privacy_governance",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "retentionPeriodDays",
+              "coverage": "mapped"
+            }
           },
           "actionOnExpiry": {
             "type": "string",
@@ -2951,6 +4836,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "actionOnExpiry",
+              "coverage": "mapped"
+            },
             "enum": [
               "delete",
               "anonymize",
@@ -2962,6 +4854,36 @@
               "anonymize": "Remove or transform identifiers so the data no longer identifies a learner.",
               "aggregate_only": "Keep only aggregate counts or summaries.",
               "legal_hold": "Retain the data because a legal hold prevents deletion."
+            },
+            "x-valueSourceStandards": {
+              "delete": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "retention_action",
+                "value": "delete",
+                "coverage": "mapped"
+              },
+              "anonymize": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "retention_action",
+                "value": "anonymize",
+                "coverage": "mapped"
+              },
+              "aggregate_only": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "retention_action",
+                "value": "aggregate_only",
+                "coverage": "mapped"
+              },
+              "legal_hold": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "retention_action",
+                "value": "legal_hold",
+                "coverage": "mapped"
+              }
             }
           },
           "rawPayloadPolicy": {
@@ -2972,6 +4894,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "rawPayloadPolicy",
+              "coverage": "mapped"
+            },
             "enum": [
               "retain",
               "minimize",
@@ -2983,6 +4912,36 @@
               "minimize": "Retain only the payload parts needed for audit or reprocessing.",
               "hash_only": "Keep a fingerprint of the payload instead of the full original.",
               "discard_after_projection": "Delete the raw payload after structured fields are projected."
+            },
+            "x-valueSourceStandards": {
+              "retain": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "raw_payload_policy",
+                "value": "retain",
+                "coverage": "mapped"
+              },
+              "minimize": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "raw_payload_policy",
+                "value": "minimize",
+                "coverage": "mapped"
+              },
+              "hash_only": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "raw_payload_policy",
+                "value": "hash_only",
+                "coverage": "mapped"
+              },
+              "discard_after_projection": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "raw_payload_policy",
+                "value": "discard_after_projection",
+                "coverage": "mapped"
+              }
             }
           },
           "legalHold": {
@@ -2992,7 +4951,14 @@
             "x-privacyClass": "privacy_governance",
             "x-oauthScopes": [
               "platform.privacy.policy:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "legalHold",
+              "coverage": "mapped"
+            }
           },
           "status": {
             "type": "string",
@@ -3002,6 +4968,13 @@
             "x-oauthScopes": [
               "platform.privacy.policy:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Retention Rule",
+              "field": "status",
+              "coverage": "mapped"
+            },
             "enum": [
               "active",
               "inactive",
@@ -3011,6 +4984,29 @@
               "active": "The record is currently allowed for use.",
               "inactive": "The record exists but is not currently usable.",
               "retired": "The record is kept for history but should not be used for new activity."
+            },
+            "x-valueSourceStandards": {
+              "active": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "active",
+                "coverage": "mapped"
+              },
+              "inactive": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "inactive",
+                "coverage": "mapped"
+              },
+              "retired": {
+                "standard": "Integration/Governance Lead Specs",
+                "version": "lead",
+                "vocabulary": "record_status",
+                "value": "retired",
+                "coverage": "mapped"
+              }
             }
           }
         }
@@ -3018,6 +5014,12 @@
       "PrivacyAuditEvent": {
         "type": "object",
         "description": "An audit trail entry for access, sharing, export, deletion, policy changes, consent changes, or token issuance involving governed data.",
+        "x-sourceStandard": {
+          "standard": "Data Privacy",
+          "version": "1.0",
+          "object": "Privacy Audit Event",
+          "coverage": "mapped"
+        },
         "required": [
           "id",
           "tenantId",
@@ -3035,7 +5037,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
           },
           "tenantId": {
             "type": "string",
@@ -3044,7 +5053,14 @@
             "x-privacyClass": "operational",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "tenantId",
+              "coverage": "platform_projection"
+            }
           },
           "actorPersonId": {
             "type": "string",
@@ -3053,7 +5069,14 @@
             "x-privacyClass": "education_record",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "actorPersonId",
+              "coverage": "mapped"
+            }
           },
           "clientId": {
             "type": "string",
@@ -3062,7 +5085,14 @@
             "x-privacyClass": "system",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "clientId",
+              "coverage": "mapped"
+            }
           },
           "eventType": {
             "type": "string",
@@ -3072,6 +5102,13 @@
             "x-oauthScopes": [
               "platform.privacy.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "eventType",
+              "coverage": "mapped"
+            },
             "enum": [
               "access",
               "export",
@@ -3089,6 +5126,57 @@
               "policy_change": "A privacy, scope, or retention policy changed.",
               "consent_change": "A consent state changed.",
               "token_issue": "A security token was issued or denied."
+            },
+            "x-valueSourceStandards": {
+              "access": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_event_type",
+                "value": "access",
+                "coverage": "mapped"
+              },
+              "export": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_event_type",
+                "value": "export",
+                "coverage": "mapped"
+              },
+              "share": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_event_type",
+                "value": "share",
+                "coverage": "mapped"
+              },
+              "delete": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_event_type",
+                "value": "delete",
+                "coverage": "mapped"
+              },
+              "policy_change": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_event_type",
+                "value": "policy_change",
+                "coverage": "mapped"
+              },
+              "consent_change": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_event_type",
+                "value": "consent_change",
+                "coverage": "mapped"
+              },
+              "token_issue": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_event_type",
+                "value": "token_issue",
+                "coverage": "mapped"
+              }
             }
           },
           "objectType": {
@@ -3098,7 +5186,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "objectType",
+              "coverage": "mapped"
+            }
           },
           "objectId": {
             "type": "string",
@@ -3107,7 +5202,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "objectId",
+              "coverage": "mapped"
+            }
           },
           "privacyClass": {
             "type": "string",
@@ -3117,6 +5219,13 @@
             "x-oauthScopes": [
               "platform.privacy.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "privacyClass",
+              "coverage": "mapped"
+            },
             "enum": [
               "public",
               "directory",
@@ -3136,6 +5245,64 @@
               "operational": "Import, export, launch, validation, or processing data.",
               "system": "Platform configuration, keys, tokens, scopes, secrets metadata, or infrastructure data.",
               "privacy_governance": "Policy and review data used to decide how other data may be shared or retained."
+            },
+            "x-valueSourceStandards": {
+              "public": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "public",
+                "coverage": "mapped"
+              },
+              "directory": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "directory",
+                "coverage": "mapped"
+              },
+              "education_record": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "education_record",
+                "coverage": "mapped"
+              },
+              "sensitive": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "sensitive",
+                "coverage": "mapped"
+              },
+              "behavioral": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "behavioral",
+                "coverage": "mapped"
+              },
+              "operational": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "operational",
+                "coverage": "mapped"
+              },
+              "system": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "system",
+                "coverage": "mapped"
+              },
+              "privacy_governance": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "privacy_class_value",
+                "value": "privacy_governance",
+                "coverage": "mapped"
+              }
             }
           },
           "policyId": {
@@ -3145,7 +5312,14 @@
             "x-privacyClass": "privacy_governance",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "policyId",
+              "coverage": "mapped"
+            }
           },
           "occurredAt": {
             "type": "string",
@@ -3155,6 +5329,13 @@
             "x-oauthScopes": [
               "platform.privacy.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "occurredAt",
+              "coverage": "mapped"
+            },
             "format": "date-time"
           },
           "outcome": {
@@ -3165,6 +5346,13 @@
             "x-oauthScopes": [
               "platform.privacy.audit:read"
             ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "outcome",
+              "coverage": "mapped"
+            },
             "enum": [
               "allowed",
               "denied",
@@ -3176,6 +5364,36 @@
               "denied": "The platform denied the action.",
               "failed": "The action failed before completion.",
               "completed": "The action completed successfully."
+            },
+            "x-valueSourceStandards": {
+              "allowed": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "audit_outcome",
+                "value": "allowed",
+                "coverage": "mapped"
+              },
+              "denied": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "audit_outcome",
+                "value": "denied",
+                "coverage": "mapped"
+              },
+              "failed": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "audit_outcome",
+                "value": "failed",
+                "coverage": "mapped"
+              },
+              "completed": {
+                "standard": "Data Privacy",
+                "version": "1.0",
+                "vocabulary": "audit_outcome",
+                "value": "completed",
+                "coverage": "mapped"
+              }
             }
           },
           "reason": {
@@ -3185,7 +5403,14 @@
             "x-privacyClass": "sensitive",
             "x-oauthScopes": [
               "platform.privacy.audit:read"
-            ]
+            ],
+            "x-sourceStandard": {
+              "standard": "Data Privacy",
+              "version": "1.0",
+              "object": "Privacy Audit Event",
+              "field": "reason",
+              "coverage": "mapped"
+            }
           }
         }
       }
@@ -3541,23 +5766,85 @@
   ],
   "x-unsupported-or-deferred": [
     {
-      "area": "Live LTI launch validation",
-      "reason": "Requires a hosted OAuth/OIDC backend, nonce and state storage, private key management, and tenant deployment records."
+      "area": "Full LTI OIDC/JWT launch validation",
+      "sourceStandard": {
+        "standard": "LTI 1.3/LTI Advantage",
+        "version": "1.3/Advantage",
+        "object": "OIDC launch validation",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "nonce storage",
+        "state storage",
+        "JWKS validation",
+        "deployment lookup",
+        "id_token signature validation"
+      ],
+      "reason": "A minimal authenticated launch receipt path exists. Production launch validation requires key management, nonce/state storage, deployment records, signature validation, and certification fixtures."
     },
     {
-      "area": "Public AGS, NRPS, and Deep Linking runtime",
-      "reason": "Requires token issuance, tenant row-level authorization, gradebook write policy, and live service endpoints."
+      "area": "Public AGS, NRPS, and Deep Linking runtime services",
+      "sourceStandard": {
+        "standard": "LTI 1.3/LTI Advantage",
+        "version": "1.3/Advantage",
+        "object": "LTI Advantage services",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "AGS line items",
+        "AGS scores",
+        "AGS results",
+        "NRPS memberships",
+        "Deep Linking responses"
+      ],
+      "reason": "Need production token issuance, tenant row-level authorization, gradebook write policy, and service-specific conformance tests before public exposure."
     },
     {
       "area": "Production OAuth/OIDC server",
-      "reason": "GitHub Pages cannot host token endpoints, client assertion validation, or secret/key storage."
+      "sourceStandard": {
+        "standard": "Security Framework",
+        "version": "1.1",
+        "object": "OAuth/OIDC token service",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "client assertion validation",
+        "token issuance",
+        "secret/key rotation",
+        "introspection/revocation"
+      ],
+      "reason": "A minimal authenticated token-exchange receipt path exists. Production token issuance requires server-side auth state, client assertion validation, and managed secret/key storage."
     },
     {
       "area": "Automated privacy enforcement workflows",
-      "reason": "Consent checks, retention jobs, deletion, export, and data-sharing agreements need persistent backend services."
+      "sourceStandard": {
+        "standard": "Data Privacy",
+        "version": "1.0",
+        "object": "Consent, retention, deletion, export workflows",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "consent enforcement",
+        "retention jobs",
+        "deletion workflow",
+        "export workflow",
+        "data-sharing agreement approvals"
+      ],
+      "reason": "The dictionary and audit slices model policy and sensitive-read audit rows. Automated consent checks, retention jobs, deletion, export, and data-sharing agreements need broader backend workflow services."
     },
     {
       "area": "Formal certification claims",
+      "sourceStandard": {
+        "standard": "LTI/Security Framework/Data Privacy",
+        "version": "Lead versions",
+        "object": "Conformance/certification",
+        "coverage": "deferred"
+      },
+      "sourceFieldsOrValues": [
+        "LTI certification fixtures",
+        "Security Framework certification fixtures",
+        "Data Privacy organizational review"
+      ],
       "reason": "LTI, Security Framework, and Data Privacy certification require conformance testing and organizational review beyond generated dictionary artifacts."
     }
   ]

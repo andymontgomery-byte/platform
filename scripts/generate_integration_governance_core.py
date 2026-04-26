@@ -194,6 +194,7 @@ def object_schema(obj: dict, data: dict, field_scope_index: dict[str, list[str]]
             "x-decisionId": field["decision_id"],
             "x-privacyClass": field["privacy_class"],
             "x-oauthScopes": scopes_for_field(field_scope_index, obj["object_key"], field["field_key"]),
+            "x-sourceStandard": field["sourceStandard"],
         }
         if field["data_type"] == "date":
             schema["format"] = "date"
@@ -205,10 +206,14 @@ def object_schema(obj: dict, data: dict, field_scope_index: dict[str, list[str]]
             schema["x-valueDescriptions"] = {
                 item["value"]: item["plain_description"] for item in values
             }
+            schema["x-valueSourceStandards"] = {
+                item["value"]: item["sourceStandard"] for item in values
+            }
         properties[name] = schema
     return {
         "type": "object",
         "description": obj["plain_description"],
+        "x-sourceStandard": obj["sourceStandard"],
         "required": required,
         "properties": properties,
     }
@@ -302,10 +307,11 @@ def render_markdown(data: dict) -> str:
                 f"- SQL table: `integration.{obj['table_name']}`",
                 f"- API path: `{obj['api_path']}`",
                 f"- Privacy class: `{obj['privacy_class']}`",
+                f"- Source standard: {format_source_standard(obj['sourceStandard'])}",
                 f"- Why it exists: {obj['why_it_exists']}",
                 "",
-                "| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |",
-                "| --- | --- | --- | --- | --- | --- | --- | --- |",
+                "| Field | JSON field | Type | Required | Privacy | OAuth scopes | Source standard | Decision | Layperson meaning |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for field in obj["fields"]:
@@ -321,6 +327,7 @@ def render_markdown(data: dict) -> str:
                         format_scopes_markdown(
                             scopes_for_field(field_scope_index, obj["object_key"], field["field_key"])
                         ),
+                        format_source_standard(field["sourceStandard"]),
                         f"`{field['decision_id']}`",
                         field["plain_description"],
                     ]
@@ -332,10 +339,17 @@ def render_markdown(data: dict) -> str:
             lines.extend(["", "#### Controlled Values", ""])
             for field in value_fields:
                 lines.extend([f"Values for `{field['column_name']}`:", ""])
-                lines.extend(["| Value | Label | Layperson meaning |", "| --- | --- | --- |"])
+                lines.extend(
+                    [
+                        "| Value | Label | Source standard | Layperson meaning |",
+                        "| --- | --- | --- | --- |",
+                    ]
+                )
                 for value in allowed_values(field, data):
                     lines.append(
-                        f"| `{value['value']}` | {value['label']} | {value['plain_description']} |"
+                        f"| `{value['value']}` | {value['label']} | "
+                        f"{format_source_standard(value['sourceStandard'])} | "
+                        f"{value['plain_description']} |"
                     )
                 lines.append("")
         lines.append("")
@@ -363,6 +377,7 @@ def render_html(data: dict) -> str:
                 f"<td>{'Yes' if field.get('required') else 'No'}</td>"
                 f"<td>{html_escape(field['privacy_class'])}</td>"
                 f"<td>{format_scopes_html(scopes)}</td>"
+                f"<td>{html_escape(format_source_standard(field['sourceStandard']))}</td>"
                 f"<td><code>{html_escape(field['decision_id'])}</code></td>"
                 f"<td>{html_escape(field['plain_description'])}</td>"
                 "</tr>"
@@ -373,13 +388,14 @@ def render_html(data: dict) -> str:
                     "<tr>"
                     f"<td><code>{html_escape(value['value'])}</code></td>"
                     f"<td>{html_escape(value['label'])}</td>"
+                    f"<td>{html_escape(format_source_standard(value['sourceStandard']))}</td>"
                     f"<td>{html_escape(value['plain_description'])}</td>"
                     "</tr>"
                     for value in values
                 )
                 value_sections.append(
                     f"<h4>Values for <code>{html_escape(field['column_name'])}</code></h4>"
-                    "<table><thead><tr><th>Value</th><th>Label</th><th>Layperson meaning</th></tr></thead>"
+                    "<table><thead><tr><th>Value</th><th>Label</th><th>Source standard</th><th>Layperson meaning</th></tr></thead>"
                     f"<tbody>{value_rows}</tbody></table>"
                 )
         cards.append(
@@ -391,9 +407,10 @@ def render_html(data: dict) -> str:
             f"<dt>SQL table</dt><dd><code>integration.{html_escape(obj['table_name'])}</code></dd>"
             f"<dt>API path</dt><dd><code>{html_escape(obj['api_path'])}</code></dd>"
             f"<dt>Privacy</dt><dd><code>{html_escape(obj['privacy_class'])}</code></dd>"
+            f"<dt>Source standard</dt><dd>{html_escape(format_source_standard(obj['sourceStandard']))}</dd>"
             f"<dt>Why it exists</dt><dd>{html_escape(obj['why_it_exists'])}</dd>"
             "</dl>"
-            "<table><thead><tr><th>Field</th><th>JSON field</th><th>Type</th><th>Required</th><th>Privacy</th><th>OAuth scopes</th><th>Decision</th><th>Layperson meaning</th></tr></thead>"
+            "<table><thead><tr><th>Field</th><th>JSON field</th><th>Type</th><th>Required</th><th>Privacy</th><th>OAuth scopes</th><th>Source standard</th><th>Decision</th><th>Layperson meaning</th></tr></thead>"
             f"<tbody>{''.join(field_rows)}</tbody></table>"
             f"{''.join(value_sections)}"
             "</section>"
@@ -462,6 +479,21 @@ def allowed_values(field: dict, data: dict) -> list[dict]:
     if ref:
         return data.get("shared_allowed_values", {}).get(ref, [])
     return []
+
+
+def format_source_standard(source: dict) -> str:
+    parts = [source.get("standard", ""), source.get("version", "")]
+    target = ".".join(
+        str(source[key])
+        for key in ["object", "field", "vocabulary", "value"]
+        if source.get(key)
+    )
+    if target:
+        parts.append(target)
+    coverage = source.get("coverage")
+    if coverage and coverage != "mapped":
+        parts.append(f"({coverage})")
+    return " ".join(str(part) for part in parts if part)
 
 
 def format_field_refs_markdown(field_refs: list[str]) -> str:

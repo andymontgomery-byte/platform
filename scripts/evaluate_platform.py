@@ -53,6 +53,7 @@ ALWAYS_EVIDENCE = [
     "PLAN.md",
     "VERIFY.md",
     "docs/eval-rubric.md",
+    "docs/loop-overrides.md",
     "docs/spec-gap-backlog.md",
     "docs/dictionary-coverage-matrix.md",
     "docs/lead-spec-accounting.md",
