@@ -436,7 +436,15 @@ h3 {
 }
 
 .decision-card h3 {
-  margin-bottom: 12px;
+  margin: 0 0 12px;
+}
+
+.decision-id {
+  margin: 0 0 8px;
+  color: var(--green-dark);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0;
 }
 
 .decision-card dl {
@@ -454,6 +462,20 @@ h3 {
   margin: 4px 0 0;
   color: var(--muted);
   line-height: 1.5;
+}
+
+.decision-card ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.decision-card li + li {
+  margin-top: 6px;
+}
+
+.projection-list code {
+  overflow-wrap: anywhere;
+  font-size: 0.82rem;
 }
 
 .layer-grid {

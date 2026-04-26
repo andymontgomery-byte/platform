@@ -3,67 +3,11 @@
     standards: [],
     dictionary: null,
     coreDictionary: null,
+    decisions: [],
     posture: "all",
     search: "",
     privacy: "all"
   };
-
-  const decisions = [
-    {
-      title: "Canonical Data Model",
-      question: "Should each 1EdTech spec become its own isolated schema?",
-      choice: "Use a canonical relational education graph with standard-specific projections.",
-      tradeoff: "Developers get normal joins across roster, standards, content, events, and credentials, but the platform must maintain conformance views and adapters per standard version."
-    },
-    {
-      title: "SQL Contract",
-      question: "Should developers see raw tables or curated SQL views?",
-      choice: "Expose raw tables plus stable documented views.",
-      tradeoff: "Power users and AI agents can inspect lineage, while app builders get stable contracts that survive internal schema changes."
-    },
-    {
-      title: "Identifiers",
-      question: "Should public APIs use platform IDs or standards-native IDs?",
-      choice: "Use internal UUIDs for storage, expose OneRoster sourcedId as the primary ID on OneRoster-shaped endpoints, and expose UUIDs as primary IDs on native platform endpoints.",
-      tradeoff: "This preserves OneRoster conformance while keeping long-lived internal joins stable, but ingestion pipelines must resolve source IDs and every API must show which identifier belongs to which system."
-    },
-    {
-      title: "Assessment Content",
-      question: "Should QTI be fully decomposed into relational tables?",
-      choice: "Store package artifacts, create first-class rows for item/test inventory, and project a defined minimum set of queryable fields.",
-      tradeoff: "The platform avoids pretending to be a full assessment runtime, while still enabling item banking, reuse, item-level analytics, accessibility review, CASE alignment, scoring metadata, and package lineage."
-    },
-    {
-      title: "Learning Activity",
-      question: "Should activity be current state or append-only event history?",
-      choice: "Store immutable Caliper events and curated projections.",
-      tradeoff: "Analytics keeps the original event truth, while product dashboards and AI agents can query safer summary tables."
-    },
-    {
-      title: "Tool Integration",
-      question: "Do platform API calls require an LTI launch context?",
-      choice: "Support both launch-bound calls and independently addressable OAuth APIs; policy decides which data requires class/activity context.",
-      tradeoff: "Vendors get familiar LTI workflows and richer platform APIs, but scopes and tenant policy must prevent either path from becoming broad data access."
-    },
-    {
-      title: "Tenancy",
-      question: "How is tenant isolation enforced while sharing public standards data?",
-      choice: "Use a multi-tenant core with tenant IDs and row-level security for tenant-owned records, plus governed shared namespaces for public CASE, QTI, standards, and certification fixtures.",
-      tradeoff: "Vendors get one integration path across schools, but row-level policy tests become release-critical and tenant adoption/override records must be explicit."
-    },
-    {
-      title: "Privacy and Security",
-      question: "Can privacy be added after the model is useful?",
-      choice: "Treat 1EdTech Security Framework, Data Privacy, TrustEd Apps, and least privilege as architecture inputs.",
-      tradeoff: "This slows early modeling, but education data requires tenant isolation, audit logs, scopes, consent, retention, and field-level classification from the start."
-    },
-    {
-      title: "Documentation",
-      question: "Should docs be hand-written separately from the schema?",
-      choice: "Use a governed data dictionary as a source artifact for SQL, OpenAPI, Markdown, examples, and AI-readable context.",
-      tradeoff: "Every change has documentation cost, but SQL and JSON surfaces stay consistent and understandable."
-    }
-  ];
 
   const apiGroups = [
     ["/organizations", "Districts, schools, departments, and other education organizations."],
@@ -129,8 +73,11 @@
 
   async function init() {
     setupCanvas();
-    renderStaticSections();
+    renderApiGroups();
+    renderGuide();
+    renderRoadmap();
     await loadData();
+    renderDecisions();
     bindFilters();
     renderAll();
     setupLiveApiPreview();
@@ -139,22 +86,26 @@
 
   async function loadData() {
     try {
-      const [standardsResponse, dictionaryResponse, coreDictionaryResponse] = await Promise.all([
+      const [standardsResponse, dictionaryResponse, coreDictionaryResponse, decisionsResponse] = await Promise.all([
         fetch("../data/standards-registry.seed.json"),
         fetch("../data/data-dictionary.seed.json"),
-        fetch("../dictionary/oneroster-core.v1.json")
+        fetch("../dictionary/oneroster-core.v1.json"),
+        fetch("../docs/decisions/standards-overlap-decisions.md")
       ]);
       const standardsData = await standardsResponse.json();
       const dictionaryData = await dictionaryResponse.json();
       const coreDictionaryData = await coreDictionaryResponse.json();
+      const decisionsMarkdown = await decisionsResponse.text();
       state.standards = standardsData.standards || [];
       state.dictionary = dictionaryData;
       state.coreDictionary = coreDictionaryData;
+      state.decisions = parseDecisionRegister(decisionsMarkdown);
     } catch (error) {
       console.warn("Could not load seed data. Rendering fallback content.", error);
       state.standards = [];
       state.dictionary = { privacy_classes: [], objects: [] };
       state.coreDictionary = { objects: [], shared_allowed_values: {} };
+      state.decisions = [];
     }
   }
 
@@ -339,23 +290,29 @@
     return [];
   }
 
-  function renderStaticSections() {
-    renderDecisions();
-    renderApiGroups();
-    renderGuide();
-    renderRoadmap();
-  }
-
   function renderDecisions() {
     const host = document.getElementById("decisionList");
-    host.innerHTML = decisions.map(function (decision) {
-      return [
+    if (!state.decisions.length) {
+      host.innerHTML = [
         '<article class="decision-card">',
+        "<h3>Decision register unavailable</h3>",
+        "<p>Open the rendered decision register for the canonical DEC-001 through DEC-015 records.</p>",
+        '<p><a class="text-link" href="docs/decisions-standards-overlap-decisions.html">Open full register</a></p>',
+        "</article>"
+      ].join("");
+      return;
+    }
+
+    host.innerHTML = state.decisions.map(function (decision) {
+      return [
+        '<article class="decision-card" id="' + escapeAttribute(decision.id) + '">',
+        '<p class="decision-id">' + escapeHtml(decision.id) + "</p>",
         "<h3>" + escapeHtml(decision.title) + "</h3>",
         "<dl>",
         "<div><dt>Question</dt><dd>" + escapeHtml(decision.question) + "</dd></div>",
         "<div><dt>Choice</dt><dd>" + escapeHtml(decision.choice) + "</dd></div>",
-        "<div><dt>Tradeoff</dt><dd>" + escapeHtml(decision.tradeoff) + "</dd></div>",
+        "<div><dt>Consequences</dt><dd><ul>" + renderPlainItems(decision.consequences) + "</ul></dd></div>",
+        "<div><dt>Projects to</dt><dd><ul class=\"projection-list\">" + renderCodeItems(decision.projectsTo) + "</ul></dd></div>",
         "</dl>",
         "</article>"
       ].join("");
@@ -505,6 +462,72 @@
       return false;
     }
     return !/\b(insert|update|delete|drop|alter|create|replace|truncate|attach|detach|pragma|vacuum|reindex)\b/i.test(withoutComments);
+  }
+
+  function parseDecisionRegister(markdown) {
+    const decisions = [];
+    const sectionPattern = /^## (DEC-\d{3} [^\n]+)\n([\s\S]*?)(?=^## DEC-\d{3} |^## Machine-Readable|(?![\s\S]))/gm;
+    let match;
+
+    while ((match = sectionPattern.exec(markdown)) !== null) {
+      const title = match[1].trim();
+      const body = match[2];
+      const id = readDecisionField(body, "id").replace(/^`|`$/g, "");
+      const consequences = readDecisionList(body, "consequences", "projects_to");
+      const projectsTo = readDecisionList(body, "projects_to", null).map(function (item) {
+        return item.replace(/^`|`$/g, "");
+      });
+
+      if (!id || !consequences.length || !projectsTo.length) {
+        continue;
+      }
+
+      decisions.push({
+        id: id,
+        title: title,
+        question: readDecisionField(body, "question"),
+        choice: readDecisionField(body, "choice"),
+        consequences: consequences,
+        projectsTo: projectsTo
+      });
+    }
+
+    return decisions;
+  }
+
+  function readDecisionField(body, key) {
+    const pattern = new RegExp("^- " + key + ":\\s*(.+)$", "m");
+    const match = body.match(pattern);
+    return match ? match[1].trim() : "";
+  }
+
+  function readDecisionList(body, key, nextKey) {
+    const startPattern = new RegExp("^- " + key + ":\\s*$", "m");
+    const start = body.match(startPattern);
+    if (!start || start.index == null) {
+      return [];
+    }
+
+    const afterStart = body.slice(start.index + start[0].length);
+    const endPattern = nextKey ? new RegExp("\\n- " + nextKey + ":\\s*$", "m") : /\n## /m;
+    const end = afterStart.search(endPattern);
+    const listText = end >= 0 ? afterStart.slice(0, end) : afterStart;
+
+    return listText.split("\n").map(function (line) {
+      return line.replace(/^\s*-\s*/, "").trim();
+    }).filter(Boolean);
+  }
+
+  function renderPlainItems(items) {
+    return items.map(function (item) {
+      return "<li>" + escapeHtml(item) + "</li>";
+    }).join("");
+  }
+
+  function renderCodeItems(items) {
+    return items.map(function (item) {
+      return "<li><code>" + escapeHtml(item) + "</code></li>";
+    }).join("");
   }
 
   function renderList(id, items) {

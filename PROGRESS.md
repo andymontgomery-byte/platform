@@ -364,3 +364,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 11 rubric items and 55 evidence files; direct `build_projection_summary` smoke check reported 15 decisions, 99 projection refs, 99 present, 0 missing, and 0 unverified fragments; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=8, partial=2, fail=1, blocked=0 and reports `evaluator_runs_each_iteration` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed; `git diff --check` passed.
 - Expected status change: `evaluator_runs_each_iteration` `fail` -> `pass`.
 - What remains next: `portal_leads_with_decisions` remains `fail`; `no_unforced_decisions` and `artifacts_cite_decisions` remain `partial`. The next cheapest item is likely exposing `docs/decisions/decisions-pending.md` to the evaluator evidence bundle or replacing the portal's hand-coded generic decision list with the canonical DEC-001 through DEC-015 register.
+
+
+## 20260426T155915Z Harness Iteration 3
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 86
+- Publish result: committed and pushed: Codex loop iteration 3: rubric pass=8/11
+- Codex log: `.codex-loop/20260426T154510Z-iteration-003-codex.log`
+- Verify log: `.codex-loop/20260426T154510Z-iteration-003-verify.log`
+- Judge log: `.codex-loop/20260426T154510Z-iteration-003-judge.log`
+- Judge JSON: `.codex-loop/20260426T154510Z-iteration-003-judge.json`
+
+## 2026-04-26 12:06:12 EDT Portal Decision Register Iteration
+
+- Chosen rubric item: `portal_leads_with_decisions`.
+- Files changed: `site/app.js`, `site/index.html`, `site/styles.css`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `node --check site/app.js` passed; decision-register parser smoke check parsed 15 decisions and 99 projection refs from `docs/decisions/standards-overlap-decisions.md`; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=9, partial=2, fail=0, blocked=0 and reports `portal_leads_with_decisions` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed.
+- Expected status change: `portal_leads_with_decisions` `fail` -> `pass`.
+- What remains next: `no_unforced_decisions` remains `partial` because the evaluator evidence still does not include `docs/decisions/decisions-pending.md`; `artifacts_cite_decisions` remains `partial` because SQL/RLS policies, Edge Functions, policy snapshot/static mirrors, and coverage entries still need explicit decision citations.
