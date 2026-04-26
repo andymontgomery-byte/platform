@@ -15,6 +15,7 @@ Current status: loaded and verified on 2026-04-26 through the shared pooler. SQL
 - `migrations/0001_oneroster_core_demo.sql`: PostgreSQL schema, views, indexes, grants, and tenant-scoped read-only row-level security policies for synthetic demo data.
 - `seed.sql`: deterministic demo rows matching the local SQLite demo plus a second-tenant fixture used by the live RLS test.
 - `smoke.sql`: read-only queries that verify row counts and the two review views.
+- `functions/gradebook-bulk-submit`: Supabase Edge Function for authenticated bulk result submission using the caller's bearer token so RLS applies.
 
 ## Load With SQL Editor
 
@@ -58,6 +59,14 @@ curl 'https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=*' \
 ```
 
 The policies allow read-only access when the caller's JWT carries a matching tenant claim. Anonymous public reads are restricted to the synthetic North Valley demo tenant so the no-setup review curl still returns seeded demo rows without exposing the second-tenant isolation fixture. Supabase Auth users created with `app_metadata.tenant_id` can read rows for their tenant and cannot read rows for another tenant. The policies do not allow writes.
+
+The gradebook bulk-submit Edge Function is the first authenticated write path. It forwards the request `Authorization` bearer token into the Supabase client and the `results` write policies allow only authenticated tenant-matched inserts or updates.
+
+## Deploy Edge Functions
+
+```sh
+supabase functions deploy gradebook-bulk-submit --project-ref qzxlgrerjoiamxvnkklq --use-api
+```
 
 ## Optional REST Smoke Test
 

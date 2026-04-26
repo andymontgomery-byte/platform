@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-26T10:20:11Z",
+  "generatedAt": "2026-04-26T10:38:47Z",
   "source": {
     "projectUrl": "https://qzxlgrerjoiamxvnkklq.supabase.co",
     "provider": "Supabase",
@@ -152,6 +152,16 @@
       "forceRowSecurity": true,
       "policies": [
         {
+          "command": "INSERT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_insert_results",
+          "roles": [
+            "authenticated"
+          ],
+          "using": null,
+          "withCheck": "((tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid)) AND (EXISTS ( SELECT 1\n   FROM line_items li\n  WHERE ((li.id = results.line_item_id) AND (li.tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid))))) AND (EXISTS ( SELECT 1\n   FROM people p\n  WHERE ((p.id = results.person_id) AND (p.tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid))))))"
+        },
+        {
           "command": "SELECT",
           "permissive": "PERMISSIVE",
           "policyName": "demo_read_results",
@@ -161,6 +171,16 @@
           ],
           "using": "(tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid,\nCASE\n    WHEN (auth.role() = 'anon'::text) THEN '11111111-1111-1111-1111-111111111111'::uuid\n    ELSE NULL::uuid\nEND))",
           "withCheck": null
+        },
+        {
+          "command": "UPDATE",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_update_results",
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid))",
+          "withCheck": "((tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid)) AND (EXISTS ( SELECT 1\n   FROM line_items li\n  WHERE ((li.id = results.line_item_id) AND (li.tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid))))) AND (EXISTS ( SELECT 1\n   FROM people p\n  WHERE ((p.id = results.person_id) AND (p.tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid))))))"
         }
       ],
       "qualifiedName": "public.results",

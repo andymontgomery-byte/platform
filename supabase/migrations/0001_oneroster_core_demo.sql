@@ -263,6 +263,59 @@ create policy demo_read_results on public.results for select to anon, authentica
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+create policy demo_insert_results on public.results for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.line_items li
+    where li.id = line_item_id
+      and li.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.people p
+    where p.id = person_id
+      and p.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+);
+create policy demo_update_results on public.results for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.line_items li
+    where li.id = line_item_id
+      and li.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.people p
+    where p.id = person_id
+      and p.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+);
 create policy demo_read_source_identifiers on public.source_identifiers for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
@@ -285,5 +338,7 @@ grant select on
   public.class_roster,
   public.gradebook_results
 to anon, authenticated;
+
+grant insert, update on public.results to authenticated;
 
 commit;

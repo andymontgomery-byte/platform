@@ -13,6 +13,7 @@ The repository now has a live Supabase setup for the OneRoster core demo. The sc
 - Public client environment variables in `.env.example`.
 - Optional REST smoke test script: `scripts/check_supabase_rest.py`.
 - Live cross-tenant RLS test: `python3 tests/supabase_tenant_rls_test.py`.
+- Supabase Edge Function source for authenticated gradebook bulk submit at `supabase/functions/gradebook-bulk-submit`.
 
 ## Verified Live Status
 
@@ -54,6 +55,33 @@ Expected counts:
 | `line_items` | 3 |
 | `results` | 4 |
 | `source_identifiers` | 5 |
+
+## Edge Function: Gradebook Bulk Submit
+
+Live function URL: `https://qzxlgrerjoiamxvnkklq.functions.supabase.co/gradebook-bulk-submit`
+
+This non-CRUD endpoint accepts a batch of OneRoster-style result submissions. It requires a Supabase Auth access token with a `tenant_id` claim, constructs its database client from the request `Authorization` header, and upserts only rows allowed by PostgreSQL RLS.
+
+```sh
+curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/gradebook-bulk-submit' \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $SUPABASE_USER_JWT" \
+  -H 'content-type: application/json' \
+  --data '{
+    "submissions": [
+      {
+        "id": "res_ada_homework_1",
+        "sourcedId": "RESULT-9003",
+        "lineItemId": "li_math_homework_1",
+        "personId": "person_ada",
+        "scoreStatus": "fullyGraded",
+        "score": 9,
+        "scoreDate": "2026-09-06T10:00:00Z",
+        "comment": "Complete."
+      }
+    ]
+  }'
+```
 
 ## Optional Vercel Role
 

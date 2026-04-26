@@ -188,3 +188,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: live Supabase migration, seed, and smoke SQL passed; `python3 scripts/snapshot_pg_policies.py` passed; `python3 scripts/check_supabase_rest.py` passed and returned seeded `/people`, `/class_roster`, and `/gradebook_results` rows; `python3 tests/supabase_tenant_rls_test.py` passed with tenant A seeing 6 rows, tenant B seeing 1 row, and neither tenant reading the other's `people` row; all generator/build/check commands from `VERIFY.md` passed through local demo API tests; `python3 -m json.tool supabase/policies/pg_policies.snapshot.json` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=23, partial=1, fail=3, blocked=0.
 - Expected status change: `tenant_isolation_enforced` `fail` -> `pass`; the same schema/policy work also moved `rls_enabled_on_referenced_tables` `fail` -> `pass` while preserving `vertical_slice_callable_externally` as `pass`.
 - What remains next: `lead_spec_full_accounting` remains `partial`; `audit_log_for_sensitive_reads`, `edge_functions_for_non_crud_endpoints`, and `edge_functions_propagate_user_jwt` are reported as `fail` in the latest evaluator report. The next override priority is audit logging after Edge Functions unless the loop first follows the listed order and ships a real Edge Function.
+
+
+## 20260426T103047Z Harness Iteration 1
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 88
+- Publish result: committed and pushed: Codex loop iteration 1: rubric pass=21/27
+- Codex log: `.codex-loop/20260426T100322Z-iteration-001-codex.log`
+- Verify log: `.codex-loop/20260426T100322Z-iteration-001-verify.log`
+- Judge log: `.codex-loop/20260426T100322Z-iteration-001-judge.log`
+- Judge JSON: `.codex-loop/20260426T100322Z-iteration-001-judge.json`
+
+## 2026-04-26 06:43:57 EDT Gradebook Edge Function Iteration
+
+- Chosen rubric item: `edge_functions_for_non_crud_endpoints`.
+- Files changed: `supabase/functions/gradebook-bulk-submit/index.ts`, `supabase/functions/gradebook-bulk-submit/deno.json`, `supabase/migrations/0001_oneroster_core_demo.sql`, `supabase/policies/pg_policies.snapshot.json`, `supabase/README.md`, `docs/supabase-hosted-database.md`, `docs/spec-gap-backlog.md`, rendered site docs for the changed docs, `site/index.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: live Supabase migration, seed, smoke SQL, and policy snapshot generation passed; `supabase functions deploy gradebook-bulk-submit --project-ref qzxlgrerjoiamxvnkklq --use-api` passed; live function call with a temporary tenant-scoped Supabase Auth JWT returned HTTP 200 with `accepted: 1`; live seed was restored afterward; `supabase functions list` showed `gradebook-bulk-submit` active with `verify_jwt: true`; `python3 scripts/check_supabase_rest.py` passed; `python3 tests/supabase_tenant_rls_test.py` passed; all dictionary generators, `build_static_api.py`, `build_site_docs.py`, `check_dictionary_artifacts.py`, `check_spec_conformance.py --write-report site/api/spec-conformance.json`, Python compile, OpenAPI/report JSON validation, `node --check site/app.js`, `node --check demo/server.js`, `cd demo && npm run reset-db && npm test`, and `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=24, partial=2, fail=1, blocked=0.
+- Expected status change: `edge_functions_for_non_crud_endpoints` `fail` -> `partial` because the first real non-CRUD function is now shipped and live; `edge_functions_propagate_user_jwt` `blocked` -> `pass` because the function forwards `req.headers.get("Authorization")` into the Supabase client and uses no service-role key.
+- What remains next: `audit_log_for_sensitive_reads` remains `fail`; `lead_spec_full_accounting` and `edge_functions_for_non_crud_endpoints` remain `partial`. The evaluator wants the remaining non-CRUD functions for LTI launch, Caliper ingestion, OAuth token exchange, and/or QTI import before giving the Edge Function item a full pass.
