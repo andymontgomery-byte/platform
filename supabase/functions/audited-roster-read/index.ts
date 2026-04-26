@@ -13,6 +13,17 @@ type AuditedPersonRow = {
   primary_role: string;
 };
 
+type AuditLogRow = {
+  id: number;
+  field_accessed: string;
+  client_id: string;
+  scope: string;
+  purpose: string;
+  tenant_id: string;
+  request_id: string | null;
+  timestamp: string;
+};
+
 const corsHeaders = {
   "access-control-allow-origin": "*",
   "access-control-allow-headers": [
@@ -112,6 +123,30 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   const person = rows[0];
+  const { data: auditData, error: auditError } = await supabase
+    .from("audit_log")
+    .select("id,field_accessed,client_id,scope,purpose,tenant_id,request_id,timestamp")
+    .eq("request_id", requestId)
+    .eq("subject_table", "people")
+    .eq("subject_id", person.id)
+    .eq("client_id", clientId)
+    .eq("scope", scope)
+    .eq("purpose", purpose)
+    .eq("tenant_id", tenantId)
+    .order("id", { ascending: true });
+
+  if (auditError) {
+    return json({ error: "audit_confirmation_failed", message: auditError.message }, 500);
+  }
+
+  const auditRows = Array.isArray(auditData) ? auditData as AuditLogRow[] : [];
+  if (auditRows.length === 0) {
+    return json({
+      error: "audit_confirmation_failed",
+      message: "The audited read completed, but no matching audit_log rows were visible for this request.",
+    }, 500);
+  }
+
   return json({
     person: {
       id: person.id,
@@ -123,19 +158,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
       primaryRole: person.primary_role,
     },
     audit: {
-      logged: 5,
-      fields: [
-        "people.display_name",
-        "people.given_name",
-        "people.family_name",
-        "people.email",
-        "people.primary_role",
-      ],
-      clientId,
-      scope,
-      purpose,
-      tenantId,
-      requestId,
+      logged: auditRows.length,
+      fields: auditRows.map((row) => row.field_accessed),
+      clientId: auditRows[0].client_id,
+      scope: auditRows[0].scope,
+      purpose: auditRows[0].purpose,
+      tenantId: auditRows[0].tenant_id,
+      requestId: auditRows[0].request_id,
+      confirmedAt: auditRows[auditRows.length - 1].timestamp,
     },
   });
 });

@@ -18,7 +18,13 @@ TENANT_A = "11111111-1111-1111-1111-111111111111"
 PERSON_ID = "person_ada"
 AUDIT_SCOPE = "platform.roster.users.directory:read"
 AUDIT_PURPOSE = "directory-review-test"
-REQUIRED_FIELDS = {"people.display_name", "people.given_name", "people.family_name", "people.email"}
+REQUIRED_FIELDS = {
+    "people.display_name",
+    "people.given_name",
+    "people.family_name",
+    "people.email",
+    "people.primary_role",
+}
 
 
 def main() -> int:
@@ -57,27 +63,31 @@ def main() -> int:
         assert_token_claims(access_token, client_id)
         assert_direct_restricted_rest_blocked(supabase_url, publishable_key, access_token)
 
+        request_id = f"audit-test-{secrets.token_hex(6)}"
         function_payload = call_audited_read(
             supabase_url,
             publishable_key,
             access_token,
             client_id,
+            request_id,
         )
         person = function_payload.get("person")
         require(isinstance(person, dict), "audited read did not return a person object")
         require(person.get("id") == PERSON_ID, f"audited read returned {person.get('id')!r}")
         require(person.get("email"), "audited read did not return a restricted email field")
 
-        audit_rows = fetch_audit_rows(supabase_url, publishable_key, access_token, client_id)
+        audit_rows = fetch_audit_rows(supabase_url, publishable_key, access_token, client_id, request_id)
         fields_seen = {row.get("field_accessed") for row in audit_rows}
         missing_fields = sorted(REQUIRED_FIELDS - fields_seen)
         require(not missing_fields, f"audit rows missing fields: {', '.join(missing_fields)}")
+        assert_response_audit_matches_rows(function_payload.get("audit"), audit_rows, client_id, request_id)
 
         for row in audit_rows:
             require(row.get("client_id") == client_id, "audit row client_id did not match")
             require(row.get("scope") == AUDIT_SCOPE, "audit row scope did not match")
             require(row.get("purpose") == AUDIT_PURPOSE, "audit row purpose did not match")
             require(row.get("tenant_id") == TENANT_A, "audit row tenant_id did not match")
+            require(row.get("request_id") == request_id, "audit row request_id did not match")
             require(row.get("timestamp"), "audit row timestamp was empty")
 
         print(
@@ -184,6 +194,7 @@ def call_audited_read(
     publishable_key: str,
     access_token: str,
     client_id: str,
+    request_id: str,
 ) -> dict:
     functions_url = supabase_url.rstrip("/").replace(".supabase.co", ".functions.supabase.co")
     payload = request_json(
@@ -196,6 +207,7 @@ def call_audited_read(
             "x-platform-client-id": client_id,
             "x-platform-scope": AUDIT_SCOPE,
             "x-platform-purpose": AUDIT_PURPOSE,
+            "x-request-id": request_id,
         },
     )
     require(isinstance(payload, dict), "audited Edge Function response was not a JSON object")
@@ -241,13 +253,15 @@ def fetch_audit_rows(
     publishable_key: str,
     access_token: str,
     client_id: str,
+    request_id: str,
 ) -> list[dict]:
     query = urllib.parse.urlencode(
         {
-            "select": "client_id,scope,purpose,field_accessed,tenant_id,timestamp,subject_id",
+            "select": "id,client_id,scope,purpose,field_accessed,tenant_id,timestamp,subject_id,request_id",
             "client_id": f"eq.{client_id}",
             "subject_id": f"eq.{PERSON_ID}",
-            "order": "timestamp.desc",
+            "request_id": f"eq.{request_id}",
+            "order": "id.asc",
             "limit": "20",
         },
         safe=",.",
@@ -261,6 +275,23 @@ def fetch_audit_rows(
     )
     require(isinstance(data, list), "audit_log REST response was not a JSON array")
     return data
+
+
+def assert_response_audit_matches_rows(
+    audit: object,
+    audit_rows: list[dict],
+    client_id: str,
+    request_id: str,
+) -> None:
+    require(isinstance(audit, dict), "audited Edge Function response did not include an audit object")
+    fields_from_rows = [row.get("field_accessed") for row in audit_rows]
+    require(audit.get("logged") == len(audit_rows), "response audit logged count did not match audit_log rows")
+    require(audit.get("fields") == fields_from_rows, "response audit fields did not match audit_log rows")
+    require(audit.get("clientId") == client_id, "response audit clientId did not match")
+    require(audit.get("scope") == AUDIT_SCOPE, "response audit scope did not match")
+    require(audit.get("purpose") == AUDIT_PURPOSE, "response audit purpose did not match")
+    require(audit.get("tenantId") == TENANT_A, "response audit tenantId did not match")
+    require(audit.get("requestId") == request_id, "response audit requestId did not match")
 
 
 def request_json(
