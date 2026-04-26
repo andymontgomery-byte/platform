@@ -8,12 +8,12 @@ The publishable client key is recorded in `.env.example` because it is intended 
 
 Put server-only secrets such as `SUPABASE_SECRET_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`, not in tracked files. These keys are useful for server-side Supabase API access, but schema creation still requires the SQL editor, `SUPABASE_DB_URL`, or another migration-capable database connection.
 
-Current status: loaded and verified on 2026-04-25 through the shared pooler. SQL smoke checks and `python3 scripts/check_supabase_rest.py` pass.
+Current status: loaded and verified on 2026-04-26 through the shared pooler. SQL smoke checks, `python3 scripts/check_supabase_rest.py`, and `python3 tests/supabase_tenant_rls_test.py` pass.
 
 ## Files
 
-- `migrations/0001_oneroster_core_demo.sql`: PostgreSQL schema, views, indexes, grants, and read-only row-level security policies for synthetic demo data.
-- `seed.sql`: deterministic demo rows matching the local SQLite demo.
+- `migrations/0001_oneroster_core_demo.sql`: PostgreSQL schema, views, indexes, grants, and tenant-scoped read-only row-level security policies for synthetic demo data.
+- `seed.sql`: deterministic demo rows matching the local SQLite demo plus a second-tenant fixture used by the live RLS test.
 - `smoke.sql`: read-only queries that verify row counts and the two review views.
 
 ## Load With SQL Editor
@@ -27,15 +27,15 @@ Expected counts:
 
 | Table | Count |
 | --- | ---: |
-| `organizations` | 3 |
-| `people` | 6 |
+| `organizations` | 4 |
+| `people` | 7 |
 | `academic_sessions` | 3 |
 | `courses` | 2 |
 | `classes` | 3 |
 | `enrollments` | 5 |
 | `line_items` | 3 |
 | `results` | 4 |
-| `source_identifiers` | 4 |
+| `source_identifiers` | 5 |
 
 ## Load With `psql`
 
@@ -57,7 +57,7 @@ curl 'https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=*' \
   -H "authorization: Bearer $SUPABASE_PUBLISHABLE_KEY"
 ```
 
-The policies intentionally allow read-only access to the synthetic demo tables and views for `anon` and `authenticated` roles. They do not allow writes.
+The policies allow read-only access when the caller's JWT carries a matching tenant claim. Anonymous public reads are restricted to the synthetic North Valley demo tenant so the no-setup review curl still returns seeded demo rows without exposing the second-tenant isolation fixture. Supabase Auth users created with `app_metadata.tenant_id` can read rows for their tenant and cannot read rows for another tenant. The policies do not allow writes.
 
 ## Optional REST Smoke Test
 
@@ -68,6 +68,16 @@ python3 scripts/check_supabase_rest.py
 ```
 
 The script reads `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from the environment, `.env.local`, `.env`, or `.env.example`.
+
+## Cross-Tenant RLS Test
+
+Run:
+
+```sh
+python3 tests/supabase_tenant_rls_test.py
+```
+
+The test reads `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` or `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` from `.env.local`. It creates two temporary Supabase Auth users with different `app_metadata.tenant_id` claims, calls the live REST `/people` endpoint with each user JWT, confirms tenant A cannot read tenant B's seeded person row and tenant B cannot read tenant A's seeded person row, then deletes the temporary Auth users.
 
 ## Next.js/Vercel Note
 

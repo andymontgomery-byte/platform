@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 
 const objects = new Map(dictionary.objects.map((object) => [object.api_path, object]));
 const objectsByKey = new Map(dictionary.objects.map((object) => [object.object_key, object]));
+const personObject = objectsByKey.get("person");
 
 app.get("/health", (req, res) => {
   res.json({
@@ -67,6 +68,10 @@ app.get("/dictionary/objects/:objectKey", (req, res) => {
 });
 
 for (const object of objects.values()) {
+  if (object.object_key === "person") {
+    continue;
+  }
+
   app.get(object.api_path, (req, res) => {
     const rows = listRows(object, req.query.q);
     res.json({ items: rows.map((row) => rowToJson(object, row)), count: rows.length });
@@ -79,6 +84,22 @@ for (const object of objects.values()) {
       return;
     }
     res.json(rowToJson(object, row));
+  });
+}
+
+if (personObject) {
+  app.get("/users", (req, res) => {
+    const rows = listRows(personObject, req.query.q);
+    res.json({ users: rows.map(rowToOneRosterUser) });
+  });
+
+  app.get("/users/:sourcedId", (req, res) => {
+    const row = db.prepare("select * from people where sourced_id = ?").get(req.params.sourcedId);
+    if (!row) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+    res.json({ user: rowToOneRosterUser(row) });
   });
 }
 
@@ -147,6 +168,42 @@ function rowToJson(object, row) {
     output[field.json_name] = row[field.column_name] ?? null;
   }
   return output;
+}
+
+function rowToOneRosterUser(row) {
+  return removeNullValues({
+    sourcedId: row.sourced_id,
+    status: row.status,
+    dateLastModified: row.date_last_modified,
+    enabledUser: row.enabled_user === "true",
+    givenName: row.given_name,
+    familyName: row.family_name,
+    email: row.email,
+    roles: [
+      {
+        roleType: "primary",
+        role: row.primary_role
+      }
+    ],
+    metadata: {
+      platformId: row.id,
+      displayName: row.display_name
+    }
+  });
+}
+
+function removeNullValues(value) {
+  if (Array.isArray(value)) {
+    return value.map(removeNullValues);
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([, entry]) => entry !== null && entry !== undefined)
+        .map(([key, entry]) => [key, removeNullValues(entry)])
+    );
+  }
+  return value;
 }
 
 function toCamelObject(value) {

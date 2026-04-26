@@ -13,6 +13,7 @@ drop table if exists public.people cascade;
 drop table if exists public.organizations cascade;
 
 create table public.organizations (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   name text not null,
@@ -23,6 +24,7 @@ create table public.organizations (
 );
 
 create table public.people (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   display_name text not null,
@@ -36,6 +38,7 @@ create table public.people (
 );
 
 create table public.academic_sessions (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -48,6 +51,7 @@ create table public.academic_sessions (
 );
 
 create table public.courses (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -59,6 +63,7 @@ create table public.courses (
 );
 
 create table public.classes (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -72,6 +77,7 @@ create table public.classes (
 );
 
 create table public.enrollments (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   class_id text not null references public.classes(id),
@@ -86,6 +92,7 @@ create table public.enrollments (
 );
 
 create table public.line_items (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -100,6 +107,7 @@ create table public.line_items (
 );
 
 create table public.results (
+  tenant_id uuid not null,
   id text primary key,
   sourced_id text not null unique,
   line_item_id text not null references public.line_items(id),
@@ -113,6 +121,7 @@ create table public.results (
 );
 
 create table public.source_identifiers (
+  tenant_id uuid not null,
   id text primary key,
   object_type text not null,
   object_id text not null,
@@ -122,18 +131,27 @@ create table public.source_identifiers (
   status text not null check (status in ('active', 'inactive', 'tobedeleted'))
 );
 
+create index organizations_tenant_idx on public.organizations(tenant_id);
 create index organizations_parent_idx on public.organizations(parent_organization_id);
+create index people_tenant_idx on public.people(tenant_id);
+create index academic_sessions_tenant_idx on public.academic_sessions(tenant_id);
+create index courses_tenant_idx on public.courses(tenant_id);
 create index courses_org_idx on public.courses(org_id);
 create index courses_school_year_idx on public.courses(school_year_id);
+create index classes_tenant_idx on public.classes(tenant_id);
 create index classes_course_idx on public.classes(course_id);
 create index classes_school_idx on public.classes(school_id);
 create index classes_term_idx on public.classes(term_id);
+create index enrollments_tenant_idx on public.enrollments(tenant_id);
 create index enrollments_class_idx on public.enrollments(class_id);
 create index enrollments_person_idx on public.enrollments(person_id);
 create index enrollments_school_idx on public.enrollments(school_id);
+create index line_items_tenant_idx on public.line_items(tenant_id);
 create index line_items_class_idx on public.line_items(class_id);
+create index results_tenant_idx on public.results(tenant_id);
 create index results_line_item_idx on public.results(line_item_id);
 create index results_person_idx on public.results(person_id);
+create index source_identifiers_tenant_idx on public.source_identifiers(tenant_id);
 create index source_identifiers_lookup_idx on public.source_identifiers(object_type, object_id);
 
 create view public.class_roster
@@ -171,24 +189,87 @@ join public.classes c on c.id = li.class_id
 join public.people p on p.id = r.person_id;
 
 alter table public.organizations enable row level security;
+alter table public.organizations force row level security;
 alter table public.people enable row level security;
+alter table public.people force row level security;
 alter table public.academic_sessions enable row level security;
+alter table public.academic_sessions force row level security;
 alter table public.courses enable row level security;
+alter table public.courses force row level security;
 alter table public.classes enable row level security;
+alter table public.classes force row level security;
 alter table public.enrollments enable row level security;
+alter table public.enrollments force row level security;
 alter table public.line_items enable row level security;
+alter table public.line_items force row level security;
 alter table public.results enable row level security;
+alter table public.results force row level security;
 alter table public.source_identifiers enable row level security;
+alter table public.source_identifiers force row level security;
 
-create policy demo_read_organizations on public.organizations for select to anon, authenticated using (true);
-create policy demo_read_people on public.people for select to anon, authenticated using (true);
-create policy demo_read_academic_sessions on public.academic_sessions for select to anon, authenticated using (true);
-create policy demo_read_courses on public.courses for select to anon, authenticated using (true);
-create policy demo_read_classes on public.classes for select to anon, authenticated using (true);
-create policy demo_read_enrollments on public.enrollments for select to anon, authenticated using (true);
-create policy demo_read_line_items on public.line_items for select to anon, authenticated using (true);
-create policy demo_read_results on public.results for select to anon, authenticated using (true);
-create policy demo_read_source_identifiers on public.source_identifiers for select to anon, authenticated using (true);
+create policy demo_read_organizations on public.organizations for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_people on public.people for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_academic_sessions on public.academic_sessions for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_courses on public.courses for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_classes on public.classes for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_enrollments on public.enrollments for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_line_items on public.line_items for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_results on public.results for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+create policy demo_read_source_identifiers on public.source_identifiers for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
 
 grant usage on schema public to anon, authenticated;
 grant select on

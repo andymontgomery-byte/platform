@@ -6,7 +6,9 @@ Default rule: request-scoped operations must pass the caller's `Authorization` b
 
 ## Current Allowlist
 
-No service-role callers are approved yet.
+| operation | caller | why_user_jwt_insufficient | last_reviewed |
+| --- | --- | --- | --- |
+| `tenant_rls_test_auth_fixture_setup` | `tests/supabase_tenant_rls_test.py` | The test must create temporary Supabase Auth users with different `app_metadata.tenant_id` claims before it can verify user-JWT RLS isolation through the live REST URL. The service role is used only for Auth user setup and cleanup, not for table reads. | 2026-04-26 |
 
 ## Entry Format
 

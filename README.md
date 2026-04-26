@@ -72,7 +72,7 @@ npm start
 Then call the API at `http://localhost:8787`, for example:
 
 ```sh
-curl http://localhost:8787/people
+curl http://localhost:8787/users/USER-ADA
 curl -X POST http://localhost:8787/sql/query \
   -H 'content-type: application/json' \
   -d '{"sql":"select display_name, primary_role from people order by display_name"}'

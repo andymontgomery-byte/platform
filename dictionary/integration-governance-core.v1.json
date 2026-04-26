@@ -6,6 +6,326 @@
   "source_version": "lti-1.3-security-1.1-data-privacy-1.0",
   "plain_description": "A structured dictionary for the platform's LTI, Security Framework, and Data Privacy governance model. It describes tool registrations, launches, LTI Advantage services, OAuth clients, scopes, privacy rules, consent, retention, and audit records exposed as SQL and JSON.",
   "model_scope": "Launch and service metadata, OAuth/OIDC security configuration, field-level scope policy, privacy rule accounting, consent records, retention rules, and audit trails. This is not a formal LTI, Security Framework, or Data Privacy certification claim.",
+  "oauth_scope_policies": [
+    {
+      "scope": "platform.integrations.registration:read",
+      "plain_description": "Read LTI tool registration records and their system configuration fields.",
+      "allowed_action": "read",
+      "privacy_ceiling": "system",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_registration.id",
+        "dictionary/integration-governance-core.v1.json#lti_registration.tenant_id",
+        "dictionary/integration-governance-core.v1.json#lti_registration.issuer",
+        "dictionary/integration-governance-core.v1.json#lti_registration.client_id",
+        "dictionary/integration-governance-core.v1.json#lti_registration.tool_name",
+        "dictionary/integration-governance-core.v1.json#lti_registration.initiate_login_uri",
+        "dictionary/integration-governance-core.v1.json#lti_registration.redirect_uris",
+        "dictionary/integration-governance-core.v1.json#lti_registration.jwks_uri",
+        "dictionary/integration-governance-core.v1.json#lti_registration.authorization_endpoint",
+        "dictionary/integration-governance-core.v1.json#lti_registration.token_endpoint",
+        "dictionary/integration-governance-core.v1.json#lti_registration.allowed_scopes",
+        "dictionary/integration-governance-core.v1.json#lti_registration.status",
+        "dictionary/integration-governance-core.v1.json#lti_registration.created_at",
+        "dictionary/integration-governance-core.v1.json#lti_registration.updated_at"
+      ]
+    },
+    {
+      "scope": "platform.integrations.deployment:read",
+      "plain_description": "Read tenant deployment and service endpoint records for configured tools.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_deployment.id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.registration_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.deployment_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.deployment_scope",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.resource_link_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.service_scopes",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.status",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.created_at",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.id",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.deployment_id",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.service_type",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.endpoint_url",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.service_versions",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.required_scope",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.policy_status"
+      ]
+    },
+    {
+      "scope": "platform.integrations.launch.audit:read",
+      "plain_description": "Read launch validation history, including hashed tokens and retained claim records for audit review.",
+      "allowed_action": "read",
+      "privacy_ceiling": "sensitive",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_launch.id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.tenant_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.registration_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.deployment_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.message_type",
+        "dictionary/integration-governance-core.v1.json#lti_launch.lti_version",
+        "dictionary/integration-governance-core.v1.json#lti_launch.subject_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.roles",
+        "dictionary/integration-governance-core.v1.json#lti_launch.target_link_uri",
+        "dictionary/integration-governance-core.v1.json#lti_launch.nonce_hash",
+        "dictionary/integration-governance-core.v1.json#lti_launch.id_token_hash",
+        "dictionary/integration-governance-core.v1.json#lti_launch.raw_claims",
+        "dictionary/integration-governance-core.v1.json#lti_launch.launched_at",
+        "dictionary/integration-governance-core.v1.json#lti_launch.validation_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly",
+      "plain_description": "Read LTI Names and Role Provisioning membership fields for the current context.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_membership.id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.user_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.platform_person_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.display_name",
+        "dictionary/integration-governance-core.v1.json#lti_membership.email",
+        "dictionary/integration-governance-core.v1.json#lti_membership.roles",
+        "dictionary/integration-governance-core.v1.json#lti_membership.status",
+        "dictionary/integration-governance-core.v1.json#lti_membership.lis_person_sourcedid"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
+      "plain_description": "Read LTI Assignment and Grade Services line item fields without learner result values.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_url",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_label",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_maximum",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.exchange_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+      "plain_description": "Read LTI Assignment and Grade Services learner result fields for an allowed line item.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_url",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.user_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_given",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.activity_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.grading_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.timestamp",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.exchange_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-ags/scope/score",
+      "plain_description": "Submit score updates for allowed LTI Assignment and Grade Services line items.",
+      "allowed_action": "write",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_url",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.user_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_given",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.activity_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.grading_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.timestamp",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.exchange_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking",
+      "plain_description": "Create or read LTI Deep Linking item selections for a launch-bound instructor workflow.",
+      "allowed_action": "write",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.id",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.launch_id",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.item_type",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.title",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.url",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.html",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.document_target",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.line_item_json",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.availability_start_at",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.submission_end_at"
+      ]
+    },
+    {
+      "scope": "platform.security.policy:read",
+      "plain_description": "Read OAuth client and scope policy records used to evaluate least-privilege access.",
+      "allowed_action": "read",
+      "privacy_ceiling": "system",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.id",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.tenant_id",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.client_id",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.client_name",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.jwks_uri",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.public_jwk",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.auth_method",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.grant_types",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.allowed_scopes",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.status",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.id",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.scope",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.api_resource",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.allowed_action",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.privacy_ceiling",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.field_patterns",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.requires_launch_context",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.allowed_roles",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.policy_status"
+      ]
+    },
+    {
+      "scope": "platform.privacy.policy:read",
+      "plain_description": "Read privacy sharing and retention policy records that decide whether fields may be exposed.",
+      "allowed_action": "read",
+      "privacy_ceiling": "privacy_governance",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.id",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.data_category",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.privacy_class",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.recipient_type",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.purpose",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.legal_basis",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.field_patterns",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.minimization_note",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.status",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.reviewed_at",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.id",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.source_standard",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.data_category",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.retention_period_days",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.action_on_expiry",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.raw_payload_policy",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.legal_hold",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.status"
+      ]
+    },
+    {
+      "scope": "platform.privacy.consent:read",
+      "plain_description": "Read consent records and evidence pointers for privacy-governed sharing decisions.",
+      "allowed_action": "read",
+      "privacy_ceiling": "sensitive",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.person_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.guardian_person_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.rule_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.consent_status",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.effective_at",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.expires_at",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.source_method",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.evidence_uri"
+      ]
+    },
+    {
+      "scope": "platform.privacy.audit:read",
+      "plain_description": "Read privacy audit events, including actor, client, target, purpose, outcome, and timing fields.",
+      "allowed_action": "read",
+      "privacy_ceiling": "sensitive",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.actor_person_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.client_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.event_type",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.object_type",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.object_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.privacy_class",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.policy_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.occurred_at",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.outcome",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.reason"
+      ]
+    },
+    {
+      "scope": "platform.roster.users.directory:read",
+      "plain_description": "Read only directory-level OneRoster user and organization fields.",
+      "allowed_action": "read",
+      "privacy_ceiling": "directory",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/oneroster-core.v1.json#person.display_name",
+        "dictionary/oneroster-core.v1.json#person.given_name",
+        "dictionary/oneroster-core.v1.json#person.family_name",
+        "dictionary/oneroster-core.v1.json#person.email",
+        "dictionary/oneroster-core.v1.json#organization.name",
+        "dictionary/oneroster-core.v1.json#organization.organization_type"
+      ]
+    },
+    {
+      "scope": "platform.roster.enrollments.education_record:read",
+      "plain_description": "Read class and enrollment fields that identify a person's learning context.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/oneroster-core.v1.json#class.sourced_id",
+        "dictionary/oneroster-core.v1.json#class.title",
+        "dictionary/oneroster-core.v1.json#class.class_type",
+        "dictionary/oneroster-core.v1.json#class.class_code",
+        "dictionary/oneroster-core.v1.json#enrollment.sourced_id",
+        "dictionary/oneroster-core.v1.json#enrollment.class_id",
+        "dictionary/oneroster-core.v1.json#enrollment.person_id",
+        "dictionary/oneroster-core.v1.json#enrollment.school_id",
+        "dictionary/oneroster-core.v1.json#enrollment.role",
+        "dictionary/oneroster-core.v1.json#enrollment.begin_date",
+        "dictionary/oneroster-core.v1.json#enrollment.end_date",
+        "dictionary/oneroster-core.v1.json#enrollment.primary_flag"
+      ]
+    },
+    {
+      "scope": "platform.gradebook.results.education_record:read",
+      "plain_description": "Read OneRoster gradebook line item and result fields for authorized classes.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/oneroster-core.v1.json#line_item.sourced_id",
+        "dictionary/oneroster-core.v1.json#line_item.title",
+        "dictionary/oneroster-core.v1.json#line_item.class_id",
+        "dictionary/oneroster-core.v1.json#line_item.category",
+        "dictionary/oneroster-core.v1.json#line_item.assign_date",
+        "dictionary/oneroster-core.v1.json#line_item.due_date",
+        "dictionary/oneroster-core.v1.json#line_item.result_value_min",
+        "dictionary/oneroster-core.v1.json#line_item.result_value_max",
+        "dictionary/oneroster-core.v1.json#result.sourced_id",
+        "dictionary/oneroster-core.v1.json#result.line_item_id",
+        "dictionary/oneroster-core.v1.json#result.person_id",
+        "dictionary/oneroster-core.v1.json#result.score_status",
+        "dictionary/oneroster-core.v1.json#result.score",
+        "dictionary/oneroster-core.v1.json#result.score_date",
+        "dictionary/oneroster-core.v1.json#result.comment"
+      ]
+    }
+  ],
   "objects": [
     {
       "object_key": "lti_registration",

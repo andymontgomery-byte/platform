@@ -13,6 +13,7 @@ SQL_OUT = ROOT / "schema" / "generated" / "integration_governance_core_comments.
 OPENAPI_OUT = ROOT / "openapi" / "generated" / "integration-governance-core.v0.json"
 MARKDOWN_OUT = ROOT / "docs" / "generated" / "integration-governance-core-dictionary.md"
 HTML_OUT = ROOT / "site" / "docs" / "integration-governance-core-dictionary.html"
+CURRENT_DICTIONARY_REF = f"dictionary/{SOURCE.name}"
 
 
 TYPE_MAP = {
@@ -67,68 +68,76 @@ def render_sql_comments(data: dict) -> str:
 def render_openapi(data: dict) -> dict:
     schemas = {}
     paths = {}
+    field_scope_index = build_field_scope_index(data)
     for obj in data["objects"]:
         schema_name = pascal(obj["object_key"])
-        schemas[schema_name] = object_schema(obj, data)
-        paths[obj["api_path"]] = {
-            "get": {
-                "tags": [obj["name"]],
-                "summary": f"List {obj['name']} records",
-                "description": obj["plain_description"],
-                "parameters": [
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "required": False,
-                        "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
-                        "schema": {"type": "string"},
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": f"{obj['name']} records.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": ["items", "count"],
-                                    "properties": {
-                                        "items": {
-                                            "type": "array",
-                                            "items": {"$ref": f"#/components/schemas/{schema_name}"},
-                                        },
-                                        "count": {"type": "integer"},
+        schemas[schema_name] = object_schema(obj, data, field_scope_index)
+        list_operation = {
+            "tags": [obj["name"]],
+            "summary": f"List {obj['name']} records",
+            "description": obj["plain_description"],
+            "parameters": [
+                {
+                    "name": "q",
+                    "in": "query",
+                    "required": False,
+                    "description": "Plain text search over integration IDs, tool names, scopes, policy names, and governance identifiers.",
+                    "schema": {"type": "string"},
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": f"{obj['name']} records.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["items", "count"],
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {"$ref": f"#/components/schemas/{schema_name}"},
                                     },
-                                }
+                                    "count": {"type": "integer"},
+                                },
                             }
-                        },
-                    }
-                },
-            }
-        }
-        paths[f"{obj['api_path']}/{{id}}"] = {
-            "get": {
-                "tags": [obj["name"]],
-                "summary": f"Get one {obj['name']} record",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": True,
-                        "description": f"Platform ID for the {obj['name']} record.",
-                        "schema": {"type": "string"},
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": f"One {obj['name']} record.",
-                        "content": {
-                            "application/json": {"schema": {"$ref": f"#/components/schemas/{schema_name}"}}
-                        },
+                        }
                     },
-                    "404": {"description": "Record not found."},
+                }
+            },
+        }
+        security = operation_security_requirements(data, obj)
+        if security:
+            list_operation["security"] = security
+        paths[obj["api_path"]] = {
+            "get": list_operation
+        }
+        get_operation = {
+            "tags": [obj["name"]],
+            "summary": f"Get one {obj['name']} record",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": True,
+                    "description": f"Platform ID for the {obj['name']} record.",
+                    "schema": {"type": "string"},
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": f"One {obj['name']} record.",
+                    "content": {
+                        "application/json": {"schema": {"$ref": f"#/components/schemas/{schema_name}"}}
+                    },
                 },
-            }
+                "404": {"description": "Record not found."},
+            },
+        }
+        if security:
+            get_operation["security"] = security
+        paths[f"{obj['api_path']}/{{id}}"] = {
+            "get": get_operation
         }
 
     return {
@@ -152,12 +161,27 @@ def render_openapi(data: dict) -> dict:
             }
         ],
         "paths": paths,
-        "components": {"schemas": schemas},
+        "components": {
+            "schemas": schemas,
+            "securitySchemes": {
+                "platformOAuth": {
+                    "type": "oauth2",
+                    "description": "Generated OAuth 2.0 scope policy. Each scope is mapped to exact dictionary field references and privacy ceilings in x-oauthScopePolicies.",
+                    "flows": {
+                        "clientCredentials": {
+                            "tokenUrl": "https://platform.example.test/oauth/token",
+                            "scopes": oauth_scope_descriptions(data),
+                        }
+                    },
+                }
+            },
+        },
+        "x-oauthScopePolicies": data.get("oauth_scope_policies", []),
         "x-unsupported-or-deferred": data.get("unsupported_or_deferred", []),
     }
 
 
-def object_schema(obj: dict, data: dict) -> dict:
+def object_schema(obj: dict, data: dict, field_scope_index: dict[str, list[str]]) -> dict:
     properties = {}
     required = []
     for field in obj["fields"]:
@@ -168,6 +192,8 @@ def object_schema(obj: dict, data: dict) -> dict:
             "type": TYPE_MAP.get(field["data_type"], "string"),
             "description": field["plain_description"],
             "x-decisionId": field["decision_id"],
+            "x-privacyClass": field["privacy_class"],
+            "x-oauthScopes": scopes_for_field(field_scope_index, obj["object_key"], field["field_key"]),
         }
         if field["data_type"] == "date":
             schema["format"] = "date"
@@ -188,7 +214,47 @@ def object_schema(obj: dict, data: dict) -> dict:
     }
 
 
+def build_field_scope_index(data: dict) -> dict[str, list[str]]:
+    index: dict[str, list[str]] = {}
+    for policy in data.get("oauth_scope_policies", []):
+        scope = policy["scope"]
+        for field_ref in policy.get("dictionary_fields", []):
+            index.setdefault(field_ref, [])
+            if scope not in index[field_ref]:
+                index[field_ref].append(scope)
+    return {field_ref: sorted(scopes) for field_ref, scopes in index.items()}
+
+
+def source_field_ref(object_key: str, field_key: str) -> str:
+    return f"{CURRENT_DICTIONARY_REF}#{object_key}.{field_key}"
+
+
+def scopes_for_field(field_scope_index: dict[str, list[str]], object_key: str, field_key: str) -> list[str]:
+    return field_scope_index.get(source_field_ref(object_key, field_key), [])
+
+
+def oauth_scope_descriptions(data: dict) -> dict[str, str]:
+    return {
+        policy["scope"]: policy["plain_description"]
+        for policy in data.get("oauth_scope_policies", [])
+    }
+
+
+def operation_security_requirements(data: dict, obj: dict) -> list[dict[str, list[str]]]:
+    object_prefix = f"{CURRENT_DICTIONARY_REF}#{obj['object_key']}."
+    scopes = sorted(
+        {
+            policy["scope"]
+            for policy in data.get("oauth_scope_policies", [])
+            for field_ref in policy.get("dictionary_fields", [])
+            if field_ref.startswith(object_prefix)
+        }
+    )
+    return [{"platformOAuth": [scope]} for scope in scopes]
+
+
 def render_markdown(data: dict) -> str:
+    field_scope_index = build_field_scope_index(data)
     lines = [
         "# Integration and Governance Core Generated Dictionary",
         "",
@@ -198,9 +264,35 @@ def render_markdown(data: dict) -> str:
         "",
         f"Model scope: {data['model_scope']}",
         "",
-        "## Objects",
+        "## OAuth Scope Field Map",
         "",
+        "Generated scope policies map OAuth scopes to exact dictionary fields and privacy ceilings. These rows are the source for the OpenAPI `platformOAuth` security scheme and each field's `x-oauthScopes` metadata.",
+        "",
+        "| Scope | Action | Privacy ceiling | Launch context | Dictionary fields | Layperson meaning |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
+    for policy in data.get("oauth_scope_policies", []):
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    f"`{policy['scope']}`",
+                    policy["allowed_action"],
+                    policy["privacy_ceiling"],
+                    "Yes" if policy.get("requires_launch_context") else "No",
+                    format_field_refs_markdown(policy.get("dictionary_fields", [])),
+                    policy["plain_description"],
+                ]
+            )
+            + " |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Objects",
+            "",
+        ]
+    )
     for obj in data["objects"]:
         lines.extend(
             [
@@ -212,8 +304,8 @@ def render_markdown(data: dict) -> str:
                 f"- Privacy class: `{obj['privacy_class']}`",
                 f"- Why it exists: {obj['why_it_exists']}",
                 "",
-                "| Field | JSON field | Type | Required | Privacy | Decision | Layperson meaning |",
-                "| --- | --- | --- | --- | --- | --- | --- |",
+                "| Field | JSON field | Type | Required | Privacy | OAuth scopes | Decision | Layperson meaning |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for field in obj["fields"]:
@@ -226,6 +318,9 @@ def render_markdown(data: dict) -> str:
                         field["data_type"],
                         "Yes" if field.get("required") else "No",
                         field["privacy_class"],
+                        format_scopes_markdown(
+                            scopes_for_field(field_scope_index, obj["object_key"], field["field_key"])
+                        ),
                         f"`{field['decision_id']}`",
                         field["plain_description"],
                     ]
@@ -253,11 +348,13 @@ def render_markdown(data: dict) -> str:
 
 
 def render_html(data: dict) -> str:
+    field_scope_index = build_field_scope_index(data)
     cards = []
     for obj in data["objects"]:
         field_rows = []
         value_sections = []
         for field in obj["fields"]:
+            scopes = scopes_for_field(field_scope_index, obj["object_key"], field["field_key"])
             field_rows.append(
                 "<tr>"
                 f"<td><code>{html_escape(field['column_name'])}</code></td>"
@@ -265,6 +362,7 @@ def render_html(data: dict) -> str:
                 f"<td>{html_escape(field['data_type'])}</td>"
                 f"<td>{'Yes' if field.get('required') else 'No'}</td>"
                 f"<td>{html_escape(field['privacy_class'])}</td>"
+                f"<td>{format_scopes_html(scopes)}</td>"
                 f"<td><code>{html_escape(field['decision_id'])}</code></td>"
                 f"<td>{html_escape(field['plain_description'])}</td>"
                 "</tr>"
@@ -295,11 +393,23 @@ def render_html(data: dict) -> str:
             f"<dt>Privacy</dt><dd><code>{html_escape(obj['privacy_class'])}</code></dd>"
             f"<dt>Why it exists</dt><dd>{html_escape(obj['why_it_exists'])}</dd>"
             "</dl>"
-            "<table><thead><tr><th>Field</th><th>JSON field</th><th>Type</th><th>Required</th><th>Privacy</th><th>Decision</th><th>Layperson meaning</th></tr></thead>"
+            "<table><thead><tr><th>Field</th><th>JSON field</th><th>Type</th><th>Required</th><th>Privacy</th><th>OAuth scopes</th><th>Decision</th><th>Layperson meaning</th></tr></thead>"
             f"<tbody>{''.join(field_rows)}</tbody></table>"
             f"{''.join(value_sections)}"
             "</section>"
         )
+
+    scope_rows = "".join(
+        "<tr>"
+        f"<td><code>{html_escape(policy['scope'])}</code></td>"
+        f"<td>{html_escape(policy['allowed_action'])}</td>"
+        f"<td>{html_escape(policy['privacy_ceiling'])}</td>"
+        f"<td>{'Yes' if policy.get('requires_launch_context') else 'No'}</td>"
+        f"<td>{format_field_refs_html(policy.get('dictionary_fields', []))}</td>"
+        f"<td>{html_escape(policy['plain_description'])}</td>"
+        "</tr>"
+        for policy in data.get("oauth_scope_policies", [])
+    )
 
     unsupported = "".join(
         "<tr>"
@@ -326,6 +436,13 @@ def render_html(data: dict) -> str:
         f"    <p class=\"doc-lede\">Model scope: {html_escape(data['model_scope'])}</p>\n"
         "    <p class=\"doc-lede\">Generated from <code>dictionary/integration-governance-core.v1.json</code>. "
         "The same source also emits SQL comments and OpenAPI field descriptions.</p>\n"
+        "    <section class=\"doc-card\">\n"
+        "      <h2>OAuth Scope Field Map</h2>\n"
+        "      <p>Generated scope policies map OAuth scopes to exact dictionary fields and privacy ceilings. "
+        "The OpenAPI document emits these same scopes in the <code>platformOAuth</code> security scheme and per-field <code>x-oauthScopes</code> metadata.</p>\n"
+        "      <table><thead><tr><th>Scope</th><th>Action</th><th>Privacy ceiling</th><th>Launch context</th><th>Dictionary fields</th><th>Layperson meaning</th></tr></thead>"
+        f"<tbody>{scope_rows}</tbody></table>\n"
+        "    </section>\n"
         f"    {''.join(cards)}\n"
         "    <section class=\"doc-card\">\n"
         "      <h2>Unsupported or Deferred</h2>\n"
@@ -345,6 +462,30 @@ def allowed_values(field: dict, data: dict) -> list[dict]:
     if ref:
         return data.get("shared_allowed_values", {}).get(ref, [])
     return []
+
+
+def format_field_refs_markdown(field_refs: list[str]) -> str:
+    if not field_refs:
+        return "None"
+    return ", ".join(f"`{field_ref}`" for field_ref in field_refs)
+
+
+def format_scopes_markdown(scopes: list[str]) -> str:
+    if not scopes:
+        return "None"
+    return ", ".join(f"`{scope}`" for scope in scopes)
+
+
+def format_field_refs_html(field_refs: list[str]) -> str:
+    if not field_refs:
+        return "None"
+    return "<br>".join(f"<code>{html_escape(field_ref)}</code>" for field_ref in field_refs)
+
+
+def format_scopes_html(scopes: list[str]) -> str:
+    if not scopes:
+        return "None"
+    return "<br>".join(f"<code>{html_escape(scope)}</code>" for scope in scopes)
 
 
 def sql_quote(value: str) -> str:

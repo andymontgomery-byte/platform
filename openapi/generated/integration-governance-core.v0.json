@@ -57,7 +57,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.registration:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/registrations/{id}": {
@@ -91,7 +98,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.registration:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/deployments": {
@@ -138,7 +152,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.deployment:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/deployments/{id}": {
@@ -172,7 +193,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.deployment:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/launches": {
@@ -219,7 +247,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.launch.audit:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/launches/{id}": {
@@ -253,7 +288,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.launch.audit:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/service-endpoints": {
@@ -300,7 +342,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.deployment:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/service-endpoints/{id}": {
@@ -334,7 +383,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.integrations.deployment:read"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/memberships": {
@@ -381,7 +437,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/memberships/{id}": {
@@ -415,7 +478,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/grade-exchanges": {
@@ -462,7 +532,24 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly"
+            ]
+          },
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly"
+            ]
+          },
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/grade-exchanges/{id}": {
@@ -496,7 +583,24 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly"
+            ]
+          },
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly"
+            ]
+          },
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/deep-link-items": {
@@ -543,7 +647,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
+          }
+        ]
       }
     },
     "/integrations/lti/deep-link-items/{id}": {
@@ -577,7 +688,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
+          }
+        ]
       }
     },
     "/governance/security/oauth-clients": {
@@ -624,7 +742,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.security.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/security/oauth-clients/{id}": {
@@ -658,7 +783,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.security.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/security/scope-policies": {
@@ -705,7 +837,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.security.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/security/scope-policies/{id}": {
@@ -739,7 +878,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.security.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/data-sharing-rules": {
@@ -786,7 +932,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/data-sharing-rules/{id}": {
@@ -820,7 +973,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/consent-records": {
@@ -867,7 +1027,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.consent:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/consent-records/{id}": {
@@ -901,7 +1068,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.consent:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/retention-rules": {
@@ -948,7 +1122,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/retention-rules/{id}": {
@@ -982,7 +1163,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.policy:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/audit-events": {
@@ -1029,7 +1217,14 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.audit:read"
+            ]
+          }
+        ]
       }
     },
     "/governance/privacy/audit-events/{id}": {
@@ -1063,7 +1258,14 @@
           "404": {
             "description": "Record not found."
           }
-        }
+        },
+        "security": [
+          {
+            "platformOAuth": [
+              "platform.privacy.audit:read"
+            ]
+          }
+        ]
       }
     }
   },
@@ -1091,62 +1293,110 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this LTI registration.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "tenantId": {
             "type": "string",
             "description": "The school, district, or customer boundary that owns this registration.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "issuer": {
             "type": "string",
             "description": "The platform issuer identifier used in LTI launch tokens.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "clientId": {
             "type": "string",
             "description": "The OAuth client ID assigned to the tool by the platform.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "toolName": {
             "type": "string",
             "description": "The name administrators and instructors see for the external tool.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "initiateLoginUri": {
             "type": "string",
             "description": "The tool URL where the platform starts the LTI login flow.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "redirectUris": {
             "type": "string",
             "description": "The tool URLs that are allowed to receive launch responses.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "jwksUri": {
             "type": "string",
             "description": "The URL where public signing keys for the tool or platform can be fetched.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "authorizationEndpoint": {
             "type": "string",
             "description": "The platform URL used during OpenID Connect authentication.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "tokenEndpoint": {
             "type": "string",
             "description": "The platform URL where the tool asks for service access tokens.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "allowedScopes": {
             "type": "string",
             "description": "The service permissions the tool may request after policy review.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ]
           },
           "status": {
             "type": "string",
             "description": "Whether this registration can currently be used.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ],
             "enum": [
               "active",
               "inactive",
@@ -1162,12 +1412,20 @@
             "type": "string",
             "description": "When this registration was created.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ],
             "format": "date-time"
           },
           "updatedAt": {
             "type": "string",
             "description": "When this registration was last changed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.registration:read"
+            ],
             "format": "date-time"
           }
         }
@@ -1187,22 +1445,38 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this deployment.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "registrationId": {
             "type": "string",
             "description": "The LTI registration that governs this deployment.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "deploymentId": {
             "type": "string",
             "description": "The immutable deployment identifier sent in LTI launch claims.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "deploymentScope": {
             "type": "string",
             "description": "The level where this tool installation is available.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ],
             "enum": [
               "tenant",
               "school",
@@ -1221,22 +1495,38 @@
           "contextId": {
             "type": "string",
             "description": "The course, section, school, or tenant context this deployment is attached to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "resourceLinkId": {
             "type": "string",
             "description": "The specific course activity link this deployment is tied to when the tool is activity-scoped.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "serviceScopes": {
             "type": "string",
             "description": "The LTI Advantage scopes enabled for this deployment after tenant policy filtering.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "status": {
             "type": "string",
             "description": "Whether launches and services for this deployment are enabled.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ],
             "enum": [
               "active",
               "inactive",
@@ -1252,6 +1542,10 @@
             "type": "string",
             "description": "When this deployment was created.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ],
             "format": "date-time"
           }
         }
@@ -1277,27 +1571,47 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this launch attempt.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "tenantId": {
             "type": "string",
             "description": "The tenant boundary that owns the launch event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "registrationId": {
             "type": "string",
             "description": "The registration used to validate and route the launch.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "deploymentId": {
             "type": "string",
             "description": "The LTI deployment identifier included in the launch.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "messageType": {
             "type": "string",
             "description": "The LTI workflow represented by this launch.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ],
             "enum": [
               "LtiResourceLinkRequest",
               "LtiDeepLinkingRequest",
@@ -1313,6 +1627,10 @@
             "type": "string",
             "description": "The LTI version claim supplied in the launch.",
             "x-decisionId": "DEC-009-content-resource",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ],
             "enum": [
               "1.3.0"
             ],
@@ -1323,48 +1641,84 @@
           "subjectId": {
             "type": "string",
             "description": "The user identifier from the launch token when the launch is not anonymous.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "contextId": {
             "type": "string",
             "description": "The course, section, or group where the launch happened.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "roles": {
             "type": "string",
             "description": "The LTI roles supplied for the launching user.",
-            "x-decisionId": "DEC-003-role-vocabulary"
+            "x-decisionId": "DEC-003-role-vocabulary",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "targetLinkUri": {
             "type": "string",
             "description": "The final tool URL that should receive the launch.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "nonceHash": {
             "type": "string",
             "description": "A stored fingerprint of the one-time launch nonce used to prevent replay.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "idTokenHash": {
             "type": "string",
             "description": "A fingerprint of the signed launch token kept for audit without exposing the full token everywhere.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "rawClaims": {
             "type": "string",
             "description": "The original launch claims retained for troubleshooting and conformance review under tenant policy.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ]
           },
           "launchedAt": {
             "type": "string",
             "description": "When the launch was initiated.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "behavioral",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ],
             "format": "date-time"
           },
           "validationStatus": {
             "type": "string",
             "description": "Whether signature, issuer, audience, deployment, nonce, and time checks passed.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.launch.audit:read"
+            ],
             "enum": [
               "pending",
               "valid",
@@ -1396,17 +1750,29 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this LTI service endpoint.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "deploymentId": {
             "type": "string",
             "description": "The deployment that may expose this service endpoint.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "serviceType": {
             "type": "string",
             "description": "Which LTI Advantage service this endpoint supports.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ],
             "enum": [
               "nrps",
               "ags_line_items",
@@ -1425,27 +1791,47 @@
           "endpointUrl": {
             "type": "string",
             "description": "The API URL a tool calls for this service.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "serviceVersions": {
             "type": "string",
             "description": "The supported service versions advertised to the tool.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "requiredScope": {
             "type": "string",
             "description": "The OAuth scope required before the tool may call this endpoint.",
-            "x-decisionId": "DEC-002-learning-context"
+            "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "contextId": {
             "type": "string",
             "description": "The class, course, section, or activity context the service is scoped to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ]
           },
           "policyStatus": {
             "type": "string",
             "description": "Whether tenant privacy and scope policy allows this service to be exposed.",
             "x-decisionId": "DEC-002-learning-context",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.integrations.deployment:read"
+            ],
             "enum": [
               "active",
               "inactive",
@@ -1472,47 +1858,83 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this LTI membership projection.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "serviceEndpointId": {
             "type": "string",
             "description": "The NRPS endpoint that returned or would return this membership.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "contextId": {
             "type": "string",
             "description": "The course, section, group, or other context represented by the membership.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "userId": {
             "type": "string",
             "description": "The LTI user ID for the member.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "platformPersonId": {
             "type": "string",
             "description": "The resolved platform person ID when policy permits resolution.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "displayName": {
             "type": "string",
             "description": "The member name shared with the tool.",
-            "x-decisionId": "DEC-004-enrollment-membership"
+            "x-decisionId": "DEC-004-enrollment-membership",
+            "x-privacyClass": "directory",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "email": {
             "type": "string",
             "description": "The member email shared with the tool if policy allows it.",
-            "x-decisionId": "DEC-004-enrollment-membership"
+            "x-decisionId": "DEC-004-enrollment-membership",
+            "x-privacyClass": "directory",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "roles": {
             "type": "string",
             "description": "The LTI roles this member has in the context.",
-            "x-decisionId": "DEC-003-role-vocabulary"
+            "x-decisionId": "DEC-003-role-vocabulary",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           },
           "status": {
             "type": "string",
             "description": "Whether the membership is currently active.",
             "x-decisionId": "DEC-004-enrollment-membership",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ],
             "enum": [
               "Active",
               "Inactive"
@@ -1525,7 +1947,11 @@
           "lisPersonSourcedid": {
             "type": "string",
             "description": "A legacy or SIS-linked person identifier shared through LTI when allowed.",
-            "x-decisionId": "DEC-004-enrollment-membership"
+            "x-decisionId": "DEC-004-enrollment-membership",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+            ]
           }
         }
       },
@@ -1542,42 +1968,82 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this AGS exchange record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly"
+            ]
           },
           "serviceEndpointId": {
             "type": "string",
             "description": "The AGS endpoint used for this grade exchange.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ]
           },
           "lineItemUrl": {
             "type": "string",
             "description": "The URL or identifier for the gradebook line item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ]
           },
           "lineItemLabel": {
             "type": "string",
             "description": "The human-readable gradebook column name.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly"
+            ]
           },
           "scoreMaximum": {
             "type": "number",
             "description": "The maximum possible score for the line item or score update.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly"
+            ]
           },
           "scoreGiven": {
             "type": "number",
             "description": "The points or score earned by the learner.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ]
           },
           "userId": {
             "type": "string",
             "description": "The learner who receives the score or result.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ]
           },
           "activityProgress": {
             "type": "string",
             "description": "Where the learner is in the activity lifecycle.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ],
             "enum": [
               "Initialized",
               "Started",
@@ -1597,6 +2063,11 @@
             "type": "string",
             "description": "Where the score is in the grading lifecycle.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ],
             "enum": [
               "FullyGraded",
               "Pending",
@@ -1616,12 +2087,23 @@
             "type": "string",
             "description": "When the tool or platform created this grade exchange event.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ],
             "format": "date-time"
           },
           "exchangeStatus": {
             "type": "string",
             "description": "Whether the AGS exchange was accepted, rejected, or held for review.",
             "x-decisionId": "DEC-005-results-scores",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+            ],
             "enum": [
               "pending",
               "valid",
@@ -1649,17 +2131,29 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this deep-linked item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
           },
           "launchId": {
             "type": "string",
             "description": "The Deep Linking launch that produced this selected item.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "behavioral",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
           },
           "itemType": {
             "type": "string",
             "description": "The kind of content the tool returned.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ],
             "enum": [
               "link",
               "file",
@@ -1678,22 +2172,38 @@
           "title": {
             "type": "string",
             "description": "The title shown for the selected content item.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
           },
           "url": {
             "type": "string",
             "description": "The content or tool URL returned by the tool.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
           },
           "html": {
             "type": "string",
             "description": "An HTML snippet returned by the tool when the item is embedded content.",
-            "x-decisionId": "DEC-009-content-resource"
+            "x-decisionId": "DEC-009-content-resource",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
           },
           "documentTarget": {
             "type": "string",
             "description": "How the platform should display the selected item.",
             "x-decisionId": "DEC-006-standards-alignment",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ],
             "enum": [
               "iframe",
               "window",
@@ -1708,18 +2218,30 @@
           "lineItemJson": {
             "type": "string",
             "description": "Gradebook line item details returned with the selected item.",
-            "x-decisionId": "DEC-005-results-scores"
+            "x-decisionId": "DEC-005-results-scores",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ]
           },
           "availabilityStartAt": {
             "type": "string",
             "description": "When the item becomes available to learners.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ],
             "format": "date-time"
           },
           "submissionEndAt": {
             "type": "string",
             "description": "When learner submissions for the item are due or closed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking"
+            ],
             "format": "date-time"
           }
         }
@@ -1741,37 +2263,65 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this OAuth client.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "tenantId": {
             "type": "string",
             "description": "The tenant that owns or authorizes this client.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "clientId": {
             "type": "string",
             "description": "The public OAuth client identifier.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "clientName": {
             "type": "string",
             "description": "The name shown to administrators when reviewing the client.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "jwksUri": {
             "type": "string",
             "description": "The URL where the client's public keys can be fetched.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "publicJwk": {
             "type": "string",
             "description": "A stored public key used to verify client assertions when a JWKS URL is not used.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "authMethod": {
             "type": "string",
             "description": "How the client proves its identity to the token endpoint.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ],
             "enum": [
               "private_key_jwt",
               "client_secret_basic",
@@ -1786,17 +2336,29 @@
           "grantTypes": {
             "type": "string",
             "description": "The OAuth grant types this client is allowed to use.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "allowedScopes": {
             "type": "string",
             "description": "The scopes this client may request after tenant and privacy policy are applied.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "status": {
             "type": "string",
             "description": "Whether tokens may currently be issued for this client.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ],
             "enum": [
               "active",
               "suspended",
@@ -1826,22 +2388,38 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this scope policy.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "scope": {
             "type": "string",
             "description": "The OAuth scope controlled by this rule.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "apiResource": {
             "type": "string",
             "description": "The endpoint group or dictionary object this scope may access.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "allowedAction": {
             "type": "string",
             "description": "The operation permitted by this scope.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ],
             "enum": [
               "read",
               "write",
@@ -1859,6 +2437,10 @@
             "type": "string",
             "description": "The most sensitive privacy class this scope may expose without another policy rule.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ],
             "enum": [
               "public",
               "directory",
@@ -1883,22 +2465,38 @@
           "fieldPatterns": {
             "type": "string",
             "description": "Optional dictionary field names or patterns allowed by this scope.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "requiresLaunchContext": {
             "type": "boolean",
             "description": "Whether access must be tied to a current launch, deployment, class, or activity context.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "allowedRoles": {
             "type": "string",
             "description": "Roles that may use or benefit from the scope.",
-            "x-decisionId": "DEC-003-role-vocabulary"
+            "x-decisionId": "DEC-003-role-vocabulary",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ]
           },
           "policyStatus": {
             "type": "string",
             "description": "Whether this scope policy is active, inactive, or retired.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.security.policy:read"
+            ],
             "enum": [
               "active",
               "inactive",
@@ -1929,17 +2527,29 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this data sharing rule.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "tenantId": {
             "type": "string",
             "description": "The tenant whose policy this rule belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "dataCategory": {
             "type": "string",
             "description": "The broad kind of school data governed by the rule.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "roster",
               "gradebook",
@@ -1967,6 +2577,10 @@
             "type": "string",
             "description": "The platform privacy class for the data covered by this rule.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "public",
               "directory",
@@ -1992,6 +2606,10 @@
             "type": "string",
             "description": "Who may receive the data under this rule.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "internal_app",
               "external_tool",
@@ -2014,12 +2632,20 @@
           "purpose": {
             "type": "string",
             "description": "The educational or operational reason for sharing the data.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "legalBasis": {
             "type": "string",
             "description": "The legal or policy basis used to justify the data sharing.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "consent",
               "contract",
@@ -2038,17 +2664,29 @@
           "fieldPatterns": {
             "type": "string",
             "description": "The dictionary fields or field patterns this rule covers.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "minimizationNote": {
             "type": "string",
             "description": "How the platform limits shared data to what the purpose requires.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "status": {
             "type": "string",
             "description": "Whether this sharing rule is currently active.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "active",
               "inactive",
@@ -2064,6 +2702,10 @@
             "type": "string",
             "description": "When the rule was last reviewed.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "format": "date-time"
           }
         }
@@ -2084,32 +2726,56 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this consent record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ]
           },
           "tenantId": {
             "type": "string",
             "description": "The tenant boundary for this consent record.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ]
           },
           "personId": {
             "type": "string",
             "description": "The learner or user whose data the consent concerns.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ]
           },
           "guardianPersonId": {
             "type": "string",
             "description": "The guardian or authorized person who gave consent when applicable.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ]
           },
           "ruleId": {
             "type": "string",
             "description": "The data sharing rule this consent applies to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ]
           },
           "consentStatus": {
             "type": "string",
             "description": "Whether consent is granted, denied, revoked, expired, or pending.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ],
             "enum": [
               "pending",
               "granted",
@@ -2129,18 +2795,30 @@
             "type": "string",
             "description": "When the consent state became effective.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ],
             "format": "date-time"
           },
           "expiresAt": {
             "type": "string",
             "description": "When the consent state expires if it is time-limited.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ],
             "format": "date-time"
           },
           "sourceMethod": {
             "type": "string",
             "description": "How the platform received this consent state.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ],
             "enum": [
               "admin",
               "guardian_portal",
@@ -2157,7 +2835,11 @@
           "evidenceUri": {
             "type": "string",
             "description": "A reference to the form, agreement, or audit evidence for the consent.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.consent:read"
+            ]
           }
         }
       },
@@ -2179,17 +2861,29 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this retention rule.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "tenantId": {
             "type": "string",
             "description": "The tenant whose data retention policy this rule belongs to.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "sourceStandard": {
             "type": "string",
             "description": "The standard or platform area that produces the data.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "lti",
               "security_framework",
@@ -2213,6 +2907,10 @@
             "type": "string",
             "description": "The category of data controlled by this retention rule.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "roster",
               "gradebook",
@@ -2239,12 +2937,20 @@
           "retentionPeriodDays": {
             "type": "integer",
             "description": "How many days the data may be retained before the action is due.",
-            "x-decisionId": "DEC-008-time-session"
+            "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "actionOnExpiry": {
             "type": "string",
             "description": "What the platform should do when data reaches the retention limit.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "delete",
               "anonymize",
@@ -2262,6 +2968,10 @@
             "type": "string",
             "description": "How the platform should retain raw standards payloads after projection.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "retain",
               "minimize",
@@ -2278,12 +2988,20 @@
           "legalHold": {
             "type": "boolean",
             "description": "Whether deletion or anonymization is paused by a legal hold.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ]
           },
           "status": {
             "type": "string",
             "description": "Whether this retention rule is active, inactive, or retired.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.policy:read"
+            ],
             "enum": [
               "active",
               "inactive",
@@ -2313,27 +3031,47 @@
           "id": {
             "type": "string",
             "description": "The platform's stable ID for this audit event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
           },
           "tenantId": {
             "type": "string",
             "description": "The tenant boundary for the audited event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
           },
           "actorPersonId": {
             "type": "string",
             "description": "The person who performed the audited action, if a person was involved.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "education_record",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
           },
           "clientId": {
             "type": "string",
             "description": "The OAuth client or tool that performed the audited action, if an integration was involved.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "system",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
           },
           "eventType": {
             "type": "string",
             "description": "The type of privacy or security event being recorded.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ],
             "enum": [
               "access",
               "export",
@@ -2356,17 +3094,29 @@
           "objectType": {
             "type": "string",
             "description": "The dictionary object, endpoint group, or policy area affected by the event.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
           },
           "objectId": {
             "type": "string",
             "description": "The specific record affected by the event when one applies.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
           },
           "privacyClass": {
             "type": "string",
             "description": "The most sensitive privacy class involved in the event.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ],
             "enum": [
               "public",
               "directory",
@@ -2391,18 +3141,30 @@
           "policyId": {
             "type": "string",
             "description": "The scope, sharing, consent, or retention policy that governed the event.",
-            "x-decisionId": "DEC-007-identifier-crosswalk"
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-privacyClass": "privacy_governance",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
           },
           "occurredAt": {
             "type": "string",
             "description": "When the audited event occurred.",
             "x-decisionId": "DEC-008-time-session",
+            "x-privacyClass": "operational",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ],
             "format": "date-time"
           },
           "outcome": {
             "type": "string",
             "description": "Whether the action was allowed, denied, failed, or completed.",
             "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ],
             "enum": [
               "allowed",
               "denied",
@@ -2419,12 +3181,364 @@
           "reason": {
             "type": "string",
             "description": "A short explanation for the audit outcome.",
-            "x-decisionId": "DEC-010-tenancy-reference-data"
+            "x-decisionId": "DEC-010-tenancy-reference-data",
+            "x-privacyClass": "sensitive",
+            "x-oauthScopes": [
+              "platform.privacy.audit:read"
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "platformOAuth": {
+        "type": "oauth2",
+        "description": "Generated OAuth 2.0 scope policy. Each scope is mapped to exact dictionary field references and privacy ceilings in x-oauthScopePolicies.",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://platform.example.test/oauth/token",
+            "scopes": {
+              "platform.integrations.registration:read": "Read LTI tool registration records and their system configuration fields.",
+              "platform.integrations.deployment:read": "Read tenant deployment and service endpoint records for configured tools.",
+              "platform.integrations.launch.audit:read": "Read launch validation history, including hashed tokens and retained claim records for audit review.",
+              "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly": "Read LTI Names and Role Provisioning membership fields for the current context.",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly": "Read LTI Assignment and Grade Services line item fields without learner result values.",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly": "Read LTI Assignment and Grade Services learner result fields for an allowed line item.",
+              "https://purl.imsglobal.org/spec/lti-ags/scope/score": "Submit score updates for allowed LTI Assignment and Grade Services line items.",
+              "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking": "Create or read LTI Deep Linking item selections for a launch-bound instructor workflow.",
+              "platform.security.policy:read": "Read OAuth client and scope policy records used to evaluate least-privilege access.",
+              "platform.privacy.policy:read": "Read privacy sharing and retention policy records that decide whether fields may be exposed.",
+              "platform.privacy.consent:read": "Read consent records and evidence pointers for privacy-governed sharing decisions.",
+              "platform.privacy.audit:read": "Read privacy audit events, including actor, client, target, purpose, outcome, and timing fields.",
+              "platform.roster.users.directory:read": "Read only directory-level OneRoster user and organization fields.",
+              "platform.roster.enrollments.education_record:read": "Read class and enrollment fields that identify a person's learning context.",
+              "platform.gradebook.results.education_record:read": "Read OneRoster gradebook line item and result fields for authorized classes."
+            }
           }
         }
       }
     }
   },
+  "x-oauthScopePolicies": [
+    {
+      "scope": "platform.integrations.registration:read",
+      "plain_description": "Read LTI tool registration records and their system configuration fields.",
+      "allowed_action": "read",
+      "privacy_ceiling": "system",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_registration.id",
+        "dictionary/integration-governance-core.v1.json#lti_registration.tenant_id",
+        "dictionary/integration-governance-core.v1.json#lti_registration.issuer",
+        "dictionary/integration-governance-core.v1.json#lti_registration.client_id",
+        "dictionary/integration-governance-core.v1.json#lti_registration.tool_name",
+        "dictionary/integration-governance-core.v1.json#lti_registration.initiate_login_uri",
+        "dictionary/integration-governance-core.v1.json#lti_registration.redirect_uris",
+        "dictionary/integration-governance-core.v1.json#lti_registration.jwks_uri",
+        "dictionary/integration-governance-core.v1.json#lti_registration.authorization_endpoint",
+        "dictionary/integration-governance-core.v1.json#lti_registration.token_endpoint",
+        "dictionary/integration-governance-core.v1.json#lti_registration.allowed_scopes",
+        "dictionary/integration-governance-core.v1.json#lti_registration.status",
+        "dictionary/integration-governance-core.v1.json#lti_registration.created_at",
+        "dictionary/integration-governance-core.v1.json#lti_registration.updated_at"
+      ]
+    },
+    {
+      "scope": "platform.integrations.deployment:read",
+      "plain_description": "Read tenant deployment and service endpoint records for configured tools.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_deployment.id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.registration_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.deployment_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.deployment_scope",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.resource_link_id",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.service_scopes",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.status",
+        "dictionary/integration-governance-core.v1.json#lti_deployment.created_at",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.id",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.deployment_id",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.service_type",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.endpoint_url",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.service_versions",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.required_scope",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_service_endpoint.policy_status"
+      ]
+    },
+    {
+      "scope": "platform.integrations.launch.audit:read",
+      "plain_description": "Read launch validation history, including hashed tokens and retained claim records for audit review.",
+      "allowed_action": "read",
+      "privacy_ceiling": "sensitive",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_launch.id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.tenant_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.registration_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.deployment_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.message_type",
+        "dictionary/integration-governance-core.v1.json#lti_launch.lti_version",
+        "dictionary/integration-governance-core.v1.json#lti_launch.subject_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_launch.roles",
+        "dictionary/integration-governance-core.v1.json#lti_launch.target_link_uri",
+        "dictionary/integration-governance-core.v1.json#lti_launch.nonce_hash",
+        "dictionary/integration-governance-core.v1.json#lti_launch.id_token_hash",
+        "dictionary/integration-governance-core.v1.json#lti_launch.raw_claims",
+        "dictionary/integration-governance-core.v1.json#lti_launch.launched_at",
+        "dictionary/integration-governance-core.v1.json#lti_launch.validation_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly",
+      "plain_description": "Read LTI Names and Role Provisioning membership fields for the current context.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_membership.id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.context_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.user_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.platform_person_id",
+        "dictionary/integration-governance-core.v1.json#lti_membership.display_name",
+        "dictionary/integration-governance-core.v1.json#lti_membership.email",
+        "dictionary/integration-governance-core.v1.json#lti_membership.roles",
+        "dictionary/integration-governance-core.v1.json#lti_membership.status",
+        "dictionary/integration-governance-core.v1.json#lti_membership.lis_person_sourcedid"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
+      "plain_description": "Read LTI Assignment and Grade Services line item fields without learner result values.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_url",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_label",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_maximum",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.exchange_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+      "plain_description": "Read LTI Assignment and Grade Services learner result fields for an allowed line item.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_url",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.user_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_given",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.activity_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.grading_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.timestamp",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.exchange_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-ags/scope/score",
+      "plain_description": "Submit score updates for allowed LTI Assignment and Grade Services line items.",
+      "allowed_action": "write",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.service_endpoint_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.line_item_url",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.user_id",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_given",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.activity_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.grading_progress",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.timestamp",
+        "dictionary/integration-governance-core.v1.json#lti_grade_exchange.exchange_status"
+      ]
+    },
+    {
+      "scope": "https://purl.imsglobal.org/spec/lti-dl/scope/deeplinking",
+      "plain_description": "Create or read LTI Deep Linking item selections for a launch-bound instructor workflow.",
+      "allowed_action": "write",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": true,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.id",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.launch_id",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.item_type",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.title",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.url",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.html",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.document_target",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.line_item_json",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.availability_start_at",
+        "dictionary/integration-governance-core.v1.json#lti_deep_link_item.submission_end_at"
+      ]
+    },
+    {
+      "scope": "platform.security.policy:read",
+      "plain_description": "Read OAuth client and scope policy records used to evaluate least-privilege access.",
+      "allowed_action": "read",
+      "privacy_ceiling": "system",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.id",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.tenant_id",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.client_id",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.client_name",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.jwks_uri",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.public_jwk",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.auth_method",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.grant_types",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.allowed_scopes",
+        "dictionary/integration-governance-core.v1.json#security_oauth_client.status",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.id",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.scope",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.api_resource",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.allowed_action",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.privacy_ceiling",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.field_patterns",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.requires_launch_context",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.allowed_roles",
+        "dictionary/integration-governance-core.v1.json#security_scope_policy.policy_status"
+      ]
+    },
+    {
+      "scope": "platform.privacy.policy:read",
+      "plain_description": "Read privacy sharing and retention policy records that decide whether fields may be exposed.",
+      "allowed_action": "read",
+      "privacy_ceiling": "privacy_governance",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.id",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.data_category",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.privacy_class",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.recipient_type",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.purpose",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.legal_basis",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.field_patterns",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.minimization_note",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.status",
+        "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.reviewed_at",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.id",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.source_standard",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.data_category",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.retention_period_days",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.action_on_expiry",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.raw_payload_policy",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.legal_hold",
+        "dictionary/integration-governance-core.v1.json#privacy_retention_rule.status"
+      ]
+    },
+    {
+      "scope": "platform.privacy.consent:read",
+      "plain_description": "Read consent records and evidence pointers for privacy-governed sharing decisions.",
+      "allowed_action": "read",
+      "privacy_ceiling": "sensitive",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.person_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.guardian_person_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.rule_id",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.consent_status",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.effective_at",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.expires_at",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.source_method",
+        "dictionary/integration-governance-core.v1.json#privacy_consent_record.evidence_uri"
+      ]
+    },
+    {
+      "scope": "platform.privacy.audit:read",
+      "plain_description": "Read privacy audit events, including actor, client, target, purpose, outcome, and timing fields.",
+      "allowed_action": "read",
+      "privacy_ceiling": "sensitive",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.tenant_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.actor_person_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.client_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.event_type",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.object_type",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.object_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.privacy_class",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.policy_id",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.occurred_at",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.outcome",
+        "dictionary/integration-governance-core.v1.json#privacy_audit_event.reason"
+      ]
+    },
+    {
+      "scope": "platform.roster.users.directory:read",
+      "plain_description": "Read only directory-level OneRoster user and organization fields.",
+      "allowed_action": "read",
+      "privacy_ceiling": "directory",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/oneroster-core.v1.json#person.display_name",
+        "dictionary/oneroster-core.v1.json#person.given_name",
+        "dictionary/oneroster-core.v1.json#person.family_name",
+        "dictionary/oneroster-core.v1.json#person.email",
+        "dictionary/oneroster-core.v1.json#organization.name",
+        "dictionary/oneroster-core.v1.json#organization.organization_type"
+      ]
+    },
+    {
+      "scope": "platform.roster.enrollments.education_record:read",
+      "plain_description": "Read class and enrollment fields that identify a person's learning context.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/oneroster-core.v1.json#class.sourced_id",
+        "dictionary/oneroster-core.v1.json#class.title",
+        "dictionary/oneroster-core.v1.json#class.class_type",
+        "dictionary/oneroster-core.v1.json#class.class_code",
+        "dictionary/oneroster-core.v1.json#enrollment.sourced_id",
+        "dictionary/oneroster-core.v1.json#enrollment.class_id",
+        "dictionary/oneroster-core.v1.json#enrollment.person_id",
+        "dictionary/oneroster-core.v1.json#enrollment.school_id",
+        "dictionary/oneroster-core.v1.json#enrollment.role",
+        "dictionary/oneroster-core.v1.json#enrollment.begin_date",
+        "dictionary/oneroster-core.v1.json#enrollment.end_date",
+        "dictionary/oneroster-core.v1.json#enrollment.primary_flag"
+      ]
+    },
+    {
+      "scope": "platform.gradebook.results.education_record:read",
+      "plain_description": "Read OneRoster gradebook line item and result fields for authorized classes.",
+      "allowed_action": "read",
+      "privacy_ceiling": "education_record",
+      "requires_launch_context": false,
+      "dictionary_fields": [
+        "dictionary/oneroster-core.v1.json#line_item.sourced_id",
+        "dictionary/oneroster-core.v1.json#line_item.title",
+        "dictionary/oneroster-core.v1.json#line_item.class_id",
+        "dictionary/oneroster-core.v1.json#line_item.category",
+        "dictionary/oneroster-core.v1.json#line_item.assign_date",
+        "dictionary/oneroster-core.v1.json#line_item.due_date",
+        "dictionary/oneroster-core.v1.json#line_item.result_value_min",
+        "dictionary/oneroster-core.v1.json#line_item.result_value_max",
+        "dictionary/oneroster-core.v1.json#result.sourced_id",
+        "dictionary/oneroster-core.v1.json#result.line_item_id",
+        "dictionary/oneroster-core.v1.json#result.person_id",
+        "dictionary/oneroster-core.v1.json#result.score_status",
+        "dictionary/oneroster-core.v1.json#result.score",
+        "dictionary/oneroster-core.v1.json#result.score_date",
+        "dictionary/oneroster-core.v1.json#result.comment"
+      ]
+    }
+  ],
   "x-unsupported-or-deferred": [
     {
       "area": "Live LTI launch validation",

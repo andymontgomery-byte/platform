@@ -6,7 +6,7 @@ This backlog is ordered from easiest to hardest. "Done" means the repository and
 
 ## Current Honest Status
 
-The repository meets the GitHub Pages demonstration layer for OneRoster core, but it does not yet fully meet the whole platform spec. The biggest remaining gaps are full OneRoster 1.2 accounting, runnable backend slices beyond OneRoster, a real hosted database/API runtime, and implemented tenancy/auth/security controls.
+The repository meets the GitHub Pages demonstration layer and a hosted Supabase runtime for the OneRoster core slice, including tenant-scoped RLS on the live OneRoster tables. It does not yet fully meet the whole platform spec. The biggest remaining gaps are full OneRoster 1.2 accounting, runnable backend slices beyond OneRoster, non-CRUD Edge Functions, and implemented audit logging/security controls beyond the current tenant isolation slice.
 
 ## Rubric Trace For Open Items
 
@@ -15,12 +15,12 @@ This table maps known unmet evaluator rubric IDs to backlog work so the LLM loop
 | Rubric ID | Backlog item | Status | Target slice | Owner notes |
 | --- | --- | --- | --- | --- |
 | `lead_spec_full_accounting` | 10 | Partial | Full OneRoster 1.2 and remaining Lead spec ledgers | Add explicit per-field `sourceStandard` references and field-level unsupported/deferred ledgers. |
-| `tenant_isolation_enforced` | 17 | Not done | Supabase OneRoster core first, then all runtime tables | Add `tenant_id`, tenant claims, RLS predicates, and cross-tenant integration tests. |
-| `oauth_scopes_mapped_to_fields` | 18 | Partial | Integration/governance dictionary and OpenAPI | Propagate scope policies into field metadata and generated OpenAPI security schemes. |
+| `tenant_isolation_enforced` | 17 | Done for Supabase OneRoster core | Supabase OneRoster core first, then all runtime tables | Live OneRoster tables now carry `tenant_id`, force RLS, use tenant-claim predicates, and have `tests/supabase_tenant_rls_test.py` for cross-tenant REST verification. Extend the same pattern when CASE/QTI/Caliper/LTI become runtime-backed. |
+| `oauth_scopes_mapped_to_fields` | 18 | Done for generated field mapping | Integration/governance dictionary and OpenAPI | `oauth_scope_policies` now maps scopes to exact dictionary fields and privacy ceilings; generated OpenAPI emits `platformOAuth`, `x-oauthScopePolicies`, and per-field `x-oauthScopes`. Runtime token enforcement remains tracked by tenancy, audit, and Edge Function items. |
 | `audit_log_for_sensitive_reads` | 18 | Not done | Privacy/security runtime | Add audit table plus trigger or Edge Function wrapper for restricted reads. |
 | `edge_functions_for_non_crud_endpoints` | 20, 21, 22 | Not done | QTI import, Caliper ingestion, LTI launch, gradebook bulk operations | Implement Supabase Edge Functions for non-CRUD operations and document live URLs. |
 | `edge_functions_propagate_user_jwt` | 22 | Blocked until Edge Functions exist | Supabase Edge Functions | Every function must forward request `Authorization`; service-role callers require `docs/admin-operations.md` entries. |
-| `rls_enabled_on_referenced_tables` | 17, 19, 20, 21, 22 | Partial | Supabase runtime schemas | Current OneRoster tables have RLS and policies; extend to CASE/QTI/Caliper/LTI tables as they become runtime-backed. |
+| `rls_enabled_on_referenced_tables` | 17, 19, 20, 21, 22 | Done for current runtime-backed OneRoster tables | Supabase runtime schemas | Current OneRoster tables force RLS and use tenant-claim policies; extend to CASE/QTI/Caliper/LTI tables as they become runtime-backed. |
 
 ## Easiest-First Work List
 
@@ -42,8 +42,8 @@ This table maps known unmet evaluator rubric IDs to backlog work so the LLM loop
 | 14 | Implement a real hosted relational database. | GitHub Pages cannot host a database; the spec asks for database access as a real layer. | Done for the current OneRoster core demo slice: Supabase Postgres is loaded with seeded demo data, read-only RLS policies, SQL smoke checks, and public REST smoke verification. | Postgres or equivalent is hosted with seeded demo data and read-only access path. |
 | 15 | Implement a real hosted JSON API server. | Static JSON is not enough for filtering, auth, POSTs, or computed responses. | Static JSON plus local Express API; Supabase REST now provides basic read-only table/view access, but custom API behavior still needs a server layer. | Public API endpoints run at a real URL with OpenAPI matching behavior. |
 | 16 | Add real SQL query endpoint against the hosted database. | Browser SQLite proves the idea but not shared hosted data access. | Browser-only SQL console. | Site can run read-only SQL against the hosted demo database through a safe server endpoint. |
-| 17 | Implement tenant model and row-level isolation. | Tenancy is a central architectural decision, not just documentation. | Documented only. | Tenant IDs, policies, tests, and sample cross-tenant isolation are implemented. |
-| 18 | Implement OAuth scopes and auth boundaries. | API access must reflect Security Framework and privacy decisions. | Documented only. | Demo clients/tokens/scopes control access to fields and endpoints. |
+| 17 | Implement tenant model and row-level isolation. | Tenancy is a central architectural decision, not just documentation. | Done for current Supabase OneRoster core tables. | Tenant IDs, policies, tests, and sample cross-tenant isolation are implemented. |
+| 18 | Implement OAuth scopes and auth boundaries. | API access must reflect Security Framework and privacy decisions. | Field mapping done in the generated integration/governance dictionary and OpenAPI; live token enforcement still depends on the tenant/audit/Edge Function runtime work. | Demo clients/tokens/scopes control access to fields and endpoints. |
 | 19 | Implement CASE import/search slice. | CASE is the canonical standards graph. | Docs only. | Demo can load a CASE framework, query items/associations, and expose API/search. |
 | 20 | Implement QTI package import/projection slice. | QTI is not usable until packages can be stored, validated, and searched. | Docs only. | Demo imports fixture QTI package metadata, stores artifacts, and exposes projected items/tests/interactions/alignment. |
 | 21 | Implement Caliper event ingestion slice. | Event/state decision is not proven until events can be accepted and projected. | Docs only. | Demo accepts sample Caliper events, stores immutable raw events, and exposes projections. |

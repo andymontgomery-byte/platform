@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loop overrides</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc-page">
+  <main class="doc-shell">
+    <p class="eyebrow">Rendered portal documentation</p>
+    <p><a class="text-link" href="index.html">Docs index</a></p>
+    <h1>Loop overrides</h1>
+<p>This file is the <strong>human-to-loop channel</strong>. The Codex loop reads it at the start of every iteration and treats its contents as authoritative — they supersede rubric defaults and any prior decision recorded elsewhere.</p>
+<p>Edit this file (commit + push to <code>main</code>) to communicate with the running loop. The loop picks up changes on the next iteration.</p>
+<h2>Pause</h2>
+<p>&lt;!-- Leave the section below empty to keep running. Write the literal token PAUSE on its own line to halt the loop after the current iteration finishes. --&gt;</p>
+<h2>Decisions</h2>
+<p>&lt;!-- One bullet per override. Format:</p>
+<p>Codex must follow these even if they conflict with the rubric&#x27;s substance_check. Move stale entries to the bottom of this section under &quot;## Decisions (archived)&quot; once they are no longer in effect. --&gt;</p>
+<ul><li>For <code>&lt;rubric-item-id&gt;</code>: &lt;what to accept / reject / treat differently and why&gt;.</li></ul>
+<p>1. <code>tenant_isolation_enforced</code> — add <code>tenant_id</code> columns + replace <code>using (true)</code> with <code>using (tenant_id = (auth.jwt() -&gt;&gt; &#x27;tenant_id&#x27;)::uuid)</code> on every fact table; commit a cross-tenant integration test. 2. <code>rls_enabled_on_referenced_tables</code> — set <code>force row level security</code> and regenerate the policy snapshot. 3. <code>edge_functions_for_non_crud_endpoints</code> — ship at least one real Edge Function (suggest: gradebook bulk submit) that propagates the user JWT. 4. <code>audit_log_for_sensitive_reads</code> — add <code>audit_log</code> table + trigger or Edge Function wrapper for restricted fields. 5. <code>developer_guide_present</code> and <code>lead_spec_full_accounting</code> — finish the partials.</p>
+<ul><li><strong>Priority order for the next 5 iterations</strong> (cron set, 2026-04-25 21:00 UTC): work the hard items, not the easy ones. In order:</li><li><strong>For <code>rls_enabled_on_referenced_tables</code>:</strong> the prior <code>partial</code> verdict is REVOKED. <code>using (true)</code> is no isolation. Treat the current snapshot as failing until policies reference a JWT claim AND <code>forceRowSecurity = true</code>.</li></ul>
+<h2>Unblocks</h2>
+<p>&lt;!-- One bullet per unblock signal. Format:</p>
+<p>Codex should re-attempt the listed blocked items on the next iteration. --&gt;</p>
+<ul><li>&lt;timestamp ET&gt;: &lt;prereq that is now satisfied&gt;. Retry items previously blocked on this.</li></ul>
+<h2>Notes to Codex</h2>
+<p>&lt;!-- Free-form guidance: hints about which file to look at, what NOT to try, what we already ruled out. Keep entries short. Stale entries belong in git history, not here — delete when no longer relevant. --&gt;</p>
+    <p class="source-note">Source file: <code>docs/loop-overrides.md</code></p>
+  </main>
+</body>
+</html>

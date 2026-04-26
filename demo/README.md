@@ -23,11 +23,15 @@ The API runs at `http://localhost:8787`.
 
 ```sh
 curl http://localhost:8787/organizations
-curl 'http://localhost:8787/people?q=Ada'
+curl http://localhost:8787/users/USER-ADA
 curl http://localhost:8787/classes/class_math_6_a
 curl http://localhost:8787/views/class-roster
 curl http://localhost:8787/views/gradebook-results
 ```
+
+`/users/{sourcedId}` is the OneRoster-shaped route. It looks up users by the
+standard `sourcedId` and returns that value as the public record identifier;
+the local OneRoster demo does not expose a platform-ID `/people/{id}` route.
 
 ## Try The SQL Layer Through JSON
 

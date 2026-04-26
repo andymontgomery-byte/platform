@@ -71,6 +71,7 @@ EVIDENCE_GLOBS = [
     "scripts/snapshot_*.py",
     "scripts/codex_loop.py",
     "scripts/evaluate_platform.py",
+    "tests/*.py",
     "supabase/migrations/*.sql",
     "supabase/policies/*.json",
     "supabase/functions/*/index.ts",

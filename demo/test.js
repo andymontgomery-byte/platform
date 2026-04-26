@@ -15,6 +15,22 @@ try {
   assert.equal(organizations.count, 3);
   assert.equal(organizations.items[0].sourcedId !== undefined, true);
 
+  const users = await getJson(port, "/users?q=Ada");
+  assert.equal(Array.isArray(users.users), true);
+  assert.equal(users.users[0].sourcedId, "USER-ADA");
+  assert.equal(Object.hasOwn(users.users[0], "id"), false);
+
+  const user = await getJson(port, "/users/USER-ADA");
+  assert.equal(user.user.sourcedId, "USER-ADA");
+  assert.equal(user.user.metadata.platformId, "person_ada");
+  assert.equal(Object.hasOwn(user.user, "id"), false);
+
+  const localIdLookup = await getJson(port, "/users/person_ada", 404);
+  assert.match(localIdLookup.error, /not found/i);
+
+  const nativePeopleRoute = await getJson(port, "/people/person_ada", 404);
+  assert.match(nativePeopleRoute.error, /route not found/i);
+
   const roster = await getJson(port, "/views/class-roster");
   assert.equal(roster.items.some((row) => row.display_name === "Ada Johnson"), true);
 
@@ -49,9 +65,9 @@ async function waitForHealth(portNumber) {
   throw new Error("Timed out waiting for demo API health");
 }
 
-async function getJson(portNumber, path) {
+async function getJson(portNumber, path, expectedStatus = 200) {
   const response = await fetch(`http://localhost:${portNumber}${path}`);
-  assert.equal(response.ok, true, `${path} returned ${response.status}`);
+  assert.equal(response.status, expectedStatus, `${path} returned ${response.status}`);
   return response.json();
 }
 

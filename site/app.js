@@ -86,12 +86,12 @@
       "QTI package storage with searchable projections, validation status, accessibility metadata, and lineage.",
       "Caliper event ingestion with immutable history and safer projections for analytics.",
       "LTI 1.3 launch, LTI Advantage grade, roster, and deep-linking workflows.",
-      "Credential foundations for Open Badges 3.0 and CLR 2.0."
+      "Open Badges/CLR credential foundations for issuers, awards, verification, and status."
     ],
     owns: [
       "The learning experience, pedagogy, content authoring, tutoring logic, or assessment runtime inside the app.",
       "User interface quality, accessibility of the app, and workflow design for educators and learners.",
-      "Clear data minimization: request only the scopes and fields the app needs.",
+      "Clear scope minimization and data minimization: request only the scopes and fields the app needs.",
       "Standard-specific certification for provider surfaces the app itself claims.",
       "Customer-specific configuration, support, and implementation services."
     ],
