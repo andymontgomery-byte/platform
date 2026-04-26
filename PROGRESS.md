@@ -213,3 +213,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: live Supabase migration, seed, smoke SQL, and policy snapshot generation passed; `supabase functions deploy gradebook-bulk-submit --project-ref qzxlgrerjoiamxvnkklq --use-api` passed; live function call with a temporary tenant-scoped Supabase Auth JWT returned HTTP 200 with `accepted: 1`; live seed was restored afterward; `supabase functions list` showed `gradebook-bulk-submit` active with `verify_jwt: true`; `python3 scripts/check_supabase_rest.py` passed; `python3 tests/supabase_tenant_rls_test.py` passed; all dictionary generators, `build_static_api.py`, `build_site_docs.py`, `check_dictionary_artifacts.py`, `check_spec_conformance.py --write-report site/api/spec-conformance.json`, Python compile, OpenAPI/report JSON validation, `node --check site/app.js`, `node --check demo/server.js`, `cd demo && npm run reset-db && npm test`, and `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=24, partial=2, fail=1, blocked=0.
 - Expected status change: `edge_functions_for_non_crud_endpoints` `fail` -> `partial` because the first real non-CRUD function is now shipped and live; `edge_functions_propagate_user_jwt` `blocked` -> `pass` because the function forwards `req.headers.get("Authorization")` into the Supabase client and uses no service-role key.
 - What remains next: `audit_log_for_sensitive_reads` remains `fail`; `lead_spec_full_accounting` and `edge_functions_for_non_crud_endpoints` remain `partial`. The evaluator wants the remaining non-CRUD functions for LTI launch, Caliper ingestion, OAuth token exchange, and/or QTI import before giving the Edge Function item a full pass.
+
+
+## 20260426T105012Z Harness Iteration 2
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 90
+- Publish result: committed and pushed: Codex loop iteration 2: rubric pass=24/27
+- Codex log: `.codex-loop/20260426T103047Z-iteration-002-codex.log`
+- Verify log: `.codex-loop/20260426T103047Z-iteration-002-verify.log`
+- Judge log: `.codex-loop/20260426T103047Z-iteration-002-judge.log`
+- Judge JSON: `.codex-loop/20260426T103047Z-iteration-002-judge.json`
+
+## 2026-04-26 07:04:45 EDT Sensitive-Read Audit Log Iteration
+
+- Chosen rubric item: `audit_log_for_sensitive_reads`.
+- Files changed: `supabase/migrations/0001_oneroster_core_demo.sql`, `supabase/seed.sql`, `supabase/policies/pg_policies.snapshot.json`, `supabase/functions/audited-roster-read/index.ts`, `supabase/functions/audited-roster-read/deno.json`, `tests/supabase_audit_log_test.py`, `VERIFY.md`, `docs/admin-operations.md`, `docs/supabase-hosted-database.md`, `docs/spec-gap-backlog.md`, rendered site docs for the changed docs, `site/index.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: live Supabase migration and seed load passed; `supabase functions deploy audited-roster-read --project-ref qzxlgrerjoiamxvnkklq --use-api` passed; `python3 tests/supabase_audit_log_test.py` passed with direct restricted REST blocked and 5 audit rows for `person_ada`; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 scripts/check_supabase_rest.py` passed; `python3 scripts/snapshot_pg_policies.py` passed with 10 tables; all dictionary generators plus `python3 scripts/build_static_api.py` and `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; JSON validation for the policy snapshot, advisory report, OpenAPI files, API index, and evaluator report passed; Python compile for scripts and Supabase tests passed; `node --check site/app.js` and `node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed with `demo-api-ok`; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=25, partial=2, fail=0, blocked=0 and reports `audit_log_for_sensitive_reads` as `pass`. Local `deno check` could not run because Deno is not installed, but Supabase deployment accepted the function.
+- Expected status change: `audit_log_for_sensitive_reads` `fail` -> `pass`.
+- What remains next: latest evaluator non-pass items are `lead_spec_full_accounting` and `edge_functions_for_non_crud_endpoints` as `partial`. The next highest-leverage item is likely another real non-CRUD Edge Function for LTI launch, Caliper ingestion, or OAuth token exchange, unless the loop chooses to finish Lead spec accounting first.

@@ -8,14 +8,15 @@ The publishable client key is recorded in `.env.example` because it is intended 
 
 Put server-only secrets such as `SUPABASE_SECRET_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`, not in tracked files. These keys are useful for server-side Supabase API access, but schema creation still requires the SQL editor, `SUPABASE_DB_URL`, or another migration-capable database connection.
 
-Current status: loaded and verified on 2026-04-26 through the shared pooler. SQL smoke checks, `python3 scripts/check_supabase_rest.py`, and `python3 tests/supabase_tenant_rls_test.py` pass.
+Current status: loaded and verified on 2026-04-26 through the shared pooler. SQL smoke checks, `python3 scripts/check_supabase_rest.py`, `python3 tests/supabase_tenant_rls_test.py`, and `python3 tests/supabase_audit_log_test.py` pass.
 
 ## Files
 
-- `migrations/0001_oneroster_core_demo.sql`: PostgreSQL schema, views, indexes, grants, and tenant-scoped read-only row-level security policies for synthetic demo data.
+- `migrations/0001_oneroster_core_demo.sql`: PostgreSQL schema, views, indexes, grants, tenant-scoped row-level security policies, and the sensitive-read audit RPC for synthetic demo data.
 - `seed.sql`: deterministic demo rows matching the local SQLite demo plus a second-tenant fixture used by the live RLS test.
 - `smoke.sql`: read-only queries that verify row counts and the two review views.
 - `functions/gradebook-bulk-submit`: Supabase Edge Function for authenticated bulk result submission using the caller's bearer token so RLS applies.
+- `functions/audited-roster-read`: Supabase Edge Function for restricted `people` reads that logs `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, and `timestamp` before returning data.
 
 ## Load With SQL Editor
 
@@ -53,19 +54,22 @@ psql "$SUPABASE_DB_URL" -f supabase/smoke.sql
 After the schema and seed are loaded, a reviewer with the public publishable key can query Supabase REST:
 
 ```sh
-curl 'https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=*' \
+curl 'https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=id,sourced_id,display_name,primary_role&order=id.asc&limit=1' \
   -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
   -H "authorization: Bearer $SUPABASE_PUBLISHABLE_KEY"
 ```
 
-The policies allow read-only access when the caller's JWT carries a matching tenant claim. Anonymous public reads are restricted to the synthetic North Valley demo tenant so the no-setup review curl still returns seeded demo rows without exposing the second-tenant isolation fixture. Supabase Auth users created with `app_metadata.tenant_id` can read rows for their tenant and cannot read rows for another tenant. The policies do not allow writes.
+The policies allow read-only access when the caller's JWT carries a matching tenant claim. Anonymous public reads are restricted to the synthetic North Valley demo tenant so the no-setup review curl still returns seeded demo rows without exposing the second-tenant isolation fixture. Direct REST access to `people` is limited to non-restricted review columns; restricted fields such as `given_name`, `family_name`, and `email` are returned only through the audited sensitive-read path. Supabase Auth users created with `app_metadata.tenant_id` can read rows for their tenant and cannot read rows for another tenant.
 
 The gradebook bulk-submit Edge Function is the first authenticated write path. It forwards the request `Authorization` bearer token into the Supabase client and the `results` write policies allow only authenticated tenant-matched inserts or updates.
+
+The audited roster-read Edge Function calls `read_people_sensitive_audited` through PostgREST with the caller's bearer token. The database writes one `audit_log` row per restricted field before returning the person payload.
 
 ## Deploy Edge Functions
 
 ```sh
 supabase functions deploy gradebook-bulk-submit --project-ref qzxlgrerjoiamxvnkklq --use-api
+supabase functions deploy audited-roster-read --project-ref qzxlgrerjoiamxvnkklq --use-api
 ```
 
 ## Optional REST Smoke Test
@@ -87,6 +91,16 @@ python3 tests/supabase_tenant_rls_test.py
 ```
 
 The test reads `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` or `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` from `.env.local`. It creates two temporary Supabase Auth users with different `app_metadata.tenant_id` claims, calls the live REST `/people` endpoint with each user JWT, confirms tenant A cannot read tenant B's seeded person row and tenant B cannot read tenant A's seeded person row, then deletes the temporary Auth users.
+
+## Sensitive-Read Audit Test
+
+Run:
+
+```sh
+python3 tests/supabase_audit_log_test.py
+```
+
+The test reads the same `.env.local` values, creates one temporary Supabase Auth user with `tenant_id`, `client_id`, `scope`, and `purpose` claims, calls the live `audited-roster-read` Edge Function for `person_ada`, then queries `/rest/v1/audit_log` as the same user and confirms rows exist for the restricted `people` fields.
 
 ## Next.js/Vercel Note
 

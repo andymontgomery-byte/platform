@@ -1,11 +1,11 @@
 {
   "rubricVersion": "3666db1a9cc8",
-  "evaluatedAt": "2026-04-26T10:49:52+00:00",
+  "evaluatedAt": "2026-04-26T11:17:10+00:00",
   "model": "claude-opus-4-7",
   "counts": {
     "pass": 24,
-    "partial": 2,
-    "fail": 1,
+    "partial": 3,
+    "fail": 0,
     "blocked": 0,
     "total": 27
   },
@@ -14,18 +14,18 @@
     {
       "id": "portal_renders_as_html",
       "status": "pass",
-      "reason": "site/index.html and site/docs/index.html render proper HTML with navigation/styling. check_spec_conformance confirms no href to .md/.yaml/.yml under site/. OpenAPI has Redoc pages (site/openapi/hosted-json.html, oneroster-core.html, qti-core.html).",
+      "reason": "site/index.html and site/docs/index.html render as HTML with navigation, styling, and stylesheet links. OpenAPI pages reference Redoc per evidence (e.g., site/openapi/hosted-json.html with 'redoc'). No href to .md/.yaml/.yml found under site/.",
       "evidence_paths": [
         "site/index.html",
         "site/docs/index.html",
-        "scripts/check_spec_conformance.py"
+        "site/api/spec-conformance.json"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "developer_guide_present",
       "status": "pass",
-      "reason": "site/index.html has explicit 'Platform Provides' and 'App Developer Owns' sections with concrete bullets naming OneRoster, CASE, QTI, Caliper, LTI, Open Badges/CLR; app-owner items include 'pedagogy', 'UI quality', and 'scope minimization'.",
+      "reason": "site/index.html contains explicit 'Platform Provides' and 'App Developer Owns' sections with bullets naming OneRoster, CASE, QTI, Caliper, LTI, Open Badges/CLR, plus app-owned items (pedagogy, UI quality, accessibility, scope minimization).",
       "evidence_paths": [
         "site/index.html"
       ],
@@ -34,31 +34,35 @@
     {
       "id": "dictionary_single_source",
       "status": "pass",
-      "reason": "Each generator (e.g., scripts/generate_oneroster_core.py, generate_caliper_core.py) reads a `dictionary/*.v1.json` and emits SQL comments, OpenAPI JSON, Markdown, and HTML in one run. scripts/check_dictionary_artifacts.py verifies the artifacts stay synchronized with the source.",
+      "reason": "Each scripts/generate_*.py reads dictionary/*.v1.json and emits SQL comments, OpenAPI JSON, Markdown, and HTML in one run (e.g., generate_oneroster_core.py writes SQL_OUT, OPENAPI_OUT, MARKDOWN_OUT, HTML_OUT from single SOURCE). check_dictionary_artifacts.py verifies all surfaces stay synced.",
       "evidence_paths": [
         "scripts/generate_oneroster_core.py",
+        "scripts/generate_qti_core.py",
+        "scripts/generate_case_core.py",
         "scripts/generate_caliper_core.py",
-        "scripts/check_dictionary_artifacts.py",
-        "dictionary/oneroster-core.v1.json"
+        "scripts/generate_integration_governance_core.py",
+        "scripts/check_dictionary_artifacts.py"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "dictionary_covers_lead_specs",
       "status": "pass",
-      "reason": "All seven Lead specs are accounted for: dictionary/oneroster-core.v1.json, qti-core.v1.json, case-core.v1.json, caliper-core.v1.json, and integration-governance-core.v1.json (covering LTI, Security Framework, Data Privacy). Each contains many objects and fields, not placeholders.",
+      "reason": "OneRoster, QTI, CASE, Caliper, and integration-governance (covering LTI, Security Framework, Data Privacy) all have substantial dictionary files with many objects/fields (e.g., caliper-core has caliper_envelope, caliper_event, caliper_entity, caliper_actor, etc.). Lead spec accounting documents each.",
       "evidence_paths": [
-        "docs/lead-spec-accounting.md",
         "dictionary/oneroster-core.v1.json",
+        "dictionary/qti-core.v1.json",
         "dictionary/case-core.v1.json",
-        "dictionary/integration-governance-core.v1.json"
+        "dictionary/caliper-core.v1.json",
+        "dictionary/integration-governance-core.v1.json",
+        "docs/lead-spec-accounting.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "lead_spec_full_accounting",
       "status": "partial",
-      "reason": "Dictionaries declare `source_standard` at the top level and lead-spec-accounting.md lists deferred areas with business reasons (e.g., 'requires hosted auth, certification testing, pagination'), but per-field `sourceStandard` references and a comprehensive field-level unsupported ledger are not present \u2014 OneRoster broader 1.2 (demographics, agents, resources, score scales) is openly partial. Backlog item 10 tracks the gap.",
+      "reason": "lead-spec-accounting.md lists categories of covered vs. deferred areas with reasons (e.g., 'Demographics execution' deferred because 'Sensitive data should wait for tenant policy'), but reasons are at category level, not exhaustive per-field. The OneRoster section explicitly admits 'Demographics, Agents/relationships, Resources... not yet executable' and the backlog confirms 'Full OneRoster 1.2' is partial. No explicit per-field sourceStandard references in dictionaries \u2014 only dictionary-level source_standard tags.",
       "evidence_paths": [
         "docs/lead-spec-accounting.md",
         "docs/spec-gap-backlog.md",
@@ -69,17 +73,18 @@
     {
       "id": "dictionary_covers_canonical_model",
       "status": "pass",
-      "reason": "Sampled fields show plain-language descriptions a non-engineer can read: e.g., person.display_name = 'The name shown in user interfaces.', organization = 'A district, school, department, program, or other education organization.'. scripts/check_dictionary_artifacts.py enforces description presence on every field.",
+      "reason": "Sampled fields show plain-language descriptions: 'The platform's stable ID for this person' (people.id), 'The name shown in user interfaces' (people.display_name), 'The first date in the session' (academic_sessions.start_date), 'The OneRoster source ID for this calendar record' (sourced_id). check_dictionary_artifacts.py enforces coverage.",
       "evidence_paths": [
         "dictionary/oneroster-core.v1.json",
-        "scripts/check_dictionary_artifacts.py"
+        "scripts/check_dictionary_artifacts.py",
+        "schema/generated/oneroster_core_comments.sql"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "vertical_slice_runnable_locally",
       "status": "pass",
-      "reason": "demo/server.js exposes /users/{sourcedId} that returns OneRoster-shaped JSON ({user: {sourcedId, status, roles, ...}}); demo/test.js asserts user.sourcedId === 'USER-ADA' and confirms `id` is not exposed. VERIFY.md runs `cd demo && npm run reset-db && npm test`.",
+      "reason": "demo/server.js implements OneRoster-shaped endpoints; demo/test.js asserts /users/USER-ADA returns sourcedId='USER-ADA' (matching OneRoster 1.2 REST shape) and tests SQL queries, views, and 404 behavior. Tests pass per VERIFY.md.",
       "evidence_paths": [
         "demo/server.js",
         "demo/test.js",
@@ -91,7 +96,7 @@
     {
       "id": "vertical_slice_callable_externally",
       "status": "pass",
-      "reason": "scripts/check_supabase_rest.py issues live calls against https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people, /class_roster, /gradebook_results with the publishable key. docs/supabase-hosted-database.md confirms verified-live status on 2026-04-26 with expected counts.",
+      "reason": "scripts/check_supabase_rest.py issues HTTP requests against https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/{people,class_roster,gradebook_results} with the publishable key and validates 200 responses. supabase-hosted-database.md confirms it returned ok:true via PostgREST against the live Postgres backend.",
       "evidence_paths": [
         "scripts/check_supabase_rest.py",
         "docs/supabase-hosted-database.md",
@@ -102,7 +107,7 @@
     {
       "id": "try_it_surface_present",
       "status": "pass",
-      "reason": "site/index.html includes a browser SQL console (sql.js loading demo/schema.sql + seed.sql) with sample queries, AND a copy-pasteable curl block against the live Supabase REST URL with the publishable key. Both execute against real data, not screenshots.",
+      "reason": "site/index.html embeds a browser SQL console using sql.js loaded from CDN that runs against demo/schema.sql + demo/seed.sql, plus a live API panel that fetches real JSON from site/api/*.json. Portal also includes copy-pasteable curl commands against the live Supabase REST and Edge Function URLs.",
       "evidence_paths": [
         "site/index.html",
         "site/app.js"
@@ -112,7 +117,7 @@
     {
       "id": "overlap_decisions_substance",
       "status": "pass",
-      "reason": "docs/decisions/standards-overlap-decisions.md has 10 numbered decisions covering Person identity, Class/course/context, Roles, Enrollment vs. membership, Results/scores, Standards alignment, Identifiers, Time/session, Content/resource, and Tenancy. Each entry names specs, the conflict, the choice, a per-spec mapping table, and an explicit tradeoff paragraph.",
+      "reason": "docs/decisions/standards-overlap-decisions.md has 10 numbered decisions covering all required areas (Person identity, Class/course/section, Roles, Enrollment vs. membership, Results/scores, Standards alignment, Identifiers, Time/session, Content/resource, Tenancy). Each has named specs, conflict prose, choice, projection table back to each spec, and explicit tradeoff.",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
       ],
@@ -121,7 +126,7 @@
     {
       "id": "decision_traces_to_dictionary",
       "status": "pass",
-      "reason": "Machine-readable trace block in standards-overlap-decisions.md lists `produces_fields` per decision_id with paths like `dictionary/oneroster-core.v1.json#person.display_name`, and dictionary fields carry a `decision_id` attribute. check_dictionary_artifacts.py enforces both directions.",
+      "reason": "Every dictionary field carries a decision_id (e.g., 'DEC-007-identifier-crosswalk'), and standards-overlap-decisions.md contains a machine-readable JSON block under <!-- decision-trace:start --> with produces_fields arrays. check_dictionary_artifacts.py validates bidirectional consistency between decision_ids and produces_fields.",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md",
         "dictionary/oneroster-core.v1.json",
@@ -132,7 +137,7 @@
     {
       "id": "tenant_isolation_enforced",
       "status": "pass",
-      "reason": "supabase/migrations/0001_oneroster_core_demo.sql adds tenant_id columns to all fact tables, calls `enable row level security` and `force row level security`, and creates policies with predicates like `tenant_id = coalesce(nullif(auth.jwt() ->> 'tenant_id','')::uuid, ...)` \u2014 never `using (true)`. pg_policies.snapshot.json mirrors the same predicates. tests/supabase_tenant_rls_test.py creates two JWTs with different tenant_id claims and verifies cross-tenant reads are blocked through the live REST URL; VERIFY.md runs it each iteration.",
+      "reason": "supabase/migrations/0001_oneroster_core_demo.sql adds tenant_id to every table, runs ENABLE + FORCE ROW LEVEL SECURITY, and creates policies like 'demo_read_people ... USING (tenant_id = COALESCE(NULLIF((auth.jwt() ->> tenant_id), )::uuid, ...))' \u2014 predicate references JWT claim, not true. supabase/policies/pg_policies.snapshot.json confirms identical predicates. tests/supabase_tenant_rls_test.py creates two Auth users with different tenant_id app_metadata claims, hits live REST URL, and asserts each can only read its tenant's rows.",
       "evidence_paths": [
         "supabase/migrations/0001_oneroster_core_demo.sql",
         "supabase/policies/pg_policies.snapshot.json",
@@ -144,7 +149,7 @@
     {
       "id": "oauth_scopes_mapped_to_fields",
       "status": "pass",
-      "reason": "dictionary/integration-governance-core.v1.json defines `oauth_scope_policies` mapping scopes like `platform.roster.users.directory:read` to specific field refs with privacy_ceiling=directory, and `https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly` to result fields with privacy_ceiling=education_record. Generated OpenAPI emits a `platformOAuth` security scheme and per-field `x-oauthScopes`.",
+      "reason": "dictionary/integration-governance-core.v1.json contains oauth_scope_policies mapping fine-grained scopes (e.g., 'platform.roster.users.directory:read' with privacy_ceiling 'directory') to specific dictionary field references. Generated OpenAPI emits platformOAuth security scheme, x-oauthScopePolicies, and per-field x-oauthScopes (visible in openapi/generated/integration-governance-core.v0.json operations). Privacy classes are on each field.",
       "evidence_paths": [
         "dictionary/integration-governance-core.v1.json",
         "openapi/generated/integration-governance-core.v0.json",
@@ -155,40 +160,42 @@
     {
       "id": "privacy_class_on_every_field",
       "status": "pass",
-      "reason": "Every sampled field across oneroster-core, caliper-core, case-core, qti-core, and integration-governance-core dictionaries carries a non-empty `privacy_class` drawn from a documented vocabulary (operational, directory, education_record, behavioral, sensitive, system, public). check_dictionary_artifacts.py requires `privacy_class` in REQUIRED_FIELD_KEYS.",
+      "reason": "Every field sampled in the dictionaries carries a non-empty privacy_class (e.g., 'operational', 'directory', 'education_record', 'behavioral', 'system', 'sensitive', 'public'). check_dictionary_artifacts.py enforces required field keys including privacy_class. data-dictionary.seed.json (referenced by site/app.js as privacy_classes) enumerates the vocabulary.",
       "evidence_paths": [
         "dictionary/oneroster-core.v1.json",
-        "dictionary/caliper-core.v1.json",
         "dictionary/integration-governance-core.v1.json",
-        "scripts/check_dictionary_artifacts.py"
+        "scripts/check_dictionary_artifacts.py",
+        "site/app.js"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "service_role_calls_allowlisted",
       "status": "pass",
-      "reason": "Only tests/supabase_tenant_rls_test.py uses SUPABASE_SERVICE_ROLE_KEY (with inline comment 'Admin operation: tenant_rls_test_auth_fixture_setup'), and docs/admin-operations.md lists that exact operation with caller, why_user_jwt_insufficient, and last_reviewed 2026-04-26 (within 30 days of the 2026-04-24 research date). The Edge Function uses ANON_KEY/PUBLISHABLE_KEY, not service role.",
+      "reason": "docs/admin-operations.md enumerates two callers \u2014 tests/supabase_tenant_rls_test.py (tenant_rls_test_auth_fixture_setup) and tests/supabase_audit_log_test.py (audit_log_test_auth_fixture_setup) \u2014 each with caller, operation, why_user_jwt_insufficient (concrete reasoning about Auth user creation requirements), and last_reviewed: 2026-04-26 (within 30 days of the 2026-04-24 research date). Inline comments in test files reference the operation IDs.",
       "evidence_paths": [
-        "tests/supabase_tenant_rls_test.py",
         "docs/admin-operations.md",
-        "supabase/functions/gradebook-bulk-submit/index.ts"
+        "tests/supabase_tenant_rls_test.py",
+        "tests/supabase_audit_log_test.py"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "audit_log_for_sensitive_reads",
-      "status": "fail",
-      "reason": "No `audit_log` table exists in supabase/migrations/0001_oneroster_core_demo.sql, and no Postgres trigger or Edge Function wrapper records reads of directory_pii/education_record fields with client_id, scope, purpose, field_accessed, tenant_id, or timestamp. Backlog item 18 acknowledges this is 'Not done'.",
+      "status": "pass",
+      "reason": "Migration creates public.audit_log with tenant_id, client_id, scope, purpose, field_accessed, subject_table, subject_id, timestamp columns plus the read_people_sensitive_audited(...) SECURITY DEFINER function that inserts one audit row per restricted field before returning data. supabase/functions/audited-roster-read/index.ts wraps this. tests/supabase_audit_log_test.py hits the live Edge Function URL and verifies audit rows for people.display_name/given_name/family_name/email contain all required claims.",
       "evidence_paths": [
         "supabase/migrations/0001_oneroster_core_demo.sql",
-        "docs/spec-gap-backlog.md"
+        "supabase/functions/audited-roster-read/index.ts",
+        "tests/supabase_audit_log_test.py",
+        "docs/supabase-hosted-database.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "gap_backlog_current",
       "status": "pass",
-      "reason": "docs/spec-gap-backlog.md contains a 'Rubric Trace For Open Items' table that maps rubric IDs (lead_spec_full_accounting, tenant_isolation_enforced, oauth_scopes_mapped_to_fields, audit_log_for_sensitive_reads, edge_functions_for_non_crud_endpoints, edge_functions_propagate_user_jwt, rls_enabled_on_referenced_tables) to specific backlog work items with status, target slice, and owner notes.",
+      "reason": "docs/spec-gap-backlog.md contains an explicit 'Rubric Trace For Open Items' table mapping rubric IDs (lead_spec_full_accounting, tenant_isolation_enforced, oauth_scopes_mapped_to_fields, audit_log_for_sensitive_reads, edge_functions_for_non_crud_endpoints, edge_functions_propagate_user_jwt, rls_enabled_on_referenced_tables) to backlog item numbers, status, target slice, and owner notes.",
       "evidence_paths": [
         "docs/spec-gap-backlog.md"
       ],
@@ -197,7 +204,7 @@
     {
       "id": "coverage_matrix_distinguishes_layers",
       "status": "pass",
-      "reason": "docs/dictionary-coverage-matrix.md has the four required columns (Structured source, Generated artifacts, Runnable slice, Unsupported ledger) and populates them honestly per spec \u2014 e.g., QTI shows 'No' for Runnable slice rather than deflecting to backlog.",
+      "reason": "docs/dictionary-coverage-matrix.md has explicit columns for Structured source, Generated artifacts, Runnable slice, and Unsupported ledger per spec area. Populated honestly \u2014 e.g., QTI/CASE/Caliper rows show 'No' under Runnable slice while OneRoster core shows 'Yes'.",
       "evidence_paths": [
         "docs/dictionary-coverage-matrix.md"
       ],
@@ -206,11 +213,11 @@
     {
       "id": "edge_functions_for_non_crud_endpoints",
       "status": "partial",
-      "reason": "supabase/functions/gradebook-bulk-submit/{index.ts,deno.json} implements one non-CRUD endpoint (gradebook bulk submit) that verifies the JWT and forwards Authorization to the Supabase client so RLS applies; site/index.html documents the live function URL with a curl example. However LTI 1.3 launch handler, Caliper event ingestion, and OAuth token exchange Edge Functions do not exist.",
+      "reason": "Two non-CRUD Edge Functions exist (gradebook-bulk-submit, audited-roster-read), each with deno.json and index.ts that forward the user JWT, plus curl examples in docs/supabase-hosted-database.md. However, the rubric's named non-CRUD set (gradebook bulk submit, LTI 1.3 launch handler, Caliper event ingestion, OAuth token exchange) is only partially covered \u2014 LTI launch, Caliper ingestion, and OAuth token exchange are not implemented (backlog confirms items 20-22 remain).",
       "evidence_paths": [
         "supabase/functions/gradebook-bulk-submit/index.ts",
-        "supabase/functions/gradebook-bulk-submit/deno.json",
-        "site/index.html",
+        "supabase/functions/audited-roster-read/index.ts",
+        "docs/supabase-hosted-database.md",
         "docs/spec-gap-backlog.md"
       ],
       "blocked_prerequisites": []
@@ -218,9 +225,10 @@
     {
       "id": "edge_functions_propagate_user_jwt",
       "status": "pass",
-      "reason": "supabase/functions/gradebook-bulk-submit/index.ts constructs the Supabase client with `global.headers.Authorization = authorization` from `req.headers.get('Authorization')` and never references SUPABASE_SERVICE_ROLE_KEY. docs/admin-operations.md exists as the allowlist; no service-role usage in any Edge Function to allowlist.",
+      "reason": "Both Edge Functions construct the Supabase client from the request Authorization header (`global: { headers: { Authorization: authorization } }` in gradebook-bulk-submit; same in audited-roster-read) and use SUPABASE_ANON_KEY/SUPABASE_PUBLISHABLE_KEY, never SUPABASE_SERVICE_ROLE_KEY. docs/admin-operations.md exists and lists no Edge Function as a service-role caller.",
       "evidence_paths": [
         "supabase/functions/gradebook-bulk-submit/index.ts",
+        "supabase/functions/audited-roster-read/index.ts",
         "docs/admin-operations.md"
       ],
       "blocked_prerequisites": []
@@ -228,29 +236,27 @@
     {
       "id": "rls_enabled_on_referenced_tables",
       "status": "pass",
-      "reason": "supabase/policies/pg_policies.snapshot.json shows every public table (organizations, people, academic_sessions, courses, classes, enrollments, line_items, results, source_identifiers) with rowsecurity=true, forceRowSecurity=true, and non-trivial USING clauses referencing `auth.jwt() ->> 'tenant_id'`. generatedAt 2026-04-26T10:38:47Z aligns with the current research date. Other dictionary specs (CASE/QTI/Caliper/LTI) are not yet runtime-backed.",
+      "reason": "supabase/policies/pg_policies.snapshot.json shows every OneRoster fact table (organizations, people, academic_sessions, courses, classes, enrollments, line_items, results, source_identifiers, audit_log) with rowsecurity=true, forceRowSecurity=true, and policies whose `using` clauses reference auth.jwt() tenant_id claim \u2014 never literal `true`. generatedAt: 2026-04-26T11:07:15Z. CASE/QTI/Caliper/LTI tables are not yet runtime-backed, so this scope matches what's deployed.",
       "evidence_paths": [
         "supabase/policies/pg_policies.snapshot.json",
-        "supabase/migrations/0001_oneroster_core_demo.sql",
-        "scripts/snapshot_pg_policies.py"
+        "supabase/migrations/0001_oneroster_core_demo.sql"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "hosted_database_live",
       "status": "pass",
-      "reason": "scripts/check_supabase_rest.py hits /rest/v1/people, /class_roster, /gradebook_results against https://qzxlgrerjoiamxvnkklq.supabase.co with the publishable key and is run in VERIFY.md. docs/supabase-hosted-database.md confirms migrations/seed/smoke loaded successfully and REST returns ok:true.",
+      "reason": "scripts/check_supabase_rest.py validates HTTP 200 from /people, /class_roster, /gradebook_results against the live Supabase project URL using the publishable key, hitting PostgREST against Postgres (not static JSON). docs/supabase-hosted-database.md documents verified live status on 2026-04-26.",
       "evidence_paths": [
         "scripts/check_supabase_rest.py",
-        "docs/supabase-hosted-database.md",
-        "VERIFY.md"
+        "docs/supabase-hosted-database.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "hosted_api_callable_no_setup",
       "status": "pass",
-      "reason": "site/index.html embeds a copy-pasteable curl with the public publishable key `sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK` against /rest/v1/people; no env vars or non-public keys required. docs/supabase-hosted-database.md repeats the same curl for reviewers.",
+      "reason": "site/index.html includes a copy-pasteable curl block: `curl 'https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/people?select=id,display_name&order=id.asc&limit=1' -H 'apikey: sb_publishable_...' -H 'authorization: Bearer sb_publishable_...'` using only the public publishable key documented in the portal.",
       "evidence_paths": [
         "site/index.html",
         "docs/supabase-hosted-database.md"
@@ -260,7 +266,7 @@
     {
       "id": "evaluator_runs_each_iteration",
       "status": "pass",
-      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`. evaluate_platform.py writes a report containing per-rubric `items` array (each with id, status, reason, evidence_paths) plus `counts: {pass, partial, fail, blocked, total}` and `done`.",
+      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`. scripts/evaluate_platform.py writes a report containing per-rubric `items` array (id/status/reason/evidence_paths/blocked_prerequisites) plus a `counts` summary with pass/partial/fail/blocked/total and a `done` flag.",
       "evidence_paths": [
         "VERIFY.md",
         "scripts/evaluate_platform.py"
@@ -270,19 +276,19 @@
     {
       "id": "advisory_score_gate_kept",
       "status": "pass",
-      "reason": "scripts/check_spec_conformance.py runs in VERIFY.md and writes site/api/spec-conformance.json with the explicit comment 'ADVISORY ONLY... The Codex loop now gates publish on `scripts/evaluate_platform.py`'. scripts/codex_loop.py's maybe_publish() gates on `judge_result.publish_recommendation` and rubric progress (`rubric_progressed(before_eval, after_eval)`), not on numeric score; evaluate_platform.py loads the advisory report into the LLM context as one signal.",
+      "reason": "scripts/check_spec_conformance.py still runs in VERIFY.md and writes site/api/spec-conformance.json with `metric: score_gate, notACompletionClaim: true, scoreScope: 'Advisory ... Does NOT gate the Codex loop'`. scripts/codex_loop.py's maybe_publish() gates on judge_result and rubric_progressed (LLM evaluator output), with the advisory score only used as a fallback when evaluator data is unavailable.",
       "evidence_paths": [
         "scripts/check_spec_conformance.py",
         "scripts/codex_loop.py",
-        "scripts/evaluate_platform.py",
+        "site/api/spec-conformance.json",
         "VERIFY.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "loop_overrides_respected",
-      "status": "pass",
-      "reason": "scripts/codex_loop.py defines read_overrides() reading docs/loop-overrides.md, overrides_paused() short-circuits BEFORE running an iteration when a line equals literal `PAUSE` (excluding HTML-commented examples), and build_prompt() injects the cleaned contents under a 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE...)' section. The file is referenced from site/docs/index.html (loop-overrides.html), confirming presence.",
+      "status": "partial",
+      "reason": "scripts/codex_loop.py implements read_overrides() reading docs/loop-overrides.md, overrides_paused() that halts on a bare `PAUSE` line BEFORE the iteration runs, and format_overrides_for_prompt() that injects file contents under a 'Human overrides' label in the prompt. However, docs/loop-overrides.md itself is not present in the evidence (only referenced via site/docs/loop-overrides.html link). Cannot confirm the required `## Pause`, `## Decisions`, `## Unblocks` sections exist.",
       "evidence_paths": [
         "scripts/codex_loop.py",
         "site/docs/index.html"
@@ -292,7 +298,7 @@
     {
       "id": "loop_terminates_on_pass",
       "status": "pass",
-      "reason": "scripts/codex_loop.py checks `if after_eval and after_eval.get('done'): print('Evaluator reports `done` after this iteration. Stopping the loop.'); return 0`, where `done` comes from the LLM evaluator's rubric tally (true iff all pass or every non-pass is blocked with prerequisites). Hard caps remain via --max-iterations, --stall-limit, and DEFAULT_COST_CEILING_USD.",
+      "reason": "scripts/codex_loop.py main() returns 0 when `after_eval.get('done')` is true, both before iteration starts and after each iteration. Termination references the LLM evaluator's `done` flag (set by evaluate_platform.py when no fail/partial items remain and any blocked items have prerequisites). Hard caps preserved: --max-iterations (DEFAULT 25), --stall-limit (DEFAULT 3 consecutive iterations without rubric progress), --codex-timeout-minutes.",
       "evidence_paths": [
         "scripts/codex_loop.py",
         "scripts/evaluate_platform.py"

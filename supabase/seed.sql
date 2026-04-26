@@ -1,6 +1,7 @@
 begin;
 
 truncate
+  public.audit_log,
   public.source_identifiers,
   public.results,
   public.line_items,

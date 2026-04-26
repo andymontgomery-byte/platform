@@ -10,9 +10,11 @@ The repository now has a live Supabase setup for the OneRoster core demo. The sc
 - Deterministic seed data matching the local SQLite demo, plus a second-tenant fixture row used only to prove isolation.
 - Read-only row-level security policies scoped by `tenant_id` from the caller's JWT claim, with anonymous public reads limited to the synthetic North Valley demo tenant.
 - Smoke queries for table counts, class roster, and gradebook result views.
+- Tenant-scoped `audit_log` table plus an audited sensitive-read RPC and Edge Function for restricted `people` fields.
 - Public client environment variables in `.env.example`.
 - Optional REST smoke test script: `scripts/check_supabase_rest.py`.
 - Live cross-tenant RLS test: `python3 tests/supabase_tenant_rls_test.py`.
+- Live sensitive-read audit test: `python3 tests/supabase_audit_log_test.py`.
 - Supabase Edge Function source for authenticated gradebook bulk submit at `supabase/functions/gradebook-bulk-submit`.
 
 ## Verified Live Status
@@ -22,8 +24,9 @@ The repository now has a live Supabase setup for the OneRoster core demo. The sc
 - `supabase/smoke.sql` returned the expected table counts and review view rows.
 - `python3 scripts/check_supabase_rest.py` returned `ok: true` through the public Supabase REST API.
 - `python3 tests/supabase_tenant_rls_test.py` created two temporary Supabase Auth users with different `app_metadata.tenant_id` claims and confirmed each JWT could read only its tenant's `people` rows. The public publishable-key curl remains limited to the synthetic North Valley tenant and cannot read the second-tenant fixture.
+- `python3 tests/supabase_audit_log_test.py` created a temporary Supabase Auth user with tenant, client, scope, and purpose claims; called the live `audited-roster-read` Edge Function for `person_ada`; and confirmed `audit_log` rows were written for `people.display_name`, `people.given_name`, `people.family_name`, and `people.email`.
 
-This closes the hosted relational database target for the current OneRoster core demo slice. It does not close the hosted API/server work by itself. Supabase now exposes simple read-only REST endpoints; custom API behavior, safe SQL query execution, OAuth/scope enforcement, and LTI callbacks still need a server layer such as Vercel or Supabase Edge Functions.
+This closes the hosted relational database target for the current OneRoster core demo slice. It does not close the hosted API/server work by itself. Supabase now exposes simple read-only REST endpoints and an audited sensitive-read wrapper; custom API behavior, safe SQL query execution, broader OAuth/scope enforcement, and LTI callbacks still need additional server slices such as Vercel or Supabase Edge Functions.
 
 ## Reviewer Path
 
@@ -33,6 +36,7 @@ This closes the hosted relational database target for the current OneRoster core
 4. Run `supabase/smoke.sql` to confirm the expected counts.
 5. Run `python3 scripts/check_supabase_rest.py` to verify the REST endpoint is reachable.
 6. Run `python3 tests/supabase_tenant_rls_test.py` with `.env.local` secrets to verify tenant A cannot read tenant B rows and tenant B cannot read tenant A rows.
+7. Run `python3 tests/supabase_audit_log_test.py` with `.env.local` secrets to verify a restricted `people` read writes audit rows with `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, and `timestamp`.
 
 Copy-paste public REST check:
 
@@ -81,6 +85,21 @@ curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/gradebook-bulk-submit' 
       }
     ]
   }'
+```
+
+## Edge Function: Audited Roster Read
+
+Live function URL: `https://qzxlgrerjoiamxvnkklq.functions.supabase.co/audited-roster-read`
+
+Direct REST access to `people` exposes only non-restricted review columns. Reads of restricted `people` fields such as `given_name`, `family_name`, and `email` go through `read_people_sensitive_audited`, which writes one `audit_log` row per field before returning data. Each row includes `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, and `timestamp`. The Edge Function forwards the caller's Supabase Auth JWT to PostgREST and never uses the service-role key.
+
+```sh
+curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/audited-roster-read?personId=person_ada' \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $SUPABASE_USER_JWT" \
+  -H 'x-platform-client-id: demo-lms-client' \
+  -H 'x-platform-scope: platform.roster.users.directory:read' \
+  -H 'x-platform-purpose: directory-review'
 ```
 
 ## Optional Vercel Role

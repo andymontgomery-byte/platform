@@ -9,6 +9,7 @@ Default rule: request-scoped operations must pass the caller's `Authorization` b
 | operation | caller | why_user_jwt_insufficient | last_reviewed |
 | --- | --- | --- | --- |
 | `tenant_rls_test_auth_fixture_setup` | `tests/supabase_tenant_rls_test.py` | The test must create temporary Supabase Auth users with different `app_metadata.tenant_id` claims before it can verify user-JWT RLS isolation through the live REST URL. The service role is used only for Auth user setup and cleanup, not for table reads. | 2026-04-26 |
+| `audit_log_test_auth_fixture_setup` | `tests/supabase_audit_log_test.py` | The test must create a temporary Supabase Auth user with tenant, client, scope, and purpose claims before it can verify the audited sensitive-read Edge Function through the live URL. The service role is used only for Auth user setup and cleanup, not for roster reads or audit-log writes. | 2026-04-26 |
 
 ## Entry Format
 

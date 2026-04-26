@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-26T10:38:47Z",
+  "generatedAt": "2026-04-26T11:07:15Z",
   "source": {
     "projectUrl": "https://qzxlgrerjoiamxvnkklq.supabase.co",
     "provider": "Supabase",
@@ -27,6 +27,35 @@
       "rowsecurity": true,
       "schema": "public",
       "table": "academic_sessions"
+    },
+    {
+      "forceRowSecurity": true,
+      "policies": [
+        {
+          "command": "INSERT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_insert_audit_log",
+          "roles": [
+            "authenticated"
+          ],
+          "using": null,
+          "withCheck": "((tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid)) AND (client_id <> ''::text) AND (scope <> ''::text) AND (purpose <> ''::text) AND (field_accessed <> ''::text))"
+        },
+        {
+          "command": "SELECT",
+          "permissive": "PERMISSIVE",
+          "policyName": "demo_read_audit_log",
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(tenant_id = COALESCE((NULLIF((auth.jwt() ->> 'tenant_id'::text), ''::text))::uuid, (NULLIF(((auth.jwt() -> 'app_metadata'::text) ->> 'tenant_id'::text), ''::text))::uuid))",
+          "withCheck": null
+        }
+      ],
+      "qualifiedName": "public.audit_log",
+      "rowsecurity": true,
+      "schema": "public",
+      "table": "audit_log"
     },
     {
       "forceRowSecurity": true,

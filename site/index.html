@@ -257,6 +257,18 @@
         </div>
         <div class="code-panel">
           <div class="code-panel-header">
+            <span>Audited Sensitive Read</span>
+            <code>GET /audited-roster-read</code>
+          </div>
+          <pre><code>curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/audited-roster-read?personId=person_ada' \
+  -H 'apikey: sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK' \
+  -H "authorization: Bearer $SUPABASE_USER_JWT" \
+  -H 'x-platform-client-id: demo-lms-client' \
+  -H 'x-platform-scope: platform.roster.users.directory:read' \
+  -H 'x-platform-purpose: directory-review'</code></pre>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-header">
             <span>Example dictionary query</span>
             <code>GET /dictionary/fields?standard=qti&amp;privacyClass=education_record</code>
           </div>

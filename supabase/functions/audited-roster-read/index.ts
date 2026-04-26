@@ -1,0 +1,225 @@
+import { createClient } from "@supabase/supabase-js";
+
+type JsonValue = string | number | boolean | null | JsonObject | JsonValue[];
+type JsonObject = { [key: string]: JsonValue };
+
+type AuditedPersonRow = {
+  id: string;
+  sourced_id: string;
+  display_name: string;
+  given_name: string | null;
+  family_name: string | null;
+  email: string | null;
+  primary_role: string;
+};
+
+const corsHeaders = {
+  "access-control-allow-origin": "*",
+  "access-control-allow-headers": [
+    "authorization",
+    "x-client-info",
+    "apikey",
+    "content-type",
+    "x-platform-client-id",
+    "x-platform-purpose",
+    "x-platform-scope",
+    "x-request-id",
+  ].join(", "),
+  "access-control-allow-methods": "GET, OPTIONS",
+};
+
+Deno.serve(async (req: Request): Promise<Response> => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: corsHeaders });
+  }
+
+  if (req.method !== "GET") {
+    return json({ error: "method_not_allowed", message: "Use GET for audited roster reads." }, 405);
+  }
+
+  const authorization = req.headers.get("Authorization");
+  if (!authorization || !authorization.toLowerCase().startsWith("bearer ")) {
+    return json({ error: "missing_authorization", message: "A Supabase Auth bearer token is required." }, 401);
+  }
+
+  const jwt = decodeJwtPayload(authorization);
+  const tenantId = readTenantId(jwt);
+  if (!tenantId) {
+    return json({ error: "missing_tenant", message: "The bearer token must carry a tenant_id claim." }, 403);
+  }
+
+  const clientId = readClaim(jwt, "client_id", "azp") ||
+    readNestedClaim(jwt, "app_metadata", "client_id") ||
+    readHeader(req, "x-platform-client-id");
+  const scope = readScope(jwt) || readHeader(req, "x-platform-scope");
+  const purpose = readClaim(jwt, "purpose") ||
+    readNestedClaim(jwt, "app_metadata", "purpose") ||
+    readHeader(req, "x-platform-purpose");
+
+  const missing = [
+    ["client_id", clientId],
+    ["scope", scope],
+    ["purpose", purpose],
+  ].filter(([, value]) => !value).map(([name]) => name);
+  if (missing.length) {
+    return json({
+      error: "missing_audit_claims",
+      message: `Audited sensitive reads require ${missing.join(", ")}.`,
+    }, 403);
+  }
+
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY") || Deno.env.get("SUPABASE_PUBLISHABLE_KEY");
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return json({ error: "server_misconfigured", message: "Supabase URL or public API key is missing." }, 500);
+  }
+
+  const url = new URL(req.url);
+  const personId = (url.searchParams.get("personId") || "person_ada").trim();
+  if (!personId || personId.length > 128) {
+    return json({ error: "invalid_person_id", message: "personId must be 1 to 128 characters." }, 400);
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+    global: {
+      headers: {
+        Authorization: authorization,
+      },
+    },
+  });
+
+  const requestId = readHeader(req, "x-request-id") || crypto.randomUUID();
+  const { data, error } = await supabase.rpc("read_people_sensitive_audited", {
+    person_id: personId,
+    client_id: clientId,
+    scope,
+    purpose,
+    request_path: url.pathname,
+    request_id: requestId,
+  });
+
+  if (error) {
+    return json({ error: "audited_read_failed", message: error.message }, 400);
+  }
+
+  const rows = Array.isArray(data) ? data as AuditedPersonRow[] : [];
+  if (rows.length === 0) {
+    return json({ error: "not_found", message: "No visible person matched the requested id." }, 404);
+  }
+
+  const person = rows[0];
+  return json({
+    person: {
+      id: person.id,
+      sourcedId: person.sourced_id,
+      displayName: person.display_name,
+      givenName: person.given_name,
+      familyName: person.family_name,
+      email: person.email,
+      primaryRole: person.primary_role,
+    },
+    audit: {
+      logged: 5,
+      fields: [
+        "people.display_name",
+        "people.given_name",
+        "people.family_name",
+        "people.email",
+        "people.primary_role",
+      ],
+      clientId,
+      scope,
+      purpose,
+      tenantId,
+      requestId,
+    },
+  });
+});
+
+function decodeJwtPayload(authorization: string): JsonObject | null {
+  const token = authorization.replace(/^bearer\s+/i, "");
+  const parts = token.split(".");
+  if (parts.length < 2) {
+    return null;
+  }
+  try {
+    const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=");
+    const decoded = JSON.parse(atob(padded));
+    return isObject(decoded) ? decoded : null;
+  } catch {
+    return null;
+  }
+}
+
+function readTenantId(jwt: JsonObject | null): string | null {
+  return readClaim(jwt, "tenant_id") || readNestedClaim(jwt, "app_metadata", "tenant_id");
+}
+
+function readScope(jwt: JsonObject | null): string | null {
+  const direct = readScopeValue(jwt?.scope ?? jwt?.scp);
+  if (direct) {
+    return direct;
+  }
+  const appMetadata = jwt?.app_metadata;
+  if (isObject(appMetadata)) {
+    return readScopeValue(appMetadata.scope ?? appMetadata.scp);
+  }
+  return null;
+}
+
+function readScopeValue(value: unknown): string | null {
+  if (typeof value === "string" && value.trim()) {
+    return value.trim();
+  }
+  if (Array.isArray(value)) {
+    const scopes = value.filter((item): item is string => typeof item === "string" && item.trim());
+    return scopes.length ? scopes.map((item) => item.trim()).join(" ") : null;
+  }
+  return null;
+}
+
+function readClaim(jwt: JsonObject | null, ...keys: string[]): string | null {
+  if (!jwt) {
+    return null;
+  }
+  for (const key of keys) {
+    const value = jwt[key];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+  return null;
+}
+
+function readNestedClaim(jwt: JsonObject | null, parentKey: string, childKey: string): string | null {
+  const parent = jwt?.[parentKey];
+  if (!isObject(parent)) {
+    return null;
+  }
+  const value = parent[childKey];
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function readHeader(req: Request, name: string): string | null {
+  const value = req.headers.get(name);
+  return value && value.trim() ? value.trim() : null;
+}
+
+function isObject(value: unknown): value is JsonObject {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function json(body: JsonValue, status = 200): Response {
+  return new Response(JSON.stringify(body, null, 2), {
+    status,
+    headers: {
+      ...corsHeaders,
+      "content-type": "application/json; charset=utf-8",
+    },
+  });
+}
