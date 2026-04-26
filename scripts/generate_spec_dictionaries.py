@@ -314,7 +314,7 @@ def project_dictionary(objects: list[dict], projection: dict, shared_enums: list
         if obj.get("spec_key") != spec_key:
             continue
         spec_object = copy.deepcopy(obj["spec_object"])
-        for key in ["canonical_object_id", "projection_kind", "spec_only", "decision_id"]:
+        for key in ["canonical_object_id", "projection_kind", "spec_only", "decision_id", "relationships"]:
             if key in obj:
                 spec_object[key] = copy.deepcopy(obj[key])
         spec_fields = []

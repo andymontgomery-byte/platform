@@ -9,6 +9,41 @@
     "projection_contract": "The top-level objects[] array contains every projected object and field used to compose the committed per-spec dictionaries. spec_dictionary_projections supplies only per-spec headers, enum tables, ledgers, and output paths.",
     "next_layer_note": "Cross-spec canonical_field_id convergence, global enum IDs, and migration generation are separate dictionary-layer rubric items; this policy establishes the source-of-truth direction and drift enforcement."
   },
+  "migration_generation": {
+    "decision_id": "DEC-020-relational-graph-migrations",
+    "generator": "scripts/generate_supabase_migrations.py",
+    "drift_check": "scripts/generate_supabase_migrations.py --check is run directly by VERIFY.md and indirectly by scripts/check_dictionary_artifacts.py.",
+    "migration_path": "supabase/migrations/0001_oneroster_core_demo.sql",
+    "source_spec_key": "oneroster-core",
+    "runtime_schema": "public",
+    "relationship_source": "The OneRoster runtime object records under objects[] carry relationships arrays. The generator projects those arrays into dictionary/oneroster-core.v1.json and emits the committed Supabase migration from the same graph.",
+    "table_order": [
+      "organization",
+      "person",
+      "academic_session",
+      "course",
+      "class",
+      "enrollment",
+      "line_item",
+      "result",
+      "source_identifier"
+    ],
+    "relationship_keys": [
+      "organization_parent",
+      "course_org",
+      "course_school_year",
+      "class_course",
+      "class_school",
+      "class_term",
+      "enrollment_class",
+      "enrollment_person",
+      "enrollment_school",
+      "line_item_class",
+      "result_line_item",
+      "result_person",
+      "source_identifier_object"
+    ]
+  },
   "projection_summary": {
     "total_projections": 5,
     "total_objects": 59,
@@ -28791,6 +28826,23 @@
         "object": "Org",
         "coverage": "mapped"
       },
+      "relationships": [
+        {
+          "relationship_key": "organization_parent",
+          "from_object": "organization",
+          "source_field": "parent_organization_id",
+          "to_object": "organization",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many child organizations to one parent organization",
+          "ownership": "tenant_scoped_hierarchy_reference",
+          "delete_behavior": "set_null",
+          "required": false,
+          "index_name": "organizations_parent_idx",
+          "plain_description": "An organization can optionally point at the organization that contains it.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        }
+      ],
       "spec_object": {
         "object_key": "organization",
         "table_name": "organizations",
@@ -29781,6 +29833,38 @@
         "object": "Course",
         "coverage": "mapped"
       },
+      "relationships": [
+        {
+          "relationship_key": "course_org",
+          "from_object": "course",
+          "source_field": "org_id",
+          "to_object": "organization",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many courses to one owning organization",
+          "ownership": "tenant_scoped_owner_reference",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "courses_org_idx",
+          "plain_description": "Each course belongs to the organization that offers it.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        },
+        {
+          "relationship_key": "course_school_year",
+          "from_object": "course",
+          "source_field": "school_year_id",
+          "to_object": "academic_session",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many courses to one school-year session",
+          "ownership": "tenant_scoped_calendar_reference",
+          "delete_behavior": "no_action",
+          "required": false,
+          "index_name": "courses_school_year_idx",
+          "plain_description": "A course can optionally name the school year it belongs to.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        }
+      ],
       "spec_object": {
         "object_key": "course",
         "table_name": "courses",
@@ -30018,6 +30102,53 @@
         "object": "Class",
         "coverage": "mapped"
       },
+      "relationships": [
+        {
+          "relationship_key": "class_course",
+          "from_object": "class",
+          "source_field": "course_id",
+          "to_object": "course",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many classes to one course",
+          "ownership": "tenant_scoped_course_reference",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "classes_course_idx",
+          "plain_description": "Each scheduled class teaches one course.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        },
+        {
+          "relationship_key": "class_school",
+          "from_object": "class",
+          "source_field": "school_id",
+          "to_object": "organization",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many classes to one school organization",
+          "ownership": "tenant_scoped_school_reference",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "classes_school_idx",
+          "plain_description": "Each class is offered by one school organization.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        },
+        {
+          "relationship_key": "class_term",
+          "from_object": "class",
+          "source_field": "term_id",
+          "to_object": "academic_session",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many classes to one academic session",
+          "ownership": "tenant_scoped_calendar_reference",
+          "delete_behavior": "no_action",
+          "required": false,
+          "index_name": "classes_term_idx",
+          "plain_description": "A class can optionally name the academic session when it runs.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        }
+      ],
       "spec_object": {
         "object_key": "class",
         "table_name": "classes",
@@ -30332,6 +30463,53 @@
         "object": "Enrollment",
         "coverage": "mapped"
       },
+      "relationships": [
+        {
+          "relationship_key": "enrollment_class",
+          "from_object": "enrollment",
+          "source_field": "class_id",
+          "to_object": "class",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many enrollments to one class",
+          "ownership": "tenant_scoped_class_membership",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "enrollments_class_idx",
+          "plain_description": "Each enrollment is attached to the class where the membership applies.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        },
+        {
+          "relationship_key": "enrollment_person",
+          "from_object": "enrollment",
+          "source_field": "person_id",
+          "to_object": "person",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many enrollments to one person",
+          "ownership": "tenant_scoped_person_membership",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "enrollments_person_idx",
+          "plain_description": "Each enrollment names the person who participates in the class.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        },
+        {
+          "relationship_key": "enrollment_school",
+          "from_object": "enrollment",
+          "source_field": "school_id",
+          "to_object": "organization",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many enrollments to one school organization",
+          "ownership": "tenant_scoped_school_membership",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "enrollments_school_idx",
+          "plain_description": "Each enrollment records the school that owns the membership.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        }
+      ],
       "spec_object": {
         "object_key": "enrollment",
         "table_name": "enrollments",
@@ -30697,6 +30875,23 @@
         "object": "LineItem",
         "coverage": "mapped"
       },
+      "relationships": [
+        {
+          "relationship_key": "line_item_class",
+          "from_object": "line_item",
+          "source_field": "class_id",
+          "to_object": "class",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many line items to one class",
+          "ownership": "tenant_scoped_class_gradebook",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "line_items_class_idx",
+          "plain_description": "Each gradebook line item belongs to the class where it is assigned.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        }
+      ],
       "spec_object": {
         "object_key": "line_item",
         "table_name": "line_items",
@@ -31060,6 +31255,38 @@
         "object": "Result",
         "coverage": "mapped"
       },
+      "relationships": [
+        {
+          "relationship_key": "result_line_item",
+          "from_object": "result",
+          "source_field": "line_item_id",
+          "to_object": "line_item",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many results to one line item",
+          "ownership": "tenant_scoped_line_item_result",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "results_line_item_idx",
+          "plain_description": "Each result is scored against one gradebook line item.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        },
+        {
+          "relationship_key": "result_person",
+          "from_object": "result",
+          "source_field": "person_id",
+          "to_object": "person",
+          "target_field": "id",
+          "relationship_type": "foreign_key",
+          "cardinality": "many results to one learner person",
+          "ownership": "tenant_scoped_learner_result",
+          "delete_behavior": "no_action",
+          "required": true,
+          "index_name": "results_person_idx",
+          "plain_description": "Each result belongs to the learner who earned the score.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        }
+      ],
       "spec_object": {
         "object_key": "result",
         "table_name": "results",
@@ -31398,6 +31625,33 @@
         "object": "GUIDRef/sourceId crosswalk",
         "coverage": "mapped"
       },
+      "relationships": [
+        {
+          "relationship_key": "source_identifier_object",
+          "from_object": "source_identifier",
+          "source_field": "object_id",
+          "to_object": "polymorphic_platform_object",
+          "target_objects": [
+            "organization",
+            "person",
+            "academic_session",
+            "course",
+            "class",
+            "enrollment",
+            "line_item",
+            "result"
+          ],
+          "target_field": "id",
+          "relationship_type": "polymorphic_reference",
+          "cardinality": "many source identifiers to one platform object selected by object_type",
+          "ownership": "tenant_scoped_identifier_crosswalk",
+          "delete_behavior": "application_enforced",
+          "required": true,
+          "index_name": "source_identifiers_lookup_idx",
+          "plain_description": "A source identifier points at one tenant-visible platform object, with object_type selecting the target table.",
+          "decision_id": "DEC-020-relational-graph-migrations"
+        }
+      ],
       "spec_object": {
         "object_key": "source_identifier",
         "table_name": "source_identifiers",
@@ -45900,13 +46154,209 @@
   ],
   "relationships": [
     {
+      "relationship_key": "organization_parent",
+      "from_object": "organization",
+      "source_field": "parent_organization_id",
+      "to_object": "organization",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many child organizations to one parent organization",
+      "ownership": "tenant_scoped_hierarchy_reference",
+      "delete_behavior": "set_null",
+      "required": false,
+      "index_name": "organizations_parent_idx",
+      "plain_description": "An organization can optionally point at the organization that contains it.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "course_org",
+      "from_object": "course",
+      "source_field": "org_id",
+      "to_object": "organization",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many courses to one owning organization",
+      "ownership": "tenant_scoped_owner_reference",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "courses_org_idx",
+      "plain_description": "Each course belongs to the organization that offers it.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "course_school_year",
+      "from_object": "course",
+      "source_field": "school_year_id",
+      "to_object": "academic_session",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many courses to one school-year session",
+      "ownership": "tenant_scoped_calendar_reference",
+      "delete_behavior": "no_action",
+      "required": false,
+      "index_name": "courses_school_year_idx",
+      "plain_description": "A course can optionally name the school year it belongs to.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "class_course",
+      "from_object": "class",
+      "source_field": "course_id",
+      "to_object": "course",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many classes to one course",
+      "ownership": "tenant_scoped_course_reference",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "classes_course_idx",
+      "plain_description": "Each scheduled class teaches one course.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "class_school",
+      "from_object": "class",
+      "source_field": "school_id",
+      "to_object": "organization",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many classes to one school organization",
+      "ownership": "tenant_scoped_school_reference",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "classes_school_idx",
+      "plain_description": "Each class is offered by one school organization.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "class_term",
+      "from_object": "class",
+      "source_field": "term_id",
+      "to_object": "academic_session",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many classes to one academic session",
+      "ownership": "tenant_scoped_calendar_reference",
+      "delete_behavior": "no_action",
+      "required": false,
+      "index_name": "classes_term_idx",
+      "plain_description": "A class can optionally name the academic session when it runs.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "enrollment_class",
+      "from_object": "enrollment",
+      "source_field": "class_id",
+      "to_object": "class",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many enrollments to one class",
+      "ownership": "tenant_scoped_class_membership",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "enrollments_class_idx",
+      "plain_description": "Each enrollment is attached to the class where the membership applies.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
       "relationship_key": "enrollment_person",
       "from_object": "enrollment",
+      "source_field": "person_id",
       "to_object": "person",
-      "relationship_type": "belongs_to",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
       "cardinality": "many enrollments to one person",
+      "ownership": "tenant_scoped_person_membership",
+      "delete_behavior": "no_action",
       "required": true,
-      "plain_description": "Each enrollment names the person who participates in the class."
+      "index_name": "enrollments_person_idx",
+      "plain_description": "Each enrollment names the person who participates in the class.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "enrollment_school",
+      "from_object": "enrollment",
+      "source_field": "school_id",
+      "to_object": "organization",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many enrollments to one school organization",
+      "ownership": "tenant_scoped_school_membership",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "enrollments_school_idx",
+      "plain_description": "Each enrollment records the school that owns the membership.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "line_item_class",
+      "from_object": "line_item",
+      "source_field": "class_id",
+      "to_object": "class",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many line items to one class",
+      "ownership": "tenant_scoped_class_gradebook",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "line_items_class_idx",
+      "plain_description": "Each gradebook line item belongs to the class where it is assigned.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "result_line_item",
+      "from_object": "result",
+      "source_field": "line_item_id",
+      "to_object": "line_item",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many results to one line item",
+      "ownership": "tenant_scoped_line_item_result",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "results_line_item_idx",
+      "plain_description": "Each result is scored against one gradebook line item.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "result_person",
+      "from_object": "result",
+      "source_field": "person_id",
+      "to_object": "person",
+      "target_field": "id",
+      "relationship_type": "foreign_key",
+      "cardinality": "many results to one learner person",
+      "ownership": "tenant_scoped_learner_result",
+      "delete_behavior": "no_action",
+      "required": true,
+      "index_name": "results_person_idx",
+      "plain_description": "Each result belongs to the learner who earned the score.",
+      "decision_id": "DEC-020-relational-graph-migrations"
+    },
+    {
+      "relationship_key": "source_identifier_object",
+      "from_object": "source_identifier",
+      "source_field": "object_id",
+      "to_object": "polymorphic_platform_object",
+      "target_objects": [
+        "organization",
+        "person",
+        "academic_session",
+        "course",
+        "class",
+        "enrollment",
+        "line_item",
+        "result"
+      ],
+      "target_field": "id",
+      "relationship_type": "polymorphic_reference",
+      "cardinality": "many source identifiers to one platform object selected by object_type",
+      "ownership": "tenant_scoped_identifier_crosswalk",
+      "delete_behavior": "application_enforced",
+      "required": true,
+      "index_name": "source_identifiers_lookup_idx",
+      "plain_description": "A source identifier points at one tenant-visible platform object, with object_type selecting the target table.",
+      "decision_id": "DEC-020-relational-graph-migrations"
     },
     {
       "relationship_key": "qti_package_aligns_to_case_item",

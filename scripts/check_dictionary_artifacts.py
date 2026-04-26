@@ -98,6 +98,7 @@ REQUIRED_UNSUPPORTED_KEYS = {
 def main() -> None:
     errors: list[str] = []
     errors.extend(check_spec_dictionary_projection_drift())
+    errors.extend(check_supabase_migration_drift())
     decision_trace, trace_errors = load_decision_trace()
     errors.extend(trace_errors)
     known_field_refs: set[str] = set()
@@ -284,6 +285,28 @@ def check_spec_dictionary_projection_drift() -> list[str]:
     if not output:
         output = f"exit code {result.returncode}"
     return [f"spec dictionary projection drift: {output}"]
+
+
+def check_supabase_migration_drift() -> list[str]:
+    generator = ROOT / "scripts" / "generate_supabase_migrations.py"
+    if not generator.exists():
+        return ["missing dictionary-to-Supabase migration generator: scripts/generate_supabase_migrations.py"]
+
+    result = subprocess.run(
+        [sys.executable, str(generator), "--check"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode == 0:
+        return []
+
+    output = "\n".join(part for part in [result.stdout.strip(), result.stderr.strip()] if part)
+    if not output:
+        output = f"exit code {result.returncode}"
+    return [f"Supabase migration drift: {output}"]
 
 
 def check_artifacts(

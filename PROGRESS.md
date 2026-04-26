@@ -694,3 +694,35 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 scripts/generate_spec_dictionaries.py` regenerated all five per-spec dictionaries; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 574 fields; all five per-spec artifact generators passed; `python3 scripts/build_static_api.py` and `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 574 fields, and 912 values, including the new shared enum crosswalk validation; targeted cross-spec overlap smoke checks passed for identity email, class context, role family, line-item maximum score, result score, event time, learning resource title, and CASE/QTI standard URI alignment; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; JSON validation passed for the seed, generated dictionaries, generated OpenAPI files, and advisory report; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py scripts/evaluate_platform.py` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=14, partial=3, fail=3, blocked=0.
 - Expected status change: `dictionary_resolves_cross_spec_overlaps` `partial` -> `pass`; the adjacent enum data needed by the same canonical dictionary layer also moved `dictionary_global_enums` `fail` -> `pass`.
 - What remains next: `dictionary_carries_relational_graph` is the only remaining dictionary-layer fail; docs/buildability work remains downstream with `docs_generated_from_dictionary` and `docs_explain_why_not_only_what` partial, `docs_include_buildability_guide` and `buildable_by_layperson` fail, and `docs_no_dead_links_or_orphans` partial.
+
+
+        ## 20260426T200308Z Harness Iteration 10
+
+        - Harness status: pass
+        - Codex exit code: 0
+        - Verify exit code: 0
+        - Spec score before: 100.00
+        - Spec score after: 100.00
+        - LLM judge ok: True
+        - LLM judge recommendation: push
+        - LLM judge score: 82
+        - Publish result: commit succeeded, push failed: ontgomery-byte/platform.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/andymontgomery-byte/platform.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+        - Codex log: `.codex-loop/20260426T193005Z-iteration-010-codex.log`
+        - Verify log: `.codex-loop/20260426T193005Z-iteration-010-verify.log`
+        - Judge log: `.codex-loop/20260426T193005Z-iteration-010-judge.log`
+        - Judge JSON: `.codex-loop/20260426T193005Z-iteration-010-judge.json`
+
+## 2026-04-26T20:18:12Z Relational Graph Migration Generation Iteration
+
+- Chosen rubric item: `dictionary_carries_relational_graph`.
+- Files changed: `data/data-dictionary.seed.json`, `dictionary/oneroster-core.v1.json`, `scripts/generate_spec_dictionaries.py`, new `scripts/generate_supabase_migrations.py`, `supabase/migrations/0001_oneroster_core_demo.sql`, `scripts/check_dictionary_artifacts.py`, `VERIFY.md`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 -m json.tool dictionary/oneroster-core.v1.json` passed; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 574 fields; `python3 scripts/generate_supabase_migrations.py --check` passed with 1 migration, 10 tables, and 13 relationships; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 574 fields, and 912 values; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/generate_supabase_migrations.py scripts/generate_oneroster_core.py scripts/check_dictionary_artifacts.py scripts/check_spec_conformance.py tests/supabase_tenant_rls_test.py tests/supabase_audit_log_test.py` passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 tests/supabase_audit_log_test.py` passed; `node --check site/app.js` passed; `node --check demo/server.js` passed; `cd demo && npm run reset-db` passed; `cd demo && npm test` passed; JSON validation for `site/api/spec-conformance.json` and `site/api/platform-evaluation.json` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=15, partial=2, fail=3, blocked=0 and reports `dictionary_carries_relational_graph` as `pass`.
+- Expected status change: `dictionary_carries_relational_graph` `fail` -> `pass`.
+- What remains next: documentation-layer items remain next in top-down order: `docs_generated_from_dictionary` and `docs_explain_why_not_only_what` are partial; `docs_include_buildability_guide`, `docs_no_dead_links_or_orphans`, and `buildable_by_layperson` still fail until the generated docs/linking/buildability guide work is done.
