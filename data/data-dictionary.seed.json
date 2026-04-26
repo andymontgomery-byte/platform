@@ -89,6 +89,11 @@
       "handling_notes": "Useful for debugging; may reveal partner or tenant behavior."
     },
     {
+      "privacy_class": "privacy_governance",
+      "plain_description": "Policy and review data used to decide how school data may be shared, retained, audited, or minimized.",
+      "handling_notes": "Expose only through policy and audit surfaces with tenant controls."
+    },
+    {
       "privacy_class": "system",
       "plain_description": "Internal platform configuration or infrastructure metadata.",
       "handling_notes": "Do not expose through public APIs unless explicitly designed for it."
@@ -11776,7 +11781,7 @@
             "required": false,
             "plain_description": "A human-readable name for the entity when one is supplied.",
             "school_example": "Unit 2 Fractions Check",
-            "privacy_class": "depends_on_entity",
+            "privacy_class": "behavioral",
             "decision_id": "DEC-009-content-resource",
             "sourceStandard": {
               "standard": "Caliper",
@@ -11801,7 +11806,7 @@
             "required": false,
             "plain_description": "A short explanation or label for the entity.",
             "school_example": "Assessment covering fraction division.",
-            "privacy_class": "depends_on_entity",
+            "privacy_class": "behavioral",
             "decision_id": "DEC-009-content-resource",
             "sourceStandard": {
               "standard": "Caliper",
@@ -11901,7 +11906,7 @@
             "required": false,
             "plain_description": "Governed source-specific fields carried on the entity.",
             "school_example": "vendor.example.test.difficulty=medium",
-            "privacy_class": "depends_on_contents",
+            "privacy_class": "behavioral",
             "decision_id": "DEC-009-content-resource",
             "sourceStandard": {
               "standard": "Caliper",
@@ -12789,7 +12794,7 @@
       "target_dictionary": "dictionary/caliper-core.v1.json",
       "name": "Caliper Extension",
       "plain_description": "A governed custom field found under a Caliper extensions object.",
-      "privacy_class": "depends_on_contents",
+      "privacy_class": "behavioral",
       "decision_id": "DEC-016-dictionary-generation-direction",
       "sourceStandard": {
         "standard": "Caliper",
@@ -12804,7 +12809,7 @@
         "name": "Caliper Extension",
         "plain_description": "A governed custom field found under a Caliper extensions object.",
         "why_it_exists": "Extensions can carry useful vendor data, but they need namespace, privacy, and policy controls before becoming queryable platform fields.",
-        "privacy_class": "depends_on_contents",
+        "privacy_class": "behavioral",
         "sourceStandard": {
           "standard": "Caliper",
           "version": "1.2",
@@ -12928,7 +12933,7 @@
             "required": true,
             "plain_description": "The extension field name within the namespace.",
             "school_example": "difficulty",
-            "privacy_class": "depends_on_contents",
+            "privacy_class": "behavioral",
             "decision_id": "DEC-009-content-resource",
             "sourceStandard": {
               "standard": "Caliper",
@@ -12953,7 +12958,7 @@
             "required": false,
             "plain_description": "The normalized scalar value when the extension can be safely indexed.",
             "school_example": "medium",
-            "privacy_class": "depends_on_contents",
+            "privacy_class": "behavioral",
             "decision_id": "DEC-009-content-resource",
             "sourceStandard": {
               "standard": "Caliper",

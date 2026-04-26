@@ -225,12 +225,12 @@ Values for `action`:
 | `id` | `id` | text | Yes | operational | Caliper 1.2 Caliper Entity.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this indexed entity. |
 | `entity_iri` | `entityIri` | text | Yes | behavioral | Caliper 1.2 Caliper Entity.entityIri | `DEC-009-content-resource` | The Caliper IRI or source identifier for the entity. |
 | `entity_type` | `entityType` | enum | Yes | behavioral | Caliper 1.2 Caliper Entity.entityType | `DEC-009-content-resource` | The Caliper entity class, such as Person, Assessment, Score, Session, or DigitalResource. |
-| `name` | `name` | text | No | depends_on_entity | Caliper 1.2 Caliper Entity.name | `DEC-009-content-resource` | A human-readable name for the entity when one is supplied. |
-| `description` | `description` | text | No | depends_on_entity | Caliper 1.2 Caliper Entity.description | `DEC-009-content-resource` | A short explanation or label for the entity. |
+| `name` | `name` | text | No | behavioral | Caliper 1.2 Caliper Entity.name | `DEC-009-content-resource` | A human-readable name for the entity when one is supplied. |
+| `description` | `description` | text | No | behavioral | Caliper 1.2 Caliper Entity.description | `DEC-009-content-resource` | A short explanation or label for the entity. |
 | `date_created` | `dateCreated` | datetime | No | operational | Caliper 1.2 Caliper Entity.dateCreated | `DEC-008-time-session` | When the source says this entity was created. |
 | `date_modified` | `dateModified` | datetime | No | operational | Caliper 1.2 Caliper Entity.dateModified | `DEC-008-time-session` | When the source says this entity last changed. |
 | `other_identifiers` | `otherIdentifiers` | text | No | education_record | Caliper 1.2 Caliper Entity.otherIdentifiers | `DEC-009-content-resource` | Other identifiers known for this entity, such as SIS, LTI, OneRoster, or internal IDs. |
-| `extensions` | `extensions` | text | No | depends_on_contents | Caliper 1.2 Caliper Entity.extensions | `DEC-009-content-resource` | Governed source-specific fields carried on the entity. |
+| `extensions` | `extensions` | text | No | behavioral | Caliper 1.2 Caliper Entity.extensions | `DEC-009-content-resource` | Governed source-specific fields carried on the entity. |
 | `canonical_person_id` | `canonicalPersonId` | text | No | education_record | Caliper 1.2 Caliper Entity.canonicalPersonId | `DEC-007-identifier-crosswalk` | The platform person ID when policy and identifiers allow this entity to resolve to a known person. |
 | `canonical_resource_id` | `canonicalResourceId` | text | No | operational | Caliper 1.2 Caliper Entity.canonicalResourceId | `DEC-007-identifier-crosswalk` | The platform resource, QTI, CASE, or content ID when this entity resolves to known learning content. |
 
@@ -669,7 +669,7 @@ Values for `object_type`:
 - Object key: `caliper_extension`
 - SQL table: `analytics.caliper_extensions`
 - API path: `/events/caliper/extensions`
-- Privacy class: `depends_on_contents`
+- Privacy class: `behavioral`
 - Source standard: Caliper 1.2 Caliper Extension
 - Why it exists: Extensions can carry useful vendor data, but they need namespace, privacy, and policy controls before becoming queryable platform fields.
 
@@ -679,8 +679,8 @@ Values for `object_type`:
 | `owner_type` | `ownerType` | enum | Yes | operational | Caliper 1.2 Caliper Extension.ownerType | `DEC-009-content-resource` | Whether this extension belongs to an envelope, event, entity, actor, or context row. |
 | `owner_id` | `ownerId` | text | Yes | operational | Caliper 1.2 Caliper Extension.ownerId | `DEC-007-identifier-crosswalk` | The platform row ID that owns this extension value. |
 | `namespace` | `namespace` | text | Yes | operational | Caliper 1.2 Caliper Extension.namespace | `DEC-009-content-resource` | The governed namespace or vendor domain for the extension key. |
-| `extension_key` | `extensionKey` | text | Yes | depends_on_contents | Caliper 1.2 Caliper Extension.extensionKey | `DEC-009-content-resource` | The extension field name within the namespace. |
-| `extension_value` | `extensionValue` | text | No | depends_on_contents | Caliper 1.2 Caliper Extension.extensionValue | `DEC-009-content-resource` | The normalized scalar value when the extension can be safely indexed. |
+| `extension_key` | `extensionKey` | text | Yes | behavioral | Caliper 1.2 Caliper Extension.extensionKey | `DEC-009-content-resource` | The extension field name within the namespace. |
+| `extension_value` | `extensionValue` | text | No | behavioral | Caliper 1.2 Caliper Extension.extensionValue | `DEC-009-content-resource` | The normalized scalar value when the extension can be safely indexed. |
 | `privacy_classification` | `privacyClassification` | enum | Yes | operational | Caliper 1.2 Caliper Extension.privacyClassification | `DEC-002-learning-context` | The platform privacy classification assigned to this extension value. |
 | `allowed_by_policy` | `allowedByPolicy` | boolean | Yes | operational | Caliper 1.2 Caliper Extension.allowedByPolicy | `DEC-010-tenancy-reference-data` | Whether tenant policy allows this extension to be retained and queried. |
 

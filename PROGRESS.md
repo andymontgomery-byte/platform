@@ -593,3 +593,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 58 objects, and 568 fields; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; all five per-spec generators plus `scripts/build_static_api.py`, `scripts/build_site_docs.py`, and `scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py scripts/evaluate_platform.py` passed; JSON validation for `data/data-dictionary.seed.json` and `site/api/platform-evaluation.json` passed; `node --check site/app.js && node --check demo/server.js` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=10, partial=3, fail=7, blocked=0 and reports `dictionary_single_source_of_truth` as `pass`.
 - Expected status change: `dictionary_single_source_of_truth` `fail` -> `pass`; `decisions_complete` and `no_unforced_decisions` also returned to `pass` because DEC-016 now projects to real generator/check artifacts.
 - What remains next: the next top-down dictionary failures are `dictionary_resolves_cross_spec_overlaps` and `dictionary_unifies_identity`; the seed currently uses spec-namespaced canonical IDs and needs shared cross-spec `canonical_field_id` and `canonical_object_id` values.
+
+
+## 20260426T183629Z Harness Iteration 6
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 84
+- Publish result: committed and pushed: Codex loop iteration 6: rubric pass=10/20
+- Codex log: `.codex-loop/20260426T181342Z-iteration-006-codex.log`
+- Verify log: `.codex-loop/20260426T181342Z-iteration-006-verify.log`
+- Judge log: `.codex-loop/20260426T181342Z-iteration-006-judge.log`
+- Judge JSON: `.codex-loop/20260426T181342Z-iteration-006-judge.json`
+
+## 2026-04-26T18:45:12Z Closed Privacy Class Projection Iteration
+
+- Chosen rubric item: `dictionary_closed_privacy_classes`.
+- Files changed: `data/data-dictionary.seed.json`, `scripts/generate_spec_dictionaries.py`, `dictionary/caliper-core.v1.json`, generated Caliper Markdown/HTML artifacts, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py scripts/generate_caliper_core.py` passed; `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 scripts/generate_spec_dictionaries.py` and `python3 scripts/generate_caliper_core.py` regenerated the Caliper projection/artifacts; `python3 scripts/build_site_docs.py` passed; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 58 objects, and 568 fields; targeted closed-privacy smoke check passed with seed classes `behavioral,credential,directory,education_record,operational,privacy_governance,public,sensitive,system` and no per-spec dictionary value outside that list; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; JSON validation for `dictionary/caliper-core.v1.json`, `openapi/generated/caliper-core.v0.json`, and `site/api/platform-evaluation.json` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=11, partial=3, fail=6, blocked=0 and reports `dictionary_closed_privacy_classes` as `pass`.
+- Expected status change: `dictionary_closed_privacy_classes` `fail` -> `pass`.
+- What remains next: top-down dictionary failures remain `dictionary_resolves_cross_spec_overlaps`, `dictionary_unifies_identity`, `dictionary_global_enums`, and `dictionary_carries_relational_graph`; docs/buildability items remain downstream until those data-layer gaps are resolved.

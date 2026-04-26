@@ -12,6 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SEED = ROOT / "data" / "data-dictionary.seed.json"
+INVALID_PRIVACY_CLASSES = {"depends_on_contents", "depends_on_entity"}
 
 
 def main() -> int:
@@ -19,7 +20,8 @@ def main() -> int:
     seed = load_seed()
     projections = seed.get("spec_dictionary_projections", [])
     objects = seed.get("objects", [])
-    errors = validate_seed(objects, projections)
+    privacy_classes = seed.get("privacy_classes", [])
+    errors = validate_seed(objects, projections, privacy_classes)
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
@@ -52,13 +54,14 @@ def load_seed() -> dict:
     return json.loads(SEED.read_text())
 
 
-def validate_seed(objects: object, projections: object) -> list[str]:
+def validate_seed(objects: object, projections: object, privacy_classes: object) -> list[str]:
     errors: list[str] = []
     if not isinstance(objects, list) or not objects:
         errors.append("shared seed missing non-empty objects")
     if not isinstance(projections, list) or not projections:
         errors.append("shared seed missing non-empty spec_dictionary_projections")
         return errors
+    allowed_privacy_classes = validate_privacy_classes(privacy_classes, errors)
 
     seen_paths: set[str] = set()
     seen_object_ids: set[str] = set()
@@ -85,6 +88,13 @@ def validate_seed(objects: object, projections: object) -> list[str]:
             errors.append(f"seed object {object_key or index} missing spec_object")
         elif "fields" in spec_object:
             errors.append(f"seed object {object_key} spec_object must not embed fields")
+        validate_privacy_class(errors, allowed_privacy_classes, f"seed object {object_key or index}", obj)
+        validate_privacy_class(
+            errors,
+            allowed_privacy_classes,
+            f"seed object {object_key or index} spec_object",
+            spec_object if isinstance(spec_object, dict) else {},
+        )
         if not isinstance(fields, list) or not fields:
             errors.append(f"seed object {object_key or index} has no fields")
             continue
@@ -104,6 +114,12 @@ def validate_seed(objects: object, projections: object) -> list[str]:
                 errors.append(f"seed object {object_key}.{field_key} missing spec_field")
             elif spec_field.get("field_key") != field_key:
                 errors.append(f"seed object {object_key}.{field_key} spec_field field_key mismatch")
+            validate_privacy_class(
+                errors,
+                allowed_privacy_classes,
+                f"seed object {object_key}.{field_key} spec_field",
+                spec_field if isinstance(spec_field, dict) else {},
+            )
             if spec_key:
                 fields_by_spec[spec_key] = fields_by_spec.get(spec_key, 0) + 1
 
@@ -150,6 +166,43 @@ def validate_seed(objects: object, projections: object) -> list[str]:
                     f"projection {spec_key} field_count {expected_fields} does not match seed {actual_fields}"
                 )
     return errors
+
+
+def validate_privacy_classes(privacy_classes: object, errors: list[str]) -> set[str]:
+    allowed: set[str] = set()
+    if not isinstance(privacy_classes, list) or not privacy_classes:
+        errors.append("shared seed missing non-empty privacy_classes")
+        return allowed
+
+    for index, item in enumerate(privacy_classes):
+        if not isinstance(item, dict):
+            errors.append(f"privacy_classes item {index} is not an object")
+            continue
+        value = item.get("privacy_class")
+        if not isinstance(value, str) or not value.strip():
+            errors.append(f"privacy_classes item {index} missing privacy_class")
+            continue
+        if value in allowed:
+            errors.append(f"duplicate privacy_class: {value}")
+        if value in INVALID_PRIVACY_CLASSES or value.startswith("depends_on_"):
+            errors.append(f"privacy_class {value} is an invalid placeholder")
+        allowed.add(value)
+    return allowed
+
+
+def validate_privacy_class(
+    errors: list[str],
+    allowed_privacy_classes: set[str],
+    label: str,
+    item: dict,
+) -> None:
+    value = item.get("privacy_class")
+    if not value:
+        return
+    if value in INVALID_PRIVACY_CLASSES or str(value).startswith("depends_on_"):
+        errors.append(f"{label} uses invalid privacy_class placeholder: {value}")
+    elif allowed_privacy_classes and value not in allowed_privacy_classes:
+        errors.append(f"{label} uses privacy_class outside closed list: {value}")
 
 
 def check_projection_drift(objects: list[dict], projections: list[dict]) -> int:

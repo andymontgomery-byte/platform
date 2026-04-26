@@ -1,11 +1,11 @@
 {
   "rubricVersion": "5cac3bcc9f97",
-  "evaluatedAt": "2026-04-26T18:36:06+00:00",
+  "evaluatedAt": "2026-04-26T18:51:01+00:00",
   "model": "claude-opus-4-7",
   "counts": {
-    "pass": 10,
+    "pass": 11,
     "partial": 3,
-    "fail": 7,
+    "fail": 6,
     "blocked": 0,
     "total": 20
   },
@@ -14,7 +14,7 @@
     {
       "id": "decisions_complete",
       "status": "pass",
-      "reason": "DEC-001 through DEC-020 are present in `docs/decisions/standards-overlap-decisions.md`, each with id, question, options_considered, choice, consequences, and projects_to. The new platform-shape decisions (DEC-011 through DEC-020) cover dictionary direction, canonical reconciliation, global enums, closed privacy classes, and migration generation as required by `docs/decisions/decisions-needed.md`.",
+      "reason": "All 20 decisions (DEC-001 through DEC-020) are documented in `docs/decisions/standards-overlap-decisions.md` with id, question, options_considered, choice, consequences, and projects_to populated. The five new platform-shape decisions (DEC-016 dictionary direction, DEC-017 canonical fields, DEC-018 enums, DEC-019 privacy classes, DEC-020 migration graph) are present. `decisions-needed.md` enumerates each required area and maps it to a decision id.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md",
@@ -25,7 +25,7 @@
     {
       "id": "no_unforced_decisions",
       "status": "pass",
-      "reason": "`docs/decisions/decisions-pending.md` lists PEND-001 (target 2026-05-15, owner Andy, blocker 'Product priority on next runtime slice') and PEND-005 (target 2026-05-03, owner Andy, blocker 'CI capacity'). Both have owner, target_date, blocker, and rationale. Both target dates are in the future relative to the rubric's 2026-04-26 timestamp.",
+      "reason": "`docs/decisions/decisions-pending.md` lists PEND-001 (owner Andy, target 2026-05-15, blocker product priority) and PEND-005 (owner Andy, target 2026-05-03, blocker CI capacity), each with a one-line rationale. Both target dates are in the future relative to the 2026-04-26 research date.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/decisions-pending.md"
@@ -35,7 +35,7 @@
     {
       "id": "decisions_simplify",
       "status": "pass",
-      "reason": "Each decision's consequences names a concrete artifact it removes. DEC-001: 'Removes per-function subject-to-person merge branches from `supabase/functions/lti-launch-handler/index.ts`'. DEC-007: 'Removes duplicate source-ID columns from every public table; `public.source_identifiers` owns ... instead of each table growing its own SIS/LTI/email columns'. DEC-010: 'Removes duplicated tenant `where tenant_id = ...` guard code from PostgREST callers'. Concrete removals throughout.",
+      "reason": "Each decision's consequences enumerates concrete artifacts, code paths, or categories that the decision deletes. E.g., DEC-001 names removal of subject-to-person merge branches in specific Edge Function files; DEC-007 removes duplicate source-ID columns naming `public.source_identifiers`; DEC-016 removes hand-edited per-spec dictionaries. The 'why not collapse' justifications also defend against a more aggressive simplification.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
@@ -45,7 +45,7 @@
     {
       "id": "decisions_have_real_alternatives",
       "status": "pass",
-      "reason": "Each decision has three credible options bracketing the design space. DEC-001 considers per-spec tables (permissive), one collapsed person (aggressive), and the chosen middle. DEC-005 considers AGS-only canonical (aggressive collapse other specs into AGS), peer source-native stores (permissive), and the chosen separation. DEC-016 considers shared-only generated on demand (aggressive), per-spec canonical (permissive), and the chosen committed projection. These are real architectural choices.",
+      "reason": "Each decision lists three credible architectural alternatives spanning aggressive simplification, permissive preservation, and the chosen middle. E.g., DEC-005 considers AGS-as-canonical (aggressive collapse), peer source-native stores (permissive), and the chosen current-state plus history. These are real choices production platforms make, not strawmen.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
@@ -55,12 +55,12 @@
     {
       "id": "dictionary_single_source_of_truth",
       "status": "pass",
-      "reason": "`scripts/generate_spec_dictionaries.py --check` enforces that `dictionary/*.v1.json` are projections from `data/data-dictionary.seed.json`; it is wired into VERIFY.md and `scripts/check_dictionary_artifacts.py`. The seed's projection_summary reports 58 objects, 568 fields, and 565 controlled values across all five specs, and `spec_object`/`spec_field` blocks embed every projected element. Drift causes a build error.",
+      "reason": "`scripts/generate_spec_dictionaries.py` reads `data/data-dictionary.seed.json` (568 fields across 5 specs per projection_summary) and emits the per-spec `dictionary/*.v1.json` files. The script supports `--check` mode and is invoked by `scripts/check_dictionary_artifacts.py`, which calls it via subprocess and fails on drift. VERIFY.md runs `--check` first.",
       "traced_cause": "",
       "evidence_paths": [
-        "data/data-dictionary.seed.json",
         "scripts/generate_spec_dictionaries.py",
         "scripts/check_dictionary_artifacts.py",
+        "data/data-dictionary.seed.json",
         "VERIFY.md"
       ],
       "blocked_prerequisites": []
@@ -68,13 +68,11 @@
     {
       "id": "dictionary_resolves_cross_spec_overlaps",
       "status": "fail",
-      "reason": "Each spec field's canonical_field_id is namespaced to its own spec, e.g. OneRoster person.email is `canonical.oneroster-core.person.email`, not a shared canonical. The integration-governance dictionary's `lti_membership.email` and Caliper's `caliper_actor.identifier_value` have their own per-spec canonical IDs; they do not point to one shared canonical email field. DEC-017 declares that overlapping fields 'carry canonical_field_id pointing at the shared dictionary', but the seed's canonical_field_id values are spec-local identifiers, so the cross-spec overlap is unresolved at the data level.",
-      "traced_cause": "data/data-dictionary.seed.json: introduce a shared canonical namespace (e.g. `canonical.platform.identity.email`) and rewrite every overlapping per-spec field's `canonical_field_id` to point at it, so OneRoster `person.email`, Caliper `caliper_actor.identifier_value`, LTI `lti_membership.email`, and any QTI candidate.email all reference the same canonical field. Add a checker that fails when overlapping spec fields carry distinct canonical IDs.",
+      "reason": "The `canonical_field_id` values in `data/data-dictionary.seed.json` are namespaced per-spec (e.g. `canonical.oneroster-core.person.email`, not a single shared id). DEC-017 requires that overlapping fields like OneRoster `User.email`, Caliper `Person.email`, LTI `lis_person_contact_email_primary`, and QTI `Candidate.email` resolve to ONE canonical field \u2014 but the email-shaped fields in different specs each get their own per-spec canonical id, so cross-spec overlap is not resolved at the data level. Additionally, the per-spec projections in `dictionary/oneroster-core.v1.json` (shown spec_field blocks) do not carry `canonical_field_id` at all.",
+      "traced_cause": "data/data-dictionary.seed.json: replace per-spec canonical_field_id namespaces with one canonical identity (e.g., `canonical.identity.email`) referenced by every overlapping spec field, AND propagate canonical_field_id into the projected dictionary/*.v1.json field records via scripts/generate_spec_dictionaries.py.",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
         "dictionary/oneroster-core.v1.json",
-        "dictionary/integration-governance-core.v1.json",
-        "dictionary/caliper-core.v1.json",
         "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
@@ -82,8 +80,8 @@
     {
       "id": "dictionary_unifies_identity",
       "status": "fail",
-      "reason": "Identity-shaped objects in each spec carry their own per-spec canonical_object_id (OneRoster person -> `canonical.oneroster-core.person`). The seed contains no shared canonical identity entity that Caliper `caliper_actor`, LTI `lti_membership`, and QTI candidate all point to. There is no `canonical.platform.identity` (or equivalent) object in the seed's `objects[]` with its own fields, allowed values, and projections. Unification exists only in DEC-001 prose.",
-      "traced_cause": "data/data-dictionary.seed.json: add a shared canonical identity entity (e.g. `canonical.platform.identity` with fields like display_name, email, primary_role) as a first-class object in objects[], and set `canonical_object_id` on OneRoster person, Caliper caliper_actor, LTI lti_membership, and QTI candidate to that shared id. Update generate_spec_dictionaries.py and check_dictionary_artifacts.py to enforce a single shared identity object.",
+      "reason": "There is no single canonical identity object in the shared dictionary. The seed gives each spec object its own `canonical_object_id` (`canonical.oneroster-core.person`, `canonical.caliper-core.caliper_actor`, etc.). DEC-001 prose declares a canonical Person/Agent split, but no canonical identity entity record with its own fields, allowed values, and projections exists in `data/data-dictionary.seed.json`. The unification remains prose-only.",
+      "traced_cause": "data/data-dictionary.seed.json: add a top-level canonical identity object (e.g., `canonical.identity.person`) with canonical fields and have every spec-side identity object (Person, User, Actor, Subject, Candidate, lti_membership) reference it via canonical_object_id.",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
         "dictionary/oneroster-core.v1.json",
@@ -95,24 +93,24 @@
     {
       "id": "dictionary_global_enums",
       "status": "fail",
-      "reason": "Per-spec dictionaries declare independent enum lists. OneRoster person.primary_role inlines `student`/`teacher`/`administrator`/`guardian` with sourceStandard `OneRoster`. The integration-governance dictionary declares LTI message_type, lis_role, scope vocabularies separately, and Caliper declares actor_type/lis_role/profile values separately. There is no shared `role_family` (or similar) enum table with bidirectional crosswalks mapping OneRoster `student` <-> LTI `Learner` <-> Caliper actor types. DEC-018 mandates this but the seed implements only `shared_allowed_values` for status-style helpers, not a cross-spec role/role-family table.",
-      "traced_cause": "data/data-dictionary.seed.json: add a top-level `shared_enums` table keyed by `shared_enum_id` (e.g. role_family, message_type) listing canonical values plus crosswalks to every spec-native value with sourceStandard. Update each enum field across per-spec dictionaries to set `shared_enum_id` instead of inline `allowed_values`, and add a checker that fails when an enum field has no `shared_enum_id` or when a spec-native value is missing from the crosswalk.",
+      "reason": "Per-spec enums are declared inline in each per-spec dictionary rather than referencing a shared enum table with bidirectional crosswalks. `dictionary/oneroster-core.v1.json#person.primary_role` lists `student/teacher/administrator/guardian` inline; the LTI roles in `dictionary/integration-governance-core.v1.json#lti_launch.roles` reference URI-style values; there is no shared `role_family` enum mapping spec-native values to one canonical vocabulary. The only shared enum reference observed is `base_status` for active/inactive/tobedeleted, which doesn't span specs.",
+      "traced_cause": "data/data-dictionary.seed.json: add `shared_enums` with role_family, organization_type, status, score_status, etc., each mapping spec-native values to canonical values bidirectionally; replace inline allowed_values in per-spec projections with `shared_enum_id` references via scripts/generate_spec_dictionaries.py.",
       "evidence_paths": [
-        "data/data-dictionary.seed.json",
         "dictionary/oneroster-core.v1.json",
         "dictionary/integration-governance-core.v1.json",
-        "dictionary/caliper-core.v1.json"
+        "data/data-dictionary.seed.json",
+        "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "dictionary_closed_privacy_classes",
-      "status": "fail",
-      "reason": "DEC-019 declares the closed privacy class set as public, operational, directory, education_record, behavioral, sensitive, credential, privacy_governance, system, and forbids `depends_on_entity` and `depends_on_contents`. But `dictionary/caliper-core.v1.json` ships `caliper_entity.name` with `privacy_class: \"depends_on_entity\"` and `caliper_entity.extensions` with `privacy_class: \"depends_on_contents\"`. These escape-hatch values violate the closed enumeration the decision mandates.",
-      "traced_cause": "dictionary/caliper-core.v1.json (and its seed projection in data/data-dictionary.seed.json): replace `depends_on_entity` and `depends_on_contents` with concrete classes from the closed list (likely `behavioral` or `education_record` per occurrence), and add a check_dictionary_artifacts assertion that every privacy_class value is drawn from the seed's `privacy_classes` list.",
+      "status": "pass",
+      "reason": "`data/data-dictionary.seed.json` defines a closed nine-value privacy class list (public, directory, education_record, sensitive, credential, behavioral, operational, privacy_governance, system). `scripts/generate_spec_dictionaries.py` validates that every object/field uses one of these values and rejects `depends_on_contents` / `depends_on_entity` placeholders explicitly via `INVALID_PRIVACY_CLASSES`. DEC-019 codifies the closure.",
+      "traced_cause": "",
       "evidence_paths": [
-        "dictionary/caliper-core.v1.json",
         "data/data-dictionary.seed.json",
+        "scripts/generate_spec_dictionaries.py",
         "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
@@ -120,11 +118,12 @@
     {
       "id": "dictionary_carries_relational_graph",
       "status": "fail",
-      "reason": "The seed dictionary's objects do not declare a `relationships` array (or equivalent FK/cardinality/ownership graph). Foreign keys live only in `supabase/migrations/0001_oneroster_core_demo.sql` (e.g. `references public.classes(id)`, `references public.people(id)`). There is no generator that produces those migrations from the dictionary; DEC-020 declares the intent but no implementation exists. Migrations are hand-edited.",
-      "traced_cause": "data/data-dictionary.seed.json: add a `relationships` array on each object declaring source_field, target_object, target_field, cardinality, ownership, and on_delete. Add scripts/generate_supabase_migrations.py that emits supabase/migrations/*.sql from that graph, and wire a --check mode into VERIFY.md so committed migrations must match the generator output.",
+      "reason": "The shared seed dictionary objects do not carry an explicit `relationships` array declaring FK targets, cardinality, and ownership. Foreign keys live in hand-written `supabase/migrations/0001_oneroster_core_demo.sql` (e.g. `references public.organizations(id)`) and there is no generator that produces these migrations from the dictionary graph. DEC-020 declares the intent but the implementation is absent \u2014 VERIFY.md does not run a migration generator and there's no `scripts/generate_migrations.py`.",
+      "traced_cause": "data/data-dictionary.seed.json: add per-object `relationships` (target object, cardinality, on_delete) AND create scripts/generate_migrations.py that emits supabase/migrations/0001_oneroster_core_demo.sql; wire it into VERIFY.md with --check drift detection.",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
         "supabase/migrations/0001_oneroster_core_demo.sql",
+        "VERIFY.md",
         "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
@@ -132,7 +131,7 @@
     {
       "id": "dictionary_artifacts_cite_decisions",
       "status": "pass",
-      "reason": "Every per-spec field carries a `decision_id` (e.g. OneRoster person.email -> `DEC-001-person-agent-subject`, person.primary_role -> `DEC-003-role-vocabulary`). `scripts/check_dictionary_artifacts.py` builds a decision_trace map from `docs/decisions/standards-overlap-decisions.md` and fails when a field cites an unknown decision_id or when a decision's produces_fields lists a missing field. The decision-trace JSON block in the register matches dictionary fields.",
+      "reason": "Every field, object, and controlled value in the per-spec dictionaries carries a `decision_id` referencing decisions in `docs/decisions/standards-overlap-decisions.md`. `scripts/check_dictionary_artifacts.py` validates that every field's `decision_id` exists in the decision trace block AND that the field appears in that decision's `produces_fields`, failing on broken links.",
       "traced_cause": "",
       "evidence_paths": [
         "dictionary/oneroster-core.v1.json",
@@ -144,23 +143,22 @@
     {
       "id": "docs_generated_from_dictionary",
       "status": "partial",
-      "reason": "Five generators produce object/field/enum reference pages from the per-spec dictionaries (scripts/generate_oneroster_core.py, generate_qti_core.py, generate_case_core.py, generate_caliper_core.py, generate_integration_governance_core.py), each emitting Markdown and HTML, and check_dictionary_artifacts.py verifies object/field/value coverage. However, hand-written prose pages such as docs/lead-spec-accounting.md and docs/dictionary-coverage-matrix.md make load-bearing field claims (e.g. demographics field lists, score-scale fields) without linking to dictionary anchors, so prose claims aren't all backed by dictionary links.",
-      "traced_cause": "docs/lead-spec-accounting.md and docs/dictionary-coverage-matrix.md: replace inline field/enum names with anchor links to the corresponding generated dictionary pages (e.g. site/docs/oneroster-core-dictionary.html#person-email), and add a doc-link checker that fails when a prose page mentions a field without linking to its dictionary anchor.",
+      "reason": "Generators exist (`scripts/generate_oneroster_core.py`, `generate_qti_core.py`, `generate_case_core.py`, `generate_caliper_core.py`, `generate_integration_governance_core.py`) and produce Markdown + HTML dictionary pages from the structured sources. `scripts/check_dictionary_artifacts.py` verifies field/value coverage in artifacts. However, hand-edited prose pages like `docs/lead-spec-accounting.md` and `docs/spec-gap-backlog.md` make many load-bearing claims (e.g. specific field names, deferred items) without anchored links to dictionary entries. `site/index.html` describes API groups in prose without per-claim dictionary anchors.",
+      "traced_cause": "scripts/build_site_docs.py and docs/lead-spec-accounting.md: add anchor links from every load-bearing field/object claim in prose docs to its generated dictionary entry, and add a link-check step to VERIFY.md that fails on dictionary anchors that don't resolve.",
       "evidence_paths": [
         "scripts/generate_oneroster_core.py",
         "scripts/check_dictionary_artifacts.py",
         "docs/lead-spec-accounting.md",
-        "docs/dictionary-coverage-matrix.md"
+        "site/index.html"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "docs_explain_why_not_only_what",
       "status": "partial",
-      "reason": "The decision register renders as HTML at site/docs/decisions-standards-overlap-decisions.html and is linked from the portal. However, plain-language doc pages do not consistently explain WHY each concept exists. docs/lead-spec-accounting.md adds a 'Decision Citation Map' table with terse one-liners ('Tenant-owned roster and gradebook records are isolated by RLS'), but for many concepts (separate agent vs person, enrollment vs membership, CASE as canonical) there is no narrative doc page that walks a developer through the choice in plain language - the explanation is only in the 900-line decision register file. The substance_check explicitly says linking to a 900-line raw register as the only explanation fails.",
-      "traced_cause": "docs/: add concept-level explainer pages (e.g. docs/concepts/identity.md, docs/concepts/enrollment-vs-membership.md, docs/concepts/standards-alignment.md) that explain the choice and the simplification it produced in plain language and link to the specific decision anchor. The buildability guide should reference these.",
+      "reason": "The decision register `docs/decisions/standards-overlap-decisions.md` is rendered to HTML and linked from the portal (`docs/decisions-standards-overlap-decisions.html`). DEC entries explain choice and simplification clearly. However, the rubric requires that each concept-introducing doc page reference its decision in plain language, not just link to a 900-line raw register. The portal's decision section says 'Each card is rendered from the canonical decision register' but there's no evidence each concept (e.g., why enrollment vs membership, why CASE is canonical) gets its own plain-language explanation in concept docs near where the concept is introduced.",
+      "traced_cause": "docs/concepts/*.md (or equivalent): add a short plain-language 'why this exists' section per major concept (person/agent split, enrollment vs membership, CASE canonical, etc.) that quotes the decision's choice and links to its anchor in docs/decisions/standards-overlap-decisions.md.",
       "evidence_paths": [
-        "docs/lead-spec-accounting.md",
         "docs/decisions/standards-overlap-decisions.md",
         "site/index.html"
       ],
@@ -169,44 +167,42 @@
     {
       "id": "docs_include_buildability_guide",
       "status": "fail",
-      "reason": "There is no `docs/build-an-edtech-app.md` (or equivalent) in the evidence. README.md, PLAN.md, and site/index.html do not link to such a guide. The portal's 'First Integration Path' section in site/index.html (`pathList`) is populated dynamically from app.js but is not an end-to-end executable walkthrough. No file walks a layperson through (a) creating a school, (b) enrolling students, (c) posting a grade, (d) linking to a CASE standard URI, (e) reading a Caliper feed with copy-pasteable curl/SQL.",
-      "traced_cause": "docs/build-an-edtech-app.md: create the end-to-end guide with copy-pasteable curl/SQL for each of the five required steps against the live Supabase runtime (REST + Edge Functions), with every field and enum value linked to its dictionary anchor. Link the guide from site/index.html and README.md.",
+      "reason": "`docs/build-an-edtech-app.md` does not exist. README.md lists many doc artifacts but no buildability guide. The portal `site/index.html` has a 'Build an app' button linking to a #guide section that contains generic 'Platform Provides / App Developer Owns' bullets, not a copy-pasteable end-to-end walkthrough of (a) creating a school, (b) enrolling students, (c) posting a grade, (d) linking to CASE, (e) reading Caliper feed.",
+      "traced_cause": "docs/build-an-edtech-app.md: create the file with five copy-pasteable curl/SQL steps against live Supabase REST + Edge Functions, with each field linked to its dictionary entry and each enum value linked to its global enum.",
       "evidence_paths": [
         "README.md",
-        "site/index.html",
-        "PLAN.md"
+        "site/index.html"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "docs_no_dead_links_or_orphans",
       "status": "partial",
-      "reason": "The portal navigation links to dictionary pages, decision register, OpenAPI pages, coverage matrix, and lead-spec accounting. But there is no link checker output in evidence, and the missing buildability guide means the apex doc page is not reachable. The coverage matrix references docs/dictionaries/README.md and docs/dictionaries/*.md (layperson dictionaries) which exist according to README, but their HTML rendering and reachability cannot be verified. Generated dictionary pages have a known duplicate/orphan problem flagged in spec-gap-backlog item 25.",
-      "traced_cause": "scripts/build_site_docs.py and VERIFY.md: add a link checker (e.g. linkchecker or a Python script) that fails on 404s and on dictionary entries / decisions / endpoints not reachable from site/index.html within three clicks. Resolve generated dictionary portal canonical URL cleanup (backlog item 25) so each generated page has one canonical link.",
+      "reason": "No evidence of a link checker run over the rendered site or its result. VERIFY.md runs JSON formatters and dictionary artifact checks but does not include a link-checker step. The portal landing reaches generated dictionary pages, decision register, and OpenAPI pages, but reachability of every dictionary object and decision within three clicks is not verified. The backlog item 25 explicitly notes 'duplicate or orphaned HTML' from generators is unresolved.",
+      "traced_cause": "VERIFY.md and scripts/check_site_links.py: add a deterministic link checker that fails on 404s and orphan pages, and resolve the duplicate generated dictionary HTML pages noted in spec-gap-backlog.md item 25.",
       "evidence_paths": [
-        "site/index.html",
-        "docs/spec-gap-backlog.md",
-        "VERIFY.md"
+        "VERIFY.md",
+        "docs/spec-gap-backlog.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "buildable_by_layperson",
       "status": "fail",
-      "reason": "Reading only `docs/`, a layperson cannot produce executable artifacts for the five required steps. (1) Create school: docs/ has no instruction to insert into `public.organizations` and no guide on tenant_id sourcing. (2) Create class with enrollments: no walkthrough of organizations -> people -> classes -> enrollments -> source_identifiers FKs. (3) Post grade: docs/supabase-hosted-database.md shows an Edge Function curl but does not explain how to obtain SUPABASE_USER_JWT with a tenant claim or how to choose scoreStatus enum values. (4) Link assignment to CASE URI: CASE has only generated dictionary pages, no runtime, no documented import path, and no field on line_items pointing at CASE. (5) Read Caliper feed: only an ingestion receipt path exists; there is no documented read endpoint or query for a class activity feed. No buildability guide exists to bridge these gaps.",
-      "traced_cause": "docs/build-an-edtech-app.md plus the underlying dictionary/decision gaps: (a) write the end-to-end guide; (b) DEC-006/CASE: add a documented assignment->CASE alignment field on line_items in the seed and a runtime path or static example; (c) Caliper: document a read query (REST or function) for class events; (d) auth: docs/ must explain how to mint a tenant-scoped user JWT for the non-test reader.",
+      "reason": "No buildability guide exists; a layperson reading only `docs/` cannot produce executable artifacts for the five required steps. Beyond the missing guide, even with the existing docs the developer would hit substantive gaps: cross-spec field reconciliation isn't unified (canonical_field_id is per-spec, not shared), there's no shared enum crosswalk for roles, no unified canonical identity entity, and no documented endpoint for creating schools/classes (existing Edge Functions cover bulk-submit grades, audited reads, LTI launch receipts, Caliper ingestion, OAuth exchange \u2014 none POST schools or enrollments).",
+      "traced_cause": "docs/build-an-edtech-app.md plus the cross-spec dictionary unification (shared canonical_field_id, shared canonical identity, shared role enum) and a documented org/class/enrollment write path: write the guide, fix the data-level overlaps, and add or document the create endpoints.",
       "evidence_paths": [
-        "docs/supabase-hosted-database.md",
         "README.md",
         "site/index.html",
-        "docs/lead-spec-accounting.md"
+        "supabase/functions/gradebook-bulk-submit/index.ts",
+        "dictionary/oneroster-core.v1.json"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "evaluator_traces_failures_backward",
       "status": "pass",
-      "reason": "scripts/evaluate_platform.py emits a `traced_cause` field on every non-pass item (DEFAULT_TRACED_CAUSES map plus normalize_traced_cause helper) and a `buildability_gaps` array with traced causes. The current report at site/api/spec-conformance.json is the advisory deterministic report; the evaluator output (this run) populates traced_cause for every non-pass item by design.",
+      "reason": "`scripts/evaluate_platform.py` enforces non-empty `traced_cause` on every non-pass item via `ensure_traced_causes()` and `normalize_traced_cause()`, with per-item DEFAULT_TRACED_CAUSES fallbacks. It also normalizes a `buildability_gaps` array with traced_cause per gap via `normalize_buildability_gaps()`. The output schema is enforced in code.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/evaluate_platform.py"
@@ -216,7 +212,7 @@
     {
       "id": "evaluator_runs_each_iteration",
       "status": "pass",
-      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`, and scripts/codex_loop.py calls run_evaluator both before and after each iteration. evaluate_platform.py writes per-item status, traced_cause for non-pass items, and a buildability_gaps array to site/api/platform-evaluation.json.",
+      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`. `scripts/codex_loop.py` invokes it via `run_evaluator()` both before and after each iteration. The evaluator writes the report with `done`, per-item status, traced_cause, and buildability_gaps.",
       "traced_cause": "",
       "evidence_paths": [
         "VERIFY.md",
@@ -228,7 +224,7 @@
     {
       "id": "loop_overrides_respected",
       "status": "pass",
-      "reason": "scripts/codex_loop.py defines read_overrides(), overrides_paused() (checks for the literal PAUSE token on its own line, ignoring HTML-commented examples), and format_overrides_for_prompt(). The PAUSE check runs at the top of each iteration BEFORE Codex is invoked ('if overrides_paused(overrides): print(...); return 0'). Overrides are injected into build_prompt under a 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE ...)' section.",
+      "reason": "`scripts/codex_loop.py` defines `read_overrides()` reading `docs/loop-overrides.md`, `overrides_paused()` checking for the literal PAUSE token on its own line (ignoring HTML comments), invokes it BEFORE each iteration runs, and `build_prompt()` injects formatted overrides under a 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE...)' section.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py",
@@ -239,7 +235,7 @@
     {
       "id": "loop_terminates_on_done",
       "status": "pass",
-      "reason": "scripts/codex_loop.py terminates on the evaluator's `done` flag both before and after each iteration: 'if before_eval and before_eval.get(\"done\"): print(\"Evaluator reports `done` before any work...\"); return 0' and 'if after_eval and after_eval.get(\"done\"): print(\"Evaluator reports `done` after this iteration. Stopping the loop.\"); return 0'. Hard caps (max_iterations, stall_limit) are safety rails, not the primary gate.",
+      "reason": "`scripts/codex_loop.py` checks `before_eval.get('done')` before starting work and `after_eval.get('done')` after each iteration, returning 0 when done is true. It also has a stall detector (--stall-limit) and rubric-progressed gating for publish. The hard cap (--max-iterations) is a safety rail, not a numeric-threshold gate.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py"
@@ -250,33 +246,33 @@
   "buildability_gaps": [
     {
       "step": "create_school",
-      "gap": "No documented HTTP/SQL pattern for creating an organization row in the live runtime; docs/ does not show how to obtain a tenant-scoped JWT, what tenant_id to use, or whether there is an Edge Function for org creation versus direct PostgREST insert.",
-      "traced_cause": "docs/build-an-edtech-app.md: add Step 1 with curl against Supabase REST or a new org-admin Edge Function, including how to mint a tenant-scoped JWT and which dictionary fields on `public.organizations` are required."
+      "gap": "No documented endpoint or guide step for creating a school org with a teacher and ten students. The only write-capable Edge Functions are gradebook-bulk-submit, audited-roster-read, lti-launch-handler, caliper-event-ingestion, and oauth-token-exchange \u2014 none POST organizations, people, or enrollments.",
+      "traced_cause": "docs/build-an-edtech-app.md plus a new supabase/functions/roster-bulk-upsert/index.ts (or documented Supabase REST insert path with the required tenant_id, sourced_id, and identifier-crosswalk fields): create the guide step and the create endpoint."
     },
     {
       "step": "create_class",
-      "gap": "Layperson cannot derive the FK chain (organizations -> academic_sessions -> courses -> classes -> people -> enrollments -> source_identifiers) from docs/ alone; docs do not surface relationships because the dictionary has no relational graph (DEC-020 not implemented in data).",
-      "traced_cause": "data/data-dictionary.seed.json: add `relationships` to objects per DEC-020. docs/build-an-edtech-app.md: add Step 2 walking through each insert with the FK fields linked to dictionary anchors."
+      "gap": "No documented endpoint to create a class with course_id/term_id/school_id linkage and enroll the ten students. The OneRoster dictionary describes the schema but the runtime exposes only read paths for these tables.",
+      "traced_cause": "docs/build-an-edtech-app.md and supabase/functions/* (or documented PostgREST insert with required RLS-tenant-claim headers): document the class+enrollment create flow with copy-pasteable curl referencing dictionary anchors for class.title, class.course_id, enrollment.role, etc."
     },
     {
       "step": "post_grade",
-      "gap": "Edge Function curl in docs/supabase-hosted-database.md uses $SUPABASE_USER_JWT with no instructions on how to obtain it, and scoreStatus enum values are not linked to a global enum (only OneRoster-native list).",
-      "traced_cause": "data/data-dictionary.seed.json: add a shared_enum for score_status per DEC-018. docs/build-an-edtech-app.md: add Step 3 with a documented JWT-minting flow (Supabase Auth signup or admin issuance) and link scoreStatus values to the shared enum."
+      "gap": "While `gradebook-bulk-submit` exists with a curl example in `docs/supabase-hosted-database.md`, the layperson guide does not link `scoreStatus` enum values to the dictionary's global enum (none exists yet) and does not show how to create the prerequisite line_item.",
+      "traced_cause": "docs/build-an-edtech-app.md plus a shared scoreStatus enum in data/data-dictionary.seed.json with shared_enum_id: prepend a step to create the line_item via documented insert path, link scoreStatus values to the shared enum, and show the full grade-post flow end-to-end."
     },
     {
       "step": "link_case_standard",
-      "gap": "There is no runtime CASE store, no field on line_items linking to a CASE item URI, and no documented alignment endpoint. CASE is documented as 'Docs only' in docs/spec-gap-backlog.md.",
-      "traced_cause": "data/data-dictionary.seed.json: add a `line_item.alignment_uri` field (or analogous join) per DEC-006. supabase/migrations: add a CASE seed table or alignment column. docs/build-an-edtech-app.md: add Step 4 showing how to write the CASE URI and read it back."
+      "gap": "No documented runtime path links an assignment (line_item) to a CASE standard URI. The CASE dictionary is doc-only per DEC-012, and there is no alignment table or Edge Function that records 'line_item X aligns to CASE item Y'.",
+      "traced_cause": "data/data-dictionary.seed.json (add line_item.alignment_target_uri or a line_item_alignment object with FK to case_item) and a supabase/migrations migration plus an Edge Function or PostgREST write path; documented in docs/build-an-edtech-app.md."
     },
     {
       "step": "read_caliper_feed",
-      "gap": "Only the ingestion receipt path is documented (POST /caliper-event-ingestion). docs/ does not document a read endpoint or query for a class activity feed; immutable raw-event store is explicitly deferred.",
-      "traced_cause": "supabase/functions: add a caliper-event-feed reader (or a documented PostgREST view) returning class events under tenant RLS. docs/build-an-edtech-app.md: add Step 5 with a curl against that reader and link event_type / action values to the shared Caliper enum."
+      "gap": "`caliper-event-ingestion` writes audit_log receipts but does not project events into a queryable feed, and no documented endpoint returns 'all Caliper events for class X'. The Caliper dictionary describes caliper_events tables that have no migrations.",
+      "traced_cause": "supabase/migrations/* (generate caliper_events / caliper_envelopes tables from data/data-dictionary.seed.json relationships) and a supabase/functions/caliper-event-feed Edge Function or PostgREST view; documented in docs/build-an-edtech-app.md."
     },
     {
       "step": "cross_step",
-      "gap": "Cross-spec field unification is not in the data: OneRoster person.email, Caliper actor identifier_value, and LTI lti_membership.email each have spec-local canonical_field_ids, so a developer who joins these systems must still implement spec-to-spec conversion.",
-      "traced_cause": "data/data-dictionary.seed.json: introduce a shared canonical namespace and rewrite overlapping fields' canonical_field_id to the same shared id (DEC-017 enforcement)."
+      "gap": "Across all five steps the developer would have to reconcile spec-native field names manually because canonical_field_id is per-spec namespaced (`canonical.oneroster-core.person.email` vs `canonical.caliper-core.caliper_actor.identifier_value`), not unified to one shared canonical email/identity field.",
+      "traced_cause": "data/data-dictionary.seed.json: introduce shared canonical objects/fields (e.g., `canonical.identity.person`, `canonical.identity.email`) and re-key per-spec canonical_field_id values to point to them, propagating into per-spec projections via scripts/generate_spec_dictionaries.py."
     }
   ],
   "projections": {
