@@ -58,6 +58,8 @@ ALWAYS_EVIDENCE = [
     "docs/dictionary-coverage-matrix.md",
     "docs/lead-spec-accounting.md",
     "docs/decisions/standards-overlap-decisions.md",
+    "docs/decisions/decisions-pending.md",
+    "docs/decisions/decisions-needed.md",
     "docs/admin-operations.md",
     "docs/supabase-hosted-database.md",
     "site/api/spec-conformance.json",

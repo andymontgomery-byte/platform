@@ -389,3 +389,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `node --check site/app.js` passed; decision-register parser smoke check parsed 15 decisions and 99 projection refs from `docs/decisions/standards-overlap-decisions.md`; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=9, partial=2, fail=0, blocked=0 and reports `portal_leads_with_decisions` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed.
 - Expected status change: `portal_leads_with_decisions` `fail` -> `pass`.
 - What remains next: `no_unforced_decisions` remains `partial` because the evaluator evidence still does not include `docs/decisions/decisions-pending.md`; `artifacts_cite_decisions` remains `partial` because SQL/RLS policies, Edge Functions, policy snapshot/static mirrors, and coverage entries still need explicit decision citations.
+
+
+## 20260426T161024Z Harness Iteration 4
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 87
+- Publish result: committed and pushed: Codex loop iteration 4: rubric pass=9/11
+- Codex log: `.codex-loop/20260426T155915Z-iteration-004-codex.log`
+- Verify log: `.codex-loop/20260426T155915Z-iteration-004-verify.log`
+- Judge log: `.codex-loop/20260426T155915Z-iteration-004-judge.log`
+- Judge JSON: `.codex-loop/20260426T155915Z-iteration-004-judge.json`
+
+## 2026-04-26 12:14:38 EDT No Unforced Decisions Evidence Iteration
+
+- Chosen rubric item: `no_unforced_decisions`.
+- Files changed: `scripts/evaluate_platform.py`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 11 rubric items and 56 evidence files; direct `gather_evidence()` smoke check confirmed `docs/decisions/decisions-pending.md` and `docs/decisions/decisions-needed.md` are always-included evidence files at positions 10 and 11; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=10, partial=1, fail=0, blocked=0 and reports `no_unforced_decisions` as `pass`.
+- Expected status change: `no_unforced_decisions` `partial` -> `pass`.
+- What remains next: `artifacts_cite_decisions` remains `partial`; SQL/RLS policies, policy snapshots, Edge Functions, static API mirrors, and Lead-spec coverage/accounting need explicit decision citations or a documented mapping table.
