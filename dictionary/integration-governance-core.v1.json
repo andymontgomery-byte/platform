@@ -341,6 +341,10 @@
         "object": "LTI Registration",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.lti_registration",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -358,7 +362,10 @@
             "object": "LTI Registration",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -376,7 +383,10 @@
             "object": "LTI Registration",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "issuer",
@@ -394,7 +404,10 @@
             "object": "LTI Registration",
             "field": "issuer",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.issuer",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "client_id",
@@ -412,7 +425,10 @@
             "object": "LTI Registration",
             "field": "clientId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.client_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tool_name",
@@ -430,7 +446,10 @@
             "object": "LTI Registration",
             "field": "toolName",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.tool_name",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "initiate_login_uri",
@@ -448,7 +467,10 @@
             "object": "LTI Registration",
             "field": "initiateLoginUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.initiate_login_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "redirect_uris",
@@ -466,7 +488,10 @@
             "object": "LTI Registration",
             "field": "redirectUris",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.redirect_uris",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "jwks_uri",
@@ -484,7 +509,10 @@
             "object": "LTI Registration",
             "field": "jwksUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.jwks_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "authorization_endpoint",
@@ -502,7 +530,10 @@
             "object": "LTI Registration",
             "field": "authorizationEndpoint",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.authorization_endpoint",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "token_endpoint",
@@ -520,7 +551,10 @@
             "object": "LTI Registration",
             "field": "tokenEndpoint",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.token_endpoint",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "allowed_scopes",
@@ -538,7 +572,10 @@
             "object": "LTI Registration",
             "field": "allowedScopes",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.allowed_scopes",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "status",
@@ -557,7 +594,10 @@
             "object": "LTI Registration",
             "field": "status",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "created_at",
@@ -575,7 +615,10 @@
             "object": "LTI Registration",
             "field": "createdAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.created_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "updated_at",
@@ -593,7 +636,10 @@
             "object": "LTI Registration",
             "field": "updatedAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_registration.updated_at",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -611,6 +657,10 @@
         "object": "LTI Deployment",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.lti_deployment",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -628,7 +678,10 @@
             "object": "LTI Deployment",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "registration_id",
@@ -646,7 +699,10 @@
             "object": "LTI Deployment",
             "field": "registrationId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.registration_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "deployment_id",
@@ -664,7 +720,10 @@
             "object": "LTI Deployment",
             "field": "deploymentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.deployment_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "deployment_scope",
@@ -683,7 +742,10 @@
             "object": "LTI Deployment",
             "field": "deploymentScope",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.deployment_scope",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "context_id",
@@ -701,7 +763,10 @@
             "object": "LTI Deployment",
             "field": "contextId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.context_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "resource_link_id",
@@ -719,7 +784,10 @@
             "object": "LTI Deployment",
             "field": "resourceLinkId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.resource_link_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "service_scopes",
@@ -737,7 +805,10 @@
             "object": "LTI Deployment",
             "field": "serviceScopes",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.service_scopes",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "status",
@@ -756,7 +827,10 @@
             "object": "LTI Deployment",
             "field": "status",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "created_at",
@@ -774,7 +848,10 @@
             "object": "LTI Deployment",
             "field": "createdAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deployment.created_at",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -792,6 +869,10 @@
         "object": "LTI Launch",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.lti_launch",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -809,7 +890,10 @@
             "object": "LTI Launch",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -827,7 +911,10 @@
             "object": "LTI Launch",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "registration_id",
@@ -845,7 +932,10 @@
             "object": "LTI Launch",
             "field": "registrationId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.registration_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "deployment_id",
@@ -863,7 +953,10 @@
             "object": "LTI Launch",
             "field": "deploymentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.deployment_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "message_type",
@@ -882,7 +975,10 @@
             "object": "LTI Launch",
             "field": "messageType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.message_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "lti_version",
@@ -901,7 +997,10 @@
             "object": "LTI Launch",
             "field": "ltiVersion",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.lti_version",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "subject_id",
@@ -919,7 +1018,11 @@
             "object": "LTI Launch",
             "field": "subjectId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.subject_id",
+          "canonical_object_id": "canonical.identity.person",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "context_id",
@@ -937,7 +1040,10 @@
             "object": "LTI Launch",
             "field": "contextId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.context_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "roles",
@@ -955,7 +1061,10 @@
             "object": "LTI Launch",
             "field": "roles",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.roles",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "target_link_uri",
@@ -973,7 +1082,10 @@
             "object": "LTI Launch",
             "field": "targetLinkUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.target_link_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "nonce_hash",
@@ -991,7 +1103,10 @@
             "object": "LTI Launch",
             "field": "nonceHash",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.nonce_hash",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "id_token_hash",
@@ -1009,7 +1124,10 @@
             "object": "LTI Launch",
             "field": "idTokenHash",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.id_token_hash",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "raw_claims",
@@ -1027,7 +1145,10 @@
             "object": "LTI Launch",
             "field": "rawClaims",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.raw_claims",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "launched_at",
@@ -1045,7 +1166,10 @@
             "object": "LTI Launch",
             "field": "launchedAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.launched_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "validation_status",
@@ -1064,7 +1188,10 @@
             "object": "LTI Launch",
             "field": "validationStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_launch.validation_status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1082,6 +1209,10 @@
         "object": "LTI Service Endpoint",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.lti_service_endpoint",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1099,7 +1230,10 @@
             "object": "LTI Service Endpoint",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "deployment_id",
@@ -1117,7 +1251,10 @@
             "object": "LTI Service Endpoint",
             "field": "deploymentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.deployment_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "service_type",
@@ -1136,7 +1273,10 @@
             "object": "LTI Service Endpoint",
             "field": "serviceType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.service_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "endpoint_url",
@@ -1154,7 +1294,10 @@
             "object": "LTI Service Endpoint",
             "field": "endpointUrl",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.endpoint_url",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "service_versions",
@@ -1172,7 +1315,10 @@
             "object": "LTI Service Endpoint",
             "field": "serviceVersions",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.service_versions",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "required_scope",
@@ -1190,7 +1336,10 @@
             "object": "LTI Service Endpoint",
             "field": "requiredScope",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.required_scope",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "context_id",
@@ -1208,7 +1357,10 @@
             "object": "LTI Service Endpoint",
             "field": "contextId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.context_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "policy_status",
@@ -1227,7 +1379,10 @@
             "object": "LTI Service Endpoint",
             "field": "policyStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_service_endpoint.policy_status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1245,6 +1400,10 @@
         "object": "LTI Membership",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.identity.person",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-001-person-agent-subject",
       "fields": [
         {
           "field_key": "id",
@@ -1262,7 +1421,10 @@
             "object": "LTI Membership",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "service_endpoint_id",
@@ -1280,7 +1442,10 @@
             "object": "LTI Membership",
             "field": "serviceEndpointId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.service_endpoint_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "context_id",
@@ -1298,7 +1463,10 @@
             "object": "LTI Membership",
             "field": "contextId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.context_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "user_id",
@@ -1316,7 +1484,10 @@
             "object": "LTI Membership",
             "field": "userId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.user_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "platform_person_id",
@@ -1334,7 +1505,10 @@
             "object": "LTI Membership",
             "field": "platformPersonId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.platform_person_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "display_name",
@@ -1352,7 +1526,10 @@
             "object": "LTI Membership",
             "field": "displayName",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.display_name",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "email",
@@ -1370,7 +1547,10 @@
             "object": "LTI Membership",
             "field": "email",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.email",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "roles",
@@ -1388,7 +1568,10 @@
             "object": "LTI Membership",
             "field": "roles",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.roles",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "status",
@@ -1407,7 +1590,10 @@
             "object": "LTI Membership",
             "field": "status",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "lis_person_sourcedid",
@@ -1425,7 +1611,10 @@
             "object": "LTI Membership",
             "field": "lisPersonSourcedid",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_membership.lis_person_sourcedid",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1443,6 +1632,10 @@
         "object": "LTI Grade Exchange",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.lti_grade_exchange",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1460,7 +1653,10 @@
             "object": "LTI Grade Exchange",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "service_endpoint_id",
@@ -1478,7 +1674,10 @@
             "object": "LTI Grade Exchange",
             "field": "serviceEndpointId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.service_endpoint_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "line_item_url",
@@ -1496,7 +1695,10 @@
             "object": "LTI Grade Exchange",
             "field": "lineItemUrl",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.line_item_url",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "line_item_label",
@@ -1514,7 +1716,10 @@
             "object": "LTI Grade Exchange",
             "field": "lineItemLabel",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.line_item_label",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "score_maximum",
@@ -1532,7 +1737,10 @@
             "object": "LTI Grade Exchange",
             "field": "scoreMaximum",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.score_maximum",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "score_given",
@@ -1550,7 +1758,10 @@
             "object": "LTI Grade Exchange",
             "field": "scoreGiven",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.score_given",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "user_id",
@@ -1568,7 +1779,10 @@
             "object": "LTI Grade Exchange",
             "field": "userId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.user_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "activity_progress",
@@ -1587,7 +1801,10 @@
             "object": "LTI Grade Exchange",
             "field": "activityProgress",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.activity_progress",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "grading_progress",
@@ -1606,7 +1823,10 @@
             "object": "LTI Grade Exchange",
             "field": "gradingProgress",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.grading_progress",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "timestamp",
@@ -1624,7 +1844,10 @@
             "object": "LTI Grade Exchange",
             "field": "timestamp",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.timestamp",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "exchange_status",
@@ -1643,7 +1866,10 @@
             "object": "LTI Grade Exchange",
             "field": "exchangeStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_grade_exchange.exchange_status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1661,6 +1887,10 @@
         "object": "LTI Deep Link Item",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.lti_deep_link_item",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1678,7 +1908,10 @@
             "object": "LTI Deep Link Item",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "launch_id",
@@ -1696,7 +1929,10 @@
             "object": "LTI Deep Link Item",
             "field": "launchId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.launch_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_type",
@@ -1715,7 +1951,10 @@
             "object": "LTI Deep Link Item",
             "field": "itemType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.item_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1733,7 +1972,10 @@
             "object": "LTI Deep Link Item",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "url",
@@ -1751,7 +1993,10 @@
             "object": "LTI Deep Link Item",
             "field": "url",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.url",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "html",
@@ -1769,7 +2014,10 @@
             "object": "LTI Deep Link Item",
             "field": "html",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.html",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_target",
@@ -1788,7 +2036,10 @@
             "object": "LTI Deep Link Item",
             "field": "documentTarget",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.document_target",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "line_item_json",
@@ -1806,7 +2057,10 @@
             "object": "LTI Deep Link Item",
             "field": "lineItemJson",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.line_item_json",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "availability_start_at",
@@ -1824,7 +2078,10 @@
             "object": "LTI Deep Link Item",
             "field": "availabilityStartAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.availability_start_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "submission_end_at",
@@ -1842,7 +2099,10 @@
             "object": "LTI Deep Link Item",
             "field": "submissionEndAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.lti_deep_link_item.submission_end_at",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1860,6 +2120,10 @@
         "object": "Security OAuth Client",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.security_oauth_client",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1877,7 +2141,10 @@
             "object": "Security OAuth Client",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -1895,7 +2162,10 @@
             "object": "Security OAuth Client",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "client_id",
@@ -1913,7 +2183,10 @@
             "object": "Security OAuth Client",
             "field": "clientId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.client_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "client_name",
@@ -1931,7 +2204,10 @@
             "object": "Security OAuth Client",
             "field": "clientName",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.client_name",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "jwks_uri",
@@ -1949,7 +2225,10 @@
             "object": "Security OAuth Client",
             "field": "jwksUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.jwks_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "public_jwk",
@@ -1967,7 +2246,10 @@
             "object": "Security OAuth Client",
             "field": "publicJwk",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.public_jwk",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "auth_method",
@@ -1986,7 +2268,10 @@
             "object": "Security OAuth Client",
             "field": "authMethod",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.auth_method",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "grant_types",
@@ -2004,7 +2289,10 @@
             "object": "Security OAuth Client",
             "field": "grantTypes",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.grant_types",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "allowed_scopes",
@@ -2022,7 +2310,10 @@
             "object": "Security OAuth Client",
             "field": "allowedScopes",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.allowed_scopes",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "status",
@@ -2041,7 +2332,10 @@
             "object": "Security OAuth Client",
             "field": "status",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_oauth_client.status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2059,6 +2353,10 @@
         "object": "Security Scope Policy",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.security_scope_policy",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2076,7 +2374,10 @@
             "object": "Security Scope Policy",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "scope",
@@ -2094,7 +2395,10 @@
             "object": "Security Scope Policy",
             "field": "scope",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.scope",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "api_resource",
@@ -2112,7 +2416,10 @@
             "object": "Security Scope Policy",
             "field": "apiResource",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.api_resource",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "allowed_action",
@@ -2131,7 +2438,10 @@
             "object": "Security Scope Policy",
             "field": "allowedAction",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.allowed_action",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "privacy_ceiling",
@@ -2150,7 +2460,10 @@
             "object": "Security Scope Policy",
             "field": "privacyCeiling",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.privacy_ceiling",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "field_patterns",
@@ -2168,7 +2481,10 @@
             "object": "Security Scope Policy",
             "field": "fieldPatterns",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.field_patterns",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "requires_launch_context",
@@ -2186,7 +2502,10 @@
             "object": "Security Scope Policy",
             "field": "requiresLaunchContext",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.requires_launch_context",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "allowed_roles",
@@ -2204,7 +2523,10 @@
             "object": "Security Scope Policy",
             "field": "allowedRoles",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.allowed_roles",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "policy_status",
@@ -2223,7 +2545,10 @@
             "object": "Security Scope Policy",
             "field": "policyStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.security_scope_policy.policy_status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2241,6 +2566,10 @@
         "object": "Privacy Data Sharing Rule",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.privacy_data_sharing_rule",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2258,7 +2587,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -2276,7 +2608,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "data_category",
@@ -2295,7 +2630,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "dataCategory",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.data_category",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "privacy_class",
@@ -2314,7 +2652,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "privacyClass",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.privacy_class",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "recipient_type",
@@ -2333,7 +2674,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "recipientType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.recipient_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "purpose",
@@ -2351,7 +2695,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "purpose",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.purpose",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "legal_basis",
@@ -2370,7 +2717,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "legalBasis",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.legal_basis",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "field_patterns",
@@ -2388,7 +2738,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "fieldPatterns",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.field_patterns",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "minimization_note",
@@ -2406,7 +2759,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "minimizationNote",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.minimization_note",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "status",
@@ -2425,7 +2781,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "status",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "reviewed_at",
@@ -2443,7 +2802,10 @@
             "object": "Privacy Data Sharing Rule",
             "field": "reviewedAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_data_sharing_rule.reviewed_at",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2461,6 +2823,10 @@
         "object": "Privacy Consent Record",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.privacy_consent_record",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2478,7 +2844,10 @@
             "object": "Privacy Consent Record",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -2496,7 +2865,10 @@
             "object": "Privacy Consent Record",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "person_id",
@@ -2514,7 +2886,10 @@
             "object": "Privacy Consent Record",
             "field": "personId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.person_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "guardian_person_id",
@@ -2532,7 +2907,10 @@
             "object": "Privacy Consent Record",
             "field": "guardianPersonId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.guardian_person_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "rule_id",
@@ -2550,7 +2928,10 @@
             "object": "Privacy Consent Record",
             "field": "ruleId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.rule_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "consent_status",
@@ -2569,7 +2950,10 @@
             "object": "Privacy Consent Record",
             "field": "consentStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.consent_status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "effective_at",
@@ -2587,7 +2971,10 @@
             "object": "Privacy Consent Record",
             "field": "effectiveAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.effective_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "expires_at",
@@ -2605,7 +2992,10 @@
             "object": "Privacy Consent Record",
             "field": "expiresAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.expires_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_method",
@@ -2624,7 +3014,10 @@
             "object": "Privacy Consent Record",
             "field": "sourceMethod",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.source_method",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "evidence_uri",
@@ -2642,7 +3035,10 @@
             "object": "Privacy Consent Record",
             "field": "evidenceUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_consent_record.evidence_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2660,6 +3056,10 @@
         "object": "Privacy Retention Rule",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.privacy_retention_rule",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2677,7 +3077,10 @@
             "object": "Privacy Retention Rule",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -2695,7 +3098,10 @@
             "object": "Privacy Retention Rule",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_standard",
@@ -2714,7 +3120,10 @@
             "object": "Privacy Retention Rule",
             "field": "sourceStandard",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.source_standard",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "data_category",
@@ -2733,7 +3142,10 @@
             "object": "Privacy Retention Rule",
             "field": "dataCategory",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.data_category",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "retention_period_days",
@@ -2751,7 +3163,10 @@
             "object": "Privacy Retention Rule",
             "field": "retentionPeriodDays",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.retention_period_days",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "action_on_expiry",
@@ -2770,7 +3185,10 @@
             "object": "Privacy Retention Rule",
             "field": "actionOnExpiry",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.action_on_expiry",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "raw_payload_policy",
@@ -2789,7 +3207,10 @@
             "object": "Privacy Retention Rule",
             "field": "rawPayloadPolicy",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.raw_payload_policy",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "legal_hold",
@@ -2807,7 +3228,10 @@
             "object": "Privacy Retention Rule",
             "field": "legalHold",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.legal_hold",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "status",
@@ -2826,7 +3250,10 @@
             "object": "Privacy Retention Rule",
             "field": "status",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_retention_rule.status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2844,6 +3271,10 @@
         "object": "Privacy Audit Event",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.integration-governance-core.privacy_audit_event",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2861,7 +3292,10 @@
             "object": "Privacy Audit Event",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -2879,7 +3313,10 @@
             "object": "Privacy Audit Event",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "actor_person_id",
@@ -2897,7 +3334,10 @@
             "object": "Privacy Audit Event",
             "field": "actorPersonId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.actor_person_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "client_id",
@@ -2915,7 +3355,10 @@
             "object": "Privacy Audit Event",
             "field": "clientId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.client_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "event_type",
@@ -2934,7 +3377,10 @@
             "object": "Privacy Audit Event",
             "field": "eventType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.event_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "object_type",
@@ -2952,7 +3398,10 @@
             "object": "Privacy Audit Event",
             "field": "objectType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.object_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "object_id",
@@ -2970,7 +3419,10 @@
             "object": "Privacy Audit Event",
             "field": "objectId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.object_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "privacy_class",
@@ -2989,7 +3441,10 @@
             "object": "Privacy Audit Event",
             "field": "privacyClass",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.privacy_class",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "policy_id",
@@ -3007,7 +3462,10 @@
             "object": "Privacy Audit Event",
             "field": "policyId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.policy_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "occurred_at",
@@ -3025,7 +3483,10 @@
             "object": "Privacy Audit Event",
             "field": "occurredAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.occurred_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "outcome",
@@ -3044,7 +3505,10 @@
             "object": "Privacy Audit Event",
             "field": "outcome",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.outcome",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "reason",
@@ -3062,7 +3526,10 @@
             "object": "Privacy Audit Event",
             "field": "reason",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.integration-governance-core.privacy_audit_event.reason",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     }

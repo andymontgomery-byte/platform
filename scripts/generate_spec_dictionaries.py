@@ -21,7 +21,8 @@ def main() -> int:
     projections = seed.get("spec_dictionary_projections", [])
     objects = seed.get("objects", [])
     privacy_classes = seed.get("privacy_classes", [])
-    errors = validate_seed(objects, projections, privacy_classes)
+    canonical_objects = seed.get("canonical_objects", [])
+    errors = validate_seed(objects, projections, privacy_classes, canonical_objects)
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
@@ -54,7 +55,12 @@ def load_seed() -> dict:
     return json.loads(SEED.read_text())
 
 
-def validate_seed(objects: object, projections: object, privacy_classes: object) -> list[str]:
+def validate_seed(
+    objects: object,
+    projections: object,
+    privacy_classes: object,
+    canonical_objects: object,
+) -> list[str]:
     errors: list[str] = []
     if not isinstance(objects, list) or not objects:
         errors.append("shared seed missing non-empty objects")
@@ -62,6 +68,11 @@ def validate_seed(objects: object, projections: object, privacy_classes: object)
         errors.append("shared seed missing non-empty spec_dictionary_projections")
         return errors
     allowed_privacy_classes = validate_privacy_classes(privacy_classes, errors)
+    shared_canonical_object_ids = validate_canonical_objects(
+        canonical_objects,
+        allowed_privacy_classes,
+        errors,
+    )
 
     seen_paths: set[str] = set()
     seen_object_ids: set[str] = set()
@@ -75,7 +86,7 @@ def validate_seed(objects: object, projections: object, privacy_classes: object)
         fields = obj.get("fields")
         if not object_id:
             errors.append(f"seed object {index} missing canonical_object_id")
-        elif object_id in seen_object_ids:
+        elif object_id in seen_object_ids and object_id not in shared_canonical_object_ids:
             errors.append(f"duplicate canonical_object_id: {object_id}")
         seen_object_ids.add(object_id)
         if not spec_key:
@@ -168,6 +179,57 @@ def validate_seed(objects: object, projections: object, privacy_classes: object)
     return errors
 
 
+def validate_canonical_objects(
+    canonical_objects: object,
+    allowed_privacy_classes: set[str],
+    errors: list[str],
+) -> set[str]:
+    ids: set[str] = set()
+    if canonical_objects in (None, []):
+        return ids
+    if not isinstance(canonical_objects, list):
+        errors.append("shared seed canonical_objects must be a list when present")
+        return ids
+
+    for index, item in enumerate(canonical_objects):
+        if not isinstance(item, dict):
+            errors.append(f"canonical_objects item {index} is not an object")
+            continue
+        object_id = item.get("canonical_object_id")
+        if not isinstance(object_id, str) or not object_id.strip():
+            errors.append(f"canonical_objects item {index} missing canonical_object_id")
+            continue
+        if object_id in ids:
+            errors.append(f"duplicate canonical object registry id: {object_id}")
+        ids.add(object_id)
+        for key in ["object_key", "name", "plain_description", "decision_id", "fields", "projections"]:
+            if key not in item or item[key] in (None, "", []):
+                errors.append(f"canonical object {object_id} missing {key}")
+        validate_privacy_class(errors, allowed_privacy_classes, f"canonical object {object_id}", item)
+        fields = item.get("fields", [])
+        if isinstance(fields, list):
+            seen_fields: set[str] = set()
+            for field in fields:
+                if not isinstance(field, dict):
+                    errors.append(f"canonical object {object_id} has non-object field")
+                    continue
+                field_id = field.get("canonical_field_id")
+                if not isinstance(field_id, str) or not field_id.strip():
+                    errors.append(f"canonical object {object_id} field missing canonical_field_id")
+                elif field_id in seen_fields:
+                    errors.append(f"canonical object {object_id} duplicate field {field_id}")
+                seen_fields.add(field_id)
+                validate_privacy_class(
+                    errors,
+                    allowed_privacy_classes,
+                    f"canonical object {object_id} field {field_id or '?'}",
+                    field,
+                )
+        else:
+            errors.append(f"canonical object {object_id} fields must be a list")
+    return ids
+
+
 def validate_privacy_classes(privacy_classes: object, errors: list[str]) -> set[str]:
     allowed: set[str] = set()
     if not isinstance(privacy_classes, list) or not privacy_classes:
@@ -245,7 +307,17 @@ def project_dictionary(objects: list[dict], projection: dict) -> dict:
         if obj.get("spec_key") != spec_key:
             continue
         spec_object = copy.deepcopy(obj["spec_object"])
-        spec_object["fields"] = [copy.deepcopy(field["spec_field"]) for field in obj["fields"]]
+        for key in ["canonical_object_id", "projection_kind", "spec_only", "decision_id"]:
+            if key in obj:
+                spec_object[key] = copy.deepcopy(obj[key])
+        spec_fields = []
+        for field in obj["fields"]:
+            spec_field = copy.deepcopy(field["spec_field"])
+            for key in ["canonical_field_id", "canonical_object_id", "projection_kind", "spec_only"]:
+                if key in field:
+                    spec_field[key] = copy.deepcopy(field[key])
+            spec_fields.append(spec_field)
+        spec_object["fields"] = spec_fields
         projected_objects.append(spec_object)
 
     dictionary = {}

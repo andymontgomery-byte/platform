@@ -21,6 +21,10 @@
         "object": "Caliper Envelope",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.caliper-core.caliper_envelope",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -38,7 +42,10 @@
             "object": "Caliper Envelope",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tenant_id",
@@ -56,7 +63,10 @@
             "object": "Caliper Envelope",
             "field": "tenantId",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.tenant_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "sensor_id",
@@ -74,7 +84,10 @@
             "object": "Caliper Envelope",
             "field": "sensorId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.sensor_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "send_time",
@@ -92,7 +105,10 @@
             "object": "Caliper Envelope",
             "field": "sendTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.send_time",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "data_version",
@@ -111,7 +127,10 @@
             "object": "Caliper Envelope",
             "field": "dataVersion",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.data_version",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "event_count",
@@ -129,7 +148,10 @@
             "object": "Caliper Envelope",
             "field": "eventCount",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.event_count",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "received_at",
@@ -147,7 +169,10 @@
             "object": "Caliper Envelope",
             "field": "receivedAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.received_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "validation_status",
@@ -166,7 +191,10 @@
             "object": "Caliper Envelope",
             "field": "validationStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.validation_status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "raw_payload",
@@ -184,7 +212,10 @@
             "object": "Caliper Envelope",
             "field": "rawPayload",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_envelope.raw_payload",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -202,6 +233,10 @@
         "object": "Caliper Event",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.caliper-core.caliper_event",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -219,7 +254,10 @@
             "object": "Caliper Event",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "envelope_id",
@@ -237,7 +275,10 @@
             "object": "Caliper Event",
             "field": "envelopeId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.envelope_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "event_iri",
@@ -255,7 +296,10 @@
             "object": "Caliper Event",
             "field": "eventIri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.event_iri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "event_type",
@@ -274,7 +318,10 @@
             "object": "Caliper Event",
             "field": "eventType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.event_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "profile",
@@ -293,7 +340,10 @@
             "object": "Caliper Event",
             "field": "profile",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.profile",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "action",
@@ -312,7 +362,10 @@
             "object": "Caliper Event",
             "field": "action",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.action",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "actor_id",
@@ -330,7 +383,10 @@
             "object": "Caliper Event",
             "field": "actorId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.actor_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "object_id",
@@ -348,7 +404,10 @@
             "object": "Caliper Event",
             "field": "objectId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.object_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "event_time",
@@ -366,7 +425,10 @@
             "object": "Caliper Event",
             "field": "eventTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.event_time",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "ed_app_id",
@@ -384,7 +446,10 @@
             "object": "Caliper Event",
             "field": "edAppId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.ed_app_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "generated_id",
@@ -402,7 +467,10 @@
             "object": "Caliper Event",
             "field": "generatedId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.generated_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "target_id",
@@ -420,7 +488,10 @@
             "object": "Caliper Event",
             "field": "targetId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.target_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "referrer_id",
@@ -438,7 +509,10 @@
             "object": "Caliper Event",
             "field": "referrerId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.referrer_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "group_id",
@@ -456,7 +530,10 @@
             "object": "Caliper Event",
             "field": "groupId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.group_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "membership_id",
@@ -474,7 +551,10 @@
             "object": "Caliper Event",
             "field": "membershipId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.membership_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "session_id",
@@ -492,7 +572,10 @@
             "object": "Caliper Event",
             "field": "sessionId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.session_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "federated_session_id",
@@ -510,7 +593,10 @@
             "object": "Caliper Event",
             "field": "federatedSessionId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.federated_session_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "raw_event",
@@ -528,7 +614,10 @@
             "object": "Caliper Event",
             "field": "rawEvent",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_event.raw_event",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -546,6 +635,10 @@
         "object": "Caliper Entity",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.caliper-core.caliper_entity",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -563,7 +656,10 @@
             "object": "Caliper Entity",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "entity_iri",
@@ -581,7 +677,10 @@
             "object": "Caliper Entity",
             "field": "entityIri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.entity_iri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "entity_type",
@@ -600,7 +699,10 @@
             "object": "Caliper Entity",
             "field": "entityType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.entity_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "name",
@@ -618,7 +720,10 @@
             "object": "Caliper Entity",
             "field": "name",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.name",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -636,7 +741,10 @@
             "object": "Caliper Entity",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "date_created",
@@ -654,7 +762,10 @@
             "object": "Caliper Entity",
             "field": "dateCreated",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.date_created",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "date_modified",
@@ -672,7 +783,10 @@
             "object": "Caliper Entity",
             "field": "dateModified",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.date_modified",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "other_identifiers",
@@ -690,7 +804,10 @@
             "object": "Caliper Entity",
             "field": "otherIdentifiers",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.other_identifiers",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "extensions",
@@ -708,7 +825,10 @@
             "object": "Caliper Entity",
             "field": "extensions",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.extensions",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "canonical_person_id",
@@ -726,7 +846,10 @@
             "object": "Caliper Entity",
             "field": "canonicalPersonId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.canonical_person_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "canonical_resource_id",
@@ -744,7 +867,10 @@
             "object": "Caliper Entity",
             "field": "canonicalResourceId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_entity.canonical_resource_id",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -762,6 +888,10 @@
         "object": "Caliper Actor",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.identity.person",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-001-person-agent-subject",
       "fields": [
         {
           "field_key": "id",
@@ -779,7 +909,10 @@
             "object": "Caliper Actor",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "entity_id",
@@ -797,7 +930,10 @@
             "object": "Caliper Actor",
             "field": "entityId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.entity_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "actor_type",
@@ -816,7 +952,10 @@
             "object": "Caliper Actor",
             "field": "actorType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.actor_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "platform_person_id",
@@ -834,7 +973,10 @@
             "object": "Caliper Actor",
             "field": "platformPersonId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.platform_person_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "display_name",
@@ -852,7 +994,10 @@
             "object": "Caliper Actor",
             "field": "displayName",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.display_name",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier_type",
@@ -871,7 +1016,10 @@
             "object": "Caliper Actor",
             "field": "identifierType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.identifier_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier_value",
@@ -889,7 +1037,10 @@
             "object": "Caliper Actor",
             "field": "identifierValue",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.identifier_value",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "resolution_status",
@@ -908,7 +1059,10 @@
             "object": "Caliper Actor",
             "field": "resolutionStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_actor.resolution_status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -926,6 +1080,10 @@
         "object": "Caliper Context",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.caliper-core.caliper_context",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -943,7 +1101,10 @@
             "object": "Caliper Context",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "event_id",
@@ -961,7 +1122,10 @@
             "object": "Caliper Context",
             "field": "eventId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.event_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "group_entity_id",
@@ -979,7 +1143,10 @@
             "object": "Caliper Context",
             "field": "groupEntityId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.group_entity_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "membership_entity_id",
@@ -997,7 +1164,10 @@
             "object": "Caliper Context",
             "field": "membershipEntityId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.membership_entity_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "membership_role",
@@ -1016,7 +1186,10 @@
             "object": "Caliper Context",
             "field": "membershipRole",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.membership_role",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "membership_status",
@@ -1035,7 +1208,10 @@
             "object": "Caliper Context",
             "field": "membershipStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.membership_status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "session_entity_id",
@@ -1053,7 +1229,10 @@
             "object": "Caliper Context",
             "field": "sessionEntityId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.session_entity_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "federated_session_entity_id",
@@ -1071,7 +1250,10 @@
             "object": "Caliper Context",
             "field": "federatedSessionEntityId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.federated_session_entity_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "lti_message_type",
@@ -1090,7 +1272,10 @@
             "object": "Caliper Context",
             "field": "ltiMessageType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.lti_message_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "lti_platform_id",
@@ -1108,7 +1293,10 @@
             "object": "Caliper Context",
             "field": "ltiPlatformId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.lti_platform_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "lti_deployment_id",
@@ -1126,7 +1314,10 @@
             "object": "Caliper Context",
             "field": "ltiDeploymentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.lti_deployment_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "lti_context_id",
@@ -1144,7 +1335,10 @@
             "object": "Caliper Context",
             "field": "ltiContextId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_context.lti_context_id",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1162,6 +1356,10 @@
         "object": "Caliper Profile Rule",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.caliper-core.caliper_profile_rule",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1179,7 +1377,10 @@
             "object": "Caliper Profile Rule",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "profile",
@@ -1198,7 +1399,10 @@
             "object": "Caliper Profile Rule",
             "field": "profile",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.profile",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "event_type",
@@ -1217,7 +1421,10 @@
             "object": "Caliper Profile Rule",
             "field": "eventType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.event_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "actor_type",
@@ -1236,7 +1443,10 @@
             "object": "Caliper Profile Rule",
             "field": "actorType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.actor_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "allowed_action",
@@ -1255,7 +1465,10 @@
             "object": "Caliper Profile Rule",
             "field": "allowedAction",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.allowed_action",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "object_type",
@@ -1274,7 +1487,10 @@
             "object": "Caliper Profile Rule",
             "field": "objectType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.object_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "generated_or_target_type",
@@ -1292,7 +1508,10 @@
             "object": "Caliper Profile Rule",
             "field": "generatedOrTargetType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.generated_or_target_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "platform_guidance",
@@ -1310,7 +1529,10 @@
             "object": "Caliper Profile Rule",
             "field": "platformGuidance",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_profile_rule.platform_guidance",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1328,6 +1550,10 @@
         "object": "Caliper Extension",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.caliper-core.caliper_extension",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1345,7 +1571,10 @@
             "object": "Caliper Extension",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_type",
@@ -1364,7 +1593,10 @@
             "object": "Caliper Extension",
             "field": "ownerType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.owner_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_id",
@@ -1382,7 +1614,10 @@
             "object": "Caliper Extension",
             "field": "ownerId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.owner_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "namespace",
@@ -1400,7 +1635,10 @@
             "object": "Caliper Extension",
             "field": "namespace",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.namespace",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "extension_key",
@@ -1418,7 +1656,10 @@
             "object": "Caliper Extension",
             "field": "extensionKey",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.extension_key",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "extension_value",
@@ -1436,7 +1677,10 @@
             "object": "Caliper Extension",
             "field": "extensionValue",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.extension_value",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "privacy_classification",
@@ -1455,7 +1699,10 @@
             "object": "Caliper Extension",
             "field": "privacyClassification",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.privacy_classification",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "allowed_by_policy",
@@ -1473,7 +1720,10 @@
             "object": "Caliper Extension",
             "field": "allowedByPolicy",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.caliper-core.caliper_extension.allowed_by_policy",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     }

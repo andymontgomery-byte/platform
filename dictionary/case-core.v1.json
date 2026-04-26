@@ -21,6 +21,10 @@
         "object": "CASE Package",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_package",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -38,7 +42,10 @@
             "object": "CASE Package",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_package.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -56,7 +63,10 @@
             "object": "CASE Package",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_package.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_system",
@@ -74,7 +84,10 @@
             "object": "CASE Package",
             "field": "sourceSystem",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_package.source_system",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "package_uri",
@@ -92,7 +105,10 @@
             "object": "CASE Package",
             "field": "packageUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_package.package_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "imported_at",
@@ -110,7 +126,10 @@
             "object": "CASE Package",
             "field": "importedAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_package.imported_at",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "validation_status",
@@ -129,7 +148,10 @@
             "object": "CASE Package",
             "field": "validationStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_package.validation_status",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -147,6 +169,10 @@
         "object": "CASE Framework Document",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_document",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -164,7 +190,10 @@
             "object": "CASE Framework Document",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -182,7 +211,10 @@
             "object": "CASE Framework Document",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -200,7 +232,10 @@
             "object": "CASE Framework Document",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "framework_type",
@@ -219,7 +254,10 @@
             "object": "CASE Framework Document",
             "field": "frameworkType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.framework_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "case_version",
@@ -238,7 +276,10 @@
             "object": "CASE Framework Document",
             "field": "caseVersion",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.case_version",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "creator",
@@ -256,7 +297,10 @@
             "object": "CASE Framework Document",
             "field": "creator",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.creator",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -274,7 +318,10 @@
             "object": "CASE Framework Document",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -292,7 +339,10 @@
             "object": "CASE Framework Document",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "subject",
@@ -310,7 +360,10 @@
             "object": "CASE Framework Document",
             "field": "subject",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.subject",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "language",
@@ -328,7 +381,10 @@
             "object": "CASE Framework Document",
             "field": "language",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.language",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "publisher_version",
@@ -346,7 +402,10 @@
             "object": "CASE Framework Document",
             "field": "publisherVersion",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.publisher_version",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "adoption_status",
@@ -365,7 +424,10 @@
             "object": "CASE Framework Document",
             "field": "adoptionStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.adoption_status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "official_source_url",
@@ -383,7 +445,10 @@
             "object": "CASE Framework Document",
             "field": "officialSourceUrl",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.official_source_url",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "license_uri",
@@ -401,7 +466,10 @@
             "object": "CASE Framework Document",
             "field": "licenseUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.license_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -419,7 +487,10 @@
             "object": "CASE Framework Document",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_document.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -437,6 +508,10 @@
         "object": "CASE Framework Item",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_item",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -454,7 +529,10 @@
             "object": "CASE Framework Item",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -472,7 +550,10 @@
             "object": "CASE Framework Item",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -490,7 +571,10 @@
             "object": "CASE Framework Item",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -508,7 +592,10 @@
             "object": "CASE Framework Item",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "human_coding_scheme",
@@ -526,7 +613,10 @@
             "object": "CASE Framework Item",
             "field": "humanCodingScheme",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.human_coding_scheme",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "full_statement",
@@ -544,7 +634,10 @@
             "object": "CASE Framework Item",
             "field": "fullStatement",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.full_statement",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "abbreviated_statement",
@@ -562,7 +655,10 @@
             "object": "CASE Framework Item",
             "field": "abbreviatedStatement",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.abbreviated_statement",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "alternative_label",
@@ -580,7 +676,10 @@
             "object": "CASE Framework Item",
             "field": "alternativeLabel",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.alternative_label",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_type",
@@ -599,7 +698,10 @@
             "object": "CASE Framework Item",
             "field": "itemType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.item_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_type_uri",
@@ -617,7 +719,10 @@
             "object": "CASE Framework Item",
             "field": "itemTypeUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.item_type_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "concept_keywords",
@@ -635,7 +740,10 @@
             "object": "CASE Framework Item",
             "field": "conceptKeywords",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.concept_keywords",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "subject",
@@ -653,7 +761,10 @@
             "object": "CASE Framework Item",
             "field": "subject",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.subject",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "education_level",
@@ -671,7 +782,10 @@
             "object": "CASE Framework Item",
             "field": "educationLevel",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.education_level",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "list_enumeration",
@@ -689,7 +803,10 @@
             "object": "CASE Framework Item",
             "field": "listEnumeration",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.list_enumeration",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "license_uri",
@@ -707,7 +824,10 @@
             "object": "CASE Framework Item",
             "field": "licenseUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.license_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -725,7 +845,10 @@
             "object": "CASE Framework Item",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -743,6 +866,10 @@
         "object": "CASE Association",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_association",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -760,7 +887,10 @@
             "object": "CASE Association",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -778,7 +908,10 @@
             "object": "CASE Association",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -796,7 +929,10 @@
             "object": "CASE Association",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -814,7 +950,10 @@
             "object": "CASE Association",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "association_type",
@@ -833,7 +972,10 @@
             "object": "CASE Association",
             "field": "associationType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.association_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "origin_node_uri",
@@ -851,7 +993,10 @@
             "object": "CASE Association",
             "field": "originNodeUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.origin_node_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "destination_node_uri",
@@ -869,7 +1014,10 @@
             "object": "CASE Association",
             "field": "destinationNodeUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.destination_node_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "sequence_number",
@@ -887,7 +1035,10 @@
             "object": "CASE Association",
             "field": "sequenceNumber",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.sequence_number",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "association_grouping_uri",
@@ -905,7 +1056,10 @@
             "object": "CASE Association",
             "field": "associationGroupingUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.association_grouping_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "notes",
@@ -923,7 +1077,10 @@
             "object": "CASE Association",
             "field": "notes",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.notes",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -941,7 +1098,10 @@
             "object": "CASE Association",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -959,6 +1119,10 @@
         "object": "CASE Definition Set",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_definition",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -976,7 +1140,10 @@
             "object": "CASE Definition Set",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_definition.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -994,7 +1161,10 @@
             "object": "CASE Definition Set",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_definition.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "concept_count",
@@ -1012,7 +1182,10 @@
             "object": "CASE Definition Set",
             "field": "conceptCount",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_definition.concept_count",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "subject_count",
@@ -1030,7 +1203,10 @@
             "object": "CASE Definition Set",
             "field": "subjectCount",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_definition.subject_count",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_type_count",
@@ -1048,7 +1224,10 @@
             "object": "CASE Definition Set",
             "field": "itemTypeCount",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_definition.item_type_count",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "license_count",
@@ -1066,7 +1245,10 @@
             "object": "CASE Definition Set",
             "field": "licenseCount",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_definition.license_count",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1084,6 +1266,10 @@
         "object": "CASE Concept",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_concept",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1101,7 +1287,10 @@
             "object": "CASE Concept",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -1119,7 +1308,10 @@
             "object": "CASE Concept",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1137,7 +1329,10 @@
             "object": "CASE Concept",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -1155,7 +1350,10 @@
             "object": "CASE Concept",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1173,7 +1371,10 @@
             "object": "CASE Concept",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "keywords",
@@ -1191,7 +1392,10 @@
             "object": "CASE Concept",
             "field": "keywords",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.keywords",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "hierarchy_code",
@@ -1209,7 +1413,10 @@
             "object": "CASE Concept",
             "field": "hierarchyCode",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.hierarchy_code",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -1227,7 +1434,10 @@
             "object": "CASE Concept",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -1245,7 +1455,10 @@
             "object": "CASE Concept",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_concept.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1263,6 +1476,10 @@
         "object": "CASE Subject",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_subject",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1280,7 +1497,10 @@
             "object": "CASE Subject",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -1298,7 +1518,10 @@
             "object": "CASE Subject",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1316,7 +1539,10 @@
             "object": "CASE Subject",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -1334,7 +1560,10 @@
             "object": "CASE Subject",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1352,7 +1581,10 @@
             "object": "CASE Subject",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "hierarchy_code",
@@ -1370,7 +1602,10 @@
             "object": "CASE Subject",
             "field": "hierarchyCode",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.hierarchy_code",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -1388,7 +1623,10 @@
             "object": "CASE Subject",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -1406,7 +1644,10 @@
             "object": "CASE Subject",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_subject.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1424,6 +1665,10 @@
         "object": "CASE Item Type",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_item_type",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1441,7 +1686,10 @@
             "object": "CASE Item Type",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -1459,7 +1707,10 @@
             "object": "CASE Item Type",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1477,7 +1728,10 @@
             "object": "CASE Item Type",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -1495,7 +1749,10 @@
             "object": "CASE Item Type",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1513,7 +1770,10 @@
             "object": "CASE Item Type",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -1531,7 +1791,10 @@
             "object": "CASE Item Type",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "hierarchy_code",
@@ -1549,7 +1812,10 @@
             "object": "CASE Item Type",
             "field": "hierarchyCode",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.hierarchy_code",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "type_code",
@@ -1568,7 +1834,10 @@
             "object": "CASE Item Type",
             "field": "typeCode",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.type_code",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -1586,7 +1855,10 @@
             "object": "CASE Item Type",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_item_type.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1604,6 +1876,10 @@
         "object": "CASE License",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_license",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1621,7 +1897,10 @@
             "object": "CASE License",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -1639,7 +1918,10 @@
             "object": "CASE License",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1657,7 +1939,10 @@
             "object": "CASE License",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -1675,7 +1960,10 @@
             "object": "CASE License",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1693,7 +1981,10 @@
             "object": "CASE License",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -1711,7 +2002,10 @@
             "object": "CASE License",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "license_text",
@@ -1729,7 +2023,10 @@
             "object": "CASE License",
             "field": "licenseText",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.license_text",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -1747,7 +2044,10 @@
             "object": "CASE License",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_license.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1765,6 +2065,10 @@
         "object": "CASE Association Grouping",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_association_grouping",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1782,7 +2086,10 @@
             "object": "CASE Association Grouping",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association_grouping.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -1800,7 +2107,10 @@
             "object": "CASE Association Grouping",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association_grouping.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1818,7 +2128,10 @@
             "object": "CASE Association Grouping",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association_grouping.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -1836,7 +2149,10 @@
             "object": "CASE Association Grouping",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association_grouping.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1854,7 +2170,10 @@
             "object": "CASE Association Grouping",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association_grouping.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -1872,7 +2191,10 @@
             "object": "CASE Association Grouping",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association_grouping.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -1890,7 +2212,10 @@
             "object": "CASE Association Grouping",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_association_grouping.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1908,6 +2233,10 @@
         "object": "CASE Rubric",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_rubric",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1925,7 +2254,10 @@
             "object": "CASE Rubric",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "document_id",
@@ -1943,7 +2275,10 @@
             "object": "CASE Rubric",
             "field": "documentId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric.document_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1961,7 +2296,10 @@
             "object": "CASE Rubric",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -1979,7 +2317,10 @@
             "object": "CASE Rubric",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1997,7 +2338,10 @@
             "object": "CASE Rubric",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -2015,7 +2359,10 @@
             "object": "CASE Rubric",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -2033,7 +2380,10 @@
             "object": "CASE Rubric",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2051,6 +2401,10 @@
         "object": "CASE Rubric Criterion",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_rubric_criterion",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2068,7 +2422,10 @@
             "object": "CASE Rubric Criterion",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "rubric_id",
@@ -2086,7 +2443,10 @@
             "object": "CASE Rubric Criterion",
             "field": "rubricId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.rubric_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -2104,7 +2464,10 @@
             "object": "CASE Rubric Criterion",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -2122,7 +2485,10 @@
             "object": "CASE Rubric Criterion",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "category",
@@ -2140,7 +2506,10 @@
             "object": "CASE Rubric Criterion",
             "field": "category",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.category",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -2158,7 +2527,10 @@
             "object": "CASE Rubric Criterion",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "case_item_uri",
@@ -2176,7 +2548,10 @@
             "object": "CASE Rubric Criterion",
             "field": "caseItemUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.case_item_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "weight",
@@ -2194,7 +2569,10 @@
             "object": "CASE Rubric Criterion",
             "field": "weight",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.weight",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "position",
@@ -2212,7 +2590,10 @@
             "object": "CASE Rubric Criterion",
             "field": "position",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.position",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -2230,7 +2611,10 @@
             "object": "CASE Rubric Criterion",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2248,6 +2632,10 @@
         "object": "CASE Rubric Criterion Level",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_rubric_criterion_level",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2265,7 +2653,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "criterion_id",
@@ -2283,7 +2674,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "criterionId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.criterion_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -2301,7 +2695,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "uri",
@@ -2319,7 +2716,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "uri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "quality",
@@ -2338,7 +2738,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "quality",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.quality",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "description",
@@ -2356,7 +2759,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "description",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "score",
@@ -2374,7 +2780,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "score",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.score",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "feedback",
@@ -2392,7 +2801,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "feedback",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.feedback",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "position",
@@ -2410,7 +2822,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "position",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.position",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "last_change_date_time",
@@ -2428,7 +2843,10 @@
             "object": "CASE Rubric Criterion Level",
             "field": "lastChangeDateTime",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.last_change_date_time",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2446,6 +2864,10 @@
         "object": "CASE API Status",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.case-core.case_api_status",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2463,7 +2885,10 @@
             "object": "CASE API Status",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_api_status.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "operation_id",
@@ -2481,7 +2906,10 @@
             "object": "CASE API Status",
             "field": "operationId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_api_status.operation_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "imsx_code_major",
@@ -2500,7 +2928,10 @@
             "object": "CASE API Status",
             "field": "imsxCodeMajor",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_api_status.imsx_code_major",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "imsx_severity",
@@ -2519,7 +2950,10 @@
             "object": "CASE API Status",
             "field": "imsxSeverity",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_api_status.imsx_severity",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "imsx_description",
@@ -2537,7 +2971,10 @@
             "object": "CASE API Status",
             "field": "imsxDescription",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_api_status.imsx_description",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "imsx_code_minor",
@@ -2555,7 +2992,10 @@
             "object": "CASE API Status",
             "field": "imsxCodeMinor",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.case-core.case_api_status.imsx_code_minor",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     }

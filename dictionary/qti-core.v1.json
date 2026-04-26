@@ -21,6 +21,10 @@
         "object": "QTI package manifest",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_package",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -38,7 +42,10 @@
             "object": "QTI package manifest",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "package_identifier",
@@ -56,7 +63,10 @@
             "object": "QTI package manifest",
             "field": "packageIdentifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.package_identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "qti_version",
@@ -75,7 +85,10 @@
             "object": "QTI package manifest",
             "field": "qtiVersion",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.qti_version",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_system",
@@ -93,7 +106,10 @@
             "object": "QTI package manifest",
             "field": "sourceSystem",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.source_system",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "validation_status",
@@ -112,7 +128,10 @@
             "object": "QTI package manifest",
             "field": "validationStatus",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.validation_status",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "validation_error_count",
@@ -130,7 +149,10 @@
             "object": "QTI package manifest",
             "field": "validationErrorCount",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.validation_error_count",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "manifest_path",
@@ -148,7 +170,10 @@
             "object": "QTI package manifest",
             "field": "manifestPath",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.manifest_path",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "original_file_uri",
@@ -166,7 +191,10 @@
             "object": "QTI package manifest",
             "field": "originalFileUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.original_file_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "imported_at",
@@ -184,7 +212,10 @@
             "object": "QTI package manifest",
             "field": "importedAt",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package.imported_at",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -202,6 +233,10 @@
         "object": "AssessmentItem",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_assessment_item",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -219,7 +254,10 @@
             "object": "AssessmentItem",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "package_id",
@@ -237,7 +275,10 @@
             "object": "AssessmentItem",
             "field": "packageId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.package_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -255,7 +296,10 @@
             "object": "AssessmentItem",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -273,7 +317,10 @@
             "object": "AssessmentItem",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "label",
@@ -291,7 +338,10 @@
             "object": "AssessmentItem",
             "field": "label",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.label",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "language",
@@ -309,7 +359,10 @@
             "object": "AssessmentItem",
             "field": "language",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.language",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "authoring_tool_name",
@@ -327,7 +380,10 @@
             "object": "AssessmentItem",
             "field": "authoringToolName",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.authoring_tool_name",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "authoring_tool_version",
@@ -345,7 +401,10 @@
             "object": "AssessmentItem",
             "field": "authoringToolVersion",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.authoring_tool_version",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "adaptive",
@@ -364,7 +423,10 @@
             "object": "AssessmentItem",
             "field": "adaptive",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.adaptive",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "time_dependent",
@@ -383,7 +445,10 @@
             "object": "AssessmentItem",
             "field": "timeDependent",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.time_dependent",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_body_summary",
@@ -401,7 +466,10 @@
             "object": "AssessmentItem",
             "field": "itemBodySummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.item_body_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "primary_interaction_type",
@@ -420,7 +488,10 @@
             "object": "AssessmentItem",
             "field": "primaryInteractionType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.primary_interaction_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "max_score",
@@ -438,7 +509,10 @@
             "object": "AssessmentItem",
             "field": "maxScore",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.max_score",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "has_correct_response",
@@ -457,7 +531,10 @@
             "object": "AssessmentItem",
             "field": "hasCorrectResponse",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.has_correct_response",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "accessibility_catalog_id",
@@ -475,7 +552,10 @@
             "object": "AssessmentItem",
             "field": "accessibilityCatalogId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.accessibility_catalog_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_href",
@@ -493,7 +573,10 @@
             "object": "AssessmentItem",
             "field": "sourceHref",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_item.source_href",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -511,6 +594,10 @@
         "object": "AssessmentStimulus",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_assessment_stimulus",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -528,7 +615,10 @@
             "object": "AssessmentStimulus",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "package_id",
@@ -546,7 +636,10 @@
             "object": "AssessmentStimulus",
             "field": "packageId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.package_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -564,7 +657,10 @@
             "object": "AssessmentStimulus",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -582,7 +678,10 @@
             "object": "AssessmentStimulus",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "language",
@@ -600,7 +699,10 @@
             "object": "AssessmentStimulus",
             "field": "language",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.language",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "stimulus_body_summary",
@@ -618,7 +720,10 @@
             "object": "AssessmentStimulus",
             "field": "stimulusBodySummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.stimulus_body_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "accessibility_catalog_id",
@@ -636,7 +741,10 @@
             "object": "AssessmentStimulus",
             "field": "accessibilityCatalogId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.accessibility_catalog_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_href",
@@ -654,7 +762,10 @@
             "object": "AssessmentStimulus",
             "field": "sourceHref",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_stimulus.source_href",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -672,6 +783,10 @@
         "object": "AssessmentTest",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_assessment_test",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -689,7 +804,10 @@
             "object": "AssessmentTest",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "package_id",
@@ -707,7 +825,10 @@
             "object": "AssessmentTest",
             "field": "packageId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.package_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -725,7 +846,10 @@
             "object": "AssessmentTest",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -743,7 +867,10 @@
             "object": "AssessmentTest",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "class_tokens",
@@ -761,7 +888,10 @@
             "object": "AssessmentTest",
             "field": "classTokens",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.class_tokens",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "authoring_tool_name",
@@ -779,7 +909,10 @@
             "object": "AssessmentTest",
             "field": "authoringToolName",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.authoring_tool_name",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "authoring_tool_version",
@@ -797,7 +930,10 @@
             "object": "AssessmentTest",
             "field": "authoringToolVersion",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.authoring_tool_version",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "time_limit_seconds",
@@ -815,7 +951,10 @@
             "object": "AssessmentTest",
             "field": "timeLimitSeconds",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.time_limit_seconds",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "outcome_processing_summary",
@@ -833,7 +972,10 @@
             "object": "AssessmentTest",
             "field": "outcomeProcessingSummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.outcome_processing_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_href",
@@ -851,7 +993,10 @@
             "object": "AssessmentTest",
             "field": "sourceHref",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_test.source_href",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -869,6 +1014,10 @@
         "object": "TestPart",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_test_part",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -886,7 +1035,10 @@
             "object": "TestPart",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "test_id",
@@ -904,7 +1056,10 @@
             "object": "TestPart",
             "field": "testId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.test_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -922,7 +1077,10 @@
             "object": "TestPart",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -940,7 +1098,10 @@
             "object": "TestPart",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "navigation_mode",
@@ -959,7 +1120,10 @@
             "object": "TestPart",
             "field": "navigationMode",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.navigation_mode",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "submission_mode",
@@ -978,7 +1142,10 @@
             "object": "TestPart",
             "field": "submissionMode",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.submission_mode",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "max_time_seconds",
@@ -996,7 +1163,10 @@
             "object": "TestPart",
             "field": "maxTimeSeconds",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.max_time_seconds",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_session_control_id",
@@ -1014,7 +1184,10 @@
             "object": "TestPart",
             "field": "itemSessionControlId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_test_part.item_session_control_id",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1032,6 +1205,10 @@
         "object": "AssessmentSection",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_assessment_section",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1049,7 +1226,10 @@
             "object": "AssessmentSection",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "test_id",
@@ -1067,7 +1247,10 @@
             "object": "AssessmentSection",
             "field": "testId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.test_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "parent_section_id",
@@ -1085,7 +1268,10 @@
             "object": "AssessmentSection",
             "field": "parentSectionId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.parent_section_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1103,7 +1289,10 @@
             "object": "AssessmentSection",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -1121,7 +1310,10 @@
             "object": "AssessmentSection",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "required_in_selection",
@@ -1140,7 +1332,10 @@
             "object": "AssessmentSection",
             "field": "requiredInSelection",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.required_in_selection",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "fixed_in_shuffle",
@@ -1159,7 +1354,10 @@
             "object": "AssessmentSection",
             "field": "fixedInShuffle",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.fixed_in_shuffle",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "visible_to_candidate",
@@ -1178,7 +1376,10 @@
             "object": "AssessmentSection",
             "field": "visibleToCandidate",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.visible_to_candidate",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "keep_together",
@@ -1197,7 +1398,10 @@
             "object": "AssessmentSection",
             "field": "keepTogether",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.keep_together",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "selection_count",
@@ -1215,7 +1419,10 @@
             "object": "AssessmentSection",
             "field": "selectionCount",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.selection_count",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "ordering_shuffle",
@@ -1234,7 +1441,10 @@
             "object": "AssessmentSection",
             "field": "orderingShuffle",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_assessment_section.ordering_shuffle",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1252,6 +1462,10 @@
         "object": "AssessmentItemRef",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_item_ref",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1269,7 +1483,10 @@
             "object": "AssessmentItemRef",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "section_id",
@@ -1287,7 +1504,10 @@
             "object": "AssessmentItemRef",
             "field": "sectionId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.section_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_id",
@@ -1305,7 +1525,10 @@
             "object": "AssessmentItemRef",
             "field": "itemId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.item_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1323,7 +1546,10 @@
             "object": "AssessmentItemRef",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "href",
@@ -1341,7 +1567,10 @@
             "object": "AssessmentItemRef",
             "field": "href",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.href",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "required_in_selection",
@@ -1360,7 +1589,10 @@
             "object": "AssessmentItemRef",
             "field": "requiredInSelection",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.required_in_selection",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "fixed_in_shuffle",
@@ -1379,7 +1611,10 @@
             "object": "AssessmentItemRef",
             "field": "fixedInShuffle",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.fixed_in_shuffle",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "category",
@@ -1397,7 +1632,10 @@
             "object": "AssessmentItemRef",
             "field": "category",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.category",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "weight",
@@ -1415,7 +1653,10 @@
             "object": "AssessmentItemRef",
             "field": "weight",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.weight",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "time_limit_seconds",
@@ -1433,7 +1674,10 @@
             "object": "AssessmentItemRef",
             "field": "timeLimitSeconds",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_item_ref.time_limit_seconds",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1451,6 +1695,10 @@
         "object": "Response/Outcome/Template/ContextDeclaration",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_variable_declaration",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1468,7 +1716,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_object_type",
@@ -1487,7 +1738,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "ownerObjectType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.owner_object_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_id",
@@ -1505,7 +1759,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "ownerId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.owner_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "declaration_kind",
@@ -1524,7 +1781,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "declarationKind",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.declaration_kind",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "identifier",
@@ -1542,7 +1802,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "identifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "cardinality",
@@ -1561,7 +1824,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "cardinality",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.cardinality",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "base_type",
@@ -1580,7 +1846,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "baseType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.base_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "default_value_summary",
@@ -1598,7 +1867,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "defaultValueSummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.default_value_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "correct_response_summary",
@@ -1616,7 +1888,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "correctResponseSummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.correct_response_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "mapping_summary",
@@ -1634,7 +1909,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "mappingSummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.mapping_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "view",
@@ -1653,7 +1931,10 @@
             "object": "Response/Outcome/Template/ContextDeclaration",
             "field": "view",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_variable_declaration.view",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1671,6 +1952,10 @@
         "object": "ItemBody interaction objects",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_interaction",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1688,7 +1973,10 @@
             "object": "ItemBody interaction objects",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_id",
@@ -1706,7 +1994,10 @@
             "object": "ItemBody interaction objects",
             "field": "itemId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.item_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "response_identifier",
@@ -1724,7 +2015,10 @@
             "object": "ItemBody interaction objects",
             "field": "responseIdentifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.response_identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "interaction_type",
@@ -1743,7 +2037,10 @@
             "object": "ItemBody interaction objects",
             "field": "interactionType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.interaction_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "prompt_summary",
@@ -1761,7 +2058,10 @@
             "object": "ItemBody interaction objects",
             "field": "promptSummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.prompt_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "shuffle",
@@ -1780,7 +2080,10 @@
             "object": "ItemBody interaction objects",
             "field": "shuffle",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.shuffle",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "min_choices",
@@ -1798,7 +2101,10 @@
             "object": "ItemBody interaction objects",
             "field": "minChoices",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.min_choices",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "max_choices",
@@ -1816,7 +2122,10 @@
             "object": "ItemBody interaction objects",
             "field": "maxChoices",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.max_choices",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "min_associations",
@@ -1834,7 +2143,10 @@
             "object": "ItemBody interaction objects",
             "field": "minAssociations",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.min_associations",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "max_associations",
@@ -1852,7 +2164,10 @@
             "object": "ItemBody interaction objects",
             "field": "maxAssociations",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.max_associations",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "orientation",
@@ -1871,7 +2186,10 @@
             "object": "ItemBody interaction objects",
             "field": "orientation",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.orientation",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "expected_length",
@@ -1889,7 +2207,10 @@
             "object": "ItemBody interaction objects",
             "field": "expectedLength",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.expected_length",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "text_format",
@@ -1908,7 +2229,10 @@
             "object": "ItemBody interaction objects",
             "field": "textFormat",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.text_format",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "shape",
@@ -1927,7 +2251,10 @@
             "object": "ItemBody interaction objects",
             "field": "shape",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_interaction.shape",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -1945,6 +2272,10 @@
         "object": "Response/Outcome/Template processing rules",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_processing_rule",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -1962,7 +2293,10 @@
             "object": "Response/Outcome/Template processing rules",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_processing_rule.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_object_type",
@@ -1981,7 +2315,10 @@
             "object": "Response/Outcome/Template processing rules",
             "field": "ownerObjectType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_processing_rule.owner_object_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_id",
@@ -1999,7 +2336,10 @@
             "object": "Response/Outcome/Template processing rules",
             "field": "ownerId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_processing_rule.owner_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "processing_kind",
@@ -2018,7 +2358,10 @@
             "object": "Response/Outcome/Template processing rules",
             "field": "processingKind",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_processing_rule.processing_kind",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "template_uri",
@@ -2036,7 +2379,10 @@
             "object": "Response/Outcome/Template processing rules",
             "field": "templateUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_processing_rule.template_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "target_identifier",
@@ -2054,7 +2400,10 @@
             "object": "Response/Outcome/Template processing rules",
             "field": "targetIdentifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_processing_rule.target_identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "logic_summary",
@@ -2072,7 +2421,10 @@
             "object": "Response/Outcome/Template processing rules",
             "field": "logicSummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_processing_rule.logic_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2090,6 +2442,10 @@
         "object": "ModalFeedback/TestFeedback/RubricBlock",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_feedback",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2107,7 +2463,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_object_type",
@@ -2126,7 +2485,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "ownerObjectType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.owner_object_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_id",
@@ -2144,7 +2506,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "ownerId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.owner_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "feedback_kind",
@@ -2163,7 +2528,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "feedbackKind",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.feedback_kind",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "outcome_identifier",
@@ -2181,7 +2549,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "outcomeIdentifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.outcome_identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "show_hide",
@@ -2200,7 +2571,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "showHide",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.show_hide",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "feedback_identifier",
@@ -2218,7 +2592,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "feedbackIdentifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.feedback_identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -2236,7 +2613,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "access",
@@ -2255,7 +2635,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "access",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.access",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "rubric_use",
@@ -2274,7 +2657,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "rubricUse",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.rubric_use",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "view",
@@ -2293,7 +2679,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "view",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.view",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "body_summary",
@@ -2311,7 +2700,10 @@
             "object": "ModalFeedback/TestFeedback/RubricBlock",
             "field": "bodySummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_feedback.body_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2329,6 +2721,10 @@
         "object": "CatalogInfo and accessibility support",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_accessibility_support",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2346,7 +2742,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_object_type",
@@ -2365,7 +2764,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "ownerObjectType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.owner_object_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_id",
@@ -2383,7 +2785,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "ownerId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.owner_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "support_type",
@@ -2402,7 +2807,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "supportType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.support_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "catalog_idref",
@@ -2420,7 +2828,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "catalogIdref",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.catalog_idref",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "tts_suppression",
@@ -2439,7 +2850,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "ttsSuppression",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.tts_suppression",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "content_summary",
@@ -2457,7 +2871,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "contentSummary",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.content_summary",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "sensitive",
@@ -2476,7 +2893,10 @@
             "object": "CatalogInfo and accessibility support",
             "field": "sensitive",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_accessibility_support.sensitive",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2494,6 +2914,10 @@
         "object": "CompanionMaterialsInfo",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_companion_material",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2511,7 +2935,10 @@
             "object": "CompanionMaterialsInfo",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_companion_material.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "item_id",
@@ -2529,7 +2956,10 @@
             "object": "CompanionMaterialsInfo",
             "field": "itemId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_companion_material.item_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "material_type",
@@ -2548,7 +2978,10 @@
             "object": "CompanionMaterialsInfo",
             "field": "materialType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_companion_material.material_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "calculator_type",
@@ -2567,7 +3000,10 @@
             "object": "CompanionMaterialsInfo",
             "field": "calculatorType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_companion_material.calculator_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "title",
@@ -2585,7 +3021,10 @@
             "object": "CompanionMaterialsInfo",
             "field": "title",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_companion_material.title",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "required_for_delivery",
@@ -2604,7 +3043,10 @@
             "object": "CompanionMaterialsInfo",
             "field": "requiredForDelivery",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_companion_material.required_for_delivery",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "material_uri",
@@ -2622,7 +3064,10 @@
             "object": "CompanionMaterialsInfo",
             "field": "materialUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_companion_material.material_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2640,6 +3085,10 @@
         "object": "QTI metadata alignment",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_alignment",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2657,7 +3106,10 @@
             "object": "QTI metadata alignment",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_alignment.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_object_type",
@@ -2676,7 +3128,10 @@
             "object": "QTI metadata alignment",
             "field": "ownerObjectType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_alignment.owner_object_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "owner_id",
@@ -2694,7 +3149,10 @@
             "object": "QTI metadata alignment",
             "field": "ownerId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_alignment.owner_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "target_type",
@@ -2713,7 +3171,10 @@
             "object": "QTI metadata alignment",
             "field": "targetType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_alignment.target_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "target_identifier",
@@ -2731,7 +3192,10 @@
             "object": "QTI metadata alignment",
             "field": "targetIdentifier",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_alignment.target_identifier",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "alignment_label",
@@ -2749,7 +3213,10 @@
             "object": "QTI metadata alignment",
             "field": "alignmentLabel",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_alignment.alignment_label",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "source_metadata_uri",
@@ -2767,7 +3234,10 @@
             "object": "QTI metadata alignment",
             "field": "sourceMetadataUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_alignment.source_metadata_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     },
@@ -2785,6 +3255,10 @@
         "object": "QTI package resource",
         "coverage": "mapped"
       },
+      "canonical_object_id": "canonical.qti-core.qti_package_artifact",
+      "projection_kind": "direct",
+      "spec_only": false,
+      "decision_id": "DEC-016-dictionary-generation-direction",
       "fields": [
         {
           "field_key": "id",
@@ -2802,7 +3276,10 @@
             "object": "QTI package resource",
             "field": "id",
             "coverage": "platform_projection"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package_artifact.id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "package_id",
@@ -2820,7 +3297,10 @@
             "object": "QTI package resource",
             "field": "packageId",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package_artifact.package_id",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "href",
@@ -2838,7 +3318,10 @@
             "object": "QTI package resource",
             "field": "href",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package_artifact.href",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "media_type",
@@ -2856,7 +3339,10 @@
             "object": "QTI package resource",
             "field": "mediaType",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package_artifact.media_type",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "artifact_role",
@@ -2875,7 +3361,10 @@
             "object": "QTI package resource",
             "field": "artifactRole",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package_artifact.artifact_role",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "sha256",
@@ -2893,7 +3382,10 @@
             "object": "QTI package resource",
             "field": "sha256",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package_artifact.sha256",
+          "projection_kind": "direct",
+          "spec_only": false
         },
         {
           "field_key": "storage_uri",
@@ -2911,7 +3403,10 @@
             "object": "QTI package resource",
             "field": "storageUri",
             "coverage": "mapped"
-          }
+          },
+          "canonical_field_id": "canonical.qti-core.qti_package_artifact.storage_uri",
+          "projection_kind": "direct",
+          "spec_only": false
         }
       ]
     }

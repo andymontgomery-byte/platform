@@ -20,6 +20,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - Why not collapse: forcing every actor, tool client, issuer, sensor, and low-confidence credential subject into `public.people` would delete the `agent` distinction but create false roster people and expand tenant RLS/audit obligations for identities the school does not own.
   - Creates the constraint that APIs must expose identity confidence and source lineage when an actor is not certainly a known person.
 - projects_to:
+  - `data/data-dictionary.seed.json#canonical.identity.person`
   - `dictionary/oneroster-core.v1.json#person.display_name`
   - `dictionary/oneroster-core.v1.json#person.email`
   - `dictionary/caliper-core.v1.json#caliper_actor.identifier_value`
