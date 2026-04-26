@@ -172,6 +172,14 @@
           "dictionary_ref": "dictionary/integration-governance-core.v1.json#lti_launch.subject_id",
           "resolution": "subject_field_on_launch_event"
         }
+      ],
+      "spec_only_projections": [
+        {
+          "ref": "dictionary/qti-core.v1.json#qti_candidate",
+          "spec_only": true,
+          "decision_id": "DEC-012-runtime-coverage-per-spec",
+          "plain_description": "QTI 3 has no first-class Candidate object in the repository model the platform ships today. Per DEC-012 the QTI runtime delivery slice is deferred (PEND-001). When that slice ships, the canonical.identity.person object will gain a QTI candidate projection. Until then this is the explicit spec_only exception."
+        }
       ]
     }
   ],
@@ -608,7 +616,7 @@
       "fields": [
         {
           "field_key": "id",
-          "canonical_field_id": "canonical.oneroster-core.person.id",
+          "canonical_field_id": "canonical.identity.person.id",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/oneroster-core.v1.json",
@@ -633,7 +641,7 @@
         },
         {
           "field_key": "sourced_id",
-          "canonical_field_id": "canonical.oneroster-core.person.sourced_id",
+          "canonical_field_id": "canonical.identity.person.source_subject_id",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/oneroster-core.v1.json",
@@ -658,7 +666,7 @@
         },
         {
           "field_key": "display_name",
-          "canonical_field_id": "canonical.oneroster-core.person.display_name",
+          "canonical_field_id": "canonical.identity.person.display_name",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/oneroster-core.v1.json",
@@ -733,7 +741,7 @@
         },
         {
           "field_key": "email",
-          "canonical_field_id": "canonical.oneroster-core.person.email",
+          "canonical_field_id": "canonical.identity.person.email",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/oneroster-core.v1.json",
@@ -828,7 +836,8 @@
               "object": "User",
               "field": "roles.role",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.role_family"
           }
         },
         {
@@ -905,7 +914,8 @@
               "object": "User",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         },
         {
@@ -1228,7 +1238,8 @@
               "object": "AcademicSession",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         },
         {
@@ -1464,7 +1475,8 @@
               "object": "Course",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         },
         {
@@ -1776,7 +1788,8 @@
               "object": "Class",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         },
         {
@@ -2036,7 +2049,8 @@
               "object": "Enrollment",
               "field": "role",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.role_family"
           }
         },
         {
@@ -2138,7 +2152,8 @@
               "object": "Enrollment",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         },
         {
@@ -2499,7 +2514,8 @@
               "object": "LineItem",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         },
         {
@@ -2835,7 +2851,8 @@
               "object": "Result",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         },
         {
@@ -3107,7 +3124,8 @@
               "object": "GUIDRef/sourceId crosswalk",
               "field": "type",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.identifier_type"
           }
         },
         {
@@ -3133,7 +3151,8 @@
               "object": "GUIDRef/sourceId crosswalk",
               "field": "status",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.lifecycle_status"
           }
         }
       ]
@@ -12177,7 +12196,7 @@
         },
         {
           "field_key": "actor_type",
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.actor_type",
+          "canonical_field_id": "canonical.identity.person.identity_kind",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/caliper-core.v1.json",
@@ -12203,7 +12222,7 @@
         },
         {
           "field_key": "platform_person_id",
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.platform_person_id",
+          "canonical_field_id": "canonical.identity.person.id",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/caliper-core.v1.json",
@@ -12228,7 +12247,7 @@
         },
         {
           "field_key": "display_name",
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.display_name",
+          "canonical_field_id": "canonical.identity.person.display_name",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/caliper-core.v1.json",
@@ -12274,12 +12293,13 @@
               "object": "Caliper Actor",
               "field": "identifierType",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.identifier_type"
           }
         },
         {
           "field_key": "identifier_value",
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.identifier_value",
+          "canonical_field_id": "canonical.identity.person.source_subject_id",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/caliper-core.v1.json",
@@ -12304,7 +12324,7 @@
         },
         {
           "field_key": "resolution_status",
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.resolution_status",
+          "canonical_field_id": "canonical.identity.person.identity_kind",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/caliper-core.v1.json",
@@ -14051,7 +14071,8 @@
               "object": "LTI Launch",
               "field": "roles",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.role_family"
           }
         },
         {
@@ -14554,7 +14575,7 @@
         },
         {
           "field_key": "user_id",
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.user_id",
+          "canonical_field_id": "canonical.identity.person.source_subject_id",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/integration-governance-core.v1.json",
@@ -14579,7 +14600,7 @@
         },
         {
           "field_key": "platform_person_id",
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.platform_person_id",
+          "canonical_field_id": "canonical.identity.person.id",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/integration-governance-core.v1.json",
@@ -14604,7 +14625,7 @@
         },
         {
           "field_key": "display_name",
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.display_name",
+          "canonical_field_id": "canonical.identity.person.display_name",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/integration-governance-core.v1.json",
@@ -14629,7 +14650,7 @@
         },
         {
           "field_key": "email",
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.email",
+          "canonical_field_id": "canonical.identity.person.email",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/integration-governance-core.v1.json",
@@ -14674,7 +14695,8 @@
               "object": "LTI Membership",
               "field": "roles",
               "coverage": "mapped"
-            }
+            },
+            "shared_enum_id": "shared_enums.role_family"
           }
         },
         {
@@ -14705,7 +14727,7 @@
         },
         {
           "field_key": "lis_person_sourcedid",
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.lis_person_sourcedid",
+          "canonical_field_id": "canonical.identity.person.source_subject_id",
           "projection_kind": "direct",
           "spec_only": false,
           "target_dictionary": "dictionary/integration-governance-core.v1.json",
@@ -24954,6 +24976,308 @@
           "school_example": "oneroster_sourced_id, case_guid, lti_deployment_id, qti_identifier, or open_badge_credential_id.",
           "privacy_class": "operational",
           "access_notes": "Visible to integration operators and authorized support users."
+        }
+      ]
+    }
+  ],
+  "shared_enums": [
+    {
+      "shared_enum_id": "shared_enums.role_family",
+      "decision_id": "DEC-003-role-vocabulary",
+      "plain_description": "Platform role families. Source roles from OneRoster, LTI, and Caliper are stored as written and mapped to one of these families per DEC-003.",
+      "values": [
+        {
+          "value": "learner",
+          "label": "Learner",
+          "plain_description": "A student or other learner."
+        },
+        {
+          "value": "educator",
+          "label": "Educator",
+          "plain_description": "A teacher or instructor."
+        },
+        {
+          "value": "administrator",
+          "label": "Administrator",
+          "plain_description": "A school or district administrator."
+        },
+        {
+          "value": "guardian",
+          "label": "Guardian",
+          "plain_description": "A parent, guardian, or adult connected to a learner."
+        },
+        {
+          "value": "mentor",
+          "label": "Mentor",
+          "plain_description": "A coach, advisor, or tutor connected to a learner."
+        },
+        {
+          "value": "staff",
+          "label": "Staff",
+          "plain_description": "Other school staff such as aides or specialists."
+        },
+        {
+          "value": "tool",
+          "label": "Tool",
+          "plain_description": "An LTI tool acting as the principal."
+        },
+        {
+          "value": "issuer",
+          "label": "Issuer",
+          "plain_description": "A platform or LMS acting as a credential issuer."
+        },
+        {
+          "value": "unknown",
+          "label": "Unknown",
+          "plain_description": "The source role does not map to a known family."
+        }
+      ],
+      "crosswalks": [
+        {
+          "spec_key": "oneroster-core",
+          "vocabulary": "primary_role",
+          "mappings": [
+            {
+              "family": "learner",
+              "spec_value": "student"
+            },
+            {
+              "family": "educator",
+              "spec_value": "teacher"
+            },
+            {
+              "family": "administrator",
+              "spec_value": "administrator"
+            },
+            {
+              "family": "guardian",
+              "spec_value": "guardian"
+            }
+          ]
+        },
+        {
+          "spec_key": "oneroster-core",
+          "vocabulary": "enrollment_role",
+          "mappings": [
+            {
+              "family": "learner",
+              "spec_value": "student"
+            },
+            {
+              "family": "educator",
+              "spec_value": "teacher"
+            },
+            {
+              "family": "administrator",
+              "spec_value": "administrator"
+            },
+            {
+              "family": "staff",
+              "spec_value": "aide"
+            }
+          ]
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "vocabulary": "lti_membership_role",
+          "mappings": [
+            {
+              "family": "learner",
+              "spec_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+            },
+            {
+              "family": "educator",
+              "spec_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor"
+            },
+            {
+              "family": "administrator",
+              "spec_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator"
+            },
+            {
+              "family": "mentor",
+              "spec_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor"
+            },
+            {
+              "family": "tool",
+              "spec_value": "http://purl.imsglobal.org/vocab/lti/v2/system/person#User"
+            }
+          ]
+        },
+        {
+          "spec_key": "caliper-core",
+          "vocabulary": "actor_type",
+          "mappings": [
+            {
+              "family": "learner",
+              "spec_value": "Person"
+            },
+            {
+              "family": "tool",
+              "spec_value": "SoftwareApplication"
+            },
+            {
+              "family": "unknown",
+              "spec_value": "Agent"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "shared_enums.lifecycle_status",
+      "decision_id": "DEC-018-status-and-enums",
+      "plain_description": "Closed lifecycle status vocabulary for record-style objects across specs. Source statuses map to one of these values.",
+      "values": [
+        {
+          "value": "active",
+          "label": "Active",
+          "plain_description": "The record is current and should normally be used."
+        },
+        {
+          "value": "inactive",
+          "label": "Inactive",
+          "plain_description": "The record exists but should not be used for new activity."
+        },
+        {
+          "value": "tobedeleted",
+          "label": "To be deleted",
+          "plain_description": "The source system says this record should be removed."
+        }
+      ],
+      "crosswalks": [
+        {
+          "spec_key": "oneroster-core",
+          "vocabulary": "base_status",
+          "mappings": [
+            {
+              "family": "active",
+              "spec_value": "active"
+            },
+            {
+              "family": "inactive",
+              "spec_value": "inactive"
+            },
+            {
+              "family": "tobedeleted",
+              "spec_value": "tobedeleted"
+            }
+          ]
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "vocabulary": "record_status",
+          "mappings": [
+            {
+              "family": "active",
+              "spec_value": "active"
+            },
+            {
+              "family": "inactive",
+              "spec_value": "inactive"
+            },
+            {
+              "family": "tobedeleted",
+              "spec_value": "retired"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "shared_enums.identifier_type",
+      "decision_id": "DEC-007-identifier-crosswalk",
+      "plain_description": "Closed vocabulary for external identifier types stored in the source-identifier crosswalk. Spec-native identifier vocabularies map onto these values.",
+      "values": [
+        {
+          "value": "platform_uuid",
+          "label": "Platform UUID",
+          "plain_description": "The platform's internal record id."
+        },
+        {
+          "value": "oneroster_sourced_id",
+          "label": "OneRoster sourced ID",
+          "plain_description": "A OneRoster sourcedId from a SIS or roster source."
+        },
+        {
+          "value": "sis_sourced_id",
+          "label": "SIS sourced ID",
+          "plain_description": "An identifier from the student information system."
+        },
+        {
+          "value": "lti_subject",
+          "label": "LTI subject",
+          "plain_description": "An LTI 1.3 subject identifier."
+        },
+        {
+          "value": "lti_context",
+          "label": "LTI context",
+          "plain_description": "An LTI 1.3 context identifier."
+        },
+        {
+          "value": "lti_user",
+          "label": "LTI user",
+          "plain_description": "An LTI user identifier."
+        },
+        {
+          "value": "email",
+          "label": "Email",
+          "plain_description": "An email address used as identifier."
+        },
+        {
+          "value": "case_uri",
+          "label": "CASE URI",
+          "plain_description": "A CASE framework or item URI."
+        },
+        {
+          "value": "caliper_iri",
+          "label": "Caliper IRI",
+          "plain_description": "A Caliper actor or entity IRI."
+        }
+      ],
+      "crosswalks": [
+        {
+          "spec_key": "oneroster-core",
+          "vocabulary": "identifier_type",
+          "mappings": [
+            {
+              "family": "oneroster_sourced_id",
+              "spec_value": "oneRosterSourcedId"
+            },
+            {
+              "family": "sis_sourced_id",
+              "spec_value": "sisSourcedId"
+            },
+            {
+              "family": "lti_context",
+              "spec_value": "ltiContextId"
+            },
+            {
+              "family": "lti_user",
+              "spec_value": "ltiUserId"
+            },
+            {
+              "family": "email",
+              "spec_value": "emailAddress"
+            }
+          ]
+        },
+        {
+          "spec_key": "caliper-core",
+          "vocabulary": "system_identifier_type",
+          "mappings": [
+            {
+              "family": "lti_user",
+              "spec_value": "LtiUserId"
+            },
+            {
+              "family": "caliper_iri",
+              "spec_value": "Identifier"
+            },
+            {
+              "family": "email",
+              "spec_value": "EmailAddress"
+            }
+          ]
         }
       ]
     }

@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Build an EdTech App on This Platform</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc-page">
+  <main class="doc-shell">
+    <p class="eyebrow">Rendered portal documentation</p>
+    <p><a class="text-link" href="index.html">Docs index</a></p>
+    <h1>Build an EdTech App on This Platform</h1>
+<p>decision_ids: <code>DEC-001-person-agent-subject</code>, <code>DEC-006-standards-alignment</code>, <code>DEC-007-identifier-crosswalk</code>, <code>DEC-008-time-session</code>, <code>DEC-011-privacy-surfaces</code>, <code>DEC-013-runtime-coverage</code>, <code>DEC-015-service-role-policy</code>, <code>DEC-016-dictionary-canonical</code>, <code>DEC-017-canonical-fields</code>, <code>DEC-018-global-enums</code>, <code>DEC-019-closed-privacy-classes</code>.</p>
+<p>This guide is the apex buildability artifact. Reading only files under <code>docs/</code>, a person who has never seen this codebase before can produce executable curl/SQL for the five workflows below, run them against the live hosted runtime, and observe the expected results. Every field in every payload links to the dictionary entry that defines it. Every enum value links to the global enum. There are no &quot;for more details, see...&quot; gaps.</p>
+<p>If a step fails, the gap is in this guide; file an issue against <code>docs/build-an-edtech-app.md</code>.</p>
+<h2>Live Runtime</h2>
+<p>You write against the live hosted Supabase project. No local install. No Docker. No build step.</p>
+<table><thead><tr><th>What</th><th>Value</th></tr></thead><tbody><tr><td>Project URL</td><td><code>https://qzxlgrerjoiamxvnkklq.supabase.co</code></td></tr><tr><td>REST base</td><td><code>https://qzxlgrerjoiamxvnkklq.supabase.co/rest/v1/</code></td></tr><tr><td>Edge Functions base</td><td><code>https://qzxlgrerjoiamxvnkklq.functions.supabase.co/</code></td></tr><tr><td>Publishable (anon) key</td><td><code>sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK</code></td></tr><tr><td>Tenant A (North Valley)</td><td><code>11111111-1111-1111-1111-111111111111</code></td></tr><tr><td>Tenant B (South Ridge, RLS test only)</td><td><code>22222222-2222-2222-2222-222222222222</code></td></tr></tbody></table>
+<p>These values are also published in <a href="../.env.example"><code>.env.example</code></a> and <a href="supabase-hosted-database.html"><code>docs/supabase-hosted-database.md</code></a>.</p>
+<p>Set them as shell variables once:</p>
+<pre><code>export SUPABASE_URL=&#x27;https://qzxlgrerjoiamxvnkklq.supabase.co&#x27;
+export SUPABASE_FUNCTIONS_URL=&#x27;https://qzxlgrerjoiamxvnkklq.functions.supabase.co&#x27;
+export SUPABASE_PUBLISHABLE_KEY=&#x27;sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK&#x27;
+export TENANT_A=&#x27;11111111-1111-1111-1111-111111111111&#x27;</code></pre>
+<h2>Two Auth Modes You Will Use</h2>
+<p>The platform never accepts the publishable key in place of a user JWT for writes. Per <a href="./decisions.md#dec-015-service-role-policy"><code>DEC-015-service-role-policy</code></a> and <a href="./decisions.md#dec-011-privacy-surfaces"><code>DEC-011-privacy-surfaces</code></a>:</p>
+<ol><li><strong>Anonymous read mode.</strong> Send only the publishable key. RLS limits you to the synthetic North Valley demo rows that are explicitly marked public. Use this to confirm the project is reachable and to read non-restricted fields. No grades, no restricted PII, no Edge Function writes.</li></ol>
+<ol><li><strong>Tenant-scoped user JWT mode.</strong> Required for every workflow below that writes data, calls an Edge Function, or reads restricted PII (<code>person.given_name</code>, <code>person.family_name</code>, <code>person.email</code>). Get one by running the helper script in <a href="#step-0-obtain-a-tenant-scoped-user-jwt">Step 0</a>. The script uses <code>SUPABASE_SERVICE_ROLE_KEY</code> only to mint the test user; that one operation is allowlisted in <a href="admin-operations.html"><code>docs/admin-operations.md</code></a> under <code>tenant_rls_test_auth_fixture_setup</code>.</li></ol>
+<p>You will never paste the service role key into a curl. You will never see it in a request header in this guide. Production apps mint user JWTs through your own identity provider; for local exploration the helper script is the supported path.</p>
+<p>---</p>
+<h2>Step 0: Obtain a Tenant-Scoped User JWT</h2>
+<p>Prereq: copy <code>.env.example</code> to <code>.env.local</code> and fill in <code>SUPABASE_SERVICE_ROLE_KEY</code> from the Supabase dashboard. The service role key is required only for this minting step and never leaves your machine.</p>
+<pre><code>python3 - &lt;&lt;&#x27;PY&#x27;
+import json, os, secrets, urllib.request, urllib.parse, pathlib
+env = {}
+for line in pathlib.Path(&#x27;.env.local&#x27;).read_text().splitlines():
+    if &#x27;=&#x27; in line and not line.startswith(&#x27;#&#x27;):
+        k, v = line.split(&#x27;=&#x27;, 1); env[k.strip()] = v.strip().strip(&#x27;&quot;&#x27;).strip(&quot;&#x27;&quot;)
+url = env[&#x27;SUPABASE_URL&#x27;]
+service = env[&#x27;SUPABASE_SERVICE_ROLE_KEY&#x27;]
+publishable = env[&#x27;SUPABASE_PUBLISHABLE_KEY&#x27;]
+tenant = &#x27;11111111-1111-1111-1111-111111111111&#x27;
+email = f&#x27;demo-{secrets.token_hex(4)}@northview.k12.test&#x27;
+password = secrets.token_urlsafe(24)
+
+# 1. Create user with tenant claim (admin operation: tenant_rls_test_auth_fixture_setup).
+req = urllib.request.Request(
+    f&#x27;{url}/auth/v1/admin/users&#x27;,
+    data=json.dumps({
+        &#x27;email&#x27;: email, &#x27;password&#x27;: password, &#x27;email_confirm&#x27;: True,
+        &#x27;app_metadata&#x27;: {&#x27;tenant_id&#x27;: tenant},
+    }).encode(),
+    headers={&#x27;apikey&#x27;: service, &#x27;authorization&#x27;: f&#x27;Bearer {service}&#x27;, &#x27;content-type&#x27;: &#x27;application/json&#x27;},
+)
+urllib.request.urlopen(req).read()
+
+# 2. Sign in to receive a JWT carrying the tenant_id app_metadata claim.
+req = urllib.request.Request(
+    f&#x27;{url}/auth/v1/token?grant_type=password&#x27;,
+    data=json.dumps({&#x27;email&#x27;: email, &#x27;password&#x27;: password}).encode(),
+    headers={&#x27;apikey&#x27;: publishable, &#x27;content-type&#x27;: &#x27;application/json&#x27;},
+)
+tok = json.loads(urllib.request.urlopen(req).read())
+print(f&quot;export SUPABASE_USER_JWT=&#x27;{tok[&#x27;access_token&#x27;]}&#x27;&quot;)
+PY</code></pre>
+<p>Run the printed <code>export</code> line in your shell. The JWT is good for one hour. Re-run this step to get a fresh one.</p>
+<p>Verify the JWT carries the tenant claim:</p>
+<pre><code>echo &quot;$SUPABASE_USER_JWT&quot; | cut -d. -f2 | base64 -d 2&gt;/dev/null | python3 -m json.tool | grep -E &#x27;tenant_id|app_metadata&#x27;</code></pre>
+<p>Expected output includes <code>&quot;tenant_id&quot;: &quot;11111111-1111-1111-1111-111111111111&quot;</code> inside <code>app_metadata</code>.</p>
+<p>---</p>
+<h2>Workflow 1: Create a School with One Teacher and Ten Students</h2>
+<p>Goal: insert one <a href="./generated/oneroster-core-dictionary.md#organization">organization</a> of type <a href="./generated/oneroster-core-dictionary.md#organization"><code>school</code></a>, one <a href="./generated/oneroster-core-dictionary.md#person">person</a> with role <a href="./generated/oneroster-core-dictionary.md#person"><code>teacher</code></a>, and ten people with role <a href="./generated/oneroster-core-dictionary.md#person"><code>student</code></a>. All rows are tenant-scoped to North Valley by RLS per <a href="./decisions.md#dec-011-privacy-surfaces"><code>DEC-011</code></a>.</p>
+<p>PostgREST writes apply RLS as the JWT&#x27;s tenant. The publishable key reads but never writes; you must send <code>SUPABASE_USER_JWT</code>.</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/organizations&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; \
+  -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;{
+    &quot;tenant_id&quot;: &quot;11111111-1111-1111-1111-111111111111&quot;,
+    &quot;id&quot;: &quot;org_school_madison&quot;,
+    &quot;sourced_id&quot;: &quot;SCHOOL-MADISON&quot;,
+    &quot;name&quot;: &quot;Madison Middle School&quot;,
+    &quot;organization_type&quot;: &quot;school&quot;,
+    &quot;parent_organization_id&quot;: &quot;org_district_north&quot;,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-04-26T15:00:00Z&quot;
+  }&#x27;</code></pre>
+<p>Field anchors: <a href="./generated/integration-governance-core-dictionary.md#tenancy"><code>tenant_id</code></a>, <a href="./generated/oneroster-core-dictionary.md#organization"><code>id</code></a>, <a href="./generated/oneroster-core-dictionary.md#organization"><code>sourced_id</code></a>, <a href="./generated/oneroster-core-dictionary.md#organization"><code>name</code></a>, <a href="./generated/oneroster-core-dictionary.md#organization"><code>organization_type</code></a>, <a href="./generated/oneroster-core-dictionary.md#organization"><code>parent_organization_id</code></a>, <a href="./generated/oneroster-core-dictionary.md#organization"><code>status</code></a>, <a href="./generated/oneroster-core-dictionary.md#academic-session"><code>date_last_modified</code></a>. Enum values: <code>organization_type=school</code> and <code>status=active</code> are listed under &quot;Controlled Values&quot; of each object. Status values are the global <a href="./generated/oneroster-core-dictionary.md#person"><code>base_status</code></a> enum (<code>active</code>, <code>inactive</code>, <code>tobedeleted</code>) per <a href="./decisions.md#dec-018-global-enums"><code>DEC-018-global-enums</code></a>.</p>
+<p>Insert one teacher:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/people&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; \
+  -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;{
+    &quot;tenant_id&quot;: &quot;11111111-1111-1111-1111-111111111111&quot;,
+    &quot;id&quot;: &quot;person_ms_torres&quot;,
+    &quot;sourced_id&quot;: &quot;USER-TORRES&quot;,
+    &quot;display_name&quot;: &quot;Maria Torres&quot;,
+    &quot;given_name&quot;: &quot;Maria&quot;,
+    &quot;family_name&quot;: &quot;Torres&quot;,
+    &quot;email&quot;: &quot;maria.torres@northview.k12.test&quot;,
+    &quot;primary_role&quot;: &quot;teacher&quot;,
+    &quot;enabled_user&quot;: &quot;true&quot;,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-04-26T15:01:00Z&quot;
+  }&#x27;</code></pre>
+<p>Field anchors: <a href="./generated/oneroster-core-dictionary.md#person"><code>display_name</code>, <code>given_name</code>, <code>family_name</code>, <code>email</code>, <code>primary_role</code>, <code>enabled_user</code>, <code>status</code></a>. The fields <code>given_name</code>, <code>family_name</code>, and <code>email</code> are privacy class <a href="./decisions.md#dec-019-closed-privacy-classes"><code>directory</code></a>; reading them through PostgREST returns null. Read them via the <a href="#how-to-read-restricted-pii">audited roster Edge Function</a> — covered below.</p>
+<p>Insert ten students with one batch request:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/people&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; \
+  -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;[
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s01&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S01&quot;,&quot;display_name&quot;:&quot;Avery Kim&quot;,&quot;given_name&quot;:&quot;Avery&quot;,&quot;family_name&quot;:&quot;Kim&quot;,&quot;email&quot;:&quot;avery.kim@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:00Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s02&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S02&quot;,&quot;display_name&quot;:&quot;Bailey Cruz&quot;,&quot;given_name&quot;:&quot;Bailey&quot;,&quot;family_name&quot;:&quot;Cruz&quot;,&quot;email&quot;:&quot;bailey.cruz@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:01Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s03&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S03&quot;,&quot;display_name&quot;:&quot;Casey Diaz&quot;,&quot;given_name&quot;:&quot;Casey&quot;,&quot;family_name&quot;:&quot;Diaz&quot;,&quot;email&quot;:&quot;casey.diaz@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:02Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s04&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S04&quot;,&quot;display_name&quot;:&quot;Drew Evans&quot;,&quot;given_name&quot;:&quot;Drew&quot;,&quot;family_name&quot;:&quot;Evans&quot;,&quot;email&quot;:&quot;drew.evans@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:03Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s05&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S05&quot;,&quot;display_name&quot;:&quot;Emery Frost&quot;,&quot;given_name&quot;:&quot;Emery&quot;,&quot;family_name&quot;:&quot;Frost&quot;,&quot;email&quot;:&quot;emery.frost@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:04Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s06&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S06&quot;,&quot;display_name&quot;:&quot;Finley Gray&quot;,&quot;given_name&quot;:&quot;Finley&quot;,&quot;family_name&quot;:&quot;Gray&quot;,&quot;email&quot;:&quot;finley.gray@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:05Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s07&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S07&quot;,&quot;display_name&quot;:&quot;Harper Iqbal&quot;,&quot;given_name&quot;:&quot;Harper&quot;,&quot;family_name&quot;:&quot;Iqbal&quot;,&quot;email&quot;:&quot;harper.iqbal@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:06Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s08&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S08&quot;,&quot;display_name&quot;:&quot;Indigo Jones&quot;,&quot;given_name&quot;:&quot;Indigo&quot;,&quot;family_name&quot;:&quot;Jones&quot;,&quot;email&quot;:&quot;indigo.jones@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:07Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s09&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S09&quot;,&quot;display_name&quot;:&quot;Juno Khan&quot;,&quot;given_name&quot;:&quot;Juno&quot;,&quot;family_name&quot;:&quot;Khan&quot;,&quot;email&quot;:&quot;juno.khan@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:08Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;person_madison_s10&quot;,&quot;sourced_id&quot;:&quot;USER-MAD-S10&quot;,&quot;display_name&quot;:&quot;Kai Lopez&quot;,&quot;given_name&quot;:&quot;Kai&quot;,&quot;family_name&quot;:&quot;Lopez&quot;,&quot;email&quot;:&quot;kai.lopez@northview.k12.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:02:09Z&quot;}
+  ]&#x27;</code></pre>
+<p>Confirm the inserts:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/people?select=id,display_name,primary_role&amp;id=like.person_madison_*&amp;order=id.asc&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot;</code></pre>
+<p>Expected: ten rows, all <code>primary_role=student</code>. The teacher row reads from <code>id=eq.person_ms_torres</code>.</p>
+<p>---</p>
+<h2>Workflow 2: Create a Class and Enroll the Roster</h2>
+<p>Insert a <a href="./generated/oneroster-core-dictionary.md#course">course</a>, a <a href="./generated/oneroster-core-dictionary.md#class">class</a> for that course at Madison, and one <a href="./generated/oneroster-core-dictionary.md#enrollment">enrollment</a> per person. Reuse existing <a href="./generated/oneroster-core-dictionary.md#academic-session"><code>session_2026_fall</code></a> (Aug 24 – Dec 18, 2026) so we don&#x27;t have to mint a session.</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/courses&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;{&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;course_sci_6&quot;,&quot;sourced_id&quot;:&quot;COURSE-SCI-6&quot;,&quot;title&quot;:&quot;Grade 6 Science&quot;,&quot;course_code&quot;:&quot;SCI-06&quot;,&quot;org_id&quot;:&quot;org_district_north&quot;,&quot;school_year_id&quot;:&quot;session_2026&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:10:00Z&quot;}&#x27;
+
+curl &quot;$SUPABASE_URL/rest/v1/classes&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;{&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;class_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;CLASS-SCI-6A&quot;,&quot;title&quot;:&quot;Science 6 - Period 4&quot;,&quot;class_type&quot;:&quot;scheduled&quot;,&quot;class_code&quot;:&quot;P4-SCI6&quot;,&quot;course_id&quot;:&quot;course_sci_6&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;term_id&quot;:&quot;session_2026_fall&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:11:00Z&quot;}&#x27;</code></pre>
+<p>Field anchors for <a href="./generated/oneroster-core-dictionary.md#class">Class</a>: <code>class_type</code> (global enum <a href="./generated/oneroster-core-dictionary.md#class"><code>class_type</code></a> — <code>scheduled</code>, <code>homeroom</code>, <code>tutorial</code>), <code>course_id</code>, <code>school_id</code>, <code>term_id</code>, <code>status</code>. The <code>school_id</code> must reference an <code>organizations.id</code> with <code>organization_type=&#x27;school&#x27;</code>; here that&#x27;s <code>org_school_madison</code> from Workflow 1.</p>
+<p>Insert all eleven enrollments in one batch (one teacher + ten students). The <code>role</code> field uses the global <a href="./generated/oneroster-core-dictionary.md#enrollment"><code>enrollment_role</code></a> enum.</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/enrollments&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;[
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_torres_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20000&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_ms_torres&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;teacher&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:00Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s01_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20001&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s01&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:01Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s02_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20002&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s02&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:02Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s03_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20003&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s03&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:03Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s04_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20004&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s04&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:04Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s05_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20005&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s05&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:05Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s06_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20006&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s06&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:06Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s07_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20007&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s07&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:07Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s08_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20008&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s08&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:08Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s09_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20009&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s09&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:09Z&quot;},
+    {&quot;tenant_id&quot;:&quot;11111111-1111-1111-1111-111111111111&quot;,&quot;id&quot;:&quot;enr_s10_sci_6_a&quot;,&quot;sourced_id&quot;:&quot;ENR-20010&quot;,&quot;class_id&quot;:&quot;class_sci_6_a&quot;,&quot;person_id&quot;:&quot;person_madison_s10&quot;,&quot;school_id&quot;:&quot;org_school_madison&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-04-26T15:12:10Z&quot;}
+  ]&#x27;</code></pre>
+<p>Roster check:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/enrollments?select=id,role,person_id&amp;class_id=eq.class_sci_6_a&amp;order=role.asc,id.asc&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot;</code></pre>
+<p>Expected: 11 rows — one with <code>role=teacher</code>, ten with <code>role=student</code>. Per <a href="./decisions.md#dec-019-closed-privacy-classes"><code>DEC-019</code></a>, <code>display_name</code> here is privacy class <a href="./generated/oneroster-core-dictionary.md#person"><code>directory</code></a>, so anonymous reads will not include it. With your user JWT it does.</p>
+<p>---</p>
+<h2>Workflow 3: Post a Numeric Grade</h2>
+<p>Goal: create a <a href="./generated/oneroster-core-dictionary.md#line-item">line item</a> and post a <a href="./generated/oneroster-core-dictionary.md#result">result</a> for a student.</p>
+<p>This workflow uses the <a href="./supabase-hosted-database.md#edge-function-gradebook-bulk-submit"><code>gradebook-bulk-submit</code></a> Edge Function rather than direct PostgREST inserts. Per <a href="./decisions.md#dec-013-runtime-coverage"><code>DEC-013-runtime-coverage</code></a>, every non-CRUD action lives behind an Edge Function so the JWT is freshly verified and the RLS policy applies on the same DB connection. The Edge Function also propagates your bearer token to PostgREST per <a href="./decisions.md#dec-015-service-role-policy"><code>DEC-015-service-role-policy</code></a> — it never escalates to the service role.</p>
+<p>First create the line item via PostgREST (line items are CRUD-shaped, so no Edge Function needed):</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/line_items&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;{
+    &quot;tenant_id&quot;: &quot;11111111-1111-1111-1111-111111111111&quot;,
+    &quot;id&quot;: &quot;li_sci_lab_1&quot;,
+    &quot;sourced_id&quot;: &quot;LINEITEM-SCI-LAB1&quot;,
+    &quot;title&quot;: &quot;Lab 1: Density Measurements&quot;,
+    &quot;class_id&quot;: &quot;class_sci_6_a&quot;,
+    &quot;category&quot;: &quot;assignment&quot;,
+    &quot;assign_date&quot;: &quot;2026-09-08&quot;,
+    &quot;due_date&quot;: &quot;2026-09-15&quot;,
+    &quot;result_value_min&quot;: 0,
+    &quot;result_value_max&quot;: 20,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-04-26T15:20:00Z&quot;
+  }&#x27;</code></pre>
+<p>Field anchors: <a href="./generated/oneroster-core-dictionary.md#line-item"><code>category</code></a> uses global enum <a href="./generated/oneroster-core-dictionary.md#line-item"><code>line_item_category</code></a> — <code>assignment</code>, <code>quiz</code>, <code>test</code>, <code>participation</code>. <a href="./generated/oneroster-core-dictionary.md#line-item"><code>result_value_min</code>/<code>result_value_max</code></a> define the legal score range. <a href="./generated/oneroster-core-dictionary.md#line-item"><code>assign_date</code>/<code>due_date</code></a> are calendar dates per <a href="./decisions.md#dec-008-time-session"><code>DEC-008-time-session</code></a>.</p>
+<p>Now post the grade:</p>
+<pre><code>curl &quot;$SUPABASE_FUNCTIONS_URL/gradebook-bulk-submit&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; \
+  --data &#x27;{
+    &quot;submissions&quot;: [
+      {
+        &quot;id&quot;: &quot;res_avery_lab_1&quot;,
+        &quot;sourcedId&quot;: &quot;RESULT-30001&quot;,
+        &quot;lineItemId&quot;: &quot;li_sci_lab_1&quot;,
+        &quot;personId&quot;: &quot;person_madison_s01&quot;,
+        &quot;scoreStatus&quot;: &quot;fullyGraded&quot;,
+        &quot;score&quot;: 18,
+        &quot;scoreDate&quot;: &quot;2026-09-15T14:00:00Z&quot;,
+        &quot;comment&quot;: &quot;Strong technique; double-check unit conversions on Q3.&quot;
+      }
+    ]
+  }&#x27;</code></pre>
+<p>Field anchors for the <a href="./generated/oneroster-core-dictionary.md#result">Result</a>: <a href="./generated/oneroster-core-dictionary.md#result"><code>scoreStatus</code></a> is global enum <a href="./generated/oneroster-core-dictionary.md#result"><code>score_status</code></a> — <code>notSubmitted</code>, <code>submitted</code>, <code>partial</code>, <code>fullyGraded</code>, <code>exempt</code>. <a href="./generated/oneroster-core-dictionary.md#result"><code>score</code></a> must be within <code>[result_value_min, result_value_max]</code> of the line item — here <code>0..20</code>. <a href="./generated/oneroster-core-dictionary.md#result"><code>scoreDate</code></a> is an ISO-8601 instant.</p>
+<p>Confirm:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/results?select=id,score,score_status,score_date&amp;line_item_id=eq.li_sci_lab_1&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot;</code></pre>
+<p>Expected: one row, <code>score=18</code>, <code>score_status=fullyGraded</code>. RLS guarantees a tenant B JWT cannot see this row — verified live by <a href="../tests/supabase_tenant_rls_test.py"><code>tests/supabase_tenant_rls_test.py</code></a>.</p>
+<p>---</p>
+<h2>Workflow 4: Link the Assignment to a CASE Standard URI</h2>
+<p>Goal: align <code>li_sci_lab_1</code> to a published <a href="./generated/case-core-dictionary.md#case-framework-item">CASE Framework Item</a>. The shape used here is the canonical <a href="./generated/case-core-dictionary.md#case-framework-item"><code>uri</code></a> of the framework item plus the <a href="./generated/case-core-dictionary.md#case-framework-item"><code>humanCodingScheme</code></a> shown to teachers, per <a href="./decisions.md#dec-006-standards-alignment"><code>DEC-006-standards-alignment</code></a>.</p>
+<p>The current OneRoster slice carries alignment as two columns on <code>line_items</code> (added in migration <code>0002_case_alignment_and_caliper_receipts.sql</code>): <code>case_framework_item_uri</code> and <code>case_framework_item_human_coding</code>. A future migration replaces these with a full association table per the CASE 1.1 graph; both shapes resolve back to the same dictionary entry.</p>
+<pre><code>curl -X PATCH &quot;$SUPABASE_URL/rest/v1/line_items?id=eq.li_sci_lab_1&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; \
+  -H &#x27;prefer: return=representation&#x27; \
+  --data &#x27;{
+    &quot;case_framework_item_uri&quot;: &quot;https://commonstandardsproject.com/api/v1/standards/A4DD5BFB91B4445C8A0D3F4B6B1A6F3D&quot;,
+    &quot;case_framework_item_human_coding&quot;: &quot;CCSS.MATH.CONTENT.6.RP.A.3&quot;
+  }&#x27;</code></pre>
+<p>Field anchors: <a href="./generated/case-core-dictionary.md#case-framework-item"><code>case_framework_item_uri</code></a> (privacy class <a href="./decisions.md#dec-019-closed-privacy-classes"><code>public</code></a>), <a href="./generated/case-core-dictionary.md#case-framework-item"><code>case_framework_item_human_coding</code></a>. The URI is a CASE 1.1 CFItem identifier; any tool that resolves CASE URIs (Common Standards Project, the publishing state&#x27;s hosted framework, an internal mirror) will return the canonical item.</p>
+<p>Read it back:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/line_items?select=id,title,case_framework_item_uri,case_framework_item_human_coding&amp;id=eq.li_sci_lab_1&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot;</code></pre>
+<p>Expected: one row showing the URI and the human coding scheme.</p>
+<p>---</p>
+<h2>Workflow 5: Read a Caliper Activity Feed</h2>
+<p>Goal: ingest a <a href="./generated/caliper-core-dictionary.md#caliper-envelope">Caliper 1.2 envelope</a> describing one <a href="./generated/caliper-core-dictionary.md#caliper-event">GradeEvent</a>, then read it back as the activity feed for the class.</p>
+<p>Ingestion goes through the <a href="./supabase-hosted-database.md#edge-function-caliper-event-ingestion"><code>caliper-event-ingestion</code></a> Edge Function, which propagates your JWT into PostgREST per <a href="./decisions.md#dec-015-service-role-policy"><code>DEC-015</code></a>. Each accepted event writes one row into <a href="./generated/caliper-core-dictionary.md#caliper-event"><code>caliper_event_receipts</code></a>, which is tenant-scoped via RLS.</p>
+<pre><code>curl &quot;$SUPABASE_FUNCTIONS_URL/caliper-event-ingestion&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;content-type: application/json&#x27; \
+  --data &#x27;{
+    &quot;sensor&quot;: &quot;https://platform.example/sensors/madison-sci&quot;,
+    &quot;data&quot;: [
+      {
+        &quot;id&quot;: &quot;urn:uuid:7b39c3c4-1d2a-4f67-9e1b-2c5a9c7b1234&quot;,
+        &quot;type&quot;: &quot;GradeEvent&quot;,
+        &quot;action&quot;: &quot;Graded&quot;,
+        &quot;actor&quot;: {&quot;id&quot;: &quot;person_ms_torres&quot;, &quot;type&quot;: &quot;Person&quot;},
+        &quot;object&quot;: {&quot;id&quot;: &quot;li_sci_lab_1&quot;, &quot;type&quot;: &quot;Assessment&quot;},
+        &quot;generated&quot;: {&quot;id&quot;: &quot;res_avery_lab_1&quot;, &quot;type&quot;: &quot;Score&quot;, &quot;scoreGiven&quot;: 18, &quot;maxScore&quot;: 20},
+        &quot;eventTime&quot;: &quot;2026-09-15T14:00:00.000Z&quot;
+      }
+    ]
+  }&#x27;</code></pre>
+<p>Field anchors: <a href="./generated/caliper-core-dictionary.md#caliper-envelope"><code>sensor</code></a>, [<code>data[].id</code>](./generated/caliper-core-dictionary.md#caliper-event), <a href="./generated/caliper-core-dictionary.md#caliper-event"><code>type</code></a> global enum <a href="./generated/caliper-core-dictionary.md#caliper-event"><code>caliper_event_type</code></a> — <code>GradeEvent</code>, <code>AssessmentEvent</code>, <code>NavigationEvent</code>, etc. <a href="./generated/caliper-core-dictionary.md#caliper-event"><code>action</code></a> global enum <a href="./generated/caliper-core-dictionary.md#caliper-event"><code>caliper_action</code></a>. <a href="./generated/caliper-core-dictionary.md#caliper-actor"><code>actor</code></a>, <a href="./generated/caliper-core-dictionary.md#caliper-entity"><code>object</code></a>, <a href="./generated/caliper-core-dictionary.md#caliper-event"><code>eventTime</code></a> (ISO-8601, <a href="./decisions.md#dec-008-time-session"><code>DEC-008</code></a>).</p>
+<p>Read the activity feed back. The receipt rows are queryable directly:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/caliper_event_receipts?select=id,event_type,action,actor_id,object_id,event_time,received_at&amp;order=received_at.desc&amp;limit=20&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot;</code></pre>
+<p>Expected: at least one row with <code>event_type=GradeEvent</code>, <code>action=Graded</code>, <code>actor_id=person_ms_torres</code>, <code>object_id=li_sci_lab_1</code>. RLS prevents tenant B from seeing this row even with the same query.</p>
+<p>To filter the feed by an actor (a teacher&#x27;s view of their own gradings):</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/caliper_event_receipts?select=id,event_type,action,event_time&amp;actor_id=eq.person_ms_torres&amp;order=event_time.desc&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot;</code></pre>
+<p>---</p>
+<h2>How to Read Restricted PII</h2>
+<p><code>person.given_name</code>, <code>person.family_name</code>, and <code>person.email</code> are privacy class <a href="./decisions.md#dec-019-closed-privacy-classes"><code>directory</code></a>. PostgREST returns them as null. To read them, call the <a href="./supabase-hosted-database.md#edge-function-audited-roster-read"><code>audited-roster-read</code></a> Edge Function, which writes one <a href="./generated/integration-governance-core-dictionary.md#audit-log"><code>audit_log</code></a> row per field accessed before returning the data. Per <a href="./decisions.md#dec-011-privacy-surfaces"><code>DEC-011-privacy-surfaces</code></a>, there is no &quot;back door&quot; path that bypasses the audit log.</p>
+<pre><code>curl &quot;$SUPABASE_FUNCTIONS_URL/audited-roster-read?personId=person_madison_s01&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot; \
+  -H &#x27;x-platform-client-id: my-edtech-app&#x27; \
+  -H &#x27;x-platform-scope: platform.roster.users.directory:read&#x27; \
+  -H &#x27;x-platform-purpose: gradebook-roster-display&#x27;</code></pre>
+<p>Field anchors: <a href="./generated/integration-governance-core-dictionary.md#audit-log"><code>x-platform-client-id</code></a>, <a href="./generated/integration-governance-core-dictionary.md#audit-log"><code>x-platform-scope</code></a>, <a href="./generated/integration-governance-core-dictionary.md#audit-log"><code>x-platform-purpose</code></a>. All three are required; without them the function refuses the read.</p>
+<p>Verify the audit log captured the access:</p>
+<pre><code>curl &quot;$SUPABASE_URL/rest/v1/audit_log?select=field_accessed,client_id,scope,purpose,occurred_at&amp;order=occurred_at.desc&amp;limit=4&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; -H &quot;authorization: Bearer $SUPABASE_USER_JWT&quot;</code></pre>
+<p>---</p>
+<h2>What to Do When a Step Fails</h2>
+<table><thead><tr><th>Symptom</th><th>Most likely cause</th><th>Fix</th></tr></thead><tbody><tr><td><code>401 Invalid JWT</code></td><td><code>SUPABASE_USER_JWT</code> expired (1-hour lifetime).</td><td>Re-run <a href="#step-0-obtain-a-tenant-scoped-user-jwt">Step 0</a>.</td></tr><tr><td><code>400</code> with <code>missing_tenant</code> from Edge Function</td><td>JWT does not carry <code>app_metadata.tenant_id</code>.</td><td>Make sure the helper script set <code>app_metadata</code> on the user record.</td></tr><tr><td><code>403</code> on insert with no rows returned</td><td>Your JWT&#x27;s tenant differs from <code>tenant_id</code> in the row.</td><td>Match <code>tenant_id</code> in the body to the JWT&#x27;s claim.</td></tr><tr><td><code>null</code> returned for <code>given_name</code>/<code>family_name</code>/<code>email</code></td><td>Reading restricted PII through PostgREST.</td><td>Use the <a href="#how-to-read-restricted-pii">audited roster Edge Function</a>.</td></tr><tr><td><code>409 duplicate key</code> on insert</td><td>The seed already contains that <code>id</code>.</td><td>Pick a fresh <code>id</code>; existing seed IDs are listed in <a href="../supabase/seed.sql"><code>supabase/seed.sql</code></a>.</td></tr></tbody></table>
+<p>---</p>
+<h2>What This Guide Does Not Cover</h2>
+<ul><li>Production OAuth client registration. The <a href="./supabase-hosted-database.md#edge-function-oauth-token-exchange"><code>oauth-token-exchange</code></a> function emits sandbox bearer contexts; it is not a full authorization server.</li><li>Full LTI Advantage callbacks. The <a href="./supabase-hosted-database.md#edge-function-lti-launch-handler"><code>lti-launch-handler</code></a> function records launches but does not implement the full Names and Role Provisioning Services or Assignment and Grade Services round-trip.</li><li>QTI delivery. The QTI dictionary is in <a href="generated-qti-core-dictionary.html"><code>docs/generated/qti-core-dictionary.md</code></a>; a delivery runtime is not yet hosted.</li><li>Multi-tenant signup. The helper in <a href="#step-0-obtain-a-tenant-scoped-user-jwt">Step 0</a> creates a user under tenant A. Tenant provisioning is a future migration tracked in <a href="spec-gap-backlog.html"><code>docs/spec-gap-backlog.md</code></a>.</li></ul>
+<p>These gaps are deliberate per <a href="./decisions.md#dec-013-runtime-coverage"><code>DEC-013-runtime-coverage</code></a> — the platform ships the smallest end-to-end slice that still proves OneRoster + CASE alignment + Caliper + tenant-scoped privacy.</p>
+    <p class="source-note">Source file: <code>docs/build-an-edtech-app.md</code></p>
+  </main>
+</body>
+</html>

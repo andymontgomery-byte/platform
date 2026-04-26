@@ -953,7 +953,7 @@
             "field": "actorType",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.actor_type",
+          "canonical_field_id": "canonical.identity.person.identity_kind",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -974,7 +974,7 @@
             "field": "platformPersonId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.platform_person_id",
+          "canonical_field_id": "canonical.identity.person.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -995,7 +995,7 @@
             "field": "displayName",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.display_name",
+          "canonical_field_id": "canonical.identity.person.display_name",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1017,6 +1017,7 @@
             "field": "identifierType",
             "coverage": "mapped"
           },
+          "shared_enum_id": "shared_enums.identifier_type",
           "canonical_field_id": "canonical.caliper-core.caliper_actor.identifier_type",
           "projection_kind": "direct",
           "spec_only": false
@@ -1038,7 +1039,7 @@
             "field": "identifierValue",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.identifier_value",
+          "canonical_field_id": "canonical.identity.person.source_subject_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1060,7 +1061,7 @@
             "field": "resolutionStatus",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.caliper-core.caliper_actor.resolution_status",
+          "canonical_field_id": "canonical.identity.person.identity_kind",
           "projection_kind": "direct",
           "spec_only": false
         }
