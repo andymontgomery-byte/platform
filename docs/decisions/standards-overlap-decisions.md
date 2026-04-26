@@ -2,222 +2,334 @@
 
 Research date: 2026-04-24
 
-This record captures places where 1EdTech standards describe the same real-world idea differently. Each decision names the involved specs, the ambiguity, the platform choice, how that choice maps back to each spec, and the tradeoff.
-
-## 1. Person, User, Actor, Profile, and Subject
-
-Decision ID: `DEC-001-person-agent-subject`
-
-Specs involved: OneRoster User, Caliper Person/Actor, LTI launch user claims, Open Badges Profile, CLR Subject.
-
-Conflict: each standard identifies a person in a different context. OneRoster centers school roster users. LTI uses launch-time OIDC claims and roles. Caliper uses an actor that may be a person, software agent, or group. Open Badges and CLR use profile/subject objects for credentials, where the subject may be privacy-preserving or externally controlled.
-
-Choice: the platform has a canonical `person` for known school people and a broader `agent` concept for non-person actors. Credential subjects and Caliper actors resolve to `person` only when policy and identifiers allow it; otherwise they remain linked external agents.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster User | Maps to `person` plus source identifiers and role/enrollment records. |
-| LTI launch info | Maps launch `sub`, names, email, roles, and deployment context to a `person` when trusted crosswalks exist. |
-| Caliper Person/Actor | Maps to `person` when the actor is a known school user; otherwise remains an event actor. |
-| Open Badges Profile | Maps to issuer, creator, or recipient profile; recipient profiles do not automatically become platform people. |
-| CLR Subject | Maps to credential subject first, and to `person` only when learner-controlled or institution-authorized linking exists. |
-
-Tradeoff: this avoids merging credential or analytics identities into school records too aggressively, but every API must expose identity confidence and source lineage.
-
-## 2. Class, Course, Context, Group, Course Section, and Organization
-
-Decision ID: `DEC-002-learning-context`
-
-Specs involved: OneRoster Course and Class, LTI Context, Caliper Group/CourseSection, Common Cartridge organization.
-
-Conflict: a "class" can mean a course template, a scheduled section, a launch context, a group in an event, or a content-outline organization.
-
-Choice: the platform separates `course` from `class`. `course` is the catalog/template. `class` is the scheduled teaching section. LTI contexts and Caliper groups can map to a class, course, or other learning context. Common Cartridge organizations are content outlines, not school organizations or scheduled classes.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster Course | Maps to `course`. |
-| OneRoster Class | Maps to `class`. |
-| LTI Context | Maps to `learning_context`, normally crosswalked to `class` for K-12 course launches. |
-| Caliper CourseSection | Maps to `class` when it describes a scheduled section. |
-| Caliper Group | Maps to `learning_context` or group membership, not always a class. |
-| Common Cartridge organization | Maps to cartridge outline/navigation, not to school organization. |
-
-Tradeoff: app developers get clearer joins, but importers must preserve source-specific context IDs and cannot assume every context is a class.
-
-## 3. Roles
-
-Decision ID: `DEC-003-role-vocabulary`
-
-Specs involved: OneRoster roles, LTI roles, Caliper actor roles, Open Badges/CLR profile roles.
-
-Conflict: roles are named differently and have different scopes. OneRoster roles often describe school or class roles. LTI roles are URI-based and context-specific. Caliper may include LIS roles. Credential profiles can describe issuer/creator/subject relationships rather than classroom roles.
-
-Choice: store source roles exactly, then map them to a small platform role family for authorization and UI: learner, educator, administrator, guardian, mentor, staff, tool, issuer, unknown.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster `student` | Platform `learner`. |
-| OneRoster `teacher` | Platform `educator`. |
-| LTI `Learner` | Platform `learner` in the launch context. |
-| LTI `Instructor` or `TeachingAssistant` | Platform `educator` in the launch context. |
-| Caliper LIS role values | Stored as event role evidence and mapped when known. |
-| Open Badges/CLR issuer/creator | Platform `issuer` or organization profile, not classroom teacher by default. |
-
-Tradeoff: preserving source roles supports conformance and debugging; platform role families keep policy manageable.
-
-## 4. Enrollment and Membership
-
-Decision ID: `DEC-004-enrollment-membership`
-
-Specs involved: OneRoster Enrollment, LTI NRPS Membership, Caliper Membership.
-
-Conflict: OneRoster enrollments are roster records. LTI NRPS memberships are launch/service views of who belongs to a context. Caliper Membership describes relationship state in an event model.
-
-Choice: `enrollment` is the canonical roster participation record. `membership` is a contextual service/event view that may be derived from enrollment or captured from an external system.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster Enrollment | Canonical `enrollment`. |
-| LTI NRPS membership | Read model over class/context membership; crosswalked to enrollment when possible. |
-| Caliper Membership | Event/entity evidence about a person or agent belonging to a group/context. |
-
-Tradeoff: this keeps roster truth separate from launch-time and event-time snapshots, but membership APIs must explain whether they return canonical roster state or observed service state.
-
-## 5. Results, Scores, Outcomes, and Grade Events
-
-Decision ID: `DEC-005-results-scores`
-
-Specs involved: OneRoster gradebook Result, LTI AGS Score and Result, QTI outcome variables/results, Caliper GradeEvent.
-
-Conflict: "result" can mean a gradebook record, a tool-submitted score update, an assessment outcome variable, or an event showing grading activity.
-
-Choice: the platform uses `line_item` as the gradebook target and `result` as the learner's current gradebook state. LTI AGS Score is an incoming write/update message. LTI AGS Result and OneRoster Result map to current result state. QTI outcomes are assessment-runtime variables projected into results only when a delivery or scoring workflow declares that mapping. Caliper GradeEvent is event history, not the gradebook source of truth.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster LineItem | `line_item`. |
-| OneRoster Result | `result`. |
-| LTI AGS Score | Score update command/event that may create or update `result`. |
-| LTI AGS Result | API view of `result`. |
-| QTI outcome declaration/result | Assessment outcome variable, mapped to result only through scoring metadata. |
-| Caliper GradeEvent | Immutable grading activity event linked to line item/result when possible. |
-
-Tradeoff: gradebook state is easy to query, while event and assessment provenance remains available for audit and analytics.
-
-## 6. Standards Alignment
-
-Decision ID: `DEC-006-standards-alignment`
-
-Specs involved: CASE items and associations, QTI item metadata, Common Cartridge resource metadata, Open Badges achievement alignment, CLR achievement/result alignment.
-
-Conflict: content, assessments, credentials, and results all describe standards alignment differently.
-
-Choice: CASE is the canonical standards graph. Other standards store alignment as source metadata and resolve known targets to CASE item identifiers or URIs.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| CASE CFItem/association | Canonical standards and competency graph. |
-| QTI metadata alignment | Assessment/item alignment to CASE where target is known. |
-| Common Cartridge metadata | Resource alignment to CASE URI/GUID where present. |
-| Open Badges alignment | Achievement alignment target, resolved to CASE when possible. |
-| CLR alignment | Achievement/result alignment, resolved to CASE when possible. |
-
-Tradeoff: CASE-first alignment enables cross-product reporting and AI reasoning, but importers must keep original alignment labels/URLs when they cannot be resolved.
-
-## 7. Identifiers
-
-Decision ID: `DEC-007-identifier-crosswalk`
-
-Specs involved: OneRoster sourcedId, CASE GUID, LTI `sub` and `deployment_id`, Caliper IRIs, Open Badges IRIs, CLR credential IDs, internal UUIDs.
-
-Conflict: each standard has its own identity and persistence rules.
-
-Choice: internal records have platform IDs. Standard-shaped endpoints expose the standard-native ID as the primary contract when required. Every external ID is stored in a source identifier crosswalk with source system, identifier type, and object relationship.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster `sourcedId` | Primary ID on OneRoster-shaped endpoints; crosswalked internally. |
-| CASE GUID/URI | Canonical ID for CASE items and associations. |
-| LTI `sub` | Launch-scoped user ID, crosswalked to person only within issuer/deployment trust boundaries. |
-| LTI `deployment_id` | Tool deployment identifier and security boundary. |
-| Caliper IRI | Event/entity ID retained as event lineage. |
-| Open Badges/CLR IDs | Credential/profile/achievement IDs retained as credential source IDs. |
-
-Tradeoff: this is more complex than one ID per object, but it avoids breaking conformance and supports troubleshooting across systems.
-
-## 8. Time, School Sessions, and Event Timestamps
-
-Decision ID: `DEC-008-time-session`
-
-Specs involved: OneRoster AcademicSession, LTI context/term hints, Caliper timestamps/timezones, QTI assessment timing, credential validFrom/validUntil dates.
-
-Conflict: time can mean school calendar, launch context, event time, assessment time limit, submission time, or credential validity.
-
-Choice: separate calendar periods, event timestamps, availability windows, and validity periods. Store timestamps in UTC with source timezone/offset when provided. Store OneRoster AcademicSession as the school calendar backbone.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster AcademicSession | Calendar period and school-year backbone. |
-| LTI context/line item dates | Availability, due, or launch-context dates. |
-| Caliper event time | Immutable event timestamp. |
-| QTI time limits/session timing | Assessment runtime timing metadata. |
-| Open Badges/CLR validFrom/validUntil | Credential validity period. |
-
-Tradeoff: date queries are more explicit, but developers do not confuse school terms with event timestamps or credential expiration.
-
-## 9. Content, Resources, Packages, and Launch Links
-
-Decision ID: `DEC-009-content-resource`
-
-Specs involved: OneRoster Resource, Common Cartridge resources/items, QTI packages/items/tests, LTI ResourceLink, Caliper DigitalResource.
-
-Conflict: "resource" can mean a roster-linked resource, a content package file, an assessment package, a launchable tool link, or an event target.
-
-Choice: the platform uses a broad `resource` concept for discoverable learning objects, with subtype-specific records for cartridge resources, QTI packages/items/tests, LTI resource links, and Caliper event entities.
-
-Mappings:
-
-| Spec | Mapping |
-| --- | --- |
-| OneRoster Resource | Roster-associated learning resource metadata. |
-| Common Cartridge resource/item | Package manifest resource and outline item. |
-| QTI package/item/test | Assessment content subtype and package artifact. |
-| LTI ResourceLink | Launchable external tool/activity resource. |
-| Caliper DigitalResource | Event target/entity describing content used. |
-
-Tradeoff: search and catalog workflows get one resource layer, while standards-specific package/launch/assessment details remain intact.
-
-## 10. Tenant-Owned Data and Shared Reference Data
-
-Decision ID: `DEC-010-tenancy-reference-data`
-
-Specs involved: all tenant data specs, especially OneRoster, LTI, CASE, QTI, Common Cartridge.
-
-Conflict: schools own roster, grades, launches, and private content; many standards frameworks and public content references should be shared.
-
-Choice: tenant-owned operational records carry tenant boundaries and row-level policy. Public CASE frameworks, public standards metadata, public certification fixtures, and optionally public item banks live in shared reference namespaces. Tenants adopt, pin, override, or privately extend shared reference data through explicit records.
-
-Tradeoff: one integration can serve many schools, while privacy and local control remain enforceable.
+This record captures places where 1EdTech standards, platform runtime choices, or privacy/security surfaces would otherwise force the codebase to make silent choices. Each decision is written in the rubric-required shape: `id`, `question`, `options_considered`, `choice`, `consequences`, and `projects_to`.
+
+## DEC-001 Person, User, Actor, Profile, and Subject
+
+- id: `DEC-001-person-agent-subject`
+- question: When standards describe people, actors, profiles, and subjects differently, what is the platform's identity model?
+- options_considered:
+  - Treat every standard-specific identity as a separate table and let callers reconcile them.
+  - Collapse every user, actor, profile, and credential subject into one `person`.
+  - Keep a canonical `person` for known school people and a broader `agent` concept for non-person or externally controlled identities.
+- choice: The platform has a canonical `person` for known school people and a broader `agent` concept for non-person actors. Credential subjects and Caliper actors resolve to `person` only when policy and identifiers allow it; otherwise they remain linked external agents.
+- consequences:
+  - Removes the need for every roster, launch, analytics, and credential API to invent its own identity merge rules.
+  - Eliminates automatic merging of credential subjects or analytics actors into school records when confidence or policy is missing.
+  - Creates the constraint that APIs must expose identity confidence and source lineage when an actor is not certainly a known person.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#person.display_name`
+  - `dictionary/oneroster-core.v1.json#person.email`
+  - `dictionary/caliper-core.v1.json#caliper_actor.identifier_value`
+  - `dictionary/integration-governance-core.v1.json#lti_launch.subject_id`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#people`
+  - `site/api/people.json`
+
+## DEC-002 Class, Course, Context, Group, Course Section, and Organization
+
+- id: `DEC-002-learning-context`
+- question: How should the platform distinguish course templates, scheduled classes, launch contexts, groups, and content organizations?
+- options_considered:
+  - Model everything named "course", "class", "group", or "context" as one generic context.
+  - Preserve only the source-specific structures and make cross-standard joins caller-owned.
+  - Separate catalog `course`, scheduled `class`, and broader `learning_context` while preserving source IDs.
+- choice: The platform separates `course` from `class`. `course` is the catalog/template. `class` is the scheduled teaching section. LTI contexts and Caliper groups can map to a class, course, or other learning context. Common Cartridge organizations are content outlines, not school organizations or scheduled classes.
+- consequences:
+  - Removes the need for app code to guess whether a launch context is a course template, section, or content outline.
+  - Lets class roster, gradebook, and launch surfaces derive joins from the same course/class/context model.
+  - Creates the constraint that importers must preserve source-specific context IDs and cannot assume every context is a class.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#course.title`
+  - `dictionary/oneroster-core.v1.json#class.course_id`
+  - `dictionary/oneroster-core.v1.json#academic_session.session_type`
+  - `dictionary/integration-governance-core.v1.json#lti_launch.context_id`
+  - `dictionary/caliper-core.v1.json#caliper_context.lti_context_id`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#classes`
+  - `site/api/classes.json`
+
+## DEC-003 Roles
+
+- id: `DEC-003-role-vocabulary`
+- question: How should the platform reconcile OneRoster roles, LTI role URIs, Caliper role evidence, and credential profile relationships?
+- options_considered:
+  - Use OneRoster role names everywhere.
+  - Use LTI URI roles everywhere.
+  - Store exact source roles and map them to a small platform role family for authorization and UI.
+- choice: Store source roles exactly, then map them to platform role families: `learner`, `educator`, `administrator`, `guardian`, `mentor`, `staff`, `tool`, `issuer`, and `unknown`.
+- consequences:
+  - Removes the need for each authorization check to parse every standard's role vocabulary.
+  - Makes role-family policy reusable across roster, launch, gradebook, and analytics surfaces.
+  - Creates the constraint that source role values must be preserved for conformance, debugging, and lossless export.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#person.primary_role`
+  - `dictionary/oneroster-core.v1.json#enrollment.role`
+  - `dictionary/integration-governance-core.v1.json#lti_launch.roles`
+  - `dictionary/integration-governance-core.v1.json#lti_membership.roles`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#people.primary_role`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#enrollments.role`
+
+## DEC-004 Enrollment and Membership
+
+- id: `DEC-004-enrollment-membership`
+- question: What is canonical roster participation when standards also expose launch/service memberships and event-time memberships?
+- options_considered:
+  - Treat every membership record as an enrollment.
+  - Treat enrollment as just one membership source.
+  - Keep `enrollment` as canonical roster participation and `membership` as contextual service or event evidence.
+- choice: `enrollment` is the canonical roster participation record. `membership` is a contextual service/event view that may be derived from enrollment or captured from an external system.
+- consequences:
+  - Removes the need for gradebook and roster APIs to choose among launch-time and event-time snapshots as the source of truth.
+  - Lets LTI NRPS and Caliper membership projections be labeled as derived or observed instead of overwriting roster truth.
+  - Creates the constraint that membership APIs must say whether they return canonical roster state or observed service state.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#enrollment.person_id`
+  - `dictionary/oneroster-core.v1.json#enrollment.class_id`
+  - `dictionary/integration-governance-core.v1.json#lti_membership.context_id`
+  - `dictionary/integration-governance-core.v1.json#lti_membership.platform_person_id`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#enrollments`
+  - `site/api/enrollments.json`
+
+## DEC-005 Results, Scores, Outcomes, and Grade Events
+
+- id: `DEC-005-results-scores`
+- question: How should the platform separate gradebook state, score update commands, assessment outcome variables, and grading activity events?
+- options_considered:
+  - Make every score-like artifact an append-only event.
+  - Make every score-like artifact the current gradebook result.
+  - Keep `result` as current gradebook state and model AGS scores, QTI outcomes, and Caliper grade events as inputs or history.
+- choice: The platform uses `line_item` as the gradebook target and `result` as the learner's current gradebook state. LTI AGS Score is an incoming write/update message. LTI AGS Result and OneRoster Result map to current result state. QTI outcomes are assessment-runtime variables projected into results only when a delivery or scoring workflow declares that mapping. Caliper GradeEvent is event history, not the gradebook source of truth.
+- consequences:
+  - Removes the need for dashboards to reconstruct current grades from raw event streams.
+  - Makes event provenance and assessment scoring history available without letting those histories overwrite current gradebook state by accident.
+  - Creates the constraint that imports must record whether a value is current state, a command, an assessment variable, or event history.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#line_item.id`
+  - `dictionary/oneroster-core.v1.json#result.score`
+  - `dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_given`
+  - `dictionary/qti-core.v1.json#qti_variable_declaration.identifier`
+  - `dictionary/caliper-core.v1.json#caliper_event.action`
+  - `supabase/functions/gradebook-bulk-submit/index.ts`
+  - `site/api/views/gradebook-results.json`
+
+## DEC-006 Standards Alignment
+
+- id: `DEC-006-standards-alignment`
+- question: Which standards graph should anchor alignment across content, assessment, credentials, and results?
+- options_considered:
+  - Let each artifact store only its own alignment strings.
+  - Normalize all alignment into a platform-only taxonomy.
+  - Use CASE as the canonical standards graph while preserving source alignment labels and URLs.
+- choice: CASE is the canonical standards graph. Other standards store alignment as source metadata and resolve known targets to CASE item identifiers or URIs.
+- consequences:
+  - Removes the need for each reporting workflow to reconcile QTI, cartridge, badge, and CLR alignment formats separately.
+  - Lets cross-product reporting and AI reasoning use one standards graph where a CASE target is known.
+  - Creates the constraint that importers must keep original alignment labels and URLs when they cannot be resolved.
+- projects_to:
+  - `dictionary/case-core.v1.json#case_item.identifier`
+  - `dictionary/case-core.v1.json#case_association.origin_node_uri`
+  - `dictionary/qti-core.v1.json#qti_alignment.target_identifier`
+  - `dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.data_category`
+  - `docs/generated/case-core-dictionary.md`
+  - `site/docs/case-core-dictionary.html`
+
+## DEC-007 Identifiers
+
+- id: `DEC-007-identifier-crosswalk`
+- question: How should the platform preserve standard-native identifiers while keeping stable internal joins?
+- options_considered:
+  - Use one platform UUID as the only public identifier.
+  - Use each standard's ID as the physical database key.
+  - Store internal platform IDs plus source identifier crosswalks and expose standard-native IDs where the standard requires them.
+- choice: Internal records have platform IDs. Standard-shaped endpoints expose the standard-native ID as the primary contract when required. Every external ID is stored in a source identifier crosswalk with source system, identifier type, and object relationship.
+- consequences:
+  - Removes the need to choose between conformance IDs and durable internal join IDs.
+  - Eliminates one-off per-table ID reconciliation logic by making source identifiers a shared crosswalk pattern.
+  - Creates the constraint that every source ID must carry source system, identifier type, and object relationship.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#source_identifier.external_id`
+  - `dictionary/oneroster-core.v1.json#person.sourced_id`
+  - `dictionary/case-core.v1.json#case_document.uri`
+  - `dictionary/integration-governance-core.v1.json#lti_deployment.deployment_id`
+  - `dictionary/caliper-core.v1.json#caliper_event.event_iri`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#source_identifiers`
+
+## DEC-008 Time, School Sessions, and Event Timestamps
+
+- id: `DEC-008-time-session`
+- question: How should the platform distinguish school calendar periods, event timestamps, availability windows, assessment timing, and credential validity?
+- options_considered:
+  - Store every time-like value as a generic timestamp.
+  - Use OneRoster AcademicSession as the only time model.
+  - Separate calendar periods, event timestamps, availability windows, assessment timing, and validity periods.
+- choice: Separate calendar periods, event timestamps, availability windows, and validity periods. Store timestamps in UTC with source timezone/offset when provided. Store OneRoster AcademicSession as the school calendar backbone.
+- consequences:
+  - Removes the need for developers to infer whether a date is a term, due date, event time, time limit, or credential expiry.
+  - Lets school-year queries use AcademicSession without losing event and validity semantics.
+  - Creates the constraint that timestamp imports must retain source timezone or offset when provided.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#academic_session.start_date`
+  - `dictionary/oneroster-core.v1.json#academic_session.end_date`
+  - `dictionary/oneroster-core.v1.json#person.date_last_modified`
+  - `dictionary/caliper-core.v1.json#caliper_event.event_time`
+  - `dictionary/qti-core.v1.json#qti_assessment_test.time_limit_seconds`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#academic_sessions`
+
+## DEC-009 Content, Resources, Packages, and Launch Links
+
+- id: `DEC-009-content-resource`
+- question: What is the shared model for roster resources, content packages, QTI artifacts, LTI links, and Caliper digital resources?
+- options_considered:
+  - Treat each content-bearing standard as unrelated.
+  - Flatten all content into one generic `resource` table.
+  - Use a broad `resource` concept with subtype-specific records for package, assessment, launch, and event details.
+- choice: The platform uses a broad `resource` concept for discoverable learning objects, with subtype-specific records for cartridge resources, QTI packages/items/tests, LTI resource links, and Caliper event entities.
+- consequences:
+  - Removes the need for search and catalog workflows to query separate content models for every standard.
+  - Lets standards-specific package, launch, assessment, and event details remain intact under a shared discovery layer.
+  - Creates the constraint that subtype-specific details must remain in their standard-aware projections instead of being lost in a generic resource row.
+- projects_to:
+  - `dictionary/qti-core.v1.json#qti_package.package_identifier`
+  - `dictionary/qti-core.v1.json#qti_assessment_item.identifier`
+  - `dictionary/integration-governance-core.v1.json#lti_deep_link_item.url`
+  - `dictionary/caliper-core.v1.json#caliper_entity.entity_type`
+  - `dictionary/caliper-core.v1.json#caliper_extension.extension_key`
+  - `docs/generated/qti-core-dictionary.md`
+  - `site/docs/qti-core-dictionary.html`
+
+## DEC-010 Tenant-Owned Data and Shared Reference Data
+
+- id: `DEC-010-tenancy-reference-data`
+- question: Which data is tenant-owned and isolated, and which data may live in shared reference namespaces?
+- options_considered:
+  - Put every record in tenant-owned tables.
+  - Put standards, content, and roster data in global shared tables.
+  - Tenant-isolate operational school records while using governed shared namespaces for public reference data.
+- choice: Tenant-owned operational records carry tenant boundaries and row-level policy. Public CASE frameworks, public standards metadata, public certification fixtures, and optionally public item banks live in shared reference namespaces. Tenants adopt, pin, override, or privately extend shared reference data through explicit records.
+- consequences:
+  - Removes the need for application code to perform per-table tenant filtering; PostgreSQL RLS is the single runtime gate for tenant-owned records.
+  - Makes global public reference data reusable without copying it into every tenant.
+  - Creates the constraint that tenant-owned runtime tables must carry tenant identity and cannot use permissive `using (true)` policies.
+- projects_to:
+  - `supabase/migrations/0001_oneroster_core_demo.sql#tenant_id columns`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#tenant_isolation policies`
+  - `supabase/policies/pg_policies.snapshot.json`
+  - `dictionary/oneroster-core.v1.json#organization.id`
+  - `dictionary/caliper-core.v1.json#caliper_extension.allowed_by_policy`
+  - `tests/supabase_tenant_rls_test.py`
+
+## DEC-011 Privacy Surfaces
+
+- id: `DEC-011-privacy-surfaces`
+- question: Which privacy classes may appear on live APIs, Edge Functions, static mirrors, and generated docs?
+- options_considered:
+  - Ban all person-like data from static and generated surfaces.
+  - Allow every dictionary field anywhere because the dataset is a demo.
+  - Define per-surface gates by privacy class and treat static mirrors as synthetic documentation fixtures.
+- choice: Generated docs may describe every field and privacy class because they are schema documentation, not records. Live PostgREST may expose tenant-owned `public`, `operational`, `directory`, and `education_record` records only through tenant RLS and scope policy. Edge Functions may expose `directory`, `education_record`, `behavioral`, or sensitive operational fields only through caller JWT, purpose, scope, tenant RLS, and audit logging when the read is sensitive. Static `site/api/*.json` mirrors may contain only synthetic demo records from the seeded `.test` tenant and may include `public`, `operational`, and `directory` fields such as demo email; they may not contain real tenant data, `education_record`, `behavioral`, `sensitive_pii`, or secret/system values.
+- consequences:
+  - Removes the need to delete synthetic directory fields like `site/api/people.json` email while still forbidding real unauthenticated PII mirrors.
+  - Eliminates per-file privacy guessing by making the gate a function of privacy class plus surface.
+  - Creates the constraint that future static mirrors must either stay synthetic/documentation-only or drop fields whose privacy class requires live RLS or audited Edge Functions.
+- projects_to:
+  - `dictionary/oneroster-core.v1.json#person.email`
+  - `dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.privacy_class`
+  - `site/api/people.json`
+  - `site/api/classes.json`
+  - `site/api/views/gradebook-results.json`
+  - `supabase/functions/audited-roster-read/index.ts`
+  - `tests/supabase_audit_log_test.py`
+
+## DEC-012 Runtime Coverage Per Spec
+
+- id: `DEC-012-runtime-coverage-per-spec`
+- question: Which Lead specs are runtime-backed now, which are doc-only, and which have partial receipt or governance slices?
+- options_considered:
+  - Claim runtime support for every generated dictionary.
+  - Mark everything except OneRoster as unsupported.
+  - Separate generated accounting from runtime coverage and state each Lead spec's current runtime posture.
+- choice: OneRoster core is runtime-backed now through local SQLite, hosted Supabase PostgREST, RLS, and live tests. QTI and CASE are doc-only/generated dictionary projections until runtime slices are built. Caliper, LTI, Security Framework, and Data Privacy have partial runtime backing through authenticated Edge Function receipt/governance paths, but not full standard conformance flows. Full runtime for QTI import, CASE search, Caliper raw-event projection, LTI Advantage services, production OAuth, and privacy workflows remains future work with target dates in the decision/pending work queue.
+- consequences:
+  - Removes the need for generated dictionary pages to pretend they are deployed runtime APIs.
+  - Makes the coverage matrix honest by separating source dictionary, generated artifacts, runtime slice, and deferred ledger.
+  - Creates the constraint that a spec cannot be called runtime-backed unless live tables or Edge Functions and tests exercise that spec-shaped behavior.
+- projects_to:
+  - `docs/dictionary-coverage-matrix.md`
+  - `docs/lead-spec-accounting.md`
+  - `docs/decisions/decisions-pending.md`
+  - `scripts/check_spec_conformance.py`
+  - `site/api/spec-conformance.json`
+  - `tests/supabase_tenant_rls_test.py`
+  - `tests/supabase_audit_log_test.py`
+
+## DEC-013 Audit Response Truth
+
+- id: `DEC-013-audit-response-truth`
+- question: What may an audited Edge Function response claim about audit logging?
+- options_considered:
+  - Silent response: do the audited read but return no audit block.
+  - Advisory response: return best-effort audit intent without claiming rows were written.
+  - Truthful response: return audit metadata only after reading back the rows written to `audit_log`.
+- choice: Audited Edge Functions must use truthful responses when they include an `audit` block. If the function cannot read the written `audit_log` rows back under the caller's JWT and request identifier, it must omit the audit block or return an explicit error; it must not hard-code `logged` counts or field lists.
+- consequences:
+  - Removes the need for callers and tests to trust a response that may not match the database.
+  - Eliminates hard-coded audit counts such as `logged: 5` as acceptable evidence.
+  - Creates the constraint that audited read functions must carry a request ID through the database write and read back matching audit rows before claiming success.
+- projects_to:
+  - `supabase/functions/audited-roster-read/index.ts`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#audit_log`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#read_people_sensitive_audited`
+  - `tests/supabase_audit_log_test.py`
+  - `docs/admin-operations.md`
+  - `site/api/platform-evaluation.json`
+
+## DEC-014 Static Mirror Policy
+
+- id: `DEC-014-static-mirror-policy`
+- question: Are `site/api/*.json` files contract surfaces, documentation fixtures, or removable build artifacts?
+- options_considered:
+  - Delete all static mirrors now that hosted Supabase REST exists.
+  - Treat static mirrors as canonical public API responses.
+  - Keep static mirrors as documentation fixtures generated from the same demo seed and clearly subordinate to the live runtime.
+- choice: Static mirrors are allowed as documentation fixtures for GitHub Pages and offline inspection. They are not the canonical runtime contract; live Supabase REST and Edge Functions are the runtime contract. Mirrors must be generated from the same synthetic demo seed as the local demo, must carry source metadata, and may only include privacy classes allowed by `DEC-011-privacy-surfaces`.
+- consequences:
+  - Removes the need to run a backend just to inspect example JSON from the portal.
+  - Makes static/runtime drift a documentation freshness problem, not a second source of truth.
+  - Creates the constraint that each mirror must remain generated, cite its source dictionary/decision, and avoid privacy classes not allowed on static surfaces.
+- projects_to:
+  - `scripts/build_static_api.py`
+  - `site/api/index.json`
+  - `site/api/people.json`
+  - `site/api/organizations.json`
+  - `site/api/classes.json`
+  - `site/api/enrollments.json`
+  - `site/api/views/class-roster.json`
+  - `site/api/views/gradebook-results.json`
+
+## DEC-015 Service-Role Policy
+
+- id: `DEC-015-service-role-policy`
+- question: When may code use Supabase service-role access without weakening the user-JWT and RLS story?
+- options_considered:
+  - Allow service-role access anywhere a script or function needs convenience.
+  - Ban service-role access entirely, including test fixture setup.
+  - Allow service-role only for named admin/test fixture operations in `docs/admin-operations.md`, never for request-scoped reads or writes.
+- choice: Request-scoped runtime code and Edge Functions must pass the caller's `Authorization` bearer token to Supabase so RLS applies. Service-role access is allowed only for allowlisted admin or test fixture operations in `docs/admin-operations.md`, with a named operation ID, caller, why-user-JWT-insufficient reason, guardrails, and recent review date. Tests may use service role to create temporary Auth users, but not to read tenant data or satisfy the assertion under test.
+- consequences:
+  - Removes the need to audit every Edge Function for hidden bypass behavior once the allowlist and no-service-role-in-functions check pass.
+  - Eliminates service-role fixtures as evidence for tenant isolation or audit behavior; only user-JWT calls count for those regressions.
+  - Creates the constraint that any new service-role use must be documented before it lands and must not appear under `supabase/functions/*`.
+- projects_to:
+  - `docs/admin-operations.md`
+  - `supabase/functions/gradebook-bulk-submit/index.ts`
+  - `supabase/functions/audited-roster-read/index.ts`
+  - `supabase/functions/lti-launch-handler/index.ts`
+  - `supabase/functions/caliper-event-ingestion/index.ts`
+  - `supabase/functions/oauth-token-exchange/index.ts`
+  - `tests/supabase_tenant_rls_test.py`
+  - `tests/supabase_audit_log_test.py`
 ## Machine-Readable Decision Trace
 
-Field references use `dictionary/<file>#<object_key>.<field_key>`. Each `decision_id` also appears on the corresponding dictionary field object and in generated OpenAPI/Markdown/HTML dictionary artifacts.
+Field references use the dictionary file, object key, and field key. Each `decision_id` also appears on the corresponding dictionary field object and in generated OpenAPI/Markdown/HTML dictionary artifacts.
 
 <!-- decision-trace:start -->
 ```json

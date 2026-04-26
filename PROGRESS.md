@@ -289,3 +289,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: all five dictionary generators passed; `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values while enforcing `sourceStandard` and unsupported-ledger fields; `python3 -m py_compile` passed for the changed generator/check/evaluator scripts; dictionary and generated OpenAPI JSON validation passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=27, partial=0, fail=0, blocked=0 and `done=true`.
 - Expected status change: `lead_spec_full_accounting` `partial` -> `pass`; evaluator overall `done=false` -> `done=true`.
 - What remains next: no non-pass rubric items remain. Future product backlog still includes status manifest cleanup, broader hosted runtime/API slices beyond the current OneRoster core and minimal Edge Function receipts, formal conformance fixtures, production deployment docs, generated dictionary URL cleanup, and Codex loop harness tests.
+
+
+## 20260426T120824Z Harness Iteration 5
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 88
+- Publish result: committed and pushed: Codex loop iteration 5: rubric pass=27/27
+- Codex log: `.codex-loop/20260426T113857Z-iteration-005-codex.log`
+- Verify log: `.codex-loop/20260426T113857Z-iteration-005-verify.log`
+- Judge log: `.codex-loop/20260426T113857Z-iteration-005-judge.log`
+- Judge JSON: `.codex-loop/20260426T113857Z-iteration-005-judge.json`
+
+## 2026-04-26 11:29:25 EDT Decision Register Completion Iteration
+
+- Chosen rubric item: `decisions_complete`.
+- Files changed: `docs/decisions/standards-overlap-decisions.md`, `docs/decisions/decisions-pending.md`, rendered `site/docs/*` decision/doc pages, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; dictionary `projects_to` references in the decision register were checked against `dictionary/*.v1.json` and passed with 44 refs; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `python3 -m json.tool site/api/platform-evaluation.json` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=5, partial=3, fail=3, blocked=0 and reports `decisions_complete` as `pass`.
+- Expected status change: `decisions_complete` `fail` -> `pass`. The same decision-shape rewrite also moved `decisions_simplify` `fail` -> `pass`.
+- What remains next: `projections_match_reality`, `portal_leads_with_decisions`, and `evaluator_runs_each_iteration` remain `fail`; `no_unforced_decisions`, `artifacts_cite_decisions`, and `runtime_coverage_per_spec_honest` remain `partial`. The next override priority is to fix the DEC-013 audit response truth divergence by removing the hard-coded audit count or reading back `audit_log` rows.

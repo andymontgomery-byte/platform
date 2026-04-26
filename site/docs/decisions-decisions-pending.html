@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decisions Pending</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc-page">
+  <main class="doc-shell">
+    <p class="eyebrow">Rendered portal documentation</p>
+    <p><a class="text-link" href="index.html">Docs index</a></p>
+    <h1>Decisions Pending</h1>
+<p>Implicit choices the codebase is making that have not yet been decided explicitly. Each entry must have an owner, a target date, and a one-line description of why it matters and what blocks the decision.</p>
+<p>The rubric&#x27;s <code>no_unforced_decisions</code> item fails if anything important is silently TBD. It also fails if a pending entry&#x27;s target date is past.</p>
+<h2>Format</h2>
+<table><thead><tr><th>ID</th><th>Description</th><th>Why it matters</th><th>Blocked on</th><th>Owner</th><th>Target date</th></tr></thead><tbody></tbody></table>
+<h2>Current pending decisions</h2>
+<table><thead><tr><th>ID</th><th>Description</th><th>Why it matters</th><th>Blocked on</th><th>Owner</th><th>Target date</th></tr></thead><tbody><tr><td><code>PEND-001-runtime-slice-schedule</code></td><td>Schedule the next runtime slices declared deferred by <code>DEC-012-runtime-coverage-per-spec</code>: CASE search, QTI package import/projection, full Caliper raw-event projection, LTI Advantage services, production OAuth issuance, and broader privacy workflows.</td><td>DEC-012 decides the current posture, but the platform still needs dated delivery choices before any deferred Lead spec can be claimed as runtime-backed.</td><td>Product priority on next runtime slice</td><td>Andy</td><td>2026-05-15</td></tr><tr><td><code>PEND-005-deno-check-in-ci</code></td><td>Decide whether <code>deno check</code> runs in CI for Edge Functions (<code>DEC-015</code> adjacent). Five live functions deployed without a static type-check pass because Deno is not installed locally.</td><td>Type errors only surface at deploy, when fewer rollbacks are possible.</td><td>CI capacity</td><td>Andy</td><td>2026-05-03</td></tr></tbody></table>
+<h2>Resolving a pending decision</h2>
+<p>Move the row to <code>decisions-needed.md</code> once the decision is written in <code>docs/decisions/</code> with all six fields populated. Delete from this file.</p>
+<p>A pending entry whose target date is past fails <code>no_unforced_decisions</code> until the target is updated with a justification or the decision is made.</p>
+    <p class="source-note">Source file: <code>docs/decisions/decisions-pending.md</code></p>
+  </main>
+</body>
+</html>
