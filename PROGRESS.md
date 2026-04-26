@@ -543,3 +543,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 20 rubric items and 56 evidence files; direct trace-normalization smoke check passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=8, partial=4, fail=8, blocked=0; JSON validation for `site/api/platform-evaluation.json` passed; targeted report-shape check found zero non-pass items missing `traced_cause` and 6 `buildability_gaps`; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed.
 - Expected status change: `evaluator_traces_failures_backward` `fail` -> `pass`; `evaluator_runs_each_iteration` also moved `fail` -> `pass` because the report now contains per-item `traced_cause` values and a top-level `buildability_gaps` array.
 - What remains next: the next top-down fail is `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and add drift checking so per-spec dictionary projections are generated from the shared seed.
+
+
+## 20260426T175245Z Harness Iteration 4
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 80
+- Publish result: committed and pushed: Codex loop iteration 4: rubric pass=7/20
+- Codex log: `.codex-loop/20260426T173534Z-iteration-004-codex.log`
+- Verify log: `.codex-loop/20260426T173534Z-iteration-004-verify.log`
+- Judge log: `.codex-loop/20260426T173534Z-iteration-004-judge.log`
+- Judge JSON: `.codex-loop/20260426T173534Z-iteration-004-judge.json`
+
+## 2026-04-26T14:06:03-0400 Decision Simplification Sweep
+
+- Chosen rubric item: `decisions_simplify`.
+- Files changed: `docs/decisions/standards-overlap-decisions.md`, `scripts/evaluate_platform.py`, `site/docs/decisions-standards-overlap-decisions.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 20 rubric items and 52 evidence files; evaluator evidence smoke check confirmed `docs/decisions/standards-overlap-decisions.md` includes DEC-020 before truncation; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=9, partial=3, fail=8, blocked=0 and reports `decisions_simplify` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed; `node --check site/app.js` passed; `git diff --check` passed.
+- Expected status change: `decisions_simplify` `partial` -> `pass`.
+- What remains next: the next top-down fail is `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and wire a zero-diff generator check so per-spec dictionaries are projections from the shared seed.

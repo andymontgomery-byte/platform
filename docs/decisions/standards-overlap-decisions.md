@@ -15,7 +15,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: The platform has a canonical `person` for known school people and a broader `agent` concept for non-person actors. Credential subjects and Caliper actors resolve to `person` only when policy and identifiers allow it; otherwise they remain linked external agents.
 - consequences:
   - Removes the need for every roster, launch, analytics, and credential API to invent its own identity merge rules.
+  - Removes per-function subject-to-person merge branches from `supabase/functions/lti-launch-handler/index.ts`, `supabase/functions/caliper-event-ingestion/index.ts`, and future credential importers; those paths read `people` plus source lineage instead of performing their own merge.
   - Eliminates automatic merging of credential subjects or analytics actors into school records when confidence or policy is missing.
+  - Why not collapse: forcing every actor, tool client, issuer, sensor, and low-confidence credential subject into `public.people` would delete the `agent` distinction but create false roster people and expand tenant RLS/audit obligations for identities the school does not own.
   - Creates the constraint that APIs must expose identity confidence and source lineage when an actor is not certainly a known person.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#person.display_name`
@@ -36,7 +38,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: The platform separates `course` from `class`. `course` is the catalog/template. `class` is the scheduled teaching section. LTI contexts and Caliper groups can map to a class, course, or other learning context. Common Cartridge organizations are content outlines, not school organizations or scheduled classes.
 - consequences:
   - Removes the need for app code to guess whether a launch context is a course template, section, or content outline.
+  - Removes a generic `contexts` table plus subtype switch logic from `public.class_roster`, `public.gradebook_results`, and `demo/server.js`; scheduled-section queries join through `classes.course_id` and `classes.term_id` instead.
   - Lets class roster, gradebook, and launch surfaces derive joins from the same course/class/context model.
+  - Why not collapse: a single `learning_contexts` table with `context_type` and JSON source payload is a credible LMS design, but here it would move course/class distinction out of foreign keys and into runtime branches in every roster, gradebook, launch, and Caliper query.
   - Creates the constraint that importers must preserve source-specific context IDs and cannot assume every context is a class.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#course.title`
@@ -58,7 +62,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Store source roles exactly, then map them to platform role families: `learner`, `educator`, `administrator`, `guardian`, `mentor`, `staff`, `tool`, `issuer`, and `unknown`.
 - consequences:
   - Removes the need for each authorization check to parse every standard's role vocabulary.
+  - Removes separate OneRoster role-name, LTI URI-role, and Caliper actor-role parsers from `supabase/functions/lti-launch-handler/index.ts`, `supabase/functions/oauth-token-exchange/index.ts`, and scope policy generation; those paths consume a shared role-family mapping.
   - Makes role-family policy reusable across roster, launch, gradebook, and analytics surfaces.
+  - Why not collapse: publishing only platform role families would simplify authorization, but it would erase spec-native role values required for OneRoster/LTI conformance, troubleshooting, and lossless export.
   - Creates the constraint that source role values must be preserved for conformance, debugging, and lossless export.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#person.primary_role`
@@ -79,7 +85,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: `enrollment` is the canonical roster participation record. `membership` is a contextual service/event view that may be derived from enrollment or captured from an external system.
 - consequences:
   - Removes the need for gradebook and roster APIs to choose among launch-time and event-time snapshots as the source of truth.
+  - Removes peer `lti_memberships` or `caliper_memberships` truth tables from the gradebook join path; `public.enrollments`, `public.class_roster`, and `site/api/views/class-roster.json` stay the canonical participation artifacts.
   - Lets LTI NRPS and Caliper membership projections be labeled as derived or observed instead of overwriting roster truth.
+  - Why not collapse: treating every observed membership as enrollment would make imports simpler, but launch-time or event-time service membership can be transient and would corrupt school roster truth if written directly into `public.enrollments`.
   - Creates the constraint that membership APIs must say whether they return canonical roster state or observed service state.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#enrollment.person_id`
@@ -100,7 +108,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: The platform uses `line_item` as the gradebook target and `result` as the learner's current gradebook state. LTI AGS Score is an incoming write/update message. LTI AGS Result and OneRoster Result map to current result state. QTI outcomes are assessment-runtime variables projected into results only when a delivery or scoring workflow declares that mapping. Caliper GradeEvent is event history, not the gradebook source of truth.
 - consequences:
   - Removes the need for dashboards to reconstruct current grades from raw event streams.
+  - Removes current-grade reconstruction over `caliper_event` receipts, AGS Score command payloads, and QTI outcome variables; dashboards and demos read `public.results`, `public.gradebook_results`, and `site/api/views/gradebook-results.json`.
   - Makes event provenance and assessment scoring history available without letting those histories overwrite current gradebook state by accident.
+  - Why not collapse: using AGS or Caliper as the only gradebook model would simplify one importer, but it would force OneRoster result reads and classroom dashboards to replay command/event history whenever they need the learner's current score.
   - Creates the constraint that imports must record whether a value is current state, a command, an assessment variable, or event history.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#line_item.id`
@@ -122,7 +132,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: CASE is the canonical standards graph. Other standards store alignment as source metadata and resolve known targets to CASE item identifiers or URIs.
 - consequences:
   - Removes the need for each reporting workflow to reconcile QTI, cartridge, badge, and CLR alignment formats separately.
+  - Removes per-standard alignment bridge tables from reports; generated CASE artifacts (`dictionary/case-core.v1.json#case_item`, `dictionary/case-core.v1.json#case_association`) and QTI alignment fields carry the shared target when it is known.
   - Lets cross-product reporting and AI reasoning use one standards graph where a CASE target is known.
+  - Why not collapse: replacing CASE with a platform-only taxonomy would simplify internal labels, but it would break interoperability with state frameworks and partner payloads that already reference CASE URIs.
   - Creates the constraint that importers must keep original alignment labels and URLs when they cannot be resolved.
 - projects_to:
   - `dictionary/case-core.v1.json#case_item.identifier`
@@ -143,7 +155,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Internal records have platform IDs. Standard-shaped endpoints expose the standard-native ID as the primary contract when required. Every external ID is stored in a source identifier crosswalk with source system, identifier type, and object relationship.
 - consequences:
   - Removes the need to choose between conformance IDs and durable internal join IDs.
+  - Removes duplicate source-ID columns from every public table; `public.source_identifiers` owns `object_type`, `object_id`, `source_system`, `identifier_type`, and `external_id` instead of each table growing its own SIS/LTI/email columns.
   - Eliminates one-off per-table ID reconciliation logic by making source identifiers a shared crosswalk pattern.
+  - Why not collapse: using source-native IDs as physical database keys would make one export path shorter, but it would couple internal joins to mutable vendor identifiers and make multi-source identity repair a table-by-table migration.
   - Creates the constraint that every source ID must carry source system, identifier type, and object relationship.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#source_identifier.external_id`
@@ -164,7 +178,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Separate calendar periods, event timestamps, availability windows, and validity periods. Store timestamps in UTC with source timezone/offset when provided. Store OneRoster AcademicSession as the school calendar backbone.
 - consequences:
   - Removes the need for developers to infer whether a date is a term, due date, event time, time limit, or credential expiry.
+  - Removes generic timestamp metadata parsing from roster, gradebook, Caliper, QTI, and credential projections; `academic_sessions`, `line_items`, `caliper_event.event_time`, QTI timing fields, and validity fields each own their time semantics.
   - Lets school-year queries use AcademicSession without losing event and validity semantics.
+  - Why not collapse: storing all time-like values as timestamps would reduce field count, but school-year filters, assessment timing, event ordering, and credential validity would all need side tables or fragile naming conventions to recover meaning.
   - Creates the constraint that timestamp imports must retain source timezone or offset when provided.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#academic_session.start_date`
@@ -185,7 +201,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: The platform uses a broad `resource` concept for discoverable learning objects, with subtype-specific records for cartridge resources, QTI packages/items/tests, LTI resource links, and Caliper event entities.
 - consequences:
   - Removes the need for search and catalog workflows to query separate content models for every standard.
+  - Removes separate discovery indexes for QTI packages, LTI deep links, cartridge resources, and Caliper digital entities; generated docs keep subtype fields while a broad `resource` layer carries search-facing identity.
   - Lets standards-specific package, launch, assessment, and event details remain intact under a shared discovery layer.
+  - Why not collapse: making QTI the canonical content catalog is credible for an assessment-first platform, but it would turn LTI links, cartridge resources, and Caliper digital entities into fake QTI artifacts and force non-assessment payloads through assessment-only identifiers.
   - Creates the constraint that subtype-specific details must remain in their standard-aware projections instead of being lost in a generic resource row.
 - projects_to:
   - `dictionary/qti-core.v1.json#qti_package.package_identifier`
@@ -207,7 +225,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Tenant-owned operational records carry tenant boundaries and row-level policy. Public CASE frameworks, public standards metadata, public certification fixtures, and optionally public item banks live in shared reference namespaces. Tenants adopt, pin, override, or privately extend shared reference data through explicit records.
 - consequences:
   - Removes the need for application code to perform per-table tenant filtering; PostgreSQL RLS is the single runtime gate for tenant-owned records.
+  - Removes duplicated tenant `where tenant_id = ...` guard code from PostgREST callers, `demo/server.js` examples, and Edge Function database reads; `supabase/migrations/0001_oneroster_core_demo.sql` owns the tenant predicate through forced RLS policies.
   - Makes global public reference data reusable without copying it into every tenant.
+  - Why not collapse: tenant-isolating every public reference record would simplify the policy model, but it would copy CASE frameworks and public certification fixtures into every tenant and make version pinning harder.
   - Creates the constraint that tenant-owned runtime tables must carry tenant identity and cannot use permissive `using (true)` policies.
 - projects_to:
   - `supabase/migrations/0001_oneroster_core_demo.sql#tenant_id columns`
@@ -228,7 +248,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Generated docs may describe every field and privacy class because they are schema documentation, not records. Live PostgREST may expose tenant-owned `public`, `operational`, `directory`, and `education_record` records only through tenant RLS and scope policy. Edge Functions may expose `directory`, `education_record`, `behavioral`, or sensitive operational fields only through caller JWT, purpose, scope, tenant RLS, and audit logging when the read is sensitive. Static `site/api/*.json` mirrors may contain only synthetic demo records from the seeded `.test` tenant and may include `public`, `operational`, and `directory` fields such as demo email; they may not contain real tenant data, `education_record`, `behavioral`, `sensitive_pii`, or secret/system values.
 - consequences:
   - Removes the need to delete synthetic directory fields like `site/api/people.json` email while still forbidding real unauthenticated PII mirrors.
+  - Removes per-file privacy exception lists from `scripts/build_static_api.py`, `site/api/*.json`, and generated OpenAPI descriptions; surface eligibility comes from privacy class plus runtime gate.
   - Eliminates per-file privacy guessing by making the gate a function of privacy class plus surface.
+  - Why not collapse: banning every record-like example from static docs would simplify privacy review, but it would make the GitHub Pages portal unable to demonstrate schema-shaped payloads offline.
   - Creates the constraint that future static mirrors must either stay synthetic/documentation-only or drop fields whose privacy class requires live RLS or audited Edge Functions.
 - projects_to:
   - `dictionary/oneroster-core.v1.json#person.email`
@@ -250,7 +272,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: OneRoster core is runtime-backed now through local SQLite, hosted Supabase PostgREST, RLS, and live tests. QTI and CASE are doc-only/generated dictionary projections until runtime slices are built. Caliper, LTI, Security Framework, and Data Privacy have partial runtime backing through authenticated Edge Function receipt/governance paths, but not full standard conformance flows. Full runtime for QTI import, CASE search, Caliper raw-event projection, LTI Advantage services, production OAuth, and privacy workflows remains future work with target dates in the decision/pending work queue.
 - consequences:
   - Removes the need for generated dictionary pages to pretend they are deployed runtime APIs.
+  - Removes runtime claims from generated docs, `docs/lead-spec-accounting.md`, and portal copy unless a table, Edge Function, hosted REST path, and test exercise that spec-shaped behavior.
   - Makes the coverage matrix honest by separating source dictionary, generated artifacts, runtime slice, and deferred ledger.
+  - Why not collapse: marking every non-OneRoster spec unsupported would be simpler, but it would hide useful generated dictionary/API accounting and the partial Caliper/LTI/security runtime receipts that already exist.
   - Creates the constraint that a spec cannot be called runtime-backed unless live tables or Edge Functions and tests exercise that spec-shaped behavior.
 - projects_to:
   - `docs/dictionary-coverage-matrix.md`
@@ -272,6 +296,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Audited Edge Functions must use truthful responses when they include an `audit` block. If the function cannot read the written `audit_log` rows back under the caller's JWT and request identifier, it must omit the audit block or return an explicit error; it must not hard-code `logged` counts or field lists.
 - consequences:
   - Removes the need for callers and tests to trust a response that may not match the database.
+  - Removes response-only audit assertions from `tests/supabase_audit_log_test.py`; the regression must read matching `audit_log` rows before accepting the Edge Function's claim.
   - Eliminates hard-coded audit counts such as `logged: 5` as acceptable evidence.
   - Creates the constraint that audited read functions must carry a request ID through the database write and read back matching audit rows before claiming success.
 - projects_to:
@@ -293,7 +318,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Static mirrors are allowed as documentation fixtures for GitHub Pages and offline inspection. They are not the canonical runtime contract; live Supabase REST and Edge Functions are the runtime contract. Mirrors must be generated from the same synthetic demo seed as the local demo, must carry source metadata, and may only include privacy classes allowed by `DEC-011-privacy-surfaces`.
 - consequences:
   - Removes the need to run a backend just to inspect example JSON from the portal.
+  - Removes `site/api/*.json` from the canonical API contract surface; `scripts/build_static_api.py` emits documentation fixtures with source metadata while live Supabase REST and Edge Functions own runtime behavior.
   - Makes static/runtime drift a documentation freshness problem, not a second source of truth.
+  - Why not collapse: deleting static mirrors entirely would simplify publish artifacts, but it would make GitHub Pages and offline review lose copyable JSON payload examples for the core OneRoster slice.
   - Creates the constraint that each mirror must remain generated, cite its source dictionary/decision, and avoid privacy classes not allowed on static surfaces.
 - projects_to:
   - `scripts/build_static_api.py`
@@ -316,6 +343,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Request-scoped runtime code and Edge Functions must pass the caller's `Authorization` bearer token to Supabase so RLS applies. Service-role access is allowed only for allowlisted admin or test fixture operations in `docs/admin-operations.md`, with a named operation ID, caller, why-user-JWT-insufficient reason, guardrails, and recent review date. Tests may use service role to create temporary Auth users, but not to read tenant data or satisfy the assertion under test.
 - consequences:
   - Removes the need to audit every Edge Function for hidden bypass behavior once the allowlist and no-service-role-in-functions check pass.
+  - Removes Supabase service-role client construction from `supabase/functions/gradebook-bulk-submit/index.ts`, `supabase/functions/audited-roster-read/index.ts`, `supabase/functions/lti-launch-handler/index.ts`, `supabase/functions/caliper-event-ingestion/index.ts`, and `supabase/functions/oauth-token-exchange/index.ts`.
   - Eliminates service-role fixtures as evidence for tenant isolation or audit behavior; only user-JWT calls count for those regressions.
   - Creates the constraint that any new service-role use must be documented before it lands and must not appear under `supabase/functions/*`.
 - projects_to:
@@ -339,6 +367,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: `data/data-dictionary.seed.json` is upstream. `dictionary/*.v1.json` files are generated projections; hand-editing a per-spec projection is a build error once the generator lands.
 - consequences:
   - Removes five-way hand-edited dictionary reconciliation.
+  - Removes direct edits to `dictionary/oneroster-core.v1.json`, `dictionary/qti-core.v1.json`, `dictionary/case-core.v1.json`, `dictionary/caliper-core.v1.json`, and `dictionary/integration-governance-core.v1.json` as an accepted workflow once `scripts/generate_spec_dictionaries.py --check` owns projection drift.
   - Lets CI compare generated projection JSON instead of relying on review memory.
   - Requires every projected object, field, enum, privacy class, and relationship to live in the shared seed or be marked `spec_only`.
 - projects_to:
@@ -358,6 +387,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Every overlapping spec field carries `canonical_field_id` pointing at the shared dictionary. Spec-native names remain for conformance; cross-spec app code uses the canonical field identity.
 - consequences:
   - Removes runtime/docs conversion between `email`, LTI email claims, actor identifiers, and candidate labels.
+  - Removes field-name conversion tables from docs, OpenAPI examples, and future API adapters; `canonical_field_id` on each per-spec field becomes the join contract.
   - Eliminates prose-only overlap claims; each overlapping field points to a concrete shared field or a `spec_only` exception.
   - Requires new per-spec fields to be classified before docs or OpenAPI can publish them.
 - projects_to:
@@ -377,6 +407,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Allowed values are global dictionary objects. Each enum field references `shared_enum_id`; the shared enum maps every spec-native value to and from a canonical value.
 - consequences:
   - Removes per-API parsers for OneRoster names, LTI URIs, Caliper roles, and QTI values.
+  - Removes duplicated `shared_allowed_values` / inline enum blocks as the vocabulary source in per-spec dictionaries; `shared_enum_id` plus crosswalk rows own canonical and spec-native values.
   - Eliminates duplicate enum docs for the same platform vocabulary.
   - Requires every allowed value to crosswalk to a shared enum or be marked spec-only with a reason.
 - projects_to:
@@ -396,6 +427,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Closed keys are `public`, `operational`, `directory`, `education_record`, `behavioral`, `sensitive`, `credential`, `privacy_governance`, and `system`. `depends_on_entity` and `depends_on_contents` are invalid.
 - consequences:
   - Removes generator branches that interpret open-ended privacy placeholders per spec.
+  - Removes `depends_on_entity` and `depends_on_contents` handling from `scripts/generate_caliper_core.py`, generated Caliper docs, and runtime surface gates; each field occurrence has one concrete class.
   - Eliminates `depends_on_entity` and `depends_on_contents` from generated dictionaries.
   - Requires a decision update before a new privacy class can appear in fields, docs, or runtime surfaces.
 - projects_to:
@@ -415,6 +447,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - choice: Shared dictionary objects own source field, target object, target field, cardinality, ownership, and delete behavior. Supabase migrations are generated from that graph.
 - consequences:
   - Removes duplicated FK truth across SQL, dictionary prose, docs, and examples.
+  - Removes hand-maintained foreign-key blocks in `supabase/migrations/0001_oneroster_core_demo.sql` as the authoritative relationship source; the dictionary graph owns targets, cardinality, ownership, and delete behavior.
   - Lets generators derive table order, FK clauses, and ownership constraints from the graph.
   - Requires each public SQL relationship to have a dictionary entry.
 - projects_to:

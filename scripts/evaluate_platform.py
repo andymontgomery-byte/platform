@@ -92,7 +92,7 @@ EVIDENCE_GLOBS = [
 ]
 
 MAX_EVIDENCE_FILES = 80
-MAX_FILE_BYTES = 30000  # truncate large files when feeding to LLM
+MAX_FILE_BYTES = 45000  # keep the full decision register visible to the LLM
 MAX_TOTAL_EVIDENCE_BYTES = 800000  # ~200k tokens worst case
 
 # Prerequisite environment variables that flip runtime items to `blocked`
