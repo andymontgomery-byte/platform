@@ -339,3 +339,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 -m py_compile tests/supabase_audit_log_test.py` passed; `rg -n "logged:\s*5|fields:\s*\[|hard-code|auditRows" supabase/functions/audited-roster-read/index.ts tests/supabase_audit_log_test.py` confirmed the hard-coded audit response was removed and the response now uses `auditRows`; `supabase functions deploy audited-roster-read --project-ref qzxlgrerjoiamxvnkklq --use-api` passed; `python3 tests/supabase_audit_log_test.py` passed against the live Edge Function with 5 request-correlated audit rows and response audit assertions; `git diff --check` passed; `python3 -m json.tool supabase/functions/audited-roster-read/deno.json >/tmp/audited-roster-deno.json` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=7, partial=3, fail=1, blocked=0 and reports `projections_match_reality` as `pass`.
 - Expected status change: `projections_match_reality` `fail` -> `pass`.
 - What remains next: `evaluator_runs_each_iteration` remains `fail` because the evaluator report still lacks a `projections` summary section; `no_unforced_decisions`, `artifacts_cite_decisions`, and `portal_leads_with_decisions` remain `partial`.
+
+
+## 20260426T154510Z Harness Iteration 2
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 86
+- Publish result: committed and pushed: Codex loop iteration 2: rubric pass=7/11
+- Codex log: `.codex-loop/20260426T153401Z-iteration-002-codex.log`
+- Verify log: `.codex-loop/20260426T153401Z-iteration-002-verify.log`
+- Judge log: `.codex-loop/20260426T153401Z-iteration-002-judge.log`
+- Judge JSON: `.codex-loop/20260426T153401Z-iteration-002-judge.json`
+
+## 2026-04-26 11:54:42 EDT Evaluator Projection Summary Iteration
+
+- Chosen rubric item: `evaluator_runs_each_iteration`.
+- Files changed: `scripts/evaluate_platform.py`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 11 rubric items and 55 evidence files; direct `build_projection_summary` smoke check reported 15 decisions, 99 projection refs, 99 present, 0 missing, and 0 unverified fragments; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=8, partial=2, fail=1, blocked=0 and reports `evaluator_runs_each_iteration` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed; `git diff --check` passed.
+- Expected status change: `evaluator_runs_each_iteration` `fail` -> `pass`.
+- What remains next: `portal_leads_with_decisions` remains `fail`; `no_unforced_decisions` and `artifacts_cite_decisions` remain `partial`. The next cheapest item is likely exposing `docs/decisions/decisions-pending.md` to the evaluator evidence bundle or replacing the portal's hand-coded generic decision list with the canonical DEC-001 through DEC-015 register.

@@ -14,7 +14,7 @@ Output schema (per item):
 Overall:
   { rubricVersion, evaluatedAt, model,
     counts: {pass, partial, fail, blocked, total},
-    done: bool, items: [...],
+    done: bool, items: [...], projections: {...},
     advisoryScoreGate: {score, passed} }
 
 `done` is True iff every item is `pass`, OR every non-pass item is `blocked`
@@ -170,6 +170,7 @@ def main() -> int:
         "counts": counts,
         "done": done,
         "items": verdicts,
+        "projections": build_projection_summary(verdicts),
         "advisoryScoreGate": {
             "score": advisory.get("score"),
             "passed": advisory.get("passed"),
@@ -338,6 +339,205 @@ def check_runtime_prereqs(env_file: str) -> dict:
             env.get("SUPABASE_PUBLISHABLE_KEY") or env.get("SUPABASE_ANON_KEY")
         ),
     }
+
+
+# ---------- projection summary ----------
+
+DECISION_REGISTER = ROOT / "docs" / "decisions" / "standards-overlap-decisions.md"
+DECISION_SECTION = re.compile(r"^##\s+(DEC-\d{3}[^\n]*)$", re.MULTILINE)
+
+
+def build_projection_summary(verdicts: list[dict]) -> dict:
+    """Build a per-decision summary of declared projections and local evidence.
+
+    This is intentionally deterministic and structural. The LLM verdict for
+    `projections_match_reality` remains the semantic contradiction check; this
+    section gives the loop a stable spine index for every decision's declared
+    artifact projections.
+    """
+
+    semantic_status = next(
+        (item.get("status") for item in verdicts if item.get("id") == "projections_match_reality"),
+        "unknown",
+    )
+    decisions = parse_decision_register()
+    summary_items = []
+    totals = {
+        "decisions": len(decisions),
+        "projectionRefs": 0,
+        "present": 0,
+        "missing": 0,
+        "unverifiedFragments": 0,
+    }
+    for decision in decisions:
+        projection_checks = [check_projection_ref(ref) for ref in decision["projects_to"]]
+        totals["projectionRefs"] += len(projection_checks)
+        totals["present"] += sum(1 for item in projection_checks if item["status"].startswith("present"))
+        totals["missing"] += sum(1 for item in projection_checks if item["status"].startswith("missing"))
+        totals["unverifiedFragments"] += sum(
+            1 for item in projection_checks if item["status"] == "present_unverified_fragment"
+        )
+
+        if any(item["status"].startswith("missing") for item in projection_checks):
+            match_status = "missing_projection"
+        elif any(item["status"] == "present_unverified_fragment" for item in projection_checks):
+            match_status = "present_with_unverified_fragments"
+        else:
+            match_status = "present"
+
+        summary_items.append(
+            {
+                "decision_id": decision["id"],
+                "title": decision["title"],
+                "choice": decision["choice"],
+                "match_status": match_status,
+                "projection_count": len(projection_checks),
+                "projections": projection_checks,
+            }
+        )
+
+    return {
+        "source": DECISION_REGISTER.relative_to(ROOT).as_posix(),
+        "projectionMatchItemStatus": semantic_status,
+        "note": (
+            "Structural per-decision projection index generated from `projects_to`; "
+            "semantic contradictions are graded by the projections_match_reality rubric item."
+        ),
+        "counts": totals,
+        "decisions": summary_items,
+    }
+
+
+def parse_decision_register() -> list[dict]:
+    if not DECISION_REGISTER.exists():
+        return []
+
+    text = DECISION_REGISTER.read_text()
+    matches = list(DECISION_SECTION.finditer(text))
+    decisions = []
+    for index, match in enumerate(matches):
+        title = match.group(1).strip()
+        start = match.end()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        block = text[start:end]
+        decision_id = parse_backticked_field(block, "id")
+        if not decision_id:
+            continue
+        decisions.append(
+            {
+                "id": decision_id,
+                "title": title,
+                "choice": parse_text_field(block, "choice"),
+                "projects_to": parse_projects_to(block),
+            }
+        )
+    return decisions
+
+
+def parse_backticked_field(block: str, field_name: str) -> str:
+    pattern = re.compile(rf"^-\s+{re.escape(field_name)}:\s+`([^`]+)`\s*$", re.MULTILINE)
+    match = pattern.search(block)
+    return match.group(1).strip() if match else ""
+
+
+def parse_text_field(block: str, field_name: str) -> str:
+    pattern = re.compile(rf"^-\s+{re.escape(field_name)}:\s+(.+?)\s*$", re.MULTILINE)
+    match = pattern.search(block)
+    return match.group(1).strip() if match else ""
+
+
+def parse_projects_to(block: str) -> list[str]:
+    refs = []
+    in_projects = False
+    for line in block.splitlines():
+        if line.strip() == "- projects_to:":
+            in_projects = True
+            continue
+        if not in_projects:
+            continue
+        if line.startswith("  - "):
+            value = line[4:].strip()
+            if value.startswith("`") and value.endswith("`"):
+                value = value[1:-1]
+            refs.append(value)
+            continue
+        if line.startswith("- ") or line.startswith("## "):
+            break
+    return refs
+
+
+def check_projection_ref(ref: str) -> dict:
+    path_text, _, fragment = ref.partition("#")
+    result = {
+        "ref": ref,
+        "path": path_text,
+        "fragment": fragment,
+        "status": "missing_path",
+        "detail": "",
+    }
+    path = ROOT / path_text
+    if not path.exists():
+        result["detail"] = "Referenced path does not exist."
+        return result
+
+    if not fragment:
+        result["status"] = "present_path"
+        result["detail"] = "Referenced path exists."
+        return result
+
+    if path_text.startswith("dictionary/") and path.suffix == ".json":
+        status, detail = check_dictionary_projection(path, fragment)
+        result["status"] = status
+        result["detail"] = detail
+        return result
+
+    status, detail = check_text_projection(path, fragment)
+    result["status"] = status
+    result["detail"] = detail
+    return result
+
+
+def check_dictionary_projection(path: Path, fragment: str) -> tuple[str, str]:
+    try:
+        data = json.loads(path.read_text())
+    except (json.JSONDecodeError, OSError) as exc:
+        return "missing_fragment", f"Could not parse dictionary JSON: {exc}"
+
+    object_key, _, field_key = fragment.partition(".")
+    for obj in data.get("objects", []):
+        if obj.get("object_key") != object_key:
+            continue
+        if not field_key:
+            return "present_dictionary_object", "Dictionary object exists."
+        if any(field.get("field_key") == field_key for field in obj.get("fields", [])):
+            return "present_dictionary_field", "Dictionary field exists."
+        return "missing_fragment", "Dictionary object exists but field is missing."
+    return "missing_fragment", "Dictionary object is missing."
+
+
+def check_text_projection(path: Path, fragment: str) -> tuple[str, str]:
+    try:
+        text = path.read_text(errors="replace")
+    except OSError as exc:
+        return "missing_fragment", f"Could not read referenced path: {exc}"
+
+    if fragment in text:
+        return "present_text_fragment", "Fragment text appears in the referenced artifact."
+
+    normalized_text = normalize_ref_text(text)
+    normalized_fragment = normalize_ref_text(fragment)
+    if normalized_fragment and normalized_fragment in normalized_text:
+        return "present_text_fragment", "Normalized fragment text appears in the referenced artifact."
+
+    tokens = [token for token in re.split(r"[^A-Za-z0-9]+", fragment) if token]
+    if tokens and tokens[0].lower() in normalized_text:
+        return "present_text_hint", "Referenced artifact contains the projection's primary token."
+
+    return "present_unverified_fragment", "Referenced path exists, but the fragment is not directly verifiable."
+
+
+def normalize_ref_text(value: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"[^A-Za-z0-9]+", " ", value.lower())).strip()
 
 
 # ---------- API ----------

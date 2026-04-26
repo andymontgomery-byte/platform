@@ -1,10 +1,10 @@
 {
   "rubricVersion": "fba6cb8e8f9d",
-  "evaluatedAt": "2026-04-26T15:44:27+00:00",
+  "evaluatedAt": "2026-04-26T15:58:51+00:00",
   "model": "claude-opus-4-7",
   "counts": {
-    "pass": 7,
-    "partial": 3,
+    "pass": 8,
+    "partial": 2,
     "fail": 1,
     "blocked": 0,
     "total": 11
@@ -14,18 +14,20 @@
     {
       "id": "decisions_complete",
       "status": "pass",
-      "reason": "All 15 required decision areas (person/agent, learning context, roles, enrollment/membership, results/scores, standards alignment, identifiers, time/session, content/resource, tenancy, privacy surfaces, runtime coverage, audit response, static mirror, service-role) are documented in `docs/decisions/standards-overlap-decisions.md` as DEC-001 through DEC-015. Each decision has id, question, options_considered, choice, consequences, and projects_to populated, e.g., DEC-011-privacy-surfaces and DEC-013-audit-response-truth show concrete projections to specific files.",
+      "reason": "All 15 required decisions (DEC-001 through DEC-015) exist in `docs/decisions/standards-overlap-decisions.md` with id, question, options_considered, choice, consequences, and projects_to fields populated. The required new areas (privacy surfaces DEC-011, runtime coverage DEC-012, audit response truth DEC-013, static mirror policy DEC-014, service-role policy DEC-015) are all present alongside the original tenancy DEC-010 and the cross-spec overlap decisions.",
       "evidence_paths": [
-        "docs/decisions/standards-overlap-decisions.md"
+        "docs/decisions/standards-overlap-decisions.md",
+        "docs/eval-rubric.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "no_unforced_decisions",
       "status": "partial",
-      "reason": "DEC-012 references `decisions-pending.md` for target dates, and the projects_to lists for DEC-012/DEC-015 cite it, but the evidence bundle does not show the contents of `docs/decisions/decisions-pending.md`. Cannot verify each pending entry has owner, target_date, and a blocker description as the rubric requires.",
+      "reason": "The rubric and decision register reference `docs/decisions/decisions-pending.md` (e.g., DEC-012 says 'remains future work with target dates in the decision/pending work queue'), but the pending file's contents are not in the evidence, so I cannot confirm every pending entry has owner, target_date, and a why-it-matters line. The structural shape is in place but per-item compliance is unverified.",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md",
+        "docs/eval-rubric.md",
         "docs/spec-gap-backlog.md"
       ],
       "blocked_prerequisites": []
@@ -33,7 +35,7 @@
     {
       "id": "decisions_simplify",
       "status": "pass",
-      "reason": "Every decision's consequences section leads with explicit removal/elimination language. Examples: DEC-010 'Removes the need for application code to perform per-table tenant filtering; PostgreSQL RLS is the single runtime gate', DEC-011 'Eliminates per-file privacy guessing', DEC-013 'Eliminates hard-coded audit counts such as logged: 5 as acceptable evidence', DEC-015 'Removes the need to audit every Edge Function for hidden bypass behavior'. Each decision deletes work as required.",
+      "reason": "Every decision's consequences section starts at least one bullet with 'Removes the need for', 'Eliminates', 'Lets', or 'Makes...redundant'. For example, DEC-010 says 'Removes the need for application code to perform per-table tenant filtering; PostgreSQL RLS is the single runtime gate'; DEC-013 says 'Eliminates hard-coded audit counts such as logged: 5 as acceptable evidence'; DEC-015 says 'Eliminates service-role fixtures as evidence for tenant isolation or audit behavior'.",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
       ],
@@ -42,26 +44,27 @@
     {
       "id": "artifacts_cite_decisions",
       "status": "partial",
-      "reason": "Dictionary fields all carry `decision_id` (verified by `scripts/check_dictionary_artifacts.py` which fails if decision_ids don't match real decisions). However, RLS policies in `supabase/migrations/0001_oneroster_core_demo.sql` and Edge Functions in `supabase/functions/*/index.ts` show no inline comments naming the decision they implement (e.g., the policy `demo_read_organizations` does not cite DEC-010, and `audited-roster-read/index.ts` does not cite DEC-013). The pg_policies snapshot likewise lacks decision references. Only the dictionary half of the citation requirement is enforced.",
+      "reason": "Dictionary fields in `dictionary/*.v1.json` consistently carry `decision_id` (e.g., `oneroster-core.v1.json#person.email -> DEC-001-person-agent-subject`), and `docs/lead-spec-accounting.md` plus `standards-overlap-decisions.md`'s decision-trace block provide the mapping table. However, `supabase/migrations/0001_oneroster_core_demo.sql` policies (e.g., `demo_read_people`) and Edge Functions like `supabase/functions/audited-roster-read/index.ts` and `gradebook-bulk-submit/index.ts` lack inline `decision: DEC-NNN` comments tying each policy/function to its governing decision. Static mirror files in `site/api/*.json` are not visibly stamped with a decision_id either; they rely on DEC-014 covering the surface as a class.",
       "evidence_paths": [
         "dictionary/oneroster-core.v1.json",
-        "scripts/check_dictionary_artifacts.py",
         "supabase/migrations/0001_oneroster_core_demo.sql",
         "supabase/functions/audited-roster-read/index.ts",
-        "supabase/functions/lti-launch-handler/index.ts",
-        "supabase/policies/pg_policies.snapshot.json"
+        "supabase/functions/gradebook-bulk-submit/index.ts",
+        "docs/lead-spec-accounting.md",
+        "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "projections_match_reality",
       "status": "pass",
-      "reason": "DEC-013 (audit response truth) is now matched: `audited-roster-read/index.ts` reads back from `audit_log` after the RPC call and returns `logged: auditRows.length` plus `fields: auditRows.map(...)` \u2014 no hard-coded counts. DEC-010 (tenant_id JWT predicate, no using(true)) is matched in `pg_policies.snapshot.json` where every policy uses `tenant_id = COALESCE(...auth.jwt()...tenant_id...)`. DEC-011 (static mirrors may include synthetic directory data) is consistent with `site/api/people.json` carrying email from the synthetic North Valley tenant. DEC-014 (mirrors generated from same seed) is implemented by `scripts/build_static_api.py`.",
+      "reason": "Spot-checks of decision projections match implementations: DEC-013 (audit response truth) is honored by `supabase/functions/audited-roster-read/index.ts` which queries `audit_log` after the RPC and returns `audit.logged = auditRows.length` and `audit.fields = auditRows.map(...)` instead of hard-coded values; DEC-010 RLS predicates in `supabase/policies/pg_policies.snapshot.json` use the `auth.jwt() ->> 'tenant_id'` pattern with no `using(true)`; DEC-015 is honored by the Edge Functions reading `Deno.env.get('SUPABASE_ANON_KEY')` and forwarding `req.headers.get('Authorization')` rather than service-role keys, with `docs/admin-operations.md` listing the only allowed service-role operations.",
       "evidence_paths": [
         "supabase/functions/audited-roster-read/index.ts",
+        "supabase/functions/gradebook-bulk-submit/index.ts",
         "supabase/policies/pg_policies.snapshot.json",
         "supabase/migrations/0001_oneroster_core_demo.sql",
-        "tests/supabase_audit_log_test.py",
+        "docs/admin-operations.md",
         "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
@@ -69,7 +72,7 @@
     {
       "id": "runtime_coverage_per_spec_honest",
       "status": "pass",
-      "reason": "`docs/dictionary-coverage-matrix.md` and DEC-012-runtime-coverage-per-spec agree: OneRoster core marked runnable (with hosted Supabase REST + RLS + tests), QTI and CASE marked 'No' for runnable slice (doc-only), Caliper/LTI/Security marked 'Partial: authenticated Edge Function receipt path'. The matrix correctly distinguishes generated dictionaries from runtime backing, matching the decision's claim about each spec's posture.",
+      "reason": "`docs/dictionary-coverage-matrix.md` honestly distinguishes runnable from doc-only: OneRoster core is 'Yes' with SQLite + hosted Supabase REST + RLS; QTI and CASE are 'No' (doc-only); Caliper, LTI, Security Framework get 'Partial' with explicit Edge Function receipt-path scope. This matches DEC-012's choice text ('OneRoster core is runtime-backed now... QTI and CASE are doc-only/generated... Caliper, LTI, Security Framework, Data Privacy have partial runtime backing through authenticated Edge Function receipt/governance paths').",
       "evidence_paths": [
         "docs/dictionary-coverage-matrix.md",
         "docs/decisions/standards-overlap-decisions.md",
@@ -80,44 +83,42 @@
     {
       "id": "vertical_slice_runs_end_to_end",
       "status": "pass",
-      "reason": "`tests/supabase_tenant_rls_test.py` creates two tenant-scoped Auth users with distinct `app_metadata.tenant_id` claims and verifies cross-tenant reads are blocked through the live REST URL. `tests/supabase_audit_log_test.py` calls the live `audited-roster-read` function and reads back `audit_log` rows verifying `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, and `timestamp`. Portal `site/index.html` shows copy-pasteable curl against `qzxlgrerjoiamxvnkklq.supabase.co`, and `cd demo && npm run reset-db && npm test` is in VERIFY.md. Runtime prereqs report all credentials present.",
+      "reason": "VERIFY.md runs `cd demo && npm run reset-db && npm test` plus `python3 tests/supabase_tenant_rls_test.py` and `python3 tests/supabase_audit_log_test.py` against the live Supabase URL each iteration. The tenant test creates two distinct Auth users with different `app_metadata.tenant_id` claims and asserts cross-tenant rows are blocked; the audit test calls the live `audited-roster-read` Edge Function and then queries `audit_log` directly, asserting rows with `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, `request_id`, and `timestamp` exist. The portal includes a copy-pasteable curl with the publishable key in `site/index.html`'s code panel.",
       "evidence_paths": [
+        "VERIFY.md",
         "tests/supabase_tenant_rls_test.py",
         "tests/supabase_audit_log_test.py",
-        "VERIFY.md",
+        "supabase/functions/audited-roster-read/index.ts",
         "site/index.html",
-        "docs/supabase-hosted-database.md",
-        "demo/test.js"
+        "docs/supabase-hosted-database.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "portal_leads_with_decisions",
       "status": "fail",
-      "reason": "The portal's #decisions section in `site/index.html` is rendered by `site/app.js` from a hardcoded array (`const decisions = [...]` with titles like 'Canonical Data Model', 'SQL Contract', 'Identifiers') that bears no relationship to the actual DEC-001 through DEC-015 register in `docs/decisions/standards-overlap-decisions.md`. There are no `#dec-001-person-agent-subject` anchors, no rendered `consequences` or `projects_to` sections per decision, and the real decisions are only reachable via a footer link to a single rendered Markdown page (`docs/decisions-standards-overlap-decisions.html`) \u2014 exactly the 'one big Markdown dump' the substance check forbids.",
+      "reason": "The portal nav at `site/index.html` does include a 'Decisions' link, but the rendered decision cards in `site/app.js` are a hand-curated list of nine generic titles ('Canonical Data Model', 'SQL Contract', 'Identifiers', etc.) with `question/choice/tradeoff` fields \u2014 they are NOT the canonical DEC-001 through DEC-015. There are no per-decision anchors like `#dec-001-person-agent-subject`, the actual `consequences` and `projects_to` arrays from `standards-overlap-decisions.md` are not rendered, and the footer links 'Overlap decisions' to `docs/decisions-standards-overlap-decisions.html` (a single rendered Markdown dump), which the substance_check explicitly rejects.",
       "evidence_paths": [
         "site/index.html",
         "site/app.js",
-        "site/docs/index.html",
         "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "evaluator_runs_each_iteration",
-      "status": "partial",
-      "reason": "`scripts/evaluate_platform.py` is invoked at the end of VERIFY.md and writes `site/api/platform-evaluation.json` with rubricVersion, counts, done flag, and per-item items. However, the report schema in `evaluate_platform.py` (lines defining `report = {...}`) contains no `projections` section summarizing decision-to-reality matches; it only emits items, counts, and `runtimePrereqStatus`. The substance_check explicitly says 'Report missing the projections summary fails'.",
+      "status": "pass",
+      "reason": "`VERIFY.md`'s last command is `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`, executed each iteration by the harness. `scripts/evaluate_platform.py`'s `main()` writes a report containing `done`, per-item `items[]` with status/reason/evidence_paths, and a `projections` section built by `build_projection_summary()` that walks every decision's `projects_to` and reports per-projection match status with totals.",
       "evidence_paths": [
-        "scripts/evaluate_platform.py",
         "VERIFY.md",
-        "site/api/spec-conformance.json"
+        "scripts/evaluate_platform.py"
       ],
       "blocked_prerequisites": []
     },
     {
       "id": "loop_overrides_respected",
       "status": "pass",
-      "reason": "`scripts/codex_loop.py` defines `read_overrides()` which loads `docs/loop-overrides.md`, `overrides_paused()` which detects a bare `PAUSE` token outside HTML comments, and `format_overrides_for_prompt()` which injects content under a 'Human overrides' section in the iteration prompt. The PAUSE check runs at the top of each iteration before any Codex call, halting the loop before the next iteration runs as required.",
+      "reason": "`scripts/codex_loop.py` defines `read_overrides()` to read `docs/loop-overrides.md` at the start of each iteration, calls `overrides_paused()` BEFORE running the next iteration ('Halting before iteration. Clear the PAUSE token to resume.'), and `build_prompt()` injects the cleaned text under a 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE...)' section in the Codex prompt. The PAUSE check correctly ignores the HTML-comment example in the template.",
       "evidence_paths": [
         "scripts/codex_loop.py",
         "docs/loop-overrides.md"
@@ -127,13 +128,855 @@
     {
       "id": "loop_terminates_on_done",
       "status": "pass",
-      "reason": "Termination logic in `scripts/codex_loop.py` references the LLM evaluator's done flag: `if after_eval and after_eval.get('done'): print('Evaluator reports done...'); return 0`. There is also a stall-streak safety rail and max-iterations cap, but no numeric-threshold gate on the advisory spec score. The early-exit before iteration 1 also checks `before_eval.get('done')`.",
+      "reason": "`scripts/codex_loop.py`'s main loop terminates on `if after_eval and after_eval.get('done'): print('Evaluator reports done after this iteration. Stopping the loop.'); return 0`. There is also a pre-iteration check `if before_eval and before_eval.get('done'): return 0`. Termination is gated on the LLM evaluator's `done` flag, not on a numeric score threshold; the advisory `spec_score` is only logged. Hard caps (`max_iterations`, `stall_limit`) remain as safety rails, consistent with the rubric.",
       "evidence_paths": [
         "scripts/codex_loop.py"
       ],
       "blocked_prerequisites": []
     }
   ],
+  "projections": {
+    "source": "docs/decisions/standards-overlap-decisions.md",
+    "projectionMatchItemStatus": "pass",
+    "note": "Structural per-decision projection index generated from `projects_to`; semantic contradictions are graded by the projections_match_reality rubric item.",
+    "counts": {
+      "decisions": 15,
+      "projectionRefs": 99,
+      "present": 99,
+      "missing": 0,
+      "unverifiedFragments": 0
+    },
+    "decisions": [
+      {
+        "decision_id": "DEC-001-person-agent-subject",
+        "title": "DEC-001 Person, User, Actor, Profile, and Subject",
+        "choice": "The platform has a canonical `person` for known school people and a broader `agent` concept for non-person actors. Credential subjects and Caliper actors resolve to `person` only when policy and identifiers allow it; otherwise they remain linked external agents.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#person.display_name",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "person.display_name",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#person.email",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "person.email",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_actor.identifier_value",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_actor.identifier_value",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_launch.subject_id",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_launch.subject_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#people",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "people",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          },
+          {
+            "ref": "site/api/people.json",
+            "path": "site/api/people.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-002-learning-context",
+        "title": "DEC-002 Class, Course, Context, Group, Course Section, and Organization",
+        "choice": "The platform separates `course` from `class`. `course` is the catalog/template. `class` is the scheduled teaching section. LTI contexts and Caliper groups can map to a class, course, or other learning context. Common Cartridge organizations are content outlines, not school organizations or scheduled classes.",
+        "match_status": "present",
+        "projection_count": 7,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#course.title",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "course.title",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#class.course_id",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "class.course_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#academic_session.session_type",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "academic_session.session_type",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_launch.context_id",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_launch.context_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_context.lti_context_id",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_context.lti_context_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#classes",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "classes",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          },
+          {
+            "ref": "site/api/classes.json",
+            "path": "site/api/classes.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-003-role-vocabulary",
+        "title": "DEC-003 Roles",
+        "choice": "Store source roles exactly, then map them to platform role families: `learner`, `educator`, `administrator`, `guardian`, `mentor`, `staff`, `tool`, `issuer`, and `unknown`.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#person.primary_role",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "person.primary_role",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#enrollment.role",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "enrollment.role",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_launch.roles",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_launch.roles",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_membership.roles",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_membership.roles",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#people.primary_role",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "people.primary_role",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#enrollments.role",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "enrollments.role",
+            "status": "present_text_hint",
+            "detail": "Referenced artifact contains the projection's primary token."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-004-enrollment-membership",
+        "title": "DEC-004 Enrollment and Membership",
+        "choice": "`enrollment` is the canonical roster participation record. `membership` is a contextual service/event view that may be derived from enrollment or captured from an external system.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#enrollment.person_id",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "enrollment.person_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#enrollment.class_id",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "enrollment.class_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_membership.context_id",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_membership.context_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_membership.platform_person_id",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_membership.platform_person_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#enrollments",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "enrollments",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          },
+          {
+            "ref": "site/api/enrollments.json",
+            "path": "site/api/enrollments.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-005-results-scores",
+        "title": "DEC-005 Results, Scores, Outcomes, and Grade Events",
+        "choice": "The platform uses `line_item` as the gradebook target and `result` as the learner's current gradebook state. LTI AGS Score is an incoming write/update message. LTI AGS Result and OneRoster Result map to current result state. QTI outcomes are assessment-runtime variables projected into results only when a delivery or scoring workflow declares that mapping. Caliper GradeEvent is event history, not the gradebook source of truth.",
+        "match_status": "present",
+        "projection_count": 7,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#line_item.id",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "line_item.id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#result.score",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "result.score",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_grade_exchange.score_given",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_grade_exchange.score_given",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/qti-core.v1.json#qti_variable_declaration.identifier",
+            "path": "dictionary/qti-core.v1.json",
+            "fragment": "qti_variable_declaration.identifier",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_event.action",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_event.action",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "supabase/functions/gradebook-bulk-submit/index.ts",
+            "path": "supabase/functions/gradebook-bulk-submit/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/views/gradebook-results.json",
+            "path": "site/api/views/gradebook-results.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-006-standards-alignment",
+        "title": "DEC-006 Standards Alignment",
+        "choice": "CASE is the canonical standards graph. Other standards store alignment as source metadata and resolve known targets to CASE item identifiers or URIs.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "dictionary/case-core.v1.json#case_item.identifier",
+            "path": "dictionary/case-core.v1.json",
+            "fragment": "case_item.identifier",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/case-core.v1.json#case_association.origin_node_uri",
+            "path": "dictionary/case-core.v1.json",
+            "fragment": "case_association.origin_node_uri",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/qti-core.v1.json#qti_alignment.target_identifier",
+            "path": "dictionary/qti-core.v1.json",
+            "fragment": "qti_alignment.target_identifier",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.data_category",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "privacy_data_sharing_rule.data_category",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "docs/generated/case-core-dictionary.md",
+            "path": "docs/generated/case-core-dictionary.md",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/docs/case-core-dictionary.html",
+            "path": "site/docs/case-core-dictionary.html",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-007-identifier-crosswalk",
+        "title": "DEC-007 Identifiers",
+        "choice": "Internal records have platform IDs. Standard-shaped endpoints expose the standard-native ID as the primary contract when required. Every external ID is stored in a source identifier crosswalk with source system, identifier type, and object relationship.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#source_identifier.external_id",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "source_identifier.external_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#person.sourced_id",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "person.sourced_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/case-core.v1.json#case_document.uri",
+            "path": "dictionary/case-core.v1.json",
+            "fragment": "case_document.uri",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_deployment.deployment_id",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_deployment.deployment_id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_event.event_iri",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_event.event_iri",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#source_identifiers",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "source_identifiers",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-008-time-session",
+        "title": "DEC-008 Time, School Sessions, and Event Timestamps",
+        "choice": "Separate calendar periods, event timestamps, availability windows, and validity periods. Store timestamps in UTC with source timezone/offset when provided. Store OneRoster AcademicSession as the school calendar backbone.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#academic_session.start_date",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "academic_session.start_date",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#academic_session.end_date",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "academic_session.end_date",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#person.date_last_modified",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "person.date_last_modified",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_event.event_time",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_event.event_time",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/qti-core.v1.json#qti_assessment_test.time_limit_seconds",
+            "path": "dictionary/qti-core.v1.json",
+            "fragment": "qti_assessment_test.time_limit_seconds",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#academic_sessions",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "academic_sessions",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-009-content-resource",
+        "title": "DEC-009 Content, Resources, Packages, and Launch Links",
+        "choice": "The platform uses a broad `resource` concept for discoverable learning objects, with subtype-specific records for cartridge resources, QTI packages/items/tests, LTI resource links, and Caliper event entities.",
+        "match_status": "present",
+        "projection_count": 7,
+        "projections": [
+          {
+            "ref": "dictionary/qti-core.v1.json#qti_package.package_identifier",
+            "path": "dictionary/qti-core.v1.json",
+            "fragment": "qti_package.package_identifier",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/qti-core.v1.json#qti_assessment_item.identifier",
+            "path": "dictionary/qti-core.v1.json",
+            "fragment": "qti_assessment_item.identifier",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#lti_deep_link_item.url",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "lti_deep_link_item.url",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_entity.entity_type",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_entity.entity_type",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_extension.extension_key",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_extension.extension_key",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "docs/generated/qti-core-dictionary.md",
+            "path": "docs/generated/qti-core-dictionary.md",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/docs/qti-core-dictionary.html",
+            "path": "site/docs/qti-core-dictionary.html",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-010-tenancy-reference-data",
+        "title": "DEC-010 Tenant-Owned Data and Shared Reference Data",
+        "choice": "Tenant-owned operational records carry tenant boundaries and row-level policy. Public CASE frameworks, public standards metadata, public certification fixtures, and optionally public item banks live in shared reference namespaces. Tenants adopt, pin, override, or privately extend shared reference data through explicit records.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#tenant_id columns",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "tenant_id columns",
+            "status": "present_text_hint",
+            "detail": "Referenced artifact contains the projection's primary token."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#tenant_isolation policies",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "tenant_isolation policies",
+            "status": "present_text_hint",
+            "detail": "Referenced artifact contains the projection's primary token."
+          },
+          {
+            "ref": "supabase/policies/pg_policies.snapshot.json",
+            "path": "supabase/policies/pg_policies.snapshot.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "dictionary/oneroster-core.v1.json#organization.id",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "organization.id",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/caliper-core.v1.json#caliper_extension.allowed_by_policy",
+            "path": "dictionary/caliper-core.v1.json",
+            "fragment": "caliper_extension.allowed_by_policy",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "tests/supabase_tenant_rls_test.py",
+            "path": "tests/supabase_tenant_rls_test.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-011-privacy-surfaces",
+        "title": "DEC-011 Privacy Surfaces",
+        "choice": "Generated docs may describe every field and privacy class because they are schema documentation, not records. Live PostgREST may expose tenant-owned `public`, `operational`, `directory`, and `education_record` records only through tenant RLS and scope policy. Edge Functions may expose `directory`, `education_record`, `behavioral`, or sensitive operational fields only through caller JWT, purpose, scope, tenant RLS, and audit logging when the read is sensitive. Static `site/api/*.json` mirrors may contain only synthetic demo records from the seeded `.test` tenant and may include `public`, `operational`, and `directory` fields such as demo email; they may not contain real tenant data, `education_record`, `behavioral`, `sensitive_pii`, or secret/system values.",
+        "match_status": "present",
+        "projection_count": 7,
+        "projections": [
+          {
+            "ref": "dictionary/oneroster-core.v1.json#person.email",
+            "path": "dictionary/oneroster-core.v1.json",
+            "fragment": "person.email",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.privacy_class",
+            "path": "dictionary/integration-governance-core.v1.json",
+            "fragment": "privacy_data_sharing_rule.privacy_class",
+            "status": "present_dictionary_field",
+            "detail": "Dictionary field exists."
+          },
+          {
+            "ref": "site/api/people.json",
+            "path": "site/api/people.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/classes.json",
+            "path": "site/api/classes.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/views/gradebook-results.json",
+            "path": "site/api/views/gradebook-results.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "supabase/functions/audited-roster-read/index.ts",
+            "path": "supabase/functions/audited-roster-read/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "tests/supabase_audit_log_test.py",
+            "path": "tests/supabase_audit_log_test.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-012-runtime-coverage-per-spec",
+        "title": "DEC-012 Runtime Coverage Per Spec",
+        "choice": "OneRoster core is runtime-backed now through local SQLite, hosted Supabase PostgREST, RLS, and live tests. QTI and CASE are doc-only/generated dictionary projections until runtime slices are built. Caliper, LTI, Security Framework, and Data Privacy have partial runtime backing through authenticated Edge Function receipt/governance paths, but not full standard conformance flows. Full runtime for QTI import, CASE search, Caliper raw-event projection, LTI Advantage services, production OAuth, and privacy workflows remains future work with target dates in the decision/pending work queue.",
+        "match_status": "present",
+        "projection_count": 7,
+        "projections": [
+          {
+            "ref": "docs/dictionary-coverage-matrix.md",
+            "path": "docs/dictionary-coverage-matrix.md",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "docs/lead-spec-accounting.md",
+            "path": "docs/lead-spec-accounting.md",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "docs/decisions/decisions-pending.md",
+            "path": "docs/decisions/decisions-pending.md",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "scripts/check_spec_conformance.py",
+            "path": "scripts/check_spec_conformance.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/spec-conformance.json",
+            "path": "site/api/spec-conformance.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "tests/supabase_tenant_rls_test.py",
+            "path": "tests/supabase_tenant_rls_test.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "tests/supabase_audit_log_test.py",
+            "path": "tests/supabase_audit_log_test.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-013-audit-response-truth",
+        "title": "DEC-013 Audit Response Truth",
+        "choice": "Audited Edge Functions must use truthful responses when they include an `audit` block. If the function cannot read the written `audit_log` rows back under the caller's JWT and request identifier, it must omit the audit block or return an explicit error; it must not hard-code `logged` counts or field lists.",
+        "match_status": "present",
+        "projection_count": 6,
+        "projections": [
+          {
+            "ref": "supabase/functions/audited-roster-read/index.ts",
+            "path": "supabase/functions/audited-roster-read/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#audit_log",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "audit_log",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          },
+          {
+            "ref": "supabase/migrations/0001_oneroster_core_demo.sql#read_people_sensitive_audited",
+            "path": "supabase/migrations/0001_oneroster_core_demo.sql",
+            "fragment": "read_people_sensitive_audited",
+            "status": "present_text_fragment",
+            "detail": "Fragment text appears in the referenced artifact."
+          },
+          {
+            "ref": "tests/supabase_audit_log_test.py",
+            "path": "tests/supabase_audit_log_test.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "docs/admin-operations.md",
+            "path": "docs/admin-operations.md",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/platform-evaluation.json",
+            "path": "site/api/platform-evaluation.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-014-static-mirror-policy",
+        "title": "DEC-014 Static Mirror Policy",
+        "choice": "Static mirrors are allowed as documentation fixtures for GitHub Pages and offline inspection. They are not the canonical runtime contract; live Supabase REST and Edge Functions are the runtime contract. Mirrors must be generated from the same synthetic demo seed as the local demo, must carry source metadata, and may only include privacy classes allowed by `DEC-011-privacy-surfaces`.",
+        "match_status": "present",
+        "projection_count": 8,
+        "projections": [
+          {
+            "ref": "scripts/build_static_api.py",
+            "path": "scripts/build_static_api.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/index.json",
+            "path": "site/api/index.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/people.json",
+            "path": "site/api/people.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/organizations.json",
+            "path": "site/api/organizations.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/classes.json",
+            "path": "site/api/classes.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/enrollments.json",
+            "path": "site/api/enrollments.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/views/class-roster.json",
+            "path": "site/api/views/class-roster.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "site/api/views/gradebook-results.json",
+            "path": "site/api/views/gradebook-results.json",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      },
+      {
+        "decision_id": "DEC-015-service-role-policy",
+        "title": "DEC-015 Service-Role Policy",
+        "choice": "Request-scoped runtime code and Edge Functions must pass the caller's `Authorization` bearer token to Supabase so RLS applies. Service-role access is allowed only for allowlisted admin or test fixture operations in `docs/admin-operations.md`, with a named operation ID, caller, why-user-JWT-insufficient reason, guardrails, and recent review date. Tests may use service role to create temporary Auth users, but not to read tenant data or satisfy the assertion under test.",
+        "match_status": "present",
+        "projection_count": 8,
+        "projections": [
+          {
+            "ref": "docs/admin-operations.md",
+            "path": "docs/admin-operations.md",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "supabase/functions/gradebook-bulk-submit/index.ts",
+            "path": "supabase/functions/gradebook-bulk-submit/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "supabase/functions/audited-roster-read/index.ts",
+            "path": "supabase/functions/audited-roster-read/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "supabase/functions/lti-launch-handler/index.ts",
+            "path": "supabase/functions/lti-launch-handler/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "supabase/functions/caliper-event-ingestion/index.ts",
+            "path": "supabase/functions/caliper-event-ingestion/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "supabase/functions/oauth-token-exchange/index.ts",
+            "path": "supabase/functions/oauth-token-exchange/index.ts",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "tests/supabase_tenant_rls_test.py",
+            "path": "tests/supabase_tenant_rls_test.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          },
+          {
+            "ref": "tests/supabase_audit_log_test.py",
+            "path": "tests/supabase_audit_log_test.py",
+            "fragment": "",
+            "status": "present_path",
+            "detail": "Referenced path exists."
+          }
+        ]
+      }
+    ]
+  },
   "advisoryScoreGate": {
     "score": 100.0,
     "passed": true,
