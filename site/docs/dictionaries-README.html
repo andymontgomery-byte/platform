@@ -10,16 +10,16 @@
   <main class="doc-shell">
     <p class="eyebrow">Rendered portal documentation</p>
     <p><a class="text-link" href="index.html">Docs index</a></p>
-    <h1>Layperson Data Dictionary Index</h1>
+    <h1 id="layperson-data-dictionary-index">Layperson Data Dictionary Index</h1>
 <p>Research date: 2026-04-24</p>
 <p>This folder is the human-readable dictionary for the platform. Each file explains standards objects, fields, and vocabulary values in school-friendly language, with privacy classes and implementation notes.</p>
-<h2>Coverage</h2>
+<h2 id="coverage">Coverage</h2>
 <table><thead><tr><th>Dictionary</th><th>Primary standards</th><th>Main coverage</th></tr></thead><tbody><tr><td><a href="dictionaries-oneroster-1.2-layperson-dictionary.html">OneRoster 1.2</a></td><td>OneRoster 1.2 Rostering, Gradebook, Resources, CSV binding</td><td>Academic sessions, organizations, courses, classes, users, roles, enrollments, demographics, resources, categories, line items, results, score scales, and OneRoster values.</td></tr><tr><td><a href="dictionaries-case-1.1-layperson-dictionary.html">CASE 1.1</a></td><td>CASE 1.1 information model and REST binding</td><td>Framework packages, documents, items, associations, concepts, subjects, item types, licenses, rubrics, rubric criteria, rubric levels, and CASE values.</td></tr><tr><td><a href="dictionaries-qti-3-layperson-dictionary.html">QTI 3</a></td><td>QTI 3 assessment/item/test model</td><td>Assessment packages, items, stimuli, tests, sections, item references, declarations, processing rules, interactions, feedback, rubrics, accessibility, support tools, and QTI values.</td></tr><tr><td><a href="dictionaries-caliper-1.2-layperson-dictionary.html">Caliper 1.2</a></td><td>Caliper Analytics 1.2</td><td>Event envelopes, base events, entities, event types, profiles, actions, roles, statuses, LTI session fields, and Caliper values.</td></tr><tr><td><a href="dictionaries-integration-packaging-credentials-governance-layperson-dictionary.html">Integration, Packaging, Credentials, and Governance</a></td><td>LTI 1.3, LTI Advantage, Common Cartridge, Open Badges 3.0, CLR 2.0, Security Framework 1.1, Data Privacy</td><td>Tool launch, memberships, grade passback, deep linking, cartridge packages, badge and CLR credentials, proofs, scopes, OAuth/OIDC security, privacy rules, and governance values.</td></tr></tbody></table>
-<h2>How To Use These Dictionaries</h2>
+<h2 id="how-to-use-these-dictionaries">How To Use These Dictionaries</h2>
 <p>Start with the file for the standard that owns the data you are modeling. If a workflow crosses standards, use the cross-standard relationship sections to keep source IDs and meanings separate.</p>
 <p>Examples:</p>
 <ul><li>A course roster import starts in OneRoster, then may link to LTI launches and Caliper activity.</li><li>A standards-aligned quiz starts in QTI, links to CASE, may be packaged in Common Cartridge, and may produce OneRoster or LTI AGS results.</li><li>A microcredential starts as an Open Badges achievement, may align to CASE, and may later be bundled inside a CLR credential.</li></ul>
-<h2>Dictionary Rule</h2>
+<h2 id="dictionary-rule">Dictionary Rule</h2>
 <p>Every public SQL table, API resource, field, enum value, and relationship should have:</p>
 <ul><li>A plain-language description.</li><li>A source standard and version when known.</li><li>A privacy class.</li><li>Allowed values when the field is controlled by a vocabulary.</li><li>A note explaining what not to confuse it with when the risk is obvious.</li></ul>
 <p>The Markdown files are the readable research layer. The seed JSON and SQL schema are the governed machine-readable starting point that should eventually absorb these definitions as implementation scope becomes concrete.</p>

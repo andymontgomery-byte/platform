@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 
@@ -256,12 +257,15 @@ def render_markdown(data: dict) -> str:
 
 def render_html(data: dict) -> str:
     cards = []
+    seen_enum_anchors: set[str] = set()
+    seen_value_anchors: set[str] = set()
     for obj in data["objects"]:
         field_rows = []
         value_sections = []
         for field in obj["fields"]:
+            field_row_id = anchor_id(obj["object_key"], field["column_name"])
             field_rows.append(
-                "<tr>"
+                f"<tr id=\"{html_escape(field_row_id)}\">"
                 f"<td><code>{html_escape(field['column_name'])}</code></td>"
                 f"<td><code>{html_escape(field['json_name'])}</code></td>"
                 f"<td>{html_escape(field['data_type'])}</td>"
@@ -275,21 +279,20 @@ def render_html(data: dict) -> str:
             values = allowed_values(field, data)
             if values:
                 value_rows = "".join(
-                    "<tr>"
-                    f"<td><code>{html_escape(value['value'])}</code></td>"
-                    f"<td>{html_escape(value['label'])}</td>"
-                    f"<td>{html_escape(format_source_standard(value['sourceStandard']))}</td>"
-                    f"<td>{html_escape(value['plain_description'])}</td>"
-                    "</tr>"
-                    for value in values
+                    value_row_html(obj, field, value, seen_value_anchors) for value in values
                 )
+                enum_anchor = anchor_id("enum", enum_key(obj, field))
+                enum_id_attr = ""
+                if enum_anchor not in seen_enum_anchors:
+                    enum_id_attr = f" id=\"{html_escape(enum_anchor)}\""
+                    seen_enum_anchors.add(enum_anchor)
                 value_sections.append(
-                    f"<h4>Values for <code>{html_escape(field['column_name'])}</code></h4>"
+                    f"<h4{enum_id_attr}>Values for <code>{html_escape(field['column_name'])}</code></h4>"
                     "<table><thead><tr><th>Value</th><th>Label</th><th>Source standard</th><th>Layperson meaning</th></tr></thead>"
                     f"<tbody>{value_rows}</tbody></table>"
                 )
         cards.append(
-            "<section class=\"doc-card\">"
+            f"<section class=\"doc-card\" id=\"{html_escape(anchor_id(obj['object_key']))}\">"
             f"<h2>{html_escape(obj['name'])}</h2>"
             f"<p>{html_escape(obj['plain_description'])}</p>"
             "<dl>"
@@ -341,6 +344,34 @@ def render_html(data: dict) -> str:
         "</body>\n"
         "</html>\n"
     )
+
+
+def value_row_html(obj: dict, field: dict, value: dict, seen_value_anchors: set[str]) -> str:
+    value_anchor = anchor_id("enum", enum_key(obj, field), value["value"])
+    row_id_attr = ""
+    if value_anchor not in seen_value_anchors:
+        row_id_attr = f" id=\"{html_escape(value_anchor)}\""
+        seen_value_anchors.add(value_anchor)
+    return (
+        f"<tr{row_id_attr}>"
+        f"<td><code>{html_escape(value['value'])}</code></td>"
+        f"<td>{html_escape(value['label'])}</td>"
+        f"<td>{html_escape(format_source_standard(value['sourceStandard']))}</td>"
+        f"<td>{html_escape(value['plain_description'])}</td>"
+        "</tr>"
+    )
+
+
+def enum_key(obj: dict, field: dict) -> str:
+    return field.get("shared_enum_id") or field.get("allowed_values_ref") or f"{obj['object_key']}.{field['column_name']}"
+
+
+def anchor_id(*parts: object) -> str:
+    safe_parts = []
+    for part in parts:
+        safe = re.sub(r"[^A-Za-z0-9_.-]+", "-", str(part)).strip("-")
+        safe_parts.append(safe or "entry")
+    return ".".join(safe_parts)
 
 
 def allowed_values(field: dict, data: dict) -> list[dict]:

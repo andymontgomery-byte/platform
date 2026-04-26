@@ -97,6 +97,7 @@ def markdown_to_html(markdown: str, source: Path) -> str:
     paragraph: list[str] = []
     list_items: list[str] = []
     ordered_items: list[str] = []
+    used_heading_ids: set[str] = set()
     in_code = False
     code_lines: list[str] = []
     i = 0
@@ -152,7 +153,10 @@ def markdown_to_html(markdown: str, source: Path) -> str:
             flush_paragraph()
             flush_list()
             level = min(len(heading.group(1)), 4)
-            output.append(f"<h{level}>{inline(heading.group(2), source)}</h{level}>")
+            heading_id = heading_id_for(heading.group(2), lines, i, used_heading_ids)
+            output.append(
+                f"<h{level} id=\"{escape(heading_id)}\">{inline(heading.group(2), source)}</h{level}>"
+            )
             i += 1
             continue
         bullet = re.match(r"^-\s+(.*)$", line)
@@ -174,6 +178,40 @@ def markdown_to_html(markdown: str, source: Path) -> str:
     flush_paragraph()
     flush_list()
     return "\n".join(output)
+
+
+def heading_id_for(
+    heading_text: str, lines: list[str], index: int, used_heading_ids: set[str]
+) -> str:
+    decision_id = decision_id_after_heading(heading_text, lines, index)
+    base = decision_id or slugify_heading(heading_text) or "section"
+    heading_id = base
+    suffix = 2
+    while heading_id in used_heading_ids:
+        heading_id = f"{base}-{suffix}"
+        suffix += 1
+    used_heading_ids.add(heading_id)
+    return heading_id
+
+
+def decision_id_after_heading(heading_text: str, lines: list[str], index: int) -> str:
+    if not re.match(r"DEC-\d{3}\b", heading_text):
+        return ""
+    for line in lines[index + 1 :]:
+        if re.match(r"^#{1,6}\s+", line):
+            return ""
+        match = re.match(r"^-\s+id:\s+`([^`]+)`\s*$", line)
+        if match:
+            return match.group(1)
+    return ""
+
+
+def slugify_heading(heading_text: str) -> str:
+    text = re.sub(r"`([^`]+)`", r"\1", heading_text)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"[^A-Za-z0-9]+", "-", text.lower()).strip("-")
+    return text
 
 
 def is_table_start(lines: list[str], index: int) -> bool:

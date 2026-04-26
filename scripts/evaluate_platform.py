@@ -65,6 +65,7 @@ ALWAYS_EVIDENCE = [
     "docs/build-an-edtech-app.md",
     "data/data-dictionary.seed.json",
     "site/api/spec-conformance.json",
+    "site/api/site-link-check.json",
     "site/docs/build-an-edtech-app.html",
     ".env.example",
 ]

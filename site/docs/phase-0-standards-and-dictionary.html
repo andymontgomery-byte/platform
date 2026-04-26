@@ -10,24 +10,24 @@
   <main class="doc-shell">
     <p class="eyebrow">Rendered portal documentation</p>
     <p><a class="text-link" href="index.html">Docs index</a></p>
-    <h1>Phase 0: Standards Registry and Data Dictionary</h1>
-<h2>Purpose</h2>
+    <h1 id="phase-0-standards-registry-and-data-dictionary">Phase 0: Standards Registry and Data Dictionary</h1>
+<h2 id="purpose">Purpose</h2>
 <p>The first platform asset is not an app server. It is governed metadata.</p>
 <p>The platform needs a trusted source of truth for:</p>
 <ul><li>Which 1EdTech standards and versions we implement, prepare for, or support as legacy.</li><li>Which data domains exist in the platform.</li><li>What every object and field means in plain school language.</li><li>Which SQL tables/views and JSON API fields expose each concept.</li><li>Which privacy class, source standard, and access scope apply to each field.</li></ul>
 <p>This lets a human developer, school administrator, or AI agent understand the platform without reading every standard specification.</p>
-<h2>Files</h2>
+<h2 id="files">Files</h2>
 <table><thead><tr><th>File</th><th>Role</th></tr></thead><tbody><tr><td><code>schema/0001_registry_and_dictionary.sql</code></td><td>Postgres schema for the standards registry and data dictionary.</td></tr><tr><td><code>data/standards-registry.seed.json</code></td><td>Machine-readable seed of researched 1EdTech standards and platform posture.</td></tr><tr><td><code>data/data-dictionary.seed.json</code></td><td>Machine-readable seed of platform domains, objects, fields, enums, and relationships.</td></tr><tr><td><code>openapi/dictionary.v0.yaml</code></td><td>Initial OpenAPI contract for serving dictionary metadata over JSON/HTTP.</td></tr><tr><td><code>docs/dictionaries/</code></td><td>Layperson Markdown dictionaries for standards objects, fields, values, privacy classes, and cross-standard relationships.</td></tr></tbody></table>
-<h2>Design Rules</h2>
+<h2 id="design-rules">Design Rules</h2>
 <ol><li>Every public SQL table, public SQL view, API resource, API field, enum value, and relationship must have a dictionary entry.</li><li>Dictionary descriptions must be understandable by someone who has been to school, not just by standards implementers.</li><li>Every standard-bound field must identify its source standard family and version when known.</li><li>Every field must carry a privacy classification.</li><li>Every identifier must explain whose identifier it is: platform, school, SIS, LMS, assessment provider, credential issuer, standards publisher, or another external source.</li><li>API docs and SQL docs should be generated from dictionary metadata, not separately rewritten.</li></ol>
-<h2>Privacy Classes</h2>
+<h2 id="privacy-classes">Privacy Classes</h2>
 <table><thead><tr><th>Class</th><th>Meaning</th></tr></thead><tbody><tr><td><code>public</code></td><td>Safe to publish without identifying a learner or private institution record.</td></tr><tr><td><code>directory</code></td><td>Common school directory information that may still be access-controlled.</td></tr><tr><td><code>education_record</code></td><td>Student education record data such as enrollment, grade, result, or progress.</td></tr><tr><td><code>sensitive</code></td><td>Data needing heightened handling, such as accommodations, demographics, or security-related values.</td></tr><tr><td><code>credential</code></td><td>Verifiable achievement or learner-record data.</td></tr><tr><td><code>behavioral</code></td><td>Activity, usage, clickstream, time-on-task, or engagement data.</td></tr><tr><td><code>operational</code></td><td>Import/export status, source lineage, validation results, or system metadata.</td></tr><tr><td><code>system</code></td><td>Internal platform configuration, secrets metadata, or infrastructure records.</td></tr></tbody></table>
-<h2>Implementation Postures</h2>
+<h2 id="implementation-postures">Implementation Postures</h2>
 <table><thead><tr><th>Posture</th><th>Meaning</th></tr></thead><tbody><tr><td><code>lead</code></td><td>Build into the initial platform architecture.</td></tr><tr><td><code>prepare</code></td><td>Shape schemas so this can be implemented cleanly later.</td></tr><tr><td><code>support</code></td><td>Account for import/export, metadata, or customer-specific use.</td></tr><tr><td><code>legacy</code></td><td>Recognize for migration/history, but do not make it a new product contract.</td></tr><tr><td><code>governance</code></td><td>Use to guide trust, compliance, privacy, or security posture.</td></tr></tbody></table>
-<h2>Acceptance Criteria</h2>
+<h2 id="acceptance-criteria">Acceptance Criteria</h2>
 <p>Phase 0 is complete when:</p>
 <ul><li>The standards registry can answer &quot;which standards do we support, why, and from which source links?&quot;</li><li>The dictionary can answer &quot;what does this field mean, where does it appear, who may access it, and what standard does it map to?&quot;</li><li>The dictionary API can expose standards, objects, fields, enums, and relationships.</li><li>Future schema migrations can fail review if new public fields lack dictionary entries.</li></ul>
-<h2>Next Build Step</h2>
+<h2 id="next-build-step">Next Build Step</h2>
 <p>After Phase 0, build Phase 1 around OneRoster 1.2:</p>
 <ul><li><code>organizations</code></li><li><code>people</code></li><li><code>users</code></li><li><code>academic_sessions</code></li><li><code>courses</code></li><li><code>classes</code></li><li><code>enrollments</code></li><li><code>source_identifiers</code></li><li>CSV import/export lineage</li><li>basic gradebook line items and results</li></ul>
     <p class="source-note">Source file: <code>docs/phase-0-standards-and-dictionary.md</code></p>
