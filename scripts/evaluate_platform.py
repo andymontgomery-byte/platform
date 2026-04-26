@@ -8,13 +8,13 @@ site/api/platform-evaluation.json.
 
 Output schema (per item):
   { id, status: "pass"|"partial"|"fail"|"blocked",
-    reason: str, evidence_paths: [str],
+    reason: str, traced_cause: str, evidence_paths: [str],
     blocked_prerequisites: [str] }
 
 Overall:
   { rubricVersion, evaluatedAt, model,
     counts: {pass, partial, fail, blocked, total},
-    done: bool, items: [...], projections: {...},
+    done: bool, items: [...], buildability_gaps: [...], projections: {...},
     advisoryScoreGate: {score, passed} }
 
 `done` is True iff every item is `pass`, OR every non-pass item is `blocked`
@@ -144,7 +144,7 @@ def main() -> int:
         )
         return 3
 
-    verdicts = call_evaluator(
+    verdicts, buildability_gaps = call_evaluator(
         api_key=api_key,
         model=args.model,
         thinking_budget=args.thinking_budget,
@@ -159,6 +159,8 @@ def main() -> int:
     # Apply prereq-based blocking AFTER the LLM verdict so missing infra
     # never silently turns into a `fail` the loop will spin on.
     verdicts = apply_prereq_blocks(verdicts, prereqs)
+    verdicts = ensure_traced_causes(verdicts)
+    buildability_gaps = normalize_buildability_gaps(buildability_gaps, verdicts)
 
     counts = tally(verdicts)
     done = counts["fail"] == 0 and counts["partial"] == 0 and (
@@ -172,6 +174,7 @@ def main() -> int:
         "counts": counts,
         "done": done,
         "items": verdicts,
+        "buildability_gaps": buildability_gaps,
         "projections": build_projection_summary(verdicts),
         "advisoryScoreGate": {
             "score": advisory.get("score"),
@@ -592,11 +595,26 @@ def build_evaluator_prompt(items: list[dict], evidence: list[dict], advisory: di
           - status: "pass" | "partial" | "fail" | "blocked"
           - reason: 1\u20133 sentences. Specific. Cite file paths or quoted snippets.
             No hedging.
+          - traced_cause: required and non-empty whenever status is not "pass".
+            Name the lowest-layer artifact that must change and the required
+            change, e.g. "dictionary/oneroster-core.v1.json#person.email:
+            add canonical_field_id pointing to the shared email field". Use
+            "" only when status is "pass".
           - evidence_paths: list of file paths from the EVIDENCE section that
             informed your verdict.
           - blocked_prerequisites: list of strings naming external
             prerequisites that must be satisfied to make progress. Empty
             unless status == "blocked".
+
+        Also return a top-level buildability_gaps array. If
+        buildable_by_layperson is non-pass, include one object for each gap
+        encountered by the layperson simulation with:
+          - step: one of "create_school", "create_class", "post_grade",
+            "link_case_standard", "read_caliper_feed", or "cross_step"
+          - gap: the missing/ambiguous thing
+          - traced_cause: the specific decision, dictionary entry, or doc that
+            must change. This must be non-empty for every gap.
+        If buildable_by_layperson passes, return an empty array.
 
         Status rules:
           - "pass": the requirement's substance_check is fully met.
@@ -616,7 +634,11 @@ def build_evaluator_prompt(items: list[dict], evidence: list[dict], advisory: di
 
         Return ONLY valid JSON with this shape, nothing else:
           { "items": [ { "id": "...", "status": "...", "reason": "...",
-                         "evidence_paths": [...], "blocked_prerequisites": [...] }, ... ] }
+                         "traced_cause": "...", "evidence_paths": [...],
+                         "blocked_prerequisites": [...] }, ... ],
+            "buildability_gaps": [
+              { "step": "...", "gap": "...", "traced_cause": "..." }
+            ] }
         """
     ).strip()
 
@@ -640,7 +662,7 @@ def call_evaluator(
     evidence: list[dict],
     advisory: dict,
     prereqs: dict,
-) -> list[dict]:
+) -> tuple[list[dict], list[dict]]:
     prompt = build_evaluator_prompt(items, evidence, advisory, prereqs)
     body = {
         "model": model,
@@ -674,17 +696,27 @@ def call_evaluator(
 
     parsed = _extract_json(text)
     raw_items = parsed.get("items", [])
+    buildability_gaps = parsed.get("buildability_gaps", [])
     by_id = {it["id"]: it for it in items}
     verdicts: list[dict] = []
     for v in raw_items:
         item_id = v.get("id")
         if item_id not in by_id:
             continue
+        status = normalize_status(v.get("status"))
+        reason = (v.get("reason") or "").strip()
         verdicts.append(
             {
                 "id": item_id,
-                "status": v.get("status", "fail"),
-                "reason": (v.get("reason") or "").strip(),
+                "status": status,
+                "reason": reason,
+                "traced_cause": normalize_traced_cause(
+                    v.get("traced_cause"),
+                    item_id=item_id,
+                    status=status,
+                    reason=reason,
+                    blocked_prerequisites=v.get("blocked_prerequisites", []),
+                ),
                 "evidence_paths": v.get("evidence_paths", []),
                 "blocked_prerequisites": v.get("blocked_prerequisites", []),
             }
@@ -698,11 +730,12 @@ def call_evaluator(
                     "id": it["id"],
                     "status": "fail",
                     "reason": "Evaluator did not return a verdict for this item.",
+                    "traced_cause": default_traced_cause(it["id"]),
                     "evidence_paths": [],
                     "blocked_prerequisites": [],
                 }
             )
-    return verdicts
+    return verdicts, buildability_gaps
 
 
 def _retry_post(req: urllib.request.Request, attempts: int = 3) -> str:
@@ -744,6 +777,251 @@ def _extract_json(text: str) -> dict:
 # ---------- post-processing ----------
 
 
+VALID_STATUSES = {"pass", "partial", "fail", "blocked"}
+
+DEFAULT_TRACED_CAUSES = {
+    "decisions_complete": (
+        "docs/decisions/standards-overlap-decisions.md and "
+        "docs/decisions/decisions-needed.md: add or sharpen the missing "
+        "six-field decision and align projects_to with the artifact it governs."
+    ),
+    "no_unforced_decisions": (
+        "docs/decisions/decisions-pending.md: add owner, target_date, blocker, "
+        "and rationale for every undecided platform choice."
+    ),
+    "decisions_simplify": (
+        "docs/decisions/standards-overlap-decisions.md: update consequences to "
+        "name the concrete artifact, code path, or category each decision removes."
+    ),
+    "decisions_have_real_alternatives": (
+        "docs/decisions/standards-overlap-decisions.md: add credible aggressive "
+        "and permissive architectural alternatives for each weak decision."
+    ),
+    "dictionary_single_source_of_truth": (
+        "data/data-dictionary.seed.json and scripts/generate_spec_dictionaries.py: "
+        "implement DEC-016 so the shared dictionary generates every per-spec projection."
+    ),
+    "dictionary_resolves_cross_spec_overlaps": (
+        "data/data-dictionary.seed.json and dictionary/*.v1.json: implement DEC-017 "
+        "with canonical_field_id on overlapping fields or documented spec_only exceptions."
+    ),
+    "dictionary_unifies_identity": (
+        "data/data-dictionary.seed.json and dictionary/*.v1.json: add the canonical "
+        "identity object and canonical_object_id projections for identity-shaped spec objects."
+    ),
+    "dictionary_global_enums": (
+        "data/data-dictionary.seed.json and dictionary/*.v1.json: implement DEC-018 "
+        "with shared_enum_id references and bidirectional spec value crosswalks."
+    ),
+    "dictionary_closed_privacy_classes": (
+        "data/data-dictionary.seed.json and dictionary/*.v1.json: implement DEC-019 "
+        "with one closed privacy class list and no depends_on_* placeholders."
+    ),
+    "dictionary_carries_relational_graph": (
+        "data/data-dictionary.seed.json and supabase/migrations/*.sql: implement "
+        "DEC-020 relationships and migration generation from the dictionary graph."
+    ),
+    "dictionary_artifacts_cite_decisions": (
+        "dictionary/*.v1.json and docs/decisions/standards-overlap-decisions.md: "
+        "add decision_id citations for orphaned dictionary artifacts."
+    ),
+    "docs_generated_from_dictionary": (
+        "scripts/build_site_docs.py, docs/generated/*-dictionary.md, and prose docs: "
+        "regenerate dictionary-backed references and link load-bearing claims to anchors."
+    ),
+    "docs_explain_why_not_only_what": (
+        "docs/*.md and docs/decisions/standards-overlap-decisions.md: add plain-language "
+        "decision explanations where generated concepts are introduced."
+    ),
+    "docs_include_buildability_guide": (
+        "docs/build-an-edtech-app.md: write the end-to-end executable guide with "
+        "dictionary and enum links for each required step."
+    ),
+    "docs_no_dead_links_or_orphans": (
+        "site/docs/index.html and rendered site docs: add link-check evidence and "
+        "make every dictionary entry, decision, endpoint, and guide reachable."
+    ),
+    "buildable_by_layperson": (
+        "docs/build-an-edtech-app.md plus the traced dictionary/decision gaps: "
+        "make the five-step teaching-app scenario executable from docs alone."
+    ),
+    "evaluator_traces_failures_backward": (
+        "scripts/evaluate_platform.py: emit traced_cause for every non-pass item "
+        "and include buildability_gaps with traced causes."
+    ),
+    "evaluator_runs_each_iteration": (
+        "scripts/evaluate_platform.py and VERIFY.md: run the evaluator at iteration "
+        "end and write traced_cause plus buildability_gaps to the report."
+    ),
+    "loop_overrides_respected": (
+        "scripts/codex_loop.py and docs/loop-overrides.md: read, inject, and honor "
+        "human overrides before starting an iteration."
+    ),
+    "loop_terminates_on_done": (
+        "scripts/codex_loop.py: terminate from the evaluator done flag rather than "
+        "a numeric threshold."
+    ),
+}
+
+
+def normalize_status(value: object) -> str:
+    status = str(value or "fail").strip().lower()
+    return status if status in VALID_STATUSES else "fail"
+
+
+def ensure_traced_causes(verdicts: list[dict]) -> list[dict]:
+    normalized = []
+    for verdict in verdicts:
+        status = normalize_status(verdict.get("status"))
+        verdict = {**verdict, "status": status}
+        verdict["traced_cause"] = normalize_traced_cause(
+            verdict.get("traced_cause"),
+            item_id=str(verdict.get("id", "")),
+            status=status,
+            reason=str(verdict.get("reason", "")),
+            blocked_prerequisites=verdict.get("blocked_prerequisites", []),
+        )
+        normalized.append(verdict)
+    return normalized
+
+
+def normalize_traced_cause(
+    value: object,
+    *,
+    item_id: str,
+    status: str,
+    reason: str,
+    blocked_prerequisites: object,
+) -> str:
+    if status == "pass":
+        return ""
+
+    if isinstance(value, dict):
+        parts = []
+        for key in ("artifact", "required_change", "cause", "details"):
+            if value.get(key):
+                parts.append(str(value[key]).strip())
+        if parts:
+            return ": ".join(parts)
+
+    if isinstance(value, str) and value.strip():
+        return value.strip()
+
+    if status == "blocked":
+        prereqs = normalize_string_list(blocked_prerequisites)
+        if prereqs:
+            return f"external prerequisite: {', '.join(prereqs)}"
+
+    extracted = extract_trace_from_reason(reason)
+    if extracted:
+        return extracted
+
+    return default_traced_cause(item_id)
+
+
+def default_traced_cause(item_id: str) -> str:
+    return DEFAULT_TRACED_CAUSES.get(
+        item_id,
+        f"docs/eval-rubric.md#{item_id}: update the lowest-layer artifact named by the non-pass verdict.",
+    )
+
+
+def normalize_string_list(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(item).strip() for item in value if str(item).strip()]
+
+
+def extract_trace_from_reason(reason: str) -> str:
+    if not reason:
+        return ""
+    patterns = [
+        r"Traces to:\s*([^;\n]+)",
+        r"traces to\s+([^;\n]+)",
+        r"traces back to\s+([^;\n]+)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, reason)
+        if match:
+            return match.group(1).strip(" .;)")
+    return ""
+
+
+def normalize_buildability_gaps(raw_gaps: object, verdicts: list[dict]) -> list[dict]:
+    buildability = next((v for v in verdicts if v.get("id") == "buildable_by_layperson"), None)
+    fallback_trace = (
+        str(buildability.get("traced_cause", "")).strip()
+        if buildability
+        else default_traced_cause("buildable_by_layperson")
+    )
+
+    gaps: list[dict] = []
+    if isinstance(raw_gaps, list):
+        for index, raw_gap in enumerate(raw_gaps, start=1):
+            gap = normalize_buildability_gap(raw_gap, index, fallback_trace)
+            if gap:
+                gaps.append(gap)
+
+    if gaps:
+        return gaps
+
+    if buildability and buildability.get("status") != "pass":
+        return extract_buildability_gaps_from_reason(
+            str(buildability.get("reason", "")),
+            fallback_trace=fallback_trace or default_traced_cause("buildable_by_layperson"),
+        )
+
+    return []
+
+
+def normalize_buildability_gap(raw_gap: object, index: int, fallback_trace: str) -> dict:
+    if isinstance(raw_gap, dict):
+        gap_text = str(raw_gap.get("gap") or raw_gap.get("reason") or "").strip()
+        step = str(raw_gap.get("step") or f"gap_{index}").strip()
+        trace = normalize_gap_trace(raw_gap.get("traced_cause"), gap_text, fallback_trace)
+    else:
+        gap_text = str(raw_gap).strip()
+        step = f"gap_{index}"
+        trace = normalize_gap_trace(None, gap_text, fallback_trace)
+
+    if not gap_text:
+        return {}
+    return {"step": step, "gap": gap_text, "traced_cause": trace}
+
+
+def normalize_gap_trace(value: object, gap_text: str, fallback_trace: str) -> str:
+    if isinstance(value, dict):
+        parts = [str(v).strip() for v in value.values() if str(v).strip()]
+        if parts:
+            return ": ".join(parts)
+    if isinstance(value, str) and value.strip():
+        return value.strip()
+    return extract_trace_from_reason(gap_text) or fallback_trace
+
+
+def extract_buildability_gaps_from_reason(reason: str, *, fallback_trace: str) -> list[dict]:
+    if not reason:
+        return [
+            {
+                "step": "cross_step",
+                "gap": "buildable_by_layperson is non-pass but the evaluator did not list individual gaps.",
+                "traced_cause": fallback_trace,
+            }
+        ]
+
+    _, marker, tail = reason.partition("Gaps:")
+    gap_text = tail if marker else reason
+    parts = [part.strip(" ;.") for part in re.split(r"\s*\(\d+\)\s*", gap_text) if part.strip(" ;.")]
+    if not parts:
+        parts = [gap_text.strip(" ;.")]
+
+    gaps = []
+    for index, part in enumerate(parts, start=1):
+        trace = extract_trace_from_reason(part) or fallback_trace
+        gaps.append({"step": f"gap_{index}", "gap": part, "traced_cause": trace})
+    return gaps
+
+
 def apply_prereq_blocks(verdicts: list[dict], prereqs: dict) -> list[dict]:
     out = []
     for v in verdicts:
@@ -761,6 +1039,7 @@ def apply_prereq_blocks(verdicts: list[dict], prereqs: dict) -> list[dict]:
                         v.get("reason", "")
                         + f" [auto-blocked: missing {', '.join(missing)}]"
                     ).strip(),
+                    "traced_cause": f"external prerequisite: {', '.join(missing)}",
                 }
         out.append(v)
     return out

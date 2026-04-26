@@ -518,3 +518,28 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 scripts/build_site_docs.py` passed; targeted decision-options smoke check passed with 20 decisions, at least three options each, and no remaining weak DEC-005/DEC-009 option wording; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=7, partial=4, fail=9, blocked=0 and reports `decisions_have_real_alternatives` as `pass`.
 - Expected status change: `decisions_have_real_alternatives` `partial` -> `pass`.
 - What remains next: all decision-layer items now pass. The next top-down fail remains `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and make CI/checks fail when committed per-spec projections diverge from the canonical seed.
+
+
+## 20260426T173534Z Harness Iteration 3
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 62
+- Publish result: committed and pushed: Codex loop iteration 3: rubric pass=7/20
+- Codex log: `.codex-loop/20260426T172439Z-iteration-003-codex.log`
+- Verify log: `.codex-loop/20260426T172439Z-iteration-003-verify.log`
+- Judge log: `.codex-loop/20260426T172439Z-iteration-003-judge.log`
+- Judge JSON: `.codex-loop/20260426T172439Z-iteration-003-judge.json`
+
+## 2026-04-26T13:45:44-0400 Evaluator Backward Trace Schema Iteration
+
+- Chosen rubric item: `evaluator_traces_failures_backward`.
+- Files changed: `scripts/evaluate_platform.py`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m py_compile scripts/evaluate_platform.py` passed; `python3 scripts/evaluate_platform.py --dry-run` passed with 20 rubric items and 56 evidence files; direct trace-normalization smoke check passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=8, partial=4, fail=8, blocked=0; JSON validation for `site/api/platform-evaluation.json` passed; targeted report-shape check found zero non-pass items missing `traced_cause` and 6 `buildability_gaps`; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed.
+- Expected status change: `evaluator_traces_failures_backward` `fail` -> `pass`; `evaluator_runs_each_iteration` also moved `fail` -> `pass` because the report now contains per-item `traced_cause` values and a top-level `buildability_gaps` array.
+- What remains next: the next top-down fail is `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and add drift checking so per-spec dictionary projections are generated from the shared seed.
