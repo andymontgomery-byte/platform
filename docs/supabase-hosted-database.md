@@ -15,7 +15,7 @@ The repository now has a live Supabase setup for the OneRoster core demo. The sc
 - Optional REST smoke test script: `scripts/check_supabase_rest.py`.
 - Live cross-tenant RLS test: `python3 tests/supabase_tenant_rls_test.py`.
 - Live sensitive-read audit test: `python3 tests/supabase_audit_log_test.py`.
-- Supabase Edge Function source for authenticated gradebook bulk submit at `supabase/functions/gradebook-bulk-submit`.
+- Supabase Edge Function source for authenticated gradebook bulk submit, audited roster reads, LTI launch handling, Caliper event ingestion, and OAuth token exchange under `supabase/functions/`.
 
 ## Verified Live Status
 
@@ -25,8 +25,10 @@ The repository now has a live Supabase setup for the OneRoster core demo. The sc
 - `python3 scripts/check_supabase_rest.py` returned `ok: true` through the public Supabase REST API.
 - `python3 tests/supabase_tenant_rls_test.py` created two temporary Supabase Auth users with different `app_metadata.tenant_id` claims and confirmed each JWT could read only its tenant's `people` rows. The public publishable-key curl remains limited to the synthetic North Valley tenant and cannot read the second-tenant fixture.
 - `python3 tests/supabase_audit_log_test.py` created a temporary Supabase Auth user with tenant, client, scope, and purpose claims; called the live `audited-roster-read` Edge Function for `person_ada`; and confirmed `audit_log` rows were written for `people.display_name`, `people.given_name`, `people.family_name`, and `people.email`.
+- `supabase functions list --project-ref qzxlgrerjoiamxvnkklq` shows `gradebook-bulk-submit`, `audited-roster-read`, `lti-launch-handler`, `caliper-event-ingestion`, and `oauth-token-exchange` active.
+- A live Edge Function smoke on 2026-04-26 created a temporary tenant-scoped Supabase Auth user and successfully called `lti-launch-handler`, `caliper-event-ingestion`, and `oauth-token-exchange` with that user's JWT.
 
-This closes the hosted relational database target for the current OneRoster core demo slice. It does not close the hosted API/server work by itself. Supabase now exposes simple read-only REST endpoints and an audited sensitive-read wrapper; custom API behavior, safe SQL query execution, broader OAuth/scope enforcement, and LTI callbacks still need additional server slices such as Vercel or Supabase Edge Functions.
+This closes the hosted relational database target for the current OneRoster core demo slice. It does not close the hosted API/server work by itself. Supabase now exposes simple read-only REST endpoints, an audited sensitive-read wrapper, and minimal non-CRUD Edge Function entry points for gradebook bulk submit, LTI launch receipts, Caliper event receipts, and OAuth token-exchange receipts. Safe SQL query execution, full OAuth/scope enforcement, and full LTI Advantage callbacks still need additional backend slices.
 
 ## Reviewer Path
 
@@ -102,9 +104,51 @@ curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/audited-roster-read?per
   -H 'x-platform-purpose: directory-review'
 ```
 
+## Edge Function: LTI Launch Handler
+
+Live function URL: `https://qzxlgrerjoiamxvnkklq.functions.supabase.co/lti-launch-handler`
+
+This non-CRUD endpoint accepts an authenticated LTI launch payload, resolves the posted context ID through tenant-scoped `source_identifiers`, and writes an `audit_log` receipt. It forwards the caller's Supabase Auth JWT to PostgREST and never uses the service-role key.
+
+```sh
+curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/lti-launch-handler' \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $SUPABASE_USER_JWT" \
+  -H 'content-type: application/json' \
+  --data '{"messageType":"LtiResourceLinkRequest","contextId":"LTI-CONTEXT-MATH-6A","resourceLinkId":"resource-math-home","userId":"person_ms_rivera"}'
+```
+
+## Edge Function: Caliper Event Ingestion
+
+Live function URL: `https://qzxlgrerjoiamxvnkklq.functions.supabase.co/caliper-event-ingestion`
+
+This non-CRUD endpoint accepts a Caliper envelope or single Caliper event, forwards the caller's JWT into the Supabase client, and writes tenant-scoped receipt rows through RLS. It is the authenticated entry point for event ingestion; immutable raw-event storage and profile-specific projections remain a future backend slice.
+
+```sh
+curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/caliper-event-ingestion' \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $SUPABASE_USER_JWT" \
+  -H 'content-type: application/json' \
+  --data '{"sensor":"https://platform.example/sensors/demo","data":[{"id":"urn:uuid:11111111-2222-3333-4444-555555555555","type":"GradeEvent","action":"Graded"}]}'
+```
+
+## Edge Function: OAuth Token Exchange
+
+Live function URL: `https://qzxlgrerjoiamxvnkklq.functions.supabase.co/oauth-token-exchange`
+
+This non-CRUD endpoint accepts an authenticated OAuth token-exchange request, forwards the caller's JWT into the Supabase client, writes a tenant-scoped database receipt, and returns the scoped sandbox bearer context. It is not a production authorization server; persistent token issuance, key rotation, and consent workflows remain future backend work.
+
+```sh
+curl 'https://qzxlgrerjoiamxvnkklq.functions.supabase.co/oauth-token-exchange' \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $SUPABASE_USER_JWT" \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  --data 'grant_type=urn:ietf:params:oauth:grant-type:token-exchange&client_id=demo-lms-client&scope=platform.roster.users.directory:read'
+```
+
 ## Optional Vercel Role
 
-Vercel is not required to load the database. It is useful for the next runtime layer: hosting a custom JSON API, a safe SQL query endpoint, OAuth/scope checks, and LTI launch callbacks. Without that server layer, GitHub Pages remains static and Supabase provides only database plus basic REST behavior.
+Vercel is not required to load the database. It is useful for future runtime layers such as hosting a custom JSON API, a safe SQL query endpoint, production OAuth/scope checks, and full LTI Advantage callbacks. Without that server layer, GitHub Pages remains static and Supabase provides database, basic REST behavior, and the current Edge Function entry points.
 
 The Supabase dashboard's `@supabase/supabase-js`, `@supabase/ssr`, `page.tsx`, and middleware instructions are for a Next.js app. They should be applied inside a Vercel/Next runtime package when that app exists, not to the current static portal root.
 

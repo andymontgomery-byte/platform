@@ -8,7 +8,7 @@ The publishable client key is recorded in `.env.example` because it is intended 
 
 Put server-only secrets such as `SUPABASE_SECRET_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`, not in tracked files. These keys are useful for server-side Supabase API access, but schema creation still requires the SQL editor, `SUPABASE_DB_URL`, or another migration-capable database connection.
 
-Current status: loaded and verified on 2026-04-26 through the shared pooler. SQL smoke checks, `python3 scripts/check_supabase_rest.py`, `python3 tests/supabase_tenant_rls_test.py`, and `python3 tests/supabase_audit_log_test.py` pass.
+Current status: loaded and verified on 2026-04-26 through the shared pooler. SQL smoke checks, `python3 scripts/check_supabase_rest.py`, `python3 tests/supabase_tenant_rls_test.py`, and `python3 tests/supabase_audit_log_test.py` pass. The non-CRUD Edge Functions for gradebook bulk submit, audited roster reads, LTI launch handling, Caliper event ingestion, and OAuth token exchange are deployed and active.
 
 ## Files
 
@@ -17,6 +17,9 @@ Current status: loaded and verified on 2026-04-26 through the shared pooler. SQL
 - `smoke.sql`: read-only queries that verify row counts and the two review views.
 - `functions/gradebook-bulk-submit`: Supabase Edge Function for authenticated bulk result submission using the caller's bearer token so RLS applies.
 - `functions/audited-roster-read`: Supabase Edge Function for restricted `people` reads that logs `client_id`, `scope`, `purpose`, `field_accessed`, `tenant_id`, and `timestamp` before returning data.
+- `functions/lti-launch-handler`: Supabase Edge Function for authenticated LTI launch receipt handling and tenant-scoped context lookup.
+- `functions/caliper-event-ingestion`: Supabase Edge Function for authenticated Caliper envelope receipt logging.
+- `functions/oauth-token-exchange`: Supabase Edge Function for authenticated OAuth token-exchange receipt logging.
 
 ## Load With SQL Editor
 
@@ -65,11 +68,16 @@ The gradebook bulk-submit Edge Function is the first authenticated write path. I
 
 The audited roster-read Edge Function calls `read_people_sensitive_audited` through PostgREST with the caller's bearer token. The database writes one `audit_log` row per restricted field before returning the person payload.
 
+The LTI, Caliper, and OAuth Edge Functions use the same user-JWT pattern. Each function reads `req.headers.get("Authorization")`, constructs its Supabase client with that bearer token, and records tenant-scoped receipts through RLS-protected database calls rather than using a service-role key.
+
 ## Deploy Edge Functions
 
 ```sh
 supabase functions deploy gradebook-bulk-submit --project-ref qzxlgrerjoiamxvnkklq --use-api
 supabase functions deploy audited-roster-read --project-ref qzxlgrerjoiamxvnkklq --use-api
+supabase functions deploy lti-launch-handler --project-ref qzxlgrerjoiamxvnkklq --use-api
+supabase functions deploy caliper-event-ingestion --project-ref qzxlgrerjoiamxvnkklq --use-api
+supabase functions deploy oauth-token-exchange --project-ref qzxlgrerjoiamxvnkklq --use-api
 ```
 
 ## Optional REST Smoke Test

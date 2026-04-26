@@ -238,3 +238,29 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: live Supabase migration and seed load passed; `supabase functions deploy audited-roster-read --project-ref qzxlgrerjoiamxvnkklq --use-api` passed; `python3 tests/supabase_audit_log_test.py` passed with direct restricted REST blocked and 5 audit rows for `person_ada`; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 scripts/check_supabase_rest.py` passed; `python3 scripts/snapshot_pg_policies.py` passed with 10 tables; all dictionary generators plus `python3 scripts/build_static_api.py` and `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; JSON validation for the policy snapshot, advisory report, OpenAPI files, API index, and evaluator report passed; Python compile for scripts and Supabase tests passed; `node --check site/app.js` and `node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed with `demo-api-ok`; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=25, partial=2, fail=0, blocked=0 and reports `audit_log_for_sensitive_reads` as `pass`. Local `deno check` could not run because Deno is not installed, but Supabase deployment accepted the function.
 - Expected status change: `audit_log_for_sensitive_reads` `fail` -> `pass`.
 - What remains next: latest evaluator non-pass items are `lead_spec_full_accounting` and `edge_functions_for_non_crud_endpoints` as `partial`. The next highest-leverage item is likely another real non-CRUD Edge Function for LTI launch, Caliper ingestion, or OAuth token exchange, unless the loop chooses to finish Lead spec accounting first.
+
+
+## 20260426T111736Z Harness Iteration 3
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 90
+- Publish result: committed and pushed: Codex loop iteration 3: rubric pass=24/27
+- Codex log: `.codex-loop/20260426T105012Z-iteration-003-codex.log`
+- Verify log: `.codex-loop/20260426T105012Z-iteration-003-verify.log`
+- Judge log: `.codex-loop/20260426T105012Z-iteration-003-judge.log`
+- Judge JSON: `.codex-loop/20260426T105012Z-iteration-003-judge.json`
+
+
+## 2026-04-26 07:32:35 EDT Non-CRUD Edge Function Coverage Iteration
+
+- Chosen rubric item: `edge_functions_for_non_crud_endpoints`.
+- Files changed: `supabase/functions/lti-launch-handler/index.ts`, `supabase/functions/lti-launch-handler/deno.json`, `supabase/functions/caliper-event-ingestion/index.ts`, `supabase/functions/caliper-event-ingestion/deno.json`, `supabase/functions/oauth-token-exchange/index.ts`, `supabase/functions/oauth-token-exchange/deno.json`, `supabase/README.md`, `docs/supabase-hosted-database.md`, `docs/spec-gap-backlog.md`, `docs/dictionary-coverage-matrix.md`, `docs/lead-spec-accounting.md`, rendered site docs for those Markdown files, `site/index.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `node --check site/app.js` passed; all three new `deno.json` files passed `python3 -m json.tool`; grep confirmed no `SUPABASE_SERVICE_ROLE_KEY` usage under `supabase/functions`; grep confirmed every Edge Function reads `req.headers.get("Authorization")` and forwards `Authorization: authorization`; deployed `lti-launch-handler`, `caliper-event-ingestion`, and `oauth-token-exchange` with `supabase functions deploy ... --use-api`; `supabase functions list --project-ref qzxlgrerjoiamxvnkklq` showed all five functions active; one-off live smoke with a temporary tenant-scoped Supabase Auth user passed for `lti-launch-handler`, `caliper-event-ingestion`, and `oauth-token-exchange` (an earlier helper-based OAuth form attempt returned the expected 400 because the helper JSON-encoded the form body); `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 tests/supabase_audit_log_test.py` passed; `node --check site/app.js && node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; `python3 -m json.tool site/api/platform-evaluation.json` and `python3 -m json.tool site/api/spec-conformance.json` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=26, partial=1, fail=0, blocked=0 and reports `edge_functions_for_non_crud_endpoints` as `pass`.
+- Expected status change: `edge_functions_for_non_crud_endpoints` `partial` -> `pass`.
+- What remains next: `lead_spec_full_accounting` remains `partial`; the evaluator still wants full OneRoster 1.2 accounting and explicit per-field `sourceStandard`/unsupported ledgers across Lead spec fields and values.

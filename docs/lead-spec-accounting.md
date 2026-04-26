@@ -11,9 +11,9 @@ This page explains how every standard currently marked `Lead` is accounted for. 
 | OneRoster 1.2 | Runnable core slice plus broader layperson dictionary. | `dictionary/oneroster-core.v1.json`, generated OneRoster docs, OneRoster layperson dictionary. |
 | CASE 1.1 | Structured/generated framework graph projection exists; not yet executable. | `dictionary/case-core.v1.json`, generated CASE docs/OpenAPI/SQL comments, CASE layperson dictionary, overlap decisions for alignment. |
 | QTI 3 | Structured/generated repository projection exists; not yet executable. | `dictionary/qti-core.v1.json`, generated QTI docs/OpenAPI/SQL comments, QTI layperson dictionary, QTI projection decision, overlap decisions for results, alignment, resources, time. |
-| Caliper 1.2 | Structured/generated event projection exists; event ingestion not yet executable. | `dictionary/caliper-core.v1.json`, generated Caliper docs/OpenAPI/SQL comments, Caliper layperson dictionary, overlap decisions for actor, membership, grade events, time. |
-| LTI 1.3/LTI Advantage | Structured/generated integration projection exists; launch and services are not yet executable. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, integration layperson dictionary, overlap decisions for launch context, roles, membership, IDs, resources. |
-| Security Framework 1.1 | Structured/generated OAuth and scope-policy projection exists; token issuance and enforcement are deferred until auth layer exists. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions. |
+| Caliper 1.2 | Structured/generated event projection plus a minimal authenticated ingestion Edge Function receipt path. | `dictionary/caliper-core.v1.json`, generated Caliper docs/OpenAPI/SQL comments, Caliper layperson dictionary, overlap decisions for actor, membership, grade events, time, `supabase/functions/caliper-event-ingestion`. |
+| LTI 1.3/LTI Advantage | Structured/generated integration projection plus a minimal authenticated launch handler. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, integration layperson dictionary, overlap decisions for launch context, roles, membership, IDs, resources, `supabase/functions/lti-launch-handler`. |
+| Security Framework 1.1 | Structured/generated OAuth and scope-policy projection plus a minimal authenticated token-exchange receipt path. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions, `supabase/functions/oauth-token-exchange`. |
 | Data Privacy 1.0 | Structured/generated policy projection exists; live privacy workflows are deferred until tenant/auth layer exists. | `dictionary/integration-governance-core.v1.json`, privacy classes, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions. |
 
 ## OneRoster 1.2
@@ -135,13 +135,13 @@ Committed platform projection:
 - The generated event projection dictionary now lives at `dictionary/caliper-core.v1.json`.
 - `scripts/generate_caliper_core.py` emits SQL comments, OpenAPI schemas, Markdown docs, and portal HTML from that single source.
 - The projection covers Sensor API envelopes, immutable events, indexed entities, actors, group/session/LTI context, profile rules, governed extensions, event types, profiles, actions, entity types, roles, statuses, and identifier values.
-- The current projection is documentation/API-schema coverage only; live ingestion, validation, retention, and analytics queries need a backend.
+- `supabase/functions/caliper-event-ingestion` accepts authenticated Caliper envelopes, forwards the caller's JWT to Supabase, and writes tenant-scoped database receipts. Full raw-event persistence, profile validation, retention, and analytics queries need a broader backend slice.
 
 Deferred or not supported yet:
 
 | Area | Reason |
 | --- | --- |
-| Live event ingestion endpoint | Needs auth, tenant isolation, event validation, retention, and raw-event policy. |
+| Full Sensor API conformance | Needs profile validation, immutable raw-event storage, retention policy, and replay/idempotency handling beyond the receipt path. |
 | Profile-specific relational projections | Planned after core roster and auth boundaries. |
 | Event warehouse/analytics dashboards | Requires retention and aggregation decisions. |
 
@@ -164,13 +164,13 @@ Committed platform projection:
 - The generated integration/governance dictionary now lives at `dictionary/integration-governance-core.v1.json`.
 - `scripts/generate_integration_governance_core.py` emits SQL comments, OpenAPI schemas, Markdown docs, and portal HTML from that single source.
 - The projection covers LTI registrations, deployments, launches, service endpoints, NRPS memberships, AGS grade exchanges, Deep Linking items, and required LTI values.
-- The current projection is documentation/API-schema coverage only; launch validation and live LTI Advantage services need a backend.
+- `supabase/functions/lti-launch-handler` accepts an authenticated launch payload, forwards the caller's JWT to Supabase, resolves the LTI context through tenant-scoped `source_identifiers`, and writes a database receipt. Full OIDC/JWT launch validation and live LTI Advantage services need a broader backend.
 
 Deferred or not supported yet:
 
 | Area | Reason |
 | --- | --- |
-| LTI launch validation | Requires hosted auth/OIDC, key management, nonce/state storage, and tenant deployment records. |
+| Full LTI OIDC/JWT launch validation | Requires key management, nonce/state storage, deployment records, signature validation, and certification fixtures beyond the receipt path. |
 | AGS/NRPS/Deep Linking live services | Need auth and tenant data boundaries before public exposure. |
 | Certification claim | Requires formal conformance tests. |
 
@@ -190,7 +190,7 @@ Committed platform projection:
 
 - The integration/governance source includes OAuth clients and scope policies for Security Framework accounting.
 - Generated SQL/OpenAPI/docs connect scopes to API resources, actions, launch context requirements, roles, and privacy ceilings.
-- The current projection is not a token server; production OAuth/OIDC behavior remains deferred until there is hosted backend infrastructure.
+- `supabase/functions/oauth-token-exchange` accepts an authenticated token-exchange request, forwards the caller's JWT to Supabase, and writes a tenant-scoped database receipt. Production OAuth/OIDC token issuance remains deferred until there is broader hosted auth infrastructure.
 
 Deferred or not supported yet:
 
