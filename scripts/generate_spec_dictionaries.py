@@ -109,16 +109,22 @@ def validate_seed(
         if not isinstance(fields, list) or not fields:
             errors.append(f"seed object {object_key or index} has no fields")
             continue
-        seen_field_ids: set[str] = set()
+        seen_field_keys: set[str] = set()
         for field in fields:
             field_id = field.get("canonical_field_id")
             field_key = field.get("field_key")
             spec_field = field.get("spec_field")
             if not field_id:
                 errors.append(f"seed object {object_key} field {field_key} missing canonical_field_id")
-            elif field_id in seen_field_ids:
-                errors.append(f"seed object {object_key} duplicate canonical_field_id: {field_id}")
-            seen_field_ids.add(field_id)
+            # Multiple per-spec fields are allowed to share one canonical_field_id
+            # when they project to the same shared canonical entry (many-to-one
+            # projection, e.g. OneRoster person.email and LTI lti_membership.email
+            # both -> canonical.identity.person.email). Uniqueness is enforced on
+            # spec field_key within an object instead.
+            if field_key and field_key in seen_field_keys:
+                errors.append(f"seed object {object_key} duplicate field_key: {field_key}")
+            if field_key:
+                seen_field_keys.add(field_key)
             if not field_key:
                 errors.append(f"seed object {object_key} has field without field_key")
             if not isinstance(spec_field, dict) or not spec_field:

@@ -1062,6 +1062,7 @@
             "field": "roles",
             "coverage": "mapped"
           },
+          "shared_enum_id": "shared_enums.role_family",
           "canonical_field_id": "canonical.integration-governance-core.lti_launch.roles",
           "projection_kind": "direct",
           "spec_only": false
@@ -1485,7 +1486,7 @@
             "field": "userId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.user_id",
+          "canonical_field_id": "canonical.identity.person.source_subject_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1506,7 +1507,7 @@
             "field": "platformPersonId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.platform_person_id",
+          "canonical_field_id": "canonical.identity.person.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1527,7 +1528,7 @@
             "field": "displayName",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.display_name",
+          "canonical_field_id": "canonical.identity.person.display_name",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1548,7 +1549,7 @@
             "field": "email",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.email",
+          "canonical_field_id": "canonical.identity.person.email",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1569,6 +1570,7 @@
             "field": "roles",
             "coverage": "mapped"
           },
+          "shared_enum_id": "shared_enums.role_family",
           "canonical_field_id": "canonical.integration-governance-core.lti_membership.roles",
           "projection_kind": "direct",
           "spec_only": false
@@ -1612,7 +1614,7 @@
             "field": "lisPersonSourcedid",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.integration-governance-core.lti_membership.lis_person_sourcedid",
+          "canonical_field_id": "canonical.identity.person.source_subject_id",
           "projection_kind": "direct",
           "spec_only": false
         }
