@@ -222,8 +222,8 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - id: `DEC-011-privacy-surfaces`
 - question: Which privacy classes may appear on live APIs, Edge Functions, static mirrors, and generated docs?
 - options_considered:
-  - Ban all person-like data from static and generated surfaces.
-  - Allow every dictionary field anywhere because the dataset is a demo.
+  - Publish only schema descriptions and non-record fixtures on unauthenticated static/generated surfaces; require every record-like example, even synthetic directory data, to come from authenticated live APIs.
+  - Permit full synthetic fixture payloads, including education-record and behavioral examples, in static mirrors when each file is marked as non-live demo data and generated from a scrubbed seed.
   - Define per-surface gates by privacy class and treat static mirrors as synthetic documentation fixtures.
 - choice: Generated docs may describe every field and privacy class because they are schema documentation, not records. Live PostgREST may expose tenant-owned `public`, `operational`, `directory`, and `education_record` records only through tenant RLS and scope policy. Edge Functions may expose `directory`, `education_record`, `behavioral`, or sensitive operational fields only through caller JWT, purpose, scope, tenant RLS, and audit logging when the read is sensitive. Static `site/api/*.json` mirrors may contain only synthetic demo records from the seeded `.test` tenant and may include `public`, `operational`, and `directory` fields such as demo email; they may not contain real tenant data, `education_record`, `behavioral`, `sensitive_pii`, or secret/system values.
 - consequences:
@@ -310,8 +310,8 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - id: `DEC-015-service-role-policy`
 - question: When may code use Supabase service-role access without weakening the user-JWT and RLS story?
 - options_considered:
-  - Allow service-role access anywhere a script or function needs convenience.
-  - Ban service-role access entirely, including test fixture setup.
+  - Remove service-role credentials from repository automation entirely by running tests only against pre-provisioned tenants, users, and seed data.
+  - Centralize service-role use in a privileged admin data-access module that Edge Functions and tests may call for audited setup and repair operations.
   - Allow service-role only for named admin/test fixture operations in `docs/admin-operations.md`, never for request-scoped reads or writes.
 - choice: Request-scoped runtime code and Edge Functions must pass the caller's `Authorization` bearer token to Supabase so RLS applies. Service-role access is allowed only for allowlisted admin or test fixture operations in `docs/admin-operations.md`, with a named operation ID, caller, why-user-JWT-insufficient reason, guardrails, and recent review date. Tests may use service role to create temporary Auth users, but not to read tenant data or satisfy the assertion under test.
 - consequences:

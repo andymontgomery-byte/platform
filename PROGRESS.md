@@ -466,3 +466,29 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; structural decision check passed with 20 unique needed decisions, no missing six-field decision sections, and the machine-readable section starting after all new decisions at byte 29970; projection summary smoke check passed with 20 decisions, 119 projection refs, 119 present, 0 missing, and 0 unverified fragments; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=6, partial=5, fail=9, blocked=0 and reports `decisions_complete` as `pass`; `python3 -m json.tool site/api/platform-evaluation.json >/tmp/platform-evaluation.json` passed; `git diff --check` passed.
 - Expected status change: `decisions_complete` `fail` -> `pass`.
 - What remains next: `decisions_have_real_alternatives` remains `partial` and is the next top-layer decision item; dictionary implementation items remain blocked by missing shared-dictionary projection data and generators, especially `dictionary_single_source_of_truth`, `dictionary_resolves_cross_spec_overlaps`, `dictionary_global_enums`, `dictionary_closed_privacy_classes`, and `dictionary_carries_relational_graph`.
+
+
+## 20260426T171236Z Harness Iteration 1
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 85
+- Publish result: committed and pushed: Codex loop iteration 1: rubric pass=6/20
+- Codex log: `.codex-loop/20260426T165246Z-iteration-001-codex.log`
+- Verify log: `.codex-loop/20260426T165246Z-iteration-001-verify.log`
+- Judge log: `.codex-loop/20260426T165246Z-iteration-001-judge.log`
+- Judge JSON: `.codex-loop/20260426T165246Z-iteration-001-judge.json`
+
+
+## 2026-04-26T17:18:32Z Real Alternatives Decision Sweep
+
+- Chosen rubric item: `decisions_have_real_alternatives`.
+- Files changed: `docs/decisions/standards-overlap-decisions.md`, `site/docs/decisions-standards-overlap-decisions.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; targeted decision-options smoke check passed with 20 decisions and no remaining DEC-011/DEC-015 strawman wording; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=7, partial=3, fail=10, blocked=0 and reports `decisions_have_real_alternatives` as `pass`.
+- Expected status change: `decisions_have_real_alternatives` `partial` -> `pass`.
+- What remains next: all decision-layer items now pass. The next top-down fail is `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and make CI/checks fail when committed per-spec projections diverge from the canonical seed.
