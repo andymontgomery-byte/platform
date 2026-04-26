@@ -492,3 +492,29 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 scripts/build_site_docs.py` passed; targeted decision-options smoke check passed with 20 decisions and no remaining DEC-011/DEC-015 strawman wording; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=7, partial=3, fail=10, blocked=0 and reports `decisions_have_real_alternatives` as `pass`.
 - Expected status change: `decisions_have_real_alternatives` `partial` -> `pass`.
 - What remains next: all decision-layer items now pass. The next top-down fail is `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and make CI/checks fail when committed per-spec projections diverge from the canonical seed.
+
+
+## 20260426T172439Z Harness Iteration 2
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 80
+- Publish result: committed and pushed: Codex loop iteration 2: rubric pass=7/20
+- Codex log: `.codex-loop/20260426T171236Z-iteration-002-codex.log`
+- Verify log: `.codex-loop/20260426T171236Z-iteration-002-verify.log`
+- Judge log: `.codex-loop/20260426T171236Z-iteration-002-judge.log`
+- Judge JSON: `.codex-loop/20260426T171236Z-iteration-002-judge.json`
+
+
+## 2026-04-26T17:30:30Z Decision Alternatives Follow-up
+
+- Chosen rubric item: `decisions_have_real_alternatives`.
+- Files changed: `docs/decisions/standards-overlap-decisions.md`, `site/docs/decisions-standards-overlap-decisions.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; targeted decision-options smoke check passed with 20 decisions, at least three options each, and no remaining weak DEC-005/DEC-009 option wording; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=7, partial=4, fail=9, blocked=0 and reports `decisions_have_real_alternatives` as `pass`.
+- Expected status change: `decisions_have_real_alternatives` `partial` -> `pass`.
+- What remains next: all decision-layer items now pass. The next top-down fail remains `dictionary_single_source_of_truth`: expand `data/data-dictionary.seed.json`, add `scripts/generate_spec_dictionaries.py`, and make CI/checks fail when committed per-spec projections diverge from the canonical seed.

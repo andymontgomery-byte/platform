@@ -94,8 +94,8 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - id: `DEC-005-results-scores`
 - question: How should the platform separate gradebook state, score update commands, assessment outcome variables, and grading activity events?
 - options_considered:
-  - Make every score-like artifact an append-only event.
-  - Make every score-like artifact the current gradebook result.
+  - Use LTI AGS line items and results as the only canonical gradebook model, projecting OneRoster results, QTI outcomes, and Caliper grade events into AGS-shaped records.
+  - Keep OneRoster Results, LTI AGS Scores/Results, QTI outcomes, and Caliper GradeEvents as peer source-native stores joined only by source identifiers.
   - Keep `result` as current gradebook state and model AGS scores, QTI outcomes, and Caliper grade events as inputs or history.
 - choice: The platform uses `line_item` as the gradebook target and `result` as the learner's current gradebook state. LTI AGS Score is an incoming write/update message. LTI AGS Result and OneRoster Result map to current result state. QTI outcomes are assessment-runtime variables projected into results only when a delivery or scoring workflow declares that mapping. Caliper GradeEvent is event history, not the gradebook source of truth.
 - consequences:
@@ -179,8 +179,8 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - id: `DEC-009-content-resource`
 - question: What is the shared model for roster resources, content packages, QTI artifacts, LTI links, and Caliper digital resources?
 - options_considered:
-  - Treat each content-bearing standard as unrelated.
-  - Flatten all content into one generic `resource` table.
+  - Use QTI package, item, and test structures as the canonical content model, projecting cartridge resources, LTI links, and Caliper digital entities into QTI-shaped records where possible.
+  - Keep cartridge resources, QTI artifacts, LTI deep-link items, and Caliper entities as separate source-native catalogs joined only by URLs or source identifiers.
   - Use a broad `resource` concept with subtype-specific records for package, assessment, launch, and event details.
 - choice: The platform uses a broad `resource` concept for discoverable learning objects, with subtype-specific records for cartridge resources, QTI packages/items/tests, LTI resource links, and Caliper event entities.
 - consequences:
