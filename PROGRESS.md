@@ -790,3 +790,35 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 - Checks run and result: `python3 -m py_compile scripts/generate_qti_core.py scripts/generate_integration_governance_core.py scripts/build_site_docs.py scripts/check_site_links.py scripts/evaluate_platform.py` passed; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 574 fields; `python3 scripts/generate_supabase_migrations.py --check` passed; all five dictionary generators plus `build_static_api.py` and `build_site_docs.py` passed; `python3 scripts/check_site_links.py` passed with 36 HTML pages, 199 local links, 633 dictionary entries, 20 decisions, and 12 API endpoints checked; `python3 scripts/check_dictionary_artifacts.py` passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; Supabase tenant RLS and audit tests passed; generated OpenAPI/report JSON validation passed; `node --check site/app.js` and `node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=17, partial=3, fail=0, blocked=0 and reports `docs_no_dead_links_or_orphans` as `pass`.
 - Expected status change: `docs_no_dead_links_or_orphans` `fail` -> `pass`.
 - What remains next: non-pass evaluator items are `docs_explain_why_not_only_what`, `docs_include_buildability_guide`, and `buildable_by_layperson`, all `partial`; the buildability gaps remain traced to deferred CASE alignment and Caliper class-feed runtime slices.
+
+
+        ## 20260426T211104Z Harness Iteration 13
+
+        - Harness status: pass
+        - Codex exit code: 0
+        - Verify exit code: 0
+        - Spec score before: 100.00
+        - Spec score after: 100.00
+        - LLM judge ok: True
+        - LLM judge recommendation: push
+        - LLM judge score: 86
+        - Publish result: commit succeeded, push failed: ontgomery-byte/platform.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/andymontgomery-byte/platform.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+        - Codex log: `.codex-loop/20260426T205042Z-iteration-013-codex.log`
+        - Verify log: `.codex-loop/20260426T205042Z-iteration-013-verify.log`
+        - Judge log: `.codex-loop/20260426T205042Z-iteration-013-judge.log`
+        - Judge JSON: `.codex-loop/20260426T205042Z-iteration-013-judge.json`
+
+## 2026-04-26T21:33:59Z Buildable Layperson Runtime Contract Iteration
+
+- Chosen rubric item: `buildable_by_layperson`.
+- Files changed: `data/data-dictionary.seed.json`, `dictionary/oneroster-core.v1.json`, `scripts/generate_supabase_migrations.py`, `supabase/migrations/0001_oneroster_core_demo.sql`, `docs/build-an-edtech-app.md`, `docs/supabase-hosted-database.md`, `docs/decisions/standards-overlap-decisions.md`, `docs/decisions/decisions-pending.md`, `docs/dictionary-coverage-matrix.md`, `docs/lead-spec-accounting.md`, `demo/schema.sql`, `demo/seed.sql`, generated OneRoster docs/OpenAPI/SQL/static API/site docs, `site/api/site-link-check.json`, `site/api/spec-conformance.json`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 575 fields; `python3 scripts/generate_supabase_migrations.py --check` passed with 1 migration, 11 tables, and 13 relationships; all five dictionary generators passed; `python3 scripts/build_static_api.py` and `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_site_links.py` passed with 36 HTML pages, 202 local links, 634 dictionary entries, 20 decisions, and 12 API endpoints; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 575 fields, and 912 values; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 tests/supabase_audit_log_test.py` passed; `node --check site/app.js && node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; generated OpenAPI/report JSON validation passed; `python3 -m py_compile ...` over changed/check scripts passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=20, partial=0, fail=0, blocked=0 and `done=true`.
+- Expected status change: `buildable_by_layperson` `fail` -> `pass`; `docs_include_buildability_guide` also reaches `pass` because the guide now uses platform-modeled CASE alignment and Caliper feed runtime surfaces with curl examples.
+- What remains next: evaluator reports all 20 rubric items as `pass`; no buildability gaps remain.

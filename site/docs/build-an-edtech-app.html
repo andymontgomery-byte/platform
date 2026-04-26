@@ -11,361 +11,236 @@
     <p class="eyebrow">Rendered portal documentation</p>
     <p><a class="text-link" href="index.html">Docs index</a></p>
     <h1 id="build-an-edtech-app">Build An Edtech App</h1>
-<p>This guide builds one teaching-app slice against the live Supabase runtime. It uses SQL because the current runtime already exposes the OneRoster core tables and the required CASE and Caliper read/write app workflow can be proven today without waiting for a broader product API server.</p>
-<p>Run each block from a shell that has the hosted database URL:</p>
-<pre><code>export SUPABASE_DB_URL=&#x27;postgresql://...&#x27;</code></pre>
-<p>Use the Supabase pooler/database URL for the live project <code>https://qzxlgrerjoiamxvnkklq.supabase.co</code>. The SQL below is idempotent: rerunning it updates the same build-guide rows.</p>
+<p>This guide builds one teaching-app slice against the live Supabase runtime using <code>curl</code> and PostgREST. It creates a tenant-scoped API token, writes roster and gradebook rows through platform tables, attaches a CASE standard URI to the assignment, and reads a Caliper-style class activity feed from the platform&#x27;s Caliper event projection.</p>
+<h2 id="0-get-an-api-token">0. Get An API Token</h2>
+<p>The live REST endpoint is the Supabase project. The examples use a synthetic build-guide tenant:</p>
+<p>The <code>SUPABASE_SERVICE_ROLE_KEY</code> value comes from the Supabase dashboard: <a href="supabase-hosted-database.html#where-to-find-the-service-role-key">Project Settings -&gt; API -&gt; service_role</a>.</p>
+<pre><code>export SUPABASE_URL=&#x27;https://qzxlgrerjoiamxvnkklq.supabase.co&#x27;
+export SUPABASE_PUBLISHABLE_KEY=&#x27;sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK&#x27;
+export SUPABASE_SERVICE_ROLE_KEY=&#x27;paste-service-role-key-for-your-project&#x27;
+export PLATFORM_TENANT_ID=&#x27;33333333-3333-3333-3333-333333333333&#x27;
+export BUILD_GUIDE_EMAIL=&quot;build-guide-$(date +%s)@example.invalid&quot;
+export BUILD_GUIDE_PASSWORD=&quot;Build-guide-$(date +%s)&quot;
+
+curl -sS -X POST &quot;$SUPABASE_URL/auth/v1/admin/users&quot; \
+  -H &quot;apikey: $SUPABASE_SERVICE_ROLE_KEY&quot; \
+  -H &quot;authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY&quot; \
+  -H &quot;content-type: application/json&quot; \
+  --data &quot;{
+    \&quot;email\&quot;: \&quot;$BUILD_GUIDE_EMAIL\&quot;,
+    \&quot;password\&quot;: \&quot;$BUILD_GUIDE_PASSWORD\&quot;,
+    \&quot;email_confirm\&quot;: true,
+    \&quot;app_metadata\&quot;: {
+      \&quot;tenant_id\&quot;: \&quot;$PLATFORM_TENANT_ID\&quot;,
+      \&quot;test_owner\&quot;: \&quot;platform_buildability_guide\&quot;
+    }
+  }&quot;
+
+curl -sS -X POST &quot;$SUPABASE_URL/auth/v1/token?grant_type=password&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;content-type: application/json&quot; \
+  --data &quot;{
+    \&quot;email\&quot;: \&quot;$BUILD_GUIDE_EMAIL\&quot;,
+    \&quot;password\&quot;: \&quot;$BUILD_GUIDE_PASSWORD\&quot;
+  }&quot; &gt;/tmp/platform-build-guide-token.json
+
+export PLATFORM_ACCESS_TOKEN=&quot;$(
+  python3 -c &#x27;import json; print(json.load(open(&quot;/tmp/platform-build-guide-token.json&quot;))[&quot;access_token&quot;])&#x27;
+)&quot;
+
+export REST_AUTH_HEADERS=(
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot;
+  -H &quot;authorization: Bearer $PLATFORM_ACCESS_TOKEN&quot;
+  -H &quot;content-type: application/json&quot;
+)</code></pre>
+<p>The runtime <code>tenant_id</code> column is filled from the JWT claim and checked by row-level security, per <a href="decisions-standards-overlap-decisions.html#DEC-010-tenancy-reference-data">DEC-010</a>. The request bodies below intentionally omit <code>tenant_id</code>.</p>
 <h2 id="1-create-a-school-teacher-and-ten-students">1. Create A School, Teacher, And Ten Students</h2>
-<p>Dictionary fields used by this step:</p>
+<p>Dictionary fields and values used by this step:</p>
 <table><thead><tr><th>Runtime field or value</th><th>Dictionary link</th></tr></thead><tbody><tr><td><code>organizations.id</code></td><td><a href="oneroster-core-dictionary.html#organization.id">organization.id</a></td></tr><tr><td><code>organizations.sourced_id</code></td><td><a href="oneroster-core-dictionary.html#organization.sourced_id">organization.sourced_id</a></td></tr><tr><td><code>organizations.name</code></td><td><a href="oneroster-core-dictionary.html#organization.name">organization.name</a></td></tr><tr><td><code>organizations.organization_type</code></td><td><a href="oneroster-core-dictionary.html#organization.organization_type">organization.organization_type</a></td></tr><tr><td><code>school</code></td><td><a href="oneroster-core-dictionary.html#enum.organization_type.school">global enum organization_type.school</a></td></tr><tr><td><code>organizations.status</code></td><td><a href="oneroster-core-dictionary.html#organization.status">organization.status</a></td></tr><tr><td><code>active</code></td><td><a href="oneroster-core-dictionary.html#enum.record_status.active">global enum record_status.active</a></td></tr><tr><td><code>people.id</code></td><td><a href="oneroster-core-dictionary.html#person.id">person.id</a></td></tr><tr><td><code>people.sourced_id</code></td><td><a href="oneroster-core-dictionary.html#person.sourced_id">person.sourced_id</a></td></tr><tr><td><code>people.display_name</code></td><td><a href="oneroster-core-dictionary.html#person.display_name">person.display_name</a></td></tr><tr><td><code>people.given_name</code></td><td><a href="oneroster-core-dictionary.html#person.given_name">person.given_name</a></td></tr><tr><td><code>people.family_name</code></td><td><a href="oneroster-core-dictionary.html#person.family_name">person.family_name</a></td></tr><tr><td><code>people.email</code></td><td><a href="oneroster-core-dictionary.html#person.email">person.email</a></td></tr><tr><td><code>people.primary_role</code></td><td><a href="oneroster-core-dictionary.html#person.primary_role">person.primary_role</a></td></tr><tr><td><code>teacher</code></td><td><a href="oneroster-core-dictionary.html#enum.role_family.teacher">global enum role_family.teacher</a></td></tr><tr><td><code>student</code></td><td><a href="oneroster-core-dictionary.html#enum.role_family.student">global enum role_family.student</a></td></tr><tr><td><code>people.enabled_user</code></td><td><a href="oneroster-core-dictionary.html#person.enabled_user">person.enabled_user</a></td></tr><tr><td><code>true</code></td><td><a href="oneroster-core-dictionary.html#enum.enabled_user_state.true">global enum enabled_user_state.true</a></td></tr></tbody></table>
-<pre><code>psql &quot;$SUPABASE_DB_URL&quot; -v ON_ERROR_STOP=1 &lt;&lt;&#x27;SQL&#x27;
-insert into public.organizations (
-  tenant_id, id, sourced_id, name, organization_type, parent_organization_id, status, date_last_modified
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;org_build_school&#x27;,
-  &#x27;BUILD-SCHOOL-001&#x27;,
-  &#x27;Build Guide Middle School&#x27;,
-  &#x27;school&#x27;,
-  null,
-  &#x27;active&#x27;,
-  now()
-)
-on conflict (id) do update set
-  name = excluded.name,
-  organization_type = excluded.organization_type,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+<pre><code>curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/organizations?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[{
+    &quot;id&quot;: &quot;org_build_school&quot;,
+    &quot;sourced_id&quot;: &quot;BUILD-SCHOOL-001&quot;,
+    &quot;name&quot;: &quot;Build Guide Middle School&quot;,
+    &quot;organization_type&quot;: &quot;school&quot;,
+    &quot;parent_organization_id&quot;: null,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-09-01T12:00:00Z&quot;
+  }]&#x27;
 
-with people_rows(id, sourced_id, display_name, given_name, family_name, email, primary_role) as (
-  values
-    (&#x27;person_build_teacher&#x27;, &#x27;BUILD-TEACHER-001&#x27;, &#x27;Nora Teacher&#x27;, &#x27;Nora&#x27;, &#x27;Teacher&#x27;, &#x27;nora.teacher@build-guide.test&#x27;, &#x27;teacher&#x27;),
-    (&#x27;person_build_student_01&#x27;, &#x27;BUILD-STUDENT-001&#x27;, &#x27;Student 01&#x27;, &#x27;Student&#x27;, &#x27;01&#x27;, &#x27;student01@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_02&#x27;, &#x27;BUILD-STUDENT-002&#x27;, &#x27;Student 02&#x27;, &#x27;Student&#x27;, &#x27;02&#x27;, &#x27;student02@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_03&#x27;, &#x27;BUILD-STUDENT-003&#x27;, &#x27;Student 03&#x27;, &#x27;Student&#x27;, &#x27;03&#x27;, &#x27;student03@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_04&#x27;, &#x27;BUILD-STUDENT-004&#x27;, &#x27;Student 04&#x27;, &#x27;Student&#x27;, &#x27;04&#x27;, &#x27;student04@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_05&#x27;, &#x27;BUILD-STUDENT-005&#x27;, &#x27;Student 05&#x27;, &#x27;Student&#x27;, &#x27;05&#x27;, &#x27;student05@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_06&#x27;, &#x27;BUILD-STUDENT-006&#x27;, &#x27;Student 06&#x27;, &#x27;Student&#x27;, &#x27;06&#x27;, &#x27;student06@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_07&#x27;, &#x27;BUILD-STUDENT-007&#x27;, &#x27;Student 07&#x27;, &#x27;Student&#x27;, &#x27;07&#x27;, &#x27;student07@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_08&#x27;, &#x27;BUILD-STUDENT-008&#x27;, &#x27;Student 08&#x27;, &#x27;Student&#x27;, &#x27;08&#x27;, &#x27;student08@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_09&#x27;, &#x27;BUILD-STUDENT-009&#x27;, &#x27;Student 09&#x27;, &#x27;Student&#x27;, &#x27;09&#x27;, &#x27;student09@build-guide.test&#x27;, &#x27;student&#x27;),
-    (&#x27;person_build_student_10&#x27;, &#x27;BUILD-STUDENT-010&#x27;, &#x27;Student 10&#x27;, &#x27;Student&#x27;, &#x27;10&#x27;, &#x27;student10@build-guide.test&#x27;, &#x27;student&#x27;)
-)
-insert into public.people (
-  tenant_id, id, sourced_id, display_name, given_name, family_name, email, primary_role, enabled_user, status, date_last_modified
-)
-select
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  id,
-  sourced_id,
-  display_name,
-  given_name,
-  family_name,
-  email,
-  primary_role,
-  &#x27;true&#x27;,
-  &#x27;active&#x27;,
-  now()
-from people_rows
-on conflict (id) do update set
-  display_name = excluded.display_name,
-  given_name = excluded.given_name,
-  family_name = excluded.family_name,
-  email = excluded.email,
-  primary_role = excluded.primary_role,
-  enabled_user = excluded.enabled_user,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/people?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[
+    {&quot;id&quot;:&quot;person_build_teacher&quot;,&quot;sourced_id&quot;:&quot;BUILD-TEACHER-001&quot;,&quot;display_name&quot;:&quot;Nora Teacher&quot;,&quot;given_name&quot;:&quot;Nora&quot;,&quot;family_name&quot;:&quot;Teacher&quot;,&quot;email&quot;:&quot;nora.teacher@build-guide.test&quot;,&quot;primary_role&quot;:&quot;teacher&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_01&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-001&quot;,&quot;display_name&quot;:&quot;Student 01&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;01&quot;,&quot;email&quot;:&quot;student01@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_02&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-002&quot;,&quot;display_name&quot;:&quot;Student 02&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;02&quot;,&quot;email&quot;:&quot;student02@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_03&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-003&quot;,&quot;display_name&quot;:&quot;Student 03&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;03&quot;,&quot;email&quot;:&quot;student03@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_04&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-004&quot;,&quot;display_name&quot;:&quot;Student 04&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;04&quot;,&quot;email&quot;:&quot;student04@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_05&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-005&quot;,&quot;display_name&quot;:&quot;Student 05&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;05&quot;,&quot;email&quot;:&quot;student05@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_06&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-006&quot;,&quot;display_name&quot;:&quot;Student 06&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;06&quot;,&quot;email&quot;:&quot;student06@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_07&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-007&quot;,&quot;display_name&quot;:&quot;Student 07&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;07&quot;,&quot;email&quot;:&quot;student07@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_08&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-008&quot;,&quot;display_name&quot;:&quot;Student 08&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;08&quot;,&quot;email&quot;:&quot;student08@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_09&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-009&quot;,&quot;display_name&quot;:&quot;Student 09&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;09&quot;,&quot;email&quot;:&quot;student09@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;person_build_student_10&quot;,&quot;sourced_id&quot;:&quot;BUILD-STUDENT-010&quot;,&quot;display_name&quot;:&quot;Student 10&quot;,&quot;given_name&quot;:&quot;Student&quot;,&quot;family_name&quot;:&quot;10&quot;,&quot;email&quot;:&quot;student10@build-guide.test&quot;,&quot;primary_role&quot;:&quot;student&quot;,&quot;enabled_user&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;}
+  ]&#x27;
 
-select id, name, organization_type from public.organizations where id = &#x27;org_build_school&#x27;;
-select id, display_name, primary_role from public.people where id like &#x27;person_build_%&#x27; order by id;
-SQL</code></pre>
+curl -sS &quot;$SUPABASE_URL/rest/v1/organizations?select=id,name,organization_type&amp;id=eq.org_build_school&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $PLATFORM_ACCESS_TOKEN&quot;
+
+curl -sS &quot;$SUPABASE_URL/rest/v1/people?select=id,display_name,primary_role&amp;id=like.person_build_%25&amp;order=id.asc&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $PLATFORM_ACCESS_TOKEN&quot;</code></pre>
 <h2 id="2-create-a-class-and-enroll-everyone">2. Create A Class And Enroll Everyone</h2>
-<p>Dictionary fields used by this step:</p>
+<p>Dictionary fields and values used by this step:</p>
 <table><thead><tr><th>Runtime field or value</th><th>Dictionary link</th></tr></thead><tbody><tr><td><code>academic_sessions.id</code></td><td><a href="oneroster-core-dictionary.html#academic_session.id">academic_session.id</a></td></tr><tr><td><code>academic_sessions.session_type</code></td><td><a href="oneroster-core-dictionary.html#academic_session.session_type">academic_session.session_type</a></td></tr><tr><td><code>term</code></td><td><a href="oneroster-core-dictionary.html#enum.academic_session_type.term">global enum academic_session_type.term</a></td></tr><tr><td><code>courses.id</code></td><td><a href="oneroster-core-dictionary.html#course.id">course.id</a></td></tr><tr><td><code>courses.org_id</code></td><td><a href="oneroster-core-dictionary.html#course.org_id">course.org_id</a></td></tr><tr><td><code>classes.id</code></td><td><a href="oneroster-core-dictionary.html#class.id">class.id</a></td></tr><tr><td><code>classes.class_type</code></td><td><a href="oneroster-core-dictionary.html#class.class_type">class.class_type</a></td></tr><tr><td><code>scheduled</code></td><td><a href="oneroster-core-dictionary.html#enum.class_type.scheduled">global enum class_type.scheduled</a></td></tr><tr><td><code>classes.course_id</code></td><td><a href="oneroster-core-dictionary.html#class.course_id">class.course_id</a></td></tr><tr><td><code>classes.school_id</code></td><td><a href="oneroster-core-dictionary.html#class.school_id">class.school_id</a></td></tr><tr><td><code>classes.term_id</code></td><td><a href="oneroster-core-dictionary.html#class.term_id">class.term_id</a></td></tr><tr><td><code>enrollments.id</code></td><td><a href="oneroster-core-dictionary.html#enrollment.id">enrollment.id</a></td></tr><tr><td><code>enrollments.class_id</code></td><td><a href="oneroster-core-dictionary.html#enrollment.class_id">enrollment.class_id</a></td></tr><tr><td><code>enrollments.person_id</code></td><td><a href="oneroster-core-dictionary.html#enrollment.person_id">enrollment.person_id</a></td></tr><tr><td><code>enrollments.role</code></td><td><a href="oneroster-core-dictionary.html#enrollment.role">enrollment.role</a></td></tr><tr><td><code>enrollments.primary_flag</code></td><td><a href="oneroster-core-dictionary.html#enrollment.primary_flag">enrollment.primary_flag</a></td></tr></tbody></table>
-<pre><code>psql &quot;$SUPABASE_DB_URL&quot; -v ON_ERROR_STOP=1 &lt;&lt;&#x27;SQL&#x27;
-insert into public.academic_sessions (
-  tenant_id, id, sourced_id, title, session_type, start_date, end_date, school_year, status, date_last_modified
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;session_build_fall_2026&#x27;,
-  &#x27;BUILD-TERM-FALL-2026&#x27;,
-  &#x27;Build Guide Fall 2026&#x27;,
-  &#x27;term&#x27;,
-  &#x27;2026-08-24&#x27;,
-  &#x27;2026-12-18&#x27;,
-  2026,
-  &#x27;active&#x27;,
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  session_type = excluded.session_type,
-  start_date = excluded.start_date,
-  end_date = excluded.end_date,
-  school_year = excluded.school_year,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+<pre><code>curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/academic_sessions?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[{
+    &quot;id&quot;: &quot;session_build_fall_2026&quot;,
+    &quot;sourced_id&quot;: &quot;BUILD-TERM-FALL-2026&quot;,
+    &quot;title&quot;: &quot;Build Guide Fall 2026&quot;,
+    &quot;session_type&quot;: &quot;term&quot;,
+    &quot;start_date&quot;: &quot;2026-08-24&quot;,
+    &quot;end_date&quot;: &quot;2026-12-18&quot;,
+    &quot;school_year&quot;: 2026,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-09-01T12:00:00Z&quot;
+  }]&#x27;
 
-insert into public.courses (
-  tenant_id, id, sourced_id, title, course_code, org_id, school_year_id, status, date_last_modified
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;course_build_math_6&#x27;,
-  &#x27;BUILD-COURSE-MATH-6&#x27;,
-  &#x27;Build Guide Grade 6 Mathematics&#x27;,
-  &#x27;BUILD-MATH-06&#x27;,
-  &#x27;org_build_school&#x27;,
-  &#x27;session_build_fall_2026&#x27;,
-  &#x27;active&#x27;,
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  course_code = excluded.course_code,
-  org_id = excluded.org_id,
-  school_year_id = excluded.school_year_id,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/courses?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[{
+    &quot;id&quot;: &quot;course_build_math_6&quot;,
+    &quot;sourced_id&quot;: &quot;BUILD-COURSE-MATH-6&quot;,
+    &quot;title&quot;: &quot;Build Guide Grade 6 Mathematics&quot;,
+    &quot;course_code&quot;: &quot;BUILD-MATH-06&quot;,
+    &quot;org_id&quot;: &quot;org_build_school&quot;,
+    &quot;school_year_id&quot;: &quot;session_build_fall_2026&quot;,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-09-01T12:00:00Z&quot;
+  }]&#x27;
 
-insert into public.classes (
-  tenant_id, id, sourced_id, title, class_type, class_code, course_id, school_id, term_id, status, date_last_modified
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;class_build_math_6a&#x27;,
-  &#x27;BUILD-CLASS-MATH-6A&#x27;,
-  &#x27;Build Guide Math 6A&#x27;,
-  &#x27;scheduled&#x27;,
-  &#x27;BUILD-P1-MATH6&#x27;,
-  &#x27;course_build_math_6&#x27;,
-  &#x27;org_build_school&#x27;,
-  &#x27;session_build_fall_2026&#x27;,
-  &#x27;active&#x27;,
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  class_type = excluded.class_type,
-  class_code = excluded.class_code,
-  course_id = excluded.course_id,
-  school_id = excluded.school_id,
-  term_id = excluded.term_id,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/classes?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[{
+    &quot;id&quot;: &quot;class_build_math_6a&quot;,
+    &quot;sourced_id&quot;: &quot;BUILD-CLASS-MATH-6A&quot;,
+    &quot;title&quot;: &quot;Build Guide Math 6A&quot;,
+    &quot;class_type&quot;: &quot;scheduled&quot;,
+    &quot;class_code&quot;: &quot;BUILD-P1-MATH6&quot;,
+    &quot;course_id&quot;: &quot;course_build_math_6&quot;,
+    &quot;school_id&quot;: &quot;org_build_school&quot;,
+    &quot;term_id&quot;: &quot;session_build_fall_2026&quot;,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-09-01T12:00:00Z&quot;
+  }]&#x27;
 
-with enrollments_to_write(id, sourced_id, person_id, role, primary_flag) as (
-  values
-    (&#x27;enr_build_teacher&#x27;, &#x27;BUILD-ENR-TEACHER&#x27;, &#x27;person_build_teacher&#x27;, &#x27;teacher&#x27;, &#x27;true&#x27;),
-    (&#x27;enr_build_student_01&#x27;, &#x27;BUILD-ENR-STUDENT-001&#x27;, &#x27;person_build_student_01&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_02&#x27;, &#x27;BUILD-ENR-STUDENT-002&#x27;, &#x27;person_build_student_02&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_03&#x27;, &#x27;BUILD-ENR-STUDENT-003&#x27;, &#x27;person_build_student_03&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_04&#x27;, &#x27;BUILD-ENR-STUDENT-004&#x27;, &#x27;person_build_student_04&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_05&#x27;, &#x27;BUILD-ENR-STUDENT-005&#x27;, &#x27;person_build_student_05&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_06&#x27;, &#x27;BUILD-ENR-STUDENT-006&#x27;, &#x27;person_build_student_06&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_07&#x27;, &#x27;BUILD-ENR-STUDENT-007&#x27;, &#x27;person_build_student_07&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_08&#x27;, &#x27;BUILD-ENR-STUDENT-008&#x27;, &#x27;person_build_student_08&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_09&#x27;, &#x27;BUILD-ENR-STUDENT-009&#x27;, &#x27;person_build_student_09&#x27;, &#x27;student&#x27;, &#x27;false&#x27;),
-    (&#x27;enr_build_student_10&#x27;, &#x27;BUILD-ENR-STUDENT-010&#x27;, &#x27;person_build_student_10&#x27;, &#x27;student&#x27;, &#x27;false&#x27;)
-)
-insert into public.enrollments (
-  tenant_id, id, sourced_id, class_id, person_id, school_id, role, begin_date, end_date, primary_flag, status, date_last_modified
-)
-select
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  id,
-  sourced_id,
-  &#x27;class_build_math_6a&#x27;,
-  person_id,
-  &#x27;org_build_school&#x27;,
-  role,
-  &#x27;2026-08-24&#x27;,
-  &#x27;2026-12-18&#x27;,
-  primary_flag,
-  &#x27;active&#x27;,
-  now()
-from enrollments_to_write
-on conflict (id) do update set
-  class_id = excluded.class_id,
-  person_id = excluded.person_id,
-  school_id = excluded.school_id,
-  role = excluded.role,
-  begin_date = excluded.begin_date,
-  end_date = excluded.end_date,
-  primary_flag = excluded.primary_flag,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/enrollments?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[
+    {&quot;id&quot;:&quot;enr_build_teacher&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-TEACHER&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_teacher&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;teacher&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;true&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_01&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-001&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_01&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_02&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-002&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_02&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_03&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-003&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_03&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_04&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-004&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_04&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_05&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-005&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_05&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_06&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-006&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_06&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_07&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-007&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_07&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_08&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-008&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_08&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_09&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-009&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_09&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;},
+    {&quot;id&quot;:&quot;enr_build_student_10&quot;,&quot;sourced_id&quot;:&quot;BUILD-ENR-STUDENT-010&quot;,&quot;class_id&quot;:&quot;class_build_math_6a&quot;,&quot;person_id&quot;:&quot;person_build_student_10&quot;,&quot;school_id&quot;:&quot;org_build_school&quot;,&quot;role&quot;:&quot;student&quot;,&quot;begin_date&quot;:&quot;2026-08-24&quot;,&quot;end_date&quot;:&quot;2026-12-18&quot;,&quot;primary_flag&quot;:&quot;false&quot;,&quot;status&quot;:&quot;active&quot;,&quot;date_last_modified&quot;:&quot;2026-09-01T12:00:00Z&quot;}
+  ]&#x27;
 
-select class_id, class_title, person_id, display_name, class_role
-from public.class_roster
-where class_id = &#x27;class_build_math_6a&#x27;
-order by class_role desc, person_id;
-SQL</code></pre>
+curl -sS &quot;$SUPABASE_URL/rest/v1/class_roster?select=class_id,class_title,person_id,display_name,class_role&amp;class_id=eq.class_build_math_6a&amp;order=person_id.asc&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $PLATFORM_ACCESS_TOKEN&quot;</code></pre>
 <h2 id="3-post-a-numeric-grade">3. Post A Numeric Grade</h2>
-<p>Dictionary fields used by this step:</p>
+<p>Dictionary fields and values used by this step:</p>
 <table><thead><tr><th>Runtime field or value</th><th>Dictionary link</th></tr></thead><tbody><tr><td><code>line_items.id</code></td><td><a href="oneroster-core-dictionary.html#line_item.id">line_item.id</a></td></tr><tr><td><code>line_items.title</code></td><td><a href="oneroster-core-dictionary.html#line_item.title">line_item.title</a></td></tr><tr><td><code>line_items.class_id</code></td><td><a href="oneroster-core-dictionary.html#line_item.class_id">line_item.class_id</a></td></tr><tr><td><code>line_items.category</code></td><td><a href="oneroster-core-dictionary.html#line_item.category">line_item.category</a></td></tr><tr><td><code>assignment</code></td><td><a href="oneroster-core-dictionary.html#enum.gradebook_category.assignment">global enum gradebook_category.assignment</a></td></tr><tr><td><code>line_items.result_value_max</code></td><td><a href="oneroster-core-dictionary.html#line_item.result_value_max">line_item.result_value_max</a></td></tr><tr><td><code>results.id</code></td><td><a href="oneroster-core-dictionary.html#result.id">result.id</a></td></tr><tr><td><code>results.line_item_id</code></td><td><a href="oneroster-core-dictionary.html#result.line_item_id">result.line_item_id</a></td></tr><tr><td><code>results.person_id</code></td><td><a href="oneroster-core-dictionary.html#result.person_id">result.person_id</a></td></tr><tr><td><code>results.score_status</code></td><td><a href="oneroster-core-dictionary.html#result.score_status">result.score_status</a></td></tr><tr><td><code>fullyGraded</code></td><td><a href="oneroster-core-dictionary.html#enum.grading_progress.fullyGraded">global enum grading_progress.fullyGraded</a></td></tr><tr><td><code>results.score</code></td><td><a href="oneroster-core-dictionary.html#result.score">result.score</a></td></tr></tbody></table>
-<pre><code>psql &quot;$SUPABASE_DB_URL&quot; -v ON_ERROR_STOP=1 &lt;&lt;&#x27;SQL&#x27;
-insert into public.line_items (
-  tenant_id, id, sourced_id, title, class_id, category, assign_date, due_date, result_value_min, result_value_max, status, date_last_modified
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;li_build_fractions_exit_ticket&#x27;,
-  &#x27;BUILD-LINEITEM-FRACTIONS-EXIT&#x27;,
-  &#x27;Fractions Exit Ticket&#x27;,
-  &#x27;class_build_math_6a&#x27;,
-  &#x27;assignment&#x27;,
-  &#x27;2026-09-08&#x27;,
-  &#x27;2026-09-08&#x27;,
-  0,
-  10,
-  &#x27;active&#x27;,
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  class_id = excluded.class_id,
-  category = excluded.category,
-  assign_date = excluded.assign_date,
-  due_date = excluded.due_date,
-  result_value_min = excluded.result_value_min,
-  result_value_max = excluded.result_value_max,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+<pre><code>curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/line_items?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[{
+    &quot;id&quot;: &quot;li_build_fractions_exit_ticket&quot;,
+    &quot;sourced_id&quot;: &quot;BUILD-LINEITEM-FRACTIONS-EXIT&quot;,
+    &quot;title&quot;: &quot;Fractions Exit Ticket&quot;,
+    &quot;class_id&quot;: &quot;class_build_math_6a&quot;,
+    &quot;category&quot;: &quot;assignment&quot;,
+    &quot;assign_date&quot;: &quot;2026-09-08&quot;,
+    &quot;due_date&quot;: &quot;2026-09-08&quot;,
+    &quot;result_value_min&quot;: 0,
+    &quot;result_value_max&quot;: 10,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-09-08T15:00:00Z&quot;
+  }]&#x27;
 
-insert into public.results (
-  tenant_id, id, sourced_id, line_item_id, person_id, score_status, score, score_date, comment, status, date_last_modified
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;res_build_student_01_exit_ticket&#x27;,
-  &#x27;BUILD-RESULT-STUDENT-001&#x27;,
-  &#x27;li_build_fractions_exit_ticket&#x27;,
-  &#x27;person_build_student_01&#x27;,
-  &#x27;fullyGraded&#x27;,
-  9,
-  &#x27;2026-09-08T15:30:00Z&#x27;,
-  &#x27;Accurate fraction model.&#x27;,
-  &#x27;active&#x27;,
-  now()
-)
-on conflict (id) do update set
-  line_item_id = excluded.line_item_id,
-  person_id = excluded.person_id,
-  score_status = excluded.score_status,
-  score = excluded.score,
-  score_date = excluded.score_date,
-  comment = excluded.comment,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/results?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[{
+    &quot;id&quot;: &quot;res_build_student_01_exit_ticket&quot;,
+    &quot;sourced_id&quot;: &quot;BUILD-RESULT-STUDENT-001&quot;,
+    &quot;line_item_id&quot;: &quot;li_build_fractions_exit_ticket&quot;,
+    &quot;person_id&quot;: &quot;person_build_student_01&quot;,
+    &quot;score_status&quot;: &quot;fullyGraded&quot;,
+    &quot;score&quot;: 9,
+    &quot;score_date&quot;: &quot;2026-09-08T15:30:00Z&quot;,
+    &quot;comment&quot;: &quot;Accurate fraction model.&quot;,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-09-08T15:30:00Z&quot;
+  }]&#x27;
 
-select result_id, line_item_title, learner_name, score, result_value_max, score_status
-from public.gradebook_results
-where result_id = &#x27;res_build_student_01_exit_ticket&#x27;;
-SQL</code></pre>
+curl -sS &quot;$SUPABASE_URL/rest/v1/gradebook_results?select=result_id,line_item_title,learner_name,score,result_value_max,score_status&amp;result_id=eq.res_build_student_01_exit_ticket&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $PLATFORM_ACCESS_TOKEN&quot;</code></pre>
 <h2 id="4-link-the-assignment-to-a-case-standard-uri">4. Link The Assignment To A CASE Standard URI</h2>
-<p>The current live runtime has generated CASE dictionary coverage but no full CASE import/search service. This step creates the small app-owned alignment table that a teaching app needs today, while using the platform&#x27;s <a href="oneroster-core-dictionary.html#line_item.id">line_item.id</a> and CASE <a href="case-core-dictionary.html#case_item.uri">case_item.uri</a> contracts.</p>
 <p>Dictionary fields and values used by this step:</p>
-<table><thead><tr><th>Runtime field or value</th><th>Dictionary link</th></tr></thead><tbody><tr><td><code>line_item_id</code></td><td><a href="oneroster-core-dictionary.html#line_item.id">line_item.id</a></td></tr><tr><td><code>case_item_uri</code></td><td><a href="case-core-dictionary.html#case_item.uri">case_item.uri</a></td></tr><tr><td><code>case_item_identifier</code></td><td><a href="case-core-dictionary.html#case_item.identifier">case_item.identifier</a></td></tr><tr><td><code>case_item.item_type</code></td><td><a href="case-core-dictionary.html#case_item.item_type">case_item.item_type</a></td></tr><tr><td><code>standard</code></td><td><a href="case-core-dictionary.html#enum.item_type.standard">global enum item_type.standard</a></td></tr></tbody></table>
-<pre><code>psql &quot;$SUPABASE_DB_URL&quot; -v ON_ERROR_STOP=1 &lt;&lt;&#x27;SQL&#x27;
-create table if not exists public.build_app_assignment_case_links (
-  tenant_id uuid not null,
-  line_item_id text not null references public.line_items(id),
-  case_item_uri text not null,
-  case_item_identifier text not null,
-  created_at timestamptz not null default now(),
-  primary key (tenant_id, line_item_id, case_item_uri)
-);
+<table><thead><tr><th>Runtime field or value</th><th>Dictionary link</th></tr></thead><tbody><tr><td><code>line_items.id</code></td><td><a href="oneroster-core-dictionary.html#line_item.id">line_item.id</a></td></tr><tr><td><code>line_items.case_target_uri</code></td><td><a href="oneroster-core-dictionary.html#line_item.case_target_uri">line_item.case_target_uri</a></td></tr><tr><td><code>case_item.uri</code></td><td><a href="case-core-dictionary.html#case_item.uri">case_item.uri</a></td></tr><tr><td><code>case_item.item_type</code></td><td><a href="case-core-dictionary.html#case_item.item_type">case_item.item_type</a></td></tr><tr><td><code>standard</code></td><td><a href="case-core-dictionary.html#enum.item_type.standard">global enum item_type.standard</a></td></tr></tbody></table>
+<pre><code>curl -sS -X PATCH &quot;$SUPABASE_URL/rest/v1/line_items?id=eq.li_build_fractions_exit_ticket&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: return=minimal&quot; \
+  --data &#x27;{
+    &quot;case_target_uri&quot;: &quot;https://standards.example.test/math/2026/6.NS.A.1&quot;,
+    &quot;date_last_modified&quot;: &quot;2026-09-08T15:35:00Z&quot;
+  }&#x27;
 
-insert into public.build_app_assignment_case_links (
-  tenant_id, line_item_id, case_item_uri, case_item_identifier
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;li_build_fractions_exit_ticket&#x27;,
-  &#x27;https://standards.example.test/math/2026/6.NS.A.1&#x27;,
-  &#x27;6.NS.A.1&#x27;
-)
-on conflict (tenant_id, line_item_id, case_item_uri) do update set
-  case_item_identifier = excluded.case_item_identifier,
-  created_at = now();
-
-select li.title as assignment_title, l.case_item_identifier, l.case_item_uri
-from public.build_app_assignment_case_links l
-join public.line_items li on li.id = l.line_item_id
-where l.tenant_id = &#x27;33333333-3333-3333-3333-333333333333&#x27;
-  and l.line_item_id = &#x27;li_build_fractions_exit_ticket&#x27;;
-SQL</code></pre>
+curl -sS &quot;$SUPABASE_URL/rest/v1/line_items?select=id,title,case_target_uri&amp;id=eq.li_build_fractions_exit_ticket&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $PLATFORM_ACCESS_TOKEN&quot;</code></pre>
 <h2 id="5-read-a-caliper-style-activity-feed-for-the-class">5. Read A Caliper-Style Activity Feed For The Class</h2>
-<p>The live <code>caliper-event-ingestion</code> function records tenant-scoped Caliper receipts in <code>audit_log</code>. This SQL creates the same receipt for the grade event and reads it back as a Caliper-style class feed.</p>
 <p>Dictionary fields and values used by this step:</p>
-<table><thead><tr><th>Runtime field or value</th><th>Dictionary link</th></tr></thead><tbody><tr><td><code>caliper_event.event_type</code></td><td><a href="caliper-core-dictionary.html#caliper_event.event_type">caliper_event.event_type</a></td></tr><tr><td><code>GradeEvent</code></td><td><a href="caliper-core-dictionary.html#enum.event_type.GradeEvent">global enum event_type.GradeEvent</a></td></tr><tr><td><code>caliper_event.action</code></td><td><a href="caliper-core-dictionary.html#caliper_event.action">caliper_event.action</a></td></tr><tr><td><code>Graded</code></td><td><a href="caliper-core-dictionary.html#enum.action.Graded">global enum action.Graded</a></td></tr><tr><td><code>caliper_event.profile</code></td><td><a href="caliper-core-dictionary.html#caliper_event.profile">caliper_event.profile</a></td></tr><tr><td><code>GradingProfile</code></td><td><a href="caliper-core-dictionary.html#enum.profile.GradingProfile">global enum profile.GradingProfile</a></td></tr><tr><td><code>caliper_event.event_time</code></td><td><a href="caliper-core-dictionary.html#caliper_event.event_time">caliper_event.event_time</a></td></tr><tr><td><code>caliper_event.actor_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.actor_id">caliper_event.actor_id</a></td></tr><tr><td><code>caliper_event.group_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.group_id">caliper_event.group_id</a></td></tr><tr><td><code>caliper_event.object_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.object_id">caliper_event.object_id</a></td></tr><tr><td><code>caliper_event.generated_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.generated_id">caliper_event.generated_id</a></td></tr></tbody></table>
-<pre><code>psql &quot;$SUPABASE_DB_URL&quot; -v ON_ERROR_STOP=1 &lt;&lt;&#x27;SQL&#x27;
-delete from public.audit_log
-where tenant_id = &#x27;33333333-3333-3333-3333-333333333333&#x27;
-  and request_id = &#x27;build-guide-class-feed&#x27;;
+<table><thead><tr><th>Runtime field or value</th><th>Dictionary link</th></tr></thead><tbody><tr><td><code>caliper_events.id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.id">caliper_event.id</a></td></tr><tr><td><code>caliper_events.event_iri</code></td><td><a href="caliper-core-dictionary.html#caliper_event.event_iri">caliper_event.event_iri</a></td></tr><tr><td><code>caliper_events.event_type</code></td><td><a href="caliper-core-dictionary.html#caliper_event.event_type">caliper_event.event_type</a></td></tr><tr><td><code>GradeEvent</code></td><td><a href="caliper-core-dictionary.html#enum.event_type.GradeEvent">global enum event_type.GradeEvent</a></td></tr><tr><td><code>caliper_events.action</code></td><td><a href="caliper-core-dictionary.html#caliper_event.action">caliper_event.action</a></td></tr><tr><td><code>Graded</code></td><td><a href="caliper-core-dictionary.html#enum.action.Graded">global enum action.Graded</a></td></tr><tr><td><code>caliper_events.profile</code></td><td><a href="caliper-core-dictionary.html#caliper_event.profile">caliper_event.profile</a></td></tr><tr><td><code>GradingProfile</code></td><td><a href="caliper-core-dictionary.html#enum.profile.GradingProfile">global enum profile.GradingProfile</a></td></tr><tr><td><code>caliper_events.event_time</code></td><td><a href="caliper-core-dictionary.html#caliper_event.event_time">caliper_event.event_time</a></td></tr><tr><td><code>caliper_events.actor_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.actor_id">caliper_event.actor_id</a></td></tr><tr><td><code>caliper_events.group_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.group_id">caliper_event.group_id</a></td></tr><tr><td><code>caliper_events.object_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.object_id">caliper_event.object_id</a></td></tr><tr><td><code>caliper_events.generated_id</code></td><td><a href="caliper-core-dictionary.html#caliper_event.generated_id">caliper_event.generated_id</a></td></tr><tr><td><code>caliper_events.raw_event</code></td><td><a href="caliper-core-dictionary.html#caliper_event.raw_event">caliper_event.raw_event</a></td></tr></tbody></table>
+<pre><code>curl -sS -X POST &quot;$SUPABASE_URL/rest/v1/caliper_events?on_conflict=id&quot; \
+  &quot;${REST_AUTH_HEADERS[@]}&quot; \
+  -H &quot;prefer: resolution=merge-duplicates,return=minimal&quot; \
+  --data &#x27;[{
+    &quot;id&quot;: &quot;caliper_build_grade_event_1&quot;,
+    &quot;envelope_id&quot;: &quot;caliper_env_build_1&quot;,
+    &quot;event_iri&quot;: &quot;urn:uuid:build-guide-grade-event-1&quot;,
+    &quot;event_type&quot;: &quot;GradeEvent&quot;,
+    &quot;profile&quot;: &quot;GradingProfile&quot;,
+    &quot;action&quot;: &quot;Graded&quot;,
+    &quot;actor_id&quot;: &quot;person_build_teacher&quot;,
+    &quot;object_id&quot;: &quot;li_build_fractions_exit_ticket&quot;,
+    &quot;event_time&quot;: &quot;2026-09-08T15:31:00Z&quot;,
+    &quot;generated_id&quot;: &quot;res_build_student_01_exit_ticket&quot;,
+    &quot;group_id&quot;: &quot;class_build_math_6a&quot;,
+    &quot;raw_event&quot;: &quot;{\&quot;type\&quot;:\&quot;GradeEvent\&quot;,\&quot;action\&quot;:\&quot;Graded\&quot;,\&quot;object\&quot;:\&quot;li_build_fractions_exit_ticket\&quot;,\&quot;generated\&quot;:\&quot;res_build_student_01_exit_ticket\&quot;}&quot;
+  }]&#x27;
 
-insert into public.audit_log (
-  tenant_id,
-  client_id,
-  scope,
-  purpose,
-  field_accessed,
-  subject_table,
-  subject_id,
-  request_path,
-  request_id
-) values (
-  &#x27;33333333-3333-3333-3333-333333333333&#x27;,
-  &#x27;build-guide-teaching-app&#x27;,
-  &#x27;platform.caliper.events:write&#x27;,
-  &#x27;learning-analytics&#x27;,
-  &#x27;caliper.event.GradeEvent&#x27;,
-  &#x27;caliper_event&#x27;,
-  &#x27;urn:uuid:build-guide-grade-event-1&#x27;,
-  &#x27;/caliper-event-ingestion&#x27;,
-  &#x27;build-guide-class-feed&#x27;
-);
-
-select jsonb_pretty(jsonb_agg(feed.event order by feed.event -&gt;&gt; &#x27;eventTime&#x27;)) as caliper_style_activity_feed
-from (
-  select jsonb_build_object(
-    &#x27;@context&#x27;, &#x27;http://purl.imsglobal.org/ctx/caliper/v1p2&#x27;,
-    &#x27;id&#x27;, a.subject_id,
-    &#x27;type&#x27;, &#x27;GradeEvent&#x27;,
-    &#x27;action&#x27;, &#x27;Graded&#x27;,
-    &#x27;profile&#x27;, &#x27;GradingProfile&#x27;,
-    &#x27;eventTime&#x27;, a.timestamp,
-    &#x27;actor&#x27;, jsonb_build_object(
-      &#x27;id&#x27;, &#x27;person_build_teacher&#x27;,
-      &#x27;type&#x27;, &#x27;Person&#x27;,
-      &#x27;name&#x27;, &#x27;Nora Teacher&#x27;
-    ),
-    &#x27;group&#x27;, jsonb_build_object(
-      &#x27;id&#x27;, c.id,
-      &#x27;type&#x27;, &#x27;CourseSection&#x27;,
-      &#x27;name&#x27;, c.title
-    ),
-    &#x27;object&#x27;, jsonb_build_object(
-      &#x27;id&#x27;, li.id,
-      &#x27;type&#x27;, &#x27;AssignableDigitalResource&#x27;,
-      &#x27;name&#x27;, li.title
-    ),
-    &#x27;generated&#x27;, jsonb_build_object(
-      &#x27;id&#x27;, r.id,
-      &#x27;type&#x27;, &#x27;Result&#x27;,
-      &#x27;score&#x27;, r.score,
-      &#x27;maxScore&#x27;, li.result_value_max,
-      &#x27;caseItemUri&#x27;, l.case_item_uri
-    )
-  ) as event
-  from public.audit_log a
-  join public.classes c on c.id = &#x27;class_build_math_6a&#x27;
-  join public.line_items li on li.id = &#x27;li_build_fractions_exit_ticket&#x27; and li.class_id = c.id
-  join public.results r on r.line_item_id = li.id and r.person_id = &#x27;person_build_student_01&#x27;
-  join public.build_app_assignment_case_links l on l.line_item_id = li.id
-  where a.tenant_id = &#x27;33333333-3333-3333-3333-333333333333&#x27;
-    and a.request_id = &#x27;build-guide-class-feed&#x27;
-) feed;
-SQL</code></pre>
+curl -sS &quot;$SUPABASE_URL/rest/v1/class_activity_feed?select=event&amp;class_id=eq.class_build_math_6a&amp;order=event_time.asc&quot; \
+  -H &quot;apikey: $SUPABASE_PUBLISHABLE_KEY&quot; \
+  -H &quot;authorization: Bearer $PLATFORM_ACCESS_TOKEN&quot;</code></pre>
 <h2 id="what-the-app-has-now">What The App Has Now</h2>
-<p>The app has a school, one teacher, ten students, one scheduled class, one assignment, one numeric result, a CASE standard URI attached to that assignment, and a Caliper-style feed item tying the score activity back to the class and standard.</p>
+<p>The app has a school, one teacher, ten students, one scheduled class, one assignment, one numeric result, a CASE standard URI attached to that assignment through <code>line_items.case_target_uri</code>, and a Caliper-style class feed item read from <code>class_activity_feed</code>.</p>
     <p class="source-note">Source file: <code>docs/build-an-edtech-app.md</code></p>
   </main>
 </body>

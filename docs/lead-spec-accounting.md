@@ -24,9 +24,9 @@ Each Lead-spec accounting entry below is a projection of the decision register, 
 | --- | --- | --- |
 | OneRoster 1.2 runtime/core accounting | `DEC-010-tenancy-reference-data` | Tenant-owned roster and gradebook records are isolated by RLS; shared reference data is separate. |
 | OneRoster 1.2 score/result accounting | `DEC-005-results-scores` | Gradebook line items and results use a stable result contract while richer score-scale/profile fields stay deferred. |
-| CASE 1.1 accounting | `DEC-006-standards-alignment` | Standards frameworks and alignments are modeled as governed graph/reference data. |
+| CASE 1.1 accounting | `DEC-006-standards-alignment` | Standards frameworks and alignments are modeled as governed graph/reference data; the teaching-app runtime stores a known CASE target URI on gradebook line items. |
 | QTI 3 accounting | `DEC-009-content-resource` | QTI packages and items remain content/resource artifacts until runtime delivery is implemented. |
-| Caliper 1.2 accounting | `DEC-012-runtime-coverage-per-spec` | Caliper is partial runtime only through the authenticated receipt path. |
+| Caliper 1.2 accounting | `DEC-012-runtime-coverage-per-spec` | Caliper is partial runtime through the authenticated receipt path and the build-guide `caliper_events`/`class_activity_feed` projection. |
 | LTI 1.3/LTI Advantage accounting | `DEC-012-runtime-coverage-per-spec` | LTI is partial runtime only through the authenticated launch receipt path. |
 | Security Framework 1.1 accounting | `DEC-015-service-role-policy` | Request-scoped runtime code must use caller JWTs, with service-role use limited to admin/test operations. |
 | Data Privacy 1.0 accounting | `DEC-011-privacy-surfaces` | Privacy classes determine which fields may appear on docs, static mirrors, live REST, and audited Edge Functions. |
@@ -61,7 +61,7 @@ The tables below make the structured `unsupported_or_deferred[].sourceFieldsOrVa
 | Area | Source fields or values | Reason |
 | --- | --- | --- |
 | Formal CASE certification claim | `official certification test evidence`, `member certification workflow` | Requires official conformance testing and certification process beyond generated dictionary artifacts. |
-| Live CASE import API | `package upload`, `validation service`, `tenant adoption records`, `search indexing` | Needs a hosted database, validation service, auth, and tenant/shared-reference policy before public import/search workflows are useful. |
+| Live CASE import/search API beyond assignment URI alignment | `package upload`, `validation service`, `tenant adoption records`, `search indexing` | The teaching-app slice can attach a known CASE URI to a gradebook line item. Full framework import/search still needs validation, indexing, and tenant/shared-reference policy before public workflows are useful. |
 | Publisher extension semantics | `publisher extension fields`, `custom payload semantics` | Extensions are preserved as governed metadata, but not promoted to core fields until intentionally modeled. |
 | Full graph diff/merge workflow | `version diff`, `framework merge`, `tenant override reconciliation` | Version comparison and merge tooling should be implemented after persistent backend storage exists. |
 
@@ -69,7 +69,7 @@ The tables below make the structured `unsupported_or_deferred[].sourceFieldsOrVa
 
 | Area | Source fields or values | Reason |
 | --- | --- | --- |
-| Full Sensor API validation, immutable storage, and replay/idempotency handling | `profile validation`, `immutable raw-event store`, `rate limits`, `retention policy`, `idempotency/replay controls` | A minimal authenticated receipt Edge Function exists. Full Sensor API conformance still needs profile validation, immutable event storage, replay handling, retention policy, and operational controls. |
+| Full Sensor API validation, immutable storage, and replay/idempotency handling | `profile validation`, `immutable raw-event store`, `rate limits`, `retention policy`, `idempotency/replay controls` | A minimal authenticated receipt Edge Function and build-guide event table/view exist. Full Sensor API conformance still needs profile validation, replay handling, retention policy, and operational controls. |
 | Full profile-specific relational decomposition | `profile-specific metric fields`, `profile-specific object extensions`, `profile-specific generated/target fields` | The first generated slice indexes core event/entity fields and preserves raw JSON-LD while profile-specific projections are added incrementally based on product value. |
 | Analytics warehouse and dashboards | `warehouse fact tables`, `aggregations`, `de-identification jobs`, `dashboards` | Requires retention, aggregation, access control, and de-identification decisions beyond the event receipt path. |
 | Formal Caliper certification claim | `official certification fixtures`, `profile conformance reports` | Requires conformance testing and organizational certification work beyond these generated dictionary artifacts. |
@@ -89,9 +89,9 @@ The tables below make the structured `unsupported_or_deferred[].sourceFieldsOrVa
 | Lead area | Current status | Dictionary/accounting location |
 | --- | --- | --- |
 | OneRoster 1.2 | Runnable core slice plus full sourceStandard/unsupported ledger for the remaining 1.2 objects, fields, and values. | `dictionary/oneroster-core.v1.json`, generated OneRoster docs, OneRoster layperson dictionary. |
-| CASE 1.1 | Structured/generated framework graph projection exists; not yet executable. | `dictionary/case-core.v1.json`, generated CASE docs/OpenAPI/SQL comments, CASE layperson dictionary, overlap decisions for alignment. |
+| CASE 1.1 | Structured/generated framework graph projection plus runtime assignment-to-CASE URI alignment; full import/search is not yet executable. | `dictionary/case-core.v1.json`, generated CASE docs/OpenAPI/SQL comments, CASE layperson dictionary, `dictionary/oneroster-core.v1.json#line_item.case_target_uri`, overlap decisions for alignment. |
 | QTI 3 | Structured/generated repository projection exists; not yet executable. | `dictionary/qti-core.v1.json`, generated QTI docs/OpenAPI/SQL comments, QTI layperson dictionary, QTI projection decision, overlap decisions for results, alignment, resources, time. |
-| Caliper 1.2 | Structured/generated event projection plus a minimal authenticated ingestion Edge Function receipt path. | `dictionary/caliper-core.v1.json`, generated Caliper docs/OpenAPI/SQL comments, Caliper layperson dictionary, overlap decisions for actor, membership, grade events, time, `supabase/functions/caliper-event-ingestion`. |
+| Caliper 1.2 | Structured/generated event projection plus a minimal authenticated ingestion receipt path and build-guide event/feed runtime projection. | `dictionary/caliper-core.v1.json`, generated Caliper docs/OpenAPI/SQL comments, Caliper layperson dictionary, overlap decisions for actor, membership, grade events, time, `supabase/functions/caliper-event-ingestion`, `supabase/migrations/0001_oneroster_core_demo.sql#caliper_events`. |
 | LTI 1.3/LTI Advantage | Structured/generated integration projection plus a minimal authenticated launch handler. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, integration layperson dictionary, overlap decisions for launch context, roles, membership, IDs, resources, `supabase/functions/lti-launch-handler`. |
 | Security Framework 1.1 | Structured/generated OAuth and scope-policy projection plus a minimal authenticated token-exchange receipt path. | `dictionary/integration-governance-core.v1.json`, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions, `supabase/functions/oauth-token-exchange`. |
 | Data Privacy 1.0 | Structured/generated policy projection exists; audited sensitive reads are live for the OneRoster slice, while consent/deletion/export jobs are explicitly deferred. | `dictionary/integration-governance-core.v1.json`, privacy classes, generated integration/governance docs/OpenAPI/SQL comments, tenancy and privacy/security decisions. |
@@ -153,13 +153,13 @@ Committed platform projection:
 - The generated framework graph dictionary now lives at `dictionary/case-core.v1.json`.
 - `scripts/generate_case_core.py` emits SQL comments, OpenAPI schemas, Markdown docs, and portal HTML from that single source.
 - The projection covers CASE packages, framework documents, framework items, associations, definition sets, concepts, subjects, item types, licenses, association groups, rubrics, rubric criteria, rubric criterion levels, and CASE API status records.
-- The current projection is documentation/API-schema coverage only; live import, validation, tenant adoption, and search need a backend.
+- The current framework graph projection is generated dictionary/API-schema coverage. The runtime teaching-app slice stores a known CASE URI on `line_items.case_target_uri`; full live import, validation, tenant adoption, and search need a broader backend.
 
 Deferred or not supported yet:
 
 | Area | Reason |
 | --- | --- |
-| CASE import API | Needs a persistent database and validation service. |
+| CASE import/search API beyond assignment URI alignment | Needs validation, framework storage/search, and tenant adoption policy beyond the line-item CASE URI used by the teaching-app guide. |
 | Full framework graph execution | Planned after the OneRoster core slice. |
 | CASE certification claim | Requires conformance testing and membership/certification process. |
 
@@ -216,13 +216,14 @@ Committed platform projection:
 - The generated event projection dictionary now lives at `dictionary/caliper-core.v1.json`.
 - `scripts/generate_caliper_core.py` emits SQL comments, OpenAPI schemas, Markdown docs, and portal HTML from that single source.
 - The projection covers Sensor API envelopes, immutable events, indexed entities, actors, group/session/LTI context, profile rules, governed extensions, event types, profiles, actions, entity types, roles, statuses, and identifier values.
-- `supabase/functions/caliper-event-ingestion` accepts authenticated Caliper envelopes, forwards the caller's JWT to Supabase, and writes tenant-scoped database receipts. Full raw-event persistence, profile validation, retention, and analytics queries need a broader backend slice.
+- `supabase/functions/caliper-event-ingestion` accepts authenticated Caliper envelopes, forwards the caller's JWT to Supabase, and writes tenant-scoped database receipts.
+- `supabase/migrations/0001_oneroster_core_demo.sql` creates `caliper_events` and `class_activity_feed` so the teaching-app guide can write and read a grade event through the platform runtime. Full Sensor API validation, replay, retention, and warehouse analytics need a broader backend slice.
 
 Deferred or not supported yet:
 
 | Area | Reason |
 | --- | --- |
-| Full Sensor API conformance | Needs profile validation, immutable raw-event storage, retention policy, and replay/idempotency handling beyond the receipt path. |
+| Full Sensor API conformance | Needs profile validation, retention policy, and replay/idempotency handling beyond the receipt path and build-guide event table. |
 | Profile-specific relational projections | Planned after core roster and auth boundaries. |
 | Event warehouse/analytics dashboards | Requires retention and aggregation decisions. |
 

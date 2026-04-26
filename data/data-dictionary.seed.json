@@ -16,7 +16,19 @@
     "migration_path": "supabase/migrations/0001_oneroster_core_demo.sql",
     "source_spec_key": "oneroster-core",
     "runtime_schema": "public",
-    "relationship_source": "The OneRoster runtime object records under objects[] carry relationships arrays. The generator projects those arrays into dictionary/oneroster-core.v1.json and emits the committed Supabase migration from the same graph.",
+    "relationship_source": "The runtime object records under objects[] carry relationships arrays. The generator projects those arrays into the per-spec dictionaries and emits the committed Supabase migration from the same graph, including the OneRoster teaching-app tables and the Caliper event projection used by the buildability guide.",
+    "runtime_object_keys": [
+      "organization",
+      "person",
+      "academic_session",
+      "course",
+      "class",
+      "enrollment",
+      "line_item",
+      "result",
+      "caliper_event",
+      "source_identifier"
+    ],
     "table_order": [
       "organization",
       "person",
@@ -26,6 +38,7 @@
       "enrollment",
       "line_item",
       "result",
+      "caliper_event",
       "source_identifier"
     ],
     "relationship_keys": [
@@ -47,14 +60,14 @@
   "projection_summary": {
     "total_projections": 5,
     "total_objects": 59,
-    "total_fields": 574,
+    "total_fields": 575,
     "total_unique_controlled_values": 565,
     "specs": [
       {
         "spec_key": "oneroster-core",
         "path": "dictionary/oneroster-core.v1.json",
         "objects": 9,
-        "fields": 83,
+        "fields": 84,
         "unique_controlled_values": 42
       },
       {
@@ -2198,6 +2211,7 @@
           "decision_id": "DEC-006-competency-framework",
           "projections": [
             "dictionary/case-core.v1.json#case_item.uri",
+            "dictionary/oneroster-core.v1.json#line_item.case_target_uri",
             "dictionary/qti-core.v1.json#qti_alignment.target_identifier"
           ]
         },
@@ -2382,6 +2396,10 @@
         },
         {
           "dictionary_ref": "dictionary/case-core.v1.json#case_item.uri",
+          "resolution": "shared_canonical_overlap"
+        },
+        {
+          "dictionary_ref": "dictionary/oneroster-core.v1.json#line_item.case_target_uri",
           "resolution": "shared_canonical_overlap"
         },
         {
@@ -31185,6 +31203,31 @@
           }
         },
         {
+          "field_key": "case_target_uri",
+          "canonical_field_id": "canonical.curriculum.standard.uri",
+          "projection_kind": "direct",
+          "spec_only": false,
+          "target_dictionary": "dictionary/oneroster-core.v1.json",
+          "spec_field": {
+            "field_key": "case_target_uri",
+            "column_name": "case_target_uri",
+            "json_name": "caseTargetUri",
+            "data_type": "text",
+            "required": false,
+            "plain_description": "The CASE standard URI this gradebook item is aligned to when the target is known.",
+            "school_example": "https://standards.example.test/math/2026/6.NS.A.1",
+            "privacy_class": "public",
+            "decision_id": "DEC-006-standards-alignment",
+            "sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "metadata.caseTargetUri",
+              "coverage": "platform_projection"
+            }
+          }
+        },
+        {
           "field_key": "status",
           "canonical_field_id": "canonical.outcome.line_item.status",
           "projection_kind": "direct",
@@ -46384,7 +46427,7 @@
       "decision_id": "DEC-016-dictionary-generation-direction",
       "projection_kind": "committed_per_spec_dictionary",
       "object_count": 9,
-      "field_count": 83,
+      "field_count": 84,
       "projection_note": "Generated projection. Do not edit this dictionary path directly; update data/data-dictionary.seed.json objects[] and run scripts/generate_spec_dictionaries.py.",
       "dictionary_key_order": [
         "dictionary_version",

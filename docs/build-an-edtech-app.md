@@ -1,18 +1,59 @@
 # Build An Edtech App
 
-This guide builds one teaching-app slice against the live Supabase runtime. It uses SQL because the current runtime already exposes the OneRoster core tables and the required CASE and Caliper read/write app workflow can be proven today without waiting for a broader product API server.
+This guide builds one teaching-app slice against the live Supabase runtime using `curl` and PostgREST. It creates a tenant-scoped API token, writes roster and gradebook rows through platform tables, attaches a CASE standard URI to the assignment, and reads a Caliper-style class activity feed from the platform's Caliper event projection.
 
-Run each block from a shell that has the hosted database URL:
+## 0. Get An API Token
+
+The live REST endpoint is the Supabase project. The examples use a synthetic build-guide tenant:
+
+The `SUPABASE_SERVICE_ROLE_KEY` value comes from the Supabase dashboard: [Project Settings -> API -> service_role](supabase-hosted-database.html#where-to-find-the-service-role-key).
 
 ```sh
-export SUPABASE_DB_URL='postgresql://...'
+export SUPABASE_URL='https://qzxlgrerjoiamxvnkklq.supabase.co'
+export SUPABASE_PUBLISHABLE_KEY='sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK'
+export SUPABASE_SERVICE_ROLE_KEY='paste-service-role-key-for-your-project'
+export PLATFORM_TENANT_ID='33333333-3333-3333-3333-333333333333'
+export BUILD_GUIDE_EMAIL="build-guide-$(date +%s)@example.invalid"
+export BUILD_GUIDE_PASSWORD="Build-guide-$(date +%s)"
+
+curl -sS -X POST "$SUPABASE_URL/auth/v1/admin/users" \
+  -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+  -H "authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+  -H "content-type: application/json" \
+  --data "{
+    \"email\": \"$BUILD_GUIDE_EMAIL\",
+    \"password\": \"$BUILD_GUIDE_PASSWORD\",
+    \"email_confirm\": true,
+    \"app_metadata\": {
+      \"tenant_id\": \"$PLATFORM_TENANT_ID\",
+      \"test_owner\": \"platform_buildability_guide\"
+    }
+  }"
+
+curl -sS -X POST "$SUPABASE_URL/auth/v1/token?grant_type=password" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "content-type: application/json" \
+  --data "{
+    \"email\": \"$BUILD_GUIDE_EMAIL\",
+    \"password\": \"$BUILD_GUIDE_PASSWORD\"
+  }" >/tmp/platform-build-guide-token.json
+
+export PLATFORM_ACCESS_TOKEN="$(
+  python3 -c 'import json; print(json.load(open("/tmp/platform-build-guide-token.json"))["access_token"])'
+)"
+
+export REST_AUTH_HEADERS=(
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY"
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
+  -H "content-type: application/json"
+)
 ```
 
-Use the Supabase pooler/database URL for the live project `https://qzxlgrerjoiamxvnkklq.supabase.co`. The SQL below is idempotent: rerunning it updates the same build-guide rows.
+The runtime `tenant_id` column is filled from the JWT claim and checked by row-level security, per [DEC-010](decisions-standards-overlap-decisions.html#DEC-010-tenancy-reference-data). The request bodies below intentionally omit `tenant_id`.
 
 ## 1. Create A School, Teacher, And Ten Students
 
-Dictionary fields used by this step:
+Dictionary fields and values used by this step:
 
 | Runtime field or value | Dictionary link |
 | --- | --- |
@@ -36,73 +77,48 @@ Dictionary fields used by this step:
 | `true` | [global enum enabled_user_state.true](oneroster-core-dictionary.html#enum.enabled_user_state.true) |
 
 ```sh
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
-insert into public.organizations (
-  tenant_id, id, sourced_id, name, organization_type, parent_organization_id, status, date_last_modified
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'org_build_school',
-  'BUILD-SCHOOL-001',
-  'Build Guide Middle School',
-  'school',
-  null,
-  'active',
-  now()
-)
-on conflict (id) do update set
-  name = excluded.name,
-  organization_type = excluded.organization_type,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/organizations?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "org_build_school",
+    "sourced_id": "BUILD-SCHOOL-001",
+    "name": "Build Guide Middle School",
+    "organization_type": "school",
+    "parent_organization_id": null,
+    "status": "active",
+    "date_last_modified": "2026-09-01T12:00:00Z"
+  }]'
 
-with people_rows(id, sourced_id, display_name, given_name, family_name, email, primary_role) as (
-  values
-    ('person_build_teacher', 'BUILD-TEACHER-001', 'Nora Teacher', 'Nora', 'Teacher', 'nora.teacher@build-guide.test', 'teacher'),
-    ('person_build_student_01', 'BUILD-STUDENT-001', 'Student 01', 'Student', '01', 'student01@build-guide.test', 'student'),
-    ('person_build_student_02', 'BUILD-STUDENT-002', 'Student 02', 'Student', '02', 'student02@build-guide.test', 'student'),
-    ('person_build_student_03', 'BUILD-STUDENT-003', 'Student 03', 'Student', '03', 'student03@build-guide.test', 'student'),
-    ('person_build_student_04', 'BUILD-STUDENT-004', 'Student 04', 'Student', '04', 'student04@build-guide.test', 'student'),
-    ('person_build_student_05', 'BUILD-STUDENT-005', 'Student 05', 'Student', '05', 'student05@build-guide.test', 'student'),
-    ('person_build_student_06', 'BUILD-STUDENT-006', 'Student 06', 'Student', '06', 'student06@build-guide.test', 'student'),
-    ('person_build_student_07', 'BUILD-STUDENT-007', 'Student 07', 'Student', '07', 'student07@build-guide.test', 'student'),
-    ('person_build_student_08', 'BUILD-STUDENT-008', 'Student 08', 'Student', '08', 'student08@build-guide.test', 'student'),
-    ('person_build_student_09', 'BUILD-STUDENT-009', 'Student 09', 'Student', '09', 'student09@build-guide.test', 'student'),
-    ('person_build_student_10', 'BUILD-STUDENT-010', 'Student 10', 'Student', '10', 'student10@build-guide.test', 'student')
-)
-insert into public.people (
-  tenant_id, id, sourced_id, display_name, given_name, family_name, email, primary_role, enabled_user, status, date_last_modified
-)
-select
-  '33333333-3333-3333-3333-333333333333',
-  id,
-  sourced_id,
-  display_name,
-  given_name,
-  family_name,
-  email,
-  primary_role,
-  'true',
-  'active',
-  now()
-from people_rows
-on conflict (id) do update set
-  display_name = excluded.display_name,
-  given_name = excluded.given_name,
-  family_name = excluded.family_name,
-  email = excluded.email,
-  primary_role = excluded.primary_role,
-  enabled_user = excluded.enabled_user,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/people?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[
+    {"id":"person_build_teacher","sourced_id":"BUILD-TEACHER-001","display_name":"Nora Teacher","given_name":"Nora","family_name":"Teacher","email":"nora.teacher@build-guide.test","primary_role":"teacher","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_01","sourced_id":"BUILD-STUDENT-001","display_name":"Student 01","given_name":"Student","family_name":"01","email":"student01@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_02","sourced_id":"BUILD-STUDENT-002","display_name":"Student 02","given_name":"Student","family_name":"02","email":"student02@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_03","sourced_id":"BUILD-STUDENT-003","display_name":"Student 03","given_name":"Student","family_name":"03","email":"student03@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_04","sourced_id":"BUILD-STUDENT-004","display_name":"Student 04","given_name":"Student","family_name":"04","email":"student04@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_05","sourced_id":"BUILD-STUDENT-005","display_name":"Student 05","given_name":"Student","family_name":"05","email":"student05@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_06","sourced_id":"BUILD-STUDENT-006","display_name":"Student 06","given_name":"Student","family_name":"06","email":"student06@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_07","sourced_id":"BUILD-STUDENT-007","display_name":"Student 07","given_name":"Student","family_name":"07","email":"student07@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_08","sourced_id":"BUILD-STUDENT-008","display_name":"Student 08","given_name":"Student","family_name":"08","email":"student08@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_09","sourced_id":"BUILD-STUDENT-009","display_name":"Student 09","given_name":"Student","family_name":"09","email":"student09@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"person_build_student_10","sourced_id":"BUILD-STUDENT-010","display_name":"Student 10","given_name":"Student","family_name":"10","email":"student10@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"}
+  ]'
 
-select id, name, organization_type from public.organizations where id = 'org_build_school';
-select id, display_name, primary_role from public.people where id like 'person_build_%' order by id;
-SQL
+curl -sS "$SUPABASE_URL/rest/v1/organizations?select=id,name,organization_type&id=eq.org_build_school" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
+
+curl -sS "$SUPABASE_URL/rest/v1/people?select=id,display_name,primary_role&id=like.person_build_%25&order=id.asc" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
 ```
 
 ## 2. Create A Class And Enroll Everyone
 
-Dictionary fields used by this step:
+Dictionary fields and values used by this step:
 
 | Runtime field or value | Dictionary link |
 | --- | --- |
@@ -124,128 +140,76 @@ Dictionary fields used by this step:
 | `enrollments.primary_flag` | [enrollment.primary_flag](oneroster-core-dictionary.html#enrollment.primary_flag) |
 
 ```sh
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
-insert into public.academic_sessions (
-  tenant_id, id, sourced_id, title, session_type, start_date, end_date, school_year, status, date_last_modified
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'session_build_fall_2026',
-  'BUILD-TERM-FALL-2026',
-  'Build Guide Fall 2026',
-  'term',
-  '2026-08-24',
-  '2026-12-18',
-  2026,
-  'active',
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  session_type = excluded.session_type,
-  start_date = excluded.start_date,
-  end_date = excluded.end_date,
-  school_year = excluded.school_year,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/academic_sessions?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "session_build_fall_2026",
+    "sourced_id": "BUILD-TERM-FALL-2026",
+    "title": "Build Guide Fall 2026",
+    "session_type": "term",
+    "start_date": "2026-08-24",
+    "end_date": "2026-12-18",
+    "school_year": 2026,
+    "status": "active",
+    "date_last_modified": "2026-09-01T12:00:00Z"
+  }]'
 
-insert into public.courses (
-  tenant_id, id, sourced_id, title, course_code, org_id, school_year_id, status, date_last_modified
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'course_build_math_6',
-  'BUILD-COURSE-MATH-6',
-  'Build Guide Grade 6 Mathematics',
-  'BUILD-MATH-06',
-  'org_build_school',
-  'session_build_fall_2026',
-  'active',
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  course_code = excluded.course_code,
-  org_id = excluded.org_id,
-  school_year_id = excluded.school_year_id,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/courses?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "course_build_math_6",
+    "sourced_id": "BUILD-COURSE-MATH-6",
+    "title": "Build Guide Grade 6 Mathematics",
+    "course_code": "BUILD-MATH-06",
+    "org_id": "org_build_school",
+    "school_year_id": "session_build_fall_2026",
+    "status": "active",
+    "date_last_modified": "2026-09-01T12:00:00Z"
+  }]'
 
-insert into public.classes (
-  tenant_id, id, sourced_id, title, class_type, class_code, course_id, school_id, term_id, status, date_last_modified
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'class_build_math_6a',
-  'BUILD-CLASS-MATH-6A',
-  'Build Guide Math 6A',
-  'scheduled',
-  'BUILD-P1-MATH6',
-  'course_build_math_6',
-  'org_build_school',
-  'session_build_fall_2026',
-  'active',
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  class_type = excluded.class_type,
-  class_code = excluded.class_code,
-  course_id = excluded.course_id,
-  school_id = excluded.school_id,
-  term_id = excluded.term_id,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/classes?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "class_build_math_6a",
+    "sourced_id": "BUILD-CLASS-MATH-6A",
+    "title": "Build Guide Math 6A",
+    "class_type": "scheduled",
+    "class_code": "BUILD-P1-MATH6",
+    "course_id": "course_build_math_6",
+    "school_id": "org_build_school",
+    "term_id": "session_build_fall_2026",
+    "status": "active",
+    "date_last_modified": "2026-09-01T12:00:00Z"
+  }]'
 
-with enrollments_to_write(id, sourced_id, person_id, role, primary_flag) as (
-  values
-    ('enr_build_teacher', 'BUILD-ENR-TEACHER', 'person_build_teacher', 'teacher', 'true'),
-    ('enr_build_student_01', 'BUILD-ENR-STUDENT-001', 'person_build_student_01', 'student', 'false'),
-    ('enr_build_student_02', 'BUILD-ENR-STUDENT-002', 'person_build_student_02', 'student', 'false'),
-    ('enr_build_student_03', 'BUILD-ENR-STUDENT-003', 'person_build_student_03', 'student', 'false'),
-    ('enr_build_student_04', 'BUILD-ENR-STUDENT-004', 'person_build_student_04', 'student', 'false'),
-    ('enr_build_student_05', 'BUILD-ENR-STUDENT-005', 'person_build_student_05', 'student', 'false'),
-    ('enr_build_student_06', 'BUILD-ENR-STUDENT-006', 'person_build_student_06', 'student', 'false'),
-    ('enr_build_student_07', 'BUILD-ENR-STUDENT-007', 'person_build_student_07', 'student', 'false'),
-    ('enr_build_student_08', 'BUILD-ENR-STUDENT-008', 'person_build_student_08', 'student', 'false'),
-    ('enr_build_student_09', 'BUILD-ENR-STUDENT-009', 'person_build_student_09', 'student', 'false'),
-    ('enr_build_student_10', 'BUILD-ENR-STUDENT-010', 'person_build_student_10', 'student', 'false')
-)
-insert into public.enrollments (
-  tenant_id, id, sourced_id, class_id, person_id, school_id, role, begin_date, end_date, primary_flag, status, date_last_modified
-)
-select
-  '33333333-3333-3333-3333-333333333333',
-  id,
-  sourced_id,
-  'class_build_math_6a',
-  person_id,
-  'org_build_school',
-  role,
-  '2026-08-24',
-  '2026-12-18',
-  primary_flag,
-  'active',
-  now()
-from enrollments_to_write
-on conflict (id) do update set
-  class_id = excluded.class_id,
-  person_id = excluded.person_id,
-  school_id = excluded.school_id,
-  role = excluded.role,
-  begin_date = excluded.begin_date,
-  end_date = excluded.end_date,
-  primary_flag = excluded.primary_flag,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/enrollments?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[
+    {"id":"enr_build_teacher","sourced_id":"BUILD-ENR-TEACHER","class_id":"class_build_math_6a","person_id":"person_build_teacher","school_id":"org_build_school","role":"teacher","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_01","sourced_id":"BUILD-ENR-STUDENT-001","class_id":"class_build_math_6a","person_id":"person_build_student_01","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_02","sourced_id":"BUILD-ENR-STUDENT-002","class_id":"class_build_math_6a","person_id":"person_build_student_02","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_03","sourced_id":"BUILD-ENR-STUDENT-003","class_id":"class_build_math_6a","person_id":"person_build_student_03","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_04","sourced_id":"BUILD-ENR-STUDENT-004","class_id":"class_build_math_6a","person_id":"person_build_student_04","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_05","sourced_id":"BUILD-ENR-STUDENT-005","class_id":"class_build_math_6a","person_id":"person_build_student_05","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_06","sourced_id":"BUILD-ENR-STUDENT-006","class_id":"class_build_math_6a","person_id":"person_build_student_06","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_07","sourced_id":"BUILD-ENR-STUDENT-007","class_id":"class_build_math_6a","person_id":"person_build_student_07","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_08","sourced_id":"BUILD-ENR-STUDENT-008","class_id":"class_build_math_6a","person_id":"person_build_student_08","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_09","sourced_id":"BUILD-ENR-STUDENT-009","class_id":"class_build_math_6a","person_id":"person_build_student_09","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_10","sourced_id":"BUILD-ENR-STUDENT-010","class_id":"class_build_math_6a","person_id":"person_build_student_10","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"}
+  ]'
 
-select class_id, class_title, person_id, display_name, class_role
-from public.class_roster
-where class_id = 'class_build_math_6a'
-order by class_role desc, person_id;
-SQL
+curl -sS "$SUPABASE_URL/rest/v1/class_roster?select=class_id,class_title,person_id,display_name,class_role&class_id=eq.class_build_math_6a&order=person_id.asc" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
 ```
 
 ## 3. Post A Numeric Grade
 
-Dictionary fields used by this step:
+Dictionary fields and values used by this step:
 
 | Runtime field or value | Dictionary link |
 | --- | --- |
@@ -263,201 +227,115 @@ Dictionary fields used by this step:
 | `results.score` | [result.score](oneroster-core-dictionary.html#result.score) |
 
 ```sh
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
-insert into public.line_items (
-  tenant_id, id, sourced_id, title, class_id, category, assign_date, due_date, result_value_min, result_value_max, status, date_last_modified
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'li_build_fractions_exit_ticket',
-  'BUILD-LINEITEM-FRACTIONS-EXIT',
-  'Fractions Exit Ticket',
-  'class_build_math_6a',
-  'assignment',
-  '2026-09-08',
-  '2026-09-08',
-  0,
-  10,
-  'active',
-  now()
-)
-on conflict (id) do update set
-  title = excluded.title,
-  class_id = excluded.class_id,
-  category = excluded.category,
-  assign_date = excluded.assign_date,
-  due_date = excluded.due_date,
-  result_value_min = excluded.result_value_min,
-  result_value_max = excluded.result_value_max,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/line_items?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "li_build_fractions_exit_ticket",
+    "sourced_id": "BUILD-LINEITEM-FRACTIONS-EXIT",
+    "title": "Fractions Exit Ticket",
+    "class_id": "class_build_math_6a",
+    "category": "assignment",
+    "assign_date": "2026-09-08",
+    "due_date": "2026-09-08",
+    "result_value_min": 0,
+    "result_value_max": 10,
+    "status": "active",
+    "date_last_modified": "2026-09-08T15:00:00Z"
+  }]'
 
-insert into public.results (
-  tenant_id, id, sourced_id, line_item_id, person_id, score_status, score, score_date, comment, status, date_last_modified
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'res_build_student_01_exit_ticket',
-  'BUILD-RESULT-STUDENT-001',
-  'li_build_fractions_exit_ticket',
-  'person_build_student_01',
-  'fullyGraded',
-  9,
-  '2026-09-08T15:30:00Z',
-  'Accurate fraction model.',
-  'active',
-  now()
-)
-on conflict (id) do update set
-  line_item_id = excluded.line_item_id,
-  person_id = excluded.person_id,
-  score_status = excluded.score_status,
-  score = excluded.score,
-  score_date = excluded.score_date,
-  comment = excluded.comment,
-  status = excluded.status,
-  date_last_modified = excluded.date_last_modified;
+curl -sS -X POST "$SUPABASE_URL/rest/v1/results?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "res_build_student_01_exit_ticket",
+    "sourced_id": "BUILD-RESULT-STUDENT-001",
+    "line_item_id": "li_build_fractions_exit_ticket",
+    "person_id": "person_build_student_01",
+    "score_status": "fullyGraded",
+    "score": 9,
+    "score_date": "2026-09-08T15:30:00Z",
+    "comment": "Accurate fraction model.",
+    "status": "active",
+    "date_last_modified": "2026-09-08T15:30:00Z"
+  }]'
 
-select result_id, line_item_title, learner_name, score, result_value_max, score_status
-from public.gradebook_results
-where result_id = 'res_build_student_01_exit_ticket';
-SQL
+curl -sS "$SUPABASE_URL/rest/v1/gradebook_results?select=result_id,line_item_title,learner_name,score,result_value_max,score_status&result_id=eq.res_build_student_01_exit_ticket" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
 ```
 
 ## 4. Link The Assignment To A CASE Standard URI
 
-The current live runtime has generated CASE dictionary coverage but no full CASE import/search service. This step creates the small app-owned alignment table that a teaching app needs today, while using the platform's [line_item.id](oneroster-core-dictionary.html#line_item.id) and CASE [case_item.uri](case-core-dictionary.html#case_item.uri) contracts.
-
 Dictionary fields and values used by this step:
 
 | Runtime field or value | Dictionary link |
 | --- | --- |
-| `line_item_id` | [line_item.id](oneroster-core-dictionary.html#line_item.id) |
-| `case_item_uri` | [case_item.uri](case-core-dictionary.html#case_item.uri) |
-| `case_item_identifier` | [case_item.identifier](case-core-dictionary.html#case_item.identifier) |
+| `line_items.id` | [line_item.id](oneroster-core-dictionary.html#line_item.id) |
+| `line_items.case_target_uri` | [line_item.case_target_uri](oneroster-core-dictionary.html#line_item.case_target_uri) |
+| `case_item.uri` | [case_item.uri](case-core-dictionary.html#case_item.uri) |
 | `case_item.item_type` | [case_item.item_type](case-core-dictionary.html#case_item.item_type) |
 | `standard` | [global enum item_type.standard](case-core-dictionary.html#enum.item_type.standard) |
 
 ```sh
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
-create table if not exists public.build_app_assignment_case_links (
-  tenant_id uuid not null,
-  line_item_id text not null references public.line_items(id),
-  case_item_uri text not null,
-  case_item_identifier text not null,
-  created_at timestamptz not null default now(),
-  primary key (tenant_id, line_item_id, case_item_uri)
-);
+curl -sS -X PATCH "$SUPABASE_URL/rest/v1/line_items?id=eq.li_build_fractions_exit_ticket" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: return=minimal" \
+  --data '{
+    "case_target_uri": "https://standards.example.test/math/2026/6.NS.A.1",
+    "date_last_modified": "2026-09-08T15:35:00Z"
+  }'
 
-insert into public.build_app_assignment_case_links (
-  tenant_id, line_item_id, case_item_uri, case_item_identifier
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'li_build_fractions_exit_ticket',
-  'https://standards.example.test/math/2026/6.NS.A.1',
-  '6.NS.A.1'
-)
-on conflict (tenant_id, line_item_id, case_item_uri) do update set
-  case_item_identifier = excluded.case_item_identifier,
-  created_at = now();
-
-select li.title as assignment_title, l.case_item_identifier, l.case_item_uri
-from public.build_app_assignment_case_links l
-join public.line_items li on li.id = l.line_item_id
-where l.tenant_id = '33333333-3333-3333-3333-333333333333'
-  and l.line_item_id = 'li_build_fractions_exit_ticket';
-SQL
+curl -sS "$SUPABASE_URL/rest/v1/line_items?select=id,title,case_target_uri&id=eq.li_build_fractions_exit_ticket" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
 ```
 
 ## 5. Read A Caliper-Style Activity Feed For The Class
-
-The live `caliper-event-ingestion` function records tenant-scoped Caliper receipts in `audit_log`. This SQL creates the same receipt for the grade event and reads it back as a Caliper-style class feed.
 
 Dictionary fields and values used by this step:
 
 | Runtime field or value | Dictionary link |
 | --- | --- |
-| `caliper_event.event_type` | [caliper_event.event_type](caliper-core-dictionary.html#caliper_event.event_type) |
+| `caliper_events.id` | [caliper_event.id](caliper-core-dictionary.html#caliper_event.id) |
+| `caliper_events.event_iri` | [caliper_event.event_iri](caliper-core-dictionary.html#caliper_event.event_iri) |
+| `caliper_events.event_type` | [caliper_event.event_type](caliper-core-dictionary.html#caliper_event.event_type) |
 | `GradeEvent` | [global enum event_type.GradeEvent](caliper-core-dictionary.html#enum.event_type.GradeEvent) |
-| `caliper_event.action` | [caliper_event.action](caliper-core-dictionary.html#caliper_event.action) |
+| `caliper_events.action` | [caliper_event.action](caliper-core-dictionary.html#caliper_event.action) |
 | `Graded` | [global enum action.Graded](caliper-core-dictionary.html#enum.action.Graded) |
-| `caliper_event.profile` | [caliper_event.profile](caliper-core-dictionary.html#caliper_event.profile) |
+| `caliper_events.profile` | [caliper_event.profile](caliper-core-dictionary.html#caliper_event.profile) |
 | `GradingProfile` | [global enum profile.GradingProfile](caliper-core-dictionary.html#enum.profile.GradingProfile) |
-| `caliper_event.event_time` | [caliper_event.event_time](caliper-core-dictionary.html#caliper_event.event_time) |
-| `caliper_event.actor_id` | [caliper_event.actor_id](caliper-core-dictionary.html#caliper_event.actor_id) |
-| `caliper_event.group_id` | [caliper_event.group_id](caliper-core-dictionary.html#caliper_event.group_id) |
-| `caliper_event.object_id` | [caliper_event.object_id](caliper-core-dictionary.html#caliper_event.object_id) |
-| `caliper_event.generated_id` | [caliper_event.generated_id](caliper-core-dictionary.html#caliper_event.generated_id) |
+| `caliper_events.event_time` | [caliper_event.event_time](caliper-core-dictionary.html#caliper_event.event_time) |
+| `caliper_events.actor_id` | [caliper_event.actor_id](caliper-core-dictionary.html#caliper_event.actor_id) |
+| `caliper_events.group_id` | [caliper_event.group_id](caliper-core-dictionary.html#caliper_event.group_id) |
+| `caliper_events.object_id` | [caliper_event.object_id](caliper-core-dictionary.html#caliper_event.object_id) |
+| `caliper_events.generated_id` | [caliper_event.generated_id](caliper-core-dictionary.html#caliper_event.generated_id) |
+| `caliper_events.raw_event` | [caliper_event.raw_event](caliper-core-dictionary.html#caliper_event.raw_event) |
 
 ```sh
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
-delete from public.audit_log
-where tenant_id = '33333333-3333-3333-3333-333333333333'
-  and request_id = 'build-guide-class-feed';
+curl -sS -X POST "$SUPABASE_URL/rest/v1/caliper_events?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "caliper_build_grade_event_1",
+    "envelope_id": "caliper_env_build_1",
+    "event_iri": "urn:uuid:build-guide-grade-event-1",
+    "event_type": "GradeEvent",
+    "profile": "GradingProfile",
+    "action": "Graded",
+    "actor_id": "person_build_teacher",
+    "object_id": "li_build_fractions_exit_ticket",
+    "event_time": "2026-09-08T15:31:00Z",
+    "generated_id": "res_build_student_01_exit_ticket",
+    "group_id": "class_build_math_6a",
+    "raw_event": "{\"type\":\"GradeEvent\",\"action\":\"Graded\",\"object\":\"li_build_fractions_exit_ticket\",\"generated\":\"res_build_student_01_exit_ticket\"}"
+  }]'
 
-insert into public.audit_log (
-  tenant_id,
-  client_id,
-  scope,
-  purpose,
-  field_accessed,
-  subject_table,
-  subject_id,
-  request_path,
-  request_id
-) values (
-  '33333333-3333-3333-3333-333333333333',
-  'build-guide-teaching-app',
-  'platform.caliper.events:write',
-  'learning-analytics',
-  'caliper.event.GradeEvent',
-  'caliper_event',
-  'urn:uuid:build-guide-grade-event-1',
-  '/caliper-event-ingestion',
-  'build-guide-class-feed'
-);
-
-select jsonb_pretty(jsonb_agg(feed.event order by feed.event ->> 'eventTime')) as caliper_style_activity_feed
-from (
-  select jsonb_build_object(
-    '@context', 'http://purl.imsglobal.org/ctx/caliper/v1p2',
-    'id', a.subject_id,
-    'type', 'GradeEvent',
-    'action', 'Graded',
-    'profile', 'GradingProfile',
-    'eventTime', a.timestamp,
-    'actor', jsonb_build_object(
-      'id', 'person_build_teacher',
-      'type', 'Person',
-      'name', 'Nora Teacher'
-    ),
-    'group', jsonb_build_object(
-      'id', c.id,
-      'type', 'CourseSection',
-      'name', c.title
-    ),
-    'object', jsonb_build_object(
-      'id', li.id,
-      'type', 'AssignableDigitalResource',
-      'name', li.title
-    ),
-    'generated', jsonb_build_object(
-      'id', r.id,
-      'type', 'Result',
-      'score', r.score,
-      'maxScore', li.result_value_max,
-      'caseItemUri', l.case_item_uri
-    )
-  ) as event
-  from public.audit_log a
-  join public.classes c on c.id = 'class_build_math_6a'
-  join public.line_items li on li.id = 'li_build_fractions_exit_ticket' and li.class_id = c.id
-  join public.results r on r.line_item_id = li.id and r.person_id = 'person_build_student_01'
-  join public.build_app_assignment_case_links l on l.line_item_id = li.id
-  where a.tenant_id = '33333333-3333-3333-3333-333333333333'
-    and a.request_id = 'build-guide-class-feed'
-) feed;
-SQL
+curl -sS "$SUPABASE_URL/rest/v1/class_activity_feed?select=event&class_id=eq.class_build_math_6a&order=event_time.asc" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
 ```
 
 ## What The App Has Now
 
-The app has a school, one teacher, ten students, one scheduled class, one assignment, one numeric result, a CASE standard URI attached to that assignment, and a Caliper-style feed item tying the score activity back to the class and standard.
+The app has a school, one teacher, ten students, one scheduled class, one assignment, one numeric result, a CASE standard URI attached to that assignment through `line_items.case_target_uri`, and a Caliper-style class feed item read from `class_activity_feed`.

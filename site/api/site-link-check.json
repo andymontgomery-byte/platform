@@ -88,10 +88,10 @@
   "summary": {
     "api_endpoints_checked": 12,
     "decisions_checked": 20,
-    "dictionary_entries_checked": 633,
+    "dictionary_entries_checked": 634,
     "errors": 0,
     "html_pages": 36,
-    "local_links_checked": 199,
+    "local_links_checked": 202,
     "max_clicks": 3,
     "reachable_html_pages": 36
   }

@@ -95,6 +95,7 @@ CREATE TABLE line_items (
   due_date TEXT,
   result_value_min REAL,
   result_value_max REAL,
+  case_target_uri TEXT,
   status TEXT NOT NULL CHECK (status IN ('active', 'inactive', 'tobedeleted')),
   date_last_modified TEXT NOT NULL
 );
@@ -147,6 +148,7 @@ SELECT
   r.score_status,
   r.score,
   li.result_value_max,
+  li.case_target_uri,
   r.comment,
   r.score_date
 FROM results r

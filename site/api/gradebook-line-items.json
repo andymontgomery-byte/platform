@@ -10,6 +10,7 @@
       "dueDate": "2026-09-17",
       "resultValueMin": 0.0,
       "resultValueMax": 4.0,
+      "caseTargetUri": null,
       "status": "active",
       "dateLastModified": "2026-04-24T09:42:00Z"
     },
@@ -23,6 +24,7 @@
       "dueDate": "2026-09-05",
       "resultValueMin": 0.0,
       "resultValueMax": 10.0,
+      "caseTargetUri": "https://standards.example.test/math/2026/6.EE.A.2",
       "status": "active",
       "dateLastModified": "2026-04-24T09:41:00Z"
     },
@@ -36,6 +38,7 @@
       "dueDate": "2026-09-15",
       "resultValueMin": 0.0,
       "resultValueMax": 100.0,
+      "caseTargetUri": "https://standards.example.test/math/2026/6.NS.A.1",
       "status": "active",
       "dateLastModified": "2026-04-24T09:40:00Z"
     }
@@ -49,6 +52,7 @@
     "decision_id": "DEC-014-static-mirror-policy",
     "decision_ids": [
       "DEC-005-results-scores",
+      "DEC-006-standards-alignment",
       "DEC-007-identifier-crosswalk",
       "DEC-008-time-session",
       "DEC-011-privacy-surfaces",
@@ -64,6 +68,7 @@
       "dueDate": "DEC-008-time-session",
       "resultValueMin": "DEC-005-results-scores",
       "resultValueMax": "DEC-005-results-scores",
+      "caseTargetUri": "DEC-006-standards-alignment",
       "status": "DEC-005-results-scores",
       "dateLastModified": "DEC-008-time-session"
     }

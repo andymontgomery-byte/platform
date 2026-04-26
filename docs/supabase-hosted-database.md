@@ -30,6 +30,18 @@ The repository now has a live Supabase setup for the OneRoster core demo. The sc
 
 This closes the hosted relational database target for the current OneRoster core demo slice. It does not close the hosted API/server work by itself. Supabase now exposes simple read-only REST endpoints, an audited sensitive-read wrapper, and minimal non-CRUD Edge Function entry points for gradebook bulk submit, LTI launch receipts, Caliper event receipts, and OAuth token-exchange receipts. Safe SQL query execution, full OAuth/scope enforcement, and full LTI Advantage callbacks still need additional backend slices.
 
+## Where To Find The Service Role Key
+
+The buildability guide uses the service-role key once to create a temporary Supabase Auth user with an `app_metadata.tenant_id` claim. Use this key only from a trusted shell or backend environment; never put it in browser code.
+
+1. Open the Supabase project dashboard for `qzxlgrerjoiamxvnkklq`.
+2. In the left sidebar, open **Project Settings**.
+3. Open **API**.
+4. In **Project API keys**, copy the key labeled **service_role** or **service_role secret**.
+5. Put that value in `.env.local` as `SUPABASE_SERVICE_ROLE_KEY=...`, or paste it into the `export SUPABASE_SERVICE_ROLE_KEY='...'` line in `docs/build-an-edtech-app.md` while running the guide locally.
+
+The publishable key in `.env.example` is safe for client requests. The service-role key bypasses row-level security when used directly, so the guide uses it only for the Auth Admin user-creation call and then switches to the tenant-scoped user JWT for all platform table writes.
+
 ## Reviewer Path
 
 1. Inspect `supabase/migrations/0001_oneroster_core_demo.sql`.

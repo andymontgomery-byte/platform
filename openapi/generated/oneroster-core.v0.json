@@ -2135,6 +2135,18 @@
               "coverage": "mapped"
             }
           },
+          "caseTargetUri": {
+            "type": "string",
+            "description": "The CASE standard URI this gradebook item is aligned to when the target is known.",
+            "x-decisionId": "DEC-006-standards-alignment",
+            "x-sourceStandard": {
+              "standard": "OneRoster",
+              "version": "1.2",
+              "object": "LineItem",
+              "field": "metadata.caseTargetUri",
+              "coverage": "platform_projection"
+            }
+          },
           "status": {
             "type": "string",
             "description": "Whether the line item record is active, inactive, or marked for deletion.",

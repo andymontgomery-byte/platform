@@ -5778,6 +5778,27 @@
           "spec_only": false
         },
         {
+          "field_key": "case_target_uri",
+          "column_name": "case_target_uri",
+          "json_name": "caseTargetUri",
+          "data_type": "text",
+          "required": false,
+          "plain_description": "The CASE standard URI this gradebook item is aligned to when the target is known.",
+          "school_example": "https://standards.example.test/math/2026/6.NS.A.1",
+          "privacy_class": "public",
+          "decision_id": "DEC-006-standards-alignment",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "object": "LineItem",
+            "field": "metadata.caseTargetUri",
+            "coverage": "platform_projection"
+          },
+          "canonical_field_id": "canonical.curriculum.standard.uri",
+          "projection_kind": "direct",
+          "spec_only": false
+        },
+        {
           "field_key": "status",
           "column_name": "status",
           "json_name": "status",

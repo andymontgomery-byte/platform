@@ -4,11 +4,13 @@
 
 begin;
 
+drop view if exists public.class_activity_feed;
 drop view if exists public.gradebook_results;
 drop view if exists public.class_roster;
 drop function if exists public.read_people_sensitive_audited(text, text, text, text, text, text);
 drop table if exists public.audit_log cascade;
 drop table if exists public.source_identifiers cascade;
+drop table if exists public.caliper_events cascade;
 drop table if exists public.results cascade;
 drop table if exists public.line_items cascade;
 drop table if exists public.enrollments cascade;
@@ -19,7 +21,7 @@ drop table if exists public.people cascade;
 drop table if exists public.organizations cascade;
 
 create table public.organizations (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   name text not null,
@@ -30,7 +32,7 @@ create table public.organizations (
 );
 
 create table public.people (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   display_name text not null,
@@ -44,7 +46,7 @@ create table public.people (
 );
 
 create table public.academic_sessions (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -57,7 +59,7 @@ create table public.academic_sessions (
 );
 
 create table public.courses (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -69,7 +71,7 @@ create table public.courses (
 );
 
 create table public.classes (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -83,7 +85,7 @@ create table public.classes (
 );
 
 create table public.enrollments (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   class_id text not null references public.classes(id),
@@ -98,7 +100,7 @@ create table public.enrollments (
 );
 
 create table public.line_items (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   title text not null,
@@ -108,12 +110,13 @@ create table public.line_items (
   due_date date,
   result_value_min double precision,
   result_value_max double precision,
+  case_target_uri text,
   status text not null check (status in ('active', 'inactive', 'tobedeleted')),
   date_last_modified timestamptz not null
 );
 
 create table public.results (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   sourced_id text not null unique,
   line_item_id text not null references public.line_items(id),
@@ -126,8 +129,30 @@ create table public.results (
   date_last_modified timestamptz not null
 );
 
+create table public.caliper_events (
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
+  id text primary key,
+  envelope_id text not null,
+  event_iri text not null,
+  event_type text not null check (event_type in ('AnnotationEvent', 'AssessmentEvent', 'AssessmentItemEvent', 'AssignableEvent', 'FeedbackEvent', 'ForumEvent', 'GradeEvent', 'MediaEvent', 'MessageEvent', 'NavigationEvent', 'QuestionnaireEvent', 'QuestionnaireItemEvent', 'ResourceManagementEvent', 'SearchEvent', 'SessionEvent', 'SurveyEvent', 'SurveyInvitationEvent', 'ThreadEvent', 'ToolLaunchEvent', 'ToolUseEvent', 'ViewEvent')),
+  profile text check (profile in ('GeneralProfile', 'AnnotationProfile', 'AssessmentProfile', 'AssignableProfile', 'FeedbackProfile', 'ForumProfile', 'GradingProfile', 'MediaProfile', 'ReadingProfile', 'ResourceManagementProfile', 'SearchProfile', 'SessionProfile', 'SurveyProfile', 'ToolLaunchProfile', 'ToolUseProfile')),
+  action text not null check (action in ('Abandoned', 'Accepted', 'Activated', 'Added', 'Archived', 'Attached', 'Bookmarked', 'ChangedResolution', 'ChangedSize', 'ChangedSpeed', 'ChangedVolume', 'Classified', 'ClosedPopout', 'Commented', 'Completed', 'Copied', 'Created', 'Deactivated', 'Declined', 'Deleted', 'Described', 'DisabledClosedCaptioning', 'Disliked', 'Downloaded', 'EnabledClosedCaptioning', 'Ended', 'EnteredFullScreen', 'ExitedFullScreen', 'ForwardedTo', 'Graded', 'Hid', 'Highlighted', 'Identified', 'JumpedTo', 'Launched', 'Liked', 'Linked', 'LoggedIn', 'LoggedOut', 'MarkedAsRead', 'MarkedAsUnread', 'Modified', 'Muted', 'NavigatedTo', 'OpenedPopout', 'OptedIn', 'OptedOut', 'Paused', 'Posted', 'Printed', 'Published', 'Questioned', 'Ranked', 'Recommended', 'Removed', 'Reset', 'Restarted', 'Restored', 'Resumed', 'Retrieved', 'Returned', 'Reviewed', 'Rewound', 'Saved', 'Searched', 'Sent', 'Shared', 'Showed', 'Skipped', 'Started', 'Submitted', 'Subscribed', 'Tagged', 'TimedOut', 'Unmuted', 'Unpublished', 'Unsubscribed', 'Uploaded', 'Used', 'Viewed')),
+  actor_id text not null,
+  object_id text not null,
+  event_time timestamptz not null,
+  ed_app_id text,
+  generated_id text,
+  target_id text,
+  referrer_id text,
+  group_id text,
+  membership_id text,
+  session_id text,
+  federated_session_id text,
+  raw_event text not null
+);
+
 create table public.source_identifiers (
-  tenant_id uuid not null,
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
   id text primary key,
   object_type text not null,
   object_id text not null,
@@ -172,6 +197,7 @@ create index line_items_class_idx on public.line_items(class_id);
 create index results_tenant_idx on public.results(tenant_id);
 create index results_line_item_idx on public.results(line_item_id);
 create index results_person_idx on public.results(person_id);
+create index caliper_events_tenant_idx on public.caliper_events(tenant_id);
 create index source_identifiers_tenant_idx on public.source_identifiers(tenant_id);
 create index source_identifiers_lookup_idx on public.source_identifiers(object_type, object_id);
 create index audit_log_tenant_timestamp_idx on public.audit_log(tenant_id, timestamp desc);
@@ -204,12 +230,59 @@ select
   r.score_status,
   r.score,
   li.result_value_max,
+  li.case_target_uri,
   r.comment,
   r.score_date
 from public.results r
 join public.line_items li on li.id = r.line_item_id
 join public.classes c on c.id = li.class_id
 join public.people p on p.id = r.person_id;
+
+create view public.class_activity_feed
+with (security_invoker = true) as
+select
+  e.id as event_id,
+  e.tenant_id,
+  e.group_id as class_id,
+  e.event_time,
+  e.event_type,
+  e.action,
+  e.profile,
+  jsonb_build_object(
+    '@context', 'http://purl.imsglobal.org/ctx/caliper/v1p2',
+    'id', e.event_iri,
+    'type', e.event_type,
+    'action', e.action,
+    'profile', e.profile,
+    'eventTime', e.event_time,
+    'actor', jsonb_build_object(
+      'id', e.actor_id,
+      'type', 'Person',
+      'name', actor.display_name
+    ),
+    'group', jsonb_build_object(
+      'id', c.id,
+      'type', 'CourseSection',
+      'name', c.title
+    ),
+    'object', jsonb_build_object(
+      'id', li.id,
+      'type', 'AssignableDigitalResource',
+      'name', li.title,
+      'caseItemUri', li.case_target_uri
+    ),
+    'generated', jsonb_build_object(
+      'id', r.id,
+      'type', 'Result',
+      'score', r.score,
+      'maxScore', li.result_value_max
+    )
+  ) as event
+from public.caliper_events e
+join public.classes c on c.id = e.group_id
+left join public.people actor on actor.id = e.actor_id
+left join public.line_items li on li.id = e.object_id
+left join public.results r on r.id = e.generated_id;
 
 alter table public.organizations enable row level security;
 alter table public.organizations force row level security;
@@ -227,6 +300,8 @@ alter table public.line_items enable row level security;
 alter table public.line_items force row level security;
 alter table public.results enable row level security;
 alter table public.results force row level security;
+alter table public.caliper_events enable row level security;
+alter table public.caliper_events force row level security;
 alter table public.source_identifiers enable row level security;
 alter table public.source_identifiers force row level security;
 alter table public.audit_log enable row level security;
@@ -296,6 +371,309 @@ create policy demo_read_results on public.results for select to anon, authentica
     case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
+create policy demo_read_caliper_events on public.caliper_events for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for organizations writes.
+create policy demo_insert_organizations on public.organizations for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for organizations writes.
+create policy demo_update_organizations on public.organizations for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for people writes.
+create policy demo_insert_people on public.people for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for people writes.
+create policy demo_update_people on public.people for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for academic_sessions writes.
+create policy demo_insert_academic_sessions on public.academic_sessions for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for academic_sessions writes.
+create policy demo_update_academic_sessions on public.academic_sessions for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for courses writes.
+create policy demo_insert_courses on public.courses for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.organizations o
+    where o.id = org_id
+      and o.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and (school_year_id is null or exists (
+    select 1
+    from public.academic_sessions a
+    where a.id = school_year_id
+      and a.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  ))
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for courses writes.
+create policy demo_update_courses on public.courses for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.organizations o
+    where o.id = org_id
+      and o.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and (school_year_id is null or exists (
+    select 1
+    from public.academic_sessions a
+    where a.id = school_year_id
+      and a.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  ))
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for classes writes.
+create policy demo_insert_classes on public.classes for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.courses c
+    where c.id = course_id
+      and c.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.organizations o
+    where o.id = school_id
+      and o.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and (term_id is null or exists (
+    select 1
+    from public.academic_sessions a
+    where a.id = term_id
+      and a.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  ))
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for classes writes.
+create policy demo_update_classes on public.classes for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.courses c
+    where c.id = course_id
+      and c.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.organizations o
+    where o.id = school_id
+      and o.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and (term_id is null or exists (
+    select 1
+    from public.academic_sessions a
+    where a.id = term_id
+      and a.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  ))
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for enrollments writes.
+create policy demo_insert_enrollments on public.enrollments for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.classes c
+    where c.id = class_id
+      and c.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.people p
+    where p.id = person_id
+      and p.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.organizations o
+    where o.id = school_id
+      and o.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for enrollments writes.
+create policy demo_update_enrollments on public.enrollments for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.classes c
+    where c.id = class_id
+      and c.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.people p
+    where p.id = person_id
+      and p.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+  and exists (
+    select 1
+    from public.organizations o
+    where o.id = school_id
+      and o.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for line_items writes.
+create policy demo_insert_line_items on public.line_items for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.classes c
+    where c.id = class_id
+      and c.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for line_items writes.
+create policy demo_update_line_items on public.line_items for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+  and exists (
+    select 1
+    from public.classes c
+    where c.id = class_id
+      and c.tenant_id = coalesce(
+        nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+        nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+      )
+  )
+);
 -- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for results writes.
 create policy demo_insert_results on public.results for insert to authenticated with check (
   tenant_id = coalesce(
@@ -304,9 +682,9 @@ create policy demo_insert_results on public.results for insert to authenticated 
   )
   and exists (
     select 1
-    from public.line_items li
-    where li.id = line_item_id
-      and li.tenant_id = coalesce(
+    from public.line_items l
+    where l.id = line_item_id
+      and l.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
       )
@@ -334,9 +712,9 @@ create policy demo_update_results on public.results for update to authenticated 
   )
   and exists (
     select 1
-    from public.line_items li
-    where li.id = line_item_id
-      and li.tenant_id = coalesce(
+    from public.line_items l
+    where l.id = line_item_id
+      and l.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
       )
@@ -349,6 +727,25 @@ create policy demo_update_results on public.results for update to authenticated 
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
       )
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for caliper_events writes.
+create policy demo_insert_caliper_events on public.caliper_events for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for caliper_events writes.
+create policy demo_update_caliper_events on public.caliper_events for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
   )
 );
 -- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for identifier crosswalks.
@@ -485,6 +882,7 @@ revoke all privileges on
   public.enrollments,
   public.line_items,
   public.results,
+  public.caliper_events,
   public.source_identifiers,
   public.audit_log
 from anon, authenticated;
@@ -498,9 +896,11 @@ grant select on
   public.enrollments,
   public.line_items,
   public.results,
+  public.caliper_events,
   public.source_identifiers,
   public.class_roster,
-  public.gradebook_results
+  public.gradebook_results,
+  public.class_activity_feed
 to anon, authenticated;
 
 grant select (
@@ -513,7 +913,17 @@ grant select (
   date_last_modified
 ) on public.people to anon, authenticated;
 
-grant insert, update on public.results to authenticated;
+grant insert, update on
+  public.organizations,
+  public.people,
+  public.academic_sessions,
+  public.courses,
+  public.classes,
+  public.enrollments,
+  public.line_items,
+  public.results,
+  public.caliper_events
+to authenticated;
 grant select, insert on public.audit_log to authenticated;
 grant execute on function public.read_people_sensitive_audited(text, text, text, text, text, text) to authenticated;
 

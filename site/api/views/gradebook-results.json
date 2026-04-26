@@ -8,6 +8,7 @@
       "score_status": "submitted",
       "score": null,
       "result_value_max": 4.0,
+      "case_target_uri": null,
       "comment": "Submitted; awaiting rubric scoring.",
       "score_date": "2026-09-17T09:15:00Z"
     },
@@ -19,6 +20,7 @@
       "score_status": "fullyGraded",
       "score": 9.0,
       "result_value_max": 10.0,
+      "case_target_uri": "https://standards.example.test/math/2026/6.EE.A.2",
       "comment": "Complete.",
       "score_date": "2026-09-06T10:00:00Z"
     },
@@ -30,6 +32,7 @@
       "score_status": "fullyGraded",
       "score": 87.0,
       "result_value_max": 100.0,
+      "case_target_uri": "https://standards.example.test/math/2026/6.NS.A.1",
       "comment": "Strong strategy; check question 4.",
       "score_date": "2026-09-16T14:30:00Z"
     },
@@ -41,6 +44,7 @@
       "score_status": "fullyGraded",
       "score": 93.0,
       "result_value_max": 100.0,
+      "case_target_uri": "https://standards.example.test/math/2026/6.NS.A.1",
       "comment": "Clear explanations.",
       "score_date": "2026-09-16T14:35:00Z"
     }

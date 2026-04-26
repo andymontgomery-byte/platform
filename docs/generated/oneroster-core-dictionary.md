@@ -277,6 +277,7 @@ Values for `status`:
 | `due_date` | `dueDate` | date | No | education_record | OneRoster 1.2 LineItem.dueDate | `DEC-008-time-session` | The date the item is due. |
 | `result_value_min` | `resultValueMin` | number | No | education_record | OneRoster 1.2 LineItem.resultValueMin | `DEC-005-results-scores` | The minimum possible numeric result. |
 | `result_value_max` | `resultValueMax` | number | No | education_record | OneRoster 1.2 LineItem.resultValueMax | `DEC-005-results-scores` | The maximum possible numeric result. |
+| `case_target_uri` | `caseTargetUri` | text | No | public | OneRoster 1.2 LineItem.metadata.caseTargetUri (platform_projection) | `DEC-006-standards-alignment` | The CASE standard URI this gradebook item is aligned to when the target is known. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 LineItem.status | `DEC-005-results-scores` | Whether the line item record is active, inactive, or marked for deletion. |
 | `date_last_modified` | `dateLastModified` | datetime | Yes | operational | OneRoster 1.2 LineItem.dateLastModified | `DEC-008-time-session` | When the source system says this line item record last changed. |
 

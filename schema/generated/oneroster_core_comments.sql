@@ -79,6 +79,7 @@ COMMENT ON COLUMN demo.line_items.assign_date IS 'The date the item was assigned
 COMMENT ON COLUMN demo.line_items.due_date IS 'The date the item is due.';
 COMMENT ON COLUMN demo.line_items.result_value_min IS 'The minimum possible numeric result.';
 COMMENT ON COLUMN demo.line_items.result_value_max IS 'The maximum possible numeric result.';
+COMMENT ON COLUMN demo.line_items.case_target_uri IS 'The CASE standard URI this gradebook item is aligned to when the target is known.';
 COMMENT ON COLUMN demo.line_items.status IS 'Whether the line item record is active, inactive, or marked for deletion.';
 COMMENT ON COLUMN demo.line_items.date_last_modified IS 'When the source system says this line item record last changed.';
 

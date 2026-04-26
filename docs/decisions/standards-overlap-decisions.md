@@ -142,6 +142,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - projects_to:
   - `dictionary/case-core.v1.json#case_item.identifier`
   - `dictionary/case-core.v1.json#case_association.origin_node_uri`
+  - `dictionary/oneroster-core.v1.json#line_item.case_target_uri`
   - `dictionary/qti-core.v1.json#qti_alignment.target_identifier`
   - `dictionary/integration-governance-core.v1.json#privacy_data_sharing_rule.data_category`
   - `docs/generated/case-core-dictionary.md`
@@ -272,11 +273,12 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - Claim runtime support for every generated dictionary.
   - Mark everything except OneRoster as unsupported.
   - Separate generated accounting from runtime coverage and state each Lead spec's current runtime posture.
-- choice: OneRoster core is runtime-backed now through local SQLite, hosted Supabase PostgREST, RLS, and live tests. QTI and CASE are doc-only/generated dictionary projections until runtime slices are built. Caliper, LTI, Security Framework, and Data Privacy have partial runtime backing through authenticated Edge Function receipt/governance paths, but not full standard conformance flows. Full runtime for QTI import, CASE search, Caliper raw-event projection, LTI Advantage services, production OAuth, and privacy workflows remains future work with target dates in the decision/pending work queue.
+- choice: OneRoster core is runtime-backed now through local SQLite, hosted Supabase PostgREST, RLS, and live tests. The teaching-app runtime also backs the narrow CASE alignment path needed by gradebook line items (`line_items.case_target_uri`) and the narrow Caliper class-feed path needed by the buildability guide (`caliper_events` plus `class_activity_feed`). QTI and full CASE import/search remain doc-only/generated dictionary projections until runtime slices are built. Caliper, LTI, Security Framework, and Data Privacy have partial runtime backing through authenticated table, view, Edge Function receipt, or governance paths, but not full standard conformance flows. Full runtime for QTI import, CASE search, full Sensor API ingestion/projection, LTI Advantage services, production OAuth, and privacy workflows remains future work with target dates in the decision/pending work queue.
 - consequences:
   - Removes the need for generated dictionary pages to pretend they are deployed runtime APIs.
-  - Removes runtime claims from generated docs, `docs/lead-spec-accounting.md`, and portal copy unless a table, Edge Function, hosted REST path, and test exercise that spec-shaped behavior.
+  - Removes runtime claims from generated docs, `docs/lead-spec-accounting.md`, and portal copy unless a table, view, Edge Function, hosted REST path, or test exercises that spec-shaped behavior.
   - Makes the coverage matrix honest by separating source dictionary, generated artifacts, runtime slice, and deferred ledger.
+  - Lets the buildability guide use platform tables and views for CASE alignment and Caliper activity instead of app-owned tables or synthetic `audit_log` rows.
   - Why not collapse: marking every non-OneRoster spec unsupported would be simpler, but it would hide useful generated dictionary/API accounting and the partial Caliper/LTI/security runtime receipts that already exist.
   - Creates the constraint that a spec cannot be called runtime-backed unless live tables or Edge Functions and tests exercise that spec-shaped behavior.
 - projects_to:
@@ -285,6 +287,10 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - `docs/decisions/decisions-pending.md`
   - `scripts/check_spec_conformance.py`
   - `site/api/spec-conformance.json`
+  - `docs/build-an-edtech-app.md`
+  - `dictionary/oneroster-core.v1.json#line_item.case_target_uri`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#caliper_events`
+  - `supabase/migrations/0001_oneroster_core_demo.sql#class_activity_feed`
   - `tests/supabase_tenant_rls_test.py`
   - `tests/supabase_audit_log_test.py`
 
@@ -653,6 +659,7 @@ Field references use the dictionary file, object key, and field key. Each `decis
       "dictionary/case-core.v1.json#case_subject.title",
       "dictionary/integration-governance-core.v1.json#lti_deep_link_item.document_target",
       "dictionary/integration-governance-core.v1.json#lti_deep_link_item.item_type",
+      "dictionary/oneroster-core.v1.json#line_item.case_target_uri",
       "dictionary/qti-core.v1.json#qti_alignment.alignment_label",
       "dictionary/qti-core.v1.json#qti_alignment.owner_object_type",
       "dictionary/qti-core.v1.json#qti_alignment.target_identifier",

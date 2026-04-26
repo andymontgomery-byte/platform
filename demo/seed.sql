@@ -33,9 +33,9 @@ INSERT INTO enrollments VALUES
   ('enr_sam_ela_6_a', 'ENR-10004', 'class_ela_6_a', 'person_sam', 'org_school_lincoln', 'student', '2026-08-24', '2026-12-18', 'false', 'active', '2026-04-24T09:39:00Z');
 
 INSERT INTO line_items VALUES
-  ('li_math_quiz_1', 'LINEITEM-MATH-Q1', 'Unit 1 Quiz', 'class_math_6_a', 'quiz', '2026-09-08', '2026-09-15', 0, 100, 'active', '2026-04-24T09:40:00Z'),
-  ('li_math_homework_1', 'LINEITEM-MATH-HW1', 'Expressions Practice', 'class_math_6_a', 'assignment', '2026-09-01', '2026-09-05', 0, 10, 'active', '2026-04-24T09:41:00Z'),
-  ('li_ela_essay_1', 'LINEITEM-ELA-E1', 'Personal Narrative Draft', 'class_ela_6_a', 'assignment', '2026-09-03', '2026-09-17', 0, 4, 'active', '2026-04-24T09:42:00Z');
+  ('li_math_quiz_1', 'LINEITEM-MATH-Q1', 'Unit 1 Quiz', 'class_math_6_a', 'quiz', '2026-09-08', '2026-09-15', 0, 100, 'https://standards.example.test/math/2026/6.NS.A.1', 'active', '2026-04-24T09:40:00Z'),
+  ('li_math_homework_1', 'LINEITEM-MATH-HW1', 'Expressions Practice', 'class_math_6_a', 'assignment', '2026-09-01', '2026-09-05', 0, 10, 'https://standards.example.test/math/2026/6.EE.A.2', 'active', '2026-04-24T09:41:00Z'),
+  ('li_ela_essay_1', 'LINEITEM-ELA-E1', 'Personal Narrative Draft', 'class_ela_6_a', 'assignment', '2026-09-03', '2026-09-17', 0, 4, NULL, 'active', '2026-04-24T09:42:00Z');
 
 INSERT INTO results VALUES
   ('res_ada_quiz_1', 'RESULT-9001', 'li_math_quiz_1', 'person_ada', 'fullyGraded', 87, '2026-09-16T14:30:00Z', 'Strong strategy; check question 4.', 'active', '2026-04-24T09:45:00Z'),
