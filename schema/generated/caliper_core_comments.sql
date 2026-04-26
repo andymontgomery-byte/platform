@@ -52,6 +52,7 @@ COMMENT ON COLUMN analytics.caliper_actors.entity_id IS 'The indexed Caliper ent
 COMMENT ON COLUMN analytics.caliper_actors.actor_type IS 'Whether the actor is a person, software app, group, or generic agent.';
 COMMENT ON COLUMN analytics.caliper_actors.platform_person_id IS 'The resolved platform person ID when the actor is a known school user.';
 COMMENT ON COLUMN analytics.caliper_actors.display_name IS 'A display name supplied for the actor or resolved from a trusted source.';
+COMMENT ON COLUMN analytics.caliper_actors.email IS 'The email address supplied for a Person actor or resolved from a trusted roster source when policy permits disclosure.';
 COMMENT ON COLUMN analytics.caliper_actors.identifier_type IS 'The kind of source identifier used to resolve the actor.';
 COMMENT ON COLUMN analytics.caliper_actors.identifier_value IS 'The source identifier value used for matching or lineage.';
 COMMENT ON COLUMN analytics.caliper_actors.resolution_status IS 'Whether the actor was matched to a canonical platform record.';

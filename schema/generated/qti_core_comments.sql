@@ -176,3 +176,10 @@ COMMENT ON COLUMN assessment.qti_package_artifacts.media_type IS 'The file''s MI
 COMMENT ON COLUMN assessment.qti_package_artifacts.artifact_role IS 'The role this file plays in the QTI package.';
 COMMENT ON COLUMN assessment.qti_package_artifacts.sha256 IS 'A hash used to confirm the file did not change.';
 COMMENT ON COLUMN assessment.qti_package_artifacts.storage_uri IS 'Where the platform stores this artifact after import.';
+
+COMMENT ON TABLE assessment.qti_candidates IS 'A learner or test taker identified for QTI delivery, scoring, or result association.';
+COMMENT ON COLUMN assessment.qti_candidates.id IS 'The platform''s stable ID for this QTI candidate projection.';
+COMMENT ON COLUMN assessment.qti_candidates.candidate_identifier IS 'The source candidate identifier supplied by the assessment delivery system before platform person resolution.';
+COMMENT ON COLUMN assessment.qti_candidates.platform_person_id IS 'The resolved platform person ID when the candidate is a known school user.';
+COMMENT ON COLUMN assessment.qti_candidates.display_name IS 'The candidate display name shared with the assessment delivery workflow when policy permits it.';
+COMMENT ON COLUMN assessment.qti_candidates.email IS 'The candidate email address shared with the assessment delivery workflow when policy permits it.';

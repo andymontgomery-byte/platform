@@ -2988,6 +2988,18 @@
               "coverage": "mapped"
             }
           },
+          "email": {
+            "type": "string",
+            "description": "The email address supplied for a Person actor or resolved from a trusted roster source when policy permits disclosure.",
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "Caliper",
+              "version": "1.2",
+              "object": "Caliper Actor",
+              "field": "email",
+              "coverage": "platform_projection"
+            }
+          },
           "identifierType": {
             "type": "string",
             "description": "The kind of source identifier used to resolve the actor.",

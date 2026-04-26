@@ -22,6 +22,7 @@ def main() -> int:
     objects = seed.get("objects", [])
     privacy_classes = seed.get("privacy_classes", [])
     canonical_objects = seed.get("canonical_objects", [])
+    shared_enums = seed.get("shared_enums", [])
     errors = validate_seed(objects, projections, privacy_classes, canonical_objects)
     if errors:
         for error in errors:
@@ -29,12 +30,12 @@ def main() -> int:
         return 1
 
     if args.check:
-        return check_projection_drift(objects, projections)
+        return check_projection_drift(objects, projections, shared_enums)
 
     for projection in projections:
         output_path = ROOT / projection["path"]
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(render_dictionary(project_dictionary(objects, projection)))
+        output_path.write_text(render_dictionary(project_dictionary(objects, projection, shared_enums)))
         print(f"generated {output_path.relative_to(ROOT)}")
     return 0
 
@@ -273,11 +274,11 @@ def validate_privacy_class(
         errors.append(f"{label} uses privacy_class outside closed list: {value}")
 
 
-def check_projection_drift(objects: list[dict], projections: list[dict]) -> int:
+def check_projection_drift(objects: list[dict], projections: list[dict], shared_enums: list[dict]) -> int:
     drift: list[str] = []
     for projection in projections:
         output_path = ROOT / projection["path"]
-        expected = render_dictionary(project_dictionary(objects, projection))
+        expected = render_dictionary(project_dictionary(objects, projection, shared_enums))
         if not output_path.exists():
             drift.append(f"missing generated dictionary: {projection['path']}")
             continue
@@ -306,7 +307,7 @@ def render_dictionary(dictionary: dict) -> str:
     return json.dumps(dictionary, indent=2) + "\n"
 
 
-def project_dictionary(objects: list[dict], projection: dict) -> dict:
+def project_dictionary(objects: list[dict], projection: dict, shared_enums: list[dict] | None = None) -> dict:
     spec_key = projection["spec_key"]
     projected_objects = []
     for obj in objects:
@@ -330,10 +331,26 @@ def project_dictionary(objects: list[dict], projection: dict) -> dict:
     header = projection["dictionary_header"]
     for key in projection["dictionary_key_order"]:
         if key == "objects":
+            if shared_enums is not None:
+                dictionary["shared_enums"] = project_shared_enums(projected_objects, shared_enums)
             dictionary[key] = projected_objects
         else:
             dictionary[key] = copy.deepcopy(header[key])
     return dictionary
+
+
+def project_shared_enums(projected_objects: list[dict], shared_enums: list[dict]) -> list[dict]:
+    used_enum_ids = {
+        field.get("shared_enum_id")
+        for obj in projected_objects
+        for field in obj.get("fields", [])
+        if field.get("shared_enum_id")
+    }
+    return [
+        copy.deepcopy(shared_enum)
+        for shared_enum in shared_enums
+        if shared_enum.get("shared_enum_id") in used_enum_ids
+    ]
 
 
 if __name__ == "__main__":

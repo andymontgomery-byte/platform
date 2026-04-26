@@ -5,6 +5,3756 @@
   "source_standard": "oneroster",
   "source_version": "1.2",
   "plain_description": "A working vertical slice of the platform data dictionary for OneRoster-style roster, class, enrollment, gradebook, and identifier data.",
+  "shared_enums": [
+    {
+      "shared_enum_id": "academic_session_type",
+      "name": "Academic Session Type",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for academic session type values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "grading_period",
+          "label": "Grading Period",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "quarter",
+          "label": "Quarter",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "school_year",
+          "label": "School Year",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "semester",
+          "label": "Semester",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "term",
+          "label": "Term",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "session_type",
+          "native_value": "schoolYear",
+          "canonical_value": "school_year",
+          "native_label": "School year",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "session_type",
+            "value": "schoolYear",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "session_type",
+          "native_value": "term",
+          "canonical_value": "term",
+          "native_label": "Term",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "session_type",
+            "value": "term",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "session_type",
+          "native_value": "semester",
+          "canonical_value": "semester",
+          "native_label": "Semester",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "session_type",
+            "value": "semester",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "session_type",
+          "native_value": "quarter",
+          "canonical_value": "quarter",
+          "native_label": "Quarter",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "session_type",
+            "value": "quarter",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "session_type",
+          "native_value": "gradingPeriod",
+          "canonical_value": "grading_period",
+          "native_label": "Grading period",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "session_type",
+            "value": "gradingPeriod",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "grading_period",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "session_type",
+              "native_value": "gradingPeriod"
+            }
+          ]
+        },
+        {
+          "canonical_value": "quarter",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "session_type",
+              "native_value": "quarter"
+            }
+          ]
+        },
+        {
+          "canonical_value": "school_year",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "session_type",
+              "native_value": "schoolYear"
+            }
+          ]
+        },
+        {
+          "canonical_value": "semester",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "session_type",
+              "native_value": "semester"
+            }
+          ]
+        },
+        {
+          "canonical_value": "term",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "session_type",
+              "native_value": "term"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "class_type",
+      "name": "Class Type",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for class type values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "homeroom",
+          "label": "Homeroom",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "scheduled",
+          "label": "Scheduled",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "class",
+          "field_key": "class_type",
+          "native_value": "scheduled",
+          "canonical_value": "scheduled",
+          "native_label": "Scheduled",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "class_type",
+            "value": "scheduled",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "class",
+          "field_key": "class_type",
+          "native_value": "homeroom",
+          "canonical_value": "homeroom",
+          "native_label": "Homeroom",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "class_type",
+            "value": "homeroom",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "homeroom",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "class",
+              "field_key": "class_type",
+              "native_value": "homeroom"
+            }
+          ]
+        },
+        {
+          "canonical_value": "scheduled",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "class",
+              "field_key": "class_type",
+              "native_value": "scheduled"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "enabled_user_state",
+      "name": "Enabled User State",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for enabled user state values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "false",
+          "label": "False",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "true",
+          "label": "True",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "enabled_user",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "enabled_user",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "enabled_user",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "enabled_user",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "false",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "enabled_user",
+              "native_value": "false"
+            }
+          ]
+        },
+        {
+          "canonical_value": "true",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "enabled_user",
+              "native_value": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "gradebook_category",
+      "name": "Gradebook Category",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for gradebook category values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "assignment",
+          "label": "Assignment",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "participation",
+          "label": "Participation",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "test",
+          "label": "Test",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "line_item",
+          "field_key": "category",
+          "native_value": "assignment",
+          "canonical_value": "assignment",
+          "native_label": "Assignment",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "category",
+            "value": "assignment",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "line_item",
+          "field_key": "category",
+          "native_value": "quiz",
+          "canonical_value": "quiz",
+          "native_label": "Quiz",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "category",
+            "value": "quiz",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "line_item",
+          "field_key": "category",
+          "native_value": "test",
+          "canonical_value": "test",
+          "native_label": "Test",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "category",
+            "value": "test",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "line_item",
+          "field_key": "category",
+          "native_value": "participation",
+          "canonical_value": "participation",
+          "native_label": "Participation",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "category",
+            "value": "participation",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "assignment",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "line_item",
+              "field_key": "category",
+              "native_value": "assignment"
+            }
+          ]
+        },
+        {
+          "canonical_value": "participation",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "line_item",
+              "field_key": "category",
+              "native_value": "participation"
+            }
+          ]
+        },
+        {
+          "canonical_value": "quiz",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "line_item",
+              "field_key": "category",
+              "native_value": "quiz"
+            }
+          ]
+        },
+        {
+          "canonical_value": "test",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "line_item",
+              "field_key": "category",
+              "native_value": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "grading_progress",
+      "name": "Grading Progress",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for grading progress values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "failed",
+          "label": "Failed",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "fully_graded",
+          "label": "Fully Graded",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "not_ready",
+          "label": "Not Ready",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "not_submitted",
+          "label": "Not Submitted",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "partially_graded",
+          "label": "Partially Graded",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "pending",
+          "label": "Pending",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "pending_manual",
+          "label": "Pending Manual",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "submitted",
+          "label": "Submitted",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "result",
+          "field_key": "score_status",
+          "native_value": "notSubmitted",
+          "canonical_value": "not_submitted",
+          "native_label": "Not submitted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "score_status",
+            "value": "notSubmitted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "result",
+          "field_key": "score_status",
+          "native_value": "submitted",
+          "canonical_value": "submitted",
+          "native_label": "Submitted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "score_status",
+            "value": "submitted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "result",
+          "field_key": "score_status",
+          "native_value": "partiallyGraded",
+          "canonical_value": "partially_graded",
+          "native_label": "Partially graded",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "score_status",
+            "value": "partiallyGraded",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "result",
+          "field_key": "score_status",
+          "native_value": "fullyGraded",
+          "canonical_value": "fully_graded",
+          "native_label": "Fully graded",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "score_status",
+            "value": "fullyGraded",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "grading_progress",
+          "native_value": "FullyGraded",
+          "canonical_value": "fully_graded",
+          "native_label": "Fully graded",
+          "sourceStandard": {
+            "standard": "LTI 1.3/LTI Advantage",
+            "version": "1.3/Advantage",
+            "vocabulary": "grading_progress",
+            "value": "FullyGraded",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "grading_progress",
+          "native_value": "Pending",
+          "canonical_value": "pending",
+          "native_label": "Pending",
+          "sourceStandard": {
+            "standard": "LTI 1.3/LTI Advantage",
+            "version": "1.3/Advantage",
+            "vocabulary": "grading_progress",
+            "value": "Pending",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "grading_progress",
+          "native_value": "PendingManual",
+          "canonical_value": "pending_manual",
+          "native_label": "Pending manual",
+          "sourceStandard": {
+            "standard": "LTI 1.3/LTI Advantage",
+            "version": "1.3/Advantage",
+            "vocabulary": "grading_progress",
+            "value": "PendingManual",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "grading_progress",
+          "native_value": "Failed",
+          "canonical_value": "failed",
+          "native_label": "Failed",
+          "sourceStandard": {
+            "standard": "LTI 1.3/LTI Advantage",
+            "version": "1.3/Advantage",
+            "vocabulary": "grading_progress",
+            "value": "Failed",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "grading_progress",
+          "native_value": "NotReady",
+          "canonical_value": "not_ready",
+          "native_label": "Not ready",
+          "sourceStandard": {
+            "standard": "LTI 1.3/LTI Advantage",
+            "version": "1.3/Advantage",
+            "vocabulary": "grading_progress",
+            "value": "NotReady",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "failed",
+          "native_values": [
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "grading_progress",
+              "native_value": "Failed"
+            }
+          ]
+        },
+        {
+          "canonical_value": "fully_graded",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "result",
+              "field_key": "score_status",
+              "native_value": "fullyGraded"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "grading_progress",
+              "native_value": "FullyGraded"
+            }
+          ]
+        },
+        {
+          "canonical_value": "not_ready",
+          "native_values": [
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "grading_progress",
+              "native_value": "NotReady"
+            }
+          ]
+        },
+        {
+          "canonical_value": "not_submitted",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "result",
+              "field_key": "score_status",
+              "native_value": "notSubmitted"
+            }
+          ]
+        },
+        {
+          "canonical_value": "partially_graded",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "result",
+              "field_key": "score_status",
+              "native_value": "partiallyGraded"
+            }
+          ]
+        },
+        {
+          "canonical_value": "pending",
+          "native_values": [
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "grading_progress",
+              "native_value": "Pending"
+            }
+          ]
+        },
+        {
+          "canonical_value": "pending_manual",
+          "native_values": [
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "grading_progress",
+              "native_value": "PendingManual"
+            }
+          ]
+        },
+        {
+          "canonical_value": "submitted",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "result",
+              "field_key": "score_status",
+              "native_value": "submitted"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "identifier_type",
+      "name": "Identifier Type",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for identifier type values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "email_address",
+          "label": "Email Address",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "lti_context_id",
+          "label": "Lti Context Id",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "lti_user_id",
+          "label": "Lti User Id",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "one_roster_sourced_id",
+          "label": "One Roster Sourced Id",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "sis_sourced_id",
+          "label": "Sis Sourced Id",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "identifier_type",
+          "native_value": "oneRosterSourcedId",
+          "canonical_value": "one_roster_sourced_id",
+          "native_label": "OneRoster sourced ID",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "identifier_type",
+            "value": "oneRosterSourcedId",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "identifier_type",
+          "native_value": "sisSourcedId",
+          "canonical_value": "sis_sourced_id",
+          "native_label": "SIS sourced ID",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "identifier_type",
+            "value": "sisSourcedId",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "identifier_type",
+          "native_value": "ltiContextId",
+          "canonical_value": "lti_context_id",
+          "native_label": "LTI context ID",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "identifier_type",
+            "value": "ltiContextId",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "identifier_type",
+          "native_value": "ltiUserId",
+          "canonical_value": "lti_user_id",
+          "native_label": "LTI user ID",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "identifier_type",
+            "value": "ltiUserId",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "identifier_type",
+          "native_value": "emailAddress",
+          "canonical_value": "email_address",
+          "native_label": "Email address",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "identifier_type",
+            "value": "emailAddress",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "email_address",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "identifier_type",
+              "native_value": "emailAddress"
+            }
+          ]
+        },
+        {
+          "canonical_value": "lti_context_id",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "identifier_type",
+              "native_value": "ltiContextId"
+            }
+          ]
+        },
+        {
+          "canonical_value": "lti_user_id",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "identifier_type",
+              "native_value": "ltiUserId"
+            }
+          ]
+        },
+        {
+          "canonical_value": "one_roster_sourced_id",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "identifier_type",
+              "native_value": "oneRosterSourcedId"
+            }
+          ]
+        },
+        {
+          "canonical_value": "sis_sourced_id",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "identifier_type",
+              "native_value": "sisSourcedId"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "organization_type",
+      "name": "Organization Type",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for organization type values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "department",
+          "label": "Department",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "district",
+          "label": "District",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "program",
+          "label": "Program",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "school",
+          "label": "School",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "organization",
+          "field_key": "organization_type",
+          "native_value": "district",
+          "canonical_value": "district",
+          "native_label": "District",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "organization_type",
+            "value": "district",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "organization",
+          "field_key": "organization_type",
+          "native_value": "school",
+          "canonical_value": "school",
+          "native_label": "School",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "organization_type",
+            "value": "school",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "organization",
+          "field_key": "organization_type",
+          "native_value": "department",
+          "canonical_value": "department",
+          "native_label": "Department",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "organization_type",
+            "value": "department",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "organization",
+          "field_key": "organization_type",
+          "native_value": "program",
+          "canonical_value": "program",
+          "native_label": "Program",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "organization_type",
+            "value": "program",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "department",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "organization",
+              "field_key": "organization_type",
+              "native_value": "department"
+            }
+          ]
+        },
+        {
+          "canonical_value": "district",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "organization",
+              "field_key": "organization_type",
+              "native_value": "district"
+            }
+          ]
+        },
+        {
+          "canonical_value": "program",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "organization",
+              "field_key": "organization_type",
+              "native_value": "program"
+            }
+          ]
+        },
+        {
+          "canonical_value": "school",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "organization",
+              "field_key": "organization_type",
+              "native_value": "school"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "record_status",
+      "name": "Record Status",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for record status values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "active",
+          "label": "Active",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "deleted",
+          "label": "Deleted",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "inactive",
+          "label": "Inactive",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "retired",
+          "label": "Retired",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "suspended",
+          "label": "Suspended",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "organization",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "organization",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "organization",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "academic_session",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "course",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "course",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "course",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "class",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "class",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "class",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "line_item",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "line_item",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "line_item",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "result",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "result",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "result",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "source_identifier",
+          "field_key": "status",
+          "native_value": "tobedeleted",
+          "canonical_value": "deleted",
+          "native_label": "To be deleted",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "base_status",
+            "value": "tobedeleted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_status",
+          "native_value": "Active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_status",
+            "value": "Active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_status",
+          "native_value": "Inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_status",
+            "value": "Inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_registration",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_registration",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_registration",
+          "field_key": "status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_deployment",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_deployment",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_deployment",
+          "field_key": "status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_service_endpoint",
+          "field_key": "policy_status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_service_endpoint",
+          "field_key": "policy_status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_service_endpoint",
+          "field_key": "policy_status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "status",
+          "native_value": "Active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "LTI 1.3/LTI Advantage",
+            "version": "1.3/Advantage",
+            "vocabulary": "membership_status",
+            "value": "Active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "status",
+          "native_value": "Inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "LTI 1.3/LTI Advantage",
+            "version": "1.3/Advantage",
+            "vocabulary": "membership_status",
+            "value": "Inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_oauth_client",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Security Framework",
+            "version": "1.1",
+            "vocabulary": "client_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_oauth_client",
+          "field_key": "status",
+          "native_value": "suspended",
+          "canonical_value": "suspended",
+          "native_label": "Suspended",
+          "sourceStandard": {
+            "standard": "Security Framework",
+            "version": "1.1",
+            "vocabulary": "client_status",
+            "value": "suspended",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_oauth_client",
+          "field_key": "status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "Security Framework",
+            "version": "1.1",
+            "vocabulary": "client_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "policy_status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "policy_status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "policy_status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "privacy_data_sharing_rule",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "privacy_data_sharing_rule",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "privacy_data_sharing_rule",
+          "field_key": "status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "privacy_retention_rule",
+          "field_key": "status",
+          "native_value": "active",
+          "canonical_value": "active",
+          "native_label": "Active",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "active",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "privacy_retention_rule",
+          "field_key": "status",
+          "native_value": "inactive",
+          "canonical_value": "inactive",
+          "native_label": "Inactive",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "inactive",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "privacy_retention_rule",
+          "field_key": "status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "record_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "active",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "organization",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "course",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "class",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "line_item",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "result",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_status",
+              "native_value": "Active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_registration",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_deployment",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_service_endpoint",
+              "field_key": "policy_status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "status",
+              "native_value": "Active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_oauth_client",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "policy_status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "privacy_data_sharing_rule",
+              "field_key": "status",
+              "native_value": "active"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "privacy_retention_rule",
+              "field_key": "status",
+              "native_value": "active"
+            }
+          ]
+        },
+        {
+          "canonical_value": "deleted",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "organization",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "course",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "class",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "line_item",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "result",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "status",
+              "native_value": "tobedeleted"
+            }
+          ]
+        },
+        {
+          "canonical_value": "inactive",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "organization",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "academic_session",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "course",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "class",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "line_item",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "result",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "source_identifier",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_status",
+              "native_value": "Inactive"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_registration",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_deployment",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_service_endpoint",
+              "field_key": "policy_status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "status",
+              "native_value": "Inactive"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "policy_status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "privacy_data_sharing_rule",
+              "field_key": "status",
+              "native_value": "inactive"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "privacy_retention_rule",
+              "field_key": "status",
+              "native_value": "inactive"
+            }
+          ]
+        },
+        {
+          "canonical_value": "retired",
+          "native_values": [
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_registration",
+              "field_key": "status",
+              "native_value": "retired"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_deployment",
+              "field_key": "status",
+              "native_value": "retired"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_service_endpoint",
+              "field_key": "policy_status",
+              "native_value": "retired"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_oauth_client",
+              "field_key": "status",
+              "native_value": "retired"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "policy_status",
+              "native_value": "retired"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "privacy_data_sharing_rule",
+              "field_key": "status",
+              "native_value": "retired"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "privacy_retention_rule",
+              "field_key": "status",
+              "native_value": "retired"
+            }
+          ]
+        },
+        {
+          "canonical_value": "suspended",
+          "native_values": [
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_oauth_client",
+              "field_key": "status",
+              "native_value": "suspended"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "role_family",
+      "name": "Role Family",
+      "decision_id": "DEC-003-role-vocabulary",
+      "plain_description": "Global allowed-value crosswalk for role family values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "learner",
+          "label": "Learner",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "educator",
+          "label": "Educator",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "administrator",
+          "label": "Administrator",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "guardian",
+          "label": "Guardian",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "mentor",
+          "label": "Mentor",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "staff",
+          "label": "Staff",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "tool",
+          "label": "Tool",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "issuer",
+          "label": "Issuer",
+          "decision_id": "DEC-003-role-vocabulary"
+        },
+        {
+          "value": "unknown",
+          "label": "Unknown",
+          "decision_id": "DEC-003-role-vocabulary"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "primary_role",
+          "native_value": "student",
+          "canonical_value": "learner",
+          "native_label": "Student",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "primary_role",
+            "value": "student",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "primary_role",
+          "native_value": "teacher",
+          "canonical_value": "educator",
+          "native_label": "Teacher",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "primary_role",
+            "value": "teacher",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "primary_role",
+          "native_value": "administrator",
+          "canonical_value": "administrator",
+          "native_label": "Administrator",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "primary_role",
+            "value": "administrator",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "person",
+          "field_key": "primary_role",
+          "native_value": "guardian",
+          "canonical_value": "guardian",
+          "native_label": "Guardian",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "primary_role",
+            "value": "guardian",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "role",
+          "native_value": "student",
+          "canonical_value": "learner",
+          "native_label": "Student",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "role",
+            "value": "student",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "role",
+          "native_value": "teacher",
+          "canonical_value": "educator",
+          "native_label": "Teacher",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "role",
+            "value": "teacher",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "role",
+          "native_value": "administrator",
+          "canonical_value": "administrator",
+          "native_label": "Administrator",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "role",
+            "value": "administrator",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "role",
+          "native_value": "aide",
+          "canonical_value": "educator",
+          "native_label": "Aide",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "role",
+            "value": "aide",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "Administrator",
+          "canonical_value": "administrator",
+          "native_label": "Administrator",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "Administrator",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "ContentDeveloper",
+          "canonical_value": "educator",
+          "native_label": "Content developer",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "ContentDeveloper",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "Instructor",
+          "canonical_value": "educator",
+          "native_label": "Instructor",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "Instructor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "Learner",
+          "canonical_value": "learner",
+          "native_label": "Learner",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "Learner",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "Manager",
+          "canonical_value": "administrator",
+          "native_label": "Manager",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "Manager",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "Member",
+          "canonical_value": "unknown",
+          "native_label": "Member",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "Member",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "Mentor",
+          "canonical_value": "mentor",
+          "native_label": "Mentor",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "Mentor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "caliper-core",
+          "object_key": "caliper_context",
+          "field_key": "membership_role",
+          "native_value": "Officer",
+          "canonical_value": "administrator",
+          "native_label": "Officer",
+          "sourceStandard": {
+            "standard": "Caliper",
+            "version": "1.2",
+            "vocabulary": "lis_role",
+            "value": "Officer",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner",
+          "canonical_value": "learner",
+          "native_label": "Learner",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor",
+          "canonical_value": "educator",
+          "native_label": "Instructor",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant",
+          "canonical_value": "educator",
+          "native_label": "TeachingAssistant",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper",
+          "canonical_value": "educator",
+          "native_label": "ContentDeveloper",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator",
+          "canonical_value": "administrator",
+          "native_label": "Administrator",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor",
+          "canonical_value": "mentor",
+          "native_label": "Mentor",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager",
+          "canonical_value": "administrator",
+          "native_label": "Manager",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member",
+          "canonical_value": "unknown",
+          "native_label": "Member",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner",
+          "canonical_value": "learner",
+          "native_label": "Learner",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor",
+          "canonical_value": "educator",
+          "native_label": "Instructor",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant",
+          "canonical_value": "educator",
+          "native_label": "TeachingAssistant",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper",
+          "canonical_value": "educator",
+          "native_label": "ContentDeveloper",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator",
+          "canonical_value": "administrator",
+          "native_label": "Administrator",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor",
+          "canonical_value": "mentor",
+          "native_label": "Mentor",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager",
+          "canonical_value": "administrator",
+          "native_label": "Manager",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_membership",
+          "field_key": "roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member",
+          "canonical_value": "unknown",
+          "native_label": "Member",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner",
+          "canonical_value": "learner",
+          "native_label": "Learner",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor",
+          "canonical_value": "educator",
+          "native_label": "Instructor",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant",
+          "canonical_value": "educator",
+          "native_label": "TeachingAssistant",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper",
+          "canonical_value": "educator",
+          "native_label": "ContentDeveloper",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator",
+          "canonical_value": "administrator",
+          "native_label": "Administrator",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor",
+          "canonical_value": "mentor",
+          "native_label": "Mentor",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager",
+          "canonical_value": "administrator",
+          "native_label": "Manager",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "security_scope_policy",
+          "field_key": "allowed_roles",
+          "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member",
+          "canonical_value": "unknown",
+          "native_label": "Member",
+          "sourceStandard": {
+            "standard": "LTI",
+            "version": "1.3",
+            "vocabulary": "role",
+            "value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "learner",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "primary_role",
+              "native_value": "student"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "role",
+              "native_value": "student"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "Learner"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+            }
+          ]
+        },
+        {
+          "canonical_value": "educator",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "primary_role",
+              "native_value": "teacher"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "role",
+              "native_value": "teacher"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "role",
+              "native_value": "aide"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "ContentDeveloper"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "Instructor"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#TeachingAssistant"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper"
+            }
+          ]
+        },
+        {
+          "canonical_value": "administrator",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "primary_role",
+              "native_value": "administrator"
+            },
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "role",
+              "native_value": "administrator"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "Administrator"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "Manager"
+            },
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "Officer"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Manager"
+            }
+          ]
+        },
+        {
+          "canonical_value": "guardian",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "person",
+              "field_key": "primary_role",
+              "native_value": "guardian"
+            }
+          ]
+        },
+        {
+          "canonical_value": "mentor",
+          "native_values": [
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "Mentor"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor"
+            }
+          ]
+        },
+        {
+          "canonical_value": "staff",
+          "native_values": []
+        },
+        {
+          "canonical_value": "tool",
+          "native_values": []
+        },
+        {
+          "canonical_value": "issuer",
+          "native_values": []
+        },
+        {
+          "canonical_value": "unknown",
+          "native_values": [
+            {
+              "spec_key": "caliper-core",
+              "object_key": "caliper_context",
+              "field_key": "membership_role",
+              "native_value": "Member"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_membership",
+              "field_key": "roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "security_scope_policy",
+              "field_key": "allowed_roles",
+              "native_value": "http://purl.imsglobal.org/vocab/lis/v2/membership#Member"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "true_false",
+      "name": "True False",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for true false values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "false",
+          "label": "False",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "true",
+          "label": "True",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "primary_flag",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "oneroster-core",
+          "object_key": "enrollment",
+          "field_key": "primary_flag",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "OneRoster",
+            "version": "1.2",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_item",
+          "field_key": "adaptive",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_item",
+          "field_key": "adaptive",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_item",
+          "field_key": "time_dependent",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_item",
+          "field_key": "time_dependent",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_item",
+          "field_key": "has_correct_response",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_item",
+          "field_key": "has_correct_response",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "required_in_selection",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "required_in_selection",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "fixed_in_shuffle",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "fixed_in_shuffle",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "visible_to_candidate",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "visible_to_candidate",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "keep_together",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "keep_together",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "ordering_shuffle",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_assessment_section",
+          "field_key": "ordering_shuffle",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_item_ref",
+          "field_key": "required_in_selection",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_item_ref",
+          "field_key": "required_in_selection",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_item_ref",
+          "field_key": "fixed_in_shuffle",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_item_ref",
+          "field_key": "fixed_in_shuffle",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_interaction",
+          "field_key": "shuffle",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_interaction",
+          "field_key": "shuffle",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_accessibility_support",
+          "field_key": "sensitive",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_accessibility_support",
+          "field_key": "sensitive",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_companion_material",
+          "field_key": "required_for_delivery",
+          "native_value": "true",
+          "canonical_value": "true",
+          "native_label": "True",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "true",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_companion_material",
+          "field_key": "required_for_delivery",
+          "native_value": "false",
+          "canonical_value": "false",
+          "native_label": "False",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "true_false",
+            "value": "false",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "false",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "primary_flag",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_item",
+              "field_key": "adaptive",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_item",
+              "field_key": "time_dependent",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_item",
+              "field_key": "has_correct_response",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "required_in_selection",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "fixed_in_shuffle",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "visible_to_candidate",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "keep_together",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "ordering_shuffle",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_item_ref",
+              "field_key": "required_in_selection",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_item_ref",
+              "field_key": "fixed_in_shuffle",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_interaction",
+              "field_key": "shuffle",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_accessibility_support",
+              "field_key": "sensitive",
+              "native_value": "false"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_companion_material",
+              "field_key": "required_for_delivery",
+              "native_value": "false"
+            }
+          ]
+        },
+        {
+          "canonical_value": "true",
+          "native_values": [
+            {
+              "spec_key": "oneroster-core",
+              "object_key": "enrollment",
+              "field_key": "primary_flag",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_item",
+              "field_key": "adaptive",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_item",
+              "field_key": "time_dependent",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_item",
+              "field_key": "has_correct_response",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "required_in_selection",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "fixed_in_shuffle",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "visible_to_candidate",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "keep_together",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_assessment_section",
+              "field_key": "ordering_shuffle",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_item_ref",
+              "field_key": "required_in_selection",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_item_ref",
+              "field_key": "fixed_in_shuffle",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_interaction",
+              "field_key": "shuffle",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_accessibility_support",
+              "field_key": "sensitive",
+              "native_value": "true"
+            },
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_companion_material",
+              "field_key": "required_for_delivery",
+              "native_value": "true"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "objects": [
     {
       "object_key": "organization",
@@ -20,7 +3770,7 @@
         "object": "Org",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.oneroster-core.organization",
+      "canonical_object_id": "canonical.context.organization",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -42,7 +3792,7 @@
             "field": "sourcedId/internal platform id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.oneroster-core.organization.id",
+          "canonical_field_id": "canonical.context.organization.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -63,7 +3813,7 @@
             "field": "sourcedId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.organization.sourced_id",
+          "canonical_field_id": "canonical.context.organization.source_organization_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -84,7 +3834,7 @@
             "field": "name",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.organization.name",
+          "canonical_field_id": "canonical.context.organization.name",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -155,7 +3905,8 @@
             "field": "type",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.organization.organization_type",
+          "shared_enum_id": "organization_type",
+          "canonical_field_id": "canonical.context.organization.type",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -176,7 +3927,7 @@
             "field": "parent",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.organization.parent_organization_id",
+          "canonical_field_id": "canonical.context.organization.parent_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -235,7 +3986,8 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.organization.status",
+          "shared_enum_id": "record_status",
+          "canonical_field_id": "canonical.record.lifecycle.status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -256,7 +4008,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.organization.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -474,8 +4226,8 @@
             "field": "roles.role",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.role_family",
-          "canonical_field_id": "canonical.oneroster-core.person.primary_role",
+          "shared_enum_id": "role_family",
+          "canonical_field_id": "canonical.role.family.role_values",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -522,6 +4274,7 @@
             "field": "enabledUser",
             "coverage": "mapped"
           },
+          "shared_enum_id": "enabled_user_state",
           "canonical_field_id": "canonical.oneroster-core.person.enabled_user",
           "projection_kind": "direct",
           "spec_only": false
@@ -544,7 +4297,7 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
+          "shared_enum_id": "record_status",
           "canonical_field_id": "canonical.oneroster-core.person.status",
           "projection_kind": "direct",
           "spec_only": false
@@ -566,7 +4319,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.person.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -586,7 +4339,7 @@
         "object": "AcademicSession",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.oneroster-core.academic_session",
+      "canonical_object_id": "canonical.time.academic_session",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -608,7 +4361,7 @@
             "field": "sourcedId/internal platform id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.id",
+          "canonical_field_id": "canonical.time.academic_session.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -629,7 +4382,7 @@
             "field": "sourcedId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.sourced_id",
+          "canonical_field_id": "canonical.time.academic_session.source_session_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -650,7 +4403,7 @@
             "field": "title",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.title",
+          "canonical_field_id": "canonical.time.academic_session.title",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -733,7 +4486,8 @@
             "field": "type",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.session_type",
+          "shared_enum_id": "academic_session_type",
+          "canonical_field_id": "canonical.time.academic_session.type",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -754,7 +4508,7 @@
             "field": "startDate",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.start_date",
+          "canonical_field_id": "canonical.time.academic_session.start_date",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -775,7 +4529,7 @@
             "field": "endDate",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.end_date",
+          "canonical_field_id": "canonical.time.academic_session.end_date",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -796,7 +4550,7 @@
             "field": "schoolYear",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.school_year",
+          "canonical_field_id": "canonical.time.academic_session.school_year",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -818,8 +4572,8 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
-          "canonical_field_id": "canonical.oneroster-core.academic_session.status",
+          "shared_enum_id": "record_status",
+          "canonical_field_id": "canonical.record.lifecycle.status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -840,7 +4594,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.academic_session.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -860,7 +4614,7 @@
         "object": "Course",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.oneroster-core.course",
+      "canonical_object_id": "canonical.context.course",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -882,7 +4636,7 @@
             "field": "sourcedId/internal platform id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.oneroster-core.course.id",
+          "canonical_field_id": "canonical.context.course.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -903,7 +4657,7 @@
             "field": "sourcedId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.course.sourced_id",
+          "canonical_field_id": "canonical.context.course.source_course_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -924,7 +4678,7 @@
             "field": "title",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.course.title",
+          "canonical_field_id": "canonical.context.course.title",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -945,7 +4699,7 @@
             "field": "courseCode",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.course.course_code",
+          "canonical_field_id": "canonical.context.course.code",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -966,7 +4720,7 @@
             "field": "org",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.course.org_id",
+          "canonical_field_id": "canonical.context.organization.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -987,7 +4741,7 @@
             "field": "schoolYear",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.course.school_year_id",
+          "canonical_field_id": "canonical.time.academic_session.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1009,8 +4763,8 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
-          "canonical_field_id": "canonical.oneroster-core.course.status",
+          "shared_enum_id": "record_status",
+          "canonical_field_id": "canonical.record.lifecycle.status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1031,7 +4785,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.course.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -1051,7 +4805,7 @@
         "object": "Class",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.oneroster-core.class",
+      "canonical_object_id": "canonical.context.class",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -1073,7 +4827,7 @@
             "field": "sourcedId/internal platform id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.id",
+          "canonical_field_id": "canonical.context.class.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1094,7 +4848,7 @@
             "field": "sourcedId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.sourced_id",
+          "canonical_field_id": "canonical.context.class.source_context_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1115,7 +4869,7 @@
             "field": "title",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.title",
+          "canonical_field_id": "canonical.context.class.title",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1162,7 +4916,8 @@
             "field": "classType",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.class_type",
+          "shared_enum_id": "class_type",
+          "canonical_field_id": "canonical.context.class.type",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1183,7 +4938,7 @@
             "field": "classCode",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.class_code",
+          "canonical_field_id": "canonical.context.class.code",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1204,7 +4959,7 @@
             "field": "course",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.course_id",
+          "canonical_field_id": "canonical.context.course.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1225,7 +4980,7 @@
             "field": "school",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.school_id",
+          "canonical_field_id": "canonical.context.organization.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1246,7 +5001,7 @@
             "field": "terms",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.term_id",
+          "canonical_field_id": "canonical.time.academic_session.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1268,8 +5023,8 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
-          "canonical_field_id": "canonical.oneroster-core.class.status",
+          "shared_enum_id": "record_status",
+          "canonical_field_id": "canonical.record.lifecycle.status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1290,7 +5045,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.class.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -1310,7 +5065,7 @@
         "object": "Enrollment",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.oneroster-core.enrollment",
+      "canonical_object_id": "canonical.roster.membership",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -1332,7 +5087,7 @@
             "field": "sourcedId/internal platform id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.id",
+          "canonical_field_id": "canonical.roster.membership.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1353,7 +5108,7 @@
             "field": "sourcedId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.sourced_id",
+          "canonical_field_id": "canonical.roster.membership.source_membership_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1374,7 +5129,7 @@
             "field": "class",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.class_id",
+          "canonical_field_id": "canonical.context.class.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1395,7 +5150,7 @@
             "field": "user",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.person_id",
+          "canonical_field_id": "canonical.identity.person.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1416,7 +5171,7 @@
             "field": "school",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.school_id",
+          "canonical_field_id": "canonical.context.organization.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1487,8 +5242,8 @@
             "field": "role",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.role_family",
-          "canonical_field_id": "canonical.oneroster-core.enrollment.role",
+          "shared_enum_id": "role_family",
+          "canonical_field_id": "canonical.role.family.role_values",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1509,7 +5264,7 @@
             "field": "beginDate",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.begin_date",
+          "canonical_field_id": "canonical.time.membership.start_date",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1530,7 +5285,7 @@
             "field": "endDate",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.end_date",
+          "canonical_field_id": "canonical.time.membership.end_date",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1552,7 +5307,8 @@
             "field": "primary",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.primary_flag",
+          "shared_enum_id": "true_false",
+          "canonical_field_id": "canonical.roster.membership.primary_indicator",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1574,8 +5330,8 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
-          "canonical_field_id": "canonical.oneroster-core.enrollment.status",
+          "shared_enum_id": "record_status",
+          "canonical_field_id": "canonical.roster.membership.status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1596,7 +5352,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.enrollment.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -1616,7 +5372,7 @@
         "object": "LineItem",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.oneroster-core.line_item",
+      "canonical_object_id": "canonical.outcome.line_item",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -1638,7 +5394,7 @@
             "field": "sourcedId/internal platform id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.id",
+          "canonical_field_id": "canonical.outcome.line_item.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1659,7 +5415,7 @@
             "field": "sourcedId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.sourced_id",
+          "canonical_field_id": "canonical.outcome.line_item.source_line_item_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1680,7 +5436,7 @@
             "field": "title",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.title",
+          "canonical_field_id": "canonical.outcome.line_item.title",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1701,7 +5457,7 @@
             "field": "class",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.class_id",
+          "canonical_field_id": "canonical.context.class.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1772,7 +5528,8 @@
             "field": "category",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.category",
+          "shared_enum_id": "gradebook_category",
+          "canonical_field_id": "canonical.outcome.line_item.category",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1793,7 +5550,7 @@
             "field": "assignDate",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.assign_date",
+          "canonical_field_id": "canonical.time.assignment.assigned_date",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1814,7 +5571,7 @@
             "field": "dueDate",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.due_date",
+          "canonical_field_id": "canonical.time.assignment.due_date",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1835,7 +5592,7 @@
             "field": "resultValueMin",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.result_value_min",
+          "canonical_field_id": "canonical.outcome.line_item.score_minimum",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1856,7 +5613,7 @@
             "field": "resultValueMax",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.result_value_max",
+          "canonical_field_id": "canonical.outcome.line_item.score_maximum",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1878,8 +5635,8 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
-          "canonical_field_id": "canonical.oneroster-core.line_item.status",
+          "shared_enum_id": "record_status",
+          "canonical_field_id": "canonical.outcome.line_item.status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1900,7 +5657,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.line_item.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -1920,7 +5677,7 @@
         "object": "Result",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.oneroster-core.result",
+      "canonical_object_id": "canonical.outcome.result",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -1942,7 +5699,7 @@
             "field": "sourcedId/internal platform id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.id",
+          "canonical_field_id": "canonical.outcome.result.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1963,7 +5720,7 @@
             "field": "sourcedId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.sourced_id",
+          "canonical_field_id": "canonical.outcome.result.source_result_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -1984,7 +5741,7 @@
             "field": "lineItem",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.line_item_id",
+          "canonical_field_id": "canonical.outcome.line_item.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2005,7 +5762,7 @@
             "field": "student",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.person_id",
+          "canonical_field_id": "canonical.outcome.result.learner_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2076,7 +5833,8 @@
             "field": "scoreStatus",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.score_status",
+          "shared_enum_id": "grading_progress",
+          "canonical_field_id": "canonical.outcome.result.grading_status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2097,7 +5855,7 @@
             "field": "score",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.score",
+          "canonical_field_id": "canonical.outcome.result.score",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2118,7 +5876,7 @@
             "field": "scoreDate",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.score_date",
+          "canonical_field_id": "canonical.outcome.result.scored_at",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2139,7 +5897,7 @@
             "field": "comment",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.comment",
+          "canonical_field_id": "canonical.outcome.result.feedback",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2161,8 +5919,8 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
-          "canonical_field_id": "canonical.oneroster-core.result.status",
+          "shared_enum_id": "record_status",
+          "canonical_field_id": "canonical.outcome.result.record_status",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2183,7 +5941,7 @@
             "field": "dateLastModified",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.oneroster-core.result.date_last_modified",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -2392,7 +6150,7 @@
             "field": "type",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.identifier_type",
+          "shared_enum_id": "identifier_type",
           "canonical_field_id": "canonical.oneroster-core.source_identifier.identifier_type",
           "projection_kind": "direct",
           "spec_only": false
@@ -2415,7 +6173,7 @@
             "field": "status",
             "coverage": "mapped"
           },
-          "shared_enum_id": "shared_enums.lifecycle_status",
+          "shared_enum_id": "record_status",
           "canonical_field_id": "canonical.oneroster-core.source_identifier.status",
           "projection_kind": "direct",
           "spec_only": false

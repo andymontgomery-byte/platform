@@ -136,6 +136,7 @@ def check_dictionary_shape(config: dict, data: dict, decision_trace: dict[str, s
     seen_tables = set()
     seen_paths = set()
     allowed_refs = set(data.get("shared_allowed_values", {}))
+    shared_enums = {item.get("shared_enum_id"): item for item in data.get("shared_enums", [])}
     source_ref = config["source"].relative_to(ROOT).as_posix()
     for obj in data.get("objects", []):
         missing = REQUIRED_OBJECT_KEYS - set(obj)
@@ -183,6 +184,9 @@ def check_dictionary_shape(config: dict, data: dict, decision_trace: dict[str, s
             ref = field.get("allowed_values_ref")
             if ref and ref not in allowed_refs:
                 errors.append(f"{config['name']} {field.get('field_key')} references missing values: {ref}")
+            values = allowed_values(field, data)
+            if values or field.get("data_type") == "enum" or field.get("shared_enum_id"):
+                errors.extend(check_shared_enum(config, data, obj, field, values, shared_enums))
             for value in allowed_values(field, data):
                 for key in ["value", "label", "plain_description", "sourceStandard"]:
                     if key not in value or not str(value[key]).strip():
@@ -201,6 +205,62 @@ def check_dictionary_shape(config: dict, data: dict, decision_trace: dict[str, s
                 f"{config['name']} unsupported/deferred item missing non-empty sourceFieldsOrValues: "
                 f"{item.get('area')}"
             )
+    return errors
+
+
+def check_shared_enum(
+    config: dict,
+    data: dict,
+    obj: dict,
+    field: dict,
+    values: list[dict],
+    shared_enums: dict[str, dict],
+) -> list[str]:
+    errors: list[str] = []
+    enum_id = field.get("shared_enum_id")
+    label = f"{config['name']} {obj.get('object_key')}.{field.get('field_key')}"
+    if not enum_id:
+        errors.append(f"{label} enum field missing shared_enum_id")
+        return errors
+    enum = shared_enums.get(enum_id)
+    if not enum:
+        errors.append(f"{label} references missing shared_enum_id {enum_id}")
+        return errors
+
+    canonical_values = {
+        item.get("value") for item in enum.get("canonical_values", []) if isinstance(item, dict)
+    }
+    if not canonical_values:
+        errors.append(f"{label} shared enum {enum_id} missing canonical_values")
+    crosswalk = enum.get("crosswalk", [])
+    if not isinstance(crosswalk, list) or not crosswalk:
+        errors.append(f"{label} shared enum {enum_id} missing crosswalk")
+        return errors
+    reverse = enum.get("reverse_crosswalk", [])
+    if not isinstance(reverse, list) or not reverse:
+        errors.append(f"{label} shared enum {enum_id} missing reverse_crosswalk")
+
+    for row in crosswalk:
+        canonical_value = row.get("canonical_value") if isinstance(row, dict) else None
+        if canonical_values and canonical_value not in canonical_values:
+            errors.append(f"{label} crosswalk canonical value outside shared enum {enum_id}: {canonical_value}")
+
+    if values:
+        spec_key = config["source"].name.replace(".v1.json", "")
+        field_native_values = {
+            row.get("native_value")
+            for row in crosswalk
+            if isinstance(row, dict)
+            and row.get("spec_key") == spec_key
+            and row.get("object_key") == obj.get("object_key")
+            and row.get("field_key") == field.get("field_key")
+        }
+        for value in values:
+            native_value = value.get("value")
+            if native_value not in field_native_values:
+                errors.append(
+                    f"{label} value {native_value} missing from shared enum {enum_id} crosswalk"
+                )
     return errors
 
 

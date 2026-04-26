@@ -329,6 +329,7 @@ Values for `entity_type`:
 | `actor_type` | `actorType` | enum | Yes | education_record | Caliper 1.2 Caliper Actor.actorType | `DEC-001-person-agent-subject` | Whether the actor is a person, software app, group, or generic agent. |
 | `platform_person_id` | `platformPersonId` | text | No | education_record | Caliper 1.2 Caliper Actor.platformPersonId | `DEC-007-identifier-crosswalk` | The resolved platform person ID when the actor is a known school user. |
 | `display_name` | `displayName` | text | No | education_record | Caliper 1.2 Caliper Actor.displayName | `DEC-001-person-agent-subject` | A display name supplied for the actor or resolved from a trusted source. |
+| `email` | `email` | text | No | directory | Caliper 1.2 Caliper Actor.email (platform_projection) | `DEC-001-person-agent-subject` | The email address supplied for a Person actor or resolved from a trusted roster source when policy permits disclosure. |
 | `identifier_type` | `identifierType` | enum | No | education_record | Caliper 1.2 Caliper Actor.identifierType | `DEC-001-person-agent-subject` | The kind of source identifier used to resolve the actor. |
 | `identifier_value` | `identifierValue` | text | No | education_record | Caliper 1.2 Caliper Actor.identifierValue | `DEC-001-person-agent-subject` | The source identifier value used for matching or lineage. |
 | `resolution_status` | `resolutionStatus` | enum | Yes | operational | Caliper 1.2 Caliper Actor.resolutionStatus | `DEC-001-person-agent-subject` | Whether the actor was matched to a canonical platform record. |

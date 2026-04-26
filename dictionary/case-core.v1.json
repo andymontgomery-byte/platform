@@ -6,6 +6,1879 @@
   "source_version": "1.1",
   "plain_description": "A structured dictionary for the platform's CASE framework graph model. It describes standards frameworks, framework items, associations, definitions, rubrics, and status fields exposed as SQL and JSON.",
   "model_scope": "Framework import, search, graph traversal, standards alignment, rubric metadata, and cross-standard linking. This is not a formal CASE certification claim.",
+  "shared_enums": [
+    {
+      "shared_enum_id": "adoption_status",
+      "name": "Adoption Status",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for adoption status values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "adopted",
+          "label": "Adopted",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "draft",
+          "label": "Draft",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "retired",
+          "label": "Retired",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "superseded",
+          "label": "Superseded",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "adoption_status",
+          "native_value": "draft",
+          "canonical_value": "draft",
+          "native_label": "Draft",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "adoption_status",
+            "value": "draft",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "adoption_status",
+          "native_value": "adopted",
+          "canonical_value": "adopted",
+          "native_label": "Adopted",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "adoption_status",
+            "value": "adopted",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "adoption_status",
+          "native_value": "retired",
+          "canonical_value": "retired",
+          "native_label": "Retired",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "adoption_status",
+            "value": "retired",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "adoption_status",
+          "native_value": "superseded",
+          "canonical_value": "superseded",
+          "native_label": "Superseded",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "adoption_status",
+            "value": "superseded",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "adopted",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "adoption_status",
+              "native_value": "adopted"
+            }
+          ]
+        },
+        {
+          "canonical_value": "draft",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "adoption_status",
+              "native_value": "draft"
+            }
+          ]
+        },
+        {
+          "canonical_value": "retired",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "adoption_status",
+              "native_value": "retired"
+            }
+          ]
+        },
+        {
+          "canonical_value": "superseded",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "adoption_status",
+              "native_value": "superseded"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "association_type",
+      "name": "Association Type",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for association type values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "exact_match_of",
+          "label": "Exact Match Of",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "exemplar",
+          "label": "Exemplar",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "has_skill_level",
+          "label": "Has Skill Level",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "is_child_of",
+          "label": "Is Child Of",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "is_part_of",
+          "label": "Is Part Of",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "is_peer_of",
+          "label": "Is Peer Of",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "is_related_to",
+          "label": "Is Related To",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "is_translation_of",
+          "label": "Is Translation Of",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "precedes",
+          "label": "Precedes",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "replaced_by",
+          "label": "Replaced By",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "isChildOf",
+          "canonical_value": "is_child_of",
+          "native_label": "Is child of",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "isChildOf",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "isPeerOf",
+          "canonical_value": "is_peer_of",
+          "native_label": "Is peer of",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "isPeerOf",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "isPartOf",
+          "canonical_value": "is_part_of",
+          "native_label": "Is part of",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "isPartOf",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "exactMatchOf",
+          "canonical_value": "exact_match_of",
+          "native_label": "Exact match of",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "exactMatchOf",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "precedes",
+          "canonical_value": "precedes",
+          "native_label": "Precedes",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "precedes",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "isRelatedTo",
+          "canonical_value": "is_related_to",
+          "native_label": "Is related to",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "isRelatedTo",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "replacedBy",
+          "canonical_value": "replaced_by",
+          "native_label": "Replaced by",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "replacedBy",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "exemplar",
+          "canonical_value": "exemplar",
+          "native_label": "Exemplar",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "exemplar",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "hasSkillLevel",
+          "canonical_value": "has_skill_level",
+          "native_label": "Has skill level",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "hasSkillLevel",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_association",
+          "field_key": "association_type",
+          "native_value": "isTranslationOf",
+          "canonical_value": "is_translation_of",
+          "native_label": "Is translation of",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "association_type",
+            "value": "isTranslationOf",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "exact_match_of",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "exactMatchOf"
+            }
+          ]
+        },
+        {
+          "canonical_value": "exemplar",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "exemplar"
+            }
+          ]
+        },
+        {
+          "canonical_value": "has_skill_level",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "hasSkillLevel"
+            }
+          ]
+        },
+        {
+          "canonical_value": "is_child_of",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "isChildOf"
+            }
+          ]
+        },
+        {
+          "canonical_value": "is_part_of",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "isPartOf"
+            }
+          ]
+        },
+        {
+          "canonical_value": "is_peer_of",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "isPeerOf"
+            }
+          ]
+        },
+        {
+          "canonical_value": "is_related_to",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "isRelatedTo"
+            }
+          ]
+        },
+        {
+          "canonical_value": "is_translation_of",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "isTranslationOf"
+            }
+          ]
+        },
+        {
+          "canonical_value": "precedes",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "precedes"
+            }
+          ]
+        },
+        {
+          "canonical_value": "replaced_by",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_association",
+              "field_key": "association_type",
+              "native_value": "replacedBy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "case_version",
+      "name": "Case Version",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for case version values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "1_1",
+          "label": "1 1",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "case_version",
+          "native_value": "1.1",
+          "canonical_value": "1_1",
+          "native_label": "CASE 1.1",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "case_version",
+            "value": "1.1",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "1_1",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "case_version",
+              "native_value": "1.1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "code_major",
+      "name": "Code Major",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for code major values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "failure",
+          "label": "Failure",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "processing",
+          "label": "Processing",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "success",
+          "label": "Success",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "unsupported",
+          "label": "Unsupported",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_api_status",
+          "field_key": "imsx_code_major",
+          "native_value": "success",
+          "canonical_value": "success",
+          "native_label": "Success",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "code_major",
+            "value": "success",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_api_status",
+          "field_key": "imsx_code_major",
+          "native_value": "processing",
+          "canonical_value": "processing",
+          "native_label": "Processing",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "code_major",
+            "value": "processing",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_api_status",
+          "field_key": "imsx_code_major",
+          "native_value": "failure",
+          "canonical_value": "failure",
+          "native_label": "Failure",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "code_major",
+            "value": "failure",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_api_status",
+          "field_key": "imsx_code_major",
+          "native_value": "unsupported",
+          "canonical_value": "unsupported",
+          "native_label": "Unsupported",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "code_major",
+            "value": "unsupported",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "failure",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_api_status",
+              "field_key": "imsx_code_major",
+              "native_value": "failure"
+            }
+          ]
+        },
+        {
+          "canonical_value": "processing",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_api_status",
+              "field_key": "imsx_code_major",
+              "native_value": "processing"
+            }
+          ]
+        },
+        {
+          "canonical_value": "success",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_api_status",
+              "field_key": "imsx_code_major",
+              "native_value": "success"
+            }
+          ]
+        },
+        {
+          "canonical_value": "unsupported",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_api_status",
+              "field_key": "imsx_code_major",
+              "native_value": "unsupported"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "framework_type",
+      "name": "Framework Type",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for framework type values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "academic_standards",
+          "label": "Academic Standards",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "competency_framework",
+          "label": "Competency Framework",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "course_codes",
+          "label": "Course Codes",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "local_framework",
+          "label": "Local Framework",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "workforce_skills",
+          "label": "Workforce Skills",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "framework_type",
+          "native_value": "academicStandards",
+          "canonical_value": "academic_standards",
+          "native_label": "Academic standards",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "framework_type",
+            "value": "academicStandards",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "framework_type",
+          "native_value": "competencyFramework",
+          "canonical_value": "competency_framework",
+          "native_label": "Competency framework",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "framework_type",
+            "value": "competencyFramework",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "framework_type",
+          "native_value": "courseCodes",
+          "canonical_value": "course_codes",
+          "native_label": "Course codes",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "framework_type",
+            "value": "courseCodes",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "framework_type",
+          "native_value": "workforceSkills",
+          "canonical_value": "workforce_skills",
+          "native_label": "Workforce skills",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "framework_type",
+            "value": "workforceSkills",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_document",
+          "field_key": "framework_type",
+          "native_value": "localFramework",
+          "canonical_value": "local_framework",
+          "native_label": "Local framework",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "framework_type",
+            "value": "localFramework",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "academic_standards",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "framework_type",
+              "native_value": "academicStandards"
+            }
+          ]
+        },
+        {
+          "canonical_value": "competency_framework",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "framework_type",
+              "native_value": "competencyFramework"
+            }
+          ]
+        },
+        {
+          "canonical_value": "course_codes",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "framework_type",
+              "native_value": "courseCodes"
+            }
+          ]
+        },
+        {
+          "canonical_value": "local_framework",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "framework_type",
+              "native_value": "localFramework"
+            }
+          ]
+        },
+        {
+          "canonical_value": "workforce_skills",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_document",
+              "field_key": "framework_type",
+              "native_value": "workforceSkills"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "item_type",
+      "name": "Item Type",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for item type values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "cluster",
+          "label": "Cluster",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "competency",
+          "label": "Competency",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "course_code",
+          "label": "Course Code",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "domain",
+          "label": "Domain",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "learning_objective",
+          "label": "Learning Objective",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "skill",
+          "label": "Skill",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "standard",
+          "label": "Standard",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "strand",
+          "label": "Strand",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "domain",
+          "canonical_value": "domain",
+          "native_label": "Domain",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "domain",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "strand",
+          "canonical_value": "strand",
+          "native_label": "Strand",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "strand",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "cluster",
+          "canonical_value": "cluster",
+          "native_label": "Cluster",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "cluster",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "standard",
+          "canonical_value": "standard",
+          "native_label": "Standard",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "standard",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "competency",
+          "canonical_value": "competency",
+          "native_label": "Competency",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "competency",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "skill",
+          "canonical_value": "skill",
+          "native_label": "Skill",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "skill",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "learningObjective",
+          "canonical_value": "learning_objective",
+          "native_label": "Learning objective",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "learningObjective",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item",
+          "field_key": "item_type",
+          "native_value": "courseCode",
+          "canonical_value": "course_code",
+          "native_label": "Course code",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "courseCode",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "domain",
+          "canonical_value": "domain",
+          "native_label": "Domain",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "domain",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "strand",
+          "canonical_value": "strand",
+          "native_label": "Strand",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "strand",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "cluster",
+          "canonical_value": "cluster",
+          "native_label": "Cluster",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "cluster",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "standard",
+          "canonical_value": "standard",
+          "native_label": "Standard",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "standard",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "competency",
+          "canonical_value": "competency",
+          "native_label": "Competency",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "competency",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "skill",
+          "canonical_value": "skill",
+          "native_label": "Skill",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "skill",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "learningObjective",
+          "canonical_value": "learning_objective",
+          "native_label": "Learning objective",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "learningObjective",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_item_type",
+          "field_key": "type_code",
+          "native_value": "courseCode",
+          "canonical_value": "course_code",
+          "native_label": "Course code",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "item_type",
+            "value": "courseCode",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "cluster",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "cluster"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "cluster"
+            }
+          ]
+        },
+        {
+          "canonical_value": "competency",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "competency"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "competency"
+            }
+          ]
+        },
+        {
+          "canonical_value": "course_code",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "courseCode"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "courseCode"
+            }
+          ]
+        },
+        {
+          "canonical_value": "domain",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "domain"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "domain"
+            }
+          ]
+        },
+        {
+          "canonical_value": "learning_objective",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "learningObjective"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "learningObjective"
+            }
+          ]
+        },
+        {
+          "canonical_value": "skill",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "skill"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "skill"
+            }
+          ]
+        },
+        {
+          "canonical_value": "standard",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "standard"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "standard"
+            }
+          ]
+        },
+        {
+          "canonical_value": "strand",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item",
+              "field_key": "item_type",
+              "native_value": "strand"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_item_type",
+              "field_key": "type_code",
+              "native_value": "strand"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "rubric_quality",
+      "name": "Rubric Quality",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for rubric quality values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "advanced",
+          "label": "Advanced",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "beginning",
+          "label": "Beginning",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "developing",
+          "label": "Developing",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "proficient",
+          "label": "Proficient",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_rubric_criterion_level",
+          "field_key": "quality",
+          "native_value": "beginning",
+          "canonical_value": "beginning",
+          "native_label": "Beginning",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "rubric_quality",
+            "value": "beginning",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_rubric_criterion_level",
+          "field_key": "quality",
+          "native_value": "developing",
+          "canonical_value": "developing",
+          "native_label": "Developing",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "rubric_quality",
+            "value": "developing",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_rubric_criterion_level",
+          "field_key": "quality",
+          "native_value": "proficient",
+          "canonical_value": "proficient",
+          "native_label": "Proficient",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "rubric_quality",
+            "value": "proficient",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_rubric_criterion_level",
+          "field_key": "quality",
+          "native_value": "advanced",
+          "canonical_value": "advanced",
+          "native_label": "Advanced",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "rubric_quality",
+            "value": "advanced",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "advanced",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_rubric_criterion_level",
+              "field_key": "quality",
+              "native_value": "advanced"
+            }
+          ]
+        },
+        {
+          "canonical_value": "beginning",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_rubric_criterion_level",
+              "field_key": "quality",
+              "native_value": "beginning"
+            }
+          ]
+        },
+        {
+          "canonical_value": "developing",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_rubric_criterion_level",
+              "field_key": "quality",
+              "native_value": "developing"
+            }
+          ]
+        },
+        {
+          "canonical_value": "proficient",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_rubric_criterion_level",
+              "field_key": "quality",
+              "native_value": "proficient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "severity",
+      "name": "Severity",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for severity values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "error",
+          "label": "Error",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "status",
+          "label": "Status",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "warning",
+          "label": "Warning",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "case-core",
+          "object_key": "case_api_status",
+          "field_key": "imsx_severity",
+          "native_value": "status",
+          "canonical_value": "status",
+          "native_label": "Status",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "severity",
+            "value": "status",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_api_status",
+          "field_key": "imsx_severity",
+          "native_value": "warning",
+          "canonical_value": "warning",
+          "native_label": "Warning",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "severity",
+            "value": "warning",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_api_status",
+          "field_key": "imsx_severity",
+          "native_value": "error",
+          "canonical_value": "error",
+          "native_label": "Error",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "severity",
+            "value": "error",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "error",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_api_status",
+              "field_key": "imsx_severity",
+              "native_value": "error"
+            }
+          ]
+        },
+        {
+          "canonical_value": "status",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_api_status",
+              "field_key": "imsx_severity",
+              "native_value": "status"
+            }
+          ]
+        },
+        {
+          "canonical_value": "warning",
+          "native_values": [
+            {
+              "spec_key": "case-core",
+              "object_key": "case_api_status",
+              "field_key": "imsx_severity",
+              "native_value": "warning"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shared_enum_id": "validation_status",
+      "name": "Validation Status",
+      "decision_id": "DEC-018-global-enum-crosswalks",
+      "plain_description": "Global allowed-value crosswalk for validation status values across projected standards.",
+      "canonical_values": [
+        {
+          "value": "invalid",
+          "label": "Invalid",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "pending",
+          "label": "Pending",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "rejected",
+          "label": "Rejected",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "valid",
+          "label": "Valid",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        },
+        {
+          "value": "warning",
+          "label": "Warning",
+          "decision_id": "DEC-018-global-enum-crosswalks"
+        }
+      ],
+      "crosswalk": [
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_package",
+          "field_key": "validation_status",
+          "native_value": "pending",
+          "canonical_value": "pending",
+          "native_label": "Pending",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "validation_status",
+            "value": "pending",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_package",
+          "field_key": "validation_status",
+          "native_value": "valid",
+          "canonical_value": "valid",
+          "native_label": "Valid",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "validation_status",
+            "value": "valid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_package",
+          "field_key": "validation_status",
+          "native_value": "invalid",
+          "canonical_value": "invalid",
+          "native_label": "Invalid",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "validation_status",
+            "value": "invalid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "qti-core",
+          "object_key": "qti_package",
+          "field_key": "validation_status",
+          "native_value": "warning",
+          "canonical_value": "warning",
+          "native_label": "Warning",
+          "sourceStandard": {
+            "standard": "QTI",
+            "version": "3.0",
+            "vocabulary": "validation_status",
+            "value": "warning",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_package",
+          "field_key": "validation_status",
+          "native_value": "pending",
+          "canonical_value": "pending",
+          "native_label": "Pending",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "validation_status",
+            "value": "pending",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_package",
+          "field_key": "validation_status",
+          "native_value": "valid",
+          "canonical_value": "valid",
+          "native_label": "Valid",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "validation_status",
+            "value": "valid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_package",
+          "field_key": "validation_status",
+          "native_value": "invalid",
+          "canonical_value": "invalid",
+          "native_label": "Invalid",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "validation_status",
+            "value": "invalid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "case-core",
+          "object_key": "case_package",
+          "field_key": "validation_status",
+          "native_value": "warning",
+          "canonical_value": "warning",
+          "native_label": "Warning",
+          "sourceStandard": {
+            "standard": "CASE",
+            "version": "1.1",
+            "vocabulary": "validation_status",
+            "value": "warning",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "validation_status",
+          "native_value": "pending",
+          "canonical_value": "pending",
+          "native_label": "Pending",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "pending",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "validation_status",
+          "native_value": "valid",
+          "canonical_value": "valid",
+          "native_label": "Valid",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "valid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "validation_status",
+          "native_value": "invalid",
+          "canonical_value": "invalid",
+          "native_label": "Invalid",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "invalid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_launch",
+          "field_key": "validation_status",
+          "native_value": "rejected",
+          "canonical_value": "rejected",
+          "native_label": "Rejected",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "rejected",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "exchange_status",
+          "native_value": "pending",
+          "canonical_value": "pending",
+          "native_label": "Pending",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "pending",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "exchange_status",
+          "native_value": "valid",
+          "canonical_value": "valid",
+          "native_label": "Valid",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "valid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "exchange_status",
+          "native_value": "invalid",
+          "canonical_value": "invalid",
+          "native_label": "Invalid",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "invalid",
+            "coverage": "mapped"
+          }
+        },
+        {
+          "spec_key": "integration-governance-core",
+          "object_key": "lti_grade_exchange",
+          "field_key": "exchange_status",
+          "native_value": "rejected",
+          "canonical_value": "rejected",
+          "native_label": "Rejected",
+          "sourceStandard": {
+            "standard": "Integration/Governance Lead Specs",
+            "version": "lead",
+            "vocabulary": "validation_status",
+            "value": "rejected",
+            "coverage": "mapped"
+          }
+        }
+      ],
+      "reverse_crosswalk": [
+        {
+          "canonical_value": "invalid",
+          "native_values": [
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_package",
+              "field_key": "validation_status",
+              "native_value": "invalid"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_package",
+              "field_key": "validation_status",
+              "native_value": "invalid"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "validation_status",
+              "native_value": "invalid"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "exchange_status",
+              "native_value": "invalid"
+            }
+          ]
+        },
+        {
+          "canonical_value": "pending",
+          "native_values": [
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_package",
+              "field_key": "validation_status",
+              "native_value": "pending"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_package",
+              "field_key": "validation_status",
+              "native_value": "pending"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "validation_status",
+              "native_value": "pending"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "exchange_status",
+              "native_value": "pending"
+            }
+          ]
+        },
+        {
+          "canonical_value": "rejected",
+          "native_values": [
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "validation_status",
+              "native_value": "rejected"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "exchange_status",
+              "native_value": "rejected"
+            }
+          ]
+        },
+        {
+          "canonical_value": "valid",
+          "native_values": [
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_package",
+              "field_key": "validation_status",
+              "native_value": "valid"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_package",
+              "field_key": "validation_status",
+              "native_value": "valid"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_launch",
+              "field_key": "validation_status",
+              "native_value": "valid"
+            },
+            {
+              "spec_key": "integration-governance-core",
+              "object_key": "lti_grade_exchange",
+              "field_key": "exchange_status",
+              "native_value": "valid"
+            }
+          ]
+        },
+        {
+          "canonical_value": "warning",
+          "native_values": [
+            {
+              "spec_key": "qti-core",
+              "object_key": "qti_package",
+              "field_key": "validation_status",
+              "native_value": "warning"
+            },
+            {
+              "spec_key": "case-core",
+              "object_key": "case_package",
+              "field_key": "validation_status",
+              "native_value": "warning"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "objects": [
     {
       "object_key": "case_package",
@@ -127,7 +2000,7 @@
             "field": "importedAt",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_package.imported_at",
+          "canonical_field_id": "canonical.time.ingest.received_at",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -149,6 +2022,7 @@
             "field": "validationStatus",
             "coverage": "mapped"
           },
+          "shared_enum_id": "validation_status",
           "canonical_field_id": "canonical.case-core.case_package.validation_status",
           "projection_kind": "direct",
           "spec_only": false
@@ -255,6 +2129,7 @@
             "field": "frameworkType",
             "coverage": "mapped"
           },
+          "shared_enum_id": "framework_type",
           "canonical_field_id": "canonical.case-core.case_document.framework_type",
           "projection_kind": "direct",
           "spec_only": false
@@ -277,6 +2152,7 @@
             "field": "caseVersion",
             "coverage": "mapped"
           },
+          "shared_enum_id": "case_version",
           "canonical_field_id": "canonical.case-core.case_document.case_version",
           "projection_kind": "direct",
           "spec_only": false
@@ -425,6 +2301,7 @@
             "field": "adoptionStatus",
             "coverage": "mapped"
           },
+          "shared_enum_id": "adoption_status",
           "canonical_field_id": "canonical.case-core.case_document.adoption_status",
           "projection_kind": "direct",
           "spec_only": false
@@ -488,7 +2365,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_document.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -508,7 +2385,7 @@
         "object": "CASE Framework Item",
         "coverage": "mapped"
       },
-      "canonical_object_id": "canonical.case-core.case_item",
+      "canonical_object_id": "canonical.curriculum.standard",
       "projection_kind": "direct",
       "spec_only": false,
       "decision_id": "DEC-016-dictionary-generation-direction",
@@ -530,7 +2407,7 @@
             "field": "id",
             "coverage": "platform_projection"
           },
-          "canonical_field_id": "canonical.case-core.case_item.id",
+          "canonical_field_id": "canonical.curriculum.standard.id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -551,7 +2428,7 @@
             "field": "documentId",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.document_id",
+          "canonical_field_id": "canonical.curriculum.standard.framework_id",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -572,7 +2449,7 @@
             "field": "identifier",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.identifier",
+          "canonical_field_id": "canonical.curriculum.standard.case_identifier",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -593,7 +2470,7 @@
             "field": "uri",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.uri",
+          "canonical_field_id": "canonical.curriculum.standard.uri",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -614,7 +2491,7 @@
             "field": "humanCodingScheme",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.human_coding_scheme",
+          "canonical_field_id": "canonical.curriculum.standard.code",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -635,7 +2512,7 @@
             "field": "fullStatement",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.full_statement",
+          "canonical_field_id": "canonical.curriculum.standard.statement",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -656,7 +2533,7 @@
             "field": "abbreviatedStatement",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.abbreviated_statement",
+          "canonical_field_id": "canonical.curriculum.standard.short_statement",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -677,7 +2554,7 @@
             "field": "alternativeLabel",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.alternative_label",
+          "canonical_field_id": "canonical.curriculum.standard.label",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -699,7 +2576,8 @@
             "field": "itemType",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.item_type",
+          "shared_enum_id": "item_type",
+          "canonical_field_id": "canonical.curriculum.standard.type",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -720,7 +2598,7 @@
             "field": "itemTypeUri",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.item_type_uri",
+          "canonical_field_id": "canonical.curriculum.standard.type_uri",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -741,7 +2619,7 @@
             "field": "conceptKeywords",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.concept_keywords",
+          "canonical_field_id": "canonical.curriculum.standard.keywords",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -762,7 +2640,7 @@
             "field": "subject",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.subject",
+          "canonical_field_id": "canonical.curriculum.standard.subject",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -783,7 +2661,7 @@
             "field": "educationLevel",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.education_level",
+          "canonical_field_id": "canonical.curriculum.standard.education_level",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -804,7 +2682,7 @@
             "field": "listEnumeration",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.list_enumeration",
+          "canonical_field_id": "canonical.curriculum.standard.list_position",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -846,7 +2724,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -973,6 +2851,7 @@
             "field": "associationType",
             "coverage": "mapped"
           },
+          "shared_enum_id": "association_type",
           "canonical_field_id": "canonical.case-core.case_association.association_type",
           "projection_kind": "direct",
           "spec_only": false
@@ -1099,7 +2978,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_association.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -1456,7 +3335,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_concept.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -1645,7 +3524,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_subject.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -1835,6 +3714,7 @@
             "field": "typeCode",
             "coverage": "mapped"
           },
+          "shared_enum_id": "item_type",
           "canonical_field_id": "canonical.case-core.case_item_type.type_code",
           "projection_kind": "direct",
           "spec_only": false
@@ -1856,7 +3736,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_item_type.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -2045,7 +3925,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_license.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -2213,7 +4093,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_association_grouping.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -2381,7 +4261,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_rubric.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -2570,7 +4450,7 @@
             "field": "weight",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_rubric_criterion.weight",
+          "canonical_field_id": "canonical.outcome.line_item.weight",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2612,7 +4492,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_rubric_criterion.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -2739,6 +4619,7 @@
             "field": "quality",
             "coverage": "mapped"
           },
+          "shared_enum_id": "rubric_quality",
           "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.quality",
           "projection_kind": "direct",
           "spec_only": false
@@ -2781,7 +4662,7 @@
             "field": "score",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.score",
+          "canonical_field_id": "canonical.outcome.result.score",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2802,7 +4683,7 @@
             "field": "feedback",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.feedback",
+          "canonical_field_id": "canonical.outcome.result.feedback",
           "projection_kind": "direct",
           "spec_only": false
         },
@@ -2844,7 +4725,7 @@
             "field": "lastChangeDateTime",
             "coverage": "mapped"
           },
-          "canonical_field_id": "canonical.case-core.case_rubric_criterion_level.last_change_date_time",
+          "canonical_field_id": "canonical.time.record.modified_at",
           "projection_kind": "direct",
           "spec_only": false
         }
@@ -2929,6 +4810,7 @@
             "field": "imsxCodeMajor",
             "coverage": "mapped"
           },
+          "shared_enum_id": "code_major",
           "canonical_field_id": "canonical.case-core.case_api_status.imsx_code_major",
           "projection_kind": "direct",
           "spec_only": false
@@ -2951,6 +4833,7 @@
             "field": "imsxSeverity",
             "coverage": "mapped"
           },
+          "shared_enum_id": "severity",
           "canonical_field_id": "canonical.case-core.case_api_status.imsx_severity",
           "projection_kind": "direct",
           "spec_only": false

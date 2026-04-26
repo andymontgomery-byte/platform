@@ -23,7 +23,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - `data/data-dictionary.seed.json#canonical.identity.person`
   - `dictionary/oneroster-core.v1.json#person.display_name`
   - `dictionary/oneroster-core.v1.json#person.email`
+  - `dictionary/caliper-core.v1.json#caliper_actor.email`
   - `dictionary/caliper-core.v1.json#caliper_actor.identifier_value`
+  - `dictionary/qti-core.v1.json#qti_candidate.email`
   - `dictionary/integration-governance-core.v1.json#lti_launch.subject_id`
   - `supabase/migrations/0001_oneroster_core_demo.sql#people`
   - `site/api/people.json`
@@ -395,7 +397,9 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - `data/data-dictionary.seed.json#person`
   - `dictionary/oneroster-core.v1.json#person.email`
   - `dictionary/integration-governance-core.v1.json#lti_membership.email`
+  - `dictionary/caliper-core.v1.json#caliper_actor.email`
   - `dictionary/caliper-core.v1.json#caliper_actor.identifier_value`
+  - `dictionary/qti-core.v1.json#qti_candidate.email`
 
 ## DEC-018 Global Enum Crosswalks
 
@@ -469,6 +473,7 @@ Field references use the dictionary file, object key, and field key. Each `decis
     "produces_fields": [
       "dictionary/caliper-core.v1.json#caliper_actor.actor_type",
       "dictionary/caliper-core.v1.json#caliper_actor.display_name",
+      "dictionary/caliper-core.v1.json#caliper_actor.email",
       "dictionary/caliper-core.v1.json#caliper_actor.identifier_type",
       "dictionary/caliper-core.v1.json#caliper_actor.identifier_value",
       "dictionary/caliper-core.v1.json#caliper_actor.resolution_status",
@@ -478,7 +483,10 @@ Field references use the dictionary file, object key, and field key. Each `decis
       "dictionary/oneroster-core.v1.json#person.enabled_user",
       "dictionary/oneroster-core.v1.json#person.family_name",
       "dictionary/oneroster-core.v1.json#person.given_name",
-      "dictionary/oneroster-core.v1.json#person.status"
+      "dictionary/oneroster-core.v1.json#person.status",
+      "dictionary/qti-core.v1.json#qti_candidate.display_name",
+      "dictionary/qti-core.v1.json#qti_candidate.email",
+      "dictionary/qti-core.v1.json#qti_candidate.platform_person_id"
     ]
   },
   {
@@ -858,6 +866,8 @@ Field references use the dictionary file, object key, and field key. Each `decis
       "dictionary/qti-core.v1.json#qti_assessment_test.source_href",
       "dictionary/qti-core.v1.json#qti_companion_material.id",
       "dictionary/qti-core.v1.json#qti_companion_material.item_id",
+      "dictionary/qti-core.v1.json#qti_candidate.candidate_identifier",
+      "dictionary/qti-core.v1.json#qti_candidate.id",
       "dictionary/qti-core.v1.json#qti_feedback.id",
       "dictionary/qti-core.v1.json#qti_feedback.owner_id",
       "dictionary/qti-core.v1.json#qti_interaction.id",

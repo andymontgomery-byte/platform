@@ -643,3 +643,54 @@ This file is append-only loop memory for `scripts/codex_loop.py`.
 - Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py` passed; `python3 scripts/generate_spec_dictionaries.py` regenerated all five per-spec dictionaries; all five per-spec artifact generators passed; `python3 scripts/build_site_docs.py` passed; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 58 objects, and 568 fields; targeted canonical identity smoke check passed with OneRoster `person`, Caliper `caliper_actor`, and LTI `lti_membership` resolving to `canonical.identity.person`, plus `lti_launch.subject_id` carrying that canonical object reference; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 58 objects, 568 fields, and 912 values; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; JSON validation for evaluator/advisory/OpenAPI outputs passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=12, partial=4, fail=4, blocked=0 and reports `dictionary_unifies_identity` as `pass`.
 - Expected status change: `dictionary_unifies_identity` `fail` -> `pass`.
 - What remains next: top-down dictionary work continues with `dictionary_resolves_cross_spec_overlaps`, now `partial` because projected fields carry `canonical_field_id` but overlapping fields still need shared IDs such as `canonical.identity.person.email`; `dictionary_global_enums` and `dictionary_carries_relational_graph` remain `fail`, with docs/buildability items downstream.
+
+
+## 20260426T191138Z Harness Iteration 8
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 84
+- Publish result: committed and pushed: Codex loop iteration 8: rubric pass=11/20
+- Codex log: `.codex-loop/20260426T185130Z-iteration-008-codex.log`
+- Verify log: `.codex-loop/20260426T185130Z-iteration-008-verify.log`
+- Judge log: `.codex-loop/20260426T185130Z-iteration-008-judge.log`
+- Judge JSON: `.codex-loop/20260426T185130Z-iteration-008-judge.json`
+
+
+## 2026-04-26T19:23:01Z QTI Candidate Identity Projection Iteration
+
+- Chosen rubric item: `dictionary_unifies_identity`.
+- Files changed: `data/data-dictionary.seed.json`, generated `dictionary/qti-core.v1.json`, `dictionary/caliper-core.v1.json`, `dictionary/oneroster-core.v1.json`, `dictionary/integration-governance-core.v1.json`, generated QTI/Caliper SQL/OpenAPI/Markdown/HTML artifacts, `docs/decisions/standards-overlap-decisions.md`, rendered decision HTML, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 scripts/generate_spec_dictionaries.py` regenerated all five per-spec dictionaries; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 574 fields; all five per-spec artifact generators passed; `python3 scripts/build_site_docs.py` and `python3 scripts/build_static_api.py` passed; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py scripts/generate_qti_core.py scripts/generate_caliper_core.py scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 574 fields, and 912 values; targeted smoke checks confirmed QTI `qti_candidate`, Caliper `caliper_actor`, OneRoster `person`, and LTI `lti_membership` email fields all resolve to `canonical.identity.person.email`; JSON validation for generated QTI/Caliper dictionaries and OpenAPI passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=12, partial=4, fail=4, blocked=0 and reports `dictionary_unifies_identity` as `pass`.
+- Expected status change: `dictionary_unifies_identity` `partial` -> `pass`; aggregate counts did not improve because the evaluator regraded `docs_generated_from_dictionary` from `pass` to `partial`.
+- What remains next: `dictionary_resolves_cross_spec_overlaps` is still `partial`, now for non-identity overlaps such as learning context, role/time/session, and resource fields; `dictionary_global_enums` and `dictionary_carries_relational_graph` remain the top fail items before downstream docs/buildability work.
+
+
+## 20260426T193005Z Harness Iteration 9
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 80
+- Publish result: skipped: rubric did not progress this iteration
+- Codex log: `.codex-loop/20260426T191138Z-iteration-009-codex.log`
+- Verify log: `.codex-loop/20260426T191138Z-iteration-009-verify.log`
+- Judge log: `.codex-loop/20260426T191138Z-iteration-009-judge.log`
+- Judge JSON: `.codex-loop/20260426T191138Z-iteration-009-judge.json`
+
+## 2026-04-26T19:57:03Z Cross-Spec Canonical Field + Enum Projection Iteration
+
+- Chosen rubric item: `dictionary_resolves_cross_spec_overlaps`.
+- Files changed: `data/data-dictionary.seed.json`, generated `dictionary/*.v1.json` projections, `scripts/generate_spec_dictionaries.py`, `scripts/check_dictionary_artifacts.py`, generated QTI/Caliper SQL/OpenAPI/Markdown/HTML artifacts already dirty from the previous identity projection, rendered decision HTML from the existing dirty decision trace update, `site/api/spec-conformance.json`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 scripts/generate_spec_dictionaries.py` regenerated all five per-spec dictionaries; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 574 fields; all five per-spec artifact generators passed; `python3 scripts/build_static_api.py` and `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 574 fields, and 912 values, including the new shared enum crosswalk validation; targeted cross-spec overlap smoke checks passed for identity email, class context, role family, line-item maximum score, result score, event time, learning resource title, and CASE/QTI standard URI alignment; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; JSON validation passed for the seed, generated dictionaries, generated OpenAPI files, and advisory report; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py scripts/evaluate_platform.py` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=14, partial=3, fail=3, blocked=0.
+- Expected status change: `dictionary_resolves_cross_spec_overlaps` `partial` -> `pass`; the adjacent enum data needed by the same canonical dictionary layer also moved `dictionary_global_enums` `fail` -> `pass`.
+- What remains next: `dictionary_carries_relational_graph` is the only remaining dictionary-layer fail; docs/buildability work remains downstream with `docs_generated_from_dictionary` and `docs_explain_why_not_only_what` partial, `docs_include_buildability_guide` and `buildable_by_layperson` fail, and `docs_no_dead_links_or_orphans` partial.

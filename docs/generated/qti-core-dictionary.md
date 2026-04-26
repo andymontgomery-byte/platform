@@ -801,6 +801,23 @@ Values for `artifact_role`:
 | `other` | Other | QTI 3.0 artifact_role.other | Another preserved package file. |
 
 
+### QTI Candidate
+
+- Object key: `qti_candidate`
+- SQL table: `assessment.qti_candidates`
+- API path: `/assessments/qti/candidates`
+- Privacy class: `education_record`
+- Source standard: QTI 3.0 Candidate (platform_projection)
+- Why it exists: QTI delivery and result records need a candidate identity that resolves to the same canonical person used by roster, launch, and analytics records.
+
+| Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `id` | `id` | text | Yes | operational | QTI 3.0 Candidate.id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this QTI candidate projection. |
+| `candidate_identifier` | `candidateIdentifier` | text | Yes | education_record | QTI 3.0 Candidate.candidateIdentifier (platform_projection) | `DEC-007-identifier-crosswalk` | The source candidate identifier supplied by the assessment delivery system before platform person resolution. |
+| `platform_person_id` | `platformPersonId` | text | No | education_record | QTI 3.0 Candidate.platformPersonId (platform_projection) | `DEC-001-person-agent-subject` | The resolved platform person ID when the candidate is a known school user. |
+| `display_name` | `displayName` | text | No | directory | QTI 3.0 Candidate.displayName (platform_projection) | `DEC-001-person-agent-subject` | The candidate display name shared with the assessment delivery workflow when policy permits it. |
+| `email` | `email` | text | No | directory | QTI 3.0 Candidate.email (platform_projection) | `DEC-001-person-agent-subject` | The candidate email address shared with the assessment delivery workflow when policy permits it. |
+
 ## Unsupported or Deferred
 
 | Area | Reason |

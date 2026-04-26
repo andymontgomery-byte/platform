@@ -1062,6 +1062,76 @@
           }
         }
       }
+    },
+    "/assessments/qti/candidates": {
+      "get": {
+        "tags": [
+          "QTI Candidate"
+        ],
+        "summary": "List QTI Candidate records",
+        "description": "A learner or test taker identified for QTI delivery, scoring, or result association.",
+        "responses": {
+          "200": {
+            "description": "QTI Candidate records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "count"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QtiCandidate"
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assessments/qti/candidates/{id}": {
+      "get": {
+        "tags": [
+          "QTI Candidate"
+        ],
+        "summary": "Get one QTI Candidate record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Platform ID for the QTI Candidate record.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One QTI Candidate record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QtiCandidate"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5268,6 +5338,82 @@
               "object": "QTI package resource",
               "field": "storageUri",
               "coverage": "mapped"
+            }
+          }
+        }
+      },
+      "QtiCandidate": {
+        "type": "object",
+        "description": "A learner or test taker identified for QTI delivery, scoring, or result association.",
+        "x-sourceStandard": {
+          "standard": "QTI",
+          "version": "3.0",
+          "object": "Candidate",
+          "coverage": "platform_projection"
+        },
+        "required": [
+          "id",
+          "candidateIdentifier"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The platform's stable ID for this QTI candidate projection.",
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "QTI",
+              "version": "3.0",
+              "object": "Candidate",
+              "field": "id",
+              "coverage": "platform_projection"
+            }
+          },
+          "candidateIdentifier": {
+            "type": "string",
+            "description": "The source candidate identifier supplied by the assessment delivery system before platform person resolution.",
+            "x-decisionId": "DEC-007-identifier-crosswalk",
+            "x-sourceStandard": {
+              "standard": "QTI",
+              "version": "3.0",
+              "object": "Candidate",
+              "field": "candidateIdentifier",
+              "coverage": "platform_projection"
+            }
+          },
+          "platformPersonId": {
+            "type": "string",
+            "description": "The resolved platform person ID when the candidate is a known school user.",
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "QTI",
+              "version": "3.0",
+              "object": "Candidate",
+              "field": "platformPersonId",
+              "coverage": "platform_projection"
+            }
+          },
+          "displayName": {
+            "type": "string",
+            "description": "The candidate display name shared with the assessment delivery workflow when policy permits it.",
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "QTI",
+              "version": "3.0",
+              "object": "Candidate",
+              "field": "displayName",
+              "coverage": "platform_projection"
+            }
+          },
+          "email": {
+            "type": "string",
+            "description": "The candidate email address shared with the assessment delivery workflow when policy permits it.",
+            "x-decisionId": "DEC-001-person-agent-subject",
+            "x-sourceStandard": {
+              "standard": "QTI",
+              "version": "3.0",
+              "object": "Candidate",
+              "field": "email",
+              "coverage": "platform_projection"
             }
           }
         }
