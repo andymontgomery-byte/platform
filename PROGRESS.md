@@ -726,3 +726,35 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 - Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 -m json.tool dictionary/oneroster-core.v1.json` passed; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 574 fields; `python3 scripts/generate_supabase_migrations.py --check` passed with 1 migration, 10 tables, and 13 relationships; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 574 fields, and 912 values; `python3 -m py_compile scripts/generate_spec_dictionaries.py scripts/generate_supabase_migrations.py scripts/generate_oneroster_core.py scripts/check_dictionary_artifacts.py scripts/check_spec_conformance.py tests/supabase_tenant_rls_test.py tests/supabase_audit_log_test.py` passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 tests/supabase_audit_log_test.py` passed; `node --check site/app.js` passed; `node --check demo/server.js` passed; `cd demo && npm run reset-db` passed; `cd demo && npm test` passed; JSON validation for `site/api/spec-conformance.json` and `site/api/platform-evaluation.json` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=15, partial=2, fail=3, blocked=0 and reports `dictionary_carries_relational_graph` as `pass`.
 - Expected status change: `dictionary_carries_relational_graph` `fail` -> `pass`.
 - What remains next: documentation-layer items remain next in top-down order: `docs_generated_from_dictionary` and `docs_explain_why_not_only_what` are partial; `docs_include_buildability_guide`, `docs_no_dead_links_or_orphans`, and `buildable_by_layperson` still fail until the generated docs/linking/buildability guide work is done.
+
+
+        ## 20260426T202357Z Harness Iteration 11
+
+        - Harness status: pass
+        - Codex exit code: 0
+        - Verify exit code: 0
+        - Spec score before: 100.00
+        - Spec score after: 100.00
+        - LLM judge ok: True
+        - LLM judge recommendation: push
+        - LLM judge score: 87
+        - Publish result: commit succeeded, push failed: ontgomery-byte/platform.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/andymontgomery-byte/platform.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+        - Codex log: `.codex-loop/20260426T200308Z-iteration-011-codex.log`
+        - Verify log: `.codex-loop/20260426T200308Z-iteration-011-verify.log`
+        - Judge log: `.codex-loop/20260426T200308Z-iteration-011-judge.log`
+        - Judge JSON: `.codex-loop/20260426T200308Z-iteration-011-judge.json`
+
+## 2026-04-26T20:44:11Z Buildability Guide Iteration
+
+- Chosen rubric item: `docs_include_buildability_guide`.
+- Files changed: `docs/build-an-edtech-app.md`, `README.md`, `site/index.html`, `scripts/generate_oneroster_core.py`, `scripts/generate_case_core.py`, `scripts/generate_caliper_core.py`, generated dictionary HTML pages under `site/docs/`, generated `site/docs/build-an-edtech-app.html`, `scripts/evaluate_platform.py`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m py_compile scripts/generate_oneroster_core.py scripts/generate_case_core.py scripts/generate_caliper_core.py` passed; generated OneRoster/CASE/Caliper dictionary HTML and rendered site docs regenerated; targeted link/anchor verification over `site/docs/build-an-edtech-app.html` passed with 66 links and 0 missing files or anchors; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 574 fields; `python3 scripts/generate_supabase_migrations.py --check` passed with 1 migration, 10 tables, and 13 relationships; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 574 fields, and 912 values; `node --check site/app.js` and `node --check demo/server.js` passed; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; JSON validation passed for generated OpenAPI reports and `site/api/platform-evaluation.json`; `python3 -m py_compile scripts/evaluate_platform.py scripts/generate_oneroster_core.py scripts/generate_case_core.py scripts/generate_caliper_core.py` passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=16, partial=3, fail=1, blocked=0.
+- Expected status change: `docs_include_buildability_guide` `fail` -> `partial`; the same dictionary-anchor work moved `docs_generated_from_dictionary` `partial` -> `pass`.
+- What remains next: the evaluator traces `docs_include_buildability_guide` and `buildable_by_layperson` gaps to missing runtime platform support for assignment-to-CASE alignment and Caliper event feed tables/views, plus a clearer docs-only prerequisite path for obtaining a tenant-scoped database URL or JWT. `docs_explain_why_not_only_what` and `docs_no_dead_links_or_orphans` remain partial because the decision register is not rendered with addressable anchors and no automated site link-check report is in evidence.

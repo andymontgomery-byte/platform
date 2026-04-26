@@ -12,6 +12,7 @@ The platform exposes two developer-facing layers:
 - [Customer-Facing Developer Portal](site/index.html)
 - [Feedback Package](docs/feedback-package.md)
 - [Supabase Hosted Database Setup](docs/supabase-hosted-database.md)
+- [Build An Edtech App](docs/build-an-edtech-app.md)
 - [Rendered Docs Index](site/docs/index.html)
 - [Hosted OneRoster JSON OpenAPI](site/openapi/hosted-json.html)
 - [Local OneRoster Express OpenAPI](site/openapi/oneroster-core.html)
