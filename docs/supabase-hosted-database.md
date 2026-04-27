@@ -34,10 +34,10 @@ This closes the hosted relational database target for the current OneRoster core
 
 The buildability guide uses the service-role key once to create a temporary Supabase Auth user with an `app_metadata.tenant_id` claim. Use this key only from a trusted shell or backend environment; never put it in browser code.
 
-1. Open the Supabase project dashboard for `qzxlgrerjoiamxvnkklq`.
+1. Open the Supabase project dashboard. Invited hosted reviewers use `qzxlgrerjoiamxvnkklq`; new developers use the self-hosted project they created below.
 2. In the left sidebar, open **Project Settings**.
 3. Open **API**.
-4. In **Project API keys**, copy the key labeled **service_role** or **service_role secret**.
+4. In **Project API keys**, copy the legacy key labeled **service_role**. Use the JWT-looking legacy `service_role` key for `docs/build-an-edtech-app.md`, not an `sb_secret_...` key, because the guide sends the value as the Auth Admin bearer token from a trusted shell.
 5. Put that value in `.env.local` as `SUPABASE_SERVICE_ROLE_KEY=...`, or paste it into the `export SUPABASE_SERVICE_ROLE_KEY='...'` line in `docs/build-an-edtech-app.md` while running the guide locally.
 
 The publishable key in `.env.example` is safe for client requests. The service-role key bypasses row-level security when used directly, so the guide uses it only for the Auth Admin user-creation call and then switches to the tenant-scoped user JWT for all platform table writes.
@@ -46,19 +46,43 @@ The publishable key in `.env.example` is safe for client requests. The service-r
 
 You do not need access to the platform team's hosted project to run the buildability guide. Use a self-hosted Supabase sandbox:
 
-1. Create a new Supabase project in your own Supabase account.
-2. In that project's dashboard, open **Project Settings -> Database** and copy the connection string or pooler URL into `SUPABASE_DB_URL`.
-3. From the repository root, load the generated platform schema:
+1. Open `https://supabase.com/dashboard` and sign in or create an account.
+2. Click **New project**.
+3. Choose or create an organization.
+4. Name the project `platform-build-guide`.
+5. Generate a strong **Database Password** and save it. Supabase uses this as the `postgres` password in the database connection string and will not show it again.
+6. Choose a region. The nearest region is fine; the dashboard will give you the matching pooler host.
+7. Click **Create new project** and wait until provisioning finishes and the project dashboard is active.
+8. Click **Connect** in the top bar and copy a Postgres **Transaction pooler** or **Session pooler** connection string. Keep `[YOUR-PASSWORD]` in the copied URI if the dashboard leaves it as a placeholder.
+9. From the repository root, load the generated platform schema:
 
 ```sh
-export SUPABASE_DB_URL='postgresql://postgres.<your-project-ref>:<password>@aws-0-us-east-1.pooler.supabase.com:6543/postgres'
+export SUPABASE_DB_PASSWORD='<database-password-from-project-creation>'
+export SUPABASE_DB_URL_TEMPLATE='<paste-the-pooler-uri-from-the-Connect-dialog>'
+export SUPABASE_DB_URL="$(
+  python3 - <<'PY'
+import os
+import urllib.parse
+
+template = os.environ["SUPABASE_DB_URL_TEMPLATE"]
+password = urllib.parse.quote(os.environ["SUPABASE_DB_PASSWORD"], safe="")
+print(
+    template
+    .replace("[YOUR-PASSWORD]", password)
+    .replace("<password>", password)
+    .replace("<PASSWORD>", password)
+)
+PY
+)"
 
 psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
   -f supabase/migrations/0001_oneroster_core_demo.sql
 ```
 
-4. In **Project Settings -> API**, copy the Project URL, publishable key, and service-role key from your own project.
-5. Use those three values in `docs/build-an-edtech-app.md` Step 0. The guide creates a tenant-scoped test user in your project, then uses that user's JWT for the roster, gradebook, CASE alignment, and Caliper feed curls.
+10. In **Project Settings -> API**, copy the **Project URL**.
+11. Copy a **Publishable key**. If your dashboard only shows legacy keys, copy the legacy `anon` key and use it as `SUPABASE_PUBLISHABLE_KEY`.
+12. Copy the legacy **service_role** key for the one-time Auth Admin call described above.
+13. Use those three values in `docs/build-an-edtech-app.md` Step 0. The guide creates a tenant-scoped test user in your project, then uses that user's JWT for the roster, gradebook, CASE alignment, and Caliper feed curls.
 
 This self-hosted path exercises the same migration-generated tables, RLS policies, and PostgREST requests as the hosted sandbox. It exists so a new developer can complete the guide from the docs without being a platform administrator on `qzxlgrerjoiamxvnkklq`.
 

@@ -13,6 +13,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SEED = ROOT / "data" / "data-dictionary.seed.json"
 INVALID_PRIVACY_CLASSES = {"depends_on_contents", "depends_on_entity"}
+CLOSED_PRIVACY_CLASSES = [
+    "public",
+    "operational",
+    "directory",
+    "education_record",
+    "behavioral",
+    "sensitive",
+    "credential",
+    "privacy_governance",
+    "system",
+]
 
 
 def main() -> int:
@@ -30,12 +41,14 @@ def main() -> int:
         return 1
 
     if args.check:
-        return check_projection_drift(objects, projections, shared_enums)
+        return check_projection_drift(objects, projections, shared_enums, privacy_classes)
 
     for projection in projections:
         output_path = ROOT / projection["path"]
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(render_dictionary(project_dictionary(objects, projection, shared_enums)))
+        output_path.write_text(
+            render_dictionary(project_dictionary(objects, projection, shared_enums, privacy_classes))
+        )
         print(f"generated {output_path.relative_to(ROOT)}")
     return 0
 
@@ -255,7 +268,20 @@ def validate_privacy_classes(privacy_classes: object, errors: list[str]) -> set[
             errors.append(f"duplicate privacy_class: {value}")
         if value in INVALID_PRIVACY_CLASSES or value.startswith("depends_on_"):
             errors.append(f"privacy_class {value} is an invalid placeholder")
+        for key in ["decision_id", "plain_description", "handling_notes"]:
+            if not str(item.get(key, "")).strip():
+                errors.append(f"privacy_class {value} missing {key}")
+        if item.get("decision_id") != "DEC-019-closed-privacy-classes":
+            errors.append(f"privacy_class {value} must cite DEC-019-closed-privacy-classes")
         allowed.add(value)
+    expected = set(CLOSED_PRIVACY_CLASSES)
+    if allowed != expected:
+        missing = sorted(expected - allowed)
+        extra = sorted(allowed - expected)
+        errors.append(
+            "privacy_classes must exactly match DEC-019 closed list "
+            f"(missing={missing}, extra={extra})"
+        )
     return allowed
 
 
@@ -274,11 +300,16 @@ def validate_privacy_class(
         errors.append(f"{label} uses privacy_class outside closed list: {value}")
 
 
-def check_projection_drift(objects: list[dict], projections: list[dict], shared_enums: list[dict]) -> int:
+def check_projection_drift(
+    objects: list[dict],
+    projections: list[dict],
+    shared_enums: list[dict],
+    privacy_classes: list[dict],
+) -> int:
     drift: list[str] = []
     for projection in projections:
         output_path = ROOT / projection["path"]
-        expected = render_dictionary(project_dictionary(objects, projection, shared_enums))
+        expected = render_dictionary(project_dictionary(objects, projection, shared_enums, privacy_classes))
         if not output_path.exists():
             drift.append(f"missing generated dictionary: {projection['path']}")
             continue
@@ -307,7 +338,12 @@ def render_dictionary(dictionary: dict) -> str:
     return json.dumps(dictionary, indent=2) + "\n"
 
 
-def project_dictionary(objects: list[dict], projection: dict, shared_enums: list[dict] | None = None) -> dict:
+def project_dictionary(
+    objects: list[dict],
+    projection: dict,
+    shared_enums: list[dict] | None = None,
+    privacy_classes: list[dict] | None = None,
+) -> dict:
     spec_key = projection["spec_key"]
     projected_objects = []
     for obj in objects:
@@ -331,6 +367,8 @@ def project_dictionary(objects: list[dict], projection: dict, shared_enums: list
     header = projection["dictionary_header"]
     for key in projection["dictionary_key_order"]:
         if key == "objects":
+            if privacy_classes is not None:
+                dictionary["privacy_classes"] = copy.deepcopy(privacy_classes)
             if shared_enums is not None:
                 dictionary["shared_enums"] = project_shared_enums(projected_objects, shared_enums)
             dictionary[key] = projected_objects

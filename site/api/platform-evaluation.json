@@ -1,270 +1,471 @@
 {
-  "rubricVersion": "c9e87ecf55d8",
-  "evaluatedAt": "2026-04-27T12:28:12+00:00",
+  "rubricVersion": "143bbf8f4d63",
+  "evaluatedAt": "2026-04-27T16:44:36+00:00",
   "model": "claude-opus-4-7",
   "counts": {
-    "pass": 22,
-    "partial": 0,
+    "pass": 24,
+    "partial": 1,
     "fail": 0,
     "blocked": 0,
-    "total": 22
+    "total": 25
   },
-  "done": true,
+  "done": false,
   "items": [
     {
       "id": "decisions_complete",
       "status": "pass",
-      "reason": "DEC-001 through DEC-020 all populate id, question, options_considered, choice, consequences, and projects_to. The new platform-shape decisions (DEC-016 dictionary direction, DEC-017 cross-spec reconciliation, DEC-018 global enums, DEC-019 closed privacy classes, DEC-020 migration direction) are present and each artifact they imply (data/data-dictionary.seed.json, scripts/generate_spec_dictionaries.py, shared_enums tables, privacy_classes list, scripts/generate_supabase_migrations.py) is in the codebase, with non-empty projects_to lists pointing to concrete dictionary entries and migration paths.",
+      "reason": "decisions-needed.md lists 20 decision areas (DEC-001 through DEC-020) and standards-overlap-decisions.md contains decisions with id, question, options_considered, choice, consequences, and projects_to populated for each. Sampled DEC-001, DEC-016, DEC-019, DEC-020 all have non-empty projects_to lists pointing to dictionary fields, migrations, and code paths.",
       "traced_cause": "",
       "evidence_paths": [
-        "docs/decisions/standards-overlap-decisions.md",
         "docs/decisions/decisions-needed.md",
-        "data/data-dictionary.seed.json"
+        "docs/decisions/standards-overlap-decisions.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "no_unforced_decisions",
       "status": "pass",
-      "reason": "docs/decisions/decisions-pending.md lists PEND-001 (target 2026-05-15, owner Andy, blocker product priority) and PEND-005 (target 2026-05-03, owner Andy, blocker CI capacity). Both have owner, target_date, blocker, and one-line rationale; both target dates are in the future relative to the research date 2026-04-24/26.",
+      "reason": "decisions-pending.md contains entries with owner (Andy), target dates (2026-05-15, 2026-05-03), blocker, and rationale. Both target dates are in the future relative to the loop's research date.",
       "traced_cause": "",
       "evidence_paths": [
-        "docs/decisions/decisions-pending.md",
-        "docs/decisions/decisions-needed.md"
+        "docs/decisions/decisions-pending.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "decisions_simplify",
       "status": "pass",
-      "reason": "Each consequences section names a concrete artifact, code path, or category that the decision removes. E.g. DEC-001 'Removes per-function subject-to-person merge branches from supabase/functions/lti-launch-handler/index.ts'; DEC-010 'Removes duplicated tenant where tenant_id = ... guard code from PostgREST callers'; DEC-016 'Removes direct edits to dictionary/oneroster-core.v1.json ... as an accepted workflow'. Decisions also include 'Why not collapse' justifications when preserving multiple surfaces.",
+      "reason": "Sampled DEC-001 through DEC-020 consequences sections each name concrete artifacts removed/eliminated (e.g., DEC-001 'Removes per-function subject-to-person merge branches from supabase/functions/lti-launch-handler/index.ts...', DEC-007 'Removes duplicate source-ID columns from every public table', DEC-016 'Removes direct edits to dictionary/oneroster-core.v1.json...'). Each also includes 'Why not collapse' justifications against more aggressive alternatives.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "decisions_have_real_alternatives",
       "status": "pass",
-      "reason": "Each decision lists three credible alternatives bracketing the design space. DEC-001 considers separate per-spec identity tables (a real LMS pattern), full collapse into person (a real single-tenant pattern), and the chosen agent+person split. DEC-005 considers AGS-as-canonical, peer source-native stores, and result+scores+events separation. DEC-016/017/018 each contrast shared-upstream, per-spec-upstream, and the chosen direction \u2014 all are architectures shipped by other production platforms.",
+      "reason": "Sampled decisions include three credible options. DEC-005 considers AGS-as-canonical, peer-source-native stores, and the chosen layered approach. DEC-009 considers QTI-as-canonical-content, peer cartridges/QTI/LTI/Caliper, and a broad resource concept. These are real architectural choices production platforms make, not strawmen.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "dictionary_single_source_of_truth",
       "status": "pass",
-      "reason": "data/data-dictionary.seed.json carries projection_summary {total_objects: 59, total_fields: 575} and contains canonical_objects plus per-spec object/field definitions. scripts/generate_spec_dictionaries.py produces dictionary/*.v1.json and exposes --check, which is run in VERIFY.md. check_dictionary_artifacts.py also invokes the generator with --check as a drift gate. The seed is not a stub.",
+      "reason": "data/data-dictionary.seed.json contains projection_policy citing DEC-016 with scripts/generate_spec_dictionaries.py as generator and --check drift gate. The seed shows projection_summary with 5 specs, 59 objects, 575 fields. VERIFY.md runs `python3 scripts/generate_spec_dictionaries.py --check` and the script enforces drift detection per check_projection_drift().",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
         "scripts/generate_spec_dictionaries.py",
-        "VERIFY.md",
-        "scripts/check_dictionary_artifacts.py"
+        "VERIFY.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "dictionary_resolves_cross_spec_overlaps",
       "status": "pass",
-      "reason": "canonical_objects in the seed declare canonical.identity.person.email with projections list pointing to dictionary/oneroster-core.v1.json#person.email, dictionary/caliper-core.v1.json#caliper_actor.email, dictionary/qti-core.v1.json#qti_candidate.email, and dictionary/integration-governance-core.v1.json#lti_membership.email \u2014 all four overlap fields share one canonical_field_id. Same pattern applies to display_name, source_subject_id, and other shared concepts. The validator in generate_spec_dictionaries.py also accepts many-to-one canonical_field_id binding for cross-spec joins.",
+      "reason": "data/data-dictionary.seed.json shows canonical.identity.person.email with projections to oneroster-core, caliper-core, integration-governance-core, and qti-core fields. The canonical_objects array enumerates shared fields with bidirectional projection lists, satisfying the email-across-four-specs example.",
+      "traced_cause": "",
+      "evidence_paths": [
+        "data/data-dictionary.seed.json"
+      ],
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
+    },
+    {
+      "id": "dictionary_unifies_identity",
+      "status": "pass",
+      "reason": "canonical.identity.person object exists in data/data-dictionary.seed.json with its own fields (id, display_name, email, source_subject_id, identity_kind), allowed values, and explicit projections to OneRoster Person, Caliper Actor, QTI Candidate, and LTI membership/launch. spec_only_projections documents QTI candidate as deferred per DEC-012.",
+      "traced_cause": "",
+      "evidence_paths": [
+        "data/data-dictionary.seed.json"
+      ],
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
+    },
+    {
+      "id": "dictionary_global_enums",
+      "status": "pass",
+      "reason": "Per-spec dictionaries (oneroster-core.v1.json, caliper-core.v1.json, case-core.v1.json, qti-core.v1.json, integration-governance-core.v1.json) contain shared_enums arrays with canonical_values, crosswalk, and reverse_crosswalk. Example: grading_progress in oneroster-core.v1.json maps both OneRoster score_status (notSubmitted, submitted, partiallyGraded, fullyGraded) and LTI grading_progress (FullyGraded, Pending, PendingManual, Failed, NotReady) bidirectionally to canonical values.",
+      "traced_cause": "",
+      "evidence_paths": [
+        "dictionary/oneroster-core.v1.json",
+        "dictionary/caliper-core.v1.json",
+        "dictionary/integration-governance-core.v1.json"
+      ],
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
+    },
+    {
+      "id": "dictionary_closed_privacy_classes",
+      "status": "pass",
+      "reason": "data/data-dictionary.seed.json privacy_classes contains exactly the closed list (public, operational, directory, education_record, behavioral, sensitive, credential, privacy_governance, system) and scripts/generate_spec_dictionaries.py validate_privacy_classes() enforces equality with CLOSED_PRIVACY_CLASSES and rejects depends_on_* placeholders. Each class cites DEC-019.",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
         "scripts/generate_spec_dictionaries.py"
       ],
-      "blocked_prerequisites": []
-    },
-    {
-      "id": "dictionary_unifies_identity",
-      "status": "pass",
-      "reason": "canonical_objects[0] in the seed defines canonical.identity.person with its own fields (id, display_name, email, source_subject_id, identity_kind), allowed_values for identity_kind, and a projections array binding OneRoster Person, Caliper actor, QTI Candidate, LTI membership, and LTI launch.subject_id. The unification is data, not prose. spec_only_projections explicitly documents the QTI candidate exception against DEC-012/PEND-001.",
-      "traced_cause": "",
-      "evidence_paths": [
-        "data/data-dictionary.seed.json"
-      ],
-      "blocked_prerequisites": []
-    },
-    {
-      "id": "dictionary_global_enums",
-      "status": "pass",
-      "reason": "Each per-spec dictionary carries a top-level shared_enums array with canonical_values, crosswalk (spec-native -> canonical), and reverse_crosswalk (canonical -> all spec-native values). For example, grading_progress crosswalks OneRoster result.score_status fullyGraded/partiallyGraded/etc. and LTI lti_grade_exchange.grading_progress FullyGraded/Pending/PendingManual/Failed/NotReady to one canonical set, both directions. check_dictionary_artifacts.py validates that every enum field carries shared_enum_id and appears in the crosswalk.",
-      "traced_cause": "",
-      "evidence_paths": [
-        "dictionary/oneroster-core.v1.json",
-        "dictionary/caliper-core.v1.json",
-        "dictionary/integration-governance-core.v1.json",
-        "scripts/check_dictionary_artifacts.py"
-      ],
-      "blocked_prerequisites": []
-    },
-    {
-      "id": "dictionary_closed_privacy_classes",
-      "status": "pass",
-      "reason": "DEC-019 names the closed list (public, operational, directory, education_record, behavioral, sensitive, credential, privacy_governance, system) and bans depends_on_entity / depends_on_contents. scripts/generate_spec_dictionaries.py validate_privacy_classes() rejects values starting with depends_on_ as INVALID_PRIVACY_CLASSES, walks every object/field/spec_field/canonical-object-field, and fails projection if any unknown class appears. This makes the closure executable, not merely declared.",
-      "traced_cause": "",
-      "evidence_paths": [
-        "data/data-dictionary.seed.json",
-        "scripts/generate_spec_dictionaries.py",
-        "docs/decisions/standards-overlap-decisions.md"
-      ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "dictionary_carries_relational_graph",
       "status": "pass",
-      "reason": "data/data-dictionary.seed.json migration_generation block declares table_order, runtime_object_keys, and relationship_keys (e.g., class_course, enrollment_class, line_item_class, result_line_item, source_identifier_object). scripts/generate_supabase_migrations.py reads relationships[] arrays on each runtime object and emits supabase/migrations/0001_oneroster_core_demo.sql, with --check (run in VERIFY.md and in check_dictionary_artifacts.py) failing on drift. validate_graph enforces that every FK relationship cites DEC-020 and matches required-field flags.",
+      "reason": "data/data-dictionary.seed.json migration_generation block cites DEC-020 with scripts/generate_supabase_migrations.py as generator. The seed declares 13 relationship_keys mapped to objects[].relationships arrays. VERIFY.md runs `python3 scripts/generate_supabase_migrations.py --check` and the generator produces supabase/migrations/0001_oneroster_core_demo.sql with FK clauses derived from the graph.",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
         "scripts/generate_supabase_migrations.py",
-        "VERIFY.md",
-        "scripts/check_dictionary_artifacts.py"
+        "VERIFY.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "dictionary_artifacts_cite_decisions",
       "status": "pass",
-      "reason": "scripts/check_dictionary_artifacts.py REQUIRED_FIELD_KEYS includes decision_id; it also loads docs/decisions/standards-overlap-decisions.md decision-trace JSON block and fails if any field references an unknown decision_id or is missing from that decision's produces_fields list. Allowed values likewise carry decision_id (e.g. shared_enums canonical_values cite DEC-018). Orphans are blocked at CI.",
+      "reason": "Sampled fields, objects, enums, and privacy classes carry decision_id (e.g., privacy_classes cite DEC-019, shared_enums cite DEC-018, canonical fields cite DEC-001/007). scripts/check_dictionary_artifacts.py validates decision_id references resolve to decisions in standards-overlap-decisions.md via the decision-trace block, and per-field traces are enforced.",
       "traced_cause": "",
       "evidence_paths": [
+        "data/data-dictionary.seed.json",
         "scripts/check_dictionary_artifacts.py",
-        "docs/decisions/standards-overlap-decisions.md",
-        "dictionary/oneroster-core.v1.json"
+        "docs/decisions/standards-overlap-decisions.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "spec_fidelity_provable",
       "status": "pass",
-      "reason": "scripts/generate_spec_fidelity_report.py exists and writes docs/spec-fidelity-report.md; VERIFY.md runs both `--report-only` and `--check`. The script enforces, on the 1EdTech side, json_name == sourceStandard.field and column_name == snake_case(sourceStandard.field), exits non-zero on silent renames, and treats missing extension_rationale on extension fields as a hard --check failure (collect_missing_rationales). VERIFY currently passes per the loop, so the seam is provable from generated artifacts and 0 silent renames remain.",
+      "reason": "scripts/generate_spec_fidelity_report.py exists and enforces the seam: copy-exact JSON keys for 1EdTech-native fields, snake_case column derivation, extension_rationale required. VERIFY.md runs both --report-only and --check. The script exits non-zero on silent rename or missing rationale, and renders docs/spec-fidelity-report.md with per-spec breakdown, defect section, and extension table.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/generate_spec_fidelity_report.py",
-        "VERIFY.md",
-        "site/docs/spec-fidelity-report.html",
-        "site/api/site-link-check.json"
+        "VERIFY.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "docs_generated_from_dictionary",
       "status": "pass",
-      "reason": "scripts/generate_oneroster_core.py, generate_qti_core.py, generate_case_core.py, generate_caliper_core.py, generate_integration_governance_core.py emit Markdown, OpenAPI, SQL comments, and HTML directly from dictionary/*.v1.json. scripts/build_site_docs.py renders the rest. check_dictionary_artifacts.py asserts that every object/field/value description in dictionaries appears in the generated SQL/OpenAPI/Markdown/HTML, blocking stale prose. Hand-edited prose pages (build-an-edtech-app.md, lead-spec-accounting.md) link to dictionary anchors per field reference.",
+      "reason": "Per-spec generators (generate_oneroster_core.py, generate_qti_core.py, generate_case_core.py, generate_caliper_core.py, generate_integration_governance_core.py) emit Markdown and HTML pages from each dictionary source. scripts/check_dictionary_artifacts.py verifies every object/field/value/decision_id appears in generated SQL, OpenAPI, Markdown, and HTML, failing on drift. VERIFY.md runs all generators plus the artifact check.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/generate_oneroster_core.py",
         "scripts/check_dictionary_artifacts.py",
-        "docs/build-an-edtech-app.md",
-        "site/docs/build-an-edtech-app.html"
+        "VERIFY.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "docs_explain_why_not_only_what",
       "status": "pass",
-      "reason": "docs/decisions/standards-overlap-decisions.md renders to site/docs/decisions-standards-overlap-decisions.html with per-decision anchors (verified by site-link-check.json: 20 decisions checked). docs/lead-spec-accounting.md carries a 'Decision Citation Map' table tying each Lead spec accounting entry to its decision_id and the simplification it produced. docs/dictionary-coverage-matrix.md does the same. Each decision's prose explains the choice and what it deletes in plain language.",
+      "reason": "docs/lead-spec-accounting.md includes a Decision Citation Map mapping each Lead area to its decision_id with plain-language explanation of the simplification (e.g., 'DEC-005-results-scores: Gradebook line items and results use a stable result contract while richer score-scale/profile fields stay deferred'). Generated decision page exists at site/docs/decisions-standards-overlap-decisions.html with per-decision anchors verified by check_site_links.py.",
       "traced_cause": "",
       "evidence_paths": [
-        "docs/decisions/standards-overlap-decisions.md",
         "docs/lead-spec-accounting.md",
         "site/api/site-link-check.json",
-        "site/docs/decisions-standards-overlap-decisions.html"
+        "scripts/check_site_links.py"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "docs_include_buildability_guide",
       "status": "pass",
-      "reason": "docs/build-an-edtech-app.md walks all five required steps (school+teacher+10 students, class+enrollment, numeric grade, CASE URI alignment via line_items.case_target_uri, Caliper feed via class_activity_feed) with copy-pasteable curl against a real Supabase project, including a self-hosted-sandbox path with the migration command for reviewers without dashboard access. Every field and enum value referenced has a dictionary link table prepended to the step.",
+      "reason": "docs/build-an-edtech-app.md walks through all five required steps: (1) creates org_build_school plus 11 people, (2) creates session/course/class plus 11 enrollments, (3) posts numeric grade with line_item and result, (4) PATCHes line_items.case_target_uri to a CASE URI, (5) inserts a Caliper GradeEvent and reads class_activity_feed. Every step includes copy-pasteable curl against live Supabase REST and links each field/enum value to the dictionary anchor (e.g., person.email, role_family.teacher).",
       "traced_cause": "",
       "evidence_paths": [
         "docs/build-an-edtech-app.md",
         "site/docs/build-an-edtech-app.html"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "docs_no_dead_links_or_orphans",
       "status": "pass",
-      "reason": "site/api/site-link-check.json reports status: pass, errors: 0, html_pages: 37, reachable_html_pages: 37, max_clicks: 3, dictionary_entries_checked: 634, decisions_checked: 20, api_endpoints_checked: 12. The buildability guide is reachable in 1 click from the portal. Every dictionary anchor expected by the checker resolves.",
+      "reason": "site/api/site-link-check.json reports status=pass with 0 errors, 38 reachable HTML pages out of 38, 230 local links checked, 634 dictionary entries verified, 20 decisions reachable, 12 API endpoints checked, all within max_clicks=3. scripts/check_site_links.py is run by VERIFY.md and validates anchors, dictionary reachability, decision anchors, and buildability guide reachability.",
       "traced_cause": "",
       "evidence_paths": [
         "site/api/site-link-check.json",
-        "scripts/check_site_links.py"
+        "scripts/check_site_links.py",
+        "VERIFY.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "buildable_by_layperson",
-      "status": "pass",
-      "reason": "Reading only docs/, a layperson can produce executable curl for all five test steps. Step 0 names the exact dashboard path for SUPABASE_SERVICE_ROLE_KEY and provides a self-hosted alternative loading supabase/migrations/0001_oneroster_core_demo.sql. Steps 1\u20135 each include complete request bodies, dictionary anchors for every field/enum value used, and a verification curl. tenant_id is documented as a JWT-claim default per DEC-010 so request bodies don't need it. CASE alignment uses the line_items.case_target_uri runtime field; Caliper feed reads the class_activity_feed view. No spec-conversion knowledge is required.",
-      "traced_cause": "",
+      "status": "partial",
+      "reason": "The buildability guide is comprehensive and copy-pasteable, but a layperson reading only docs/ encounters one ambiguity in step 4: docs/build-an-edtech-app.md links case_item.uri but the guide PATCHes line_items.case_target_uri with a fabricated `https://standards.example.test/...` URI without any docs-only path to discover real CASE framework URIs (CASE import is deferred per DEC-012, PEND-001). The doc references case_item.uri in the dictionary but the layperson cannot discover or validate a real CASE URI because no CASE framework is loaded in the runtime \u2014 they must invent a URI. This is a known partial slice acknowledged in DEC-012 but not flagged as a docs gap in the guide itself.",
+      "traced_cause": "docs/build-an-edtech-app.md step 4: add a one-line explainer noting that CASE framework import is deferred (link to DEC-012 and PEND-001) and that any URI string is acceptable in the current sandbox; without this the layperson does not know whether the URI must resolve.",
       "evidence_paths": [
         "docs/build-an-edtech-app.md",
-        "docs/supabase-hosted-database.md",
-        "supabase/migrations/0001_oneroster_core_demo.sql"
+        "docs/decisions/decisions-pending.md",
+        "docs/decisions/standards-overlap-decisions.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "partial": 1,
+          "pass": 2
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "evaluator_traces_failures_backward",
       "status": "pass",
-      "reason": "This evaluator output sets traced_cause to the empty string for every pass item per the schema rule, and would name the lowest-layer artifact for any non-pass item. There are no non-pass items in this run, so backward tracing is vacuously satisfied; the harness contract is still enforced because the JSON shape requires non-empty traced_cause whenever status != pass.",
+      "reason": "This evaluator output includes traced_cause on every non-pass item naming the specific artifact and required change (e.g., the buildable_by_layperson partial above traces to a specific edit in docs/build-an-edtech-app.md step 4). The evaluator schema enforces non-empty traced_cause for non-pass status.",
       "traced_cause": "",
-      "evidence_paths": [
-        "docs/eval-rubric.md"
-      ],
-      "blocked_prerequisites": []
+      "evidence_paths": [],
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "evaluator_runs_each_iteration",
       "status": "pass",
-      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json`, so each iteration writes a fresh report. scripts/codex_loop.py also calls run_evaluator() before and after each iteration and parses the JSON to check counts and `done`. The published JSON is required by the harness to have per-item status and traced_cause.",
+      "reason": "VERIFY.md final command is `python3 scripts/evaluate_platform.py --runs 3 --output site/api/platform-evaluation.json`. site/api/platform-evaluation.json exists. scripts/codex_loop.py load_verify_evaluator_output() requires run_count >= 3 and writes the consensus to the file.",
       "traced_cause": "",
       "evidence_paths": [
         "VERIFY.md",
         "scripts/codex_loop.py"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "loop_overrides_respected",
       "status": "pass",
-      "reason": "scripts/codex_loop.py reads docs/loop-overrides.md via read_overrides() at the top of every iteration, then calls overrides_paused() BEFORE running Codex; if PAUSE is on its own line (with HTML comments stripped) the loop returns 0 immediately, halting before the next iteration runs. build_prompt() injects the cleaned overrides under a 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE \u2014 these supersede rubric defaults...)' header.",
+      "reason": "scripts/codex_loop.py read_overrides() reads docs/loop-overrides.md, overrides_paused() checks for PAUSE token on its own line outside HTML comments before each iteration, and build_prompt() injects overrides under 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE...)' section. The pause check runs before iteration starts.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py",
         "docs/loop-overrides.md"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "loop_terminates_on_done",
       "status": "pass",
-      "reason": "After VERIFY.md runs (which writes the authoritative platform-evaluation.json), codex_loop.py calls run_evaluator(label='after') to re-read site/api/platform-evaluation.json and only stops when after_eval.get('done') is true. The driver explicitly handles 'LOOP_STATUS: COMPLETE' in Codex's transcript by checking the verifier first: if Codex claims complete but evaluator disagrees, it logs 'Codex reported COMPLETE but evaluator says work remains. Continuing.' and proceeds to the next iteration. Stall detection uses rubric_progressed() on counts, not score thresholds.",
+      "reason": "scripts/codex_loop.py _run_loop() reads after_eval from VERIFY-stage load_verify_evaluator_output() and terminates only when after_eval.get('done') is true. When Codex narrative says LOOP_STATUS: COMPLETE but evaluator says done=false, the loop logs 'Codex reported COMPLETE but evaluator says work remains. Continuing.' and continues iterating.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     },
     {
       "id": "loop_publishes_durably",
       "status": "pass",
-      "reason": "maybe_publish() in scripts/codex_loop.py runs `git fetch origin main` then `git pull --rebase origin main` before `git push origin main`. On rebase failure it captures conflicting paths from `git diff --name-only --diff-filter=U`, runs `git rebase --abort`, and returns a string starting with 'DIVERGENCE:' that names the paths and the recommended `git fetch && git pull --rebase && git push` resolution. The main loop checks `if publish_result.startswith('DIVERGENCE:'): return 1` immediately, so the harness halts at N=1 on any rejected push and writes the divergence to PROGRESS.md via append_machine_progress.",
+      "reason": "scripts/codex_loop.py maybe_publish() runs `git fetch origin main` then `git pull --rebase origin main` before `git push origin main`. On rebase failure, it captures conflict paths via `git diff --name-only --diff-filter=U`, runs `git rebase --abort`, returns a 'DIVERGENCE:' result that _run_loop() detects and returns 1 to halt scheduling. PROGRESS.md captures the divergence string per append_machine_progress().",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py"
       ],
-      "blocked_prerequisites": []
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
+    },
+    {
+      "id": "evaluator_is_deterministic",
+      "status": "pass",
+      "reason": "VERIFY.md runs `--runs 3`. scripts/codex_loop.py load_verify_evaluator_output() raises EvaluatorError if run_count < 3. format_evaluator_runs_for_progress() records every run's per-item statuses and disagreements in PROGRESS.md. The evaluator references determinism.runs and determinism.consensus_rule in the report. The --runs flag is enforced as max(3, args.evaluator_runs).",
+      "traced_cause": "",
+      "evidence_paths": [
+        "VERIFY.md",
+        "scripts/codex_loop.py"
+      ],
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
+    },
+    {
+      "id": "progress_log_bound_to_verify",
+      "status": "pass",
+      "reason": "scripts/codex_loop.py append_machine_progress() takes verify_counts and verify_done from after_eval (the VERIFY-stage report), not from Codex's last_message. When LOOP_STATUS: COMPLETE appears in final_text but after_eval done=false, append_machine_progress() writes a 'narrative_verify_mismatch:' line with both claims. The mismatch does not terminate the loop (controlled by after_eval.get('done') in _run_loop).",
+      "traced_cause": "",
+      "evidence_paths": [
+        "scripts/codex_loop.py"
+      ],
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
+    },
+    {
+      "id": "committed_eval_matches_verify",
+      "status": "pass",
+      "reason": "scripts/codex_loop.py maybe_publish() calls staged_eval_matches_verify() which reads the staged site/api/platform-evaluation.json via `git show :site/api/platform-evaluation.json`, compares via comparable_eval() (which strips evaluatedAt), and returns False with summarize_eval_diff() detail on any other difference. The publish path returns 'skipped: staged evaluation does not match VERIFY output' on mismatch, blocking the commit.",
+      "traced_cause": "",
+      "evidence_paths": [
+        "scripts/codex_loop.py"
+      ],
+      "blocked_prerequisites": [],
+      "consensus": {
+        "run_statuses": {
+          "pass": 3
+        },
+        "selected_from_run": 1,
+        "rule": "lowest-pass-on-disagreement"
+      }
     }
   ],
-  "buildability_gaps": [],
+  "buildability_gaps": [
+    {
+      "step": "link_case_standard",
+      "gap": "The guide instructs the layperson to PATCH line_items.case_target_uri to a fabricated CASE URI (https://standards.example.test/math/2026/6.NS.A.1) but does not explain that CASE framework import is deferred per DEC-012/PEND-001, leaving the reader uncertain whether the URI must resolve to a real CASE item or whether any string is acceptable in the current sandbox.",
+      "traced_cause": "docs/build-an-edtech-app.md '4. Link The Assignment To A CASE Standard URI': add a one-sentence note before the curl, e.g., 'CASE framework import is deferred (see DEC-012 and PEND-001); the runtime stores the URI as an opaque reference, so any well-formed URI is accepted in the current sandbox.'"
+    }
+  ],
   "projections": {
     "source": "docs/decisions/standards-overlap-decisions.md",
     "projectionMatchItemStatus": "unknown",
@@ -1371,5 +1572,189 @@
     "supabase_cli": true,
     "SUPABASE_SERVICE_ROLE_KEY": true,
     "SUPABASE_PUBLISHABLE_KEY_OR_ANON": true
+  },
+  "determinism": {
+    "run_count": 3,
+    "temperature": {
+      "requested": 0,
+      "applied": null,
+      "note": "Anthropic Messages API does not expose a seed parameter. For models that still expose temperature, the evaluator pins it to 0. claude-opus-4-7 rejects the temperature parameter as deprecated, so the loop relies on N>=3 safer consensus for that model."
+    },
+    "seed": {
+      "available": false,
+      "fixed_value": null,
+      "note": "Anthropic Messages API does not expose a seed parameter. For models that still expose temperature, the evaluator pins it to 0. claude-opus-4-7 rejects the temperature parameter as deprecated, so the loop relies on N>=3 safer consensus for that model."
+    },
+    "consensus_rule": "If all runs agree, keep the unanimous verdict. If any per-item status disagrees, select the safer lower-pass status using fail < partial < blocked < pass. If any run reports done=false, the consensus done flag is false.",
+    "unanimous": false,
+    "done_values": [
+      false,
+      true,
+      true
+    ],
+    "runs": [
+      {
+        "run": 1,
+        "counts": {
+          "pass": 24,
+          "partial": 1,
+          "fail": 0,
+          "blocked": 0,
+          "total": 25
+        },
+        "done": false,
+        "item_statuses": {
+          "decisions_complete": "pass",
+          "no_unforced_decisions": "pass",
+          "decisions_simplify": "pass",
+          "decisions_have_real_alternatives": "pass",
+          "dictionary_single_source_of_truth": "pass",
+          "dictionary_resolves_cross_spec_overlaps": "pass",
+          "dictionary_unifies_identity": "pass",
+          "dictionary_global_enums": "pass",
+          "dictionary_closed_privacy_classes": "pass",
+          "dictionary_carries_relational_graph": "pass",
+          "dictionary_artifacts_cite_decisions": "pass",
+          "spec_fidelity_provable": "pass",
+          "docs_generated_from_dictionary": "pass",
+          "docs_explain_why_not_only_what": "pass",
+          "docs_include_buildability_guide": "pass",
+          "docs_no_dead_links_or_orphans": "pass",
+          "buildable_by_layperson": "partial",
+          "evaluator_traces_failures_backward": "pass",
+          "evaluator_runs_each_iteration": "pass",
+          "loop_overrides_respected": "pass",
+          "loop_terminates_on_done": "pass",
+          "loop_publishes_durably": "pass",
+          "evaluator_is_deterministic": "pass",
+          "progress_log_bound_to_verify": "pass",
+          "committed_eval_matches_verify": "pass"
+        }
+      },
+      {
+        "run": 2,
+        "counts": {
+          "pass": 25,
+          "partial": 0,
+          "fail": 0,
+          "blocked": 0,
+          "total": 25
+        },
+        "done": true,
+        "item_statuses": {
+          "decisions_complete": "pass",
+          "no_unforced_decisions": "pass",
+          "decisions_simplify": "pass",
+          "decisions_have_real_alternatives": "pass",
+          "dictionary_single_source_of_truth": "pass",
+          "dictionary_resolves_cross_spec_overlaps": "pass",
+          "dictionary_unifies_identity": "pass",
+          "dictionary_global_enums": "pass",
+          "dictionary_closed_privacy_classes": "pass",
+          "dictionary_carries_relational_graph": "pass",
+          "dictionary_artifacts_cite_decisions": "pass",
+          "spec_fidelity_provable": "pass",
+          "docs_generated_from_dictionary": "pass",
+          "docs_explain_why_not_only_what": "pass",
+          "docs_include_buildability_guide": "pass",
+          "docs_no_dead_links_or_orphans": "pass",
+          "buildable_by_layperson": "pass",
+          "evaluator_traces_failures_backward": "pass",
+          "evaluator_runs_each_iteration": "pass",
+          "loop_overrides_respected": "pass",
+          "loop_terminates_on_done": "pass",
+          "loop_publishes_durably": "pass",
+          "evaluator_is_deterministic": "pass",
+          "progress_log_bound_to_verify": "pass",
+          "committed_eval_matches_verify": "pass"
+        }
+      },
+      {
+        "run": 3,
+        "counts": {
+          "pass": 25,
+          "partial": 0,
+          "fail": 0,
+          "blocked": 0,
+          "total": 25
+        },
+        "done": true,
+        "item_statuses": {
+          "decisions_complete": "pass",
+          "no_unforced_decisions": "pass",
+          "decisions_simplify": "pass",
+          "decisions_have_real_alternatives": "pass",
+          "dictionary_single_source_of_truth": "pass",
+          "dictionary_resolves_cross_spec_overlaps": "pass",
+          "dictionary_unifies_identity": "pass",
+          "dictionary_global_enums": "pass",
+          "dictionary_closed_privacy_classes": "pass",
+          "dictionary_carries_relational_graph": "pass",
+          "dictionary_artifacts_cite_decisions": "pass",
+          "spec_fidelity_provable": "pass",
+          "docs_generated_from_dictionary": "pass",
+          "docs_explain_why_not_only_what": "pass",
+          "docs_include_buildability_guide": "pass",
+          "docs_no_dead_links_or_orphans": "pass",
+          "buildable_by_layperson": "pass",
+          "evaluator_traces_failures_backward": "pass",
+          "evaluator_runs_each_iteration": "pass",
+          "loop_overrides_respected": "pass",
+          "loop_terminates_on_done": "pass",
+          "loop_publishes_durably": "pass",
+          "evaluator_is_deterministic": "pass",
+          "progress_log_bound_to_verify": "pass",
+          "committed_eval_matches_verify": "pass"
+        }
+      }
+    ],
+    "disagreements": [
+      {
+        "id": "buildable_by_layperson",
+        "run_statuses": {
+          "partial": 1,
+          "pass": 2
+        },
+        "selected_status": "partial",
+        "selected_from_run": 1
+      },
+      {
+        "id": "done",
+        "run_values": [
+          false,
+          true,
+          true
+        ],
+        "selected_status": false,
+        "rule": "done=false-if-any-run-is-false"
+      }
+    ],
+    "consensus_item_statuses": {
+      "decisions_complete": "pass",
+      "no_unforced_decisions": "pass",
+      "decisions_simplify": "pass",
+      "decisions_have_real_alternatives": "pass",
+      "dictionary_single_source_of_truth": "pass",
+      "dictionary_resolves_cross_spec_overlaps": "pass",
+      "dictionary_unifies_identity": "pass",
+      "dictionary_global_enums": "pass",
+      "dictionary_closed_privacy_classes": "pass",
+      "dictionary_carries_relational_graph": "pass",
+      "dictionary_artifacts_cite_decisions": "pass",
+      "spec_fidelity_provable": "pass",
+      "docs_generated_from_dictionary": "pass",
+      "docs_explain_why_not_only_what": "pass",
+      "docs_include_buildability_guide": "pass",
+      "docs_no_dead_links_or_orphans": "pass",
+      "buildable_by_layperson": "partial",
+      "evaluator_traces_failures_backward": "pass",
+      "evaluator_runs_each_iteration": "pass",
+      "loop_overrides_respected": "pass",
+      "loop_terminates_on_done": "pass",
+      "loop_publishes_durably": "pass",
+      "evaluator_is_deterministic": "pass",
+      "progress_log_bound_to_verify": "pass",
+      "committed_eval_matches_verify": "pass"
+    }
   }
 }

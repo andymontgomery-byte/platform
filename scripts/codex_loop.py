@@ -82,9 +82,15 @@ def _run_loop(args: argparse.Namespace, repo: Path) -> int:
         prompt_file.write_text(prompt)
 
         codex_result = run_codex(args, repo, prompt, codex_log, last_message)
+        verify_eval_mtime_before = EVAL_REPORT.stat().st_mtime if EVAL_REPORT.exists() else 0.0
         verify_result = run_verify(repo, verify_log, args.verify_command_timeout_minutes)
         after_score = spec_score(repo)
-        after_eval = run_evaluator(repo, args, label="after")
+        after_eval = load_verify_evaluator_output(
+            repo,
+            label="after",
+            min_mtime=verify_eval_mtime_before,
+            required=verify_result.returncode == 0,
+        )
         print(f"Advisory score after: {after_score:.2f}")
         if after_eval:
             print(f"Rubric counts after: {after_eval.get('counts')}")
@@ -141,6 +147,8 @@ def _run_loop(args: argparse.Namespace, repo: Path) -> int:
             after_score,
             judge_result,
             publish_result,
+            after_eval,
+            last_message,
         )
 
         if publish_result.startswith("DIVERGENCE:"):
@@ -223,7 +231,10 @@ def parse_args() -> argparse.Namespace:
         "--evaluator-thinking-budget",
         type=int,
         default=int(os.environ.get("CODEX_EVALUATOR_THINKING_BUDGET", "12000")),
-        help="Anthropic extended thinking budget for the platform evaluator.",
+        help=(
+            "Reserved evaluator thinking budget; deterministic evaluator requests "
+            "disable Anthropic thinking so temperature can be pinned to 0."
+        ),
     )
     parser.add_argument(
         "--evaluator-max-tokens",
@@ -235,6 +246,12 @@ def parse_args() -> argparse.Namespace:
         "--evaluator-model",
         default=os.environ.get("CODEX_EVALUATOR_MODEL", "claude-opus-4-7"),
         help="Anthropic model used for the platform evaluator.",
+    )
+    parser.add_argument(
+        "--evaluator-runs",
+        type=int,
+        default=int(os.environ.get("CODEX_EVALUATOR_RUNS", "3")),
+        help="Number of evaluator runs to combine into the VERIFY consensus. Minimum enforced: 3.",
     )
     parser.add_argument("--interval-minutes", type=float, default=0, help="Delay between iterations.")
     parser.add_argument("--codex-bin", default=os.environ.get("CODEX_BIN", "codex"), help="Codex executable.")
@@ -579,30 +596,88 @@ def append_machine_progress(
     after_score: float,
     judge_result: dict,
     publish_result: str,
+    after_eval: dict | None,
+    last_message: Path,
 ) -> None:
     status = "pass" if codex_result.returncode == 0 and verify_result.returncode == 0 else "fail"
-    entry = textwrap.dedent(
-        f"""
-
-        ## {timestamp()} Harness Iteration {iteration}
-
-        - Harness status: {status}
-        - Codex exit code: {codex_result.returncode}
-        - Verify exit code: {verify_result.returncode}
-        - Spec score before: {before_score:.2f}
-        - Spec score after: {after_score:.2f}
-        - LLM judge ok: {judge_result.get("ok")}
-        - LLM judge recommendation: {judge_result.get("publish_recommendation")}
-        - LLM judge score: {judge_result.get("score")}
-        - Publish result: {publish_result}
-        - Codex log: `{codex_log.relative_to(ROOT)}`
-        - Verify log: `{verify_log.relative_to(ROOT)}`
-        - Judge log: `{judge_log.relative_to(ROOT)}`
-        - Judge JSON: `{judge_json.relative_to(ROOT)}`
-        """
+    verify_counts = format_counts(after_eval.get("counts", {}) if after_eval else {})
+    verify_done = after_eval.get("done") if after_eval else "unavailable"
+    evaluator_progress = format_evaluator_runs_for_progress(after_eval)
+    final_text = last_message.read_text() if last_message.exists() else ""
+    lines = [
+        "",
+        f"## {timestamp()} Harness Iteration {iteration}",
+        "",
+        f"- Harness status: {status}",
+        f"- Codex exit code: {codex_result.returncode}",
+        f"- Verify exit code: {verify_result.returncode}",
+        f"- Spec score before: {before_score:.2f}",
+        f"- Spec score after: {after_score:.2f}",
+        f"- Verify evaluator counts: {verify_counts}",
+        f"- Verify evaluator done: {verify_done}",
+    ]
+    lines.extend(evaluator_progress.splitlines())
+    if "LOOP_STATUS: COMPLETE" in final_text and after_eval and not after_eval.get("done"):
+        lines.append(
+            f"- narrative_verify_mismatch: Codex claimed `LOOP_STATUS: COMPLETE`; "
+            f"VERIFY evaluator reported `done=false` with counts {verify_counts}."
+        )
+    lines.extend(
+        [
+            f"- LLM judge ok: {judge_result.get('ok')}",
+            f"- LLM judge recommendation: {judge_result.get('publish_recommendation')}",
+            f"- LLM judge score: {judge_result.get('score')}",
+            f"- Publish result: {publish_result}",
+            f"- Codex log: `{codex_log.relative_to(ROOT)}`",
+            f"- Verify log: `{verify_log.relative_to(ROOT)}`",
+            f"- Judge log: `{judge_log.relative_to(ROOT)}`",
+            f"- Judge JSON: `{judge_json.relative_to(ROOT)}`",
+        ]
     )
+    entry = "\n".join(lines) + "\n"
     with PROGRESS.open("a") as handle:
         handle.write(entry)
+
+
+def format_counts(counts: dict) -> str:
+    if not counts:
+        return "unavailable"
+    return (
+        f"pass={counts.get('pass', 0)} partial={counts.get('partial', 0)} "
+        f"fail={counts.get('fail', 0)} blocked={counts.get('blocked', 0)} "
+        f"total={counts.get('total', 0)}"
+    )
+
+
+def format_evaluator_runs_for_progress(eval_report: dict | None) -> str:
+    if not eval_report:
+        return "- Evaluator consensus: unavailable"
+    determinism = eval_report.get("determinism") or {}
+    runs = determinism.get("runs") if isinstance(determinism, dict) else None
+    if not isinstance(runs, list) or not runs:
+        return "- Evaluator consensus: unavailable"
+
+    lines = [
+        (
+            "- Evaluator consensus: "
+            f"runs={determinism.get('run_count', len(runs))}; "
+            f"unanimous={determinism.get('unanimous')}; "
+            f"rule={determinism.get('consensus_rule', 'unavailable')}"
+        )
+    ]
+    for run in runs:
+        statuses = run.get("item_statuses", {})
+        if isinstance(statuses, dict):
+            status_text = "; ".join(f"{key}={value}" for key, value in sorted(statuses.items()))
+        else:
+            status_text = "unavailable"
+        lines.append(
+            f"- Evaluator run {run.get('run')}: {format_counts(run.get('counts', {}))}; "
+            f"done={run.get('done')}; statuses: {status_text}"
+        )
+    disagreements = determinism.get("disagreements", [])
+    lines.append(f"- Evaluator disagreements: {json.dumps(disagreements, sort_keys=True)}")
+    return "\n".join(lines)
 
 
 def timestamp() -> str:
@@ -634,6 +709,8 @@ def run_evaluator(repo: Path, args: argparse.Namespace, label: str) -> dict | No
         str(args.evaluator_thinking_budget),
         "--max-tokens",
         str(args.evaluator_max_tokens),
+        "--runs",
+        str(max(3, args.evaluator_runs)),
         "--api-profile",
         args.judge_api_profile,
         "--api-key-env",
@@ -675,6 +752,43 @@ def run_evaluator(repo: Path, args: argparse.Namespace, label: str) -> dict | No
         raise EvaluatorError(
             f"[evaluator/{label}] could not read evaluation JSON: {e}"
         ) from e
+
+
+def load_verify_evaluator_output(
+    repo: Path,
+    *,
+    label: str,
+    min_mtime: float,
+    required: bool,
+) -> dict | None:
+    """Read the evaluator JSON produced by VERIFY.md, refusing stale output."""
+    target = repo / "site" / "api" / "platform-evaluation.json"
+    if not required:
+        print(f"[evaluator/{label}] VERIFY failed before a trusted evaluator report was required.")
+        return None
+    if not target.exists():
+        raise EvaluatorError(
+            f"[evaluator/{label}] VERIFY did not write {target.relative_to(repo)}."
+        )
+    if target.stat().st_mtime <= min_mtime:
+        raise EvaluatorError(
+            f"[evaluator/{label}] VERIFY did not refresh {target.relative_to(repo)} "
+            "(mtime unchanged). Refusing to trust stale evaluation."
+        )
+    try:
+        report = json.loads(target.read_text())
+    except (json.JSONDecodeError, OSError) as e:
+        raise EvaluatorError(
+            f"[evaluator/{label}] could not read VERIFY evaluation JSON: {e}"
+        ) from e
+    determinism = report.get("determinism") or {}
+    run_count = determinism.get("run_count", 0)
+    if run_count < 3:
+        raise EvaluatorError(
+            f"[evaluator/{label}] VERIFY evaluator consensus used {run_count} run(s); "
+            "the rubric requires at least 3."
+        )
+    return report
 
 
 def rubric_progressed(before: dict, after: dict) -> bool:
@@ -824,6 +938,10 @@ def maybe_publish(
         return "skipped: --no-commit"
 
     run_git(repo, ["add", "-A"])
+    if after_eval is not None:
+        eval_matches, eval_detail = staged_eval_matches_verify(repo, after_eval)
+        if not eval_matches:
+            return f"skipped: staged evaluation does not match VERIFY output: {eval_detail}"
     if rubric_progress:
         ac = (after_eval or {}).get("counts", {})
         commit_message = (
@@ -872,6 +990,61 @@ def maybe_publish(
     if push.returncode != 0:
         return f"commit succeeded, push failed: {push.stdout.strip()[-500:]}"
     return f"committed and pushed: {commit_message}"
+
+
+def staged_eval_matches_verify(repo: Path, verify_eval: dict) -> tuple[bool, str]:
+    """Compare staged platform-evaluation.json to VERIFY output, ignoring evaluatedAt."""
+    result = run_git(repo, ["show", ":site/api/platform-evaluation.json"], check=False)
+    if result.returncode != 0:
+        return False, "site/api/platform-evaluation.json is not staged"
+    try:
+        staged_eval = json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        return False, f"staged site/api/platform-evaluation.json is invalid JSON: {exc}"
+
+    staged = comparable_eval(staged_eval)
+    expected = comparable_eval(verify_eval)
+    if staged == expected:
+        return True, "matched"
+    return False, summarize_eval_diff(staged, expected)
+
+
+def comparable_eval(report: dict) -> dict:
+    comparable = json.loads(json.dumps(report))
+    comparable.pop("evaluatedAt", None)
+    return comparable
+
+
+def summarize_eval_diff(staged: dict, expected: dict) -> str:
+    details: list[str] = []
+    for key in ("rubricVersion", "model", "counts", "done", "buildability_gaps"):
+        if staged.get(key) != expected.get(key):
+            details.append(
+                f"{key}: staged={staged.get(key)!r} verify={expected.get(key)!r}"
+            )
+    staged_items = {
+        str(item.get("id")): item
+        for item in staged.get("items", [])
+        if isinstance(item, dict)
+    }
+    expected_items = {
+        str(item.get("id")): item
+        for item in expected.get("items", [])
+        if isinstance(item, dict)
+    }
+    for item_id in sorted(set(staged_items) | set(expected_items)):
+        staged_item = staged_items.get(item_id, {})
+        expected_item = expected_items.get(item_id, {})
+        if staged_item.get("status") != expected_item.get("status"):
+            details.append(
+                f"{item_id}.status: staged={staged_item.get('status')!r} "
+                f"verify={expected_item.get('status')!r}"
+            )
+        elif staged_item != expected_item:
+            details.append(f"{item_id}: staged item differs from VERIFY item")
+    if not details and staged != expected:
+        details.append("JSON differs outside summarized keys")
+    return "; ".join(details[:12])
 
 
 def maybe_run_llm_judge(

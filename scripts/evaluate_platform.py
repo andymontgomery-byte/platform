@@ -98,6 +98,13 @@ EVIDENCE_GLOBS = [
 MAX_EVIDENCE_FILES = 80
 MAX_FILE_BYTES = 45000  # keep the full decision register visible to the LLM
 MAX_TOTAL_EVIDENCE_BYTES = 800000  # ~200k tokens worst case
+DETERMINISTIC_TEMPERATURE = 0
+DETERMINISTIC_SEED_NOTE = (
+    "Anthropic Messages API does not expose a seed parameter. For models that "
+    "still expose temperature, the evaluator pins it to 0. claude-opus-4-7 "
+    "rejects the temperature parameter as deprecated, so the loop relies on "
+    "N>=3 safer consensus for that model."
+)
 
 # Prerequisite environment variables that flip runtime items to `blocked`
 # instead of `fail` when missing.
@@ -148,54 +155,27 @@ def main() -> int:
         )
         return 3
 
-    verdicts, buildability_gaps = call_evaluator(
-        api_key=api_key,
-        model=args.model,
-        thinking_budget=args.thinking_budget,
-        max_tokens=args.max_tokens,
-        api_version=args.api_version,
-        items=items,
-        evidence=evidence,
-        advisory=advisory,
-        prereqs=prereqs,
-    )
-
-    # Apply prereq-based blocking AFTER the LLM verdict so missing infra
-    # never silently turns into a `fail` the loop will spin on.
-    verdicts = apply_prereq_blocks(verdicts, prereqs)
-    verdicts = ensure_traced_causes(verdicts)
-    buildability_gaps = normalize_buildability_gaps(buildability_gaps, verdicts)
-
-    counts = tally(verdicts)
-    done = counts["fail"] == 0 and counts["partial"] == 0 and (
-        counts["blocked"] == 0 or all_blocked_have_prereqs(verdicts)
-    )
-
-    report = {
-        "rubricVersion": rubric_version(RUBRIC.read_text()),
-        "evaluatedAt": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-        "model": args.model,
-        "counts": counts,
-        "done": done,
-        "items": verdicts,
-        "buildability_gaps": buildability_gaps,
-        "projections": build_projection_summary(verdicts),
-        "advisoryScoreGate": {
-            "score": advisory.get("score"),
-            "passed": advisory.get("passed"),
-            "note": (
-                "Advisory only. The deterministic score gate no longer gates publish; "
-                "this evaluator does."
-            ),
-        },
-        "runtimePrereqStatus": prereqs,
-    }
+    reports = [
+        build_single_report(
+            api_key=api_key,
+            model=args.model,
+            thinking_budget=args.thinking_budget,
+            max_tokens=args.max_tokens,
+            api_version=args.api_version,
+            items=items,
+            evidence=evidence,
+            advisory=advisory,
+            prereqs=prereqs,
+        )
+        for _ in range(max(1, args.runs))
+    ]
+    report = build_consensus_report(reports)
 
     output_path = Path(args.output) if args.output else DEFAULT_OUTPUT
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(report, indent=2) + "\n")
 
-    print(json.dumps({"counts": counts, "done": done, "output": str(output_path)}, indent=2))
+    print(json.dumps({"counts": report["counts"], "done": report["done"], "output": str(output_path)}, indent=2))
     return 0
 
 
@@ -211,7 +191,10 @@ def parse_args() -> argparse.Namespace:
         "--thinking-budget",
         type=int,
         default=12000,
-        help="Extended thinking budget in tokens. Default: 12000.",
+        help=(
+            "Reserved for non-deterministic experiments. The default evaluator "
+            "does not enable Anthropic thinking because temperature=0 is required."
+        ),
     )
     parser.add_argument(
         "--max-tokens",
@@ -243,6 +226,15 @@ def parse_args() -> argparse.Namespace:
         "--dry-run",
         action="store_true",
         help="Skip the API call; print evidence summary only.",
+    )
+    parser.add_argument(
+        "--runs",
+        type=int,
+        default=1,
+        help=(
+            "Number of evaluator runs to combine. VERIFY uses 3 so the "
+            "published report is a safer consensus rather than a single LLM call."
+        ),
     )
     return parser.parse_args()
 
@@ -673,11 +665,9 @@ def call_evaluator(
         "max_tokens": max_tokens,
         "messages": [{"role": "user", "content": prompt}],
     }
-    if model == "claude-opus-4-7":
-        body["thinking"] = {"type": "adaptive"}
-        body["output_config"] = {"effort": "high"}
-    else:
-        body["thinking"] = {"type": "enabled", "budget_tokens": thinking_budget}
+    temperature = deterministic_temperature_for_model(model)
+    if temperature is not None:
+        body["temperature"] = temperature
     req = urllib.request.Request(
         ANTHROPIC_MESSAGES_URL,
         method="POST",
@@ -740,6 +730,228 @@ def call_evaluator(
                 }
             )
     return verdicts, buildability_gaps
+
+
+def build_single_report(
+    *,
+    api_key: str,
+    model: str,
+    thinking_budget: int,
+    max_tokens: int,
+    api_version: str,
+    items: list[dict],
+    evidence: list[dict],
+    advisory: dict,
+    prereqs: dict,
+) -> dict:
+    verdicts, buildability_gaps = call_evaluator(
+        api_key=api_key,
+        model=model,
+        thinking_budget=thinking_budget,
+        max_tokens=max_tokens,
+        api_version=api_version,
+        items=items,
+        evidence=evidence,
+        advisory=advisory,
+        prereqs=prereqs,
+    )
+
+    # Apply prereq-based blocking AFTER the LLM verdict so missing infra
+    # never silently turns into a `fail` the loop will spin on.
+    verdicts = apply_prereq_blocks(verdicts, prereqs)
+    verdicts = ensure_traced_causes(verdicts)
+    buildability_gaps = normalize_buildability_gaps(buildability_gaps, verdicts)
+
+    counts = tally(verdicts)
+    done = counts["fail"] == 0 and counts["partial"] == 0 and (
+        counts["blocked"] == 0 or all_blocked_have_prereqs(verdicts)
+    )
+    return {
+        "rubricVersion": rubric_version(RUBRIC.read_text()),
+        "evaluatedAt": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+        "model": model,
+        "counts": counts,
+        "done": done,
+        "items": verdicts,
+        "buildability_gaps": buildability_gaps,
+        "projections": build_projection_summary(verdicts),
+        "advisoryScoreGate": {
+            "score": advisory.get("score"),
+            "passed": advisory.get("passed"),
+            "note": (
+                "Advisory only. The deterministic score gate no longer gates publish; "
+                "this evaluator does."
+            ),
+        },
+        "runtimePrereqStatus": prereqs,
+    }
+
+
+STATUS_SAFETY_RANK = {"fail": 0, "partial": 1, "blocked": 2, "pass": 3}
+
+
+def deterministic_temperature_for_model(model: str) -> int | None:
+    """Return the lowest temperature the Anthropic model accepts, if exposed."""
+    if model == "claude-opus-4-7":
+        # The Messages API currently returns: "`temperature` is deprecated for
+        # this model." Sending it would make VERIFY fail before consensus runs.
+        return None
+    return DETERMINISTIC_TEMPERATURE
+
+
+def build_consensus_report(reports: list[dict]) -> dict:
+    """Return one report using the lowest-pass verdict on any run disagreement."""
+    if not reports:
+        raise SystemExit("No evaluator reports were produced.")
+    if len(reports) == 1:
+        report = dict(reports[0])
+        report["determinism"] = build_determinism_summary(reports, report["items"], [])
+        return report
+
+    base = reports[0]
+    item_order = [str(item.get("id")) for item in base.get("items", [])]
+    by_run = [
+        {str(item.get("id")): item for item in report.get("items", [])}
+        for report in reports
+    ]
+    consensus_items: list[dict] = []
+    disagreements: list[dict] = []
+    for item_id in item_order:
+        candidates = [run_items[item_id] for run_items in by_run if item_id in run_items]
+        if not candidates:
+            continue
+        status_counts: dict[str, int] = {}
+        for item in candidates:
+            status = normalize_status(item.get("status"))
+            status_counts[status] = status_counts.get(status, 0) + 1
+        chosen_status = min(status_counts, key=lambda status: STATUS_SAFETY_RANK[status])
+        chosen_index, chosen = next(
+            (index, item)
+            for index, item in enumerate(candidates, start=1)
+            if normalize_status(item.get("status")) == chosen_status
+        )
+        consensus_item = {
+            **chosen,
+            "status": chosen_status,
+            "consensus": {
+                "run_statuses": status_counts,
+                "selected_from_run": chosen_index,
+                "rule": "lowest-pass-on-disagreement",
+            },
+        }
+        consensus_items.append(consensus_item)
+        if len(status_counts) > 1:
+            disagreements.append(
+                {
+                    "id": item_id,
+                    "run_statuses": status_counts,
+                    "selected_status": chosen_status,
+                    "selected_from_run": chosen_index,
+                }
+            )
+
+    consensus_items = ensure_traced_causes(consensus_items)
+    counts = tally(consensus_items)
+    counts_done = counts["fail"] == 0 and counts["partial"] == 0 and (
+        counts["blocked"] == 0 or all_blocked_have_prereqs(consensus_items)
+    )
+    done_values = [bool(report.get("done")) for report in reports]
+    done = counts_done and all(done_values)
+    buildability_gaps = merge_buildability_gaps(reports, consensus_items)
+    report = {
+        **base,
+        "evaluatedAt": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+        "counts": counts,
+        "done": done,
+        "items": consensus_items,
+        "buildability_gaps": buildability_gaps,
+        "projections": build_projection_summary(consensus_items),
+    }
+    done_disagreement = len(set(done_values)) > 1
+    if done_disagreement:
+        disagreements.append(
+            {
+                "id": "done",
+                "run_values": done_values,
+                "selected_status": False,
+                "rule": "done=false-if-any-run-is-false",
+            }
+        )
+    report["determinism"] = build_determinism_summary(
+        reports,
+        consensus_items,
+        disagreements,
+    )
+    return report
+
+
+def build_determinism_summary(
+    reports: list[dict],
+    consensus_items: list[dict],
+    disagreements: list[dict],
+) -> dict:
+    return {
+        "run_count": len(reports),
+        "temperature": {
+            "requested": DETERMINISTIC_TEMPERATURE,
+            "applied": deterministic_temperature_for_model(str(reports[0].get("model", ""))),
+            "note": DETERMINISTIC_SEED_NOTE,
+        },
+        "seed": {
+            "available": False,
+            "fixed_value": None,
+            "note": DETERMINISTIC_SEED_NOTE,
+        },
+        "consensus_rule": (
+            "If all runs agree, keep the unanimous verdict. If any per-item "
+            "status disagrees, select the safer lower-pass status using "
+            "fail < partial < blocked < pass. If any run reports done=false, "
+            "the consensus done flag is false."
+        ),
+        "unanimous": not disagreements,
+        "done_values": [bool(report.get("done")) for report in reports],
+        "runs": [
+            {
+                "run": index,
+                "counts": report.get("counts", {}),
+                "done": bool(report.get("done")),
+                "item_statuses": {
+                    str(item.get("id")): normalize_status(item.get("status"))
+                    for item in report.get("items", [])
+                },
+            }
+            for index, report in enumerate(reports, start=1)
+        ],
+        "disagreements": disagreements,
+        "consensus_item_statuses": {
+            str(item.get("id")): normalize_status(item.get("status"))
+            for item in consensus_items
+        },
+    }
+
+
+def merge_buildability_gaps(reports: list[dict], consensus_items: list[dict]) -> list[dict]:
+    seen: set[tuple[str, str, str]] = set()
+    merged: list[dict] = []
+    for report in reports:
+        gaps = report.get("buildability_gaps", [])
+        if not isinstance(gaps, list):
+            continue
+        for gap in gaps:
+            if not isinstance(gap, dict):
+                continue
+            normalized = {
+                "step": str(gap.get("step", "")).strip(),
+                "gap": str(gap.get("gap", "")).strip(),
+                "traced_cause": str(gap.get("traced_cause", "")).strip(),
+            }
+            key = (normalized["step"], normalized["gap"], normalized["traced_cause"])
+            if normalized["gap"] and key not in seen:
+                seen.add(key)
+                merged.append(normalized)
+    if merged:
+        return merged
+    return normalize_buildability_gaps([], consensus_items)
 
 
 def _retry_post(req: urllib.request.Request, attempts: int = 3) -> str:
@@ -864,6 +1076,24 @@ DEFAULT_TRACED_CAUSES = {
     "loop_terminates_on_done": (
         "scripts/codex_loop.py: terminate from the evaluator done flag rather than "
         "a numeric threshold."
+    ),
+    "loop_publishes_durably": (
+        "scripts/codex_loop.py: fetch and rebase before push, halt on rebase "
+        "conflict, and log conflicting paths to PROGRESS.md."
+    ),
+    "evaluator_is_deterministic": (
+        "scripts/evaluate_platform.py, VERIFY.md, and scripts/codex_loop.py: run "
+        "the evaluator at least three times, record every run, and write a safer "
+        "consensus report before termination or publish."
+    ),
+    "progress_log_bound_to_verify": (
+        "scripts/codex_loop.py and PROGRESS.md: log pass/partial/fail/total/done "
+        "from the parsed VERIFY evaluator report and record narrative_verify_mismatch "
+        "when Codex claims COMPLETE but VERIFY says done=false."
+    ),
+    "committed_eval_matches_verify": (
+        "scripts/codex_loop.py: compare the staged site/api/platform-evaluation.json "
+        "to VERIFY output, ignoring only evaluatedAt, and block commit on mismatch."
     ),
 }
 

@@ -1,4 +1,7 @@
 {
-  "control_issue": 0,
-  "allowed_authors": ["andymontgomery-byte", "platform-bot"]
+  "control_issue": 14,
+  "allowed_authors": [
+    "andymontgomery-byte",
+    "platform-bot"
+  ]
 }

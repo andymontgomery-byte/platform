@@ -31,6 +31,7 @@
       "site/docs/index.html",
       "site/docs/integration-governance-core-dictionary.html",
       "site/docs/lead-spec-accounting.html",
+      "site/docs/loop-daemon.html",
       "site/docs/loop-overrides.html",
       "site/docs/oneroster-core-dictionary.html",
       "site/docs/phase-0-standards-and-dictionary.html",
@@ -71,6 +72,7 @@
       "site/docs/index.html": 1,
       "site/docs/integration-governance-core-dictionary.html": 1,
       "site/docs/lead-spec-accounting.html": 1,
+      "site/docs/loop-daemon.html": 2,
       "site/docs/loop-overrides.html": 2,
       "site/docs/oneroster-core-dictionary.html": 2,
       "site/docs/phase-0-standards-and-dictionary.html": 2,
@@ -92,9 +94,9 @@
     "decisions_checked": 20,
     "dictionary_entries_checked": 634,
     "errors": 0,
-    "html_pages": 37,
-    "local_links_checked": 226,
+    "html_pages": 38,
+    "local_links_checked": 230,
     "max_clicks": 3,
-    "reachable_html_pages": 37
+    "reachable_html_pages": 38
   }
 }

@@ -4,36 +4,72 @@ This guide builds one teaching-app slice against the live Supabase runtime using
 
 ## Choose A Runtime
 
-You can run the same steps against either runtime:
+Start with the self-hosted sandbox unless you already have dashboard access to the platform team's hosted Supabase project. Both runtimes use the same migration, table names, row-level security policies, and `curl` requests; only the project URL and keys differ.
 
-| Runtime | Who uses it | What changes |
+| Runtime | Use when | Values used in Step 0 |
 | --- | --- | --- |
-| Hosted platform sandbox | Platform maintainers or invited reviewers with dashboard access to `qzxlgrerjoiamxvnkklq` | Use the hosted `SUPABASE_URL`, hosted publishable key, and hosted service-role key. |
-| Self-hosted sandbox | Any new developer without platform-admin access | Create your own Supabase project, load the migration below, and use your own project URL and keys in Step 0. |
+| Self-hosted sandbox | You are a new developer without platform-admin access. | Your own Supabase Project URL, publishable or `anon` key, and legacy `service_role` key. |
+| Hosted platform sandbox | You are a platform maintainer or invited reviewer with dashboard access to `qzxlgrerjoiamxvnkklq`. | Hosted Project URL, hosted publishable key, and hosted legacy `service_role` key. |
 
-Self-hosted setup:
+### Self-Hosted Supabase Sandbox
+
+Do this once before Step 0:
+
+1. Open `https://supabase.com/dashboard` and sign in or create an account.
+2. Click **New project**.
+3. Choose or create an organization.
+4. Set **Name** to `platform-build-guide`.
+5. Generate a strong **Database Password** and store it in a password manager. This is the Postgres password used in the connection string below; Supabase will not show it again.
+6. Choose the region closest to you. The examples work in any region because the dashboard supplies the correct pooler host.
+7. Click **Create new project** and wait until the project dashboard opens with the project marked active. Do not continue while provisioning is still running.
+8. In the project dashboard, click **Connect** in the top bar, choose a Postgres connection string that works from your machine, and copy the **Transaction pooler** or **Session pooler** URI. If the URI contains `[YOUR-PASSWORD]`, keep that placeholder for the command below.
+9. In **Project Settings -> API**, copy:
+   - **Project URL**, which becomes `SUPABASE_URL`.
+   - A **Publishable key**. If your project only shows legacy keys, copy the legacy `anon` key into `SUPABASE_PUBLISHABLE_KEY`.
+   - The legacy **service_role** key. Use the JWT-looking legacy `service_role` key for this guide, not an `sb_secret_...` key, because the Auth Admin request in Step 0 sends it as a bearer token from your trusted shell.
+
+Now load the platform schema into your project from the repository root:
 
 ```sh
-export SUPABASE_DB_URL='postgresql://postgres.<your-project-ref>:<password>@aws-0-us-east-1.pooler.supabase.com:6543/postgres'
+export SUPABASE_DB_PASSWORD='<database-password-from-project-creation>'
+export SUPABASE_DB_URL_TEMPLATE='<paste-the-pooler-uri-from-the-Connect-dialog>'
+export SUPABASE_DB_URL="$(
+  python3 - <<'PY'
+import os
+import urllib.parse
+
+template = os.environ["SUPABASE_DB_URL_TEMPLATE"]
+password = urllib.parse.quote(os.environ["SUPABASE_DB_PASSWORD"], safe="")
+print(
+    template
+    .replace("[YOUR-PASSWORD]", password)
+    .replace("<password>", password)
+    .replace("<PASSWORD>", password)
+)
+PY
+)"
 
 psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
   -f supabase/migrations/0001_oneroster_core_demo.sql
 ```
 
-Then open your Supabase dashboard, copy your own Project URL, publishable key, and service-role key, and replace the first three `export` values in Step 0. The synthetic `PLATFORM_TENANT_ID` and all row IDs in this guide can stay unchanged because they are just sandbox data inside your project. See [New Developer Onboarding](supabase-hosted-database.html#new-developer-onboarding-without-platform-admin-access) for where each value lives in the Supabase dashboard.
+Use the Project URL, publishable or `anon` key, and legacy `service_role` key you copied above in Step 0. The synthetic `PLATFORM_TENANT_ID` and all row IDs in this guide can stay unchanged because they are just sandbox data inside your project. See [New Developer Onboarding](supabase-hosted-database.html#new-developer-onboarding-without-platform-admin-access) for the same setup checklist in the hosted database notes.
+
+Invited hosted reviewers can skip the self-hosted project creation and use `https://qzxlgrerjoiamxvnkklq.supabase.co` plus the hosted keys from the platform Supabase dashboard.
 
 ## 0. Get An API Token
 
-The REST endpoint is the Supabase project you chose above. The examples use a synthetic build-guide tenant:
+The REST endpoint is the Supabase project you chose above. The examples use a synthetic build-guide tenant.
 
-The `SUPABASE_SERVICE_ROLE_KEY` value comes from your chosen Supabase dashboard: [Project Settings -> API -> service_role](supabase-hosted-database.html#where-to-find-the-service-role-key). Use the hosted platform key only if you have been granted platform dashboard access; otherwise use your self-hosted project's service-role key.
+The `SUPABASE_SERVICE_ROLE_KEY` value comes from your chosen Supabase dashboard: [Project Settings -> API -> legacy service_role](supabase-hosted-database.html#where-to-find-the-service-role-key). Use the hosted platform key only if you have been granted platform dashboard access; otherwise use your self-hosted project's legacy `service_role` key. This key is used once to create a temporary Auth user with a tenant claim; every platform table write after that uses the tenant-scoped user JWT, per [DEC-015](decisions-standards-overlap-decisions.html#DEC-015-service-role-policy).
 
 ```sh
-# Hosted platform sandbox defaults. For self-hosted, replace these three values
-# with your own Project URL, publishable key, and service-role key.
-export SUPABASE_URL='https://qzxlgrerjoiamxvnkklq.supabase.co'
-export SUPABASE_PUBLISHABLE_KEY='sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK'
-export SUPABASE_SERVICE_ROLE_KEY='paste-service-role-key-for-your-project'
+# Self-hosted sandbox values from the setup above.
+# Invited hosted reviewers may use https://qzxlgrerjoiamxvnkklq.supabase.co
+# and the hosted dashboard keys instead.
+export SUPABASE_URL='https://<your-project-ref>.supabase.co'
+export SUPABASE_PUBLISHABLE_KEY='<paste-publishable-or-anon-key>'
+export SUPABASE_SERVICE_ROLE_KEY='<paste-legacy-service-role-key>'
 export PLATFORM_TENANT_ID='33333333-3333-3333-3333-333333333333'
 export BUILD_GUIDE_EMAIL="build-guide-$(date +%s)@example.invalid"
 export BUILD_GUIDE_PASSWORD="Build-guide-$(date +%s)"

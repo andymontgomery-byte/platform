@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loop Daemon</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc-page">
+  <main class="doc-shell">
+    <p class="eyebrow">Rendered portal documentation</p>
+    <p><a class="text-link" href="index.html">Docs index</a></p>
+    <h1 id="loop-daemon">Loop Daemon</h1>
+<p>The loop daemon (<code>scripts/loop_daemon.py</code>) is a GitHub-issue-driven process that lets a remote operator drive the local Codex loop without direct shell access.</p>
+<p>---</p>
+<h2 id="protocol">Protocol</h2>
+<p>The daemon polls a designated GitHub issue (the &quot;control issue&quot;) every 30 seconds. To issue a command, post a comment on the control issue containing a fenced code block tagged <code>loop-cmd</code> with a JSON payload:</p>
+<p>``<code>loop-cmd {&quot;cmd&quot;: &quot;&lt;command&gt;&quot;, ...} </code>``</p>
+<p>Only comments from authors listed in <code>.loop-daemon.config.json</code> <code>allowed_authors</code> are processed.</p>
+<h3 id="commands">Commands</h3>
+<table><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td><code>kickoff_loop</code></td><td>Starts <code>scripts/codex_loop.py --max-iterations 25 --stall-limit 3</code>. Streams output back in <code>loop-out</code> comments.</td></tr><tr><td><code>halt_loop</code></td><td>Sends SIGTERM to the running loop process, waits 30 s, then SIGKILL if needed.</td></tr><tr><td><code>git_status</code></td><td>Posts <code>git status --porcelain</code> and recent log.</td></tr><tr><td><code>git_rebase_main</code></td><td>Stashes, fetches, rebases onto <code>origin/main</code>, pops stash. Posts conflicts or new HEAD.</td></tr><tr><td><code>discard_paths</code></td><td>Discards specific files via <code>git checkout --</code>. Only whitelisted paths are accepted.</td></tr><tr><td><code>tail_log</code></td><td>Posts the tail of the most recent <code>.codex-loop/*.log</code> file.</td></tr><tr><td><code>ping</code></td><td>Posts a heartbeat reply with daemon pid, uptime, git HEAD.</td></tr></tbody></table>
+<h3 id="json-shapes">JSON shapes</h3>
+<pre><code>{&quot;cmd&quot;: &quot;kickoff_loop&quot;}</code></pre>
+<pre><code>{&quot;cmd&quot;: &quot;halt_loop&quot;}</code></pre>
+<pre><code>{&quot;cmd&quot;: &quot;git_status&quot;}</code></pre>
+<pre><code>{&quot;cmd&quot;: &quot;git_rebase_main&quot;}</code></pre>
+<pre><code>{&quot;cmd&quot;: &quot;discard_paths&quot;, &quot;paths&quot;: [&quot;docs/spec-fidelity-report.md&quot;, &quot;docs/generated/example.md&quot;]}</code></pre>
+<pre><code>{&quot;cmd&quot;: &quot;tail_log&quot;, &quot;lines&quot;: 200}</code></pre>
+<pre><code>{&quot;cmd&quot;: &quot;ping&quot;}</code></pre>
+<h3 id="replies">Replies</h3>
+<p>The daemon posts replies as comments tagged <code>loop-out</code> (command output) or <code>loop-heartbeat</code> (automatic 5-minute heartbeats).</p>
+<p>---</p>
+<h2 id="one-time-install-andy-runs-these-once">One-time install (Andy runs these once)</h2>
+<pre><code># 1. Copy the plist into ~/Library/LaunchAgents/
+cp /Users/andymontgomery/projects/platform/scripts/com.platform.loop-daemon.plist \
+   ~/Library/LaunchAgents/com.platform.loop-daemon.plist
+
+# 2. Load and start the daemon
+launchctl load ~/Library/LaunchAgents/com.platform.loop-daemon.plist
+
+# 3. Verify it started
+launchctl list | grep com.platform.loop-daemon</code></pre>
+<p>On first run the daemon creates the control issue and writes its number into <code>.loop-daemon.config.json</code>. That file is committed; <code>.loop-daemon.state.json</code> and <code>.loop-daemon.log</code> are gitignored.</p>
+<p>---</p>
+<h2 id="security-model">Security model</h2>
+<p>command name is rejected with <code>{&quot;error&quot;: &quot;unknown_cmd&quot;}</code>.</p>
+<p>passed to a shell interpreter. All subprocess calls use list-form <code>subprocess.run</code> / <code>subprocess.Popen</code> with no <code>shell=True</code>.</p>
+<p><code>allowed_authors</code> can trigger commands. Comments from other users are silently ignored.</p>
+<p><code>git checkout --</code> on paths matching: - <code>docs/spec-fidelity-report.md</code> - <code>docs/generated/*.md</code> - <code>dictionary/*.v1.json</code> - <code>openapi/generated/*.json</code> - <code>site/**</code></p>
+<ul><li><strong>Whitelist only.</strong> The daemon recognises exactly seven commands. Any unrecognised</li><li><strong>No shell injection.</strong> Commands are parsed from JSON only; no string is ever</li><li><strong>Allowed authors.</strong> Only GitHub logins listed in <code>.loop-daemon.config.json</code></li><li><strong>Path whitelist for <code>discard_paths</code>.</strong> The daemon will only run</li></ul>
+<p><code>PROGRESS.md</code> and any other files are never discarded.</p>
+<p>(except its own <code>.loop-daemon.log</code>), never installs packages, and never runs commands not in its whitelist.</p>
+<p>existing <code>gh auth</code> setup. No token appears in any file.</p>
+<ul><li><strong>No system side-effects.</strong> The daemon never writes outside the repo working tree</li><li><strong>No secrets in code.</strong> GitHub authentication is delegated entirely to Andy&#x27;s</li></ul>
+<p>---</p>
+<h2 id="debugging">Debugging</h2>
+<h3 id="check-daemon-logs">Check daemon logs</h3>
+<pre><code># Daemon&#x27;s own structured log
+tail -f /Users/andymontgomery/projects/platform/.loop-daemon.log
+
+# launchd stdout/stderr
+tail -f ~/Library/Logs/platform-loop-daemon.out.log
+tail -f ~/Library/Logs/platform-loop-daemon.err.log</code></pre>
+<h3 id="restart-the-daemon-via-launchctl">Restart the daemon via launchctl</h3>
+<pre><code>launchctl unload ~/Library/LaunchAgents/com.platform.loop-daemon.plist
+launchctl load   ~/Library/LaunchAgents/com.platform.loop-daemon.plist</code></pre>
+<h3 id="force-a-state-reset">Force a state reset</h3>
+<p>Delete <code>.loop-daemon.state.json</code> in the repo root and restart the daemon. The daemon will re-read comment history from the beginning of the control issue.</p>
+<h3 id="check-the-control-issue-number">Check the control issue number</h3>
+<pre><code>cat /Users/andymontgomery/projects/platform/.loop-daemon.config.json</code></pre>
+    <p class="source-note">Source file: <code>docs/loop-daemon.md</code></p>
+  </main>
+</body>
+</html>

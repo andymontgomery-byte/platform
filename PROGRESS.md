@@ -847,3 +847,52 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 - Verify log: `.codex-loop/20260427T120747Z-iteration-001-verify.log`
 - Judge log: `.codex-loop/20260427T120747Z-iteration-001-judge.log`
 - Judge JSON: `.codex-loop/20260427T120747Z-iteration-001-judge.json`
+
+## 2026-04-27T15:24:53Z Evaluator Consensus + Verify Binding Iteration
+
+- Chosen rubric item: `evaluator_is_deterministic`.
+- Files changed: `scripts/evaluate_platform.py`, `scripts/codex_loop.py`, `VERIFY.md`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m py_compile scripts/evaluate_platform.py scripts/codex_loop.py` passed; `python3 scripts/evaluate_platform.py --dry-run --runs 3` passed with 25 rubric items and 38 evidence files; synthetic consensus smoke test passed and selected `fail` as the safer verdict across pass/partial/fail disagreement; temperature-policy smoke test passed for current Opus 4.7 and temperature-capable models; one live evaluator call with `python3 scripts/evaluate_platform.py --runs 1 --output /tmp/platform-evaluation-single.json` passed and returned counts pass=23, partial=2, fail=0, blocked=0, total=25 with `evaluator_is_deterministic`, `progress_log_bound_to_verify`, and `committed_eval_matches_verify` all `pass`.
+- Expected status change: `evaluator_is_deterministic` `fail` -> `pass`; bundled root-cause fixes should also move `progress_log_bound_to_verify` and `committed_eval_matches_verify` `fail` -> `pass`.
+- Verify binding details: VERIFY now runs `python3 scripts/evaluate_platform.py --runs 3 --output site/api/platform-evaluation.json`; the evaluator writes a `determinism` block with every run's counts, done flag, per-item statuses, disagreement list, and the safer consensus rule. `scripts/codex_loop.py` reads that VERIFY-stage consensus report instead of launching a separate after-VERIFY evaluator, logs VERIFY counts/done into PROGRESS, records `narrative_verify_mismatch` when Codex claims COMPLETE but VERIFY says `done=false`, and blocks publish if the staged `site/api/platform-evaluation.json` differs from VERIFY output ignoring only `evaluatedAt`.
+- Iter1 backfill: `.codex-loop/20260427T120747Z-iteration-001-verify.log` ended with VERIFY evaluator counts pass=20, partial=2, fail=0, blocked=0, total=22 and `done=false`, while Codex's last message claimed `LOOP_STATUS: COMPLETE` and an in-process evaluator result pass=22, partial=0, fail=0, blocked=0, total=22 with `done=true`. The 20260427T122504Z Harness Iteration 1 entry above is therefore superseded for completion decisions by this verifier-bound backfill.
+- What remains next: rerun the full VERIFY consensus. If the three target loop-hygiene items remain pass but doc/buildability partials appear again, handle those as a separate top-down documentation iteration rather than weakening the consensus gate.
+
+## 2026-04-27T16:22:02Z Buildability Setup Path Iteration
+
+- Chosen rubric item: `buildable_by_layperson`.
+- Files changed: `docs/build-an-edtech-app.md`, `docs/supabase-hosted-database.md`, `docs/admin-operations.md`, rendered `site/docs/build-an-edtech-app.html`, `site/docs/supabase-hosted-database.html`, `site/docs/admin-operations.html`, and refreshed `site/api/site-link-check.json`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; `python3 -m py_compile scripts/build_site_docs.py scripts/check_site_links.py` passed; `python3 scripts/check_site_links.py` passed with 38 HTML pages, 230 local links, 634 dictionary entries, 20 decisions, and 12 API endpoints; `git diff --check` passed; one non-authoritative live evaluator check with `python3 scripts/evaluate_platform.py --runs 1 --output /tmp/platform-evaluation-buildability.json` passed with counts pass=24, partial=1, fail=0, blocked=0, total=25, `buildable_by_layperson=pass`, and an empty `buildability_gaps` array.
+- Expected status change: `buildable_by_layperson` `partial` -> `pass`.
+- What remains next: `docs_explain_why_not_only_what` remains the only non-pass item in the single-run evaluator check; it needs plain-language decision explanations alongside decision links in feature/dictionary docs.
+
+## 20260427T162840Z Harness Iteration 1
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- Verify evaluator counts: pass=22 partial=3 fail=0 blocked=0 total=25
+- Verify evaluator done: False
+- Evaluator consensus: runs=3; unanimous=False; rule=If all runs agree, keep the unanimous verdict. If any per-item status disagrees, select the safer lower-pass status using fail < partial < blocked < pass. If any run reports done=false, the consensus done flag is false.
+- Evaluator run 1: pass=25 partial=0 fail=0 blocked=0 total=25; done=True; statuses: buildable_by_layperson=pass; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=pass; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=pass; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator run 2: pass=25 partial=0 fail=0 blocked=0 total=25; done=True; statuses: buildable_by_layperson=pass; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=pass; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=pass; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator run 3: pass=22 partial=3 fail=0 blocked=0 total=25; done=False; statuses: buildable_by_layperson=partial; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=partial; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=partial; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator disagreements: [{"id": "no_unforced_decisions", "run_statuses": {"partial": 1, "pass": 2}, "selected_from_run": 3, "selected_status": "partial"}, {"id": "docs_explain_why_not_only_what", "run_statuses": {"partial": 1, "pass": 2}, "selected_from_run": 3, "selected_status": "partial"}, {"id": "buildable_by_layperson", "run_statuses": {"partial": 1, "pass": 2}, "selected_from_run": 3, "selected_status": "partial"}, {"id": "done", "rule": "done=false-if-any-run-is-false", "run_values": [true, true, false], "selected_status": false}]
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 72
+- Publish result: skipped: rubric did not progress this iteration
+- Codex log: `.codex-loop/20260427T161025Z-iteration-001-codex.log`
+- Verify log: `.codex-loop/20260427T161025Z-iteration-001-verify.log`
+- Judge log: `.codex-loop/20260427T161025Z-iteration-001-judge.log`
+- Judge JSON: `.codex-loop/20260427T161025Z-iteration-001-judge.json`
+
+## 2026-04-27T16:39:08Z Closed Privacy Class Projection Iteration
+
+- Chosen rubric item: `dictionary_closed_privacy_classes`.
+- Files changed: `data/data-dictionary.seed.json`, `scripts/generate_spec_dictionaries.py`, generated `dictionary/oneroster-core.v1.json`, `dictionary/qti-core.v1.json`, `dictionary/case-core.v1.json`, `dictionary/caliper-core.v1.json`, `dictionary/integration-governance-core.v1.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json >/tmp/platform-seed.json` passed; `python3 -m py_compile scripts/generate_spec_dictionaries.py` passed; `python3 scripts/generate_spec_dictionaries.py` regenerated all five per-spec dictionaries; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 575 fields; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 575 fields, and 912 values; `python3 -m py_compile scripts/evaluate_platform.py scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py` passed; `python3 scripts/evaluate_platform.py --dry-run --runs 3` passed with 25 rubric items and 38 evidence files; `git diff --check` passed; a non-authoritative live check with `python3 scripts/evaluate_platform.py --runs 1 --output /tmp/platform-evaluation-privacy-classes.json` reported `dictionary_closed_privacy_classes=pass`.
+- Expected status change: `dictionary_closed_privacy_classes` `partial` -> `pass`.
+- What remains next: Current live evaluator variance still reports documentation/buildability partials in some runs; the next top-down item is `docs_explain_why_not_only_what`, which needs plain-language decision explanations outside the decision register itself.

@@ -6,6 +6,62 @@
   "source_version": "1.1",
   "plain_description": "A structured dictionary for the platform's CASE framework graph model. It describes standards frameworks, framework items, associations, definitions, rubrics, and status fields exposed as SQL and JSON.",
   "model_scope": "Framework import, search, graph traversal, standards alignment, rubric metadata, and cross-standard linking. This is not a formal CASE certification claim.",
+  "privacy_classes": [
+    {
+      "privacy_class": "public",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Information that can be public without identifying a private learner record.",
+      "handling_notes": "Still review tenant policy before publishing."
+    },
+    {
+      "privacy_class": "operational",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "System records about imports, exports, validation, lineage, and operations.",
+      "handling_notes": "Useful for debugging; may reveal partner or tenant behavior."
+    },
+    {
+      "privacy_class": "directory",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Basic school directory information such as a class name or school name.",
+      "handling_notes": "Usually visible only to authorized users in the tenant."
+    },
+    {
+      "privacy_class": "education_record",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Student education record data such as enrollment, grade, result, or progress.",
+      "handling_notes": "Protect under student-data policy and tenant access rules."
+    },
+    {
+      "privacy_class": "behavioral",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Activity or usage data, such as clicks, sessions, time-on-task, and resource use.",
+      "handling_notes": "Prefer aggregation for analytics; restrict raw event access."
+    },
+    {
+      "privacy_class": "sensitive",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Data that could create extra risk if disclosed, such as accommodations or sensitive demographics.",
+      "handling_notes": "Restrict by least privilege and audit access."
+    },
+    {
+      "privacy_class": "credential",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Achievement or learner-record data intended to be verified or shared under learner/institution control.",
+      "handling_notes": "Respect issuer, learner, verification, revocation, and sharing rules."
+    },
+    {
+      "privacy_class": "privacy_governance",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Policy and review data used to decide how school data may be shared, retained, audited, or minimized.",
+      "handling_notes": "Expose only through policy and audit surfaces with tenant controls."
+    },
+    {
+      "privacy_class": "system",
+      "decision_id": "DEC-019-closed-privacy-classes",
+      "plain_description": "Internal platform configuration or infrastructure metadata.",
+      "handling_notes": "Do not expose through public APIs unless explicitly designed for it."
+    }
+  ],
   "shared_enums": [
     {
       "shared_enum_id": "adoption_status",
