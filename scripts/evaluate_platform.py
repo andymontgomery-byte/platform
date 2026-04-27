@@ -556,7 +556,7 @@ def resolve_api_key(args: argparse.Namespace) -> str | None:
     key = os.environ.get(args.api_key_env)
     if key:
         return key
-    profile = Path(args.api_profile)
+    profile = Path(args.api_profile).expanduser()
     if not profile.exists():
         return None
     try:

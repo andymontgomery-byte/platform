@@ -45,6 +45,14 @@ def main() -> int:
         print(build_prompt(repo, 1, args.max_iterations))
         return 0
 
+    try:
+        return _run_loop(args, repo)
+    except EvaluatorError as exc:
+        print(f"FATAL: evaluator failed -- aborting loop instead of trusting stale state.\n{exc}")
+        return 2
+
+
+def _run_loop(args: argparse.Namespace, repo: Path) -> int:
     stall_streak = 0
     last_eval_summary: dict | None = None
     for iteration in range(1, args.max_iterations + 1):
@@ -586,8 +594,22 @@ def timestamp() -> str:
     return dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
+class EvaluatorError(RuntimeError):
+    """Raised when the evaluator subprocess fails.
+
+    The loop must NEVER fall back to a previously committed evaluation JSON
+    when the evaluator fails. Doing so caused false `done=true` signals when
+    the API key was unreadable, the network was down, or the evaluator
+    crashed -- the loop would short-circuit on stale optimistic state.
+    """
+
+
 def run_evaluator(repo: Path, args: argparse.Namespace, label: str) -> dict | None:
-    """Run scripts/evaluate_platform.py and return the parsed JSON, or None on failure."""
+    """Run scripts/evaluate_platform.py and return the parsed JSON.
+
+    Raises EvaluatorError if the evaluator failed to produce a fresh report.
+    The loop relies on this to fail loudly instead of trusting stale JSON.
+    """
     cmd = [
         "python3",
         "scripts/evaluate_platform.py",
@@ -603,6 +625,8 @@ def run_evaluator(repo: Path, args: argparse.Namespace, label: str) -> dict | No
         args.judge_api_key_env,
     ]
     print(f"[evaluator/{label}] running: {' '.join(shlex.quote(c) for c in cmd)}")
+    target = repo / "site" / "api" / "platform-evaluation.json"
+    mtime_before = target.stat().st_mtime if target.exists() else 0.0
     try:
         result = subprocess.run(
             cmd,
@@ -614,18 +638,28 @@ def run_evaluator(repo: Path, args: argparse.Namespace, label: str) -> dict | No
             check=False,
         )
     except subprocess.SubprocessError as e:
-        print(f"[evaluator/{label}] subprocess error: {e}")
-        return None
+        raise EvaluatorError(f"[evaluator/{label}] subprocess error: {e}") from e
     if result.returncode != 0:
-        print(f"[evaluator/{label}] failed (exit {result.returncode}):\n{result.stdout[-2000:]}")
-    target = repo / "site" / "api" / "platform-evaluation.json"
+        raise EvaluatorError(
+            f"[evaluator/{label}] failed (exit {result.returncode}):\n"
+            f"{result.stdout[-2000:]}"
+        )
     if not target.exists():
-        return None
+        raise EvaluatorError(
+            f"[evaluator/{label}] succeeded (exit 0) but did not write "
+            f"{target.relative_to(repo)}."
+        )
+    if target.stat().st_mtime <= mtime_before:
+        raise EvaluatorError(
+            f"[evaluator/{label}] did not refresh {target.relative_to(repo)} "
+            f"(mtime unchanged). Refusing to trust stale evaluation."
+        )
     try:
         return json.loads(target.read_text())
     except (json.JSONDecodeError, OSError) as e:
-        print(f"[evaluator/{label}] could not read evaluation JSON: {e}")
-        return None
+        raise EvaluatorError(
+            f"[evaluator/{label}] could not read evaluation JSON: {e}"
+        ) from e
 
 
 def rubric_progressed(before: dict, after: dict) -> bool:
