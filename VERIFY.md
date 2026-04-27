@@ -6,6 +6,8 @@ Keep each command on one line. Avoid interactive commands.
 
 ```sh
 python3 scripts/generate_spec_dictionaries.py --check
+python3 scripts/generate_spec_fidelity_report.py --report-only
+python3 scripts/generate_spec_fidelity_report.py --check
 python3 scripts/generate_oneroster_core.py
 python3 scripts/generate_qti_core.py
 python3 scripts/generate_case_core.py

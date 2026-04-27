@@ -137,6 +137,14 @@ Backward traceability is required. When an item fails, the evaluator must name (
 - **traces_to:** Orphans imply missing decisions; fail `decisions_complete` for each.
 - **blocked_if:** never.
 
+### spec_fidelity_provable
+
+- **requirement:** There is a seam between 1EdTech and our extensions. On the 1EdTech side every field is a copy-exact projection of the spec — same object name, same field name, same JSON key — so there is never a silent rename. Extensions live on our side of the seam and are explicitly tagged with `extension_rationale`. The seam is provable from generated artifacts, not asserted in prose.
+- **how_to_verify:** Confirm `scripts/generate_spec_fidelity_report.py` exists and writes `docs/spec-fidelity-report.md`. Confirm VERIFY runs both the report-generation step and `--check` (drift gate) every iteration. Read the report and confirm: (a) per-spec breakdown lists every spec, (b) every 1EdTech-native field has `sourceStandard.coverage` of `mapped` or `verbatim`, (c) the "Copy-exact seam defects" section is empty, (d) every extension field appears in the extension table with a non-missing rationale.
+- **substance_check:** A field whose `canonical_field_id` is in a 1EdTech namespace (`canonical.<oneroster-core|qti-core|case-core|caliper-core>.*`) but whose `spec_field.json_name` differs from `spec_field.sourceStandard.field`, or whose `spec_field.column_name` is not the snake_case form of `sourceStandard.field`, is a silent rename and fails this item. A non-zero count in "Copy-exact seam defects" fails this item. An extension field with `extension_rationale: null` is `partial`; ten or more such fields, or any extension field that is not in `EXTENSION_SPEC_KEYS` and lacks rationale, fails. Renaming `user` to `personId` to match an internal convention is a silent rename even if it is consistent across the codebase.
+- **traces_to:** If a defect cannot be fixed without first deciding the rename policy, fail `decisions_complete` with "missing decision: 1EdTech field naming policy."
+- **blocked_if:** never.
+
 ---
 
 ## 3. Documentation is great
@@ -230,13 +238,13 @@ Backward traceability is required. When an item fails, the evaluator must name (
 | Category | Count |
 |---|---|
 | Decisions are great | 4 |
-| Dictionary is great | 7 |
+| Dictionary is great | 8 |
 | Documentation is great | 4 |
 | Buildability (the apex test) | 2 |
 | Loop and harness hygiene | 4 |
-| **Total** | **21** |
+| **Total** | **22** |
 
-The loop is "done" when all 21 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite.
+The loop is "done" when all 22 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite.
 
 ## What this rubric replaces
 
