@@ -59,12 +59,12 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - id: `DEC-003-role-vocabulary`
 - question: How should the platform reconcile OneRoster roles, LTI role URIs, Caliper role evidence, and credential profile relationships?
 - options_considered:
-  - Use OneRoster role names everywhere.
-  - Use LTI URI roles everywhere.
+  - Publish only platform role families (`learner`, `educator`, etc.) and treat spec-native roles as transient import/export metadata that is not persisted on core records.
+  - Preserve OneRoster role names, LTI role URIs, Caliper actor evidence, and credential relationship terms as peer authoritative vocabularies, requiring each API and policy check to understand each source.
   - Store exact source roles and map them to a small platform role family for authorization and UI.
 - choice: Store source roles exactly, then map them to platform role families: `learner`, `educator`, `administrator`, `guardian`, `mentor`, `staff`, `tool`, `issuer`, and `unknown`.
 - consequences:
-  - Removes the need for each authorization check to parse every standard's role vocabulary.
+  - Eliminates per-API authorization branches that parse OneRoster role names, LTI role URIs, Caliper actor evidence, and credential relationship terms independently.
   - Removes separate OneRoster role-name, LTI URI-role, and Caliper actor-role parsers from `supabase/functions/lti-launch-handler/index.ts`, `supabase/functions/oauth-token-exchange/index.ts`, and scope policy generation; those paths consume a shared role-family mapping.
   - Makes role-family policy reusable across roster, launch, gradebook, and analytics surfaces.
   - Why not collapse: publishing only platform role families would simplify authorization, but it would erase spec-native role values required for OneRoster/LTI conformance, troubleshooting, and lossless export.
@@ -82,12 +82,12 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - id: `DEC-004-enrollment-membership`
 - question: What is canonical roster participation when standards also expose launch/service memberships and event-time memberships?
 - options_considered:
-  - Treat every membership record as an enrollment.
-  - Treat enrollment as just one membership source.
+  - Collapse enrollment and membership into one `participation` table keyed by person, context, role, and source timestamp.
+  - Preserve OneRoster enrollments, LTI NRPS memberships, and Caliper membership evidence as peer authoritative stores with caller-owned reconciliation.
   - Keep `enrollment` as canonical roster participation and `membership` as contextual service or event evidence.
 - choice: `enrollment` is the canonical roster participation record. `membership` is a contextual service/event view that may be derived from enrollment or captured from an external system.
 - consequences:
-  - Removes the need for gradebook and roster APIs to choose among launch-time and event-time snapshots as the source of truth.
+  - Eliminates gradebook and roster code paths that choose among launch-time NRPS records, Caliper event-time observations, and roster enrollments as competing truth sources.
   - Removes peer `lti_memberships` or `caliper_memberships` truth tables from the gradebook join path; `public.enrollments`, `public.class_roster`, and `site/api/views/class-roster.json` stay the canonical participation artifacts.
   - Lets LTI NRPS and Caliper membership projections be labeled as derived or observed instead of overwriting roster truth.
   - Why not collapse: treating every observed membership as enrollment would make imports simpler, but launch-time or event-time service membership can be transient and would corrupt school roster truth if written directly into `public.enrollments`.
@@ -158,7 +158,7 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - Store internal platform IDs plus source identifier crosswalks and expose standard-native IDs where the standard requires them.
 - choice: Internal records have platform IDs. Standard-shaped endpoints expose the standard-native ID as the primary contract when required. Every external ID is stored in a source identifier crosswalk with source system, identifier type, and object relationship.
 - consequences:
-  - Removes the need to choose between conformance IDs and durable internal join IDs.
+  - Eliminates per-table SIS, LTI, email, CASE URI, and vendor-ID columns as the cross-spec reconciliation mechanism.
   - Removes duplicate source-ID columns from every public table; `public.source_identifiers` owns `object_type`, `object_id`, `source_system`, `identifier_type`, and `external_id` instead of each table growing its own SIS/LTI/email columns.
   - Eliminates one-off per-table ID reconciliation logic by making source identifiers a shared crosswalk pattern.
   - Why not collapse: using source-native IDs as physical database keys would make one export path shorter, but it would couple internal joins to mutable vendor identifiers and make multi-source identity repair a table-by-table migration.
@@ -176,12 +176,12 @@ This record captures places where 1EdTech standards, platform runtime choices, o
 - id: `DEC-008-time-session`
 - question: How should the platform distinguish school calendar periods, event timestamps, availability windows, assessment timing, and credential validity?
 - options_considered:
-  - Store every time-like value as a generic timestamp.
-  - Use OneRoster AcademicSession as the only time model.
+  - Collapse all time-like values into a single timestamped fact table with `time_kind` labels and source payload references.
+  - Preserve every standard's time fields exactly as source-native shapes and leave cross-standard date logic to callers.
   - Separate calendar periods, event timestamps, availability windows, assessment timing, and validity periods.
 - choice: Separate calendar periods, event timestamps, availability windows, and validity periods. Store timestamps in UTC with source timezone/offset when provided. Store OneRoster AcademicSession as the school calendar backbone.
 - consequences:
-  - Removes the need for developers to infer whether a date is a term, due date, event time, time limit, or credential expiry.
+  - Eliminates generic timestamp parsing branches that infer whether a value is a term boundary, due date, Caliper event time, QTI time limit, or credential validity date.
   - Removes generic timestamp metadata parsing from roster, gradebook, Caliper, QTI, and credential projections; `academic_sessions`, `line_items`, `caliper_event.event_time`, QTI timing fields, and validity fields each own their time semantics.
   - Lets school-year queries use AcademicSession without losing event and validity semantics.
   - Why not collapse: storing all time-like values as timestamps would reduce field count, but school-year filters, assessment timing, event ordering, and credential validity would all need side tables or fragile naming conventions to recover meaning.
@@ -204,10 +204,10 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - Use a broad `resource` concept with subtype-specific records for package, assessment, launch, and event details.
 - choice: The platform uses a broad `resource` concept for discoverable learning objects, with subtype-specific records for cartridge resources, QTI packages/items/tests, LTI resource links, and Caliper event entities.
 - consequences:
-  - Removes the need for search and catalog workflows to query separate content models for every standard.
-  - Removes separate discovery indexes for QTI packages, LTI deep links, cartridge resources, and Caliper digital entities; generated docs keep subtype fields while a broad `resource` layer carries search-facing identity.
+  - Eliminates separate discovery indexes for QTI packages, LTI deep links, cartridge resources, and Caliper digital entities as the search-facing content catalog.
+  - Removes source-specific catalog selection branches from generated docs and search-facing APIs; subtype fields remain in their standard-aware projections while the broad `resource` layer carries shared identity.
   - Lets standards-specific package, launch, assessment, and event details remain intact under a shared discovery layer.
-  - Why not collapse: making QTI the canonical content catalog is credible for an assessment-first platform, but it would turn LTI links, cartridge resources, and Caliper digital entities into fake QTI artifacts and force non-assessment payloads through assessment-only identifiers.
+  - Why not collapse: making QTI the canonical content catalog is credible for an assessment-first platform, but it would turn `lti_deep_link_item.url`, cartridge manifests, and Caliper digital entities into fake QTI artifacts and force non-assessment payloads through assessment-only identifiers.
   - Creates the constraint that subtype-specific details must remain in their standard-aware projections instead of being lost in a generic resource row.
 - projects_to:
   - `dictionary/qti-core.v1.json#qti_package.package_identifier`
@@ -251,8 +251,8 @@ This record captures places where 1EdTech standards, platform runtime choices, o
   - Define per-surface gates by privacy class and treat static mirrors as synthetic documentation fixtures.
 - choice: Generated docs may describe every field and privacy class because they are schema documentation, not records. Live PostgREST may expose tenant-owned `public`, `operational`, `directory`, and `education_record` records only through tenant RLS and scope policy. Edge Functions may expose `directory`, `education_record`, `behavioral`, or sensitive operational fields only through caller JWT, purpose, scope, tenant RLS, and audit logging when the read is sensitive. Static `site/api/*.json` mirrors may contain only synthetic demo records from the seeded `.test` tenant and may include `public`, `operational`, and `directory` fields such as demo email; they may not contain real tenant data, `education_record`, `behavioral`, `sensitive_pii`, or secret/system values.
 - consequences:
-  - Removes the need to delete synthetic directory fields like `site/api/people.json` email while still forbidding real unauthenticated PII mirrors.
-  - Removes per-file privacy exception lists from `scripts/build_static_api.py`, `site/api/*.json`, and generated OpenAPI descriptions; surface eligibility comes from privacy class plus runtime gate.
+  - Eliminates per-file allow/deny exception lists for `site/api/*.json`, generated OpenAPI examples, and Edge Function responses.
+  - Removes hard-coded static-mirror privacy checks from `scripts/build_static_api.py`; surface eligibility comes from privacy class plus runtime gate.
   - Eliminates per-file privacy guessing by making the gate a function of privacy class plus surface.
   - Why not collapse: banning every record-like example from static docs would simplify privacy review, but it would make the GitHub Pages portal unable to demonstrate schema-shaped payloads offline.
   - Creates the constraint that future static mirrors must either stay synthetic/documentation-only or drop fields whose privacy class requires live RLS or audited Edge Functions.

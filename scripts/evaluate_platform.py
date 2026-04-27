@@ -51,11 +51,13 @@ ANTHROPIC_MESSAGES_URL = "https://api.anthropic.com/v1/messages"
 ALWAYS_EVIDENCE = [
     "README.md",
     "PLAN.md",
+    "PROGRESS.md",
     "VERIFY.md",
     "docs/eval-rubric.md",
     "docs/loop-overrides.md",
     "docs/spec-gap-backlog.md",
     "docs/dictionary-coverage-matrix.md",
+    "docs/spec-fidelity-report.md",
     "docs/lead-spec-accounting.md",
     "docs/decisions/standards-overlap-decisions.md",
     "docs/decisions/decisions-pending.md",
@@ -68,6 +70,10 @@ ALWAYS_EVIDENCE = [
     "site/api/site-link-check.json",
     "site/docs/build-an-edtech-app.html",
     ".env.example",
+    "supabase/migrations/0001_oneroster_core_demo.sql",
+    "scripts/bootstrap_build_guide.py",
+    "scripts/evaluate_platform.py",
+    "scripts/codex_loop.py",
 ]
 
 # Globs collected as evidence; capped at MAX_EVIDENCE_FILES total.
@@ -76,8 +82,6 @@ EVIDENCE_GLOBS = [
     "scripts/generate_*.py",
     "scripts/check_*.py",
     "scripts/snapshot_*.py",
-    "scripts/codex_loop.py",
-    "scripts/evaluate_platform.py",
     "tests/*.py",
     "supabase/migrations/*.sql",
     "supabase/policies/*.json",
@@ -293,16 +297,20 @@ def gather_evidence() -> list[dict]:
     out: list[dict] = []
     total = 0
     for p in files:
+        rel = p.relative_to(ROOT).as_posix()
         try:
             text = p.read_text(errors="replace")
         except OSError:
             continue
         truncated = False
         if len(text.encode("utf-8")) > MAX_FILE_BYTES:
-            text = text[:MAX_FILE_BYTES] + "\n... [truncated]\n"
+            if rel == "PROGRESS.md":
+                text = "... [truncated earlier progress]\n" + text[-MAX_FILE_BYTES:]
+            else:
+                text = text[:MAX_FILE_BYTES] + "\n... [truncated]\n"
             truncated = True
         chunk = {
-            "path": p.relative_to(ROOT).as_posix(),
+            "path": rel,
             "bytes": len(text.encode("utf-8")),
             "truncated": truncated,
             "content": text,
@@ -627,6 +635,13 @@ def build_evaluator_prompt(items: list[dict], evidence: list[dict], advisory: di
         100/100 to a platform that hadn't shipped a real API. Do not repeat
         that mistake. If a section header exists but its content is a stub,
         that is "partial" or "fail", not "pass".
+
+        PROGRESS.md and previous platform-evaluation JSON are historical loop
+        memory, not current conformance evidence. Use historical entries only
+        for loop-hygiene items that explicitly ask about persisted progress
+        logging. Do not mark a content, decision, dictionary, documentation, or
+        buildability item non-pass merely because an earlier iteration recorded
+        that item as non-pass; grade those items from the current source files.
 
         Return ONLY valid JSON with this shape, nothing else:
           { "items": [ { "id": "...", "status": "...", "reason": "...",

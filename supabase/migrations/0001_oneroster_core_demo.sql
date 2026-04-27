@@ -13,6 +13,7 @@ drop table if exists public.source_identifiers cascade;
 drop table if exists public.caliper_events cascade;
 drop table if exists public.results cascade;
 drop table if exists public.line_items cascade;
+drop table if exists public.case_items cascade;
 drop table if exists public.enrollments cascade;
 drop table if exists public.classes cascade;
 drop table if exists public.courses cascade;
@@ -97,6 +98,26 @@ create table public.enrollments (
   "primary" text check ("primary" in ('true', 'false')),
   "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
   "date_last_modified" timestamptz not null
+);
+
+create table public.case_items (
+  tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
+  "id" text primary key,
+  "document_id" text not null,
+  "identifier" text not null,
+  "uri" text not null,
+  "human_coding_scheme" text,
+  "full_statement" text not null,
+  "abbreviated_statement" text,
+  "alternative_label" text,
+  "item_type" text check ("item_type" in ('domain', 'strand', 'cluster', 'standard', 'competency', 'skill', 'learningObjective', 'courseCode')),
+  "item_type_uri" text,
+  "concept_keywords" text,
+  "subject" text,
+  "education_level" text,
+  "list_enumeration" text,
+  "license_uri" text,
+  "last_change_date_time" timestamptz not null
 );
 
 create table public.line_items (
@@ -192,6 +213,7 @@ create index enrollments_tenant_idx on public.enrollments(tenant_id);
 create index enrollments_class_idx on public.enrollments("class");
 create index enrollments_person_idx on public.enrollments("user");
 create index enrollments_school_idx on public.enrollments("school");
+create index case_items_tenant_idx on public.case_items(tenant_id);
 create index line_items_tenant_idx on public.line_items(tenant_id);
 create index line_items_class_idx on public.line_items("class");
 create index results_tenant_idx on public.results(tenant_id);
@@ -296,6 +318,8 @@ alter table public.classes enable row level security;
 alter table public.classes force row level security;
 alter table public.enrollments enable row level security;
 alter table public.enrollments force row level security;
+alter table public.case_items enable row level security;
+alter table public.case_items force row level security;
 alter table public.line_items enable row level security;
 alter table public.line_items force row level security;
 alter table public.results enable row level security;
@@ -349,6 +373,14 @@ create policy demo_read_classes on public.classes for select to anon, authentica
 );
 -- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
 create policy demo_read_enrollments on public.enrollments for select to anon, authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
+    case when auth.role() = 'anon' then '11111111-1111-1111-1111-111111111111'::uuid end
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for runtime records.
+create policy demo_read_case_items on public.case_items for select to anon, authenticated using (
   tenant_id = coalesce(
     nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
     nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid,
@@ -637,6 +669,25 @@ create policy demo_update_enrollments on public.enrollments for update to authen
       )
   )
 );
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for case_items writes.
+create policy demo_insert_case_items on public.case_items for insert to authenticated with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
+-- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for case_items writes.
+create policy demo_update_case_items on public.case_items for update to authenticated using (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+) with check (
+  tenant_id = coalesce(
+    nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
+    nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
+  )
+);
 -- decision_id: DEC-010-tenancy-reference-data; tenant-claim RLS for line_items writes.
 create policy demo_insert_line_items on public.line_items for insert to authenticated with check (
   tenant_id = coalesce(
@@ -880,6 +931,7 @@ revoke all privileges on
   public.courses,
   public.classes,
   public.enrollments,
+  public.case_items,
   public.line_items,
   public.results,
   public.caliper_events,
@@ -894,6 +946,7 @@ grant select on
   public.courses,
   public.classes,
   public.enrollments,
+  public.case_items,
   public.line_items,
   public.results,
   public.caliper_events,
@@ -920,6 +973,7 @@ grant insert, update on
   public.courses,
   public.classes,
   public.enrollments,
+  public.case_items,
   public.line_items,
   public.results,
   public.caliper_events

@@ -2,112 +2,90 @@
 
 This guide builds one teaching-app slice against the live Supabase runtime using `curl` and PostgREST. It creates a tenant-scoped API token, writes roster and gradebook rows through platform tables, attaches a CASE standard URI to the assignment, and reads a Caliper-style class activity feed from the platform's Caliper event projection.
 
+For plain-language reasons behind the model choices used here, read the [Decision Map For Builders](decision-map-for-builders.md). It explains why the guide uses `person`, `class`, `enrollment`, `line_item`, `result`, CASE targets, tenant-scoped user JWTs, and Caliper activity records instead of asking app code to reconcile those standards one by one.
+
 ## Choose A Runtime
 
 Start with the self-hosted sandbox unless you already have dashboard access to the platform team's hosted Supabase project. Both runtimes use the same migration, table names, row-level security policies, and `curl` requests; only the project URL and keys differ.
 
+There is no shared public write token in this repository. The self-hosted setup below gives every reader a disposable Supabase project where they can be the administrator, create one tenant-scoped test user, and then run the five app workflows with that user's JWT. The one service-role call is bootstrap only; Steps 1-5 are the app requests.
+
 | Runtime | Use when | Values used in Step 0 |
 | --- | --- | --- |
-| Self-hosted sandbox | You are a new developer without platform-admin access. | Your own Supabase Project URL, publishable or `anon` key, and legacy `service_role` key. |
-| Hosted platform sandbox | You are a platform maintainer or invited reviewer with dashboard access to `qzxlgrerjoiamxvnkklq`. | Hosted Project URL, hosted publishable key, and hosted legacy `service_role` key. |
+| Self-hosted sandbox | You are a new developer without platform-admin access. | Your own Supabase Project URL, pooler DB URI, publishable or `anon` key, and your own project's legacy `service_role` key. |
+| Hosted platform sandbox | You are a platform maintainer or invited reviewer with dashboard access to `qzxlgrerjoiamxvnkklq`. | Hosted Project URL, hosted pooler DB URI, hosted publishable key, and hosted legacy `service_role` key. |
 
 ### Self-Hosted Supabase Sandbox
 
 Do this once before Step 0:
 
-1. Open `https://supabase.com/dashboard` and sign in or create an account.
-2. Click **New project**.
-3. Choose or create an organization.
-4. Set **Name** to `platform-build-guide`.
-5. Generate a strong **Database Password** and store it in a password manager. This is the Postgres password used in the connection string below; Supabase will not show it again.
-6. Choose the region closest to you. The examples work in any region because the dashboard supplies the correct pooler host.
-7. Click **Create new project** and wait until the project dashboard opens with the project marked active. Do not continue while provisioning is still running.
-8. In the project dashboard, click **Connect** in the top bar, choose a Postgres connection string that works from your machine, and copy the **Transaction pooler** or **Session pooler** URI. If the URI contains `[YOUR-PASSWORD]`, keep that placeholder for the command below.
-9. In **Project Settings -> API**, copy:
-   - **Project URL**, which becomes `SUPABASE_URL`.
-   - A **Publishable key**. If your project only shows legacy keys, copy the legacy `anon` key into `SUPABASE_PUBLISHABLE_KEY`.
-   - The legacy **service_role** key. Use the JWT-looking legacy `service_role` key for this guide, not an `sb_secret_...` key, because the Auth Admin request in Step 0 sends it as a bearer token from your trusted shell.
-
-Now load the platform schema into your project from the repository root:
+1. Clone the repository and enter it:
 
 ```sh
-export SUPABASE_DB_PASSWORD='<database-password-from-project-creation>'
-export SUPABASE_DB_URL_TEMPLATE='<paste-the-pooler-uri-from-the-Connect-dialog>'
-export SUPABASE_DB_URL="$(
-  python3 - <<'PY'
-import os
-import urllib.parse
-
-template = os.environ["SUPABASE_DB_URL_TEMPLATE"]
-password = urllib.parse.quote(os.environ["SUPABASE_DB_PASSWORD"], safe="")
-print(
-    template
-    .replace("[YOUR-PASSWORD]", password)
-    .replace("<password>", password)
-    .replace("<PASSWORD>", password)
-)
-PY
-)"
-
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
-  -f supabase/migrations/0001_oneroster_core_demo.sql
+git clone https://github.com/andymontgomery-byte/platform.git
+cd platform
 ```
 
-Use the Project URL, publishable or `anon` key, and legacy `service_role` key you copied above in Step 0. The synthetic `PLATFORM_TENANT_ID` and all row IDs in this guide can stay unchanged because they are just sandbox data inside your project. See [New Developer Onboarding](supabase-hosted-database.html#new-developer-onboarding-without-platform-admin-access) for the same setup checklist in the hosted database notes.
+2. Install Python 3 and the PostgreSQL client tools so `python3` and `psql` are on your `PATH`:
 
-Invited hosted reviewers can skip the self-hosted project creation and use `https://qzxlgrerjoiamxvnkklq.supabase.co` plus the hosted keys from the platform Supabase dashboard.
+```sh
+# macOS with Homebrew
+brew install python libpq
+brew link --force libpq
 
-## 0. Get An API Token
+# Debian or Ubuntu
+sudo apt-get update
+sudo apt-get install -y python3 postgresql-client
+```
+
+3. Open `https://supabase.com/dashboard` and sign in or create an account.
+4. Click **New project**.
+5. Choose or create an organization.
+6. Set **Name** to `platform-build-guide`.
+7. Generate a strong **Database Password** and store it in a password manager. This is the Postgres password used by `psql`; Supabase will not show it again.
+8. Choose the region closest to you. The examples work in any region because the dashboard supplies the correct pooler host.
+9. Click **Create new project** and wait until the project dashboard opens with the project marked active. Do not continue while provisioning is still running.
+10. In the project dashboard, click **Connect** in the top bar, choose a Postgres connection string that works from your machine, and copy the **Transaction pooler** or **Session pooler** URI. If the URI contains `[YOUR-PASSWORD]`, `<password>`, or `<PASSWORD>`, delete that placeholder and the colon immediately before it before running the Step 0 bootstrap command; `psql` will ask for the database password you saved in step 7.
+11. In **Project Settings -> API**, copy:
+   - **Project URL**, which becomes `SUPABASE_URL`.
+   - A **Publishable key**. If your project only shows legacy keys, copy the legacy `anon` key into `SUPABASE_PUBLISHABLE_KEY`.
+   - The legacy **service_role** key. Use the JWT-looking key that starts with `eyJ`, not an `sb_secret_...` key, because the Step 0 bootstrap sends it as the Auth Admin bearer token from your trusted shell.
+
+Use the Project URL, publishable or `anon` key, database URI, and legacy `service_role` key you copied above in Step 0. The bootstrap command loads the platform schema, creates the temporary Auth user, and writes `/tmp/platform-build-guide.env` for the app curls. The synthetic `PLATFORM_TENANT_ID` and all row IDs in this guide can stay unchanged because they are just sandbox data inside your project. See [New Developer Onboarding](supabase-hosted-database.html#new-developer-onboarding-without-platform-admin-access) for the same setup checklist in the hosted database notes.
+
+Invited hosted reviewers can skip the self-hosted project creation and use `https://qzxlgrerjoiamxvnkklq.supabase.co` plus the hosted pooler DB URI and hosted keys from the platform Supabase dashboard.
+
+## 0. Bootstrap The Sandbox And Get An API Token
 
 The REST endpoint is the Supabase project you chose above. The examples use a synthetic build-guide tenant.
 
-The `SUPABASE_SERVICE_ROLE_KEY` value comes from your chosen Supabase dashboard: [Project Settings -> API -> legacy service_role](supabase-hosted-database.html#where-to-find-the-service-role-key). Use the hosted platform key only if you have been granted platform dashboard access; otherwise use your self-hosted project's legacy `service_role` key. This key is used once to create a temporary Auth user with a tenant claim; every platform table write after that uses the tenant-scoped user JWT, per [DEC-015](decisions-standards-overlap-decisions.html#DEC-015-service-role-policy).
+The `SUPABASE_SERVICE_ROLE_KEY` value comes from your chosen Supabase dashboard: [Project Settings -> API -> legacy service_role](supabase-hosted-database.html#where-to-find-the-service-role-key). If you chose the self-hosted sandbox, this is not a platform team secret; it is the key from the Supabase project you just created. Use the hosted platform key only if you have been granted platform dashboard access. The bootstrap script uses this key once to create a temporary Auth user with a tenant claim; every platform table write after that uses the tenant-scoped user JWT, per [DEC-015](decisions-standards-overlap-decisions.html#DEC-015-service-role-policy).
 
 ```sh
 # Self-hosted sandbox values from the setup above.
 # Invited hosted reviewers may use https://qzxlgrerjoiamxvnkklq.supabase.co
 # and the hosted dashboard keys instead.
+# Supabase may show:
+# postgresql://postgres.abcd1234:[YOUR-PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+# Delete :[YOUR-PASSWORD] so psql can prompt for the password you saved:
+# postgresql://postgres.abcd1234@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+export SUPABASE_DB_URL='<paste-pooler-uri-without-password-placeholder>'
 export SUPABASE_URL='https://<your-project-ref>.supabase.co'
 export SUPABASE_PUBLISHABLE_KEY='<paste-publishable-or-anon-key>'
 export SUPABASE_SERVICE_ROLE_KEY='<paste-legacy-service-role-key>'
 export PLATFORM_TENANT_ID='33333333-3333-3333-3333-333333333333'
-export BUILD_GUIDE_EMAIL="build-guide-$(date +%s)@example.invalid"
-export BUILD_GUIDE_PASSWORD="Build-guide-$(date +%s)"
 
-curl -sS -X POST "$SUPABASE_URL/auth/v1/admin/users" \
-  -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
-  -H "authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
-  -H "content-type: application/json" \
-  --data "{
-    \"email\": \"$BUILD_GUIDE_EMAIL\",
-    \"password\": \"$BUILD_GUIDE_PASSWORD\",
-    \"email_confirm\": true,
-    \"app_metadata\": {
-      \"tenant_id\": \"$PLATFORM_TENANT_ID\",
-      \"test_owner\": \"platform_buildability_guide\"
-    }
-  }"
+python3 scripts/bootstrap_build_guide.py
+source /tmp/platform-build-guide.env
 
-curl -sS -X POST "$SUPABASE_URL/auth/v1/token?grant_type=password" \
-  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
-  -H "content-type: application/json" \
-  --data "{
-    \"email\": \"$BUILD_GUIDE_EMAIL\",
-    \"password\": \"$BUILD_GUIDE_PASSWORD\"
-  }" >/tmp/platform-build-guide-token.json
-
-export PLATFORM_ACCESS_TOKEN="$(
-  python3 -c 'import json; print(json.load(open("/tmp/platform-build-guide-token.json"))["access_token"])'
-)"
-
-export REST_AUTH_HEADERS=(
+REST_AUTH_HEADERS=(
   -H "apikey: $SUPABASE_PUBLISHABLE_KEY"
   -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
   -H "content-type: application/json"
 )
 ```
 
-The runtime `tenant_id` column is filled from the JWT claim and checked by row-level security, per [DEC-010](decisions-standards-overlap-decisions.html#DEC-010-tenancy-reference-data). The request bodies below intentionally omit `tenant_id`.
+The script runs `psql` with `supabase/migrations/0001_oneroster_core_demo.sql`, calls Supabase Auth Admin once to create the tenant-scoped user, exchanges that user for `PLATFORM_ACCESS_TOKEN`, and writes only non-service-role app exports to `/tmp/platform-build-guide.env`. Every table used by Steps 1-5 carries a `tenant_id` column whose default reads the JWT `tenant_id` claim and whose RLS policy enforces the same value, per [DEC-010](decisions-standards-overlap-decisions.html#DEC-010-tenancy-reference-data). Client request bodies must not include `tenant_id`.
 
 ## 1. Create A School, Teacher, And Ten Students
 
@@ -331,13 +309,35 @@ Dictionary fields and values used by this step:
 | --- | --- |
 | `line_items.id` | [line_item.id](oneroster-core-dictionary.html#line_item.id) |
 | `line_items.case_target_uri` | [line_item.case_target_uri](oneroster-core-dictionary.html#line_item.case_target_uri) |
+| `case_items.id` | [case_item.id](case-core-dictionary.html#case_item.id) |
+| `case_items.document_id` | [case_item.document_id](case-core-dictionary.html#case_item.document_id) |
+| `case_items.identifier` | [case_item.identifier](case-core-dictionary.html#case_item.identifier) |
 | `case_item.uri` | [case_item.uri](case-core-dictionary.html#case_item.uri) |
+| `case_items.human_coding_scheme` | [case_item.human_coding_scheme](case-core-dictionary.html#case_item.human_coding_scheme) |
+| `case_items.full_statement` | [case_item.full_statement](case-core-dictionary.html#case_item.full_statement) |
 | `case_item.item_type` | [case_item.item_type](case-core-dictionary.html#case_item.item_type) |
 | `standard` | [global enum item_type.standard](case-core-dictionary.html#enum.item_type.standard) |
+| `case_items.last_change_date_time` | [case_item.last_change_date_time](case-core-dictionary.html#case_item.last_change_date_time) |
+
+This sandbox creates one CASE item fixture, stores its URI as assignment metadata in `line_items.case_target_uri`, and reads the CASE item back by URI. Full CASE package import and search are still deferred by [DEC-006](decisions-standards-overlap-decisions.html#DEC-006-standards-alignment) and [DEC-012](decisions-standards-overlap-decisions.html#DEC-012-runtime-coverage-per-spec), but this workflow links to a CASE URI that exists in the runtime.
 
 CASE framework import is deferred (see DEC-012 and PEND-001); the runtime stores the URI as an opaque reference, so any well-formed URI is accepted in the current sandbox.
 
 ```sh
+curl -sS -X POST "$SUPABASE_URL/rest/v1/case_items?on_conflict=id" \
+  "${REST_AUTH_HEADERS[@]}" \
+  -H "prefer: resolution=merge-duplicates,return=minimal" \
+  --data '[{
+    "id": "case_item_build_6_ns_a_1",
+    "document_id": "case_doc_build_math_2026",
+    "identifier": "6.NS.A.1",
+    "uri": "https://standards.example.test/math/2026/6.NS.A.1",
+    "human_coding_scheme": "6.NS.A.1",
+    "full_statement": "Interpret and compute with fractions in a grade 6 number system task.",
+    "item_type": "standard",
+    "last_change_date_time": "2026-09-01T12:00:00Z"
+  }]'
+
 curl -sS -X PATCH "$SUPABASE_URL/rest/v1/line_items?id=eq.li_build_fractions_exit_ticket" \
   "${REST_AUTH_HEADERS[@]}" \
   -H "prefer: return=minimal" \
@@ -347,6 +347,10 @@ curl -sS -X PATCH "$SUPABASE_URL/rest/v1/line_items?id=eq.li_build_fractions_exi
   }'
 
 curl -sS "$SUPABASE_URL/rest/v1/line_items?select=id,title,case_target_uri&id=eq.li_build_fractions_exit_ticket" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
+
+curl -sS "$SUPABASE_URL/rest/v1/case_items?select=uri,human_coding_scheme,full_statement,item_type&uri=eq.https%3A%2F%2Fstandards.example.test%2Fmath%2F2026%2F6.NS.A.1" \
   -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
   -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
 ```
@@ -398,4 +402,4 @@ curl -sS "$SUPABASE_URL/rest/v1/class_activity_feed?select=event&class_id=eq.cla
 
 ## What The App Has Now
 
-The app has a school, one teacher, ten students, one scheduled class, one assignment, one numeric result, a CASE standard URI attached to that assignment through `line_items.case_target_uri`, and a Caliper-style class feed item read from `class_activity_feed`.
+The app has a school, one teacher, ten students, one scheduled class, one assignment, one numeric result, a runtime CASE item resolved by URI, that CASE URI attached to the assignment through `line_items.case_target_uri`, and a Caliper-style class feed item read from `class_activity_feed`.

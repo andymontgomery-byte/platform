@@ -11,6 +11,7 @@
       "site/docs/build-an-edtech-app.html",
       "site/docs/caliper-core-dictionary.html",
       "site/docs/case-core-dictionary.html",
+      "site/docs/decision-map-for-builders.html",
       "site/docs/decisions-decisions-needed.html",
       "site/docs/decisions-decisions-pending.html",
       "site/docs/decisions-standards-overlap-decisions.html",
@@ -52,6 +53,7 @@
       "site/docs/build-an-edtech-app.html": 1,
       "site/docs/caliper-core-dictionary.html": 1,
       "site/docs/case-core-dictionary.html": 1,
+      "site/docs/decision-map-for-builders.html": 2,
       "site/docs/decisions-decisions-needed.html": 2,
       "site/docs/decisions-decisions-pending.html": 2,
       "site/docs/decisions-standards-overlap-decisions.html": 1,
@@ -94,9 +96,9 @@
     "decisions_checked": 20,
     "dictionary_entries_checked": 634,
     "errors": 0,
-    "html_pages": 38,
-    "local_links_checked": 230,
+    "html_pages": 39,
+    "local_links_checked": 330,
     "max_clicks": 3,
-    "reachable_html_pages": 38
+    "reachable_html_pages": 39
   }
 }

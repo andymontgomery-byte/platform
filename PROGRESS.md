@@ -896,3 +896,65 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 - Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json >/tmp/platform-seed.json` passed; `python3 -m py_compile scripts/generate_spec_dictionaries.py` passed; `python3 scripts/generate_spec_dictionaries.py` regenerated all five per-spec dictionaries; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 575 fields; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 575 fields, and 912 values; `python3 -m py_compile scripts/evaluate_platform.py scripts/generate_spec_dictionaries.py scripts/check_dictionary_artifacts.py` passed; `python3 scripts/evaluate_platform.py --dry-run --runs 3` passed with 25 rubric items and 38 evidence files; `git diff --check` passed; a non-authoritative live check with `python3 scripts/evaluate_platform.py --runs 1 --output /tmp/platform-evaluation-privacy-classes.json` reported `dictionary_closed_privacy_classes=pass`.
 - Expected status change: `dictionary_closed_privacy_classes` `partial` -> `pass`.
 - What remains next: Current live evaluator variance still reports documentation/buildability partials in some runs; the next top-down item is `docs_explain_why_not_only_what`, which needs plain-language decision explanations outside the decision register itself.
+
+## 20260427T164505Z Harness Iteration 2
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- Verify evaluator counts: pass=24 partial=1 fail=0 blocked=0 total=25
+- Verify evaluator done: False
+- Evaluator consensus: runs=3; unanimous=False; rule=If all runs agree, keep the unanimous verdict. If any per-item status disagrees, select the safer lower-pass status using fail < partial < blocked < pass. If any run reports done=false, the consensus done flag is false.
+- Evaluator run 1: pass=24 partial=1 fail=0 blocked=0 total=25; done=False; statuses: buildable_by_layperson=partial; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=pass; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=pass; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator run 2: pass=25 partial=0 fail=0 blocked=0 total=25; done=True; statuses: buildable_by_layperson=pass; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=pass; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=pass; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator run 3: pass=25 partial=0 fail=0 blocked=0 total=25; done=True; statuses: buildable_by_layperson=pass; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=pass; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=pass; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator disagreements: [{"id": "buildable_by_layperson", "run_statuses": {"partial": 1, "pass": 2}, "selected_from_run": 1, "selected_status": "partial"}, {"id": "done", "rule": "done=false-if-any-run-is-false", "run_values": [false, true, true], "selected_status": false}]
+- LLM judge ok: True
+- LLM judge recommendation: push
+- LLM judge score: 86
+- Publish result: committed and pushed: Codex loop iteration 2: rubric pass=24/25
+- Codex log: `.codex-loop/20260427T162840Z-iteration-002-codex.log`
+- Verify log: `.codex-loop/20260427T162840Z-iteration-002-verify.log`
+- Judge log: `.codex-loop/20260427T162840Z-iteration-002-judge.log`
+- Judge JSON: `.codex-loop/20260427T162840Z-iteration-002-judge.json`
+
+## 2026-04-27T16:55:06Z Decision Alternatives Sharpening Iteration
+
+- Chosen rubric item: `decisions_have_real_alternatives`.
+- Files changed: `docs/decisions/standards-overlap-decisions.md`, rendered `site/docs/decisions-standards-overlap-decisions.html`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; `python3 -m py_compile scripts/build_site_docs.py scripts/check_site_links.py scripts/evaluate_platform.py` passed; `python3 scripts/check_site_links.py` passed with 38 HTML pages, 230 local links, 634 dictionary entries, 20 decisions, and 12 API endpoints; `python3 scripts/evaluate_platform.py --dry-run --runs 3` passed with 25 rubric items and 38 evidence files; `git diff --check` passed; a non-authoritative live check with `python3 scripts/evaluate_platform.py --runs 1 --output /tmp/platform-evaluation-decisions.json` reported counts pass=25, partial=0, fail=0, blocked=0, total=25 and `done=true`.
+- Expected status change: `decisions_have_real_alternatives` `partial` -> `pass`; the same decision-register sharpening should also move `decisions_complete` and `decisions_simplify` toward `pass` by making DEC-007, DEC-009, and DEC-011 consequences lead with concrete deletion language.
+- What remains next: Run the full VERIFY consensus. If evaluator variance still reports non-pass documentation or buildability items, handle the traced doc/buildability gap next rather than changing the decision layer again.
+
+## 20260427T170113Z Harness Iteration 3
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- Verify evaluator counts: pass=22 partial=3 fail=0 blocked=0 total=25
+- Verify evaluator done: False
+- Evaluator consensus: runs=3; unanimous=False; rule=If all runs agree, keep the unanimous verdict. If any per-item status disagrees, select the safer lower-pass status using fail < partial < blocked < pass. If any run reports done=false, the consensus done flag is false.
+- Evaluator run 1: pass=22 partial=3 fail=0 blocked=0 total=25; done=False; statuses: buildable_by_layperson=partial; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=partial; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=partial; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator run 2: pass=23 partial=2 fail=0 blocked=0 total=25; done=False; statuses: buildable_by_layperson=pass; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=partial; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=partial; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator run 3: pass=25 partial=0 fail=0 blocked=0 total=25; done=True; statuses: buildable_by_layperson=pass; committed_eval_matches_verify=pass; decisions_complete=pass; decisions_have_real_alternatives=pass; decisions_simplify=pass; dictionary_artifacts_cite_decisions=pass; dictionary_carries_relational_graph=pass; dictionary_closed_privacy_classes=pass; dictionary_global_enums=pass; dictionary_resolves_cross_spec_overlaps=pass; dictionary_single_source_of_truth=pass; dictionary_unifies_identity=pass; docs_explain_why_not_only_what=pass; docs_generated_from_dictionary=pass; docs_include_buildability_guide=pass; docs_no_dead_links_or_orphans=pass; evaluator_is_deterministic=pass; evaluator_runs_each_iteration=pass; evaluator_traces_failures_backward=pass; loop_overrides_respected=pass; loop_publishes_durably=pass; loop_terminates_on_done=pass; no_unforced_decisions=pass; progress_log_bound_to_verify=pass; spec_fidelity_provable=pass
+- Evaluator disagreements: [{"id": "no_unforced_decisions", "run_statuses": {"partial": 2, "pass": 1}, "selected_from_run": 1, "selected_status": "partial"}, {"id": "docs_explain_why_not_only_what", "run_statuses": {"partial": 2, "pass": 1}, "selected_from_run": 1, "selected_status": "partial"}, {"id": "buildable_by_layperson", "run_statuses": {"partial": 1, "pass": 2}, "selected_from_run": 1, "selected_status": "partial"}, {"id": "done", "rule": "done=false-if-any-run-is-false", "run_values": [false, false, true], "selected_status": false}]
+- LLM judge ok: True
+- LLM judge recommendation: do_not_push
+- LLM judge score: 38
+- Publish result: skipped: LLM judge recommended do_not_push
+- Codex log: `.codex-loop/20260427T164505Z-iteration-003-codex.log`
+- Verify log: `.codex-loop/20260427T164505Z-iteration-003-verify.log`
+- Judge log: `.codex-loop/20260427T164505Z-iteration-003-judge.log`
+- Judge JSON: `.codex-loop/20260427T164505Z-iteration-003-judge.json`
+
+## 2026-04-27T18:18:19Z Builder Decision Map Iteration
+
+- Chosen rubric item: `docs_explain_why_not_only_what`.
+- Files changed: `docs/decision-map-for-builders.md`, `docs/build-an-edtech-app.md`, rendered `site/docs/decision-map-for-builders.html`, `site/docs/build-an-edtech-app.html`, `site/docs/index.html`, `site/api/site-link-check.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/build_site_docs.py` passed; `python3 -m py_compile scripts/build_site_docs.py scripts/check_site_links.py` passed; `python3 scripts/check_site_links.py` passed with 39 HTML pages, 330 local links, 634 dictionary entries, 20 decisions, and 12 API endpoints; `git diff --check` passed; `python3 scripts/evaluate_platform.py --dry-run --runs 3` passed with 25 rubric items and 32 evidence files; one non-authoritative live evaluator check with `python3 scripts/evaluate_platform.py --runs 1 --output /tmp/platform-evaluation-decision-map.json` reported counts pass=25, partial=0, fail=0, blocked=0, total=25 with `docs_explain_why_not_only_what=pass` and `buildable_by_layperson=pass`.
+- Expected status change: `docs_explain_why_not_only_what` `partial` -> `pass`.
+- What remains next: run the full VERIFY consensus. If evaluator variance still reports a non-pass item, use its traced cause rather than changing the decision map again.

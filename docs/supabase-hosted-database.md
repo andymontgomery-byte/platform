@@ -37,52 +37,29 @@ The buildability guide uses the service-role key once to create a temporary Supa
 1. Open the Supabase project dashboard. Invited hosted reviewers use `qzxlgrerjoiamxvnkklq`; new developers use the self-hosted project they created below.
 2. In the left sidebar, open **Project Settings**.
 3. Open **API**.
-4. In **Project API keys**, copy the legacy key labeled **service_role**. Use the JWT-looking legacy `service_role` key for `docs/build-an-edtech-app.md`, not an `sb_secret_...` key, because the guide sends the value as the Auth Admin bearer token from a trusted shell.
+4. In **Project API keys**, copy the legacy key labeled **service_role**. New developers copy this from the self-hosted project they created; it is not a platform-team secret unless they choose the hosted reviewer path. Use the JWT-looking legacy `service_role` key that starts with `eyJ` for `docs/build-an-edtech-app.md`, not an `sb_secret_...` key, because the guide sends the value as the Auth Admin bearer token from a trusted shell.
 5. Put that value in `.env.local` as `SUPABASE_SERVICE_ROLE_KEY=...`, or paste it into the `export SUPABASE_SERVICE_ROLE_KEY='...'` line in `docs/build-an-edtech-app.md` while running the guide locally.
 
 The publishable key in `.env.example` is safe for client requests. The service-role key bypasses row-level security when used directly, so the guide uses it only for the Auth Admin user-creation call and then switches to the tenant-scoped user JWT for all platform table writes.
 
 ## New Developer Onboarding Without Platform Admin Access
 
-You do not need access to the platform team's hosted project to run the buildability guide. Use a self-hosted Supabase sandbox:
+You do not need access to the platform team's hosted project to run the buildability guide. The repository intentionally does not publish a shared write token; the self-hosted sandbox gives each reader an isolated project where they can bootstrap one tenant-scoped test user and then run the app curls under row-level security. Use a self-hosted Supabase sandbox:
 
-1. Open `https://supabase.com/dashboard` and sign in or create an account.
-2. Click **New project**.
-3. Choose or create an organization.
-4. Name the project `platform-build-guide`.
-5. Generate a strong **Database Password** and save it. Supabase uses this as the `postgres` password in the database connection string and will not show it again.
-6. Choose a region. The nearest region is fine; the dashboard will give you the matching pooler host.
-7. Click **Create new project** and wait until provisioning finishes and the project dashboard is active.
-8. Click **Connect** in the top bar and copy a Postgres **Transaction pooler** or **Session pooler** connection string. Keep `[YOUR-PASSWORD]` in the copied URI if the dashboard leaves it as a placeholder.
-9. From the repository root, load the generated platform schema:
-
-```sh
-export SUPABASE_DB_PASSWORD='<database-password-from-project-creation>'
-export SUPABASE_DB_URL_TEMPLATE='<paste-the-pooler-uri-from-the-Connect-dialog>'
-export SUPABASE_DB_URL="$(
-  python3 - <<'PY'
-import os
-import urllib.parse
-
-template = os.environ["SUPABASE_DB_URL_TEMPLATE"]
-password = urllib.parse.quote(os.environ["SUPABASE_DB_PASSWORD"], safe="")
-print(
-    template
-    .replace("[YOUR-PASSWORD]", password)
-    .replace("<password>", password)
-    .replace("<PASSWORD>", password)
-)
-PY
-)"
-
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
-  -f supabase/migrations/0001_oneroster_core_demo.sql
-```
-
-10. In **Project Settings -> API**, copy the **Project URL**.
-11. Copy a **Publishable key**. If your dashboard only shows legacy keys, copy the legacy `anon` key and use it as `SUPABASE_PUBLISHABLE_KEY`.
-12. Copy the legacy **service_role** key for the one-time Auth Admin call described above.
-13. Use those three values in `docs/build-an-edtech-app.md` Step 0. The guide creates a tenant-scoped test user in your project, then uses that user's JWT for the roster, gradebook, CASE alignment, and Caliper feed curls.
+1. Clone the repository and enter it: `git clone https://github.com/andymontgomery-byte/platform.git && cd platform`.
+2. Install Python 3 and PostgreSQL client tools so `python3` and `psql` are on your `PATH` (`brew install python libpq && brew link --force libpq` on macOS, or `sudo apt-get install -y python3 postgresql-client` on Debian/Ubuntu).
+3. Open `https://supabase.com/dashboard` and sign in or create an account.
+4. Click **New project**.
+5. Choose or create an organization.
+6. Name the project `platform-build-guide`.
+7. Generate a strong **Database Password** and save it. Supabase uses this as the `postgres` password in the database connection string and will not show it again.
+8. Choose a region. The nearest region is fine; the dashboard will give you the matching pooler host.
+9. Click **Create new project** and wait until provisioning finishes and the project dashboard is active.
+10. Click **Connect** in the top bar and copy a Postgres **Transaction pooler** or **Session pooler** connection string. If the URI contains `[YOUR-PASSWORD]`, `<password>`, or `<PASSWORD>`, delete that placeholder and the colon immediately before it before running the buildability guide's Step 0 bootstrap; `psql` will ask for the database password saved in step 7.
+11. In **Project Settings -> API**, copy the **Project URL**.
+12. Copy a **Publishable key**. If your dashboard only shows legacy keys, copy the legacy `anon` key and use it as `SUPABASE_PUBLISHABLE_KEY`.
+13. Copy the legacy **service_role** key that starts with `eyJ`; do not use an `sb_secret_...` key for the one-time Auth Admin bootstrap described above.
+14. Use the pooler URI, Project URL, publishable key, and legacy service-role key in `docs/build-an-edtech-app.md` Step 0. The `scripts/bootstrap_build_guide.py` command loads the generated platform schema, creates a tenant-scoped test user in your project, exchanges it for a JWT, and then the guide uses that user's JWT for the roster, gradebook, CASE alignment, and Caliper feed curls.
 
 This self-hosted path exercises the same migration-generated tables, RLS policies, and PostgREST requests as the hosted sandbox. It exists so a new developer can complete the guide from the docs without being a platform administrator on `qzxlgrerjoiamxvnkklq`.
 
