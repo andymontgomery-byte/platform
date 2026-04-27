@@ -1,25 +1,24 @@
 {
   "rubricVersion": "143bbf8f4d63",
-  "evaluatedAt": "2026-04-27T18:23:19+00:00",
+  "evaluatedAt": "2026-04-27T18:59:44+00:00",
   "model": "claude-opus-4-7",
   "counts": {
-    "pass": 24,
-    "partial": 1,
+    "pass": 25,
+    "partial": 0,
     "fail": 0,
     "blocked": 0,
     "total": 25
   },
-  "done": false,
+  "done": true,
   "items": [
     {
       "id": "decisions_complete",
       "status": "pass",
-      "reason": "All 20 decisions (DEC-001 through DEC-020) in docs/decisions/standards-overlap-decisions.md have id, question, options_considered, choice, consequences, and projects_to populated. decisions-needed.md maps each required area to a decision ID, and decisions-pending.md tracks remaining items with owner, target_date, and blocker.",
+      "reason": "DEC-001 through DEC-020 all populate id, question, options_considered, choice, consequences, and projects_to with concrete artifact references in `docs/decisions/standards-overlap-decisions.md`. The 20 areas listed in `docs/decisions/decisions-needed.md` each map to a decision with all six fields populated.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md",
-        "docs/decisions/decisions-needed.md",
-        "docs/decisions/decisions-pending.md"
+        "docs/decisions/decisions-needed.md"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -33,7 +32,7 @@
     {
       "id": "no_unforced_decisions",
       "status": "pass",
-      "reason": "docs/decisions/decisions-pending.md has two entries (PEND-001 and PEND-005) each with owner (Andy), target_date (2026-05-15 and 2026-05-03), blocker, and rationale. Target dates are in the future relative to the 2026-04-27 iteration timeframe.",
+      "reason": "`docs/decisions/decisions-pending.md` lists PEND-001 (target 2026-05-15) and PEND-005 (target 2026-05-03), each with description, rationale, blocker, owner, and target date. Both target dates are in the future relative to current iteration timestamps (~2026-04-27).",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/decisions-pending.md"
@@ -50,7 +49,7 @@
     {
       "id": "decisions_simplify",
       "status": "pass",
-      "reason": "Each decision's consequences section names concrete artifacts the decision deletes/collapses, e.g. DEC-001 'Removes per-function subject-to-person merge branches from supabase/functions/lti-launch-handler/index.ts...', DEC-007 'Removes duplicate source-ID columns from every public table', DEC-010 'Removes duplicated tenant where tenant_id = ... guard code from PostgREST callers'. Multiple decisions also include 'Why not collapse' justifications.",
+      "reason": "Each DEC consequences section names what is removed with concrete artifact references \u2014 e.g., DEC-007 removes per-table SIS/LTI/email columns naming `public.source_identifiers`; DEC-010 removes duplicated tenant `where tenant_id=` guards naming PostgREST and `demo/server.js`; DEC-015 removes service-role client construction in five named Edge Function paths.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
@@ -67,7 +66,7 @@
     {
       "id": "decisions_have_real_alternatives",
       "status": "pass",
-      "reason": "Each decision in standards-overlap-decisions.md has three options_considered including credible aggressive simplifications (e.g. DEC-001 'Collapse every user, actor, profile, and credential subject into one person', DEC-005 'Use LTI AGS line items and results as the only canonical gradebook model'), permissive alternatives, and the chosen middle. The aggressive options are real architectural choices, not strawmen.",
+      "reason": "Each decision provides at least three credible options including a more aggressive collapse and a more permissive preservation \u2014 e.g., DEC-001 considers full collapse to one `person` vs separate per-spec tables vs the chosen middle, with a 'why not collapse' justification. DEC-009 explicitly considers QTI as the canonical content catalog as the aggressive alternative.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/decisions/standards-overlap-decisions.md"
@@ -84,7 +83,7 @@
     {
       "id": "dictionary_single_source_of_truth",
       "status": "pass",
-      "reason": "data/data-dictionary.seed.json has projection_policy citing DEC-016, scripts/generate_spec_dictionaries.py generates the per-spec files, and VERIFY.md runs `python3 scripts/generate_spec_dictionaries.py --check` which the PROGRESS log shows passing with 5 projections, 59 objects, 575 fields. The seed includes canonical_objects with projections to per-spec dictionaries.",
+      "reason": "`data/data-dictionary.seed.json` declares projection_policy with DEC-016 and `scripts/generate_spec_dictionaries.py --check` is run in VERIFY.md. The seed contains 575 fields across 59 objects projecting to all five per-spec dictionaries, and PROGRESS confirms `--check passed with 5 projections, 59 objects, and 575 fields`.",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
@@ -103,14 +102,10 @@
     {
       "id": "dictionary_resolves_cross_spec_overlaps",
       "status": "pass",
-      "reason": "data/data-dictionary.seed.json defines canonical_objects (canonical.identity.person, canonical.context.class, etc.) with projections lists. Per-spec dictionaries like dictionary/oneroster-core.v1.json reference shared canonical fields. The example shared canonical email field projects to OneRoster person.email, Caliper caliper_actor.email, LTI lti_membership.email, and QTI qti_candidate.email per the seed's canonical.identity.person.email projections.",
+      "reason": "The seed defines canonical objects (canonical.identity.person, canonical.context.class, canonical.outcome.line_item, etc.) with field-level projections listing per-spec dictionary refs. For example, canonical.identity.person.email projects to oneroster, caliper, integration-governance, and qti email fields.",
       "traced_cause": "",
       "evidence_paths": [
-        "data/data-dictionary.seed.json",
-        "dictionary/oneroster-core.v1.json",
-        "dictionary/caliper-core.v1.json",
-        "dictionary/qti-core.v1.json",
-        "dictionary/integration-governance-core.v1.json"
+        "data/data-dictionary.seed.json"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -124,7 +119,7 @@
     {
       "id": "dictionary_unifies_identity",
       "status": "pass",
-      "reason": "data/data-dictionary.seed.json defines canonical.identity.person as its own object record with fields (id, display_name, email, source_subject_id, identity_kind), allowed values, and explicit projections to OneRoster person, Caliper caliper_actor, QTI qti_candidate, LTI lti_membership, and lti_launch.subject_id. The unification is data, not prose.",
+      "reason": "`canonical.identity.person` exists as a top-level canonical object in the seed with fields (id, display_name, email, source_subject_id, identity_kind) and projections to OneRoster Person, Caliper Actor, QTI Candidate, LTI membership, and LTI launch subject_id. The QTI projection is documented as a `spec_only` exception with DEC-012 traceability.",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json"
@@ -141,14 +136,12 @@
     {
       "id": "dictionary_global_enums",
       "status": "pass",
-      "reason": "Per-spec dictionaries include shared_enums arrays with shared_enum_id, canonical_values, crosswalk (spec-native -> canonical), and reverse_crosswalk (canonical -> spec-native). Example: dictionary/oneroster-core.v1.json shared_enum 'grading_progress' maps OneRoster score_status values and LTI grading_progress values to the same canonical values bidirectionally.",
+      "reason": "Per-spec dictionaries (oneroster-core.v1.json, caliper-core.v1.json, case-core.v1.json, integration-governance-core.v1.json, qti-core.v1.json) carry `shared_enums` arrays with shared_enum_id, canonical_values, crosswalk, and reverse_crosswalk. Cross-spec values like `grading_progress` map both OneRoster `score_status` and LTI `grading_progress` to the same canonical values bidirectionally.",
       "traced_cause": "",
       "evidence_paths": [
         "dictionary/oneroster-core.v1.json",
         "dictionary/caliper-core.v1.json",
-        "dictionary/case-core.v1.json",
-        "dictionary/integration-governance-core.v1.json",
-        "dictionary/qti-core.v1.json"
+        "dictionary/integration-governance-core.v1.json"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -162,15 +155,12 @@
     {
       "id": "dictionary_closed_privacy_classes",
       "status": "pass",
-      "reason": "data/data-dictionary.seed.json defines a closed privacy_classes list of 9 values (public, operational, directory, education_record, behavioral, sensitive, credential, privacy_governance, system) all citing DEC-019. All five per-spec dictionaries (oneroster, qti, case, caliper, integration-governance) carry the identical privacy_classes list. No depends_on_contents/depends_on_entity placeholders.",
+      "reason": "The seed declares 9 closed privacy classes (public, operational, directory, education_record, behavioral, sensitive, credential, privacy_governance, system) each citing DEC-019. All five per-spec dictionaries reproduce identical privacy_classes arrays. No `depends_on_*` placeholders appear.",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
         "dictionary/caliper-core.v1.json",
-        "dictionary/oneroster-core.v1.json",
-        "dictionary/qti-core.v1.json",
-        "dictionary/case-core.v1.json",
-        "dictionary/integration-governance-core.v1.json"
+        "dictionary/oneroster-core.v1.json"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -184,7 +174,7 @@
     {
       "id": "dictionary_carries_relational_graph",
       "status": "pass",
-      "reason": "data/data-dictionary.seed.json has a migration_generation block citing DEC-020, listing runtime_object_keys, table_order, and relationship_keys. scripts/generate_supabase_migrations.py generates supabase/migrations/0001_oneroster_core_demo.sql from the dictionary's relationships, and VERIFY runs `--check` to gate drift. The migration file is generated with header 'Generated by scripts/generate_supabase_migrations.py'.",
+      "reason": "`data/data-dictionary.seed.json` migration_generation block declares 11 runtime objects, 13 relationships, and `scripts/generate_supabase_migrations.py --check` runs in VERIFY.md. Generated `supabase/migrations/0001_oneroster_core_demo.sql` contains FK references derived from this graph, and PROGRESS confirms `1 migration, 11 tables, and 13 relationships` zero-diff.",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
@@ -203,12 +193,11 @@
     {
       "id": "dictionary_artifacts_cite_decisions",
       "status": "pass",
-      "reason": "Every field, object, enum, and privacy class in data/data-dictionary.seed.json and the per-spec dictionaries carries a decision_id. Privacy classes cite DEC-019, shared enums cite DEC-018, canonical objects/fields cite DEC-001 through DEC-009, and projection metadata cites DEC-016/DEC-020. Spot-checking dictionary/oneroster-core.v1.json shared_enums shows decision_id on every canonical value and crosswalk entry.",
+      "reason": "Privacy classes, canonical fields, shared enums, and canonical values all carry `decision_id` references (DEC-019, DEC-018, DEC-001, DEC-007, etc.) that resolve to entries in `docs/decisions/standards-overlap-decisions.md`.",
       "traced_cause": "",
       "evidence_paths": [
         "data/data-dictionary.seed.json",
-        "dictionary/oneroster-core.v1.json",
-        "dictionary/caliper-core.v1.json"
+        "docs/decisions/standards-overlap-decisions.md"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -222,7 +211,7 @@
     {
       "id": "spec_fidelity_provable",
       "status": "pass",
-      "reason": "docs/spec-fidelity-report.md is generated by scripts/generate_spec_fidelity_report.py with copy-exact seam defects: 0 and extension fields missing rationale: 0. VERIFY.md runs both `--report-only` and `--check`. The report shows per-spec breakdown for caliper-core, case-core, integration-governance-core, oneroster-core, qti-core. Every extension field in the table has a non-missing rationale.",
+      "reason": "`docs/spec-fidelity-report.md` is generated by `scripts/generate_spec_fidelity_report.py` (run in VERIFY.md with both `--report-only` and `--check`), reports 0 copy-exact seam defects, 0 extension fields missing rationale, and provides per-spec breakdown plus extension table with rationales for all 162 extension fields.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/spec-fidelity-report.md",
@@ -240,13 +229,13 @@
     {
       "id": "docs_generated_from_dictionary",
       "status": "pass",
-      "reason": "scripts/generate_oneroster_core.py, generate_qti_core.py, generate_case_core.py, generate_caliper_core.py, and generate_integration_governance_core.py each emit Markdown and HTML dictionary pages from the per-spec dictionaries. VERIFY runs all five generators plus build_site_docs.py. site/docs/build-an-edtech-app.html shows hand-written prose linking to dictionary anchors (e.g. oneroster-core-dictionary.html#person.email). check_dictionary_artifacts.py verifies coverage.",
+      "reason": "`scripts/generate_oneroster_core.py`, `generate_qti_core.py`, `generate_case_core.py`, `generate_caliper_core.py`, and `generate_integration_governance_core.py` produce HTML/Markdown/SQL/OpenAPI from per-spec dictionaries. VERIFY.md runs all five plus `build_site_docs.py`. The buildability guide links to dictionary anchors like `oneroster-core-dictionary.html#person.id`.",
       "traced_cause": "",
       "evidence_paths": [
-        "VERIFY.md",
         "scripts/generate_caliper_core.py",
         "scripts/generate_case_core.py",
-        "site/docs/build-an-edtech-app.html"
+        "docs/build-an-edtech-app.md",
+        "VERIFY.md"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -260,7 +249,7 @@
     {
       "id": "docs_explain_why_not_only_what",
       "status": "pass",
-      "reason": "docs/decision-map-for-builders.md exists and is referenced from docs/build-an-edtech-app.md with plain-language explanations: 'It explains why the guide uses person, class, enrollment, line_item, result, CASE targets, tenant-scoped user JWTs, and Caliper activity records instead of asking app code to reconcile those standards one by one.' The decision register renders as HTML at site/docs/decisions-standards-overlap-decisions.html with anchors per decision (DEC-001 through DEC-020).",
+      "reason": "`docs/decision-map-for-builders.md` (rendered at `site/docs/decision-map-for-builders.html`, reachable from buildability guide and docs index) explains in plain language why person/class/enrollment/line_item/result/CASE-target/JWT/Caliper choices exist, linking each to DEC-001 through DEC-015. The buildability guide opens with a link to this map.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/build-an-edtech-app.md",
@@ -278,7 +267,7 @@
     {
       "id": "docs_include_buildability_guide",
       "status": "pass",
-      "reason": "docs/build-an-edtech-app.md walks through all five required steps: (1) creating org_build_school with teacher and ten students via curl POST /rest/v1/organizations and /rest/v1/people, (2) creating class_build_math_6a with enrollments via /rest/v1/classes and /rest/v1/enrollments, (3) posting numeric grade via /rest/v1/line_items and /rest/v1/results, (4) linking assignment to CASE URI via /rest/v1/case_items and PATCH /rest/v1/line_items, (5) reading Caliper-style feed via /rest/v1/class_activity_feed. Every field and enum value links to its dictionary entry.",
+      "reason": "`docs/build-an-edtech-app.md` walks through Step 0 bootstrap (psql + Auth Admin + token exchange), Step 1 create school+teacher+10 students, Step 2 create class+enrollments, Step 3 post numeric grade, Step 4 link assignment to CASE URI, Step 5 read Caliper-style class_activity_feed. Every step includes copy-pasteable curl/SQL with dictionary anchor links per field and enum value.",
       "traced_cause": "",
       "evidence_paths": [
         "docs/build-an-edtech-app.md",
@@ -296,10 +285,11 @@
     {
       "id": "docs_no_dead_links_or_orphans",
       "status": "pass",
-      "reason": "site/api/site-link-check.json reports status: 'pass' with 39 HTML pages, 330 local links checked, 634 dictionary entries, 20 decisions, 12 API endpoints, errors: 0, and reachable_html_pages: 39 (matching html_pages: 39). All pages are reachable from site/index.html within max_clicks: 3.",
+      "reason": "`site/api/site-link-check.json` reports 0 errors, 39 HTML pages, 330 local links, 634 dictionary entries, 20 decisions, and 12 API endpoints all reachable within \u22642 clicks (max_clicks=3). VERIFY.md runs `scripts/check_site_links.py` every iteration.",
       "traced_cause": "",
       "evidence_paths": [
-        "site/api/site-link-check.json"
+        "site/api/site-link-check.json",
+        "VERIFY.md"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -312,18 +302,18 @@
     },
     {
       "id": "buildable_by_layperson",
-      "status": "partial",
-      "reason": "The guide is comprehensive and links to dictionary anchors, but Step 0 requires the layperson to create their own Supabase project and generate a service-role key from a dashboard - this is a setup prerequisite outside the docs themselves. More substantively, scripts/bootstrap_build_guide.py is invoked but is referenced from docs/build-an-edtech-app.md as if standalone; the layperson must run a Python script (not just curl/SQL) which the rubric specifies should be 'curl commands, SQL statements, and data shapes'. The bootstrap step is necessary but adds a dependency the rubric describes as 'reads only docs/'.",
-      "traced_cause": "docs/build-an-edtech-app.md Step 0: replace the python3 scripts/bootstrap_build_guide.py invocation with explicit curl/psql commands, or document the bootstrap script's exact behavior inline so a layperson can reproduce it without running platform code. Alternatively, surface the bootstrap as a documented one-line setup the rubric explicitly permits.",
+      "status": "pass",
+      "reason": "Simulated layperson reading only `docs/build-an-edtech-app.md`, `docs/supabase-hosted-database.md`, and the linked decision map and dictionary anchors can produce executable curl/SQL for all five steps. Step 0 provides explicit 0a/0b/0c psql/curl/curl commands to bootstrap a fresh sandbox; Steps 1-5 give complete payloads with dictionary-linked field names and enum values. Self-hosted onboarding path is documented for users without platform admin access.",
+      "traced_cause": "",
       "evidence_paths": [
         "docs/build-an-edtech-app.md",
-        "scripts/bootstrap_build_guide.py"
+        "docs/supabase-hosted-database.md",
+        "site/docs/build-an-edtech-app.html"
       ],
       "blocked_prerequisites": [],
       "consensus": {
         "run_statuses": {
-          "partial": 1,
-          "pass": 2
+          "pass": 3
         },
         "selected_from_run": 1,
         "rule": "lowest-pass-on-disagreement"
@@ -332,7 +322,7 @@
     {
       "id": "evaluator_traces_failures_backward",
       "status": "pass",
-      "reason": "scripts/evaluate_platform.py contains DEFAULT_TRACED_CAUSES dict mapping every rubric ID to a specific lower-layer artifact and required change. ensure_traced_causes() and normalize_traced_cause() enforce non-empty traced_cause for every non-pass item. normalize_buildability_gaps() ensures each gap has step, gap, and traced_cause fields. The evaluator's instructions explicitly require traced_cause to name 'the lowest-layer artifact that must change and the required change'.",
+      "reason": "`scripts/evaluate_platform.py` defines DEFAULT_TRACED_CAUSES per item and `normalize_traced_cause` ensures every non-pass verdict carries a non-empty traced_cause naming the lowest-layer artifact. `normalize_buildability_gaps` enforces traced_cause on every gap.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/evaluate_platform.py"
@@ -349,12 +339,12 @@
     {
       "id": "evaluator_runs_each_iteration",
       "status": "pass",
-      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --runs 3 --output site/api/platform-evaluation.json`. The script writes site/api/platform-evaluation.json with done flag, per-item status, traced_cause for non-pass items, and buildability_gaps array. PROGRESS.md entries from iter1, iter2, iter3 (2026-04-27) all show evaluator counts and per-item statuses recorded.",
+      "reason": "VERIFY.md ends with `python3 scripts/evaluate_platform.py --runs 3 --output site/api/platform-evaluation.json`. Recent PROGRESS entries show fresh per-iteration reports with counts, traced_cause fields, and buildability_gaps arrays.",
       "traced_cause": "",
       "evidence_paths": [
         "VERIFY.md",
-        "scripts/evaluate_platform.py",
-        "PROGRESS.md"
+        "PROGRESS.md",
+        "scripts/evaluate_platform.py"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -368,7 +358,7 @@
     {
       "id": "loop_overrides_respected",
       "status": "pass",
-      "reason": "scripts/codex_loop.py defines read_overrides(), overrides_paused() (which checks for PAUSE token outside HTML comments), and format_overrides_for_prompt(). The PAUSE check runs at the top of each iteration before any work begins. The prompt builder injects overrides under 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE...)' with explicit precedence over rubric defaults.",
+      "reason": "`scripts/codex_loop.py` defines `read_overrides`, `overrides_paused` checking literal PAUSE token outside HTML comments, calls `overrides_paused(overrides)` before each iteration, and `build_prompt` injects overrides under 'Human overrides from `docs/loop-overrides.md` (AUTHORITATIVE \u2014 these supersede rubric defaults...)'.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py"
@@ -385,7 +375,7 @@
     {
       "id": "loop_terminates_on_done",
       "status": "pass",
-      "reason": "scripts/codex_loop.py _run_loop() reads after_eval from VERIFY's evaluator output via load_verify_evaluator_output() (which refuses stale mtime), then 'if after_eval and after_eval.get(\"done\"): return 0'. When Codex stdout contains 'LOOP_STATUS: COMPLETE' but evaluator says done=false, it logs 'Codex reported COMPLETE but evaluator says work remains. Continuing.' and continues. Termination is verifier-driven, not narrative-driven.",
+      "reason": "`scripts/codex_loop.py._run_loop` reads `after_eval = load_verify_evaluator_output(...)` from the VERIFY-stage report and terminates only on `after_eval.get('done')`. When Codex stdout claims `LOOP_STATUS: COMPLETE` but VERIFY says done=false, it logs 'Codex reported COMPLETE but evaluator says work remains. Continuing.'",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py"
@@ -402,7 +392,7 @@
     {
       "id": "loop_publishes_durably",
       "status": "pass",
-      "reason": "scripts/codex_loop.py maybe_publish() does run_git fetch origin main, then run_git pull --rebase origin main, then run_git push. On rebase failure it captures conflicting paths via `git diff --name-only --diff-filter=U`, runs `git rebase --abort`, and returns 'DIVERGENCE:' which causes _run_loop to print and `return 1` halting the loop. PROGRESS.md captures the divergence in append_machine_progress.",
+      "reason": "`maybe_publish` calls `git fetch origin main` then `git pull --rebase origin main` before `git push`. On rebase failure it captures conflicting paths via `git diff --name-only --diff-filter=U`, runs `git rebase --abort`, and returns a `DIVERGENCE:` status that propagates to `_run_loop` which returns 1. PROGRESS records the divergence message.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py"
@@ -419,12 +409,13 @@
     {
       "id": "evaluator_is_deterministic",
       "status": "pass",
-      "reason": "scripts/evaluate_platform.py pins temperature to 0 via deterministic_temperature_for_model() (with documented exception for claude-opus-4-7 which rejects the parameter). VERIFY.md runs `--runs 3`. build_consensus_report() picks the safer (lowest-pass) verdict per item using STATUS_SAFETY_RANK = {fail:0, partial:1, blocked:2, pass:3}, treats done=false from any run as the consensus done flag, and writes the determinism block with every run's counts/statuses and disagreements. scripts/codex_loop.py enforces minimum 3 runs and refuses fewer.",
+      "reason": "`scripts/evaluate_platform.py.deterministic_temperature_for_model` pins temperature=0 for non-opus-4-7 models. VERIFY runs `--runs 3`. `build_consensus_report` selects the safer lower-pass status using STATUS_SAFETY_RANK={fail:0, partial:1, blocked:2, pass:3} and forces done=false if any run reports done=false. Disagreements are persisted to the determinism block in `site/api/platform-evaluation.json` and to PROGRESS via `format_evaluator_runs_for_progress`.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/evaluate_platform.py",
         "scripts/codex_loop.py",
-        "VERIFY.md"
+        "VERIFY.md",
+        "PROGRESS.md"
       ],
       "blocked_prerequisites": [],
       "consensus": {
@@ -438,7 +429,7 @@
     {
       "id": "progress_log_bound_to_verify",
       "status": "pass",
-      "reason": "scripts/codex_loop.py append_machine_progress() reads counts from after_eval (the parsed VERIFY evaluator JSON), not from Codex's last_message. When 'LOOP_STATUS: COMPLETE' is in final_text but after_eval reports done=false, it appends 'narrative_verify_mismatch: Codex claimed `LOOP_STATUS: COMPLETE`; VERIFY evaluator reported `done=false` with counts {verify_counts}.' The 2026-04-27 iter1 backfill entry in PROGRESS.md explicitly cites VERIFY's pass=20 partial=2 done=false and supersedes the earlier optimistic claim.",
+      "reason": "`append_machine_progress` reads `after_eval` (loaded from VERIFY-stage `site/api/platform-evaluation.json` via `load_verify_evaluator_output` which enforces fresh mtime and \u22653 runs), formats VERIFY counts/done verbatim, and writes a `narrative_verify_mismatch` line when Codex stdout contains `LOOP_STATUS: COMPLETE` while VERIFY done=false. Recent PROGRESS entries include all per-run statuses and disagreements.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py",
@@ -456,7 +447,7 @@
     {
       "id": "committed_eval_matches_verify",
       "status": "pass",
-      "reason": "scripts/codex_loop.py maybe_publish() calls staged_eval_matches_verify() which runs `git show :site/api/platform-evaluation.json`, applies comparable_eval (which strips evaluatedAt), and compares per-item status, counts, done, and buildability_gaps via summarize_eval_diff. On mismatch maybe_publish returns 'skipped: staged evaluation does not match VERIFY output' before commit, blocking publish.",
+      "reason": "`scripts/codex_loop.py.staged_eval_matches_verify` reads the staged `site/api/platform-evaluation.json` via `git show :site/api/platform-evaluation.json`, calls `comparable_eval` to strip `evaluatedAt`, compares against VERIFY output, and `maybe_publish` returns `skipped: staged evaluation does not match VERIFY output: <detail>` blocking commit on any other diff via `summarize_eval_diff`.",
       "traced_cause": "",
       "evidence_paths": [
         "scripts/codex_loop.py"
@@ -471,13 +462,7 @@
       }
     }
   ],
-  "buildability_gaps": [
-    {
-      "step": "create_school",
-      "gap": "Step 0 requires running `python3 scripts/bootstrap_build_guide.py` which is platform code, not a documented curl/SQL command. The rubric specifies the layperson should produce 'curl commands, SQL statements, and data shapes' from docs alone.",
-      "traced_cause": "docs/build-an-edtech-app.md Step 0: either inline the bootstrap script's psql/curl operations as documented commands the reader can run directly, or explicitly document that the bootstrap script is part of the platform's published tooling (and the layperson is expected to invoke it as a one-line setup)."
-    }
-  ],
+  "buildability_gaps": [],
   "projections": {
     "source": "docs/decisions/standards-overlap-decisions.md",
     "projectionMatchItemStatus": "unknown",
@@ -1598,9 +1583,9 @@
       "note": "Anthropic Messages API does not expose a seed parameter. For models that still expose temperature, the evaluator pins it to 0. claude-opus-4-7 rejects the temperature parameter as deprecated, so the loop relies on N>=3 safer consensus for that model."
     },
     "consensus_rule": "If all runs agree, keep the unanimous verdict. If any per-item status disagrees, select the safer lower-pass status using fail < partial < blocked < pass. If any run reports done=false, the consensus done flag is false.",
-    "unanimous": false,
+    "unanimous": true,
     "done_values": [
-      false,
+      true,
       true,
       true
     ],
@@ -1608,13 +1593,13 @@
       {
         "run": 1,
         "counts": {
-          "pass": 24,
-          "partial": 1,
+          "pass": 25,
+          "partial": 0,
           "fail": 0,
           "blocked": 0,
           "total": 25
         },
-        "done": false,
+        "done": true,
         "item_statuses": {
           "decisions_complete": "pass",
           "no_unforced_decisions": "pass",
@@ -1632,7 +1617,7 @@
           "docs_explain_why_not_only_what": "pass",
           "docs_include_buildability_guide": "pass",
           "docs_no_dead_links_or_orphans": "pass",
-          "buildable_by_layperson": "partial",
+          "buildable_by_layperson": "pass",
           "evaluator_traces_failures_backward": "pass",
           "evaluator_runs_each_iteration": "pass",
           "loop_overrides_respected": "pass",
@@ -1720,27 +1705,7 @@
         }
       }
     ],
-    "disagreements": [
-      {
-        "id": "buildable_by_layperson",
-        "run_statuses": {
-          "partial": 1,
-          "pass": 2
-        },
-        "selected_status": "partial",
-        "selected_from_run": 1
-      },
-      {
-        "id": "done",
-        "run_values": [
-          false,
-          true,
-          true
-        ],
-        "selected_status": false,
-        "rule": "done=false-if-any-run-is-false"
-      }
-    ],
+    "disagreements": [],
     "consensus_item_statuses": {
       "decisions_complete": "pass",
       "no_unforced_decisions": "pass",
@@ -1758,7 +1723,7 @@
       "docs_explain_why_not_only_what": "pass",
       "docs_include_buildability_guide": "pass",
       "docs_no_dead_links_or_orphans": "pass",
-      "buildable_by_layperson": "partial",
+      "buildable_by_layperson": "pass",
       "evaluator_traces_failures_backward": "pass",
       "evaluator_runs_each_iteration": "pass",
       "loop_overrides_respected": "pass",
