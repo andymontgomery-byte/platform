@@ -8,26 +8,26 @@ There is a seam between 1EdTech and our extensions. On the 1EdTech side every fi
 
 - dictionary_version: `0.1.0`
 - generated_from: `data/data-dictionary.seed.json`
-- copy-exact seam defects detected this run: **37**
+- copy-exact seam defects detected this run: **0**
 
 ## Field origins
 
 | Origin | Field count | Share |
 |---|---:|---:|
-| 1EdTech-native (copy-exact) | 421 | 74.1% |
-| Shared canonical (cross-spec join) | 9 | 1.6% |
-| Extension (ours, tagged) | 138 | 24.3% |
-| **Total** | **568** | **100.0%** |
+| 1EdTech-native (copy-exact) | 400 | 69.6% |
+| Shared canonical (cross-spec join) | 13 | 2.3% |
+| Extension (ours, tagged) | 162 | 28.2% |
+| **Total** | **575** | **100.0%** |
 
 ## Per-spec breakdown
 
 | Spec | Objects | 1EdTech | Shared canonical | Extension | Verdict |
 |---|---:|---:|---:|---:|---|
-| `caliper-core` | 7 | 69 | 5 | 0 | Verbatim 1EdTech (no extensions added) |
-| `case-core` | 14 | 128 | 0 | 0 | Verbatim 1EdTech (no extensions added) |
+| `caliper-core` | 7 | 68 | 6 | 1 | 1EdTech with 1 extension field(s) |
+| `case-core` | 14 | 127 | 0 | 1 | 1EdTech with 1 extension field(s) |
 | `integration-governance-core` | 13 | 0 | 0 | 138 | Pure extension layer (not 1EdTech) |
-| `oneroster-core` | 9 | 79 | 4 | 0 | Verbatim 1EdTech (no extensions added) |
-| `qti-core` | 15 | 145 | 0 | 0 | Verbatim 1EdTech (no extensions added) |
+| `oneroster-core` | 9 | 64 | 3 | 17 | 1EdTech with 17 extension field(s) |
+| `qti-core` | 16 | 141 | 4 | 5 | 1EdTech with 5 extension field(s) |
 
 ## Extension fields (every non-1EdTech field, with rationale)
 
@@ -35,186 +35,172 @@ Every extension field MUST carry an `extension_rationale` in `data/data-dictiona
 
 | Spec | Object | Field | Rationale |
 |---|---|---|---|
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.id` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.launch_id` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.item_type` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.title` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.url` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.html` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.document_target` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.line_item_json` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.availability_start_at` | _(missing)_ |
-| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.submission_end_at` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.id` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.registration_id` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.deployment_id` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.deployment_scope` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.context_id` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.resource_link_id` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.service_scopes` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.status` | _(missing)_ |
-| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.created_at` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.id` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.service_endpoint_id` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.line_item_url` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.line_item_label` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.score_maximum` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.score_given` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.user_id` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.activity_progress` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.grading_progress` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.timestamp` | _(missing)_ |
-| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.exchange_status` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.id` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.tenant_id` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.registration_id` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.deployment_id` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.message_type` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.lti_version` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.subject_id` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.context_id` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.roles` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.target_link_uri` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.nonce_hash` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.id_token_hash` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.raw_claims` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.launched_at` | _(missing)_ |
-| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.validation_status` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.integration-governance-core.lti_membership.id` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.integration-governance-core.lti_membership.service_endpoint_id` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.integration-governance-core.lti_membership.context_id` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.identity.person.source_subject_id` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.identity.person.id` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.identity.person.display_name` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.identity.person.email` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.integration-governance-core.lti_membership.roles` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.integration-governance-core.lti_membership.status` | _(missing)_ |
-| `integration-governance-core` | LTI Membership | `canonical.identity.person.source_subject_id` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.id` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.tenant_id` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.issuer` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.client_id` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.tool_name` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.initiate_login_uri` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.redirect_uris` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.jwks_uri` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.authorization_endpoint` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.token_endpoint` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.allowed_scopes` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.status` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.created_at` | _(missing)_ |
-| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.updated_at` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.id` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.deployment_id` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.service_type` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.endpoint_url` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.service_versions` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.required_scope` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.context_id` | _(missing)_ |
-| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.policy_status` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.id` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.tenant_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.actor_person_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.client_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.event_type` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.object_type` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.object_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.privacy_class` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.policy_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.occurred_at` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.outcome` | _(missing)_ |
-| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.reason` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.id` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.tenant_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.person_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.guardian_person_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.rule_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.consent_status` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.effective_at` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.expires_at` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.source_method` | _(missing)_ |
-| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.evidence_uri` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.id` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.tenant_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.data_category` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.privacy_class` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.recipient_type` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.purpose` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.legal_basis` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.field_patterns` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.minimization_note` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.status` | _(missing)_ |
-| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.reviewed_at` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.id` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.tenant_id` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.source_standard` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.data_category` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.retention_period_days` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.action_on_expiry` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.raw_payload_policy` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.legal_hold` | _(missing)_ |
-| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.status` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.id` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.tenant_id` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.client_id` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.client_name` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.jwks_uri` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.public_jwk` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.auth_method` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.grant_types` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.allowed_scopes` | _(missing)_ |
-| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.status` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.id` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.scope` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.api_resource` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.allowed_action` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.privacy_ceiling` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.field_patterns` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.requires_launch_context` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.allowed_roles` | _(missing)_ |
-| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.policy_status` | _(missing)_ |
+| `caliper-core` | Caliper Event | `canonical.activity.event.id` | Platform extension: stable internal event identifier used for ingestion receipts and local joins; Caliper event id remains the copy-exact event identifier. |
+| `case-core` | CASE Framework Item | `canonical.curriculum.standard.id` | Platform extension: stable internal CASE item identifier used for local joins; CASE URI and source identifiers remain copy-exact fields. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.resource.learning_resource.id` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.integration-governance-core.lti_deep_link_item.launch_id` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.resource.learning_resource.resource_type` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.resource.learning_resource.title` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.resource.learning_resource.source_uri` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.resource.learning_resource.embed_html` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.resource.learning_resource.launch_target` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.outcome.line_item.source_payload` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.time.assignment.available_at` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deep Link Item | `canonical.time.assignment.due_date` | Extension rationale: LTI Deep Linking selection metadata needed to persist tool-supplied launch content; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.id` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.registration_id` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.integration.deployment.source_deployment_id` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.deployment_scope` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.context.class.source_context_id` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.resource.learning_resource.source_resource_id` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.service_scopes` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.integration-governance-core.lti_deployment.status` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Deployment | `canonical.time.record.created_at` | Extension rationale: LTI deployment state needed to bind registrations to tenant, context, and service policy; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.id` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.integration-governance-core.lti_grade_exchange.service_endpoint_id` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.line_item.source_line_item_id` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.line_item.title` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.line_item.score_maximum` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.result.score` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.result.learner_id` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.result.activity_progress` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.result.grading_status` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.result.scored_at` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Grade Exchange | `canonical.outcome.result.exchange_status` | Extension rationale: LTI AGS grade exchange metadata needed to track score and line-item service interactions; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.id` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.tenant_id` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.registration_id` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration.deployment.source_deployment_id` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.activity.event.message_type` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.lti_version` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.identity.person.source_subject_id` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.context.class.source_context_id` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.role.family.role_values` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.resource.learning_resource.source_uri` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.nonce_hash` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.id_token_hash` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.raw_claims` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.time.event.occurred_at` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Launch | `canonical.integration-governance-core.lti_launch.validation_status` | Extension rationale: LTI launch receipt and claim metadata needed for validation and audit; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.roster.membership.id` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.integration-governance-core.lti_membership.service_endpoint_id` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.context.class.source_context_id` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.identity.person.source_subject_id` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.identity.person.id` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.identity.person.display_name` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.identity.person.email` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.role.family.role_values` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.roster.membership.status` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Membership | `canonical.identity.person.source_subject_id` | Extension rationale: LTI NRPS membership projection metadata needed to reconcile tool memberships with platform identities; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.id` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.tenant_id` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.issuer` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.client_id` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.tool_name` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.initiate_login_uri` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.redirect_uris` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.jwks_uri` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.authorization_endpoint` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.token_endpoint` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.allowed_scopes` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.integration-governance-core.lti_registration.status` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.time.record.created_at` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Registration | `canonical.time.record.modified_at` | Extension rationale: LTI registration governance metadata needed to validate OIDC launches and route Advantage services; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.id` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.deployment_id` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.service_type` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.endpoint_url` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.service_versions` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.required_scope` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.context.class.source_context_id` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | LTI Service Endpoint | `canonical.integration-governance-core.lti_service_endpoint.policy_status` | Extension rationale: LTI Advantage service endpoint policy metadata needed for scoped service calls; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.id` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.tenant_id` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.actor_person_id` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.client_id` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.event_type` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.object_type` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.object_id` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.privacy_class` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.policy_id` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.time.event.occurred_at` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.outcome` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Audit Event | `canonical.integration-governance-core.privacy_audit_event.reason` | Extension rationale: Data Privacy audit metadata needed to record sensitive-data access and policy outcomes; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.id` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.tenant_id` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.person_id` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.guardian_person_id` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.rule_id` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.consent_status` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.time.validity.start_at` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.time.validity.end_at` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.source_method` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Consent Record | `canonical.integration-governance-core.privacy_consent_record.evidence_uri` | Extension rationale: Data Privacy consent metadata needed to record authorization evidence and effective dates; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.id` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.tenant_id` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.data_category` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.privacy_class` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.recipient_type` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.purpose` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.legal_basis` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.field_patterns` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.minimization_note` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.integration-governance-core.privacy_data_sharing_rule.status` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Data Sharing Rule | `canonical.time.record.reviewed_at` | Extension rationale: Data Privacy policy metadata needed to document permitted sharing and minimization; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.id` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.tenant_id` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.source_standard` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.data_category` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.time.retention.period_days` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.action_on_expiry` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.raw_payload_policy` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.legal_hold` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Privacy Retention Rule | `canonical.integration-governance-core.privacy_retention_rule.status` | Extension rationale: Data Privacy retention metadata needed to govern retention periods, expiry actions, and legal holds; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.id` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.tenant_id` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.client_id` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.client_name` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.jwks_uri` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.public_jwk` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.auth_method` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.grant_types` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.allowed_scopes` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security OAuth Client | `canonical.integration-governance-core.security_oauth_client.status` | Extension rationale: Security Framework OAuth client metadata needed for token validation and policy enforcement; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.id` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.scope` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.api_resource` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.allowed_action` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.privacy_ceiling` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.field_patterns` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.requires_launch_context` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.role.family.role_values` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `integration-governance-core` | Security Scope Policy | `canonical.integration-governance-core.security_scope_policy.policy_status` | Extension rationale: Security Framework scope-policy metadata needed to map OAuth scopes to field, action, and privacy boundaries; outside OneRoster/QTI/CASE/Caliper field sets. |
+| `oneroster-core` | Academic Session | `canonical.time.academic_session.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Class | `canonical.context.class.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Course | `canonical.context.course.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Enrollment | `canonical.roster.membership.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Line Item | `canonical.outcome.line_item.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Line Item | `canonical.curriculum.standard.uri` | Platform extension: carries the CASE alignment URI used by the teaching-app runtime; OneRoster lineItem has no copy-exact field for this cross-standard link. |
+| `oneroster-core` | Organization | `canonical.context.organization.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Person | `canonical.identity.person.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Person | `canonical.identity.person.display_name` | Platform extension: derived convenience name for UI and search from OneRoster name parts; the source name fields remain copy-exact. |
+| `oneroster-core` | Person | `canonical.role.family.role_values` | Platform extension: single role-family convenience value derived from OneRoster roles; it is not a replacement for the source role values. |
+| `oneroster-core` | Result | `canonical.outcome.result.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Source Identifier | `canonical.oneroster-core.source_identifier.id` | Platform extension: stable internal identifier used for local joins; the OneRoster sourcedId remains a separate copy-exact field. |
+| `oneroster-core` | Source Identifier | `canonical.oneroster-core.source_identifier.object_type` | Platform extension: local source-identifier crosswalk metadata used to match external IDs; it is not a copy-exact OneRoster field. |
+| `oneroster-core` | Source Identifier | `canonical.oneroster-core.source_identifier.object_id` | Platform extension: local source-identifier crosswalk metadata used to match external IDs; it is not a copy-exact OneRoster field. |
+| `oneroster-core` | Source Identifier | `canonical.oneroster-core.source_identifier.source_system` | Platform extension: local source-identifier crosswalk metadata used to name the upstream system; it is not a copy-exact OneRoster field. |
+| `oneroster-core` | Source Identifier | `canonical.oneroster-core.source_identifier.external_id` | Platform extension: local source-identifier crosswalk metadata used to store an upstream identifier value; it is not a copy-exact OneRoster field. |
+| `oneroster-core` | Source Identifier | `canonical.oneroster-core.source_identifier.identifier_type` | Platform extension: local source-identifier crosswalk metadata used to classify upstream IDs; it is not a copy-exact OneRoster field. |
+| `qti-core` | QTI Alignment | `canonical.curriculum.alignment.id` | Platform extension: stable internal alignment identifier used for local joins; QTI alignment source references remain copy-exact fields. |
+| `qti-core` | QTI Assessment Item | `canonical.resource.learning_resource.id` | Platform extension: stable internal resource identifier used for local joins; QTI item identifier remains a separate copy-exact field. |
+| `qti-core` | QTI Assessment Stimulus | `canonical.resource.learning_resource.id` | Platform extension: stable internal stimulus identifier used for local joins; QTI stimulus identifier remains a separate copy-exact field. |
+| `qti-core` | QTI Assessment Test | `canonical.resource.learning_resource.id` | Platform extension: stable internal test identifier used for local joins; QTI assessmentTest identifier remains a separate copy-exact field. |
+| `qti-core` | QTI Package | `canonical.resource.learning_resource.id` | Platform extension: stable internal package identifier used for local joins; QTI package identifier remains a separate copy-exact field. |
 
 ## Copy-exact seam defects
 
-Each entry is a silent rename or coverage mismatch on the 1EdTech side of the seam.
-
-- oneroster-core.Organization.organization_type: column_name 'organization_type' is not the snake_case form of 1EdTech field 'type' (expected 'type')
-- oneroster-core.Organization.parent_organization_id: json_name 'parentOrganizationId' does not match 1EdTech field name 'parent' -- silent rename
-- oneroster-core.Organization.parent_organization_id: column_name 'parent_organization_id' is not the snake_case form of 1EdTech field 'parent' (expected 'parent')
-- oneroster-core.Person.primary_role: json_name 'primaryRole' does not match 1EdTech field name 'roles.role' -- silent rename
-- oneroster-core.Person.primary_role: column_name 'primary_role' is not the snake_case form of 1EdTech field 'roles.role' (expected 'roles.role')
-- oneroster-core.Academic Session.session_type: column_name 'session_type' is not the snake_case form of 1EdTech field 'type' (expected 'type')
-- oneroster-core.Course.org_id: json_name 'orgId' does not match 1EdTech field name 'org' -- silent rename
-- oneroster-core.Course.org_id: column_name 'org_id' is not the snake_case form of 1EdTech field 'org' (expected 'org')
-- oneroster-core.Course.school_year_id: json_name 'schoolYearId' does not match 1EdTech field name 'schoolYear' -- silent rename
-- oneroster-core.Course.school_year_id: column_name 'school_year_id' is not the snake_case form of 1EdTech field 'schoolYear' (expected 'school_year')
-- oneroster-core.Class.course_id: json_name 'courseId' does not match 1EdTech field name 'course' -- silent rename
-- oneroster-core.Class.course_id: column_name 'course_id' is not the snake_case form of 1EdTech field 'course' (expected 'course')
-- oneroster-core.Class.school_id: json_name 'schoolId' does not match 1EdTech field name 'school' -- silent rename
-- oneroster-core.Class.school_id: column_name 'school_id' is not the snake_case form of 1EdTech field 'school' (expected 'school')
-- oneroster-core.Class.term_id: json_name 'termId' does not match 1EdTech field name 'terms' -- silent rename
-- oneroster-core.Class.term_id: column_name 'term_id' is not the snake_case form of 1EdTech field 'terms' (expected 'terms')
-- oneroster-core.Enrollment.class_id: json_name 'classId' does not match 1EdTech field name 'class' -- silent rename
-- oneroster-core.Enrollment.class_id: column_name 'class_id' is not the snake_case form of 1EdTech field 'class' (expected 'class')
-- oneroster-core.Enrollment.person_id: json_name 'personId' does not match 1EdTech field name 'user' -- silent rename
-- oneroster-core.Enrollment.person_id: column_name 'person_id' is not the snake_case form of 1EdTech field 'user' (expected 'user')
-- oneroster-core.Enrollment.school_id: json_name 'schoolId' does not match 1EdTech field name 'school' -- silent rename
-- oneroster-core.Enrollment.school_id: column_name 'school_id' is not the snake_case form of 1EdTech field 'school' (expected 'school')
-- oneroster-core.Enrollment.primary_flag: column_name 'primary_flag' is not the snake_case form of 1EdTech field 'primary' (expected 'primary')
-- oneroster-core.Line Item.class_id: json_name 'classId' does not match 1EdTech field name 'class' -- silent rename
-- oneroster-core.Line Item.class_id: column_name 'class_id' is not the snake_case form of 1EdTech field 'class' (expected 'class')
-- oneroster-core.Result.line_item_id: json_name 'lineItemId' does not match 1EdTech field name 'lineItem' -- silent rename
-- oneroster-core.Result.line_item_id: column_name 'line_item_id' is not the snake_case form of 1EdTech field 'lineItem' (expected 'line_item')
-- oneroster-core.Result.person_id: json_name 'personId' does not match 1EdTech field name 'student' -- silent rename
-- oneroster-core.Result.person_id: column_name 'person_id' is not the snake_case form of 1EdTech field 'student' (expected 'student')
-- oneroster-core.Source Identifier.object_type: json_name 'objectType' does not match 1EdTech field name 'type' -- silent rename
-- oneroster-core.Source Identifier.object_type: column_name 'object_type' is not the snake_case form of 1EdTech field 'type' (expected 'type')
-- oneroster-core.Source Identifier.object_id: json_name 'objectId' does not match 1EdTech field name 'sourcedId' -- silent rename
-- oneroster-core.Source Identifier.object_id: column_name 'object_id' is not the snake_case form of 1EdTech field 'sourcedId' (expected 'sourced_id')
-- oneroster-core.Source Identifier.source_system: json_name 'sourceSystem' does not match 1EdTech field name 'source system' -- silent rename
-- oneroster-core.Source Identifier.source_system: column_name 'source_system' is not the snake_case form of 1EdTech field 'source system' (expected 'source system')
-- oneroster-core.Source Identifier.identifier_type: json_name 'identifierType' does not match 1EdTech field name 'type' -- silent rename
-- oneroster-core.Source Identifier.identifier_type: column_name 'identifier_type' is not the snake_case form of 1EdTech field 'type' (expected 'type')
+_None. Every 1EdTech-native field projects its spec name and JSON key verbatim._
 
 ## How the seam is drawn
 

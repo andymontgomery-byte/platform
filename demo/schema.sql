@@ -16,8 +16,8 @@ CREATE TABLE organizations (
   id TEXT PRIMARY KEY,
   sourced_id TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
-  organization_type TEXT NOT NULL CHECK (organization_type IN ('district', 'school', 'department', 'program')),
-  parent_organization_id TEXT REFERENCES organizations(id),
+  type TEXT NOT NULL CHECK (type IN ('district', 'school', 'department', 'program')),
+  parent TEXT REFERENCES organizations(id),
   status TEXT NOT NULL CHECK (status IN ('active', 'inactive', 'tobedeleted')),
   date_last_modified TEXT NOT NULL
 );
@@ -39,7 +39,7 @@ CREATE TABLE academic_sessions (
   id TEXT PRIMARY KEY,
   sourced_id TEXT NOT NULL UNIQUE,
   title TEXT NOT NULL,
-  session_type TEXT NOT NULL CHECK (session_type IN ('schoolYear', 'term', 'semester', 'quarter', 'gradingPeriod')),
+  type TEXT NOT NULL CHECK (type IN ('schoolYear', 'term', 'semester', 'quarter', 'gradingPeriod')),
   start_date TEXT NOT NULL,
   end_date TEXT NOT NULL,
   school_year INTEGER,
@@ -52,8 +52,8 @@ CREATE TABLE courses (
   sourced_id TEXT NOT NULL UNIQUE,
   title TEXT NOT NULL,
   course_code TEXT,
-  org_id TEXT NOT NULL REFERENCES organizations(id),
-  school_year_id TEXT REFERENCES academic_sessions(id),
+  org TEXT NOT NULL REFERENCES organizations(id),
+  school_year TEXT REFERENCES academic_sessions(id),
   status TEXT NOT NULL CHECK (status IN ('active', 'inactive', 'tobedeleted')),
   date_last_modified TEXT NOT NULL
 );
@@ -64,9 +64,9 @@ CREATE TABLE classes (
   title TEXT NOT NULL,
   class_type TEXT NOT NULL CHECK (class_type IN ('scheduled', 'homeroom')),
   class_code TEXT,
-  course_id TEXT NOT NULL REFERENCES courses(id),
-  school_id TEXT NOT NULL REFERENCES organizations(id),
-  term_id TEXT REFERENCES academic_sessions(id),
+  course TEXT NOT NULL REFERENCES courses(id),
+  school TEXT NOT NULL REFERENCES organizations(id),
+  terms TEXT REFERENCES academic_sessions(id),
   status TEXT NOT NULL CHECK (status IN ('active', 'inactive', 'tobedeleted')),
   date_last_modified TEXT NOT NULL
 );
@@ -74,13 +74,13 @@ CREATE TABLE classes (
 CREATE TABLE enrollments (
   id TEXT PRIMARY KEY,
   sourced_id TEXT NOT NULL UNIQUE,
-  class_id TEXT NOT NULL REFERENCES classes(id),
-  person_id TEXT NOT NULL REFERENCES people(id),
-  school_id TEXT NOT NULL REFERENCES organizations(id),
+  "class" TEXT NOT NULL REFERENCES classes(id),
+  "user" TEXT NOT NULL REFERENCES people(id),
+  school TEXT NOT NULL REFERENCES organizations(id),
   role TEXT NOT NULL CHECK (role IN ('student', 'teacher', 'administrator', 'aide')),
   begin_date TEXT,
   end_date TEXT,
-  primary_flag TEXT CHECK (primary_flag IN ('true', 'false')),
+  "primary" TEXT CHECK ("primary" IN ('true', 'false')),
   status TEXT NOT NULL CHECK (status IN ('active', 'inactive', 'tobedeleted')),
   date_last_modified TEXT NOT NULL
 );
@@ -89,7 +89,7 @@ CREATE TABLE line_items (
   id TEXT PRIMARY KEY,
   sourced_id TEXT NOT NULL UNIQUE,
   title TEXT NOT NULL,
-  class_id TEXT NOT NULL REFERENCES classes(id),
+  "class" TEXT NOT NULL REFERENCES classes(id),
   category TEXT CHECK (category IN ('assignment', 'quiz', 'test', 'participation')),
   assign_date TEXT,
   due_date TEXT,
@@ -103,8 +103,8 @@ CREATE TABLE line_items (
 CREATE TABLE results (
   id TEXT PRIMARY KEY,
   sourced_id TEXT NOT NULL UNIQUE,
-  line_item_id TEXT NOT NULL REFERENCES line_items(id),
-  person_id TEXT NOT NULL REFERENCES people(id),
+  line_item TEXT NOT NULL REFERENCES line_items(id),
+  student TEXT NOT NULL REFERENCES people(id),
   score_status TEXT NOT NULL CHECK (score_status IN ('notSubmitted', 'submitted', 'partiallyGraded', 'fullyGraded')),
   score REAL,
   score_date TEXT,
@@ -135,9 +135,9 @@ SELECT
   o.name AS school_name,
   e.status
 FROM enrollments e
-JOIN classes c ON c.id = e.class_id
-JOIN people p ON p.id = e.person_id
-JOIN organizations o ON o.id = e.school_id;
+JOIN classes c ON c.id = e."class"
+JOIN people p ON p.id = e."user"
+JOIN organizations o ON o.id = e.school;
 
 CREATE VIEW gradebook_results AS
 SELECT
@@ -152,6 +152,6 @@ SELECT
   r.comment,
   r.score_date
 FROM results r
-JOIN line_items li ON li.id = r.line_item_id
-JOIN classes c ON c.id = li.class_id
-JOIN people p ON p.id = r.person_id;
+JOIN line_items li ON li.id = r.line_item
+JOIN classes c ON c.id = li."class"
+JOIN people p ON p.id = r.student;

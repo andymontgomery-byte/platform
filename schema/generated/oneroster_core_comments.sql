@@ -6,8 +6,8 @@ COMMENT ON TABLE demo.organizations IS 'A district, school, department, program,
 COMMENT ON COLUMN demo.organizations.id IS 'The platform''s stable ID for this organization.';
 COMMENT ON COLUMN demo.organizations.sourced_id IS 'The OneRoster source ID used by the sending system.';
 COMMENT ON COLUMN demo.organizations.name IS 'The organization name people recognize.';
-COMMENT ON COLUMN demo.organizations.organization_type IS 'The kind of organization this record represents.';
-COMMENT ON COLUMN demo.organizations.parent_organization_id IS 'The organization that contains this one.';
+COMMENT ON COLUMN demo.organizations.type IS 'The kind of organization this record represents.';
+COMMENT ON COLUMN demo.organizations.parent IS 'The organization that contains this one.';
 COMMENT ON COLUMN demo.organizations.status IS 'Whether the record is active, inactive, or marked for deletion.';
 COMMENT ON COLUMN demo.organizations.date_last_modified IS 'When the source system says this organization record last changed.';
 
@@ -27,7 +27,7 @@ COMMENT ON TABLE demo.academic_sessions IS 'A school year, term, semester, quart
 COMMENT ON COLUMN demo.academic_sessions.id IS 'The platform''s stable ID for this academic session.';
 COMMENT ON COLUMN demo.academic_sessions.sourced_id IS 'The OneRoster source ID for this calendar record.';
 COMMENT ON COLUMN demo.academic_sessions.title IS 'The calendar name people see.';
-COMMENT ON COLUMN demo.academic_sessions.session_type IS 'The kind of calendar window.';
+COMMENT ON COLUMN demo.academic_sessions.type IS 'The kind of calendar window.';
 COMMENT ON COLUMN demo.academic_sessions.start_date IS 'The first date in the session.';
 COMMENT ON COLUMN demo.academic_sessions.end_date IS 'The last date in the session.';
 COMMENT ON COLUMN demo.academic_sessions.school_year IS 'The calendar year associated with the school year.';
@@ -39,8 +39,8 @@ COMMENT ON COLUMN demo.courses.id IS 'The platform''s stable ID for this course.
 COMMENT ON COLUMN demo.courses.sourced_id IS 'The OneRoster source ID for this course.';
 COMMENT ON COLUMN demo.courses.title IS 'The course name people see.';
 COMMENT ON COLUMN demo.courses.course_code IS 'A local course code used by the school or district.';
-COMMENT ON COLUMN demo.courses.org_id IS 'The organization that owns or offers the course.';
-COMMENT ON COLUMN demo.courses.school_year_id IS 'The school year this course belongs to, if the source provides one.';
+COMMENT ON COLUMN demo.courses.org IS 'The organization that owns or offers the course.';
+COMMENT ON COLUMN demo.courses.school_year IS 'The school year this course belongs to, if the source provides one.';
 COMMENT ON COLUMN demo.courses.status IS 'Whether the course record is active, inactive, or marked for deletion.';
 COMMENT ON COLUMN demo.courses.date_last_modified IS 'When the source system says this course record last changed.';
 
@@ -50,22 +50,22 @@ COMMENT ON COLUMN demo.classes.sourced_id IS 'The OneRoster source ID for this c
 COMMENT ON COLUMN demo.classes.title IS 'The class name people see.';
 COMMENT ON COLUMN demo.classes.class_type IS 'Whether this is a normal scheduled class or another kind of class grouping.';
 COMMENT ON COLUMN demo.classes.class_code IS 'A local code for the class section.';
-COMMENT ON COLUMN demo.classes.course_id IS 'The course this class teaches.';
-COMMENT ON COLUMN demo.classes.school_id IS 'The school where the class is offered.';
-COMMENT ON COLUMN demo.classes.term_id IS 'The academic session when the class runs.';
+COMMENT ON COLUMN demo.classes.course IS 'The course this class teaches.';
+COMMENT ON COLUMN demo.classes.school IS 'The school where the class is offered.';
+COMMENT ON COLUMN demo.classes.terms IS 'The academic session when the class runs.';
 COMMENT ON COLUMN demo.classes.status IS 'Whether the class record is active, inactive, or marked for deletion.';
 COMMENT ON COLUMN demo.classes.date_last_modified IS 'When the source system says this class record last changed.';
 
 COMMENT ON TABLE demo.enrollments IS 'A record that says a person participates in a class with a specific role.';
 COMMENT ON COLUMN demo.enrollments.id IS 'The platform''s stable ID for this enrollment.';
 COMMENT ON COLUMN demo.enrollments.sourced_id IS 'The OneRoster source ID for this enrollment.';
-COMMENT ON COLUMN demo.enrollments.class_id IS 'The class where the person is enrolled.';
-COMMENT ON COLUMN demo.enrollments.person_id IS 'The learner, teacher, or other person in the class.';
-COMMENT ON COLUMN demo.enrollments.school_id IS 'The school associated with this enrollment.';
+COMMENT ON COLUMN demo.enrollments.class IS 'The class where the person is enrolled.';
+COMMENT ON COLUMN demo.enrollments.user IS 'The learner, teacher, or other person in the class.';
+COMMENT ON COLUMN demo.enrollments.school IS 'The school associated with this enrollment.';
 COMMENT ON COLUMN demo.enrollments.role IS 'The person''s job in the class.';
 COMMENT ON COLUMN demo.enrollments.begin_date IS 'The first date this enrollment applies.';
 COMMENT ON COLUMN demo.enrollments.end_date IS 'The last date this enrollment applies.';
-COMMENT ON COLUMN demo.enrollments.primary_flag IS 'Whether this is the primary teacher or primary enrollment when the source makes that distinction.';
+COMMENT ON COLUMN demo.enrollments.primary IS 'Whether this is the primary teacher or primary enrollment when the source makes that distinction.';
 COMMENT ON COLUMN demo.enrollments.status IS 'Whether the enrollment record is active, inactive, or marked for deletion.';
 COMMENT ON COLUMN demo.enrollments.date_last_modified IS 'When the source system says this enrollment record last changed.';
 
@@ -73,7 +73,7 @@ COMMENT ON TABLE demo.line_items IS 'A gradebook column, assignment, assessment,
 COMMENT ON COLUMN demo.line_items.id IS 'The platform''s stable ID for this gradebook item.';
 COMMENT ON COLUMN demo.line_items.sourced_id IS 'The OneRoster source ID for this line item.';
 COMMENT ON COLUMN demo.line_items.title IS 'The gradebook item name.';
-COMMENT ON COLUMN demo.line_items.class_id IS 'The class whose gradebook contains this item.';
+COMMENT ON COLUMN demo.line_items.class IS 'The class whose gradebook contains this item.';
 COMMENT ON COLUMN demo.line_items.category IS 'The local gradebook category for the item.';
 COMMENT ON COLUMN demo.line_items.assign_date IS 'The date the item was assigned.';
 COMMENT ON COLUMN demo.line_items.due_date IS 'The date the item is due.';
@@ -86,8 +86,8 @@ COMMENT ON COLUMN demo.line_items.date_last_modified IS 'When the source system 
 COMMENT ON TABLE demo.results IS 'A learner''s score, status, or feedback for a gradebook line item.';
 COMMENT ON COLUMN demo.results.id IS 'The platform''s stable ID for this result.';
 COMMENT ON COLUMN demo.results.sourced_id IS 'The OneRoster source ID for this result.';
-COMMENT ON COLUMN demo.results.line_item_id IS 'The gradebook item this result belongs to.';
-COMMENT ON COLUMN demo.results.person_id IS 'The learner who received the result.';
+COMMENT ON COLUMN demo.results.line_item IS 'The gradebook item this result belongs to.';
+COMMENT ON COLUMN demo.results.student IS 'The learner who received the result.';
 COMMENT ON COLUMN demo.results.score_status IS 'The scoring state for this result.';
 COMMENT ON COLUMN demo.results.score IS 'The numeric score earned.';
 COMMENT ON COLUMN demo.results.score_date IS 'When the score was assigned or last updated.';

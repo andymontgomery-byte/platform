@@ -82,7 +82,7 @@ Dictionary fields and values used by this step:
 | `organizations.id` | [organization.id](oneroster-core-dictionary.html#organization.id) |
 | `organizations.sourced_id` | [organization.sourced_id](oneroster-core-dictionary.html#organization.sourced_id) |
 | `organizations.name` | [organization.name](oneroster-core-dictionary.html#organization.name) |
-| `organizations.organization_type` | [organization.organization_type](oneroster-core-dictionary.html#organization.organization_type) |
+| `organizations.type` | [organization.type](oneroster-core-dictionary.html#organization.type) |
 | `school` | [global enum organization_type.school](oneroster-core-dictionary.html#enum.organization_type.school) |
 | `organizations.status` | [organization.status](oneroster-core-dictionary.html#organization.status) |
 | `active` | [global enum record_status.active](oneroster-core-dictionary.html#enum.record_status.active) |
@@ -106,8 +106,8 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/organizations?on_conflict=id" \
     "id": "org_build_school",
     "sourced_id": "BUILD-SCHOOL-001",
     "name": "Build Guide Middle School",
-    "organization_type": "school",
-    "parent_organization_id": null,
+    "type": "school",
+    "parent": null,
     "status": "active",
     "date_last_modified": "2026-09-01T12:00:00Z"
   }]'
@@ -129,7 +129,7 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/people?on_conflict=id" \
     {"id":"person_build_student_10","sourced_id":"BUILD-STUDENT-010","display_name":"Student 10","given_name":"Student","family_name":"10","email":"student10@build-guide.test","primary_role":"student","enabled_user":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"}
   ]'
 
-curl -sS "$SUPABASE_URL/rest/v1/organizations?select=id,name,organization_type&id=eq.org_build_school" \
+curl -sS "$SUPABASE_URL/rest/v1/organizations?select=id,name,type&id=eq.org_build_school" \
   -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
   -H "authorization: Bearer $PLATFORM_ACCESS_TOKEN"
 
@@ -145,21 +145,21 @@ Dictionary fields and values used by this step:
 | Runtime field or value | Dictionary link |
 | --- | --- |
 | `academic_sessions.id` | [academic_session.id](oneroster-core-dictionary.html#academic_session.id) |
-| `academic_sessions.session_type` | [academic_session.session_type](oneroster-core-dictionary.html#academic_session.session_type) |
+| `academic_sessions.type` | [academic_session.type](oneroster-core-dictionary.html#academic_session.type) |
 | `term` | [global enum academic_session_type.term](oneroster-core-dictionary.html#enum.academic_session_type.term) |
 | `courses.id` | [course.id](oneroster-core-dictionary.html#course.id) |
-| `courses.org_id` | [course.org_id](oneroster-core-dictionary.html#course.org_id) |
+| `courses.org` | [course.org](oneroster-core-dictionary.html#course.org) |
 | `classes.id` | [class.id](oneroster-core-dictionary.html#class.id) |
 | `classes.class_type` | [class.class_type](oneroster-core-dictionary.html#class.class_type) |
 | `scheduled` | [global enum class_type.scheduled](oneroster-core-dictionary.html#enum.class_type.scheduled) |
-| `classes.course_id` | [class.course_id](oneroster-core-dictionary.html#class.course_id) |
-| `classes.school_id` | [class.school_id](oneroster-core-dictionary.html#class.school_id) |
-| `classes.term_id` | [class.term_id](oneroster-core-dictionary.html#class.term_id) |
+| `classes.course` | [class.course](oneroster-core-dictionary.html#class.course) |
+| `classes.school` | [class.school](oneroster-core-dictionary.html#class.school) |
+| `classes.terms` | [class.terms](oneroster-core-dictionary.html#class.terms) |
 | `enrollments.id` | [enrollment.id](oneroster-core-dictionary.html#enrollment.id) |
-| `enrollments.class_id` | [enrollment.class_id](oneroster-core-dictionary.html#enrollment.class_id) |
-| `enrollments.person_id` | [enrollment.person_id](oneroster-core-dictionary.html#enrollment.person_id) |
+| `enrollments.class` | [enrollment.class](oneroster-core-dictionary.html#enrollment.class) |
+| `enrollments.user` | [enrollment.user](oneroster-core-dictionary.html#enrollment.user) |
 | `enrollments.role` | [enrollment.role](oneroster-core-dictionary.html#enrollment.role) |
-| `enrollments.primary_flag` | [enrollment.primary_flag](oneroster-core-dictionary.html#enrollment.primary_flag) |
+| `enrollments.primary` | [enrollment.primary](oneroster-core-dictionary.html#enrollment.primary) |
 
 ```sh
 curl -sS -X POST "$SUPABASE_URL/rest/v1/academic_sessions?on_conflict=id" \
@@ -169,7 +169,7 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/academic_sessions?on_conflict=id" \
     "id": "session_build_fall_2026",
     "sourced_id": "BUILD-TERM-FALL-2026",
     "title": "Build Guide Fall 2026",
-    "session_type": "term",
+    "type": "term",
     "start_date": "2026-08-24",
     "end_date": "2026-12-18",
     "school_year": 2026,
@@ -185,8 +185,8 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/courses?on_conflict=id" \
     "sourced_id": "BUILD-COURSE-MATH-6",
     "title": "Build Guide Grade 6 Mathematics",
     "course_code": "BUILD-MATH-06",
-    "org_id": "org_build_school",
-    "school_year_id": "session_build_fall_2026",
+    "org": "org_build_school",
+    "school_year": "session_build_fall_2026",
     "status": "active",
     "date_last_modified": "2026-09-01T12:00:00Z"
   }]'
@@ -200,9 +200,9 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/classes?on_conflict=id" \
     "title": "Build Guide Math 6A",
     "class_type": "scheduled",
     "class_code": "BUILD-P1-MATH6",
-    "course_id": "course_build_math_6",
-    "school_id": "org_build_school",
-    "term_id": "session_build_fall_2026",
+    "course": "course_build_math_6",
+    "school": "org_build_school",
+    "terms": "session_build_fall_2026",
     "status": "active",
     "date_last_modified": "2026-09-01T12:00:00Z"
   }]'
@@ -211,17 +211,17 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/enrollments?on_conflict=id" \
   "${REST_AUTH_HEADERS[@]}" \
   -H "prefer: resolution=merge-duplicates,return=minimal" \
   --data '[
-    {"id":"enr_build_teacher","sourced_id":"BUILD-ENR-TEACHER","class_id":"class_build_math_6a","person_id":"person_build_teacher","school_id":"org_build_school","role":"teacher","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_01","sourced_id":"BUILD-ENR-STUDENT-001","class_id":"class_build_math_6a","person_id":"person_build_student_01","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_02","sourced_id":"BUILD-ENR-STUDENT-002","class_id":"class_build_math_6a","person_id":"person_build_student_02","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_03","sourced_id":"BUILD-ENR-STUDENT-003","class_id":"class_build_math_6a","person_id":"person_build_student_03","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_04","sourced_id":"BUILD-ENR-STUDENT-004","class_id":"class_build_math_6a","person_id":"person_build_student_04","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_05","sourced_id":"BUILD-ENR-STUDENT-005","class_id":"class_build_math_6a","person_id":"person_build_student_05","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_06","sourced_id":"BUILD-ENR-STUDENT-006","class_id":"class_build_math_6a","person_id":"person_build_student_06","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_07","sourced_id":"BUILD-ENR-STUDENT-007","class_id":"class_build_math_6a","person_id":"person_build_student_07","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_08","sourced_id":"BUILD-ENR-STUDENT-008","class_id":"class_build_math_6a","person_id":"person_build_student_08","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_09","sourced_id":"BUILD-ENR-STUDENT-009","class_id":"class_build_math_6a","person_id":"person_build_student_09","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
-    {"id":"enr_build_student_10","sourced_id":"BUILD-ENR-STUDENT-010","class_id":"class_build_math_6a","person_id":"person_build_student_10","school_id":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary_flag":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"}
+    {"id":"enr_build_teacher","sourced_id":"BUILD-ENR-TEACHER","class":"class_build_math_6a","user":"person_build_teacher","school":"org_build_school","role":"teacher","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"true","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_01","sourced_id":"BUILD-ENR-STUDENT-001","class":"class_build_math_6a","user":"person_build_student_01","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_02","sourced_id":"BUILD-ENR-STUDENT-002","class":"class_build_math_6a","user":"person_build_student_02","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_03","sourced_id":"BUILD-ENR-STUDENT-003","class":"class_build_math_6a","user":"person_build_student_03","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_04","sourced_id":"BUILD-ENR-STUDENT-004","class":"class_build_math_6a","user":"person_build_student_04","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_05","sourced_id":"BUILD-ENR-STUDENT-005","class":"class_build_math_6a","user":"person_build_student_05","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_06","sourced_id":"BUILD-ENR-STUDENT-006","class":"class_build_math_6a","user":"person_build_student_06","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_07","sourced_id":"BUILD-ENR-STUDENT-007","class":"class_build_math_6a","user":"person_build_student_07","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_08","sourced_id":"BUILD-ENR-STUDENT-008","class":"class_build_math_6a","user":"person_build_student_08","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_09","sourced_id":"BUILD-ENR-STUDENT-009","class":"class_build_math_6a","user":"person_build_student_09","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"},
+    {"id":"enr_build_student_10","sourced_id":"BUILD-ENR-STUDENT-010","class":"class_build_math_6a","user":"person_build_student_10","school":"org_build_school","role":"student","begin_date":"2026-08-24","end_date":"2026-12-18","primary":"false","status":"active","date_last_modified":"2026-09-01T12:00:00Z"}
   ]'
 
 curl -sS "$SUPABASE_URL/rest/v1/class_roster?select=class_id,class_title,person_id,display_name,class_role&class_id=eq.class_build_math_6a&order=person_id.asc" \
@@ -237,13 +237,13 @@ Dictionary fields and values used by this step:
 | --- | --- |
 | `line_items.id` | [line_item.id](oneroster-core-dictionary.html#line_item.id) |
 | `line_items.title` | [line_item.title](oneroster-core-dictionary.html#line_item.title) |
-| `line_items.class_id` | [line_item.class_id](oneroster-core-dictionary.html#line_item.class_id) |
+| `line_items.class` | [line_item.class](oneroster-core-dictionary.html#line_item.class) |
 | `line_items.category` | [line_item.category](oneroster-core-dictionary.html#line_item.category) |
 | `assignment` | [global enum gradebook_category.assignment](oneroster-core-dictionary.html#enum.gradebook_category.assignment) |
 | `line_items.result_value_max` | [line_item.result_value_max](oneroster-core-dictionary.html#line_item.result_value_max) |
 | `results.id` | [result.id](oneroster-core-dictionary.html#result.id) |
-| `results.line_item_id` | [result.line_item_id](oneroster-core-dictionary.html#result.line_item_id) |
-| `results.person_id` | [result.person_id](oneroster-core-dictionary.html#result.person_id) |
+| `results.line_item` | [result.line_item](oneroster-core-dictionary.html#result.line_item) |
+| `results.student` | [result.student](oneroster-core-dictionary.html#result.student) |
 | `results.score_status` | [result.score_status](oneroster-core-dictionary.html#result.score_status) |
 | `fullyGraded` | [global enum grading_progress.fullyGraded](oneroster-core-dictionary.html#enum.grading_progress.fullyGraded) |
 | `results.score` | [result.score](oneroster-core-dictionary.html#result.score) |
@@ -256,7 +256,7 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/line_items?on_conflict=id" \
     "id": "li_build_fractions_exit_ticket",
     "sourced_id": "BUILD-LINEITEM-FRACTIONS-EXIT",
     "title": "Fractions Exit Ticket",
-    "class_id": "class_build_math_6a",
+    "class": "class_build_math_6a",
     "category": "assignment",
     "assign_date": "2026-09-08",
     "due_date": "2026-09-08",
@@ -272,8 +272,8 @@ curl -sS -X POST "$SUPABASE_URL/rest/v1/results?on_conflict=id" \
   --data '[{
     "id": "res_build_student_01_exit_ticket",
     "sourced_id": "BUILD-RESULT-STUDENT-001",
-    "line_item_id": "li_build_fractions_exit_ticket",
-    "person_id": "person_build_student_01",
+    "line_item": "li_build_fractions_exit_ticket",
+    "student": "person_build_student_01",
     "score_status": "fullyGraded",
     "score": 9,
     "score_date": "2026-09-08T15:30:00Z",

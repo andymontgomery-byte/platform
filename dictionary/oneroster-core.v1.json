@@ -3807,7 +3807,7 @@
             "version": "1.2",
             "object": "Org",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.context.organization.id",
           "projection_kind": "direct",
@@ -3857,7 +3857,7 @@
         },
         {
           "field_key": "organization_type",
-          "column_name": "organization_type",
+          "column_name": "type",
           "json_name": "type",
           "data_type": "enum",
           "required": true,
@@ -3929,8 +3929,8 @@
         },
         {
           "field_key": "parent_organization_id",
-          "column_name": "parent_organization_id",
-          "json_name": "parentOrganizationId",
+          "column_name": "parent",
+          "json_name": "parent",
           "data_type": "text",
           "required": false,
           "plain_description": "The organization that contains this one.",
@@ -4065,7 +4065,7 @@
             "version": "1.2",
             "object": "User",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.identity.person.id",
           "projection_kind": "direct",
@@ -4107,7 +4107,7 @@
             "version": "1.2",
             "object": "User",
             "field": "givenName/familyName/preferredName projection",
-            "coverage": "mapped"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.identity.person.display_name",
           "projection_kind": "direct",
@@ -4241,7 +4241,7 @@
             "version": "1.2",
             "object": "User",
             "field": "roles.role",
-            "coverage": "mapped"
+            "coverage": "platform_extension"
           },
           "shared_enum_id": "role_family",
           "canonical_field_id": "canonical.role.family.role_values",
@@ -4376,7 +4376,7 @@
             "version": "1.2",
             "object": "AcademicSession",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.time.academic_session.id",
           "projection_kind": "direct",
@@ -4426,7 +4426,7 @@
         },
         {
           "field_key": "session_type",
-          "column_name": "session_type",
+          "column_name": "type",
           "json_name": "type",
           "data_type": "enum",
           "required": true,
@@ -4683,7 +4683,7 @@
             "version": "1.2",
             "object": "Course",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.context.course.id",
           "projection_kind": "direct",
@@ -4754,8 +4754,8 @@
         },
         {
           "field_key": "org_id",
-          "column_name": "org_id",
-          "json_name": "orgId",
+          "column_name": "org",
+          "json_name": "org",
           "data_type": "text",
           "required": true,
           "plain_description": "The organization that owns or offers the course.",
@@ -4775,8 +4775,8 @@
         },
         {
           "field_key": "school_year_id",
-          "column_name": "school_year_id",
-          "json_name": "schoolYearId",
+          "column_name": "school_year",
+          "json_name": "schoolYear",
           "data_type": "text",
           "required": false,
           "plain_description": "The school year this course belongs to, if the source provides one.",
@@ -4921,7 +4921,7 @@
             "version": "1.2",
             "object": "Class",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.context.class.id",
           "projection_kind": "direct",
@@ -5040,8 +5040,8 @@
         },
         {
           "field_key": "course_id",
-          "column_name": "course_id",
-          "json_name": "courseId",
+          "column_name": "course",
+          "json_name": "course",
           "data_type": "text",
           "required": true,
           "plain_description": "The course this class teaches.",
@@ -5061,8 +5061,8 @@
         },
         {
           "field_key": "school_id",
-          "column_name": "school_id",
-          "json_name": "schoolId",
+          "column_name": "school",
+          "json_name": "school",
           "data_type": "text",
           "required": true,
           "plain_description": "The school where the class is offered.",
@@ -5082,8 +5082,8 @@
         },
         {
           "field_key": "term_id",
-          "column_name": "term_id",
-          "json_name": "termId",
+          "column_name": "terms",
+          "json_name": "terms",
           "data_type": "text",
           "required": false,
           "plain_description": "The academic session when the class runs.",
@@ -5228,7 +5228,7 @@
             "version": "1.2",
             "object": "Enrollment",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.roster.membership.id",
           "projection_kind": "direct",
@@ -5257,8 +5257,8 @@
         },
         {
           "field_key": "class_id",
-          "column_name": "class_id",
-          "json_name": "classId",
+          "column_name": "class",
+          "json_name": "class",
           "data_type": "text",
           "required": true,
           "plain_description": "The class where the person is enrolled.",
@@ -5278,8 +5278,8 @@
         },
         {
           "field_key": "person_id",
-          "column_name": "person_id",
-          "json_name": "personId",
+          "column_name": "user",
+          "json_name": "user",
           "data_type": "text",
           "required": true,
           "plain_description": "The learner, teacher, or other person in the class.",
@@ -5299,8 +5299,8 @@
         },
         {
           "field_key": "school_id",
-          "column_name": "school_id",
-          "json_name": "schoolId",
+          "column_name": "school",
+          "json_name": "school",
           "data_type": "text",
           "required": true,
           "plain_description": "The school associated with this enrollment.",
@@ -5434,7 +5434,7 @@
         },
         {
           "field_key": "primary_flag",
-          "column_name": "primary_flag",
+          "column_name": "primary",
           "json_name": "primary",
           "data_type": "enum",
           "required": false,
@@ -5552,7 +5552,7 @@
             "version": "1.2",
             "object": "LineItem",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.outcome.line_item.id",
           "projection_kind": "direct",
@@ -5602,8 +5602,8 @@
         },
         {
           "field_key": "class_id",
-          "column_name": "class_id",
-          "json_name": "classId",
+          "column_name": "class",
+          "json_name": "class",
           "data_type": "text",
           "required": true,
           "plain_description": "The class whose gradebook contains this item.",
@@ -5792,7 +5792,7 @@
             "version": "1.2",
             "object": "LineItem",
             "field": "metadata.caseTargetUri",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.curriculum.standard.uri",
           "projection_kind": "direct",
@@ -5910,7 +5910,7 @@
             "version": "1.2",
             "object": "Result",
             "field": "sourcedId/internal platform id",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.outcome.result.id",
           "projection_kind": "direct",
@@ -5939,8 +5939,8 @@
         },
         {
           "field_key": "line_item_id",
-          "column_name": "line_item_id",
-          "json_name": "lineItemId",
+          "column_name": "line_item",
+          "json_name": "lineItem",
           "data_type": "text",
           "required": true,
           "plain_description": "The gradebook item this result belongs to.",
@@ -5960,8 +5960,8 @@
         },
         {
           "field_key": "person_id",
-          "column_name": "person_id",
-          "json_name": "personId",
+          "column_name": "student",
+          "json_name": "student",
           "data_type": "text",
           "required": true,
           "plain_description": "The learner who received the result.",
@@ -6221,7 +6221,7 @@
             "version": "1.2",
             "object": "GUIDRef/sourceId crosswalk",
             "field": "sourcedId",
-            "coverage": "platform_projection"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.oneroster-core.source_identifier.id",
           "projection_kind": "direct",
@@ -6242,7 +6242,7 @@
             "version": "1.2",
             "object": "GUIDRef/sourceId crosswalk",
             "field": "type",
-            "coverage": "mapped"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.oneroster-core.source_identifier.object_type",
           "projection_kind": "direct",
@@ -6263,7 +6263,7 @@
             "version": "1.2",
             "object": "GUIDRef/sourceId crosswalk",
             "field": "sourcedId",
-            "coverage": "mapped"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.oneroster-core.source_identifier.object_id",
           "projection_kind": "direct",
@@ -6284,7 +6284,7 @@
             "version": "1.2",
             "object": "GUIDRef/sourceId crosswalk",
             "field": "source system",
-            "coverage": "mapped"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.oneroster-core.source_identifier.source_system",
           "projection_kind": "direct",
@@ -6305,7 +6305,7 @@
             "version": "1.2",
             "object": "GUIDRef/sourceId crosswalk",
             "field": "sourcedId/identifier",
-            "coverage": "mapped"
+            "coverage": "platform_extension"
           },
           "canonical_field_id": "canonical.oneroster-core.source_identifier.external_id",
           "projection_kind": "direct",
@@ -6388,7 +6388,7 @@
             "version": "1.2",
             "object": "GUIDRef/sourceId crosswalk",
             "field": "type",
-            "coverage": "mapped"
+            "coverage": "platform_extension"
           },
           "shared_enum_id": "identifier_type",
           "canonical_field_id": "canonical.oneroster-core.source_identifier.identifier_type",

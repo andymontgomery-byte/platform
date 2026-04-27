@@ -14,7 +14,7 @@ truncate
 restart identity cascade;
 
 insert into public.organizations (
-  tenant_id, id, sourced_id, name, organization_type, parent_organization_id, status, date_last_modified
+  tenant_id, id, sourced_id, name, "type", parent, status, date_last_modified
 ) values
   ('11111111-1111-1111-1111-111111111111', 'org_district_north', 'DISTRICT-NORTH', 'North Valley School District', 'district', null, 'active', '2026-04-24T09:00:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'org_school_lincoln', 'SCHOOL-LINCOLN', 'Lincoln Middle School', 'school', 'org_district_north', 'active', '2026-04-24T09:01:00Z'),
@@ -33,27 +33,27 @@ insert into public.people (
   ('22222222-2222-2222-2222-222222222222', 'person_tenant_b_student', 'USER-TENANT-B', 'Blake South', 'Blake', 'South', 'blake.south@southridge.k12.test', 'student', 'true', 'active', '2026-04-24T10:10:00Z');
 
 insert into public.academic_sessions (
-  tenant_id, id, sourced_id, title, session_type, start_date, end_date, school_year, status, date_last_modified
+  tenant_id, id, sourced_id, title, "type", start_date, end_date, school_year, status, date_last_modified
 ) values
   ('11111111-1111-1111-1111-111111111111', 'session_2026', 'SY-2026', '2026 School Year', 'schoolYear', '2026-08-24', '2027-06-04', 2026, 'active', '2026-04-24T09:20:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'session_2026_fall', 'TERM-FALL-2026', 'Fall 2026', 'term', '2026-08-24', '2026-12-18', 2026, 'active', '2026-04-24T09:21:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'session_2026_q1', 'GP-Q1-2026', 'Quarter 1 2026', 'gradingPeriod', '2026-08-24', '2026-10-16', 2026, 'active', '2026-04-24T09:22:00Z');
 
 insert into public.courses (
-  tenant_id, id, sourced_id, title, course_code, org_id, school_year_id, status, date_last_modified
+  tenant_id, id, sourced_id, title, course_code, org, school_year, status, date_last_modified
 ) values
   ('11111111-1111-1111-1111-111111111111', 'course_math_6', 'COURSE-MATH-6', 'Grade 6 Mathematics', 'MATH-06', 'org_district_north', 'session_2026', 'active', '2026-04-24T09:25:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'course_ela_6', 'COURSE-ELA-6', 'Grade 6 English Language Arts', 'ELA-06', 'org_district_north', 'session_2026', 'active', '2026-04-24T09:26:00Z');
 
 insert into public.classes (
-  tenant_id, id, sourced_id, title, class_type, class_code, course_id, school_id, term_id, status, date_last_modified
+  tenant_id, id, sourced_id, title, class_type, class_code, course, school, terms, status, date_last_modified
 ) values
   ('11111111-1111-1111-1111-111111111111', 'class_math_6_a', 'CLASS-MATH-6A', 'Math 6 - Period 1', 'scheduled', 'P1-MATH6', 'course_math_6', 'org_school_lincoln', 'session_2026_fall', 'active', '2026-04-24T09:30:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'class_math_6_b', 'CLASS-MATH-6B', 'Math 6 - Period 3', 'scheduled', 'P3-MATH6', 'course_math_6', 'org_school_lincoln', 'session_2026_fall', 'active', '2026-04-24T09:31:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'class_ela_6_a', 'CLASS-ELA-6A', 'ELA 6 - Period 2', 'scheduled', 'P2-ELA6', 'course_ela_6', 'org_school_lincoln', 'session_2026_fall', 'active', '2026-04-24T09:32:00Z');
 
 insert into public.enrollments (
-  tenant_id, id, sourced_id, class_id, person_id, school_id, role, begin_date, end_date, primary_flag, status, date_last_modified
+  tenant_id, id, sourced_id, "class", "user", school, role, begin_date, end_date, "primary", status, date_last_modified
 ) values
   ('11111111-1111-1111-1111-111111111111', 'enr_rivera_math_6_a', 'ENR-10000', 'class_math_6_a', 'person_ms_rivera', 'org_school_lincoln', 'teacher', '2026-08-24', '2026-12-18', 'true', 'active', '2026-04-24T09:35:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'enr_ada_math_6_a', 'ENR-10001', 'class_math_6_a', 'person_ada', 'org_school_lincoln', 'student', '2026-08-24', '2026-12-18', 'false', 'active', '2026-04-24T09:36:00Z'),
@@ -62,14 +62,14 @@ insert into public.enrollments (
   ('11111111-1111-1111-1111-111111111111', 'enr_sam_ela_6_a', 'ENR-10004', 'class_ela_6_a', 'person_sam', 'org_school_lincoln', 'student', '2026-08-24', '2026-12-18', 'false', 'active', '2026-04-24T09:39:00Z');
 
 insert into public.line_items (
-  tenant_id, id, sourced_id, title, class_id, category, assign_date, due_date, result_value_min, result_value_max, status, date_last_modified
+  tenant_id, id, sourced_id, title, "class", category, assign_date, due_date, result_value_min, result_value_max, status, date_last_modified
 ) values
   ('11111111-1111-1111-1111-111111111111', 'li_math_quiz_1', 'LINEITEM-MATH-Q1', 'Unit 1 Quiz', 'class_math_6_a', 'quiz', '2026-09-08', '2026-09-15', 0, 100, 'active', '2026-04-24T09:40:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'li_math_homework_1', 'LINEITEM-MATH-HW1', 'Expressions Practice', 'class_math_6_a', 'assignment', '2026-09-01', '2026-09-05', 0, 10, 'active', '2026-04-24T09:41:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'li_ela_essay_1', 'LINEITEM-ELA-E1', 'Personal Narrative Draft', 'class_ela_6_a', 'assignment', '2026-09-03', '2026-09-17', 0, 4, 'active', '2026-04-24T09:42:00Z');
 
 insert into public.results (
-  tenant_id, id, sourced_id, line_item_id, person_id, score_status, score, score_date, comment, status, date_last_modified
+  tenant_id, id, sourced_id, line_item, student, score_status, score, score_date, comment, status, date_last_modified
 ) values
   ('11111111-1111-1111-1111-111111111111', 'res_ada_quiz_1', 'RESULT-9001', 'li_math_quiz_1', 'person_ada', 'fullyGraded', 87, '2026-09-16T14:30:00Z', 'Strong strategy; check question 4.', 'active', '2026-04-24T09:45:00Z'),
   ('11111111-1111-1111-1111-111111111111', 'res_miguel_quiz_1', 'RESULT-9002', 'li_math_quiz_1', 'person_miguel', 'fullyGraded', 93, '2026-09-16T14:35:00Z', 'Clear explanations.', 'active', '2026-04-24T09:46:00Z'),

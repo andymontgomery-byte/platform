@@ -35,6 +35,7 @@
       "site/docs/oneroster-core-dictionary.html",
       "site/docs/phase-0-standards-and-dictionary.html",
       "site/docs/qti-core-dictionary.html",
+      "site/docs/spec-fidelity-report.html",
       "site/docs/spec-gap-backlog.html",
       "site/docs/supabase-hosted-database.html"
     ],
@@ -74,6 +75,7 @@
       "site/docs/oneroster-core-dictionary.html": 2,
       "site/docs/phase-0-standards-and-dictionary.html": 2,
       "site/docs/qti-core-dictionary.html": 1,
+      "site/docs/spec-fidelity-report.html": 2,
       "site/docs/spec-gap-backlog.html": 2,
       "site/docs/supabase-hosted-database.html": 1,
       "site/index.html": 0,
@@ -90,9 +92,9 @@
     "decisions_checked": 20,
     "dictionary_entries_checked": 634,
     "errors": 0,
-    "html_pages": 36,
-    "local_links_checked": 223,
+    "html_pages": 37,
+    "local_links_checked": 226,
     "max_clicks": 3,
-    "reachable_html_pages": 36
+    "reachable_html_pages": 37
   }
 }

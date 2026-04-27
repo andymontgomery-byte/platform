@@ -5,8 +5,8 @@
       "sourcedId": "COURSE-ELA-6",
       "title": "Grade 6 English Language Arts",
       "courseCode": "ELA-06",
-      "orgId": "org_district_north",
-      "schoolYearId": "session_2026",
+      "org": "org_district_north",
+      "schoolYear": "session_2026",
       "status": "active",
       "dateLastModified": "2026-04-24T09:26:00Z"
     },
@@ -15,8 +15,8 @@
       "sourcedId": "COURSE-MATH-6",
       "title": "Grade 6 Mathematics",
       "courseCode": "MATH-06",
-      "orgId": "org_district_north",
-      "schoolYearId": "session_2026",
+      "org": "org_district_north",
+      "schoolYear": "session_2026",
       "status": "active",
       "dateLastModified": "2026-04-24T09:25:00Z"
     }
@@ -40,8 +40,8 @@
       "sourcedId": "DEC-007-identifier-crosswalk",
       "title": "DEC-002-learning-context",
       "courseCode": "DEC-002-learning-context",
-      "orgId": "DEC-007-identifier-crosswalk",
-      "schoolYearId": "DEC-007-identifier-crosswalk",
+      "org": "DEC-007-identifier-crosswalk",
+      "schoolYear": "DEC-007-identifier-crosswalk",
       "status": "DEC-002-learning-context",
       "dateLastModified": "DEC-008-time-session"
     }

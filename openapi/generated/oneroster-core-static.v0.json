@@ -647,7 +647,7 @@
               "version": "1.2",
               "object": "Org",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -722,7 +722,7 @@
               }
             }
           },
-          "parentOrganizationId": {
+          "parent": {
             "type": "string",
             "description": "The organization that contains this one.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -817,7 +817,7 @@
               "version": "1.2",
               "object": "User",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -841,7 +841,7 @@
               "version": "1.2",
               "object": "User",
               "field": "givenName/familyName/preferredName projection",
-              "coverage": "mapped"
+              "coverage": "platform_extension"
             }
           },
           "givenName": {
@@ -889,7 +889,7 @@
               "version": "1.2",
               "object": "User",
               "field": "roles.role",
-              "coverage": "mapped"
+              "coverage": "platform_extension"
             },
             "enum": [
               "student",
@@ -1044,7 +1044,7 @@
               "version": "1.2",
               "object": "AcademicSession",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -1233,7 +1233,7 @@
           "id",
           "sourcedId",
           "title",
-          "orgId",
+          "org",
           "status",
           "dateLastModified"
         ],
@@ -1247,7 +1247,7 @@
               "version": "1.2",
               "object": "Course",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -1286,7 +1286,7 @@
               "coverage": "mapped"
             }
           },
-          "orgId": {
+          "org": {
             "type": "string",
             "description": "The organization that owns or offers the course.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1298,7 +1298,7 @@
               "coverage": "mapped"
             }
           },
-          "schoolYearId": {
+          "schoolYear": {
             "type": "string",
             "description": "The school year this course belongs to, if the source provides one.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1379,8 +1379,8 @@
           "sourcedId",
           "title",
           "classType",
-          "courseId",
-          "schoolId",
+          "course",
+          "school",
           "status",
           "dateLastModified"
         ],
@@ -1394,7 +1394,7 @@
               "version": "1.2",
               "object": "Class",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -1465,7 +1465,7 @@
               "coverage": "mapped"
             }
           },
-          "courseId": {
+          "course": {
             "type": "string",
             "description": "The course this class teaches.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1477,7 +1477,7 @@
               "coverage": "mapped"
             }
           },
-          "schoolId": {
+          "school": {
             "type": "string",
             "description": "The school where the class is offered.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1489,7 +1489,7 @@
               "coverage": "mapped"
             }
           },
-          "termId": {
+          "terms": {
             "type": "string",
             "description": "The academic session when the class runs.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1568,9 +1568,9 @@
         "required": [
           "id",
           "sourcedId",
-          "classId",
-          "personId",
-          "schoolId",
+          "class",
+          "user",
+          "school",
           "role",
           "status",
           "dateLastModified"
@@ -1585,7 +1585,7 @@
               "version": "1.2",
               "object": "Enrollment",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -1600,7 +1600,7 @@
               "coverage": "mapped"
             }
           },
-          "classId": {
+          "class": {
             "type": "string",
             "description": "The class where the person is enrolled.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1612,7 +1612,7 @@
               "coverage": "mapped"
             }
           },
-          "personId": {
+          "user": {
             "type": "string",
             "description": "The learner, teacher, or other person in the class.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1624,7 +1624,7 @@
               "coverage": "mapped"
             }
           },
-          "schoolId": {
+          "school": {
             "type": "string",
             "description": "The school associated with this enrollment.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1810,7 +1810,7 @@
           "id",
           "sourcedId",
           "title",
-          "classId",
+          "class",
           "status",
           "dateLastModified"
         ],
@@ -1824,7 +1824,7 @@
               "version": "1.2",
               "object": "LineItem",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -1851,7 +1851,7 @@
               "coverage": "mapped"
             }
           },
-          "classId": {
+          "class": {
             "type": "string",
             "description": "The class whose gradebook contains this item.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -1970,7 +1970,7 @@
               "version": "1.2",
               "object": "LineItem",
               "field": "metadata.caseTargetUri",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "status": {
@@ -2040,8 +2040,8 @@
         "required": [
           "id",
           "sourcedId",
-          "lineItemId",
-          "personId",
+          "lineItem",
+          "student",
           "scoreStatus",
           "status",
           "dateLastModified"
@@ -2056,7 +2056,7 @@
               "version": "1.2",
               "object": "Result",
               "field": "sourcedId/internal platform id",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "sourcedId": {
@@ -2071,7 +2071,7 @@
               "coverage": "mapped"
             }
           },
-          "lineItemId": {
+          "lineItem": {
             "type": "string",
             "description": "The gradebook item this result belongs to.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -2083,7 +2083,7 @@
               "coverage": "mapped"
             }
           },
-          "personId": {
+          "student": {
             "type": "string",
             "description": "The learner who received the result.",
             "x-decisionId": "DEC-007-identifier-crosswalk",
@@ -2263,7 +2263,7 @@
               "version": "1.2",
               "object": "GUIDRef/sourceId crosswalk",
               "field": "sourcedId",
-              "coverage": "platform_projection"
+              "coverage": "platform_extension"
             }
           },
           "objectType": {
@@ -2275,7 +2275,7 @@
               "version": "1.2",
               "object": "GUIDRef/sourceId crosswalk",
               "field": "type",
-              "coverage": "mapped"
+              "coverage": "platform_extension"
             }
           },
           "objectId": {
@@ -2287,7 +2287,7 @@
               "version": "1.2",
               "object": "GUIDRef/sourceId crosswalk",
               "field": "sourcedId",
-              "coverage": "mapped"
+              "coverage": "platform_extension"
             }
           },
           "sourceSystem": {
@@ -2299,7 +2299,7 @@
               "version": "1.2",
               "object": "GUIDRef/sourceId crosswalk",
               "field": "source system",
-              "coverage": "mapped"
+              "coverage": "platform_extension"
             }
           },
           "externalId": {
@@ -2311,7 +2311,7 @@
               "version": "1.2",
               "object": "GUIDRef/sourceId crosswalk",
               "field": "sourcedId/identifier",
-              "coverage": "mapped"
+              "coverage": "platform_extension"
             }
           },
           "identifierType": {
@@ -2323,7 +2323,7 @@
               "version": "1.2",
               "object": "GUIDRef/sourceId crosswalk",
               "field": "type",
-              "coverage": "mapped"
+              "coverage": "platform_extension"
             },
             "enum": [
               "oneRosterSourcedId",

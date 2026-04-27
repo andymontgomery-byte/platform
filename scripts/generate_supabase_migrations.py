@@ -235,17 +235,18 @@ def render_column(
     shared_allowed_values: dict[str, list[dict]],
 ) -> str:
     spec = field["spec_field"]
-    column = spec["column_name"]
     sql_type = SQL_TYPE_MAP.get(spec["data_type"])
+    raw_column = spec["column_name"]
+    column = sql_ident(raw_column)
     if not sql_type:
-        raise ValueError(f"unsupported SQL data type {spec['data_type']} for {column}")
-    if column == "id":
-        return "id text primary key"
+        raise ValueError(f"unsupported SQL data type {spec['data_type']} for {raw_column}")
+    if raw_column == "id":
+        return f"{column} text primary key"
 
     parts = [column, sql_type]
     if spec.get("required"):
         parts.append("not null")
-    if column == "sourced_id":
+    if raw_column == "sourced_id":
         parts.append("unique")
     if relationship:
         target = object_by_key[relationship["to_object"]]
@@ -316,9 +317,9 @@ def render_views() -> list[str]:
         "  o.name as school_name,",
         "  e.status",
         "from public.enrollments e",
-        "join public.classes c on c.id = e.class_id",
-        "join public.people p on p.id = e.person_id",
-        "join public.organizations o on o.id = e.school_id;",
+        "join public.classes c on c.id = e.\"class\"",
+        "join public.people p on p.id = e.\"user\"",
+        "join public.organizations o on o.id = e.school;",
         "",
         "create view public.gradebook_results",
         "with (security_invoker = true) as",
@@ -334,9 +335,9 @@ def render_views() -> list[str]:
         "  r.comment,",
         "  r.score_date",
         "from public.results r",
-        "join public.line_items li on li.id = r.line_item_id",
-        "join public.classes c on c.id = li.class_id",
-        "join public.people p on p.id = r.person_id;",
+        "join public.line_items li on li.id = r.line_item",
+        "join public.classes c on c.id = li.\"class\"",
+        "join public.people p on p.id = r.student;",
         "",
         "create view public.class_activity_feed",
         "with (security_invoker = true) as",
@@ -688,7 +689,7 @@ def allowed_values(spec_field: dict, shared_allowed_values: dict[str, list[dict]
 def column_for_field(obj: dict, field_key: str) -> str:
     for field in obj.get("fields", []):
         if field.get("field_key") == field_key:
-            return field["spec_field"]["column_name"]
+            return sql_ident(field["spec_field"]["column_name"])
     raise KeyError(f"{obj.get('object_key')} has no field {field_key}")
 
 
@@ -698,6 +699,10 @@ def count_relationships(objects: list[dict]) -> int:
 
 def sql_quote(value: object) -> str:
     return "'" + str(value).replace("'", "''") + "'"
+
+
+def sql_ident(value: str) -> str:
+    return '"' + value.replace('"', '""') + '"'
 
 
 if __name__ == "__main__":

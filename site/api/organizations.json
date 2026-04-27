@@ -5,7 +5,7 @@
       "sourcedId": "DISTRICT-NORTH",
       "name": "North Valley School District",
       "type": "district",
-      "parentOrganizationId": null,
+      "parent": null,
       "status": "active",
       "dateLastModified": "2026-04-24T09:00:00Z"
     },
@@ -14,7 +14,7 @@
       "sourcedId": "SCHOOL-LINCOLN",
       "name": "Lincoln Middle School",
       "type": "school",
-      "parentOrganizationId": "org_district_north",
+      "parent": "org_district_north",
       "status": "active",
       "dateLastModified": "2026-04-24T09:01:00Z"
     },
@@ -23,7 +23,7 @@
       "sourcedId": "SCHOOL-ROOSEVELT",
       "name": "Roosevelt Elementary School",
       "type": "school",
-      "parentOrganizationId": "org_district_north",
+      "parent": "org_district_north",
       "status": "active",
       "dateLastModified": "2026-04-24T09:02:00Z"
     }
@@ -47,7 +47,7 @@
       "sourcedId": "DEC-007-identifier-crosswalk",
       "name": "DEC-002-learning-context",
       "type": "DEC-002-learning-context",
-      "parentOrganizationId": "DEC-007-identifier-crosswalk",
+      "parent": "DEC-007-identifier-crosswalk",
       "status": "DEC-002-learning-context",
       "dateLastModified": "DEC-008-time-session"
     }

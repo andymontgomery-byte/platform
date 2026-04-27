@@ -140,13 +140,20 @@ def load_seed() -> dict:
 def classify_origin(obj: dict, field: dict) -> str:
     """Return one of: '1edtech', 'shared_canonical', 'extension'."""
     spec_key = obj.get("spec_key", "")
+    source = ((field.get("spec_field") or {}).get("sourceStandard") or {})
+    coverage = (source.get("coverage") or "").strip()
     if spec_key in EXTENSION_SPEC_KEYS:
+        return "extension"
+    if coverage == "platform_extension":
         return "extension"
 
     cfid = field.get("canonical_field_id", "") or ""
     for ns in SHARED_CANONICAL_NAMESPACES:
         if cfid.startswith(ns + "."):
             return "shared_canonical"
+
+    if spec_key in ONEEDTECH_SPEC_KEYS and coverage in COPY_EXACT_COVERAGE:
+        return "1edtech"
 
     for ed in ONEEDTECH_SPEC_KEYS:
         if cfid.startswith(f"canonical.{ed}."):
@@ -192,9 +199,11 @@ def audit(objects: list) -> tuple[dict, list]:
             rec[origin] += 1
 
             spec_field = field.get("spec_field") or {}
-            if origin == "1edtech":
+            source = spec_field.get("sourceStandard") or {}
+            coverage = (source.get("coverage") or "").strip()
+            if spec_key in ONEEDTECH_SPEC_KEYS and coverage in COPY_EXACT_COVERAGE:
                 _check_copy_exact(spec_key, object_name, field, spec_field, defects)
-            elif origin == "extension":
+            if origin == "extension":
                 rec["extension_fields"].append({
                     "id": cfid,
                     "rationale": field.get("extension_rationale"),

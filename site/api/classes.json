@@ -6,9 +6,9 @@
       "title": "ELA 6 - Period 2",
       "classType": "scheduled",
       "classCode": "P2-ELA6",
-      "courseId": "course_ela_6",
-      "schoolId": "org_school_lincoln",
-      "termId": "session_2026_fall",
+      "course": "course_ela_6",
+      "school": "org_school_lincoln",
+      "terms": "session_2026_fall",
       "status": "active",
       "dateLastModified": "2026-04-24T09:32:00Z"
     },
@@ -18,9 +18,9 @@
       "title": "Math 6 - Period 1",
       "classType": "scheduled",
       "classCode": "P1-MATH6",
-      "courseId": "course_math_6",
-      "schoolId": "org_school_lincoln",
-      "termId": "session_2026_fall",
+      "course": "course_math_6",
+      "school": "org_school_lincoln",
+      "terms": "session_2026_fall",
       "status": "active",
       "dateLastModified": "2026-04-24T09:30:00Z"
     },
@@ -30,9 +30,9 @@
       "title": "Math 6 - Period 3",
       "classType": "scheduled",
       "classCode": "P3-MATH6",
-      "courseId": "course_math_6",
-      "schoolId": "org_school_lincoln",
-      "termId": "session_2026_fall",
+      "course": "course_math_6",
+      "school": "org_school_lincoln",
+      "terms": "session_2026_fall",
       "status": "active",
       "dateLastModified": "2026-04-24T09:31:00Z"
     }
@@ -57,9 +57,9 @@
       "title": "DEC-002-learning-context",
       "classType": "DEC-002-learning-context",
       "classCode": "DEC-002-learning-context",
-      "courseId": "DEC-007-identifier-crosswalk",
-      "schoolId": "DEC-007-identifier-crosswalk",
-      "termId": "DEC-007-identifier-crosswalk",
+      "course": "DEC-007-identifier-crosswalk",
+      "school": "DEC-007-identifier-crosswalk",
+      "terms": "DEC-007-identifier-crosswalk",
       "status": "DEC-002-learning-context",
       "dateLastModified": "DEC-008-time-session"
     }

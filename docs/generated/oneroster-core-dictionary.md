@@ -17,17 +17,17 @@ A working vertical slice of the platform data dictionary for OneRoster-style ros
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 Org.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this organization. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 Org.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this organization. |
 | `sourced_id` | `sourcedId` | text | Yes | operational | OneRoster 1.2 Org.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID used by the sending system. |
 | `name` | `name` | text | Yes | directory | OneRoster 1.2 Org.name | `DEC-002-learning-context` | The organization name people recognize. |
-| `organization_type` | `type` | enum | Yes | directory | OneRoster 1.2 Org.type | `DEC-002-learning-context` | The kind of organization this record represents. |
-| `parent_organization_id` | `parentOrganizationId` | text | No | directory | OneRoster 1.2 Org.parent | `DEC-007-identifier-crosswalk` | The organization that contains this one. |
+| `type` | `type` | enum | Yes | directory | OneRoster 1.2 Org.type | `DEC-002-learning-context` | The kind of organization this record represents. |
+| `parent` | `parent` | text | No | directory | OneRoster 1.2 Org.parent | `DEC-007-identifier-crosswalk` | The organization that contains this one. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 Org.status | `DEC-002-learning-context` | Whether the record is active, inactive, or marked for deletion. |
 | `date_last_modified` | `dateLastModified` | datetime | Yes | operational | OneRoster 1.2 Org.dateLastModified | `DEC-008-time-session` | When the source system says this organization record last changed. |
 
 #### Controlled Values
 
-Values for `organization_type`:
+Values for `type`:
 
 | Value | Label | Source standard | Layperson meaning |
 | --- | --- | --- | --- |
@@ -56,13 +56,13 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 User.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this person. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 User.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this person. |
 | `sourced_id` | `sourcedId` | text | Yes | education_record | OneRoster 1.2 User.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID used by the sending system. |
-| `display_name` | `displayName` | text | Yes | directory | OneRoster 1.2 User.givenName/familyName/preferredName projection | `DEC-001-person-agent-subject` | The name shown in user interfaces. |
+| `display_name` | `displayName` | text | Yes | directory | OneRoster 1.2 User.givenName/familyName/preferredName projection (platform_extension) | `DEC-001-person-agent-subject` | The name shown in user interfaces. |
 | `given_name` | `givenName` | text | No | directory | OneRoster 1.2 User.givenName | `DEC-001-person-agent-subject` | The person's first or given name. |
 | `family_name` | `familyName` | text | No | directory | OneRoster 1.2 User.familyName | `DEC-001-person-agent-subject` | The person's last or family name. |
 | `email` | `email` | text | No | directory | OneRoster 1.2 User.email | `DEC-001-person-agent-subject` | The person's school email address. |
-| `primary_role` | `primaryRole` | enum | Yes | education_record | OneRoster 1.2 User.roles.role | `DEC-003-role-vocabulary` | The person's broad role in the education environment. |
+| `primary_role` | `primaryRole` | enum | Yes | education_record | OneRoster 1.2 User.roles.role (platform_extension) | `DEC-003-role-vocabulary` | The person's broad role in the education environment. |
 | `enabled_user` | `enabledUser` | enum | Yes | operational | OneRoster 1.2 User.enabledUser | `DEC-001-person-agent-subject` | Whether the person can currently sign in or be used as an active user. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 User.status | `DEC-001-person-agent-subject` | Whether the person record is active, inactive, or marked for deletion. |
 | `date_last_modified` | `dateLastModified` | datetime | Yes | operational | OneRoster 1.2 User.dateLastModified | `DEC-008-time-session` | When the source system says this person record last changed. |
@@ -105,10 +105,10 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 AcademicSession.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this academic session. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 AcademicSession.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this academic session. |
 | `sourced_id` | `sourcedId` | text | Yes | operational | OneRoster 1.2 AcademicSession.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this calendar record. |
 | `title` | `title` | text | Yes | operational | OneRoster 1.2 AcademicSession.title | `DEC-002-learning-context` | The calendar name people see. |
-| `session_type` | `type` | enum | Yes | operational | OneRoster 1.2 AcademicSession.type | `DEC-002-learning-context` | The kind of calendar window. |
+| `type` | `type` | enum | Yes | operational | OneRoster 1.2 AcademicSession.type | `DEC-002-learning-context` | The kind of calendar window. |
 | `start_date` | `startDate` | date | Yes | operational | OneRoster 1.2 AcademicSession.startDate | `DEC-008-time-session` | The first date in the session. |
 | `end_date` | `endDate` | date | Yes | operational | OneRoster 1.2 AcademicSession.endDate | `DEC-008-time-session` | The last date in the session. |
 | `school_year` | `schoolYear` | integer | No | operational | OneRoster 1.2 AcademicSession.schoolYear | `DEC-008-time-session` | The calendar year associated with the school year. |
@@ -117,7 +117,7 @@ Values for `status`:
 
 #### Controlled Values
 
-Values for `session_type`:
+Values for `type`:
 
 | Value | Label | Source standard | Layperson meaning |
 | --- | --- | --- | --- |
@@ -147,12 +147,12 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 Course.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this course. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 Course.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this course. |
 | `sourced_id` | `sourcedId` | text | Yes | operational | OneRoster 1.2 Course.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this course. |
 | `title` | `title` | text | Yes | operational | OneRoster 1.2 Course.title | `DEC-002-learning-context` | The course name people see. |
 | `course_code` | `courseCode` | text | No | operational | OneRoster 1.2 Course.courseCode | `DEC-002-learning-context` | A local course code used by the school or district. |
-| `org_id` | `orgId` | text | Yes | operational | OneRoster 1.2 Course.org | `DEC-007-identifier-crosswalk` | The organization that owns or offers the course. |
-| `school_year_id` | `schoolYearId` | text | No | operational | OneRoster 1.2 Course.schoolYear | `DEC-007-identifier-crosswalk` | The school year this course belongs to, if the source provides one. |
+| `org` | `org` | text | Yes | operational | OneRoster 1.2 Course.org | `DEC-007-identifier-crosswalk` | The organization that owns or offers the course. |
+| `school_year` | `schoolYear` | text | No | operational | OneRoster 1.2 Course.schoolYear | `DEC-007-identifier-crosswalk` | The school year this course belongs to, if the source provides one. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 Course.status | `DEC-002-learning-context` | Whether the course record is active, inactive, or marked for deletion. |
 | `date_last_modified` | `dateLastModified` | datetime | Yes | operational | OneRoster 1.2 Course.dateLastModified | `DEC-008-time-session` | When the source system says this course record last changed. |
 
@@ -178,14 +178,14 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 Class.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this class. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 Class.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this class. |
 | `sourced_id` | `sourcedId` | text | Yes | education_record | OneRoster 1.2 Class.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this class. |
 | `title` | `title` | text | Yes | education_record | OneRoster 1.2 Class.title | `DEC-002-learning-context` | The class name people see. |
 | `class_type` | `classType` | enum | Yes | education_record | OneRoster 1.2 Class.classType | `DEC-002-learning-context` | Whether this is a normal scheduled class or another kind of class grouping. |
 | `class_code` | `classCode` | text | No | education_record | OneRoster 1.2 Class.classCode | `DEC-002-learning-context` | A local code for the class section. |
-| `course_id` | `courseId` | text | Yes | operational | OneRoster 1.2 Class.course | `DEC-007-identifier-crosswalk` | The course this class teaches. |
-| `school_id` | `schoolId` | text | Yes | education_record | OneRoster 1.2 Class.school | `DEC-007-identifier-crosswalk` | The school where the class is offered. |
-| `term_id` | `termId` | text | No | education_record | OneRoster 1.2 Class.terms | `DEC-007-identifier-crosswalk` | The academic session when the class runs. |
+| `course` | `course` | text | Yes | operational | OneRoster 1.2 Class.course | `DEC-007-identifier-crosswalk` | The course this class teaches. |
+| `school` | `school` | text | Yes | education_record | OneRoster 1.2 Class.school | `DEC-007-identifier-crosswalk` | The school where the class is offered. |
+| `terms` | `terms` | text | No | education_record | OneRoster 1.2 Class.terms | `DEC-007-identifier-crosswalk` | The academic session when the class runs. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 Class.status | `DEC-002-learning-context` | Whether the class record is active, inactive, or marked for deletion. |
 | `date_last_modified` | `dateLastModified` | datetime | Yes | operational | OneRoster 1.2 Class.dateLastModified | `DEC-008-time-session` | When the source system says this class record last changed. |
 
@@ -218,15 +218,15 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 Enrollment.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this enrollment. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 Enrollment.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this enrollment. |
 | `sourced_id` | `sourcedId` | text | Yes | education_record | OneRoster 1.2 Enrollment.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this enrollment. |
-| `class_id` | `classId` | text | Yes | education_record | OneRoster 1.2 Enrollment.class | `DEC-007-identifier-crosswalk` | The class where the person is enrolled. |
-| `person_id` | `personId` | text | Yes | education_record | OneRoster 1.2 Enrollment.user | `DEC-007-identifier-crosswalk` | The learner, teacher, or other person in the class. |
-| `school_id` | `schoolId` | text | Yes | education_record | OneRoster 1.2 Enrollment.school | `DEC-007-identifier-crosswalk` | The school associated with this enrollment. |
+| `class` | `class` | text | Yes | education_record | OneRoster 1.2 Enrollment.class | `DEC-007-identifier-crosswalk` | The class where the person is enrolled. |
+| `user` | `user` | text | Yes | education_record | OneRoster 1.2 Enrollment.user | `DEC-007-identifier-crosswalk` | The learner, teacher, or other person in the class. |
+| `school` | `school` | text | Yes | education_record | OneRoster 1.2 Enrollment.school | `DEC-007-identifier-crosswalk` | The school associated with this enrollment. |
 | `role` | `role` | enum | Yes | education_record | OneRoster 1.2 Enrollment.role | `DEC-003-role-vocabulary` | The person's job in the class. |
 | `begin_date` | `beginDate` | date | No | education_record | OneRoster 1.2 Enrollment.beginDate | `DEC-008-time-session` | The first date this enrollment applies. |
 | `end_date` | `endDate` | date | No | education_record | OneRoster 1.2 Enrollment.endDate | `DEC-008-time-session` | The last date this enrollment applies. |
-| `primary_flag` | `primary` | enum | No | education_record | OneRoster 1.2 Enrollment.primary | `DEC-004-enrollment-membership` | Whether this is the primary teacher or primary enrollment when the source makes that distinction. |
+| `primary` | `primary` | enum | No | education_record | OneRoster 1.2 Enrollment.primary | `DEC-004-enrollment-membership` | Whether this is the primary teacher or primary enrollment when the source makes that distinction. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 Enrollment.status | `DEC-004-enrollment-membership` | Whether the enrollment record is active, inactive, or marked for deletion. |
 | `date_last_modified` | `dateLastModified` | datetime | Yes | operational | OneRoster 1.2 Enrollment.dateLastModified | `DEC-008-time-session` | When the source system says this enrollment record last changed. |
 
@@ -241,7 +241,7 @@ Values for `role`:
 | `administrator` | Administrator | OneRoster 1.2 role.administrator | A school or district administrator associated with the class. |
 | `aide` | Aide | OneRoster 1.2 role.aide | A support staff member assisting the class. |
 
-Values for `primary_flag`:
+Values for `primary`:
 
 | Value | Label | Source standard | Layperson meaning |
 | --- | --- | --- | --- |
@@ -268,16 +268,16 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 LineItem.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this gradebook item. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 LineItem.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this gradebook item. |
 | `sourced_id` | `sourcedId` | text | Yes | education_record | OneRoster 1.2 LineItem.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this line item. |
 | `title` | `title` | text | Yes | education_record | OneRoster 1.2 LineItem.title | `DEC-005-results-scores` | The gradebook item name. |
-| `class_id` | `classId` | text | Yes | education_record | OneRoster 1.2 LineItem.class | `DEC-007-identifier-crosswalk` | The class whose gradebook contains this item. |
+| `class` | `class` | text | Yes | education_record | OneRoster 1.2 LineItem.class | `DEC-007-identifier-crosswalk` | The class whose gradebook contains this item. |
 | `category` | `category` | enum | No | education_record | OneRoster 1.2 LineItem.category | `DEC-005-results-scores` | The local gradebook category for the item. |
 | `assign_date` | `assignDate` | date | No | education_record | OneRoster 1.2 LineItem.assignDate | `DEC-008-time-session` | The date the item was assigned. |
 | `due_date` | `dueDate` | date | No | education_record | OneRoster 1.2 LineItem.dueDate | `DEC-008-time-session` | The date the item is due. |
 | `result_value_min` | `resultValueMin` | number | No | education_record | OneRoster 1.2 LineItem.resultValueMin | `DEC-005-results-scores` | The minimum possible numeric result. |
 | `result_value_max` | `resultValueMax` | number | No | education_record | OneRoster 1.2 LineItem.resultValueMax | `DEC-005-results-scores` | The maximum possible numeric result. |
-| `case_target_uri` | `caseTargetUri` | text | No | public | OneRoster 1.2 LineItem.metadata.caseTargetUri (platform_projection) | `DEC-006-standards-alignment` | The CASE standard URI this gradebook item is aligned to when the target is known. |
+| `case_target_uri` | `caseTargetUri` | text | No | public | OneRoster 1.2 LineItem.metadata.caseTargetUri (platform_extension) | `DEC-006-standards-alignment` | The CASE standard URI this gradebook item is aligned to when the target is known. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 LineItem.status | `DEC-005-results-scores` | Whether the line item record is active, inactive, or marked for deletion. |
 | `date_last_modified` | `dateLastModified` | datetime | Yes | operational | OneRoster 1.2 LineItem.dateLastModified | `DEC-008-time-session` | When the source system says this line item record last changed. |
 
@@ -312,10 +312,10 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 Result.sourcedId/internal platform id (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this result. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 Result.sourcedId/internal platform id (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this result. |
 | `sourced_id` | `sourcedId` | text | Yes | education_record | OneRoster 1.2 Result.sourcedId | `DEC-007-identifier-crosswalk` | The OneRoster source ID for this result. |
-| `line_item_id` | `lineItemId` | text | Yes | education_record | OneRoster 1.2 Result.lineItem | `DEC-007-identifier-crosswalk` | The gradebook item this result belongs to. |
-| `person_id` | `personId` | text | Yes | education_record | OneRoster 1.2 Result.student | `DEC-007-identifier-crosswalk` | The learner who received the result. |
+| `line_item` | `lineItem` | text | Yes | education_record | OneRoster 1.2 Result.lineItem | `DEC-007-identifier-crosswalk` | The gradebook item this result belongs to. |
+| `student` | `student` | text | Yes | education_record | OneRoster 1.2 Result.student | `DEC-007-identifier-crosswalk` | The learner who received the result. |
 | `score_status` | `scoreStatus` | enum | Yes | education_record | OneRoster 1.2 Result.scoreStatus | `DEC-005-results-scores` | The scoring state for this result. |
 | `score` | `score` | number | No | education_record | OneRoster 1.2 Result.score | `DEC-005-results-scores` | The numeric score earned. |
 | `score_date` | `scoreDate` | datetime | No | education_record | OneRoster 1.2 Result.scoreDate | `DEC-008-time-session` | When the score was assigned or last updated. |
@@ -354,12 +354,12 @@ Values for `status`:
 
 | Field | JSON field | Type | Required | Privacy | Source standard | Decision | Layperson meaning |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `id` | `id` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.sourcedId (platform_projection) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this source identifier record. |
-| `object_type` | `objectType` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.type | `DEC-009-content-resource` | The kind of platform object this identifier describes. |
-| `object_id` | `objectId` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.sourcedId | `DEC-007-identifier-crosswalk` | The platform object that has this external identifier. |
-| `source_system` | `sourceSystem` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.source system | `DEC-010-tenancy-reference-data` | The outside system that created or owns the identifier. |
-| `external_id` | `externalId` | text | Yes | education_record | OneRoster 1.2 GUIDRef/sourceId crosswalk.sourcedId/identifier | `DEC-007-identifier-crosswalk` | The actual identifier value used by the outside system. |
-| `identifier_type` | `identifierType` | enum | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.type | `DEC-009-content-resource` | What kind of outside ID this is. |
+| `id` | `id` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.sourcedId (platform_extension) | `DEC-007-identifier-crosswalk` | The platform's stable ID for this source identifier record. |
+| `object_type` | `objectType` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.type (platform_extension) | `DEC-009-content-resource` | The kind of platform object this identifier describes. |
+| `object_id` | `objectId` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.sourcedId (platform_extension) | `DEC-007-identifier-crosswalk` | The platform object that has this external identifier. |
+| `source_system` | `sourceSystem` | text | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.source system (platform_extension) | `DEC-010-tenancy-reference-data` | The outside system that created or owns the identifier. |
+| `external_id` | `externalId` | text | Yes | education_record | OneRoster 1.2 GUIDRef/sourceId crosswalk.sourcedId/identifier (platform_extension) | `DEC-007-identifier-crosswalk` | The actual identifier value used by the outside system. |
+| `identifier_type` | `identifierType` | enum | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.type (platform_extension) | `DEC-009-content-resource` | What kind of outside ID this is. |
 | `status` | `status` | enum | Yes | operational | OneRoster 1.2 GUIDRef/sourceId crosswalk.status | `DEC-010-tenancy-reference-data` | Whether the identifier record is active, inactive, or marked for deletion. |
 
 #### Controlled Values

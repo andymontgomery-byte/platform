@@ -22,144 +22,144 @@ drop table if exists public.organizations cascade;
 
 create table public.organizations (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  name text not null,
-  organization_type text not null check (organization_type in ('district', 'school', 'department', 'program')),
-  parent_organization_id text references public.organizations(id) on delete set null,
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "name" text not null,
+  "type" text not null check ("type" in ('district', 'school', 'department', 'program')),
+  "parent" text references public.organizations("id") on delete set null,
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.people (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  display_name text not null,
-  given_name text,
-  family_name text,
-  email text,
-  primary_role text not null check (primary_role in ('student', 'teacher', 'administrator', 'guardian')),
-  enabled_user text not null check (enabled_user in ('true', 'false')),
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "display_name" text not null,
+  "given_name" text,
+  "family_name" text,
+  "email" text,
+  "primary_role" text not null check ("primary_role" in ('student', 'teacher', 'administrator', 'guardian')),
+  "enabled_user" text not null check ("enabled_user" in ('true', 'false')),
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.academic_sessions (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  title text not null,
-  session_type text not null check (session_type in ('schoolYear', 'term', 'semester', 'quarter', 'gradingPeriod')),
-  start_date date not null,
-  end_date date not null,
-  school_year integer,
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "title" text not null,
+  "type" text not null check ("type" in ('schoolYear', 'term', 'semester', 'quarter', 'gradingPeriod')),
+  "start_date" date not null,
+  "end_date" date not null,
+  "school_year" integer,
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.courses (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  title text not null,
-  course_code text,
-  org_id text not null references public.organizations(id),
-  school_year_id text references public.academic_sessions(id),
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "title" text not null,
+  "course_code" text,
+  "org" text not null references public.organizations("id"),
+  "school_year" text references public.academic_sessions("id"),
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.classes (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  title text not null,
-  class_type text not null check (class_type in ('scheduled', 'homeroom')),
-  class_code text,
-  course_id text not null references public.courses(id),
-  school_id text not null references public.organizations(id),
-  term_id text references public.academic_sessions(id),
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "title" text not null,
+  "class_type" text not null check ("class_type" in ('scheduled', 'homeroom')),
+  "class_code" text,
+  "course" text not null references public.courses("id"),
+  "school" text not null references public.organizations("id"),
+  "terms" text references public.academic_sessions("id"),
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.enrollments (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  class_id text not null references public.classes(id),
-  person_id text not null references public.people(id),
-  school_id text not null references public.organizations(id),
-  role text not null check (role in ('student', 'teacher', 'administrator', 'aide')),
-  begin_date date,
-  end_date date,
-  primary_flag text check (primary_flag in ('true', 'false')),
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "class" text not null references public.classes("id"),
+  "user" text not null references public.people("id"),
+  "school" text not null references public.organizations("id"),
+  "role" text not null check ("role" in ('student', 'teacher', 'administrator', 'aide')),
+  "begin_date" date,
+  "end_date" date,
+  "primary" text check ("primary" in ('true', 'false')),
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.line_items (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  title text not null,
-  class_id text not null references public.classes(id),
-  category text check (category in ('assignment', 'quiz', 'test', 'participation')),
-  assign_date date,
-  due_date date,
-  result_value_min double precision,
-  result_value_max double precision,
-  case_target_uri text,
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "title" text not null,
+  "class" text not null references public.classes("id"),
+  "category" text check ("category" in ('assignment', 'quiz', 'test', 'participation')),
+  "assign_date" date,
+  "due_date" date,
+  "result_value_min" double precision,
+  "result_value_max" double precision,
+  "case_target_uri" text,
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.results (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  sourced_id text not null unique,
-  line_item_id text not null references public.line_items(id),
-  person_id text not null references public.people(id),
-  score_status text not null check (score_status in ('notSubmitted', 'submitted', 'partiallyGraded', 'fullyGraded')),
-  score double precision,
-  score_date timestamptz,
-  comment text,
-  status text not null check (status in ('active', 'inactive', 'tobedeleted')),
-  date_last_modified timestamptz not null
+  "id" text primary key,
+  "sourced_id" text not null unique,
+  "line_item" text not null references public.line_items("id"),
+  "student" text not null references public.people("id"),
+  "score_status" text not null check ("score_status" in ('notSubmitted', 'submitted', 'partiallyGraded', 'fullyGraded')),
+  "score" double precision,
+  "score_date" timestamptz,
+  "comment" text,
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted')),
+  "date_last_modified" timestamptz not null
 );
 
 create table public.caliper_events (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  envelope_id text not null,
-  event_iri text not null,
-  event_type text not null check (event_type in ('AnnotationEvent', 'AssessmentEvent', 'AssessmentItemEvent', 'AssignableEvent', 'FeedbackEvent', 'ForumEvent', 'GradeEvent', 'MediaEvent', 'MessageEvent', 'NavigationEvent', 'QuestionnaireEvent', 'QuestionnaireItemEvent', 'ResourceManagementEvent', 'SearchEvent', 'SessionEvent', 'SurveyEvent', 'SurveyInvitationEvent', 'ThreadEvent', 'ToolLaunchEvent', 'ToolUseEvent', 'ViewEvent')),
-  profile text check (profile in ('GeneralProfile', 'AnnotationProfile', 'AssessmentProfile', 'AssignableProfile', 'FeedbackProfile', 'ForumProfile', 'GradingProfile', 'MediaProfile', 'ReadingProfile', 'ResourceManagementProfile', 'SearchProfile', 'SessionProfile', 'SurveyProfile', 'ToolLaunchProfile', 'ToolUseProfile')),
-  action text not null check (action in ('Abandoned', 'Accepted', 'Activated', 'Added', 'Archived', 'Attached', 'Bookmarked', 'ChangedResolution', 'ChangedSize', 'ChangedSpeed', 'ChangedVolume', 'Classified', 'ClosedPopout', 'Commented', 'Completed', 'Copied', 'Created', 'Deactivated', 'Declined', 'Deleted', 'Described', 'DisabledClosedCaptioning', 'Disliked', 'Downloaded', 'EnabledClosedCaptioning', 'Ended', 'EnteredFullScreen', 'ExitedFullScreen', 'ForwardedTo', 'Graded', 'Hid', 'Highlighted', 'Identified', 'JumpedTo', 'Launched', 'Liked', 'Linked', 'LoggedIn', 'LoggedOut', 'MarkedAsRead', 'MarkedAsUnread', 'Modified', 'Muted', 'NavigatedTo', 'OpenedPopout', 'OptedIn', 'OptedOut', 'Paused', 'Posted', 'Printed', 'Published', 'Questioned', 'Ranked', 'Recommended', 'Removed', 'Reset', 'Restarted', 'Restored', 'Resumed', 'Retrieved', 'Returned', 'Reviewed', 'Rewound', 'Saved', 'Searched', 'Sent', 'Shared', 'Showed', 'Skipped', 'Started', 'Submitted', 'Subscribed', 'Tagged', 'TimedOut', 'Unmuted', 'Unpublished', 'Unsubscribed', 'Uploaded', 'Used', 'Viewed')),
-  actor_id text not null,
-  object_id text not null,
-  event_time timestamptz not null,
-  ed_app_id text,
-  generated_id text,
-  target_id text,
-  referrer_id text,
-  group_id text,
-  membership_id text,
-  session_id text,
-  federated_session_id text,
-  raw_event text not null
+  "id" text primary key,
+  "envelope_id" text not null,
+  "event_iri" text not null,
+  "event_type" text not null check ("event_type" in ('AnnotationEvent', 'AssessmentEvent', 'AssessmentItemEvent', 'AssignableEvent', 'FeedbackEvent', 'ForumEvent', 'GradeEvent', 'MediaEvent', 'MessageEvent', 'NavigationEvent', 'QuestionnaireEvent', 'QuestionnaireItemEvent', 'ResourceManagementEvent', 'SearchEvent', 'SessionEvent', 'SurveyEvent', 'SurveyInvitationEvent', 'ThreadEvent', 'ToolLaunchEvent', 'ToolUseEvent', 'ViewEvent')),
+  "profile" text check ("profile" in ('GeneralProfile', 'AnnotationProfile', 'AssessmentProfile', 'AssignableProfile', 'FeedbackProfile', 'ForumProfile', 'GradingProfile', 'MediaProfile', 'ReadingProfile', 'ResourceManagementProfile', 'SearchProfile', 'SessionProfile', 'SurveyProfile', 'ToolLaunchProfile', 'ToolUseProfile')),
+  "action" text not null check ("action" in ('Abandoned', 'Accepted', 'Activated', 'Added', 'Archived', 'Attached', 'Bookmarked', 'ChangedResolution', 'ChangedSize', 'ChangedSpeed', 'ChangedVolume', 'Classified', 'ClosedPopout', 'Commented', 'Completed', 'Copied', 'Created', 'Deactivated', 'Declined', 'Deleted', 'Described', 'DisabledClosedCaptioning', 'Disliked', 'Downloaded', 'EnabledClosedCaptioning', 'Ended', 'EnteredFullScreen', 'ExitedFullScreen', 'ForwardedTo', 'Graded', 'Hid', 'Highlighted', 'Identified', 'JumpedTo', 'Launched', 'Liked', 'Linked', 'LoggedIn', 'LoggedOut', 'MarkedAsRead', 'MarkedAsUnread', 'Modified', 'Muted', 'NavigatedTo', 'OpenedPopout', 'OptedIn', 'OptedOut', 'Paused', 'Posted', 'Printed', 'Published', 'Questioned', 'Ranked', 'Recommended', 'Removed', 'Reset', 'Restarted', 'Restored', 'Resumed', 'Retrieved', 'Returned', 'Reviewed', 'Rewound', 'Saved', 'Searched', 'Sent', 'Shared', 'Showed', 'Skipped', 'Started', 'Submitted', 'Subscribed', 'Tagged', 'TimedOut', 'Unmuted', 'Unpublished', 'Unsubscribed', 'Uploaded', 'Used', 'Viewed')),
+  "actor_id" text not null,
+  "object_id" text not null,
+  "event_time" timestamptz not null,
+  "ed_app_id" text,
+  "generated_id" text,
+  "target_id" text,
+  "referrer_id" text,
+  "group_id" text,
+  "membership_id" text,
+  "session_id" text,
+  "federated_session_id" text,
+  "raw_event" text not null
 );
 
 create table public.source_identifiers (
   tenant_id uuid not null default coalesce(nullif(auth.jwt() ->> 'tenant_id', '')::uuid, nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid),
-  id text primary key,
-  object_type text not null,
-  object_id text not null,
-  source_system text not null,
-  external_id text not null,
-  identifier_type text not null check (identifier_type in ('oneRosterSourcedId', 'sisSourcedId', 'ltiContextId', 'ltiUserId', 'emailAddress')),
-  status text not null check (status in ('active', 'inactive', 'tobedeleted'))
+  "id" text primary key,
+  "object_type" text not null,
+  "object_id" text not null,
+  "source_system" text not null,
+  "external_id" text not null,
+  "identifier_type" text not null check ("identifier_type" in ('oneRosterSourcedId', 'sisSourcedId', 'ltiContextId', 'ltiUserId', 'emailAddress')),
+  "status" text not null check ("status" in ('active', 'inactive', 'tobedeleted'))
 );
 
 create table public.audit_log (
@@ -178,25 +178,25 @@ create table public.audit_log (
 );
 
 create index organizations_tenant_idx on public.organizations(tenant_id);
-create index organizations_parent_idx on public.organizations(parent_organization_id);
+create index organizations_parent_idx on public.organizations("parent");
 create index people_tenant_idx on public.people(tenant_id);
 create index academic_sessions_tenant_idx on public.academic_sessions(tenant_id);
 create index courses_tenant_idx on public.courses(tenant_id);
-create index courses_org_idx on public.courses(org_id);
-create index courses_school_year_idx on public.courses(school_year_id);
+create index courses_org_idx on public.courses("org");
+create index courses_school_year_idx on public.courses("school_year");
 create index classes_tenant_idx on public.classes(tenant_id);
-create index classes_course_idx on public.classes(course_id);
-create index classes_school_idx on public.classes(school_id);
-create index classes_term_idx on public.classes(term_id);
+create index classes_course_idx on public.classes("course");
+create index classes_school_idx on public.classes("school");
+create index classes_term_idx on public.classes("terms");
 create index enrollments_tenant_idx on public.enrollments(tenant_id);
-create index enrollments_class_idx on public.enrollments(class_id);
-create index enrollments_person_idx on public.enrollments(person_id);
-create index enrollments_school_idx on public.enrollments(school_id);
+create index enrollments_class_idx on public.enrollments("class");
+create index enrollments_person_idx on public.enrollments("user");
+create index enrollments_school_idx on public.enrollments("school");
 create index line_items_tenant_idx on public.line_items(tenant_id);
-create index line_items_class_idx on public.line_items(class_id);
+create index line_items_class_idx on public.line_items("class");
 create index results_tenant_idx on public.results(tenant_id);
-create index results_line_item_idx on public.results(line_item_id);
-create index results_person_idx on public.results(person_id);
+create index results_line_item_idx on public.results("line_item");
+create index results_person_idx on public.results("student");
 create index caliper_events_tenant_idx on public.caliper_events(tenant_id);
 create index source_identifiers_tenant_idx on public.source_identifiers(tenant_id);
 create index source_identifiers_lookup_idx on public.source_identifiers(object_type, object_id);
@@ -216,9 +216,9 @@ select
   o.name as school_name,
   e.status
 from public.enrollments e
-join public.classes c on c.id = e.class_id
-join public.people p on p.id = e.person_id
-join public.organizations o on o.id = e.school_id;
+join public.classes c on c.id = e."class"
+join public.people p on p.id = e."user"
+join public.organizations o on o.id = e.school;
 
 create view public.gradebook_results
 with (security_invoker = true) as
@@ -234,9 +234,9 @@ select
   r.comment,
   r.score_date
 from public.results r
-join public.line_items li on li.id = r.line_item_id
-join public.classes c on c.id = li.class_id
-join public.people p on p.id = r.person_id;
+join public.line_items li on li.id = r.line_item
+join public.classes c on c.id = li."class"
+join public.people p on p.id = r.student;
 
 create view public.class_activity_feed
 with (security_invoker = true) as
@@ -445,16 +445,16 @@ create policy demo_insert_courses on public.courses for insert to authenticated 
   and exists (
     select 1
     from public.organizations o
-    where o.id = org_id
+    where o."id" = "org"
       and o.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
       )
   )
-  and (school_year_id is null or exists (
+  and ("school_year" is null or exists (
     select 1
     from public.academic_sessions a
-    where a.id = school_year_id
+    where a."id" = "school_year"
       and a.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -475,16 +475,16 @@ create policy demo_update_courses on public.courses for update to authenticated 
   and exists (
     select 1
     from public.organizations o
-    where o.id = org_id
+    where o."id" = "org"
       and o.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
       )
   )
-  and (school_year_id is null or exists (
+  and ("school_year" is null or exists (
     select 1
     from public.academic_sessions a
-    where a.id = school_year_id
+    where a."id" = "school_year"
       and a.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -500,7 +500,7 @@ create policy demo_insert_classes on public.classes for insert to authenticated 
   and exists (
     select 1
     from public.courses c
-    where c.id = course_id
+    where c."id" = "course"
       and c.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -509,16 +509,16 @@ create policy demo_insert_classes on public.classes for insert to authenticated 
   and exists (
     select 1
     from public.organizations o
-    where o.id = school_id
+    where o."id" = "school"
       and o.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
       )
   )
-  and (term_id is null or exists (
+  and ("terms" is null or exists (
     select 1
     from public.academic_sessions a
-    where a.id = term_id
+    where a."id" = "terms"
       and a.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -539,7 +539,7 @@ create policy demo_update_classes on public.classes for update to authenticated 
   and exists (
     select 1
     from public.courses c
-    where c.id = course_id
+    where c."id" = "course"
       and c.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -548,16 +548,16 @@ create policy demo_update_classes on public.classes for update to authenticated 
   and exists (
     select 1
     from public.organizations o
-    where o.id = school_id
+    where o."id" = "school"
       and o.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
       )
   )
-  and (term_id is null or exists (
+  and ("terms" is null or exists (
     select 1
     from public.academic_sessions a
-    where a.id = term_id
+    where a."id" = "terms"
       and a.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -573,7 +573,7 @@ create policy demo_insert_enrollments on public.enrollments for insert to authen
   and exists (
     select 1
     from public.classes c
-    where c.id = class_id
+    where c."id" = "class"
       and c.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -582,7 +582,7 @@ create policy demo_insert_enrollments on public.enrollments for insert to authen
   and exists (
     select 1
     from public.people p
-    where p.id = person_id
+    where p."id" = "user"
       and p.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -591,7 +591,7 @@ create policy demo_insert_enrollments on public.enrollments for insert to authen
   and exists (
     select 1
     from public.organizations o
-    where o.id = school_id
+    where o."id" = "school"
       and o.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -612,7 +612,7 @@ create policy demo_update_enrollments on public.enrollments for update to authen
   and exists (
     select 1
     from public.classes c
-    where c.id = class_id
+    where c."id" = "class"
       and c.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -621,7 +621,7 @@ create policy demo_update_enrollments on public.enrollments for update to authen
   and exists (
     select 1
     from public.people p
-    where p.id = person_id
+    where p."id" = "user"
       and p.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -630,7 +630,7 @@ create policy demo_update_enrollments on public.enrollments for update to authen
   and exists (
     select 1
     from public.organizations o
-    where o.id = school_id
+    where o."id" = "school"
       and o.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -646,7 +646,7 @@ create policy demo_insert_line_items on public.line_items for insert to authenti
   and exists (
     select 1
     from public.classes c
-    where c.id = class_id
+    where c."id" = "class"
       and c.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -667,7 +667,7 @@ create policy demo_update_line_items on public.line_items for update to authenti
   and exists (
     select 1
     from public.classes c
-    where c.id = class_id
+    where c."id" = "class"
       and c.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -683,7 +683,7 @@ create policy demo_insert_results on public.results for insert to authenticated 
   and exists (
     select 1
     from public.line_items l
-    where l.id = line_item_id
+    where l."id" = "line_item"
       and l.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -692,7 +692,7 @@ create policy demo_insert_results on public.results for insert to authenticated 
   and exists (
     select 1
     from public.people p
-    where p.id = person_id
+    where p."id" = "student"
       and p.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -713,7 +713,7 @@ create policy demo_update_results on public.results for update to authenticated 
   and exists (
     select 1
     from public.line_items l
-    where l.id = line_item_id
+    where l."id" = "line_item"
       and l.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid
@@ -722,7 +722,7 @@ create policy demo_update_results on public.results for update to authenticated 
   and exists (
     select 1
     from public.people p
-    where p.id = person_id
+    where p."id" = "student"
       and p.tenant_id = coalesce(
         nullif(auth.jwt() ->> 'tenant_id', '')::uuid,
         nullif(auth.jwt() -> 'app_metadata' ->> 'tenant_id', '')::uuid

@@ -11,8 +11,11 @@ type RawSubmission = {
   id?: unknown;
   sourcedId?: unknown;
   sourced_id?: unknown;
+  lineItem?: unknown;
   lineItemId?: unknown;
+  line_item?: unknown;
   line_item_id?: unknown;
+  student?: unknown;
   personId?: unknown;
   person_id?: unknown;
   scoreStatus?: unknown;
@@ -27,8 +30,8 @@ type ResultRow = {
   tenant_id: string;
   id: string;
   sourced_id: string;
-  line_item_id: string;
-  person_id: string;
+  line_item: string;
+  student: string;
   score_status: string;
   score: number | null;
   score_date: string | null;
@@ -107,8 +110,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const accessCheck = await validateTenantVisibleReferences(
     supabase,
-    rows.map((row) => row.line_item_id),
-    rows.map((row) => row.person_id),
+    rows.map((row) => row.line_item),
+    rows.map((row) => row.student),
   );
   if (accessCheck instanceof Response) {
     return accessCheck;
@@ -117,7 +120,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const { data, error } = await supabase
     .from("results")
     .upsert(rows, { onConflict: "id" })
-    .select("id,sourced_id,line_item_id,person_id,score_status,score,score_date,comment,date_last_modified")
+    .select("id,sourced_id,line_item,student,score_status,score,score_date,comment,date_last_modified")
     .order("id", { ascending: true });
 
   if (error) {
@@ -129,8 +132,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     results: (data || []).map((row) => ({
       id: row.id,
       sourcedId: row.sourced_id,
-      lineItemId: row.line_item_id,
-      personId: row.person_id,
+      lineItemId: row.line_item,
+      personId: row.student,
       scoreStatus: row.score_status,
       score: row.score,
       scoreDate: row.score_date,
@@ -165,8 +168,10 @@ function normalizeSubmission(
 ): ResultRow | Response {
   const id = readString(submission.id);
   const sourcedId = readString(submission.sourcedId ?? submission.sourced_id);
-  const lineItemId = readString(submission.lineItemId ?? submission.line_item_id);
-  const personId = readString(submission.personId ?? submission.person_id);
+  const lineItemId = readString(
+    submission.lineItem ?? submission.lineItemId ?? submission.line_item ?? submission.line_item_id,
+  );
+  const personId = readString(submission.student ?? submission.personId ?? submission.person_id);
   const scoreStatus = readString(submission.scoreStatus ?? submission.score_status);
 
   const missing = [
@@ -211,8 +216,8 @@ function normalizeSubmission(
     tenant_id: tenantId,
     id,
     sourced_id: sourcedId,
-    line_item_id: lineItemId,
-    person_id: personId,
+    line_item: lineItemId,
+    student: personId,
     score_status: scoreStatus,
     score,
     score_date: scoreDate,
