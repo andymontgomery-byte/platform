@@ -32,3 +32,7 @@ __pycache__/
 *.sqlite3
 *.db
 demo/platform-demo.sqlite
+
+# Loop daemon runtime files (config is committed; state and log are not)
+.loop-daemon.log
+.loop-daemon.state.json
