@@ -335,6 +335,8 @@ Dictionary fields and values used by this step:
 | `case_item.item_type` | [case_item.item_type](case-core-dictionary.html#case_item.item_type) |
 | `standard` | [global enum item_type.standard](case-core-dictionary.html#enum.item_type.standard) |
 
+CASE framework import is deferred (see DEC-012 and PEND-001); the runtime stores the URI as an opaque reference, so any well-formed URI is accepted in the current sandbox.
+
 ```sh
 curl -sS -X PATCH "$SUPABASE_URL/rest/v1/line_items?id=eq.li_build_fractions_exit_ticket" \
   "${REST_AUTH_HEADERS[@]}" \
