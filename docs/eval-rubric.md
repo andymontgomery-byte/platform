@@ -231,6 +231,27 @@ Backward traceability is required. When an item fails, the evaluator must name (
 - **substance_check:** A driver that pushes without first rebasing fails. A driver that swallows `! [rejected]` and proceeds to the next iteration fails. A driver that rebases but does not halt on conflict fails.
 - **blocked_if:** never.
 
+### evaluator_is_deterministic
+
+- **requirement:** Two evaluator runs over the same git tree, with the same rubric, must produce the same per-item statuses and the same `done` flag. The loop must not treat a single evaluator run as authoritative; it must run the evaluator at least N=3 times during VERIFY and reach a unanimity or majority verdict before writing `site/api/platform-evaluation.json` and before deciding termination. Disagreement across the N runs must be recorded in the iteration log.
+- **how_to_verify:** Inspect `scripts/codex_loop.py` and `scripts/evaluate_platform.py`. Confirm: (a) the evaluator request pins `temperature` to 0 (or the lowest the API allows) and any available `seed` parameter to a fixed value; (b) VERIFY runs the evaluator at least 3 times per iteration; (c) the iteration log records every per-item status from every run and the consensus rule used; (d) if the runs disagree on `done`, the loop treats `done=false` as the safe verdict and the iteration is marked non-terminating; (e) `site/api/platform-evaluation.json` is written from the consensus result, not from the first or last run alone. The 2026-04-27 iter1 judge dissent is the canonical motivating example: three runs on the same tree produced pass=22, pass=21, pass=20.
+- **substance_check:** A loop that runs the evaluator once per iteration and trusts that single result fails. Pinned temperature without N>=3 runs fails. N>=3 runs without a consensus rule that defaults to the safer (lower-pass) verdict on disagreement fails. Recording disagreement only in stdout (not in the iteration's persisted PROGRESS or JSON) fails.
+- **blocked_if:** never.
+
+### progress_log_bound_to_verify
+
+- **requirement:** `PROGRESS.md` entries and the `LOOP_STATUS` marker must be generated from the VERIFY-stage evaluator output, never from Codex's in-process narrative. If Codex's stdout contains `LOOP_STATUS: COMPLETE` (or any equivalent claim) but the same iteration's VERIFY evaluator output reports `done=false`, the loop must record the discrepancy in PROGRESS.md as a `narrative_verify_mismatch` and continue iterating. The committed PROGRESS entry must cite VERIFY's counts verbatim, not Codex's.
+- **how_to_verify:** Read `scripts/codex_loop.py` and the most recent PROGRESS.md entries. Confirm: (a) the PROGRESS-writer takes its `pass/partial/fail/total/done` numbers from the parsed VERIFY evaluator JSON, not from Codex's last_message text; (b) on mismatch, the entry contains a `narrative_verify_mismatch` field naming both claims; (c) the iteration is not allowed to terminate the loop when this mismatch occurs in the same iteration. Read iter1's PROGRESS entry (2026-04-27, sha 89b20bd) to confirm the back-fix: it must either be corrected in-place or annotated with a follow-up entry that records VERIFY's actual pass=20 partial=2 verdict.
+- **substance_check:** A PROGRESS entry that claims `pass=22, done=true` while the iteration's verify log says `pass=20, partial=2, done=false` fails. A driver that records Codex's COMPLETE claim without a verify-bound counter-entry fails. Hand-corrected PROGRESS without a code change preventing recurrence fails.
+- **blocked_if:** never.
+
+### committed_eval_matches_verify
+
+- **requirement:** The `site/api/platform-evaluation.json` committed at the end of an iteration must equal the VERIFY-stage evaluator output for that same iteration, byte-identical except for `evaluatedAt`. A pre-commit comparator must fail the iteration if the committed JSON disagrees with VERIFY's authoritative run.
+- **how_to_verify:** Inspect `scripts/codex_loop.py` (or a new helper invoked from VERIFY). Confirm there is a comparator that diffs the staged `site/api/platform-evaluation.json` against the VERIFY evaluator output (ignoring the `evaluatedAt` timestamp) and returns non-zero on any other difference. Confirm `maybe_publish` will not commit when the comparator fails. Confirm a recent iteration log shows the comparator running and either passing or surfacing a diff.
+- **substance_check:** A loop that lets Codex regenerate `site/api/platform-evaluation.json` mid-iteration and commits it without re-running the comparator against VERIFY fails. A comparator that ignores per-item status differences fails. A comparator that warns but does not block the commit fails.
+- **blocked_if:** never.
+
 ---
 
 ## Summary
@@ -241,10 +262,10 @@ Backward traceability is required. When an item fails, the evaluator must name (
 | Dictionary is great | 8 |
 | Documentation is great | 4 |
 | Buildability (the apex test) | 2 |
-| Loop and harness hygiene | 4 |
-| **Total** | **22** |
+| Loop and harness hygiene | 7 |
+| **Total** | **25** |
 
-The loop is "done" when all 22 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite.
+The loop is "done" when all 25 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite.
 
 ## What this rubric replaces
 
