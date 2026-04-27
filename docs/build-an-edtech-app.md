@@ -2,13 +2,35 @@
 
 This guide builds one teaching-app slice against the live Supabase runtime using `curl` and PostgREST. It creates a tenant-scoped API token, writes roster and gradebook rows through platform tables, attaches a CASE standard URI to the assignment, and reads a Caliper-style class activity feed from the platform's Caliper event projection.
 
-## 0. Get An API Token
+## Choose A Runtime
 
-The live REST endpoint is the Supabase project. The examples use a synthetic build-guide tenant:
+You can run the same steps against either runtime:
 
-The `SUPABASE_SERVICE_ROLE_KEY` value comes from the Supabase dashboard: [Project Settings -> API -> service_role](supabase-hosted-database.html#where-to-find-the-service-role-key).
+| Runtime | Who uses it | What changes |
+| --- | --- | --- |
+| Hosted platform sandbox | Platform maintainers or invited reviewers with dashboard access to `qzxlgrerjoiamxvnkklq` | Use the hosted `SUPABASE_URL`, hosted publishable key, and hosted service-role key. |
+| Self-hosted sandbox | Any new developer without platform-admin access | Create your own Supabase project, load the migration below, and use your own project URL and keys in Step 0. |
+
+Self-hosted setup:
 
 ```sh
+export SUPABASE_DB_URL='postgresql://postgres.<your-project-ref>:<password>@aws-0-us-east-1.pooler.supabase.com:6543/postgres'
+
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
+  -f supabase/migrations/0001_oneroster_core_demo.sql
+```
+
+Then open your Supabase dashboard, copy your own Project URL, publishable key, and service-role key, and replace the first three `export` values in Step 0. The synthetic `PLATFORM_TENANT_ID` and all row IDs in this guide can stay unchanged because they are just sandbox data inside your project. See [New Developer Onboarding](supabase-hosted-database.html#new-developer-onboarding-without-platform-admin-access) for where each value lives in the Supabase dashboard.
+
+## 0. Get An API Token
+
+The REST endpoint is the Supabase project you chose above. The examples use a synthetic build-guide tenant:
+
+The `SUPABASE_SERVICE_ROLE_KEY` value comes from your chosen Supabase dashboard: [Project Settings -> API -> service_role](supabase-hosted-database.html#where-to-find-the-service-role-key). Use the hosted platform key only if you have been granted platform dashboard access; otherwise use your self-hosted project's service-role key.
+
+```sh
+# Hosted platform sandbox defaults. For self-hosted, replace these three values
+# with your own Project URL, publishable key, and service-role key.
 export SUPABASE_URL='https://qzxlgrerjoiamxvnkklq.supabase.co'
 export SUPABASE_PUBLISHABLE_KEY='sb_publishable_DaJsnILCWdUIjl4cCaL3Jw_qLy8BPXK'
 export SUPABASE_SERVICE_ROLE_KEY='paste-service-role-key-for-your-project'

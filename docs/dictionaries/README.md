@@ -24,6 +24,33 @@ Examples:
 - A standards-aligned quiz starts in QTI, links to CASE, may be packaged in Common Cartridge, and may produce OneRoster or LTI AGS results.
 - A microcredential starts as an Open Badges achievement, may align to CASE, and may later be bundled inside a CLR credential.
 
+## Why The Concepts Stay Separate
+
+These decisions explain the "why" behind the dictionary shapes, not just the fields they contain.
+
+| Decision | Plain-language reason |
+| --- | --- |
+| [DEC-001 person and agent](decisions-standards-overlap-decisions.html#DEC-001-person-agent-subject) | A learner, teacher, guardian, or staff member is a person because the platform can apply roster privacy and identity policy to them. Tools, groups, issuers, and unresolved actors stay agents so analytics and LTI events do not accidentally merge software or unknown subjects into student records. |
+| [DEC-002 learning context](decisions-standards-overlap-decisions.html#DEC-002-learning-context) | Courses, classes, groups, and launch contexts overlap, but they answer different scheduling and authorization questions. The dictionary keeps their source meaning while giving apps stable context IDs for joins. |
+| [DEC-003 role vocabulary](decisions-standards-overlap-decisions.html#DEC-003-role-vocabulary) | OneRoster, LTI, Caliper, and governance scopes use different role words. A shared role-family enum lets policy reason over learner, educator, guardian, staff, tool, and issuer without deleting the source value. |
+| [DEC-004 enrollment and membership](decisions-standards-overlap-decisions.html#DEC-004-enrollment-membership) | Enrollment is the school roster relationship that says a person belongs to a class. Membership is the context-specific participation view exposed through LTI or another service. Keeping both avoids using a tool roster as the legal roster of record. |
+| [DEC-005 results and scores](decisions-standards-overlap-decisions.html#DEC-005-results-scores) | A line item is the assignment or gradebook column, while a result is a learner's score or feedback on it. This split makes grade passback and reporting predictable. |
+| [DEC-006 standards alignment](decisions-standards-overlap-decisions.html#DEC-006-standards-alignment) | CASE standards are reference data. Assignments and resources point to CASE URIs instead of copying framework text into every gradebook or content record. |
+| [DEC-007 identifier crosswalk](decisions-standards-overlap-decisions.html#DEC-007-identifier-crosswalk) | Every source system has its own IDs. The platform keeps source IDs in a crosswalk so apps can match records without treating an SIS ID, LTI subject, CASE URI, or QTI identifier as the same thing. |
+| [DEC-008 time and sessions](decisions-standards-overlap-decisions.html#DEC-008-time-session) | Academic terms, assignment dates, event times, and record-modified timestamps serve different workflows, so the dictionary names each time concept explicitly. |
+| [DEC-009 content and resources](decisions-standards-overlap-decisions.html#DEC-009-content-resource) | Content packages, resources, and launch targets are modeled separately from roster and results so apps can connect learning materials without making every resource a gradebook item. |
+| [DEC-010 tenancy](decisions-standards-overlap-decisions.html#DEC-010-tenancy-reference-data) | Tenant-owned rows are isolated by RLS, while shared reference data can be reused. This keeps demo and production data from crossing district boundaries. |
+| [DEC-011 privacy surfaces](decisions-standards-overlap-decisions.html#DEC-011-privacy-surfaces) | A field may be safe in generated docs but unsafe in public JSON or anonymous REST. Privacy class plus surface rules decide where each field may appear. |
+| [DEC-012 runtime coverage](decisions-standards-overlap-decisions.html#DEC-012-runtime-coverage-per-spec) | The platform is honest about which specs have hosted runtime slices now and which are dictionary-only until later implementation. |
+| [DEC-013 audit truth](decisions-standards-overlap-decisions.html#DEC-013-audit-response-truth) | Edge Functions must not claim audit rows were written unless the response reflects what the platform actually recorded. |
+| [DEC-014 static mirrors](decisions-standards-overlap-decisions.html#DEC-014-static-mirror-policy) | Static JSON and HTML are documentation mirrors, not the live system of record. They are kept for review but must not bypass runtime privacy rules. |
+| [DEC-015 service role](decisions-standards-overlap-decisions.html#DEC-015-service-role-policy) | Service-role access is powerful enough to bypass user policy, so it is limited to named admin or test-fixture operations. Runtime examples use caller JWTs. |
+| [DEC-016 dictionary generation](decisions-standards-overlap-decisions.html#DEC-016-dictionary-generation-direction) | The shared seed is upstream and per-spec dictionaries are generated projections. This prevents hand-edited spec files from drifting apart. |
+| [DEC-017 canonical fields](decisions-standards-overlap-decisions.html#DEC-017-canonical-field-reconciliation) | Overlapping fields point to shared canonical field IDs so OneRoster, LTI, Caliper, QTI, CASE, and governance docs agree on the concept behind each source field. |
+| [DEC-018 global enums](decisions-standards-overlap-decisions.html#DEC-018-global-enum-crosswalks) | Shared enum tables preserve source-native values and map them to canonical values, giving apps one policy vocabulary without hiding the original spec term. |
+| [DEC-019 privacy classes](decisions-standards-overlap-decisions.html#DEC-019-closed-privacy-classes) | Privacy classes are a closed list. Placeholder classes such as "depends on contents" are resolved per field so enforcement can be deterministic. |
+| [DEC-020 relational graph](decisions-standards-overlap-decisions.html#DEC-020-relational-graph-migrations) | Relationships live in the dictionary graph and generate Supabase migrations, so docs, schema, and API behavior describe the same joins. |
+
 ## Dictionary Rule
 
 Every public SQL table, API resource, field, enum value, and relationship should have:

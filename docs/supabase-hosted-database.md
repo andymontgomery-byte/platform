@@ -42,6 +42,26 @@ The buildability guide uses the service-role key once to create a temporary Supa
 
 The publishable key in `.env.example` is safe for client requests. The service-role key bypasses row-level security when used directly, so the guide uses it only for the Auth Admin user-creation call and then switches to the tenant-scoped user JWT for all platform table writes.
 
+## New Developer Onboarding Without Platform Admin Access
+
+You do not need access to the platform team's hosted project to run the buildability guide. Use a self-hosted Supabase sandbox:
+
+1. Create a new Supabase project in your own Supabase account.
+2. In that project's dashboard, open **Project Settings -> Database** and copy the connection string or pooler URL into `SUPABASE_DB_URL`.
+3. From the repository root, load the generated platform schema:
+
+```sh
+export SUPABASE_DB_URL='postgresql://postgres.<your-project-ref>:<password>@aws-0-us-east-1.pooler.supabase.com:6543/postgres'
+
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
+  -f supabase/migrations/0001_oneroster_core_demo.sql
+```
+
+4. In **Project Settings -> API**, copy the Project URL, publishable key, and service-role key from your own project.
+5. Use those three values in `docs/build-an-edtech-app.md` Step 0. The guide creates a tenant-scoped test user in your project, then uses that user's JWT for the roster, gradebook, CASE alignment, and Caliper feed curls.
+
+This self-hosted path exercises the same migration-generated tables, RLS policies, and PostgREST requests as the hosted sandbox. It exists so a new developer can complete the guide from the docs without being a platform administrator on `qzxlgrerjoiamxvnkklq`.
+
 ## Reviewer Path
 
 1. Inspect `supabase/migrations/0001_oneroster_core_demo.sql`.

@@ -120,6 +120,10 @@ def main() -> int:
             publish_result,
         )
 
+        if publish_result.startswith("DIVERGENCE:"):
+            print(publish_result)
+            return 1
+
         if codex_result.returncode != 0:
             print(f"Codex exited with {codex_result.returncode}; see {codex_log}")
             if not args.continue_on_failure:
@@ -798,17 +802,22 @@ def maybe_publish(
     if rebase.returncode != 0:
         # Rebase conflict — abort and signal divergence to the harness so the
         # next iteration does not run against an inconsistent local main.
-        run_git(repo, ["rebase", "--abort"], check=False)
-        conflict_paths = []
-        status = run_git(repo, ["status", "--porcelain"], check=False)
-        for line in (status.stdout or "").splitlines():
-            if line.startswith("UU ") or line.startswith("AA "):
-                conflict_paths.append(line[3:])
+        diff = run_git(repo, ["diff", "--name-only", "--diff-filter=U"], check=False)
+        conflict_paths = [line.strip() for line in (diff.stdout or "").splitlines() if line.strip()]
+        if not conflict_paths:
+            status = run_git(repo, ["status", "--porcelain"], check=False)
+            for line in (status.stdout or "").splitlines():
+                if line.startswith("UU ") or line.startswith("AA "):
+                    conflict_paths.append(line[3:])
         paths_str = ", ".join(conflict_paths) if conflict_paths else "unknown"
+        run_git(repo, ["rebase", "--abort"], check=False)
         return (
             f"DIVERGENCE: commit succeeded, rebase failed. "
             f"Conflicting paths: {paths_str}. "
-            f"Loop halting until a human resolves divergence on origin/main."
+            "Recommended resolution: `git fetch origin main && "
+            "git pull --rebase origin main`, resolve conflicts, then "
+            "`git push origin main`. "
+            "Loop halting until a human resolves divergence on origin/main."
         )
     push = run_git(repo, ["push", "origin", "main"], check=False)
     if push.returncode != 0:
