@@ -822,3 +822,28 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 - Checks run and result: `python3 -m json.tool data/data-dictionary.seed.json` passed; `python3 scripts/generate_spec_dictionaries.py --check` passed with 5 projections, 59 objects, and 575 fields; `python3 scripts/generate_supabase_migrations.py --check` passed with 1 migration, 11 tables, and 13 relationships; all five dictionary generators passed; `python3 scripts/build_static_api.py` and `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_site_links.py` passed with 36 HTML pages, 202 local links, 634 dictionary entries, 20 decisions, and 12 API endpoints; `python3 scripts/check_dictionary_artifacts.py` passed with 5 configs, 59 objects, 575 fields, and 912 values; `python3 scripts/check_spec_conformance.py --write-report site/api/spec-conformance.json` passed with advisory score 100.0; `python3 tests/supabase_tenant_rls_test.py` passed; `python3 tests/supabase_audit_log_test.py` passed; `node --check site/app.js && node --check demo/server.js` passed; `cd demo && npm run reset-db && npm test` passed; generated OpenAPI/report JSON validation passed; `python3 -m py_compile ...` over changed/check scripts passed; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=20, partial=0, fail=0, blocked=0 and `done=true`.
 - Expected status change: `buildable_by_layperson` `fail` -> `pass`; `docs_include_buildability_guide` also reaches `pass` because the guide now uses platform-modeled CASE alignment and Caliper feed runtime surfaces with curl examples.
 - What remains next: evaluator reports all 20 rubric items as `pass`; no buildability gaps remain.
+
+## 2026-04-27T12:16:46Z Spec Fidelity Provenance Gate Iteration
+
+- Chosen rubric item: `spec_fidelity_provable`.
+- Files changed: `scripts/generate_spec_fidelity_report.py`, `docs/spec-fidelity-report.md`, `site/docs/spec-fidelity-report.html`, `site/api/platform-evaluation.json`, and `PROGRESS.md`.
+- Checks run and result: `python3 scripts/generate_spec_fidelity_report.py --report-only` passed and regenerated the report; `python3 scripts/generate_spec_fidelity_report.py --check` passed with 0 copy-exact seam defects and 0 extension fields missing rationale; `python3 -m py_compile scripts/generate_spec_fidelity_report.py` passed; `python3 scripts/build_site_docs.py` passed; `python3 scripts/check_site_links.py` passed with 37 HTML pages, 226 local links, 634 dictionary entries, 20 decisions, and 12 API endpoints; `git diff --check` passed; `python3 scripts/evaluate_platform.py --output site/api/platform-evaluation.json` passed with counts pass=22, partial=0, fail=0, blocked=0 and `done=true`.
+- Expected status change: `spec_fidelity_provable` `partial` -> `pass`.
+- What remains next: evaluator reports all 22 rubric items as `pass`; no buildability gaps remain.
+
+
+## 20260427T122504Z Harness Iteration 1
+
+- Harness status: pass
+- Codex exit code: 0
+- Verify exit code: 0
+- Spec score before: 100.00
+- Spec score after: 100.00
+- LLM judge ok: True
+- LLM judge recommendation: do_not_push
+- LLM judge score: 55
+- Publish result: skipped: LLM judge recommended do_not_push
+- Codex log: `.codex-loop/20260427T120747Z-iteration-001-codex.log`
+- Verify log: `.codex-loop/20260427T120747Z-iteration-001-verify.log`
+- Judge log: `.codex-loop/20260427T120747Z-iteration-001-judge.log`
+- Judge JSON: `.codex-loop/20260427T120747Z-iteration-001-judge.json`

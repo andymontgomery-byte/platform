@@ -32,8 +32,8 @@ This generator does two jobs:
 
 Extension fields are recognized by their canonical_field_id namespace
 (see classify_origin) and must carry an extension_rationale string.
-Missing rationale is reported but does not yet fail CI -- it surfaces in
-the report so the loop can fill it in incrementally.
+Missing rationale is a check failure because the seam is only provable when
+every field on our side of it explains why it exists.
 """
 
 from __future__ import annotations
@@ -93,6 +93,7 @@ def main() -> int:
     objects = seed.get("objects", [])
 
     classified, seam_defects = audit(objects)
+    missing_rationales = collect_missing_rationales(classified)
 
     # Hard-fail seam defects: silent renames are unacceptable.
     if seam_defects:
@@ -100,8 +101,13 @@ def main() -> int:
             print(f"SEAM DEFECT: {d}", file=sys.stderr)
         if not args.report_only:
             return 2
+    if missing_rationales:
+        for d in missing_rationales:
+            print(f"MISSING EXTENSION RATIONALE: {d}", file=sys.stderr)
+        if not args.report_only:
+            return 3
 
-    report = render_report(seed, classified, seam_defects)
+    report = render_report(seed, classified, seam_defects, missing_rationales)
 
     if args.check:
         existing = REPORT_PATH.read_text() if REPORT_PATH.exists() else ""
@@ -212,6 +218,17 @@ def audit(objects: list) -> tuple[dict, list]:
     return classified, defects
 
 
+def collect_missing_rationales(classified: dict) -> list:
+    """Return extension fields whose side of the seam is not explained."""
+    missing: list = []
+    for (spec_key, obj_name), counts in sorted(classified.items()):
+        for ext in counts["extension_fields"]:
+            rationale = ext.get("rationale")
+            if not isinstance(rationale, str) or not rationale.strip():
+                missing.append(f"{spec_key}.{obj_name}: {ext.get('id')}")
+    return missing
+
+
 def _check_copy_exact(spec_key: str, object_name: str, field: dict,
                       spec_field: dict, defects: list) -> None:
     """Enforce copy-exact on the 1EdTech side of the seam."""
@@ -290,7 +307,8 @@ def _check_copy_exact(spec_key: str, object_name: str, field: dict,
 # rendering
 # ---------------------------------------------------------------------------
 
-def render_report(seed: dict, classified: dict, seam_defects: list) -> str:
+def render_report(seed: dict, classified: dict, seam_defects: list,
+                  missing_rationales: list) -> str:
     total = {"1edtech": 0, "shared_canonical": 0, "extension": 0}
     per_spec: dict = {}
     extension_objects: list = []
@@ -332,6 +350,9 @@ def render_report(seed: dict, classified: dict, seam_defects: list) -> str:
     lines.append(
         f"- copy-exact seam defects detected this run: **{len(seam_defects)}**"
     )
+    lines.append(
+        f"- extension fields missing rationale this run: **{len(missing_rationales)}**"
+    )
     lines.append("")
     lines.append("## Field origins")
     lines.append("")
@@ -366,9 +387,9 @@ def render_report(seed: dict, classified: dict, seam_defects: list) -> str:
     else:
         lines.append(
             "Every extension field MUST carry an `extension_rationale` in "
-            "`data/data-dictionary.seed.json`. Missing rationale is flagged "
-            "below and surfaces against the `spec_fidelity_provable` rubric "
-            "item."
+            "`data/data-dictionary.seed.json`. Missing rationale is a "
+            "`--check` failure because the extension side of the seam would "
+            "otherwise be unprovable."
         )
         lines.append("")
         lines.append("| Spec | Object | Field | Rationale |")

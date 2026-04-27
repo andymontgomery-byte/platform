@@ -9,6 +9,7 @@ There is a seam between 1EdTech and our extensions. On the 1EdTech side every fi
 - dictionary_version: `0.1.0`
 - generated_from: `data/data-dictionary.seed.json`
 - copy-exact seam defects detected this run: **0**
+- extension fields missing rationale this run: **0**
 
 ## Field origins
 
@@ -31,7 +32,7 @@ There is a seam between 1EdTech and our extensions. On the 1EdTech side every fi
 
 ## Extension fields (every non-1EdTech field, with rationale)
 
-Every extension field MUST carry an `extension_rationale` in `data/data-dictionary.seed.json`. Missing rationale is flagged below and surfaces against the `spec_fidelity_provable` rubric item.
+Every extension field MUST carry an `extension_rationale` in `data/data-dictionary.seed.json`. Missing rationale is a `--check` failure because the extension side of the seam would otherwise be unprovable.
 
 | Spec | Object | Field | Rationale |
 |---|---|---|---|
