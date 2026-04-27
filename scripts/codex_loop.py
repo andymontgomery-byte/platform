@@ -789,6 +789,27 @@ def maybe_publish(
         return f"commit failed: {commit.stdout.strip()[-500:]}"
     if args.no_push:
         return f"committed, push skipped: {commit_message}"
+    # Fetch + rebase before push so that manual PRs landing on remote during a
+    # run do not silently strand subsequent iterations on local main.
+    fetch = run_git(repo, ["fetch", "origin", "main"], check=False)
+    if fetch.returncode != 0:
+        return f"commit succeeded, fetch failed: {fetch.stdout.strip()[-500:]}"
+    rebase = run_git(repo, ["pull", "--rebase", "origin", "main"], check=False)
+    if rebase.returncode != 0:
+        # Rebase conflict — abort and signal divergence to the harness so the
+        # next iteration does not run against an inconsistent local main.
+        run_git(repo, ["rebase", "--abort"], check=False)
+        conflict_paths = []
+        status = run_git(repo, ["status", "--porcelain"], check=False)
+        for line in (status.stdout or "").splitlines():
+            if line.startswith("UU ") or line.startswith("AA "):
+                conflict_paths.append(line[3:])
+        paths_str = ", ".join(conflict_paths) if conflict_paths else "unknown"
+        return (
+            f"DIVERGENCE: commit succeeded, rebase failed. "
+            f"Conflicting paths: {paths_str}. "
+            f"Loop halting until a human resolves divergence on origin/main."
+        )
     push = run_git(repo, ["push", "origin", "main"], check=False)
     if push.returncode != 0:
         return f"commit succeeded, push failed: {push.stdout.strip()[-500:]}"
