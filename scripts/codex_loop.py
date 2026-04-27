@@ -90,18 +90,33 @@ def _run_loop(args: argparse.Namespace, repo: Path) -> int:
             print(f"Rubric counts after: {after_eval.get('counts')}")
         judge_log = LOG_DIR / f"{started}-iteration-{iteration:03d}-judge.log"
         judge_json = LOG_DIR / f"{started}-iteration-{iteration:03d}-judge.json"
-        judge_result = maybe_run_llm_judge(
-            args,
-            repo,
-            iteration,
-            before_score,
-            after_score,
-            codex_log,
-            verify_log,
-            judge_log,
-            judge_json,
-            codex_result.returncode == 0 and verify_result.returncode == 0,
-        )
+        try:
+            judge_result = maybe_run_llm_judge(
+                args,
+                repo,
+                iteration,
+                before_score,
+                after_score,
+                codex_log,
+                verify_log,
+                judge_log,
+                judge_json,
+                codex_result.returncode == 0 and verify_result.returncode == 0,
+            )
+        except Exception as exc:
+            # The judge is advisory. A crash here must NOT block publish of
+            # work that already passed VERIFY. Record the crash and continue.
+            import traceback
+            tb = traceback.format_exc()
+            print(f"[judge] crashed; treating as do_not_push:\n{tb[-2000:]}")
+            judge_result = {
+                "ok": False,
+                "score": after_score,
+                "improved": False,
+                "regressed": False,
+                "publish_recommendation": "do_not_push",
+                "reason": f"LLM judge crashed: {exc}",
+            }
         publish_result = maybe_publish(
             args,
             repo,
@@ -1236,7 +1251,16 @@ def build_judge_prompt(
 
 
 def judge_evidence(repo: Path, codex_log: Path, verify_log: Path) -> str:
-    spec = Path("/Users/andymontgomery/Downloads/WF - Platform - 260424-144348.md")
+    # Spec path can be overridden via PLATFORM_SPEC_PATH env var. The default
+    # used to be a hardcoded ~/Downloads path, which fails under launchd due
+    # to macOS TCC sandboxing -- launchd-spawned processes need explicit Full
+    # Disk Access to read ~/Downloads. Fall back gracefully if missing or
+    # unreadable instead of crashing.
+    spec_env = os.environ.get("PLATFORM_SPEC_PATH")
+    if spec_env:
+        spec = Path(spec_env).expanduser()
+    else:
+        spec = Path("/Users/andymontgomery/Downloads/WF - Platform - 260424-144348.md")
     parts = [
         evidence_block("SPEC", read_limited(spec, 20000)),
         evidence_block("PLAN.md", read_limited(repo / "PLAN.md", 12000)),
@@ -1264,7 +1288,15 @@ def evidence_block(label: str, text: str) -> str:
 def read_limited(path: Path, limit: int) -> str:
     if not path.exists():
         return "[missing]"
-    text = path.read_text(errors="ignore")
+    try:
+        text = path.read_text(errors="ignore")
+    except PermissionError as exc:
+        # macOS TCC denies access to ~/Downloads, ~/Documents, ~/Desktop from
+        # launchd-spawned processes. Don't crash the loop -- the judge can
+        # work with the rest of the evidence.
+        return f"[permission denied: {exc.strerror or exc}]"
+    except OSError as exc:
+        return f"[unreadable: {exc.strerror or exc}]"
     if len(text) <= limit:
         return text
     keep_head = limit // 2

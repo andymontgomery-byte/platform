@@ -38,12 +38,20 @@ HEARTBEAT_INTERVAL = 300    # seconds between heartbeat comments (5 min)
 STREAM_CHUNK = 4096         # bytes per streamed log comment
 
 # Paths the daemon is allowed to discard (checkout --).
+# Includes regenerable artifacts AND files the loop driver itself rewrites
+# (PROGRESS.md, VERIFY.md, .loop-daemon.config.json) so a crashed loop run
+# can be cleaned out without humans editing the Mac mini.
 DISCARD_WHITELIST_GLOBS = [
     "docs/spec-fidelity-report.md",
     "docs/generated/*.md",
     "dictionary/*.v1.json",
     "openapi/generated/*.json",
     "site/**",
+    "PROGRESS.md",
+    "VERIFY.md",
+    ".loop-daemon.config.json",
+    "scripts/codex_loop.py",
+    "scripts/evaluate_platform.py",
 ]
 
 CONTROL_ISSUE_TITLE = "Loop control [DO NOT CLOSE]"
@@ -459,6 +467,30 @@ def cmd_git_rebase_main(issue_number: int) -> None:
     )
 
 
+def cmd_git_reset_hard(issue_number: int) -> None:
+    """Discard ALL local changes and untracked files; reset to origin/main.
+
+    Use this only when the working tree is dirty after a crashed loop run
+    and the dirty state is uninteresting (e.g. evaluator regenerated files,
+    progress logs, codex_loop edits we want to redo from a fresh main).
+    Stronger than discard_paths and git_rebase_main; no whitelist.
+    """
+    rc_fetch, out_fetch = run_capture(["git", "fetch", "origin", "main"])
+    if rc_fetch != 0:
+        post_comment(issue_number, "```loop-out\nFetch failed:\n%s\n```" % out_fetch)
+        return
+    rc_reset, out_reset = run_capture(["git", "reset", "--hard", "origin/main"])
+    if rc_reset != 0:
+        post_comment(issue_number, "```loop-out\nReset failed:\n%s\n```" % out_reset)
+        return
+    rc_clean, out_clean = run_capture(["git", "clean", "-fdx", "--exclude=.loop-daemon.log", "--exclude=.loop-daemon.state.json", "--exclude=.codex-loop"])
+    _, head = run_capture(["git", "log", "--oneline", "-1"])
+    post_comment(
+        issue_number,
+        "```loop-out\nHard reset complete.\nNew HEAD: %s\nClean output: %s\n```" % (head, out_clean.strip() or "(nothing to clean)"),
+    )
+
+
 def cmd_discard_paths(issue_number: int, paths: list) -> None:
     if not isinstance(paths, list):
         post_comment(issue_number, '{"error": "paths must be a list"}')
@@ -659,6 +691,9 @@ def process_comment(
         elif cmd == "discard_paths":
             paths = payload.get("paths", [])
             cmd_discard_paths(issue_number, paths)
+
+        elif cmd == "git_reset_hard":
+            cmd_git_reset_hard(issue_number)
 
         elif cmd == "halt_loop":
             state = cmd_halt_loop(issue_number, state)
