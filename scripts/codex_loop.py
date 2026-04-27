@@ -583,7 +583,7 @@ def append_machine_progress(
 
 
 def timestamp() -> str:
-    return dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ")
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
 def run_evaluator(repo: Path, args: argparse.Namespace, label: str) -> dict | None:
