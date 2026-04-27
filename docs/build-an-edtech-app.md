@@ -75,8 +75,41 @@ export SUPABASE_PUBLISHABLE_KEY='<paste-publishable-or-anon-key>'
 export SUPABASE_SERVICE_ROLE_KEY='<paste-legacy-service-role-key>'
 export PLATFORM_TENANT_ID='33333333-3333-3333-3333-333333333333'
 
-python3 scripts/bootstrap_build_guide.py
-source /tmp/platform-build-guide.env
+# Optional convenience: `python3 scripts/bootstrap_build_guide.py` performs
+# the next three commands for you. The three commands below are the literal
+# equivalents the script would run, in order. Pick whichever you prefer.
+
+# 0a. Load the platform schema with psql.
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
+  -f supabase/migrations/0001_oneroster_core_demo.sql
+
+# 0b. Create one tenant-scoped Auth user via the Supabase Admin API.
+# email_confirm=true skips the verification step. tenant_id in app_metadata
+# is what the platform RLS policy reads at every subsequent table write.
+BUILD_GUIDE_EMAIL="build-guide-$(date +%s)@example.invalid"
+BUILD_GUIDE_PASSWORD="Build-guide-$(date +%s)"
+curl -sS -X POST "$SUPABASE_URL/auth/v1/admin/users" \
+  -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+  -H "authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+  -H "content-type: application/json" \
+  --data "{
+    \"email\": \"$BUILD_GUIDE_EMAIL\",
+    \"password\": \"$BUILD_GUIDE_PASSWORD\",
+    \"email_confirm\": true,
+    \"app_metadata\": {
+      \"tenant_id\": \"$PLATFORM_TENANT_ID\",
+      \"test_owner\": \"platform_buildability_guide\"
+    }
+  }"
+
+# 0c. Exchange that user for a JWT (PLATFORM_ACCESS_TOKEN).
+PLATFORM_ACCESS_TOKEN=$(curl -sS -X POST \
+  "$SUPABASE_URL/auth/v1/token?grant_type=password" \
+  -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+  -H "content-type: application/json" \
+  --data "{\"email\": \"$BUILD_GUIDE_EMAIL\", \"password\": \"$BUILD_GUIDE_PASSWORD\"}" \
+  | python3 -c "import json,sys; print(json.load(sys.stdin)['access_token'])")
+export PLATFORM_ACCESS_TOKEN
 
 REST_AUTH_HEADERS=(
   -H "apikey: $SUPABASE_PUBLISHABLE_KEY"
@@ -85,7 +118,7 @@ REST_AUTH_HEADERS=(
 )
 ```
 
-The script runs `psql` with `supabase/migrations/0001_oneroster_core_demo.sql`, calls Supabase Auth Admin once to create the tenant-scoped user, exchanges that user for `PLATFORM_ACCESS_TOKEN`, and writes only non-service-role app exports to `/tmp/platform-build-guide.env`. Every table used by Steps 1-5 carries a `tenant_id` column whose default reads the JWT `tenant_id` claim and whose RLS policy enforces the same value, per [DEC-010](decisions-standards-overlap-decisions.html#DEC-010-tenancy-reference-data). Client request bodies must not include `tenant_id`.
+The three commands above (0a, 0b, 0c) are the entire bootstrap. After 0c, `PLATFORM_ACCESS_TOKEN` is the tenant-scoped user JWT every later step uses. The optional `scripts/bootstrap_build_guide.py` does only this and writes the same exports to `/tmp/platform-build-guide.env`. Every table used by Steps 1-5 carries a `tenant_id` column whose default reads the JWT `tenant_id` claim and whose RLS policy enforces the same value, per [DEC-010](decisions-standards-overlap-decisions.html#DEC-010-tenancy-reference-data). Client request bodies must not include `tenant_id`.
 
 ## 1. Create A School, Teacher, And Ten Students
 
