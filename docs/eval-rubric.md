@@ -211,9 +211,16 @@ Backward traceability is required. When an item fails, the evaluator must name (
 
 ### loop_terminates_on_done
 
-- **requirement:** The loop stops iterating when every rubric item is `pass`, or when every remaining item is `blocked` with a documented prerequisite. Hard caps still apply as safety rails.
-- **how_to_verify:** Read the loop driver. Confirm termination references the LLM evaluator's `done` flag.
-- **substance_check:** Numeric-threshold gating fails this item.
+- **requirement:** The loop stops iterating when the most recent VERIFY-stage `site/api/platform-evaluation.json` has every rubric item `pass`, or when every remaining item is `blocked` with a documented prerequisite. Hard caps still apply as safety rails. Termination MUST be driven by the verifier's `done` field, not by Codex's narrative output. The harness must ignore any `LOOP_STATUS: COMPLETE` (or equivalent) string in Codex's stdout when `done=false` in the same iteration's verify log, and must continue iterating in that case.
+- **how_to_verify:** Read the loop driver. Confirm the termination check (a) re-reads the verify-log evaluator output before deciding to stop, (b) does not treat any string in the Codex transcript as a termination signal, and (c) logs a divergence warning when Codex claims completion but the verify log does not.
+- **substance_check:** Termination on Codex narrative without verifier confirmation fails. Numeric-threshold gating still fails. Termination that uses an in-iteration evaluator JSON written before VERIFY's authoritative run also fails.
+- **blocked_if:** never.
+
+### loop_publishes_durably
+
+- **requirement:** Every iteration that the LLM judge recommends pushing must successfully land on `origin/main`, or the loop must halt with a clear `divergence` status before the next iteration runs. Specifically, the publish step must `git fetch origin main` and `git pull --rebase origin main` before `git push`, and on rebase conflict the loop must abort the iteration, write the conflicting paths to PROGRESS.md, and stop scheduling further iterations until a human resolves the divergence. A run of N consecutive iterations whose publish status is `commit succeeded, push failed: rejected (fetch first)` MUST trip the safety rail at N=1, not be silently retried.
+- **how_to_verify:** Inspect `scripts/codex_loop.py`. Confirm `maybe_publish` calls `git fetch` and `git pull --rebase` before `git push`. Confirm rebase failure raises a halt condition that prevents the next iteration. Confirm PROGRESS.md captures the divergence, the conflicting paths, and the recommended resolution command.
+- **substance_check:** A driver that pushes without first rebasing fails. A driver that swallows `! [rejected]` and proceeds to the next iteration fails. A driver that rebases but does not halt on conflict fails.
 - **blocked_if:** never.
 
 ---
@@ -226,10 +233,10 @@ Backward traceability is required. When an item fails, the evaluator must name (
 | Dictionary is great | 7 |
 | Documentation is great | 4 |
 | Buildability (the apex test) | 2 |
-| Loop and harness hygiene | 3 |
-| **Total** | **20** |
+| Loop and harness hygiene | 4 |
+| **Total** | **21** |
 
-The loop is "done" when all 20 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite.
+The loop is "done" when all 21 are `pass`, or when every remaining item is `blocked` with a documented external prerequisite.
 
 ## What this rubric replaces
 
